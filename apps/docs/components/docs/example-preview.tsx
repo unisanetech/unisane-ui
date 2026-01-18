@@ -1,0 +1,83 @@
+"use client";
+
+import { useState } from "react";
+import type { ExampleDef } from "@/lib/docs/types";
+import { cn } from "@unisane/ui/lib/utils";
+import { SegmentedButton } from "@unisane/ui";
+
+interface ExamplePreviewProps {
+  example: ExampleDef;
+  className?: string;
+}
+
+export function ExamplePreview({ example, className }: ExamplePreviewProps) {
+  const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
+
+  return (
+    <div
+      className={cn(
+        "rounded-lg border border-outline-variant/30 overflow-hidden",
+        className
+      )}
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-4 bg-surface-container-low border-b border-outline-variant/15">
+        <div>
+          <h4 className="text-title-small font-semibold text-on-surface">
+            {example.title}
+          </h4>
+          {example.description && (
+            <p className="text-body-small text-on-surface-variant mt-1">
+              {example.description}
+            </p>
+          )}
+        </div>
+
+        {/* Tab Buttons */}
+        {example.code && (
+          <SegmentedButton
+            options={[
+              { value: "preview", label: "Preview" },
+              { value: "code", label: "Code" },
+            ]}
+            value={activeTab}
+            onChange={(value) => setActiveTab(value as "preview" | "code")}
+            density="high"
+          />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className="bg-surface">
+        {activeTab === "preview" ? (
+          <div className="p-8 flex items-center justify-center min-h-[120px]">
+            {example.component}
+          </div>
+        ) : (
+          <div className="p-6 bg-surface-container-high">
+            <pre className="overflow-x-auto text-body-small font-mono text-on-surface-variant leading-relaxed">
+              <code>{example.code}</code>
+            </pre>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+interface ExampleGridProps {
+  examples: ExampleDef[];
+  className?: string;
+}
+
+export function ExampleGrid({ examples, className }: ExampleGridProps) {
+  if (!examples.length) return null;
+
+  return (
+    <div className={cn("space-y-8", className)}>
+      {examples.map((example) => (
+        <ExamplePreview key={example.id} example={example} />
+      ))}
+    </div>
+  );
+}

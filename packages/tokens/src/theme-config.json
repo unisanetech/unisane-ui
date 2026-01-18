@@ -1,0 +1,37 @@
+{
+  "$schema": "./theme-config.schema.json",
+  "name": "Unisane Blue",
+  "description": "Default blue theme - professional and trustworthy",
+
+  "primary": {
+    "hue": 210,
+    "chroma": 0.16,
+    "comment": "M3-style blue (210°) with good saturation - matches #296197 reference"
+  },
+
+  "secondary": {
+    "strategy": "analogous",
+    "hueShift": 0,
+    "chromaScale": 1.2,
+    "comment": "Slightly boosted chroma (1.2x) to maintain visible secondary-container"
+  },
+
+  "tertiary": {
+    "strategy": "complementary",
+    "hueShift": 60,
+    "chromaScale": 0.7,
+    "comment": "Purple/magenta accent (60° shift from blue)"
+  },
+
+  "neutral": {
+    "strategy": "tinted",
+    "tintFromPrimary": 0.02,
+    "comment": "Very subtle gray with minimal blue tint"
+  },
+
+  "error": {
+    "hue": 25,
+    "chroma": 0.18,
+    "comment": "Red for errors - fixed across themes"
+  }
+}
