@@ -65,6 +65,7 @@ export interface SupportingPaneLayoutProps {
   showSupportingMobile?: boolean;
   onToggleSupporting?: () => void;
   title?: string;
+  mainScrollable?: boolean;
 }
 
 export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
@@ -78,6 +79,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   isRoot = false,
   mainRef,
   title = 'Audit Protocol',
+  mainScrollable = true,
 }) => {
   const isOpen = open !== undefined ? open : showSupportingMobile;
   const handleClose = () => {
@@ -106,7 +108,16 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
         ref={mainRef as React.RefObject<HTMLDivElement>}
         className="bg-surface relative h-full min-w-0 flex-1 overflow-hidden"
       >
-        <div className="h-full overflow-y-auto scroll-smooth [scrollbar-gutter:stable]">{main}</div>
+        <div
+          className={cn(
+            'h-full',
+            mainScrollable
+              ? 'overflow-y-auto scroll-smooth [scrollbar-gutter:stable]'
+              : 'overflow-hidden',
+          )}
+        >
+          {main}
+        </div>
       </div>
 
       <aside
