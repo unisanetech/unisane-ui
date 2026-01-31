@@ -155,7 +155,7 @@ export function DataTableInner<T extends { id: string }>({
     useSelection();
   const { sortState, cycleSort } = useSorting();
   const { searchText, columnFilters, setFilter } = useFiltering();
-  const { page, pageSize, setPage } = usePagination();
+  const { page, pageSize, setPage, setPageSize } = usePagination();
   const {
     columns,
     visibleColumns,
@@ -272,6 +272,29 @@ export function DataTableInner<T extends { id: string }>({
     const start = (safePage - 1) * pageSize;
     return processedData.slice(start, start + pageSize);
   }, [processedData, page, pageSize, config.paginationMode, config.mode]);
+
+  useEffect(() => {
+    if (config.paginationMode !== "cursor" && config.mode !== "remote") {
+      return;
+    }
+    const nextPageSize = cursorPagination?.limit;
+    if (typeof nextPageSize === "number" && nextPageSize > 0 && nextPageSize !== pageSize) {
+      setPageSize(nextPageSize);
+    }
+    const nextPage = cursorPagination?.pageIndex;
+    if (typeof nextPage === "number" && nextPage > 0 && nextPage !== page) {
+      setPage(nextPage);
+    }
+  }, [
+    config.paginationMode,
+    config.mode,
+    cursorPagination?.limit,
+    cursorPagination?.pageIndex,
+    page,
+    pageSize,
+    setPage,
+    setPageSize,
+  ]);
 
   // Sync page state when filtering reduces data below current page
   // Use a ref to track if we're already adjusting to avoid dependency on `page`

@@ -79,7 +79,7 @@ export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
       <nav
         ref={ref}
         className={cn(
-          "fixed left-0 top-0 h-screen flex-col items-center",
+          "relative h-full flex-col items-center",
           "bg-surface-container text-on-surface py-3 gap-1",
           "z-50 shrink-0",
           "transition-all duration-medium ease-standard",

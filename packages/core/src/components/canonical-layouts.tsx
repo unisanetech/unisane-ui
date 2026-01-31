@@ -1,7 +1,7 @@
-import React from "react";
-import { cn } from "@ui/lib/utils";
-import { IconButton } from "./icon-button";
-import { Pane, PaneLayout } from "../layout/pane";
+import React from 'react';
+import { cn } from '@ui/lib/utils';
+import { IconButton } from './icon-button';
+import { Pane, PaneLayout } from '../layout/pane';
 
 export interface ListDetailLayoutProps {
   list: React.ReactNode;
@@ -21,31 +21,26 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
   isRoot = false,
 }) => {
   return (
-    <PaneLayout
-      className={cn(
-        !isRoot && "rounded-sm border border-outline-variant/30",
-        className
-      )}
-    >
-      <Pane 
-        role="list" 
-        isActive={!showDetailMobile} 
-        className="transition-transform duration-long ease-emphasized"
+    <PaneLayout className={cn(!isRoot && 'border-outline-variant/30 rounded-sm border', className)}>
+      <Pane
+        role="list"
+        isActive={!showDetailMobile}
+        className="duration-long ease-emphasized transition-transform"
       >
         {list}
       </Pane>
 
-      <Pane 
-        role="main" 
-        isActive={showDetailMobile} 
-        className="bg-surface-container-low transition-opacity duration-long ease-standard relative"
+      <Pane
+        role="main"
+        isActive={showDetailMobile}
+        className="bg-surface-container-low duration-long ease-standard relative transition-opacity"
       >
         {showDetailMobile && (
           <div className="medium:hidden absolute top-4 left-4 z-20">
             <IconButton
               onClick={onBackClick}
               variant="standard"
-              className="bg-surface/50 backdrop-blur-md border border-outline-variant/30"
+              className="bg-surface/50 border-outline-variant/30 border backdrop-blur-md"
               ariaLabel="Back"
               icon={<span className="material-symbols-outlined">arrow_back</span>}
             />
@@ -82,7 +77,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   className,
   isRoot = false,
   mainRef,
-  title = "Audit Protocol",
+  title = 'Audit Protocol',
 }) => {
   const isOpen = open !== undefined ? open : showSupportingMobile;
   const handleClose = () => {
@@ -99,37 +94,33 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   return (
     <div
       className={cn(
-        "grid w-full h-full bg-surface relative transition-[grid-template-columns] duration-long ease-emphasized overflow-hidden isolate",
-        !isRoot && "rounded-sm border border-outline-variant/30",
+        'bg-surface duration-long ease-emphasized relative isolate grid h-full w-full overflow-hidden transition-[grid-template-columns]',
+        !isRoot && 'border-outline-variant/30 rounded-sm border',
         isOpen
-          ? "expanded:grid-cols-[1fr_var(--width-pane-supporting)]"
-          : "expanded:grid-cols-[1fr_var(--width-rail-collapsed)]",
-        className
+          ? 'expanded:grid-cols-[1fr_var(--width-pane-supporting)]'
+          : 'expanded:grid-cols-[1fr_var(--width-rail-collapsed)]',
+        className,
       )}
     >
       <div
         ref={mainRef as React.RefObject<HTMLDivElement>}
-        className="flex-1 h-full overflow-hidden bg-surface relative min-w-0"
+        className="bg-surface relative h-full min-w-0 flex-1 overflow-hidden"
       >
-        <div className="h-full overflow-y-auto scroll-smooth [scrollbar-gutter:stable]">
-          {main}
-        </div>
+        <div className="h-full overflow-y-auto scroll-smooth [scrollbar-gutter:stable]">{main}</div>
       </div>
 
       <aside
         className={cn(
-          "shrink-0 bg-surface-container-low overflow-hidden transition-all duration-long ease-emphasized z-20",
-          "absolute inset-y-0 right-0 h-full w-full medium:w-[min(100%,var(--width-pane-supporting))]",
-          isOpen ? "translate-x-0 shadow-3" : "translate-x-full shadow-none",
-          "expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-variant/30 expanded:w-full"
+          'bg-surface duration-long ease-emphasized z-20 shrink-0 overflow-hidden transition-all',
+          'medium:w-[min(100%,var(--width-pane-supporting))] absolute inset-y-0 right-0 h-full w-full',
+          isOpen ? 'shadow-3 translate-x-0' : 'translate-x-full shadow-none',
+          'expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-variant/30 expanded:w-full',
         )}
       >
         {isOpen ? (
-          <div className="flex flex-col h-full">
-            <header className="px-6 py-4 border-b border-outline-variant/10 flex items-center justify-between shrink-0">
-              <div className="font-medium text-primary text-label-medium">
-                {title}
-              </div>
+          <div className="flex h-full flex-col">
+            <header className="border-outline-variant/10 flex shrink-0 items-center justify-between border-b px-6 py-4">
+              <div className="text-primary text-label-medium font-medium">{title}</div>
               <IconButton
                 onClick={handleClose}
                 variant="standard"
@@ -142,16 +133,16 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                 className="expanded:hidden"
               />
             </header>
-            <div className="flex-1 overflow-y-auto [scrollbar-gutter:stable] pt-2">
+            <div className="flex-1 overflow-y-auto pt-2 [scrollbar-gutter:stable]">
               {supporting}
             </div>
           </div>
         ) : (
-          <div className="hidden expanded:flex flex-col items-center py-6 h-full gap-4 overflow-y-auto no-scrollbar">
+          <div className="expanded:flex no-scrollbar hidden h-full flex-col items-center gap-4 overflow-y-auto py-6">
             <IconButton
               onClick={handleToggle}
               variant="standard"
-              className="rounded-sm border border-outline-variant/30 bg-surface hover:border-primary/50 transition-all group shrink-0"
+              className="border-outline-variant/30 bg-surface hover:border-primary/50 group shrink-0 rounded-sm border transition-all"
               ariaLabel="Expand pane"
               icon={
                 <span className="material-symbols-outlined group-hover:text-primary transition-colors">
@@ -159,8 +150,8 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                 </span>
               }
             />
-            <div className="w-[calc(var(--unit)/4)] flex-1 bg-outline-variant/30 min-h-10" />
-            <div className="rotate-90 whitespace-nowrap text-label-small font-medium text-on-surface-variant/50 tracking-wide origin-center mt-12 mb-6 shrink-0">
+            <div className="bg-outline-variant/30 min-h-10 w-[calc(var(--unit)/4)] flex-1" />
+            <div className="text-label-small text-on-surface-variant/50 mt-12 mb-6 shrink-0 origin-center rotate-90 font-medium tracking-wide whitespace-nowrap">
               {title}
             </div>
           </div>
@@ -169,8 +160,8 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
 
       <div
         className={cn(
-          "expanded:hidden absolute inset-0 bg-scrim backdrop-blur-[calc(var(--unit)/4)] z-10 transition-opacity duration-emphasized",
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+          'expanded:hidden bg-scrim duration-emphasized absolute inset-0 z-10 backdrop-blur-[calc(var(--unit)/4)] transition-opacity',
+          isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
         onClick={handleClose}
       />
@@ -184,21 +175,17 @@ export interface FeedLayoutProps {
   isRoot?: boolean;
 }
 
-export const FeedLayout: React.FC<FeedLayoutProps> = ({
-  children,
-  className,
-  isRoot = false,
-}) => {
+export const FeedLayout: React.FC<FeedLayoutProps> = ({ children, className, isRoot = false }) => {
   return (
     <div
       className={cn(
-        "w-full h-full overflow-y-auto bg-surface-container-low p-4 expanded:p-6 scroll-smooth no-scrollbar",
-        !isRoot && "rounded-sm border border-outline-variant/30",
-        className
+        'bg-surface-container-low expanded:p-6 no-scrollbar h-full w-full overflow-y-auto scroll-smooth p-4',
+        !isRoot && 'border-outline-variant/30 rounded-sm border',
+        className,
       )}
     >
       <div className="max-w-large mx-auto">
-        <div className="grid grid-cols-1 expanded:grid-cols-2 large:grid-cols-3 gap-4 expanded:gap-6 items-start">
+        <div className="expanded:grid-cols-2 large:grid-cols-3 expanded:gap-6 grid grid-cols-1 items-start gap-4">
           {children}
         </div>
       </div>

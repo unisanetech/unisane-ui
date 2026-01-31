@@ -70,6 +70,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   asChild,
   ...props
 }) => {
+  const label =
+    asChild && isValidElement<{ children?: React.ReactNode }>(children)
+      ? children.props.children
+      : children;
+
   const itemClasses = cn(
     "relative w-full text-left px-4 h-12 flex items-center gap-3 cursor-pointer select-none overflow-hidden",
     "text-on-surface transition-colors duration-short ease-standard",
@@ -82,10 +87,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const innerContent = (
     <>
       <Ripple disabled={disabled} />
-      {icon && <div className="shrink-0 relative z-10 flex items-center justify-center size-icon-sm">{icon}</div>}
-      <span className="flex-1 relative z-10 font-medium text-body-large">
-        {asChild ? null : children}
-      </span>
+      {icon && (
+        <div className="shrink-0 relative z-10 flex items-center justify-center min-w-[var(--size-icon-sm)] min-h-[var(--size-icon-sm)]">
+          {icon}
+        </div>
+      )}
+      <span className="flex-1 relative z-10 font-medium text-body-large">{label}</span>
       {trailingIcon && <div className="shrink-0 relative z-10 text-on-surface-variant flex items-center justify-center">{trailingIcon}</div>}
     </>
   );
@@ -127,8 +134,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   );
 };
 
-export interface MenuDividerProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+export type MenuDividerProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const MenuDivider: React.FC<MenuDividerProps> = ({
   className,
