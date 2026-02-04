@@ -1,38 +1,36 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { cn } from '@/lib/utils';
 
 export const Table: React.FC<React.TableHTMLAttributes<HTMLTableElement>> = ({
   className,
   children,
   ...props
 }) => (
-  <div className="w-full overflow-x-auto rounded-sm border border-outline-variant/30 bg-surface">
-    <table
-      className={cn("w-full min-w-max caption-bottom text-body-small border-collapse", className)}
-      {...props}
-    >
-      {children}
-    </table>
-  </div>
+  <table
+    className={cn('text-body-small w-full min-w-max caption-bottom border-collapse', className)}
+    {...props}
+  >
+    {children}
+  </table>
 );
 
-export const TableHeader: React.FC<
-  React.HTMLAttributes<HTMLTableSectionElement>
-> = ({ className, ...props }) => (
+export const TableHeader: React.FC<React.HTMLAttributes<HTMLTableSectionElement>> = ({
+  className,
+  ...props
+}) => (
   <thead
     className={cn(
-      "bg-surface-container-low border-b border-outline-variant/30 sticky top-0 z-10",
-      className
+      'bg-surface-container-low border-outline-variant/30 sticky top-0 z-10 border-b',
+      className,
     )}
     {...props}
   />
 );
 
-export const TableBody: React.FC<
-  React.HTMLAttributes<HTMLTableSectionElement>
-> = ({ className, ...props }) => (
-  <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />
-);
+export const TableBody: React.FC<React.HTMLAttributes<HTMLTableSectionElement>> = ({
+  className,
+  ...props
+}) => <tbody className={cn('[&_tr:last-child]:border-0', className)} {...props} />;
 
 export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
   className,
@@ -40,8 +38,8 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
 }) => (
   <tr
     className={cn(
-      "border-b border-outline-variant/15 transition-colors hover:bg-surface-container-low",
-      className
+      'border-outline-variant/15 hover:bg-surface-container-low border-b transition-colors',
+      className,
     )}
     {...props}
   />
@@ -49,14 +47,14 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
 
 export const TableHead: React.FC<React.ThHTMLAttributes<HTMLTableCellElement>> = ({
   className,
-  scope = "col",
+  scope = 'col',
   ...props
 }) => (
   <th
     scope={scope}
     className={cn(
-      "h-11 px-6 text-left align-middle font-medium text-label-medium text-on-surface-variant select-none whitespace-nowrap",
-      className
+      'text-label-medium text-on-surface-variant h-11 px-6 text-left align-middle font-medium whitespace-nowrap select-none',
+      className,
     )}
     {...props}
   />
@@ -67,7 +65,7 @@ export const TableCell: React.FC<React.TdHTMLAttributes<HTMLTableCellElement>> =
   ...props
 }) => (
   <td
-    className={cn("px-6 py-4 align-middle text-on-surface font-medium tabular-nums", className)}
+    className={cn('text-on-surface px-6 py-4 align-middle font-medium tabular-nums', className)}
     {...props}
   />
 );

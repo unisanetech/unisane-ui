@@ -1,15 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect, useId, useMemo } from "react";
-import { createPortal } from "react-dom";
-import { cn, Slot } from "@/lib/utils";
-import {
-  Menu,
-  MenuItem,
-  MenuDivider,
-  MenuCheckboxItem,
-  MenuRadioItem,
-} from "@/primitives/menu";
+import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { cn, Slot } from '@/lib/utils';
+import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '@/primitives/menu';
 
 export interface DropdownMenuProps {
   children: React.ReactNode;
@@ -32,9 +26,7 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({ children }) => {
     return child;
   });
 
-  return (
-    <div className="relative inline-block text-left">{childrenWithProps}</div>
-  );
+  return <div className="relative inline-block text-left">{childrenWithProps}</div>;
 };
 
 export interface DropdownMenuTriggerProps {
@@ -76,13 +68,13 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
-      case "Enter":
-      case " ":
-      case "ArrowDown":
+      case 'Enter':
+      case ' ':
+      case 'ArrowDown':
         e.preventDefault();
         setIsOpen?.(true);
         break;
-      case "Escape":
+      case 'Escape':
         e.preventDefault();
         setIsOpen?.(false);
         break;
@@ -92,9 +84,9 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
   const triggerProps = {
     onClick: handleClick,
     onKeyDown: handleKeyDown,
-    "aria-expanded": isOpen,
-    "aria-haspopup": "menu" as const,
-    "aria-controls": menuId,
+    'aria-expanded': isOpen,
+    'aria-haspopup': 'menu' as const,
+    'aria-controls': menuId,
   };
 
   // asChild pattern: merge props into the child element
@@ -112,7 +104,7 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
     <button
       ref={localRef}
       type="button"
-      className={cn("inline-flex cursor-pointer", className)}
+      className={cn('inline-flex cursor-pointer', className)}
       {...triggerProps}
     >
       {children}
@@ -120,8 +112,8 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
   );
 };
 
-export type Side = "top" | "bottom" | "left" | "right";
-export type Align = "start" | "center" | "end";
+export type Side = 'top' | 'bottom' | 'left' | 'right';
+export type Align = 'start' | 'center' | 'end';
 
 export interface DropdownMenuContentProps {
   children: React.ReactNode;
@@ -145,6 +137,8 @@ export interface DropdownMenuContentProps {
   portal?: boolean;
   /** Reference to the trigger element for positioning */
   triggerRef?: React.RefObject<HTMLElement>;
+  /** Close menu when a menu item is selected */
+  closeOnSelect?: boolean;
 }
 
 /**
@@ -161,7 +155,7 @@ function computePosition(
     alignOffset: number;
     avoidCollisions: boolean;
     collisionPadding: { top: number; right: number; bottom: number; left: number };
-  }
+  },
 ): { top: number; left: number; actualSide: Side; actualAlign: Align } {
   const { side, align, sideOffset, alignOffset, avoidCollisions, collisionPadding } = options;
   const { width: menuWidth, height: menuHeight } = menuRect;
@@ -200,10 +194,10 @@ function computePosition(
     if (sideSpace[side] < neededSpace[side]) {
       // Get opposite side
       const oppositeSide: Record<Side, Side> = {
-        top: "bottom",
-        bottom: "top",
-        left: "right",
-        right: "left",
+        top: 'bottom',
+        bottom: 'top',
+        left: 'right',
+        right: 'left',
       };
       const opposite = oppositeSide[side];
 
@@ -213,17 +207,20 @@ function computePosition(
       } else {
         // Try perpendicular sides if neither primary nor opposite fit well
         const perpendicularSides: Record<Side, [Side, Side]> = {
-          top: ["left", "right"],
-          bottom: ["left", "right"],
-          left: ["top", "bottom"],
-          right: ["top", "bottom"],
+          top: ['left', 'right'],
+          bottom: ['left', 'right'],
+          left: ['top', 'bottom'],
+          right: ['top', 'bottom'],
         };
         const [perp1, perp2] = perpendicularSides[side];
 
         // Choose perpendicular side with most space
         if (sideSpace[perp1] >= neededSpace[perp1] && sideSpace[perp1] > sideSpace[actualSide]) {
           actualSide = perp1;
-        } else if (sideSpace[perp2] >= neededSpace[perp2] && sideSpace[perp2] > sideSpace[actualSide]) {
+        } else if (
+          sideSpace[perp2] >= neededSpace[perp2] &&
+          sideSpace[perp2] > sideSpace[actualSide]
+        ) {
           actualSide = perp2;
         }
       }
@@ -234,15 +231,15 @@ function computePosition(
   let top = 0;
   let left = 0;
 
-  const isVertical = actualSide === "top" || actualSide === "bottom";
+  const isVertical = actualSide === 'top' || actualSide === 'bottom';
 
-  if (actualSide === "top") {
+  if (actualSide === 'top') {
     top = triggerRect.top - menuHeight - sideOffset;
-  } else if (actualSide === "bottom") {
+  } else if (actualSide === 'bottom') {
     top = triggerRect.bottom + sideOffset;
-  } else if (actualSide === "left") {
+  } else if (actualSide === 'left') {
     left = triggerRect.left - menuWidth - sideOffset;
-  } else if (actualSide === "right") {
+  } else if (actualSide === 'right') {
     left = triggerRect.right + sideOffset;
   }
 
@@ -251,9 +248,9 @@ function computePosition(
 
   if (isVertical) {
     // For top/bottom: align along horizontal axis
-    if (align === "start") {
+    if (align === 'start') {
       left = triggerRect.left + alignOffset;
-    } else if (align === "center") {
+    } else if (align === 'center') {
       left = triggerRect.left + (triggerRect.width - menuWidth) / 2 + alignOffset;
     } else {
       left = triggerRect.right - menuWidth - alignOffset;
@@ -266,17 +263,17 @@ function computePosition(
 
       if (left < minLeft) {
         left = minLeft;
-        actualAlign = "start";
+        actualAlign = 'start';
       } else if (left > maxLeft) {
         left = maxLeft;
-        actualAlign = "end";
+        actualAlign = 'end';
       }
     }
   } else {
     // For left/right: align along vertical axis
-    if (align === "start") {
+    if (align === 'start') {
       top = triggerRect.top + alignOffset;
-    } else if (align === "center") {
+    } else if (align === 'center') {
       top = triggerRect.top + (triggerRect.height - menuHeight) / 2 + alignOffset;
     } else {
       top = triggerRect.bottom - menuHeight - alignOffset;
@@ -289,10 +286,10 @@ function computePosition(
 
       if (top < minTop) {
         top = minTop;
-        actualAlign = "start";
+        actualAlign = 'start';
       } else if (top > maxTop) {
         top = maxTop;
-        actualAlign = "end";
+        actualAlign = 'end';
       }
     }
   }
@@ -309,8 +306,8 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   isOpen,
   setIsOpen,
   menuId,
-  align = "start",
-  side = "bottom",
+  align = 'start',
+  side = 'bottom',
   sideOffset = 4,
   alignOffset = 0,
   avoidCollisions = true,
@@ -318,6 +315,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   className,
   portal = false,
   triggerRef,
+  closeOnSelect = false,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
@@ -325,8 +323,13 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
   // Normalize collision padding
   const normalizedPadding = useMemo(() => {
-    if (typeof collisionPadding === "number") {
-      return { top: collisionPadding, right: collisionPadding, bottom: collisionPadding, left: collisionPadding };
+    if (typeof collisionPadding === 'number') {
+      return {
+        top: collisionPadding,
+        right: collisionPadding,
+        bottom: collisionPadding,
+        left: collisionPadding,
+      };
     }
     return {
       top: collisionPadding.top ?? 8,
@@ -355,7 +358,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
           alignOffset,
           avoidCollisions,
           collisionPadding: normalizedPadding,
-        }
+        },
       );
 
       setPosition({ top: result.top, left: result.left });
@@ -367,15 +370,25 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
     // Recalculate on scroll/resize for fixed positioning
     if (portal) {
-      window.addEventListener("scroll", updatePosition, true);
-      window.addEventListener("resize", updatePosition);
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
 
       return () => {
-        window.removeEventListener("scroll", updatePosition, true);
-        window.removeEventListener("resize", updatePosition);
+        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('resize', updatePosition);
       };
     }
-  }, [isOpen, triggerRef, side, align, sideOffset, alignOffset, avoidCollisions, normalizedPadding, portal]);
+  }, [
+    isOpen,
+    triggerRef,
+    side,
+    align,
+    sideOffset,
+    alignOffset,
+    avoidCollisions,
+    normalizedPadding,
+    portal,
+  ]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -386,60 +399,70 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         event.preventDefault();
         setIsOpen?.(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener("click", handleClickOutside);
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, setIsOpen, triggerRef]);
 
   if (!isOpen) return null;
 
+  const handleContentClick = (event: React.MouseEvent) => {
+    if (!closeOnSelect) return;
+    const target = event.target as HTMLElement | null;
+    if (!target) return;
+    const item = target.closest('[role="menuitem"]') as HTMLElement | null;
+    if (!item) return;
+    if (item.getAttribute('aria-disabled') === 'true') return;
+    setIsOpen?.(false);
+  };
+
   // Get positioning classes for non-portal mode (CSS-based positioning)
   const getPositionClasses = () => {
-    if (portal) return "fixed z-popover";
+    if (portal) return 'fixed z-popover';
 
-    const classes = ["absolute z-popover"];
+    const classes = ['absolute z-popover'];
     const actualSide = avoidCollisions ? computedPlacement.side : side;
     const actualAlign = avoidCollisions ? computedPlacement.align : align;
 
     switch (actualSide) {
-      case "top":
-        classes.push("bottom-full mb-1");
-        if (actualAlign === "start") classes.push("left-0");
-        else if (actualAlign === "end") classes.push("right-0");
-        else classes.push("left-1/2 -translate-x-1/2");
+      case 'top':
+        classes.push('bottom-full mb-1');
+        if (actualAlign === 'start') classes.push('left-0');
+        else if (actualAlign === 'end') classes.push('right-0');
+        else classes.push('left-1/2 -translate-x-1/2');
         break;
-      case "bottom":
-        classes.push("top-full mt-1");
-        if (actualAlign === "start") classes.push("left-0");
-        else if (actualAlign === "end") classes.push("right-0");
-        else classes.push("left-1/2 -translate-x-1/2");
+      case 'bottom':
+        classes.push('top-full mt-1');
+        if (actualAlign === 'start') classes.push('left-0');
+        else if (actualAlign === 'end') classes.push('right-0');
+        else classes.push('left-1/2 -translate-x-1/2');
         break;
-      case "left":
-        classes.push("right-full mr-1");
-        if (actualAlign === "start") classes.push("top-0");
-        else if (actualAlign === "end") classes.push("bottom-0");
-        else classes.push("top-1/2 -translate-y-1/2");
+      case 'left':
+        classes.push('right-full mr-1');
+        if (actualAlign === 'start') classes.push('top-0');
+        else if (actualAlign === 'end') classes.push('bottom-0');
+        else classes.push('top-1/2 -translate-y-1/2');
         break;
-      case "right":
-        classes.push("left-full ml-1");
-        if (actualAlign === "start") classes.push("top-0");
-        else if (actualAlign === "end") classes.push("bottom-0");
-        else classes.push("top-1/2 -translate-y-1/2");
+      case 'right':
+        classes.push('left-full ml-1');
+        if (actualAlign === 'start') classes.push('top-0');
+        else if (actualAlign === 'end') classes.push('bottom-0');
+        else classes.push('top-1/2 -translate-y-1/2');
         break;
     }
 
-    return classes.join(" ");
+    return classes.join(' ');
   };
 
   const content = (
@@ -452,20 +475,24 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       data-align={computedPlacement.align}
       className={cn(
         getPositionClasses(),
-        "animate-in fade-in-0 zoom-in-95 duration-snappy ease-emphasized"
+        'animate-in fade-in-0 zoom-in-95 duration-snappy ease-emphasized',
       )}
       style={portal ? { top: position.top, left: position.left } : undefined}
     >
       <Menu
         open={true}
-        className={cn("w-full relative shadow-2 border border-outline-variant/20 overflow-visible", className)}
+        onClick={handleContentClick}
+        className={cn(
+          'shadow-2 border-outline-variant/20 relative w-full overflow-visible border',
+          className,
+        )}
       >
         {children}
       </Menu>
     </div>
   );
 
-  if (portal && typeof document !== "undefined") {
+  if (portal && typeof document !== 'undefined') {
     return createPortal(content, document.body);
   }
 
@@ -519,7 +546,11 @@ export const DropdownMenuSub: React.FC<DropdownMenuSubProps> = ({ children }) =>
     return child;
   });
 
-  return <div ref={triggerRef} className="relative">{childrenWithProps}</div>;
+  return (
+    <div ref={triggerRef} className="relative">
+      {childrenWithProps}
+    </div>
+  );
 };
 
 export interface DropdownMenuSubTriggerProps {
@@ -555,11 +586,7 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   return (
     <MenuItem
       icon={icon}
-      trailingIcon={
-        <span className="material-symbols-outlined text-[18px]">
-          arrow_right
-        </span>
-      }
+      trailingIcon={<span className="material-symbols-outlined text-[18px]">arrow_right</span>}
       className={className}
       disabled={disabled}
       onMouseEnter={handleMouseEnter}
@@ -601,11 +628,11 @@ function computeSubmenuPosition(
     sideOffset: number;
     avoidCollisions: boolean;
     collisionPadding: number;
-  }
+  },
 ): {
   top: number;
   left: number;
-  side: "left" | "right";
+  side: 'left' | 'right';
 } {
   const { sideOffset, avoidCollisions, collisionPadding } = options;
   const { width: menuWidth, height: menuHeight } = menuRect;
@@ -620,7 +647,7 @@ function computeSubmenuPosition(
   const spaceLeft = triggerRect.left - collisionPadding;
 
   // Determine horizontal side (flip if necessary)
-  let side: "left" | "right" = "right";
+  let side: 'left' | 'right' = 'right';
   let left = triggerRect.right + sideOffset;
 
   if (avoidCollisions) {
@@ -628,7 +655,7 @@ function computeSubmenuPosition(
 
     if (spaceRight < neededWidth && spaceLeft > spaceRight) {
       // Flip to left
-      side = "left";
+      side = 'left';
       left = triggerRect.left - menuWidth - sideOffset;
     }
   }
@@ -670,7 +697,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   collisionPadding = 8,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ top: 0, left: 0, side: "right" as "left" | "right" });
+  const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
 
   // Calculate position with collision detection
   useEffect(() => {
@@ -684,7 +711,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       const result = computeSubmenuPosition(
         triggerRect,
         { width: menuWidth, height: menuHeight },
-        { sideOffset, avoidCollisions, collisionPadding }
+        { sideOffset, avoidCollisions, collisionPadding },
       );
 
       setPosition(result);
@@ -694,12 +721,12 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     updatePosition();
 
     // Recalculate on scroll/resize
-    window.addEventListener("scroll", updatePosition, true);
-    window.addEventListener("resize", updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
 
     return () => {
-      window.removeEventListener("scroll", updatePosition, true);
-      window.removeEventListener("resize", updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
     };
   }, [isSubOpen, subTriggerRef, sideOffset, avoidCollisions, collisionPadding]);
 
@@ -713,11 +740,11 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       aria-orientation="vertical"
       data-side={position.side}
       className={cn(
-        "fixed z-popover",
-        position.side === "right"
-          ? "animate-in fade-in-0 slide-in-from-left-1"
-          : "animate-in fade-in-0 slide-in-from-right-1",
-        "duration-snappy ease-emphasized"
+        'z-popover fixed',
+        position.side === 'right'
+          ? 'animate-in fade-in-0 slide-in-from-left-1'
+          : 'animate-in fade-in-0 slide-in-from-right-1',
+        'duration-snappy ease-emphasized',
       )}
       style={{ top: position.top, left: position.left }}
       onMouseEnter={openSubmenu}
@@ -725,7 +752,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     >
       <Menu
         open={true}
-        className={cn("min-w-40 shadow-2 border border-outline-variant/20", className)}
+        className={cn('shadow-2 border-outline-variant/20 min-w-40 border', className)}
       >
         {children}
       </Menu>
