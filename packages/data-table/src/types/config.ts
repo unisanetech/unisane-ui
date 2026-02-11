@@ -2,10 +2,10 @@
 // Simplified configuration objects for DataTable props grouping.
 // These make the API more discoverable and reduce prop sprawl.
 
-import type { ReactNode } from "react";
-import type { Density, FilterState, MultiSortState, PinPosition } from "./core";
-import type { Column } from "./column";
-import type { BulkAction } from "./features";
+import type { ReactNode } from 'react';
+import type { Density, FilterState, MultiSortState, PinPosition } from './core';
+import type { Column } from './column';
+import type { BulkAction } from './features';
 
 // ─── FEATURES CONFIG ──────────────────────────────────────────────────────────
 
@@ -83,7 +83,7 @@ export interface FeaturesConfig {
    * Export formats to enable.
    * @default [] (disabled)
    */
-  export?: ("csv" | "excel" | "pdf" | "json")[] | boolean;
+  export?: ('csv' | 'excel' | 'pdf' | 'json')[] | boolean;
 
   /**
    * Enable print functionality.
@@ -170,7 +170,7 @@ export interface PaginationConfig {
    * - "none": No pagination (show all rows)
    * @default "offset"
    */
-  mode?: "offset" | "cursor" | "none";
+  mode?: 'offset' | 'cursor' | 'none';
 
   /**
    * Default page size.
@@ -267,7 +267,7 @@ export interface EditingConfig<T> {
  * - "spinner": Centered spinner with loading text
  * - "linear-progress": Subtle progress bar (best for refresh/background loading)
  */
-export type LoadingVariant = "skeleton" | "spinner" | "linear-progress";
+export type LoadingVariant = 'skeleton' | 'spinner' | 'linear-progress';
 
 // ─── STYLING CONFIG ───────────────────────────────────────────────────────────
 
@@ -294,7 +294,7 @@ export interface StylingConfig {
    * - "minimal": Minimal styling
    * @default "list"
    */
-  variant?: "list" | "grid" | "minimal";
+  variant?: 'list' | 'grid' | 'minimal';
 
   /**
    * Row density (affects height and padding).
@@ -345,7 +345,7 @@ export interface StylingConfig {
  */
 export interface CallbacksConfig<T> {
   /** Called when a row is clicked or activated via keyboard */
-  onRowClick?: (row: T, event: { source: "mouse" | "keyboard" }) => void;
+  onRowClick?: (row: T, event: { source: 'mouse' | 'keyboard' }) => void;
 
   /** Called when row is right-clicked */
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
@@ -373,6 +373,18 @@ export interface CallbacksConfig<T> {
 
   /** Called when row order changes (drag-to-reorder) */
   onRowReorder?: (fromIndex: number, toIndex: number, newOrder: string[]) => void;
+
+  /**
+   * Optional semantic callback for row deletion requests.
+   * Consumers decide how to delete remotely/locally.
+   */
+  onDeleteRows?: (rowIds: string[]) => void | Promise<void>;
+
+  /**
+   * Optional semantic callback for column deletion requests.
+   * Consumers decide schema mutation behavior.
+   */
+  onDeleteColumn?: (columnKey: string) => void | Promise<void>;
 }
 
 // ─── CONTROLLED STATE CONFIG ──────────────────────────────────────────────────
@@ -424,12 +436,12 @@ export interface ControlledStateConfig {
  * Presets set sensible defaults that can be overridden.
  */
 export type DataTablePreset =
-  | "simple"       // Basic read-only table
-  | "interactive"  // Selection, search, sorting
-  | "editable"     // Inline editing with validation
-  | "spreadsheet"  // Cell selection, copy/paste, keyboard nav
-  | "server"       // Remote data with cursor pagination
-  | "dashboard";   // Compact, dense, minimal UI
+  | 'simple' // Basic read-only table
+  | 'interactive' // Selection, search, sorting
+  | 'editable' // Inline editing with validation
+  | 'spreadsheet' // Cell selection, copy/paste, keyboard nav
+  | 'server' // Remote data with cursor pagination
+  | 'dashboard'; // Compact, dense, minimal UI
 
 /**
  * Get default configuration for a preset.
@@ -441,7 +453,7 @@ export function getPresetConfig(preset: DataTablePreset): {
   virtualization: VirtualizationConfig;
 } {
   switch (preset) {
-    case "simple":
+    case 'simple':
       return {
         features: {
           selection: false,
@@ -452,12 +464,12 @@ export function getPresetConfig(preset: DataTablePreset): {
           keyboard: true,
         },
         styling: {
-          variant: "list",
-          density: "standard",
+          variant: 'list',
+          density: 'standard',
           stickyHeader: true,
         },
         pagination: {
-          mode: "offset",
+          mode: 'offset',
           pageSize: 25,
         },
         virtualization: {
@@ -466,7 +478,7 @@ export function getPresetConfig(preset: DataTablePreset): {
         },
       };
 
-    case "interactive":
+    case 'interactive':
       return {
         features: {
           selection: true,
@@ -475,15 +487,15 @@ export function getPresetConfig(preset: DataTablePreset): {
           columnPinning: true,
           columnReorder: true,
           keyboard: true,
-          export: ["csv"],
+          export: ['csv'],
         },
         styling: {
-          variant: "list",
-          density: "standard",
+          variant: 'list',
+          density: 'standard',
           stickyHeader: true,
         },
         pagination: {
-          mode: "offset",
+          mode: 'offset',
           pageSize: 25,
         },
         virtualization: {
@@ -492,7 +504,7 @@ export function getPresetConfig(preset: DataTablePreset): {
         },
       };
 
-    case "editable":
+    case 'editable':
       return {
         features: {
           selection: true,
@@ -502,12 +514,12 @@ export function getPresetConfig(preset: DataTablePreset): {
           keyboard: true,
         },
         styling: {
-          variant: "list",
-          density: "standard",
+          variant: 'list',
+          density: 'standard',
           stickyHeader: true,
         },
         pagination: {
-          mode: "offset",
+          mode: 'offset',
           pageSize: 25,
         },
         virtualization: {
@@ -516,7 +528,7 @@ export function getPresetConfig(preset: DataTablePreset): {
         },
       };
 
-    case "spreadsheet":
+    case 'spreadsheet':
       return {
         features: {
           selection: true,
@@ -526,16 +538,16 @@ export function getPresetConfig(preset: DataTablePreset): {
           columnReorder: true,
           cellSelection: true,
           keyboard: true,
-          export: ["csv", "excel"],
+          export: ['csv', 'excel'],
         },
         styling: {
-          variant: "grid",
-          density: "compact",
+          variant: 'grid',
+          density: 'compact',
           columnDividers: true,
           stickyHeader: true,
         },
         pagination: {
-          mode: "offset",
+          mode: 'offset',
           pageSize: 50,
         },
         virtualization: {
@@ -546,7 +558,7 @@ export function getPresetConfig(preset: DataTablePreset): {
         },
       };
 
-    case "server":
+    case 'server':
       return {
         features: {
           selection: true,
@@ -556,12 +568,12 @@ export function getPresetConfig(preset: DataTablePreset): {
           keyboard: true,
         },
         styling: {
-          variant: "list",
-          density: "standard",
+          variant: 'list',
+          density: 'standard',
           stickyHeader: true,
         },
         pagination: {
-          mode: "cursor",
+          mode: 'cursor',
           pageSize: 25,
         },
         virtualization: {
@@ -569,7 +581,7 @@ export function getPresetConfig(preset: DataTablePreset): {
         },
       };
 
-    case "dashboard":
+    case 'dashboard':
       return {
         features: {
           selection: false,
@@ -579,12 +591,12 @@ export function getPresetConfig(preset: DataTablePreset): {
           keyboard: true,
         },
         styling: {
-          variant: "minimal",
-          density: "compact",
+          variant: 'minimal',
+          density: 'compact',
           stickyHeader: false,
         },
         pagination: {
-          mode: "none",
+          mode: 'none',
           pageSize: 10,
         },
         virtualization: {
@@ -593,7 +605,7 @@ export function getPresetConfig(preset: DataTablePreset): {
       };
 
     default:
-      return getPresetConfig("interactive");
+      return getPresetConfig('interactive');
   }
 }
 
@@ -614,7 +626,7 @@ export interface SimpleColumn<T> {
   width?: number | string;
 
   /** Text alignment */
-  align?: "start" | "center" | "end";
+  align?: 'start' | 'center' | 'end';
 
   /** Custom cell renderer */
   render?: (row: T) => ReactNode;
@@ -637,13 +649,13 @@ export interface SimpleColumn<T> {
   reorderable?: boolean;
 
   /** Input type for inline editing */
-  inputType?: "text" | "number" | "email" | "date" | "select";
+  inputType?: 'text' | 'number' | 'email' | 'date' | 'select';
 
   /** Options for select input type */
   selectOptions?: { label: string; value: string }[];
 
   /** Summary calculation for footer row */
-  summary?: "sum" | "average" | "count" | "min" | "max" | ((data: T[]) => ReactNode);
+  summary?: 'sum' | 'average' | 'count' | 'min' | 'max' | ((data: T[]) => ReactNode);
 }
 
 /**
@@ -708,7 +720,7 @@ export interface SimpleBulkAction {
   onClick: (selectedIds: string[]) => void | Promise<void>;
 
   /** Action variant for styling */
-  variant?: "default" | "danger";
+  variant?: 'default' | 'danger';
 
   /** Disable the action */
   disabled?: boolean;
