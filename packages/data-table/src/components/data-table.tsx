@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React, { useMemo, useCallback, useState } from "react";
-import type { ReactNode, CSSProperties } from "react";
-import type { Column, ColumnGroup } from "../types/column";
-import type { BulkAction } from "../types/features";
-import type { CursorPagination, FilterState, MultiSortState, SortDirection } from "../types/core";
-import type { RowActivationEvent } from "../types/props";
+import React, { useMemo, useCallback, useState } from 'react';
+import type { ReactNode, CSSProperties } from 'react';
+import type { Column, ColumnGroup } from '../types/column';
+import type { BulkAction } from '../types/features';
+import type { CursorPagination, FilterState, MultiSortState, SortDirection } from '../types/core';
+import type { RowActivationEvent } from '../types/props';
 import type {
   FeaturesConfig,
   VirtualizationConfig,
@@ -15,12 +15,12 @@ import type {
   CallbacksConfig,
   ControlledStateConfig,
   DataTablePreset,
-} from "../types/config";
-import { getPresetConfig } from "../types/config";
-import { DataTableProvider } from "../context/provider";
-import { DataTableInner } from "./data-table-inner";
-import { FeedbackProvider } from "../feedback";
-import { useInlineEditing } from "../hooks/features/use-inline-editing";
+} from '../types/config';
+import { getPresetConfig } from '../types/config';
+import { DataTableProvider } from '../context/provider';
+import { DataTableInner } from './data-table-inner';
+import { FeedbackProvider } from '../feedback';
+import { useInlineEditing } from '../hooks/features/use-inline-editing';
 
 // ─── DATA TABLE PROPS ─────────────────────────────────────────────────────────
 
@@ -176,7 +176,7 @@ export interface DataTableProps<T extends { id: string }> {
    * - "linear-progress": Subtle progress bar
    * @default "skeleton"
    */
-  loadingVariant?: "skeleton" | "spinner" | "linear-progress";
+  loadingVariant?: 'skeleton' | 'spinner' | 'linear-progress';
 
   /**
    * Number of skeleton rows to display during loading.
@@ -197,7 +197,7 @@ export interface DataTableProps<T extends { id: string }> {
    * Pagination mode override (used by useRemoteDataTable).
    * Overrides pagination.mode when specified.
    */
-  paginationMode?: "offset" | "cursor" | "none";
+  paginationMode?: 'offset' | 'cursor' | 'none';
 
   // ─── Remote Data Props (from useRemoteDataTable) ───
   /**
@@ -240,7 +240,7 @@ export interface DataTableProps<T extends { id: string }> {
    * Sort change handler (shorthand for callbacks.onSortChange).
    * Used by useRemoteDataTable for server-side sorting.
    */
-  onSortChange?: (key: string | null, direction: "asc" | "desc") => void;
+  onSortChange?: (key: string | null, direction: 'asc' | 'desc') => void;
 
   /**
    * Disable local data processing (sorting, filtering, searching).
@@ -251,7 +251,7 @@ export interface DataTableProps<T extends { id: string }> {
   /**
    * Data mode - 'local' for client-side, 'remote' for server-side processing.
    */
-  mode?: "local" | "remote";
+  mode?: 'local' | 'remote';
 
   // ─── Identification ───
   /** Unique ID for localStorage persistence */
@@ -284,7 +284,7 @@ export interface DataTableProps<T extends { id: string }> {
    * Text direction for RTL language support.
    * @default "ltr"
    */
-  dir?: "ltr" | "rtl";
+  dir?: 'ltr' | 'rtl';
 }
 
 // ─── INTERNAL EDITING WRAPPER ─────────────────────────────────────────────────
@@ -319,6 +319,7 @@ function EditingWrapper<T extends { id: string }>({
           return null;
         }
       : undefined,
+    startEditOn: editing?.startEditOn,
   });
 
   return <>{children(editing?.enabled ? inlineEditing : undefined)}</>;
@@ -363,7 +364,7 @@ export function DataTable<T extends { id: string }>({
   columns,
 
   // Preset
-  preset = "interactive",
+  preset = 'interactive',
 
   // Grouped configs
   features: featuresOverride,
@@ -395,7 +396,7 @@ export function DataTable<T extends { id: string }>({
   // Loading
   loading = false,
   refreshing = false,
-  loadingVariant = "skeleton",
+  loadingVariant = 'skeleton',
   skeletonRowCount,
   totalCount,
   onRefresh,
@@ -428,27 +429,27 @@ export function DataTable<T extends { id: string }>({
   // Merge configs with preset defaults
   const features = useMemo(
     () => ({ ...presetConfig.features, ...featuresOverride }),
-    [presetConfig.features, featuresOverride]
+    [presetConfig.features, featuresOverride],
   );
 
   const virtualization = useMemo(
     () => ({ ...presetConfig.virtualization, ...virtualizationOverride }),
-    [presetConfig.virtualization, virtualizationOverride]
+    [presetConfig.virtualization, virtualizationOverride],
   );
 
   const paginationConfig = useMemo(
     () => ({ ...presetConfig.pagination, ...paginationOverride }),
-    [presetConfig.pagination, paginationOverride]
+    [presetConfig.pagination, paginationOverride],
   );
 
   const styling = useMemo(
     () => ({ ...presetConfig.styling, ...stylingOverride }),
-    [presetConfig.styling, stylingOverride]
+    [presetConfig.styling, stylingOverride],
   );
 
   // Determine effective settings
   const effectiveRowSelectionEnabled = features.selection ?? false;
-  const effectiveShowColumnDividers = styling.columnDividers ?? styling.variant === "grid";
+  const effectiveShowColumnDividers = styling.columnDividers ?? styling.variant === 'grid';
   const enableExpansion = features.rowExpansion ?? !!renderExpandedRow;
 
   // Map callbacks to internal handlers
@@ -456,14 +457,14 @@ export function DataTable<T extends { id: string }>({
     (row: T, activation: RowActivationEvent) => {
       callbacks?.onRowClick?.(row, { source: activation.source });
     },
-    [callbacks]
+    [callbacks],
   );
 
   const handleRowContextMenu = useCallback(
     (row: T, event: React.MouseEvent) => {
       callbacks?.onRowContextMenu?.(row, event);
     },
-    [callbacks]
+    [callbacks],
   );
 
   // Determine if toolbar should be shown
@@ -475,17 +476,17 @@ export function DataTable<T extends { id: string }>({
   );
 
   // Internal density state - allows user to change density via toolbar
-  const initialDensity = styling.density ?? "standard";
+  const initialDensity = styling.density ?? 'standard';
   const [internalDensity, setInternalDensity] = useState(initialDensity);
 
   // Effective density (will be used for both toolbar and table)
   const effectiveDensity = internalDensity;
 
   // Effective pagination mode - top-level override takes precedence over pagination.mode
-  const effectivePaginationMode = paginationModeOverride ?? paginationConfig.mode ?? "offset";
+  const effectivePaginationMode = paginationModeOverride ?? paginationConfig.mode ?? 'offset';
 
   // Effective mode - use explicit mode prop or derive from pagination
-  const effectiveMode = mode ?? (effectivePaginationMode === "cursor" ? "remote" : "local");
+  const effectiveMode = mode ?? (effectivePaginationMode === 'cursor' ? 'remote' : 'local');
 
   // Merge top-level props with controlled/callbacks (top-level takes precedence for useRemoteDataTable compatibility)
   const effectiveSearchValue = searchValueProp ?? controlled?.searchValue;
@@ -496,15 +497,16 @@ export function DataTable<T extends { id: string }>({
     : callbacks?.onFilterChange;
 
   // Convert single sort (from useRemoteDataTable) to MultiSortState array
-  const effectiveSortState = sortKeyProp !== undefined && sortKeyProp !== null
-    ? [{ key: sortKeyProp, direction: sortDirectionProp ?? "asc" as const }]
-    : controlled?.sortState;
+  const effectiveSortState =
+    sortKeyProp !== undefined && sortKeyProp !== null
+      ? [{ key: sortKeyProp, direction: sortDirectionProp ?? ('asc' as const) }]
+      : controlled?.sortState;
 
   // Wrap single-sort callback to work with MultiSortState
   const effectiveOnSortChange = onSortChangeProp
     ? (sortState: MultiSortState) => {
         const first = sortState[0];
-        onSortChangeProp(first?.key ?? null, first?.direction ?? "asc");
+        onSortChangeProp(first?.key ?? null, first?.direction ?? 'asc');
       }
     : callbacks?.onSortChange;
 
@@ -515,7 +517,7 @@ export function DataTable<T extends { id: string }>({
       columns={columns}
       mode={effectiveMode}
       paginationMode={effectivePaginationMode}
-      variant={styling.variant ?? "list"}
+      variant={styling.variant ?? 'list'}
       rowSelectionEnabled={effectiveRowSelectionEnabled}
       showColumnDividers={effectiveShowColumnDividers}
       zebra={styling.zebra ?? false}
@@ -540,17 +542,21 @@ export function DataTable<T extends { id: string }>({
         {(inlineEditing) => (
           <DataTableInner
             // Pass toolbar props to DataTableInner so it can render inside StickyZone
-            toolbarProps={showToolbar ? {
-              title,
-              searchable: features.search ?? false,
-              bulkActions,
-              density: effectiveDensity,
-              onDensityChange: setInternalDensity,
-              showColumnToggle: true,
-              showDensityToggle: true,
-              refreshing,
-              onRefresh,
-            } : undefined}
+            toolbarProps={
+              showToolbar
+                ? {
+                    title,
+                    searchable: features.search ?? false,
+                    bulkActions,
+                    density: effectiveDensity,
+                    onDensityChange: setInternalDensity,
+                    showColumnToggle: true,
+                    showDensityToggle: true,
+                    refreshing,
+                    onRefresh,
+                  }
+                : undefined
+            }
             data={data}
             isLoading={loading}
             loadingVariant={loadingVariant}
@@ -575,6 +581,9 @@ export function DataTable<T extends { id: string }>({
             reorderableRows={features.rowReorder ?? false}
             onRowReorder={callbacks?.onRowReorder}
             inlineEditing={inlineEditing}
+            cellSelectionEnabled={features.cellSelection ?? false}
+            onCellActiveChange={callbacks?.onCellActiveChange}
+            onCellSelectionChange={callbacks?.onCellSelectionChange}
             cursorPagination={cursorPagination}
             disableLocalProcessing={disableLocalProcessing}
           />
@@ -601,6 +610,6 @@ export function DataTable<T extends { id: string }>({
 
 // ─── DISPLAY NAME ─────────────────────────────────────────────────────────────
 
-DataTable.displayName = "DataTable";
+DataTable.displayName = 'DataTable';
 
 export default DataTable;

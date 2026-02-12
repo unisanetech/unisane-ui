@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useCallback, useRef } from "react";
-import { dequal } from "dequal";
-import type { UseInlineEditingOptions, InlineEditingController, EditingCell } from "../../types";
-import { getCellSelector } from "../../constants";
-import { useSafeRAF } from "../use-safe-raf";
+import { useState, useCallback, useRef } from 'react';
+import { dequal } from 'dequal';
+import type { UseInlineEditingOptions, InlineEditingController, EditingCell } from '../../types';
+import { getCellSelector } from '../../constants';
+import { useSafeRAF } from '../use-safe-raf';
 
 /**
  * Hook for managing inline cell editing in DataTable
@@ -34,6 +34,7 @@ export function useInlineEditing<T extends { id: string }>({
   onStartEdit,
   validateCell,
   enabled = true,
+  startEditOn = 'doubleClick',
 }: UseInlineEditingOptions<T>): InlineEditingController<T> {
   const [editingCell, setEditingCell] = useState<EditingCell | null>(null);
   const [pendingValue, setPendingValue] = useState<unknown>(null);
@@ -57,7 +58,7 @@ export function useInlineEditing<T extends { id: string }>({
       originalValueRef.current = initialValue;
       onStartEdit?.(rowId, columnKey);
     },
-    [enabled, onStartEdit]
+    [enabled, onStartEdit],
   );
 
   // Cancel editing and restore focus to the cell
@@ -75,7 +76,7 @@ export function useInlineEditing<T extends { id: string }>({
     if (cellToFocus) {
       requestFrame(() => {
         const cellElement = document.querySelector(
-          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey)
+          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey),
         );
         if (cellElement instanceof HTMLElement) {
           cellElement.focus();
@@ -103,7 +104,7 @@ export function useInlineEditing<T extends { id: string }>({
         setValidationError(null);
       }
     },
-    [editingCell, validateCell]
+    [editingCell, validateCell],
   );
 
   // Commit the edit
@@ -121,8 +122,8 @@ export function useInlineEditing<T extends { id: string }>({
 
     // Find the row - handle undefined/null data gracefully
     if (!data || !Array.isArray(data)) {
-      if (process.env.NODE_ENV !== "production") {
-        console.warn("useInlineEditing: data is not available or not an array");
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('useInlineEditing: data is not available or not an array');
       }
       cancelEdit();
       return false;
@@ -150,7 +151,7 @@ export function useInlineEditing<T extends { id: string }>({
       // 3. Alternative (cell registry with refs) adds significant complexity
       requestFrame(() => {
         const cellElement = document.querySelector(
-          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey)
+          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey),
         );
         if (cellElement instanceof HTMLElement) {
           cellElement.focus();
@@ -172,7 +173,7 @@ export function useInlineEditing<T extends { id: string }>({
       // Restore focus to the cell after successful save
       requestFrame(() => {
         const cellElement = document.querySelector(
-          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey)
+          getCellSelector(cellToFocus.rowId, cellToFocus.columnKey),
         );
         if (cellElement instanceof HTMLElement) {
           cellElement.focus();
@@ -181,7 +182,7 @@ export function useInlineEditing<T extends { id: string }>({
       return true;
     } catch (error) {
       // If save fails, set error
-      const message = error instanceof Error ? error.message : "Failed to save";
+      const message = error instanceof Error ? error.message : 'Failed to save';
       setValidationError(message);
       return false;
     } finally {
@@ -201,18 +202,35 @@ export function useInlineEditing<T extends { id: string }>({
     (rowId: string, columnKey: string) => {
       return editingCell?.rowId === rowId && editingCell?.columnKey === columnKey;
     },
-    [editingCell]
+    [editingCell],
   );
 
   // Get props for a cell container
   const getCellEditProps = useCallback(
     (rowId: string, columnKey: string, value: unknown) => {
       const isEditing = isCellEditing(rowId, columnKey);
+      const canStartEditFromClick = (context?: {
+        isCellActive?: boolean;
+        isCellSelected?: boolean;
+      }) => {
+        if (startEditOn === 'singleClick') {
+          return true;
+        }
+        if (startEditOn === 'singleClickWhenSelected') {
+          return Boolean(context?.isCellActive || context?.isCellSelected);
+        }
+        return false;
+      };
 
       return {
         isEditing,
+        onClick: (context?: { isCellActive?: boolean; isCellSelected?: boolean }) => {
+          if (!isEditing && enabled && canStartEditFromClick(context)) {
+            startEdit(rowId, columnKey, value);
+          }
+        },
         onDoubleClick: () => {
-          if (!isEditing && enabled) {
+          if (!isEditing && enabled && startEditOn === 'doubleClick') {
             startEdit(rowId, columnKey, value);
           }
         },
@@ -222,21 +240,19 @@ export function useInlineEditing<T extends { id: string }>({
             // Note: F2 may not work on Mac if system intercepts it for brightness
             // Cmd/Ctrl+E provides a reliable alternative
             const isEditShortcut =
-              e.key === "Enter" ||
-              e.key === "F2" ||
-              ((e.metaKey || e.ctrlKey) && e.key === "e");
+              e.key === 'Enter' || e.key === 'F2' || ((e.metaKey || e.ctrlKey) && e.key === 'e');
 
             if (isEditShortcut) {
               e.preventDefault();
               startEdit(rowId, columnKey, value);
-            } else if (e.key === "Delete") {
+            } else if (e.key === 'Delete') {
               // Delete key: clear cell content (Excel standard)
               e.preventDefault();
-              startEdit(rowId, columnKey, "");
-            } else if (e.key === "Backspace") {
+              startEdit(rowId, columnKey, '');
+            } else if (e.key === 'Backspace') {
               // Backspace: start editing with empty value (Excel standard)
               e.preventDefault();
-              startEdit(rowId, columnKey, "");
+              startEdit(rowId, columnKey, '');
             } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) {
               // Single character typed - start editing with the typed character as initial value
               e.preventDefault();
@@ -246,7 +262,7 @@ export function useInlineEditing<T extends { id: string }>({
         },
       };
     },
-    [isCellEditing, enabled, startEdit]
+    [isCellEditing, enabled, startEdit, startEditOn],
   );
 
   // Generate error message ID for aria-describedby linking
@@ -258,9 +274,9 @@ export function useInlineEditing<T extends { id: string }>({
   // Get props for the input element
   const getInputProps = useCallback(() => {
     const valueAsInput = (() => {
-      if (pendingValue === null || pendingValue === undefined) return "";
-      if (typeof pendingValue === "string") return pendingValue;
-      if (typeof pendingValue === "number") return pendingValue;
+      if (pendingValue === null || pendingValue === undefined) return '';
+      if (typeof pendingValue === 'string') return pendingValue;
+      if (typeof pendingValue === 'number') return pendingValue;
       return String(pendingValue);
     })();
 
@@ -272,13 +288,13 @@ export function useInlineEditing<T extends { id: string }>({
         updateValue(e.target.value);
       },
       onKeyDown: (e: React.KeyboardEvent) => {
-        if (e.key === "Enter") {
+        if (e.key === 'Enter') {
           e.preventDefault();
           commitEdit();
-        } else if (e.key === "Escape") {
+        } else if (e.key === 'Escape') {
           e.preventDefault();
           cancelEdit();
-        } else if (e.key === "Tab") {
+        } else if (e.key === 'Tab') {
           // Prevent default to control focus manually after commit
           // This fixes the race condition where focus moves before async save completes
           e.preventDefault();
@@ -295,10 +311,19 @@ export function useInlineEditing<T extends { id: string }>({
       },
       autoFocus: true,
       disabled: isSaving,
-      "aria-invalid": !!validationError,
-      "aria-describedby": validationError ? errorId : undefined,
+      'aria-invalid': !!validationError,
+      'aria-describedby': validationError ? errorId : undefined,
     };
-  }, [pendingValue, updateValue, commitEdit, cancelEdit, editingCell, isSaving, validationError, getErrorMessageId]);
+  }, [
+    pendingValue,
+    updateValue,
+    commitEdit,
+    cancelEdit,
+    editingCell,
+    isSaving,
+    validationError,
+    getErrorMessageId,
+  ]);
 
   return {
     editingCell,

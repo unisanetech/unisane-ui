@@ -1,15 +1,30 @@
-"use client";
+'use client';
 
-import React, { memo, useState, useCallback, useEffect, type ReactNode, type CSSProperties } from "react";
-import { cn, Icon, Checkbox } from "@unisane/ui";
-import type { Column, PinPosition, ColumnMetaMap, CellContext, InlineEditingController, CellSelectionContext, RowActivationEvent } from "../types/index";
-import type { RowDragProps } from "../hooks/ui/use-row-drag";
-import { getNestedValue } from "../utils/get-nested-value";
-import { first, last } from "../utils/type-guards";
-import { DENSITY_STYLES, type Density, createCellId } from "../constants/index";
-import { useI18n } from "../i18n";
-import { DragHandle } from "./drag-handle";
-import { HighlightedText } from "./highlighted-text";
+import React, {
+  memo,
+  useState,
+  useCallback,
+  useEffect,
+  type ReactNode,
+  type CSSProperties,
+} from 'react';
+import { cn, Icon, Checkbox } from '@unisane/ui';
+import type {
+  Column,
+  PinPosition,
+  ColumnMetaMap,
+  CellContext,
+  InlineEditingController,
+  CellSelectionContext,
+  RowActivationEvent,
+} from '../types/index';
+import type { RowDragProps } from '../hooks/ui/use-row-drag';
+import { getNestedValue } from '../utils/get-nested-value';
+import { first, last } from '../utils/type-guards';
+import { DENSITY_STYLES, type Density, createCellId } from '../constants/index';
+import { useI18n } from '../i18n';
+import { DragHandle } from './drag-handle';
+import { HighlightedText } from './highlighted-text';
 
 // ─── ROW PROPS ──────────────────────────────────────────────────────────────
 
@@ -39,7 +54,7 @@ interface DataTableRowProps<T> {
   /** Virtualization: inline styles for absolute positioning */
   style?: CSSProperties;
   /** Virtualization: data-index for measurement */
-  "data-index"?: number;
+  'data-index'?: number;
   /** Keyboard navigation: whether this row is focused */
   isFocused?: boolean;
   /** Inline editing controller */
@@ -61,7 +76,7 @@ interface DataTableRowProps<T> {
   /** Row reordering: whether this row is a drop target */
   isDropTarget?: boolean;
   /** Row reordering: drop position relative to this row */
-  dropPosition?: "before" | "after" | null;
+  dropPosition?: 'before' | 'after' | null;
   /** Row reordering: drag props for the row element */
   rowDragProps?: RowDragProps;
   /** Row reordering: drag handle props */
@@ -70,8 +85,8 @@ interface DataTableRowProps<T> {
     onKeyDown: (e: React.KeyboardEvent) => void;
     tabIndex: number;
     role: string;
-    "aria-label": string;
-    "aria-grabbed": boolean | undefined;
+    'aria-label': string;
+    'aria-grabbed': boolean | undefined;
   };
   /** Search text for highlighting matching content */
   searchText?: string;
@@ -100,9 +115,9 @@ function DataTableRowInner<T extends { id: string }>({
   onRowContextMenu,
   onRowHover,
   renderExpandedRow,
-  density = "standard",
+  density = 'standard',
   style,
-  "data-index": dataIndex,
+  'data-index': dataIndex,
   isFocused = false,
   inlineEditing,
   groupDepth = 0,
@@ -139,8 +154,8 @@ function DataTableRowInner<T extends { id: string }>({
   }, []);
 
   // Determine pinned column info for border logic
-  const pinnedLeftColumns = columns.filter((col) => getEffectivePinPosition(col) === "left");
-  const pinnedRightColumns = columns.filter((col) => getEffectivePinPosition(col) === "right");
+  const pinnedLeftColumns = columns.filter((col) => getEffectivePinPosition(col) === 'left');
+  const pinnedRightColumns = columns.filter((col) => getEffectivePinPosition(col) === 'right');
   const hasPinnedLeftData = pinnedLeftColumns.length > 0;
   const hasPinnedRightData = pinnedRightColumns.length > 0;
   const lastPinnedLeft = last(pinnedLeftColumns);
@@ -153,16 +168,16 @@ function DataTableRowInner<T extends { id: string }>({
     // Don't trigger row click if clicking on interactive elements
     if (target instanceof HTMLElement) {
       if (
-        target.closest("button") ||
-        target.closest("input") ||
-        target.closest("a") ||
+        target.closest('button') ||
+        target.closest('input') ||
+        target.closest('a') ||
         target.closest('[role="button"]') ||
         target.closest('[role="checkbox"]')
       ) {
         return;
       }
     }
-    onRowClick?.(row, { source: "mouse", event: e });
+    onRowClick?.(row, { source: 'mouse', event: e });
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -174,18 +189,18 @@ function DataTableRowInner<T extends { id: string }>({
 
   // Background classes - using semantic Unisane UI tokens
   const getBgClass = () => {
-    if (isSelected) return "bg-surface-container";
-    if (isActive) return "bg-surface-container-high";
-    if (isFocused) return "bg-surface-container-low";
-    if (zebra && isOddRow) return "bg-surface-container-lowest";
-    return "bg-surface";
+    if (isSelected) return 'bg-surface-container';
+    if (isActive) return 'bg-surface-container-high';
+    if (isFocused) return 'bg-surface-container-low';
+    if (zebra && isOddRow) return 'bg-surface-container-lowest';
+    return 'bg-surface';
   };
 
   const bgClass = getBgClass();
 
   // Sticky cell background - includes drop target state
   const getStickyBgClass = () => {
-    if (isDropTarget) return "bg-primary/5";
+    if (isDropTarget) return 'bg-primary/5';
     return bgClass;
   };
   const stickyBgClass = getStickyBgClass();
@@ -198,18 +213,18 @@ function DataTableRowInner<T extends { id: string }>({
         onMouseEnter={onRowHover ? () => onRowHover(row) : undefined}
         onMouseLeave={onRowHover ? () => onRowHover(null) : undefined}
         className={cn(
-          "group/row group transition-colors duration-snappy",
+          'group/row group duration-snappy transition-colors',
           bgClass,
-          onRowClick && "cursor-pointer",
-          !isSelected && !isActive && "hover:bg-surface-container-low",
+          onRowClick && 'cursor-pointer',
+          !isSelected && !isActive && 'hover:bg-surface-container-low',
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header
-          "hover:z-[5]",
-          isFocused && "ring-2 ring-inset ring-primary/50",
+          'hover:z-[5]',
+          isFocused && 'ring-primary/50 ring-2 ring-inset',
           // Drag state styling
-          isDragging && "opacity-50 scale-[0.98]",
+          isDragging && 'scale-[0.98] opacity-50',
           // Drop target highlight
-          isDropTarget && "bg-primary/5"
+          isDropTarget && 'bg-primary/5',
         )}
         style={style}
         data-index={dataIndex}
@@ -222,12 +237,12 @@ function DataTableRowInner<T extends { id: string }>({
         {reorderableRows && (
           <td
             className={cn(
-              "relative",
+              'relative',
               bgClass,
-              !isSelected && !isActive && !isDropTarget && "group-hover:bg-surface-container-low",
-              "transition-colors",
-              !isLastRow && "border-b border-outline-variant/50",
-              showColumnBorders && "border-r border-outline-variant/50"
+              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
+              'transition-colors',
+              !isLastRow && 'border-outline-variant/50 border-b',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{ width: 40, minWidth: 40, maxWidth: 40 }}
           >
@@ -235,23 +250,19 @@ function DataTableRowInner<T extends { id: string }>({
             {isDropTarget && dropPosition && (
               <div
                 className={cn(
-                  "absolute left-0 z-50 pointer-events-none",
-                  "h-0.5 bg-primary",
-                  dropPosition === "before" ? "top-0 -translate-y-1/2" : "bottom-0 translate-y-1/2"
+                  'pointer-events-none absolute left-0 z-50',
+                  'bg-primary h-0.5',
+                  dropPosition === 'before' ? 'top-0 -translate-y-1/2' : 'bottom-0 translate-y-1/2',
                 )}
-                style={{ width: "calc(100vw - var(--scrollbar-width, 0px))", maxWidth: "9999px" }}
+                style={{ width: 'calc(100vw - var(--scrollbar-width, 0px))', maxWidth: '9999px' }}
                 aria-hidden="true"
               >
                 {/* Circle indicator at the start */}
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-primary border-2 border-surface" />
+                <div className="bg-primary border-surface absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full border-2" />
               </div>
             )}
-            <div className="flex items-center justify-center h-full">
-              <DragHandle
-                size="sm"
-                isDragging={isDragging}
-                {...dragHandleProps}
-              />
+            <div className="flex h-full items-center justify-center">
+              <DragHandle size="sm" isDragging={isDragging} {...dragHandleProps} />
             </div>
           </td>
         )}
@@ -261,13 +272,16 @@ function DataTableRowInner<T extends { id: string }>({
           <td
             className={cn(
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
-              "@md:sticky left-0 z-[15] isolate",
+              'left-0 isolate z-[15] @md:sticky',
               stickyBgClass,
-              !isSelected && !isActive && !isDropTarget && "group-hover:bg-surface-container-low",
-              "transition-colors",
-              !isLastRow && "border-b border-outline-variant/50",
+              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
+              'transition-colors',
+              !isLastRow && 'border-outline-variant/50 border-b',
               // Only show border-r if there are no more sticky columns after this
-              showColumnBorders && !enableExpansion && !hasPinnedLeftData && "border-r border-outline-variant/50"
+              showColumnBorders &&
+                !enableExpansion &&
+                !hasPinnedLeftData &&
+                'border-outline-variant/50 border-r',
             )}
             style={{
               width: 48,
@@ -275,12 +289,12 @@ function DataTableRowInner<T extends { id: string }>({
               maxWidth: 48,
             }}
           >
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <Checkbox
                 checked={isSelected}
                 onChange={() => onSelect(row.id, !isSelected)}
-                aria-label={t("selectRowLabel", { id: row.id })}
-                className="[&>div]:w-8 [&>div]:h-8"
+                aria-label={t('selectRowLabel', { id: row.id })}
+                className="[&>div]:h-8 [&>div]:w-8"
               />
             </div>
           </td>
@@ -291,13 +305,13 @@ function DataTableRowInner<T extends { id: string }>({
           <td
             className={cn(
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
-              "@md:sticky z-[15] isolate text-center",
+              'isolate z-[15] text-center @md:sticky',
               stickyBgClass,
-              !isSelected && !isActive && !isDropTarget && "group-hover:bg-surface-container-low",
-              "transition-colors",
-              !isLastRow && "border-b border-outline-variant/50",
+              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
+              'transition-colors',
+              !isLastRow && 'border-outline-variant/50 border-b',
               // Only show border-r if there are no pinned-left data columns after this
-              showColumnBorders && !hasPinnedLeftData && "border-r border-outline-variant/50"
+              showColumnBorders && !hasPinnedLeftData && 'border-outline-variant/50 border-r',
             )}
             style={{
               width: 40,
@@ -312,16 +326,16 @@ function DataTableRowInner<T extends { id: string }>({
                 onClick={() => onToggleExpand(row.id)}
                 className={cn(
                   // Touch-friendly: min 44px touch target with padding trick
-                  "p-2 -m-1 rounded-full text-on-surface-variant transition-all",
-                  "hover:bg-on-surface/8 hover:text-on-surface",
-                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  'text-on-surface-variant -m-1 rounded-full p-2 transition-all',
+                  'hover:bg-on-surface/8 hover:text-on-surface',
+                  'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
                 )}
                 aria-expanded={isExpanded}
-                aria-label={isExpanded ? t("collapseRow") : t("expandRow")}
+                aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
               >
                 <Icon
-                  symbol={isExpanded ? "expand_less" : "expand_more"}
-                  className="w-5 h-5 transition-transform"
+                  symbol={isExpanded ? 'expand_less' : 'expand_more'}
+                  className="h-5 w-5 transition-transform"
                 />
               </button>
             )}
@@ -353,42 +367,43 @@ function DataTableRowInner<T extends { id: string }>({
           const isEditing = isEditable && inlineEditing?.isCellEditing(row.id, key);
 
           // Check if this is an actions column (needs overflow-visible for dropdown)
-          const isActionsColumn = key.startsWith("__actions");
-          const editProps = isEditable ? inlineEditing?.getCellEditProps(row.id, key, rawValue) : null;
+          const isActionsColumn = key.startsWith('__actions');
+          const editProps = isEditable
+            ? inlineEditing?.getCellEditProps(row.id, key, rawValue)
+            : null;
 
           // Get cell selection context if enabled
-          const cellSelectionCtx = cellSelectionEnabled && getCellSelectionContext
-            ? getCellSelectionContext(row.id, key)
-            : null;
+          const cellSelectionCtx =
+            cellSelectionEnabled && getCellSelectionContext
+              ? getCellSelectionContext(row.id, key)
+              : null;
 
           // Render content
           let content: ReactNode;
           if (isEditing && inlineEditing) {
             const inputProps = inlineEditing.getInputProps();
-            const inputType = col.inputType ?? "text";
+            const inputType = col.inputType ?? 'text';
             content = (
               <>
                 <input
                   {...inputProps}
                   type={inputType}
-                  step={inputType === "number" ? "any" : undefined}
+                  step={inputType === 'number' ? 'any' : undefined}
                   className={cn(
-                    "absolute inset-0 w-full h-full text-body-medium",
-                    "border-2 bg-surface text-on-surface",
-                    "focus:outline-none",
-                    col.align === "center" && "text-center",
-                    col.align === "end" && "text-right pr-4",
-                    col.align !== "center" && col.align !== "end" && "text-left pl-4",
-                    inlineEditing.validationError
-                      ? "border-error"
-                      : "border-primary"
+                    'text-body-medium absolute inset-0 h-full w-full',
+                    'bg-surface text-on-surface border-2',
+                    'focus:outline-none',
+                    col.align === 'center' && 'text-center',
+                    col.align === 'end' && 'pr-4 text-right',
+                    col.align !== 'center' && col.align !== 'end' && 'pl-4 text-left',
+                    inlineEditing.validationError ? 'border-error' : 'border-primary',
                   )}
                 />
                 {inlineEditing.validationError && (
                   <div
                     id={inlineEditing.getErrorMessageId()}
                     role="alert"
-                    className="absolute top-full left-0 mt-1 text-label-small text-error bg-error-container px-2 py-0.5 rounded z-[5] whitespace-nowrap"
+                    className="text-label-small text-error bg-error-container absolute top-full left-0 z-[5] mt-1 rounded px-2 py-0.5 whitespace-nowrap"
                   >
                     {inlineEditing.validationError}
                   </div>
@@ -403,19 +418,8 @@ function DataTableRowInner<T extends { id: string }>({
 
             // Apply search highlighting to string content when searchText is provided
             // Only highlight if there's no custom render (custom renders handle their own highlighting)
-            if (
-              searchText &&
-              !col.render &&
-              typeof rawValue === "string" &&
-              rawValue.length > 0
-            ) {
-              content = (
-                <HighlightedText
-                  text={rawValue}
-                  searchTerm={searchText}
-                  enabled={true}
-                />
-              );
+            if (searchText && !col.render && typeof rawValue === 'string' && rawValue.length > 0) {
+              content = <HighlightedText text={rawValue} searchTerm={searchText} enabled={true} />;
             } else {
               content = renderContent;
             }
@@ -423,9 +427,19 @@ function DataTableRowInner<T extends { id: string }>({
 
           // Handle cell click for cell selection
           const handleCellClick = (e: React.MouseEvent) => {
+            const wasCellActive = Boolean(cellSelectionCtx?.isActive);
+            const wasCellSelected = Boolean(cellSelectionCtx?.isSelected);
+
             if (cellSelectionEnabled && onCellClick) {
               e.stopPropagation(); // Prevent row click
               onCellClick(row.id, key, e);
+            }
+
+            if (isEditable) {
+              editProps?.onClick?.({
+                isCellActive: wasCellActive,
+                isCellSelected: wasCellSelected,
+              });
             }
           };
 
@@ -443,9 +457,9 @@ function DataTableRowInner<T extends { id: string }>({
             } else if (inlineEditing && !col.editable) {
               // Show "not editable" feedback when user tries to edit a non-editable cell
               const isEditAttempt =
-                e.key === "Enter" ||
-                e.key === "F2" ||
-                ((e.metaKey || e.ctrlKey) && e.key === "e") ||
+                e.key === 'Enter' ||
+                e.key === 'F2' ||
+                ((e.metaKey || e.ctrlKey) && e.key === 'e') ||
                 (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey);
               if (isEditAttempt) {
                 showNotEditableFeedback(key);
@@ -471,66 +485,91 @@ function DataTableRowInner<T extends { id: string }>({
             <td
               key={key}
               className={cn(
-                "text-body-medium text-on-surface whitespace-nowrap",
+                'text-body-medium text-on-surface whitespace-nowrap',
                 // Actions columns need overflow-visible for dropdown, others use overflow-hidden
                 // Use group-hover/row to allow overflow on hover for tooltips
-                isActionsColumn ? "overflow-visible" : "overflow-hidden text-ellipsis group-hover/row:overflow-visible",
+                isActionsColumn
+                  ? 'overflow-visible'
+                  : 'overflow-hidden text-ellipsis group-hover/row:overflow-visible',
                 // Pinned cells use stickyBgClass for drop target state, others use bgClass
                 pinPosition ? stickyBgClass : bgClass,
-                !isSelected && !isActive && !isDropTarget && "group-hover:bg-surface-container-low",
-                "transition-colors",
-                !isLastRow && "border-b border-outline-variant/50",
-                col.align === "center" && "text-center",
-                col.align === "end" && "text-right",
-                col.align !== "center" && col.align !== "end" && "text-left",
+                !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
+                'transition-colors',
+                !isLastRow && 'border-outline-variant/50 border-b',
+                col.align === 'center' && 'text-center',
+                col.align === 'end' && 'text-right',
+                col.align !== 'center' && col.align !== 'end' && 'text-left',
                 // Pinned columns: sticky with z-10 (below header z-20) (shadow applied via inline style)
                 // Only enable sticky on tablet+ (≥768px container width) - mobile scrolls everything together
                 // Actions columns skip 'isolate' to allow dropdown to escape stacking context
-                pinPosition && !isActionsColumn && "@md:sticky z-10 isolate",
-                pinPosition && isActionsColumn && "@md:sticky z-10",
+                pinPosition && !isActionsColumn && 'isolate z-10 @md:sticky',
+                pinPosition && isActionsColumn && 'z-10 @md:sticky',
                 // Column borders: show on non-pinned columns (except last), and on last pinned-left column
-                showColumnBorders && !isLastColumn && !pinPosition && "border-r border-outline-variant/50",
-                showColumnBorders && pinPosition === "left" && key === lastPinnedLeftKey && "border-r border-outline-variant/50",
-                showColumnBorders && pinPosition === "right" && key === firstPinnedRightKey && "border-l border-outline-variant/50",
+                showColumnBorders &&
+                  !isLastColumn &&
+                  !pinPosition &&
+                  'border-outline-variant/50 border-r',
+                showColumnBorders &&
+                  pinPosition === 'left' &&
+                  key === lastPinnedLeftKey &&
+                  'border-outline-variant/50 border-r',
+                showColumnBorders &&
+                  pinPosition === 'right' &&
+                  key === firstPinnedRightKey &&
+                  'border-outline-variant/50 border-l',
                 paddingClass,
-                isEditable && !isEditing && "cursor-cell",
-                isEditing && "relative overflow-visible z-[3] !p-0",
-                !isEditing && isActionsColumn && "overflow-visible z-[3]",
-                showNotEditableTooltip && "relative overflow-visible",
+                isEditable && !isEditing && 'cursor-cell',
+                isEditing && 'relative z-[3] overflow-visible !p-0',
+                !isEditing && isActionsColumn && 'z-[3] overflow-visible',
+                showNotEditableTooltip && 'relative overflow-visible',
                 // Cell selection styling
-                cellSelectionEnabled && "cursor-cell select-none",
-                cellSelectionCtx?.isSelected && "bg-secondary-container/30",
-                cellSelectionCtx?.isActive && "outline outline-1 outline-primary -outline-offset-1",
+                cellSelectionEnabled && 'cursor-cell select-none',
+                cellSelectionCtx?.isSelected && 'bg-primary/8',
+                cellSelectionCtx?.isActive &&
+                  'bg-primary/12 outline-primary outline outline-2 -outline-offset-1',
                 // Range edge borders (Excel-like selection border) - subtle borders
-                cellSelectionCtx?.isSelected && cellSelectionCtx.isRangeEdge.top && "border-t border-t-primary/70",
-                cellSelectionCtx?.isSelected && cellSelectionCtx.isRangeEdge.right && "border-r border-r-primary/70",
-                cellSelectionCtx?.isSelected && cellSelectionCtx.isRangeEdge.bottom && "border-b border-b-primary/70",
-                cellSelectionCtx?.isSelected && cellSelectionCtx.isRangeEdge.left && "border-l border-l-primary/70"
+                cellSelectionCtx?.isSelected &&
+                  cellSelectionCtx.isRangeEdge.top &&
+                  'border-t-primary/70 border-t',
+                cellSelectionCtx?.isSelected &&
+                  cellSelectionCtx.isRangeEdge.right &&
+                  'border-r-primary/70 border-r',
+                cellSelectionCtx?.isSelected &&
+                  cellSelectionCtx.isRangeEdge.bottom &&
+                  'border-b-primary/70 border-b',
+                cellSelectionCtx?.isSelected &&
+                  cellSelectionCtx.isRangeEdge.left &&
+                  'border-l-primary/70 border-l',
               )}
               style={{
-                left: pinPosition === "left" ? meta?.left : undefined,
-                right: pinPosition === "right" ? meta?.right : undefined,
+                left: pinPosition === 'left' ? meta?.left : undefined,
+                right: pinPosition === 'right' ? meta?.right : undefined,
                 // Pinned column elevation shadow
-                boxShadow: pinPosition === "left"
-                  ? "4px 0 6px -2px rgba(0, 0, 0, 0.1)"
-                  : pinPosition === "right"
-                  ? "-4px 0 6px -2px rgba(0, 0, 0, 0.1)"
-                  : undefined,
+                boxShadow:
+                  pinPosition === 'left'
+                    ? '4px 0 6px -2px rgba(0, 0, 0, 0.1)'
+                    : pinPosition === 'right'
+                      ? '-4px 0 6px -2px rgba(0, 0, 0, 0.1)'
+                      : undefined,
               }}
-              onClick={cellSelectionEnabled ? handleCellClick : undefined}
-              onDoubleClick={(inlineEditing || editProps) ? handleDoubleClick : undefined}
-              onKeyDown={(cellSelectionEnabled || isEditable || inlineEditing) ? handleCellKeyDown : undefined}
+              onClick={cellSelectionEnabled || isEditable ? handleCellClick : undefined}
+              onDoubleClick={inlineEditing || editProps ? handleDoubleClick : undefined}
+              onKeyDown={
+                cellSelectionEnabled || isEditable || inlineEditing ? handleCellKeyDown : undefined
+              }
               tabIndex={isEditable || cellSelectionEnabled ? 0 : undefined}
-              data-cell-id={(cellSelectionEnabled || isEditable) ? createCellId(row.id, key) : undefined}
+              data-cell-id={
+                cellSelectionEnabled || isEditable ? createCellId(row.id, key) : undefined
+              }
             >
               {content}
               {/* "Not editable" tooltip */}
               {showNotEditableTooltip && (
                 <div
                   role="tooltip"
-                  className="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-label-small text-on-surface-variant bg-surface-container-high px-2 py-1 rounded shadow-1 z-50 whitespace-nowrap animate-in fade-in slide-in-from-top-1 duration-150"
+                  className="text-label-small text-on-surface-variant bg-surface-container-high shadow-1 animate-in fade-in slide-in-from-top-1 absolute top-full left-1/2 z-50 mt-1 -translate-x-1/2 rounded px-2 py-1 whitespace-nowrap duration-150"
                 >
-                  {t("cellNotEditable")}
+                  {t('cellNotEditable')}
                 </div>
               )}
             </td>
@@ -544,13 +583,13 @@ function DataTableRowInner<T extends { id: string }>({
           {/* Drag handle placeholder - scrolls with content */}
           {reorderableRows && (
             <td
-              className="bg-surface-container-lowest border-b border-outline-variant/50"
+              className="bg-surface-container-lowest border-outline-variant/50 border-b"
               style={{ width: 40, minWidth: 40, maxWidth: 40 }}
             />
           )}
           {selectable && (
             <td
-              className="@md:sticky left-0 z-10 isolate bg-surface-container-lowest border-b border-outline-variant/50"
+              className="bg-surface-container-lowest border-outline-variant/50 left-0 isolate z-10 border-b @md:sticky"
               style={{
                 width: 48,
                 minWidth: 48,
@@ -560,7 +599,7 @@ function DataTableRowInner<T extends { id: string }>({
           )}
           {enableExpansion && (
             <td
-              className="@md:sticky z-10 isolate bg-surface-container-lowest border-b border-outline-variant/50"
+              className="bg-surface-container-lowest border-outline-variant/50 isolate z-10 border-b @md:sticky"
               style={{
                 // Position after checkbox (48px) if selectable, otherwise at 0
                 left: selectable ? 48 : 0,
@@ -570,13 +609,8 @@ function DataTableRowInner<T extends { id: string }>({
               }}
             />
           )}
-          <td
-            colSpan={columns.length}
-            className="p-0 border-b border-outline-variant/50"
-          >
-            <div className="p-4 border-l-4 border-primary bg-surface">
-              {renderExpandedRow(row)}
-            </div>
+          <td colSpan={columns.length} className="border-outline-variant/50 border-b p-0">
+            <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
           </td>
         </tr>
       )}
@@ -616,7 +650,7 @@ export const DataTableRow = memo(DataTableRowInner, (prev, next) => {
   if (
     prev.rowIndex !== next.rowIndex ||
     prev.isLastRow !== next.isLastRow ||
-    prev["data-index"] !== next["data-index"]
+    prev['data-index'] !== next['data-index']
   ) {
     return false;
   }
@@ -654,6 +688,16 @@ export const DataTableRow = memo(DataTableRowInner, (prev, next) => {
 
   // Inline editing controller change (reference check)
   if (prev.inlineEditing !== next.inlineEditing) {
+    return false;
+  }
+
+  // Cell selection handlers/context changes must re-render so selected/active
+  // cell visuals and click-to-edit state stay in sync.
+  if (
+    prev.getCellSelectionContext !== next.getCellSelectionContext ||
+    prev.onCellClick !== next.onCellClick ||
+    prev.onCellKeyDown !== next.onCellKeyDown
+  ) {
     return false;
   }
 

@@ -2,7 +2,7 @@
 // Types for advanced data-table features: row grouping, cell selection,
 // inline editing, context menus, and bulk actions.
 
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 // ─── ROW GROUPING ────────────────────────────────────────────────────────────
 
@@ -10,13 +10,13 @@ import type { ReactNode } from "react";
  * Aggregation function for group summaries
  */
 export type GroupAggregation<T> =
-  | "sum"
-  | "average"
-  | "count"
-  | "min"
-  | "max"
-  | "first"
-  | "last"
+  | 'sum'
+  | 'average'
+  | 'count'
+  | 'min'
+  | 'max'
+  | 'first'
+  | 'last'
   | ((rows: T[]) => unknown);
 
 /**
@@ -32,7 +32,7 @@ export interface RowGroupingConfig<T> {
   /** Custom aggregation function for group summary */
   aggregations?: Record<string, GroupAggregation<T>>;
   /** Sort groups (default: ascending by group value) */
-  sortGroups?: "asc" | "desc" | ((a: string, b: string) => number);
+  sortGroups?: 'asc' | 'desc' | ((a: string, b: string) => number);
 }
 
 /**
@@ -63,7 +63,7 @@ export interface GroupHeaderProps<T> {
  */
 export interface RowGroup<T> {
   /** Type discriminator */
-  type: "group";
+  type: 'group';
   /** Unique group identifier (compound key for nested groups) */
   groupId: string;
   /** The value of the groupBy column at this level */
@@ -89,9 +89,7 @@ export interface RowGroup<T> {
 /**
  * Union type for grouped data - either a group header or a data row
  */
-export type GroupedRow<T> =
-  | RowGroup<T>
-  | { type: "row"; data: T; groupId: string };
+export type GroupedRow<T> = RowGroup<T> | { type: 'row'; data: T; groupId: string };
 
 /**
  * State for row grouping
@@ -167,6 +165,11 @@ export interface EditingCell {
 }
 
 /**
+ * Controls how inline editing starts when a user interacts with a cell.
+ */
+export type EditActivationMode = 'doubleClick' | 'singleClick' | 'singleClickWhenSelected';
+
+/**
  * Controller returned by useInlineEditing hook
  */
 export interface InlineEditingController<T> {
@@ -186,9 +189,10 @@ export interface InlineEditingController<T> {
   getCellEditProps: (
     rowId: string,
     columnKey: string,
-    value: unknown
+    value: unknown,
   ) => {
     isEditing: boolean;
+    onClick: (context?: { isCellActive?: boolean; isCellSelected?: boolean }) => void;
     onDoubleClick: () => void;
     onKeyDown: (e: React.KeyboardEvent) => void;
   };
@@ -199,8 +203,8 @@ export interface InlineEditingController<T> {
     onBlur: () => void;
     autoFocus: boolean;
     disabled: boolean;
-    "aria-invalid": boolean;
-    "aria-describedby": string | undefined;
+    'aria-invalid': boolean;
+    'aria-describedby': string | undefined;
   };
   /** Get the ID for the error message element (for aria-describedby linking) */
   getErrorMessageId: () => string | undefined;
@@ -219,7 +223,7 @@ export interface RowContextMenuItem<T> {
   /** Optional icon (Material Symbol name or ReactNode) */
   icon?: string | ReactNode;
   /** Variant for styling */
-  variant?: "default" | "danger";
+  variant?: 'default' | 'danger';
   /** Callback when item is clicked */
   onClick: (row: T, event: React.MouseEvent) => void | Promise<void>;
   /** Whether the item is disabled */
@@ -232,7 +236,7 @@ export interface RowContextMenuItem<T> {
  * Separator between menu item groups
  */
 export interface RowContextMenuSeparator {
-  type: "separator";
+  type: 'separator';
   /** Optional key for the separator */
   key?: string;
 }
@@ -240,9 +244,7 @@ export interface RowContextMenuSeparator {
 /**
  * Context menu item - either an action or separator
  */
-export type RowContextMenuItemOrSeparator<T> =
-  | RowContextMenuItem<T>
-  | RowContextMenuSeparator;
+export type RowContextMenuItemOrSeparator<T> = RowContextMenuItem<T> | RowContextMenuSeparator;
 
 /**
  * Props for custom context menu renderer
@@ -273,7 +275,7 @@ export interface BulkAction {
   /** Optional icon */
   icon?: ReactNode;
   /** Variant for styling */
-  variant?: "default" | "danger";
+  variant?: 'default' | 'danger';
   /** Disable when condition not met */
   disabled?: boolean | ((ids: string[]) => boolean);
 }
@@ -366,7 +368,7 @@ export interface TreeExpanderProps<T> {
  */
 export interface FlattenedTreeRow<T> {
   /** Type discriminator */
-  type: "tree-row";
+  type: 'tree-row';
   /** The original row data */
   data: T;
   /** Unique ID for this tree node */
@@ -405,10 +407,10 @@ export interface TreeDataState {
  * Tree selection mode for parent-child relationships
  */
 export type TreeSelectionMode =
-  | "independent"      // Selection doesn't affect parent/children
-  | "cascade-down"     // Selecting parent selects all descendants
-  | "cascade-up"       // Selecting all children selects parent
-  | "cascade-both";    // Both cascading behaviors
+  | 'independent' // Selection doesn't affect parent/children
+  | 'cascade-down' // Selecting parent selects all descendants
+  | 'cascade-up' // Selecting all children selects parent
+  | 'cascade-both'; // Both cascading behaviors
 
 /**
  * Context for tree row rendering
@@ -436,7 +438,7 @@ export interface TreeRowContext<T> {
  * - "some": Specific IDs are selected
  * - "all_except": All rows are selected except specific IDs
  */
-export type SparseSelectionMode = "none" | "some" | "all_except";
+export type SparseSelectionMode = 'none' | 'some' | 'all_except';
 
 /**
  * Sparse selection state for handling large datasets efficiently.

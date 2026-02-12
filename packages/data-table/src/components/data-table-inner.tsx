@@ -34,6 +34,7 @@ import { useGroupedData } from '../hooks/data/use-grouped-data';
 import { useVirtualizedRows } from '../hooks/features/use-virtualized-rows';
 import { useVirtualizedColumns } from '../hooks/features/use-virtualized-columns';
 import { useKeyboardNavigation } from '../hooks/ui/use-keyboard-navigation';
+import { useCellSelection } from '../hooks/ui/use-cell-selection';
 import { useDensityScale } from '../hooks/ui/use-density-scale';
 import { useRowDrag } from '../hooks/ui/use-row-drag';
 import { useColumnLayout } from '../hooks/ui/use-column-layout';
@@ -48,6 +49,7 @@ import {
   useGrouping,
 } from '../context';
 import { ensureRowIds } from '../utils/ensure-row-ids';
+import { getNestedValue } from '../utils/get-nested-value';
 import { getTotalPages, clampPage } from '../utils/pagination';
 import { DENSITY_CONFIG, type Density } from '../constants/index';
 import { useI18n } from '../i18n';
@@ -112,6 +114,10 @@ export interface DataTableInnerProps<T extends { id: string }> {
   onCellClick?: (rowId: string, columnKey: string, event: React.MouseEvent) => void;
   /** Cell selection: handle keyboard navigation */
   onCellKeyDown?: (event: React.KeyboardEvent) => void;
+  /** Cell selection: callback when active cell changes */
+  onCellActiveChange?: (cell: { rowId: string; columnKey: string } | null) => void;
+  /** Cell selection: callback when selected cells change */
+  onCellSelectionChange?: (cells: Array<{ rowId: string; columnKey: string }>) => void;
   /** Row reordering: whether drag-to-reorder is enabled */
   reorderableRows?: boolean;
   /** Row reordering: callback when row order changes */
@@ -153,6 +159,8 @@ export function DataTableInner<T extends { id: string }>({
   getCellSelectionContext,
   onCellClick,
   onCellKeyDown,
+  onCellActiveChange,
+  onCellSelectionChange,
   reorderableRows = false,
   onRowReorder,
   cursorPagination,
@@ -209,7 +217,7 @@ export function DataTableInner<T extends { id: string }>({
 
   // ─── SCREEN READER ANNOUNCEMENTS ─────────────────────────────────────────────
   // Use extracted hook for announcements (handles sort/filter changes automatically)
-  const { announcerRegionId } = useAnnouncements({
+  const { announcerRegionId, announce } = useAnnouncements({
     sortState,
     columns: columns as Column<T>[],
     columnFilters,
@@ -505,18 +513,47 @@ export function DataTableInner<T extends { id: string }>({
 
   const keyboardProps = getContainerProps();
 
+  const internalCellSelection = useCellSelection<T>({
+    data: paginatedData,
+    columnKeys: effectiveColumns.map((column) => String(column.key)),
+    enabled: cellSelectionEnabled,
+    onActiveCellChange: onCellActiveChange,
+    onSelectionChange: onCellSelectionChange,
+    onAnnounce: announce,
+    columnDisplayNames: Object.fromEntries(
+      effectiveColumns.map((column) => [
+        String(column.key),
+        typeof column.header === 'string' ? column.header : String(column.key),
+      ]),
+    ),
+    getCellValue: (rowId, columnKey) => {
+      const row = paginatedData.find((candidate) => candidate.id === rowId);
+      return row ? getNestedValue(row, columnKey) : '';
+    },
+  });
+
+  const effectiveGetCellSelectionContext = cellSelectionEnabled
+    ? (getCellSelectionContext ?? internalCellSelection.getCellSelectionContext)
+    : undefined;
+  const effectiveOnCellClick = cellSelectionEnabled
+    ? (onCellClick ?? internalCellSelection.handleCellClick)
+    : undefined;
+  const effectiveOnCellKeyDown = cellSelectionEnabled
+    ? (onCellKeyDown ?? internalCellSelection.handleCellKeyDown)
+    : undefined;
+
   // Combine keyboard handlers for row navigation and cell selection
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       // Cell selection keyboard handling takes priority if enabled
-      if (cellSelectionEnabled && onCellKeyDown) {
-        onCellKeyDown(event);
+      if (cellSelectionEnabled && effectiveOnCellKeyDown) {
+        effectiveOnCellKeyDown(event);
         if (event.defaultPrevented) return;
       }
       // Fall through to default keyboard navigation
       keyboardProps.onKeyDown?.(event);
     },
-    [cellSelectionEnabled, onCellKeyDown, keyboardProps],
+    [cellSelectionEnabled, effectiveOnCellKeyDown, keyboardProps],
   );
 
   // Common header props for both virtualized and non-virtualized modes
@@ -651,6 +688,10 @@ export function DataTableInner<T extends { id: string }>({
               density={density}
               getRowStyle={getRowStyle}
               inlineEditing={inlineEditing}
+              cellSelectionEnabled={cellSelectionEnabled}
+              getCellSelectionContext={effectiveGetCellSelectionContext}
+              onCellClick={effectiveOnCellClick}
+              onCellKeyDown={effectiveOnCellKeyDown}
               sortState={sortState}
               onSort={handleSort}
               allSelected={allSelected}
@@ -722,9 +763,9 @@ export function DataTableInner<T extends { id: string }>({
                 renderGroupHeader={renderGroupHeader}
                 onSelectGroup={handleSelectGroup}
                 cellSelectionEnabled={cellSelectionEnabled}
-                getCellSelectionContext={getCellSelectionContext}
-                onCellClick={onCellClick}
-                onCellKeyDown={onCellKeyDown}
+                getCellSelectionContext={effectiveGetCellSelectionContext}
+                onCellClick={effectiveOnCellClick}
+                onCellKeyDown={effectiveOnCellKeyDown}
                 reorderableRows={reorderableRows && !isGrouped}
                 getRowDragProps={getRowDragProps}
                 getDragHandleProps={getDragHandleProps}

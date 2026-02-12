@@ -1,8 +1,13 @@
 // ─── HOOK TYPES ──────────────────────────────────────────────────────────────
 // Types for custom hook options and return values.
 
-import type { SortDirection, FilterState, CursorPagination } from "./core";
-import type { CellPosition, CellSelectionState, CellSelectionContext } from "./features";
+import type { SortDirection, FilterState, CursorPagination } from './core';
+import type {
+  CellPosition,
+  CellSelectionState,
+  CellSelectionContext,
+  EditActivationMode,
+} from './features';
 
 // ─── USE INLINE EDITING ──────────────────────────────────────────────────────
 
@@ -13,24 +18,17 @@ export interface UseInlineEditingOptions<T extends { id: string }> {
   /** Data rows for editing */
   data: T[];
   /** Callback when cell value changes */
-  onCellChange?: (
-    rowId: string,
-    columnKey: string,
-    value: unknown,
-    row: T
-  ) => void | Promise<void>;
+  onCellChange?: (rowId: string, columnKey: string, value: unknown, row: T) => void | Promise<void>;
   /** Callback when edit is cancelled */
   onCancelEdit?: (rowId: string, columnKey: string) => void;
   /** Callback when edit starts */
   onStartEdit?: (rowId: string, columnKey: string) => void;
   /** Validation function - return error message or null/undefined if valid */
-  validateCell?: (
-    rowId: string,
-    columnKey: string,
-    value: unknown
-  ) => string | null | undefined;
+  validateCell?: (rowId: string, columnKey: string, value: unknown) => string | null | undefined;
   /** Enable inline editing (default: true) */
   enabled?: boolean;
+  /** Controls how editing starts when interacting with a cell (default: "doubleClick") */
+  startEditOn?: EditActivationMode;
 }
 
 // ─── USE CELL SELECTION ──────────────────────────────────────────────────────
@@ -54,7 +52,7 @@ export interface UseCellSelectionOptions<T extends { id: string }> {
   /** Enable cell selection feature (default: false) */
   enabled?: boolean;
   /** Callback to announce messages for screen readers */
-  onAnnounce?: (message: string, priority?: "polite" | "assertive") => void;
+  onAnnounce?: (message: string, priority?: 'polite' | 'assertive') => void;
   /** Column display names for announcements (key -> display name) */
   columnDisplayNames?: Record<string, string>;
   /** Callback to get cell value for copy operations */
@@ -78,29 +76,17 @@ export interface UseCellSelectionReturn {
   /** Check if a cell is active */
   isCellActive: (rowId: string, columnKey: string) => boolean;
   /** Get cell selection context for rendering */
-  getCellSelectionContext: (
-    rowId: string,
-    columnKey: string
-  ) => CellSelectionContext;
+  getCellSelectionContext: (rowId: string, columnKey: string) => CellSelectionContext;
   /** Handle cell click */
-  handleCellClick: (
-    rowId: string,
-    columnKey: string,
-    event: React.MouseEvent
-  ) => void;
+  handleCellClick: (rowId: string, columnKey: string, event: React.MouseEvent) => void;
   /** Handle cell keyboard navigation */
   handleCellKeyDown: (event: React.KeyboardEvent) => void;
   /** Move active cell in a direction */
-  moveActiveCell: (
-    direction: "up" | "down" | "left" | "right",
-    extend?: boolean
-  ) => void;
+  moveActiveCell: (direction: 'up' | 'down' | 'left' | 'right', extend?: boolean) => void;
   /** Copy selected cells to clipboard */
   copyToClipboard: () => Promise<void>;
   /** Get selected cell values as 2D array (for clipboard) */
-  getSelectedValues: <V>(
-    getData: (rowId: string, columnKey: string) => V
-  ) => V[][];
+  getSelectedValues: <V>(getData: (rowId: string, columnKey: string) => V) => V[][];
 }
 
 // ─── USE KEYBOARD NAVIGATION ─────────────────────────────────────────────────
@@ -138,7 +124,7 @@ export interface UseKeyboardNavigationReturn {
   };
   /** Get props to spread on a row */
   getRowProps: (index: number) => {
-    "data-focused": boolean;
+    'data-focused': boolean;
     tabIndex: number;
   };
 }
@@ -153,22 +139,16 @@ export interface ListParamsLike {
   onSearchChange: (val: string) => void;
   filters: Record<string, unknown>;
   onFiltersChange: (next: Record<string, unknown>) => void;
-  sortDescriptor: { key: string; direction: "asc" | "desc" };
+  sortDescriptor: { key: string; direction: 'asc' | 'desc' };
   onSortChange: (key: string | null, dir: SortDirection) => void;
-  buildCursorPagination: (cursors: {
-    next?: string;
-    prev?: string;
-  }) => CursorPagination;
+  buildCursorPagination: (cursors: { next?: string; prev?: string }) => CursorPagination;
 }
 
 /**
  * Generic query result from React Query / SWR
  */
 export interface QueryLike<T> {
-  data?:
-    | { items?: T[]; nextCursor?: string; prevCursor?: string }
-    | T[]
-    | null;
+  data?: { items?: T[]; nextCursor?: string; prevCursor?: string } | T[] | null;
   isLoading: boolean;
   isFetching: boolean;
   refetch?: () => Promise<unknown>;
@@ -212,8 +192,8 @@ export interface UseRemoteDataTableReturn<T> {
     loading: boolean;
     refreshing: boolean;
     onRefresh: () => Promise<void>;
-    mode: "remote";
-    pagination: "cursor";
+    mode: 'remote';
+    pagination: 'cursor';
     searchValue: string;
     onSearchChange: (val: string) => void;
     filters: FilterState;

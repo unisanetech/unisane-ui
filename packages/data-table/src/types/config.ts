@@ -5,7 +5,7 @@
 import type { ReactNode } from 'react';
 import type { Density, FilterState, MultiSortState, PinPosition } from './core';
 import type { Column } from './column';
-import type { BulkAction } from './features';
+import type { BulkAction, EditActivationMode } from './features';
 
 // ─── FEATURES CONFIG ──────────────────────────────────────────────────────────
 
@@ -241,6 +241,15 @@ export interface EditingConfig<T> {
   onValidate?: (rowId: string, columnKey: string, value: unknown, row: T) => string | null;
 
   /**
+   * Controls how a cell enters edit mode.
+   * - "doubleClick": classic spreadsheet behavior
+   * - "singleClick": enter edit on first click
+   * - "singleClickWhenSelected": select first, click active/selected cell to edit
+   * @default "doubleClick"
+   */
+  startEditOn?: EditActivationMode;
+
+  /**
    * Enable undo/redo history.
    * @default false
    */
@@ -373,6 +382,12 @@ export interface CallbacksConfig<T> {
 
   /** Called when row order changes (drag-to-reorder) */
   onRowReorder?: (fromIndex: number, toIndex: number, newOrder: string[]) => void;
+
+  /** Called when active cell changes (cell selection mode) */
+  onCellActiveChange?: (cell: { rowId: string; columnKey: string } | null) => void;
+
+  /** Called when selected cells change (cell selection mode) */
+  onCellSelectionChange?: (cells: Array<{ rowId: string; columnKey: string }>) => void;
 
   /**
    * Optional semantic callback for row deletion requests.

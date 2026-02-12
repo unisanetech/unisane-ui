@@ -40,24 +40,18 @@ export type {
   // Pagination
   PaginationState,
   CursorPagination,
-} from "./core";
+} from './core';
 
 // Branded type utilities
-export { isNonEmpty, asNonEmpty, toNonEmpty } from "./core";
+export { isNonEmpty, asNonEmpty, toNonEmpty } from './core';
 
 // ─── COLUMN TYPES ────────────────────────────────────────────────────────────
 // Column definitions and utilities
 
-export type {
-  CellContext,
-  Column,
-  ColumnGroup,
-  ColumnMeta,
-  ColumnMetaMap,
-} from "./column";
+export type { CellContext, Column, ColumnGroup, ColumnMeta, ColumnMetaMap } from './column';
 
 // Column utility functions
-export { isColumnGroup, flattenColumns, hasColumnGroups } from "./column";
+export { isColumnGroup, flattenColumns, hasColumnGroups } from './column';
 
 // ─── FEATURE TYPES ───────────────────────────────────────────────────────────
 // Advanced features: grouping, selection, editing, context menu, bulk actions
@@ -76,6 +70,7 @@ export type {
   CellSelectionState,
   CellSelectionContext,
   // Inline Editing
+  EditActivationMode,
   EditingCell,
   InlineEditingController,
   // Context Menu
@@ -96,7 +91,7 @@ export type {
   SparseSelectionMode,
   SparseSelectionState,
   SparseSelectionController,
-} from "./features";
+} from './features';
 
 // ─── COMPONENT PROPS ─────────────────────────────────────────────────────────
 // Props for DataTable and render callbacks
@@ -108,7 +103,7 @@ export type {
   DataTableToolbarRenderProps,
   DataTableProps,
   RemoteDataTableProps,
-} from "./props";
+} from './props';
 
 // ─── HOOK TYPES ──────────────────────────────────────────────────────────────
 // Options and return types for custom hooks
@@ -132,7 +127,7 @@ export type {
   VirtualRow,
   UseVirtualizedRowsOptions,
   UseVirtualizedRowsReturn,
-} from "./hooks";
+} from './hooks';
 
 // ─── CONFIGURATION TYPES ──────────────────────────────────────────────────────
 // Grouped configuration for simplified API
@@ -153,7 +148,7 @@ export type {
   // Column helpers
   SimpleColumn,
   SimpleBulkAction,
-} from "./config";
+} from './config';
 
 // Configuration utilities
-export { getPresetConfig, defineColumns, defineBulkActions } from "./config";
+export { getPresetConfig, defineColumns, defineBulkActions } from './config';
