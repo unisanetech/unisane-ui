@@ -189,9 +189,9 @@ function DataTableRowInner<T extends { id: string }>({
 
   // Background classes - using semantic Unisane UI tokens
   const getBgClass = () => {
-    if (isSelected) return 'bg-surface-container';
-    if (isActive) return 'bg-surface-container-high';
-    if (isFocused) return 'bg-surface-container-low';
+    if (isSelected) return 'bg-secondary-container/35';
+    if (isActive) return 'bg-secondary-container/22';
+    if (isFocused) return 'bg-secondary-container/16';
     if (zebra && isOddRow) return 'bg-surface-container-lowest';
     return 'bg-surface';
   };
@@ -200,7 +200,7 @@ function DataTableRowInner<T extends { id: string }>({
 
   // Sticky cell background - includes drop target state
   const getStickyBgClass = () => {
-    if (isDropTarget) return 'bg-primary/5';
+    if (isDropTarget) return 'bg-primary-container/45';
     return bgClass;
   };
   const stickyBgClass = getStickyBgClass();
@@ -220,11 +220,11 @@ function DataTableRowInner<T extends { id: string }>({
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header
           'hover:z-[5]',
-          isFocused && 'ring-primary/50 ring-2 ring-inset',
+          isFocused && 'ring-primary/40 ring-1 ring-inset',
           // Drag state styling
           isDragging && 'scale-[0.98] opacity-50',
           // Drop target highlight
-          isDropTarget && 'bg-primary/5',
+          isDropTarget && 'bg-primary-container/45',
         )}
         style={style}
         data-index={dataIndex}
@@ -524,22 +524,22 @@ function DataTableRowInner<T extends { id: string }>({
                 showNotEditableTooltip && 'relative overflow-visible',
                 // Cell selection styling
                 cellSelectionEnabled && 'cursor-cell select-none',
-                cellSelectionCtx?.isSelected && 'bg-primary/8',
+                cellSelectionCtx?.isSelected && 'bg-secondary-container/42',
                 cellSelectionCtx?.isActive &&
-                  'bg-primary/12 outline-primary outline outline-2 -outline-offset-1',
+                  'bg-primary-container/48 text-on-surface ring-primary/45 ring-1 ring-inset',
                 // Range edge borders (Excel-like selection border) - subtle borders
                 cellSelectionCtx?.isSelected &&
                   cellSelectionCtx.isRangeEdge.top &&
-                  'border-t-primary/70 border-t',
+                  'border-t-primary/55 border-t',
                 cellSelectionCtx?.isSelected &&
                   cellSelectionCtx.isRangeEdge.right &&
-                  'border-r-primary/70 border-r',
+                  'border-r-primary/55 border-r',
                 cellSelectionCtx?.isSelected &&
                   cellSelectionCtx.isRangeEdge.bottom &&
-                  'border-b-primary/70 border-b',
+                  'border-b-primary/55 border-b',
                 cellSelectionCtx?.isSelected &&
                   cellSelectionCtx.isRangeEdge.left &&
-                  'border-l-primary/70 border-l',
+                  'border-l-primary/55 border-l',
               )}
               style={{
                 left: pinPosition === 'left' ? meta?.left : undefined,
