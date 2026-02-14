@@ -86,7 +86,7 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
     onKeyDown: handleKeyDown,
     'aria-expanded': isOpen,
     'aria-haspopup': 'menu' as const,
-    'aria-controls': menuId,
+    'aria-controls': isOpen ? menuId : undefined,
   };
 
   // asChild pattern: merge props into the child element
