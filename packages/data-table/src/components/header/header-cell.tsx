@@ -1,11 +1,13 @@
-"use client";
+'use client';
 
-import React, { useId } from "react";
-import { cn, Icon } from "@unisane/ui";
-import type { Column, SortDirection, PinPosition, ColumnMetaMap, FilterValue } from "../../types";
-import { ResizeHandle } from "./resize-handle";
-import { ColumnMenu } from "./column-menu";
-import { useI18n } from "../../i18n";
+import React, { useId } from 'react';
+import { cn, Icon } from '@unisane/ui';
+import type { Column, SortDirection, PinPosition, ColumnMetaMap, FilterValue } from '../../types';
+import { COLUMN_WIDTHS } from '../../constants';
+import { ResizeHandle } from './resize-handle';
+import { ColumnMenu } from './column-menu';
+import { SortControl } from './sort-control';
+import { useI18n } from '../../i18n';
 
 export interface HeaderCellProps<T> {
   column: Column<T>;
@@ -46,7 +48,7 @@ export interface HeaderCellProps<T> {
   /** Whether this column is a drop target */
   isDropTarget?: boolean;
   /** Drop position indicator */
-  dropPosition?: "before" | "after" | null;
+  dropPosition?: 'before' | 'after' | null;
   /** Whether grouping is enabled */
   groupingEnabled?: boolean;
   /** Current column(s) being grouped by */
@@ -97,75 +99,73 @@ export function HeaderCell<T>({
   const filterDescriptionId = useId();
   const hasFilterOptions = column.filterable !== false;
   // Grouping is only available for columns with explicit groupable: true OR columns with select filter (categorical data)
-  const isGroupable = column.groupable === true || (column.groupable !== false && column.filterType === "select");
+  const isGroupable =
+    column.groupable === true || (column.groupable !== false && column.filterType === 'select');
   const hasMenu =
     hasFilterOptions ||
     (pinnable && column.pinnable !== false) ||
-    (column.hideable !== false) ||
+    column.hideable !== false ||
     (groupingEnabled && isGroupable);
 
-  const hasActiveFilter = currentFilter !== undefined && currentFilter !== null && currentFilter !== "";
+  const hasActiveFilter =
+    currentFilter !== undefined && currentFilter !== null && currentFilter !== '';
 
   // Generate filter description for screen readers
   const filterDescription = hasActiveFilter
-    ? t("filterBy", { column: String(column.header) }) + `: ${String(currentFilter)}`
+    ? t('filterBy', { column: String(column.header) }) + `: ${String(currentFilter)}`
     : undefined;
 
   return (
     <th
       className={cn(
-        "group bg-surface border-b border-outline-variant/50",
-        "text-label-large font-medium text-on-surface-variant whitespace-nowrap",
-        "transition-colors duration-snappy",
+        'group bg-surface border-outline-variant/50 border-b',
+        'text-label-large text-on-surface-variant font-medium whitespace-nowrap',
+        'duration-snappy transition-colors',
         // Relative positioning is needed for the resize handle (absolute positioned)
-        "relative align-middle",
+        'relative align-middle',
         paddingClass,
-        column.align === "center" && "text-center",
-        column.align === "end" && "text-right",
-        column.align !== "center" && column.align !== "end" && "text-left",
-        isSortable && "cursor-pointer select-none hover:bg-surface-container-low",
+        column.align === 'center' && 'text-center',
+        column.align === 'end' && 'text-right',
+        column.align !== 'center' && column.align !== 'end' && 'text-left',
+        isSortable && 'hover:bg-surface-container-low select-none',
         // Draggable cursor when reorderable
-        dragProps?.draggable && "cursor-grab active:cursor-grabbing",
+        dragProps?.draggable && 'cursor-grab active:cursor-grabbing',
         // Pinned columns: sticky positioning with higher z-index to stay above non-pinned (only on tablet+)
         // Non-pinned columns get z-0 to ensure they stack below pinned columns (z-20)
         // Pinned columns use isolate to create proper stacking context
-        pinPosition ? "@md:sticky z-20 isolate" : "z-0",
+        pinPosition ? 'isolate z-20 @md:sticky' : 'z-0',
         // Column borders: show on non-pinned columns (except last), and on last pinned-left / first pinned-right
-        showColumnBorders && !isLastColumn && !pinPosition && "border-r border-outline-variant/50",
-        showColumnBorders && isLastPinnedLeft && "border-r border-outline-variant/50",
-        showColumnBorders && isFirstPinnedRight && "border-l border-outline-variant/50",
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-variant/50 border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-variant/50 border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-variant/50 border-l',
         // Drag state styling
-        isDragging && "opacity-50",
-        isDropTarget && "bg-primary/10"
+        isDragging && 'opacity-50',
+        isDropTarget && 'bg-primary-container/28',
       )}
       style={{
-        left: pinPosition === "left" ? meta?.left : undefined,
-        right: pinPosition === "right" ? meta?.right : undefined,
+        left: pinPosition === 'left' ? meta?.left : undefined,
+        right: pinPosition === 'right' ? meta?.right : undefined,
         // Pinned column elevation shadow
-        boxShadow: pinPosition === "left"
-          ? "4px 0 6px -2px rgba(0, 0, 0, 0.1)"
-          : pinPosition === "right"
-          ? "-4px 0 6px -2px rgba(0, 0, 0, 0.1)"
-          : undefined,
+        boxShadow:
+          pinPosition === 'left'
+            ? '4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-left-alpha, 0))'
+            : pinPosition === 'right'
+              ? '-4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-right-alpha, 0))'
+              : undefined,
         // Counter-translate for pinned columns in sticky header (when using split-table layout)
         // Left-pinned: Use max() to only start translating once scroll exceeds drag handle width
         // Right-pinned: Always use full offset (no drag handle adjustment needed for right side)
-        transform: pinPosition === "left"
-          ? reorderableRows
-            ? "translateX(max(0px, calc(var(--header-scroll-offset, 0px) - 40px)))"
-            : "translateX(var(--header-scroll-offset, 0px))"
-          : pinPosition === "right"
-          ? "translateX(var(--header-scroll-offset, 0px))"
-          : undefined,
+        transform:
+          pinPosition === 'left'
+            ? reorderableRows
+              ? `translateX(max(0px, calc(var(--header-scroll-offset, 0px) - ${COLUMN_WIDTHS.DRAG_HANDLE}px)))`
+              : 'translateX(var(--header-scroll-offset, 0px))'
+            : pinPosition === 'right'
+              ? 'translateX(var(--header-scroll-offset, 0px))'
+              : undefined,
       }}
       scope="col"
-      aria-sort={
-        isSorted
-          ? sortDirection === "asc"
-            ? "ascending"
-            : "descending"
-          : undefined
-      }
+      aria-sort={isSorted ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}
       aria-describedby={hasActiveFilter ? filterDescriptionId : undefined}
       // Use suppressHydrationWarning for draggable attribute since it changes post-hydration
       suppressHydrationWarning
@@ -185,11 +185,10 @@ export function HeaderCell<T>({
       )}
       {/* Main content area - text uses full width */}
       <div
-        onClick={isSortable ? onSort : undefined}
         className={cn(
-          "flex items-center gap-1.5 min-w-0",
-          column.align === "center" && "justify-center",
-          column.align === "end" && "justify-end"
+          'flex min-w-0 items-center gap-1.5',
+          column.align === 'center' && 'justify-center',
+          column.align === 'end' && 'justify-end',
         )}
       >
         {/* Header text - full width, no truncation by icons */}
@@ -200,37 +199,22 @@ export function HeaderCell<T>({
         )}
 
         {/* Persistent state indicators (always visible when active) */}
-        <div className="flex items-center gap-0.5 shrink-0">
-          {/* Sort indicator - always visible when sorted */}
-          {isSorted && (
-            <span className="inline-flex items-center text-primary">
-              <Icon
-                symbol={sortDirection === "asc" ? "arrow_upward" : "arrow_downward"}
-                className="text-[16px]"
-              />
-              {sortPriority != null && sortPriority > 0 && (
-                <span className="text-[10px] font-semibold leading-none min-w-[10px]">
-                  {sortPriority}
-                </span>
-              )}
-            </span>
-          )}
-
+        <div className="flex shrink-0 items-center gap-0.5">
           {/* Filter active indicator */}
           {hasActiveFilter && (
-            <span className="inline-flex items-center justify-center w-[16px] h-[16px]">
-              <Icon symbol="filter_alt" className="text-[14px] text-primary" />
+            <span className="inline-flex h-[16px] w-[16px] items-center justify-center">
+              <Icon symbol="filter_alt" className="text-primary text-[14px]" />
             </span>
           )}
 
           {/* Pin indicator */}
           {pinPosition && (
-            <span className="inline-flex items-center justify-center w-[14px] h-[14px]">
+            <span className="inline-flex h-[14px] w-[14px] items-center justify-center">
               <Icon
                 symbol="push_pin"
                 className={cn(
-                  "text-[12px] text-primary",
-                  pinPosition === "left" ? "-rotate-45" : "rotate-45"
+                  'text-primary text-[12px]',
+                  pinPosition === 'left' ? '-rotate-45' : 'rotate-45',
                 )}
               />
             </span>
@@ -241,40 +225,30 @@ export function HeaderCell<T>({
       {/* Hover actions - absolute positioned on right, uses surface-container-low for subtle elevation */}
       <div
         className={cn(
-          "absolute right-0 top-1/2 -translate-y-1/2 flex items-center gap-1 pl-2 pr-2",
-          "bg-surface-container-low",
-          "opacity-0 group-hover:opacity-100 transition-opacity duration-150",
-          "pointer-events-none group-hover:pointer-events-auto"
+          'absolute top-1/2 right-1 flex -translate-y-1/2 items-center gap-0.5 px-1 py-0.5',
+          'bg-surface-container rounded-sm',
+          isSorted
+            ? 'pointer-events-auto opacity-100'
+            : 'pointer-events-none opacity-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100',
+          'transition-opacity duration-150',
         )}
       >
-        {/* Sort button (on hover, when sortable but not yet sorted) */}
-        {isSortable && !isSorted && (
-          <button
+        {/* Sort action button (only sort trigger) */}
+        {isSortable && (
+          <SortControl
+            variant="action"
+            isSorted={isSorted}
+            sortDirection={sortDirection}
+            sortPriority={sortPriority}
             onClick={onSort}
-            className="inline-flex items-center justify-center w-7 h-7 rounded-full text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface transition-colors"
-            aria-label={t("sortColumn")}
-          >
-            <Icon symbol="unfold_more" className="text-[18px]" />
-          </button>
-        )}
-
-        {/* Sort button (on hover, when already sorted - to cycle sort) */}
-        {isSortable && isSorted && (
-          <button
-            onClick={onSort}
-            className="inline-flex items-center justify-center w-7 h-7 rounded-full text-primary hover:bg-primary/8 transition-colors"
-            aria-label={sortDirection === "asc" ? t("sortDescending") : t("clearSort")}
-          >
-            <Icon
-              symbol={sortDirection === "asc" ? "arrow_upward" : "arrow_downward"}
-              className="text-[18px]"
-            />
-            {sortPriority != null && sortPriority > 0 && (
-              <span className="text-[10px] font-semibold leading-none absolute -top-0.5 -right-0.5 bg-primary text-on-primary rounded-full w-3.5 h-3.5 flex items-center justify-center">
-                {sortPriority}
-              </span>
-            )}
-          </button>
+            ariaLabel={
+              isSorted
+                ? sortDirection === 'asc'
+                  ? t('sortDescending')
+                  : t('clearSort')
+                : t('sortColumn')
+            }
+          />
         )}
 
         {/* Column menu trigger */}
@@ -312,12 +286,11 @@ export function HeaderCell<T>({
       {isDropTarget && dropPosition && (
         <div
           className={cn(
-            "absolute top-0 bottom-0 w-0.5 bg-primary z-30",
-            dropPosition === "before" ? "left-0" : "right-0"
+            'bg-primary absolute top-0 bottom-0 z-30 w-0.5',
+            dropPosition === 'before' ? 'left-0' : 'right-0',
           )}
         />
       )}
     </th>
   );
 }
-

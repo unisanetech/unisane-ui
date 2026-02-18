@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@unisane/ui";
-import type { Column, ColumnGroup } from "../../types";
-import { isColumnGroup } from "../../types";
+import React from 'react';
+import { cn } from '@unisane/ui';
+import type { Column, ColumnGroup } from '../../types';
+import { isColumnGroup } from '../../types';
+import { COLUMN_WIDTHS } from '../../constants';
 
 export interface GroupHeaderRowProps<T> {
   columnDefinitions: Array<Column<T> | ColumnGroup<T>>;
@@ -28,16 +29,15 @@ export function GroupHeaderRow<T>({
       {selectable && (
         <th
           className={cn(
-            "bg-surface border-b border-outline-variant/50",
+            'bg-surface border-outline-variant/50 border-b',
             // Sticky positioning with z-index for proper stacking (only on tablet+)
-            "@md:sticky left-0 z-30 isolate",
-            // Only show border-r if there are no more sticky columns after this
-            showColumnBorders && !enableExpansion && !hasPinnedLeftData && "border-r border-outline-variant/50"
+            'left-0 isolate z-30 @md:sticky',
+            showColumnBorders && 'border-outline-variant/50 border-r',
           )}
           style={{
-            width: 48,
-            minWidth: 48,
-            maxWidth: 48,
+            width: COLUMN_WIDTHS.CHECKBOX,
+            minWidth: COLUMN_WIDTHS.CHECKBOX,
+            maxWidth: COLUMN_WIDTHS.CHECKBOX,
           }}
           rowSpan={2}
         />
@@ -47,18 +47,17 @@ export function GroupHeaderRow<T>({
       {enableExpansion && (
         <th
           className={cn(
-            "bg-surface border-b border-outline-variant/50",
+            'bg-surface border-outline-variant/50 border-b',
             // Sticky positioning with z-index for proper stacking (only on tablet+)
-            "@md:sticky z-30 isolate",
-            // Only show border-r if there are no pinned-left data columns after this
-            showColumnBorders && !hasPinnedLeftData && "border-r border-outline-variant/50"
+            'isolate z-30 @md:sticky',
+            showColumnBorders && 'border-outline-variant/50 border-r',
           )}
           style={{
-            width: 40,
-            minWidth: 40,
-            maxWidth: 40,
-            // Position after checkbox (48px) if selectable, otherwise at 0
-            left: selectable ? 48 : 0,
+            width: COLUMN_WIDTHS.EXPANDER,
+            minWidth: COLUMN_WIDTHS.EXPANDER,
+            maxWidth: COLUMN_WIDTHS.EXPANDER,
+            // Position after checkbox if selectable, otherwise at 0
+            left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
           }}
           rowSpan={2}
         />
@@ -73,10 +72,10 @@ export function GroupHeaderRow<T>({
               key={`group-${idx}`}
               colSpan={def.children.length}
               className={cn(
-                "bg-surface border-b border-outline-variant/50",
-                "text-label-medium font-semibold text-on-surface-variant text-center align-middle",
+                'bg-surface border-outline-variant/50 border-b',
+                'text-label-medium text-on-surface-variant text-center align-middle font-semibold',
                 paddingClass,
-                showColumnBorders && !isLastGroup && "border-r border-outline-variant/50"
+                showColumnBorders && !isLastGroup && 'border-outline-variant/50 border-r',
               )}
             >
               {def.header}
@@ -90,12 +89,12 @@ export function GroupHeaderRow<T>({
               key={String(def.key)}
               rowSpan={2}
               className={cn(
-                "bg-surface border-b border-outline-variant/50",
-                "text-label-large font-medium text-on-surface-variant align-middle",
+                'bg-surface border-outline-variant/50 border-b',
+                'text-label-large text-on-surface-variant align-middle font-medium',
                 paddingClass,
-                def.align === "center" && "text-center",
-                def.align === "end" && "text-right",
-                showColumnBorders && !isLastColumn && "border-r border-outline-variant/50"
+                def.align === 'center' && 'text-center',
+                def.align === 'end' && 'text-right',
+                showColumnBorders && !isLastColumn && 'border-outline-variant/50 border-r',
               )}
             >
               {def.header}

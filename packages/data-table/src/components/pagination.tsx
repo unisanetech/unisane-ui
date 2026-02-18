@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { memo, useMemo } from "react";
-import { Icon, IconButton } from "@unisane/ui";
-import { usePagination } from "../context";
-import { useI18n } from "../i18n";
+import React, { memo, useMemo } from 'react';
+import { Icon, IconButton } from '@unisane/ui';
+import { usePagination } from '../context';
+import { useI18n } from '../i18n';
 
 // ─── PAGE SIZE OPTIONS ─────────────────────────────────────────────────────
 
@@ -19,7 +19,7 @@ interface DataTablePaginationProps {
   /** Available page size options */
   pageSizeOptions?: number[];
   /** Pagination mode */
-  mode?: "offset" | "cursor";
+  mode?: 'offset' | 'cursor';
   /** Cursor pagination controls */
   cursor?: {
     nextCursor?: string;
@@ -53,12 +53,16 @@ function PaginationInfo({
   const total = totalItems ?? currentCount ?? 0;
 
   if (total === 0) {
-    return <span className="text-body-medium text-on-surface-variant">{t("noItems")}</span>;
+    return <span className="text-body-medium text-on-surface-variant">{t('noItems')}</span>;
   }
 
   return (
     <span className="text-body-medium text-on-surface-variant">
-      {t("rangeOfTotal", { start: formatNumber(start), end: formatNumber(end), total: formatNumber(total) })}
+      {t('rangeOfTotal', {
+        start: formatNumber(start),
+        end: formatNumber(end),
+        total: formatNumber(total),
+      })}
     </span>
   );
 }
@@ -80,20 +84,25 @@ function PageSizeSelector({
   return (
     <div className="flex items-center gap-2">
       <span className="text-body-medium text-on-surface-variant whitespace-nowrap">
-        {label ?? t("rowsPerPage")}
+        {label ?? t('rowsPerPage')}
       </span>
-      <select
-        value={pageSize}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="min-h-[36px] min-w-[48px] px-1 text-body-medium bg-transparent text-on-surface cursor-pointer focus:outline-none appearance-none border-none"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Cpath fill='%23666' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0 center', paddingRight: '18px' }}
-      >
-        {pageSizeOptions.map((size) => (
-          <option key={size} value={size}>
-            {size}
-          </option>
-        ))}
-      </select>
+      <div className="relative">
+        <select
+          value={pageSize}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="text-body-medium text-on-surface focus-visible:ring-primary/40 min-h-[36px] min-w-[48px] cursor-pointer appearance-none rounded border-none bg-transparent px-1 pr-5 focus-visible:ring-2 focus-visible:outline-none"
+        >
+          {pageSizeOptions.map((size) => (
+            <option key={size} value={size}>
+              {size}
+            </option>
+          ))}
+        </select>
+        <Icon
+          symbol="arrow_drop_down"
+          className="text-on-surface-variant pointer-events-none absolute top-1/2 right-0 h-4 w-4 -translate-y-1/2"
+        />
+      </div>
     </div>
   );
 }
@@ -138,8 +147,8 @@ function OffsetPagination({
       {/* Range display: "1-5 of 13" */}
       <span className="text-body-medium text-on-surface-variant whitespace-nowrap">
         {total > 0
-          ? `${formatNumber(start)}–${formatNumber(end)} ${t("of")} ${formatNumber(total)}`
-          : t("noItems")}
+          ? `${formatNumber(start)}–${formatNumber(end)} ${t('of')} ${formatNumber(total)}`
+          : t('noItems')}
       </span>
 
       {/* Navigation buttons */}
@@ -148,18 +157,18 @@ function OffsetPagination({
           variant="standard"
           onClick={() => setPage(page - 1)}
           disabled={!canGoPrev}
-          ariaLabel={t("previous")}
+          ariaLabel={t('previous')}
         >
-          <Icon symbol="chevron_left" className="w-6 h-6" />
+          <Icon symbol="chevron_left" className="h-6 w-6" />
         </IconButton>
 
         <IconButton
           variant="standard"
           onClick={() => setPage(page + 1)}
           disabled={!canGoNext}
-          ariaLabel={t("next")}
+          ariaLabel={t('next')}
         >
-          <Icon symbol="chevron_right" className="w-6 h-6" />
+          <Icon symbol="chevron_right" className="h-6 w-6" />
         </IconButton>
       </div>
     </div>
@@ -176,7 +185,7 @@ function CursorPagination({
 }: {
   currentCount?: number;
   totalItems?: number;
-  cursor: NonNullable<DataTablePaginationProps["cursor"]>;
+  cursor: NonNullable<DataTablePaginationProps['cursor']>;
   pageSizeOptions: number[];
 }) {
   const { t, formatNumber } = useI18n();
@@ -188,12 +197,9 @@ function CursorPagination({
 
   // Calculate display range for cursor pagination
   const pageIndex = cursor.pageIndex ?? 1;
-  const startItem = currentCount !== undefined && currentCount > 0
-    ? (pageIndex - 1) * pageSize + 1
-    : 0;
-  const endItem = currentCount !== undefined && currentCount > 0
-    ? startItem + currentCount - 1
-    : 0;
+  const startItem =
+    currentCount !== undefined && currentCount > 0 ? (pageIndex - 1) * pageSize + 1 : 0;
+  const endItem = currentCount !== undefined && currentCount > 0 ? startItem + currentCount - 1 : 0;
 
   // Handler for page size change - calls cursor's onLimitChange
   const handlePageSizeChange = (newSize: number) => {
@@ -201,13 +207,14 @@ function CursorPagination({
   };
 
   // Build range display string: "1–25" or "1–25 of 100"
-  const rangeDisplay = currentCount !== undefined && currentCount > 0
-    ? totalItems !== undefined
-      ? `${formatNumber(startItem)}–${formatNumber(endItem)} ${t("of")} ${formatNumber(totalItems)}`
-      : `${formatNumber(startItem)}–${formatNumber(endItem)}`
-    : totalItems !== undefined
-      ? `0 ${t("of")} ${formatNumber(totalItems)}`
-      : t("noItems");
+  const rangeDisplay =
+    currentCount !== undefined && currentCount > 0
+      ? totalItems !== undefined
+        ? `${formatNumber(startItem)}–${formatNumber(endItem)} ${t('of')} ${formatNumber(totalItems)}`
+        : `${formatNumber(startItem)}–${formatNumber(endItem)}`
+      : totalItems !== undefined
+        ? `0 ${t('of')} ${formatNumber(totalItems)}`
+        : t('noItems');
 
   return (
     <div className="flex items-center justify-end gap-6 px-1">
@@ -231,18 +238,18 @@ function CursorPagination({
           variant="standard"
           onClick={cursor.onPrev}
           disabled={!hasPrev}
-          ariaLabel={t("previous")}
+          ariaLabel={t('previous')}
         >
-          <Icon symbol="chevron_left" className="w-6 h-6" />
+          <Icon symbol="chevron_left" className="h-6 w-6" />
         </IconButton>
 
         <IconButton
           variant="standard"
           onClick={cursor.onNext}
           disabled={!hasNext}
-          ariaLabel={t("next")}
+          ariaLabel={t('next')}
         >
-          <Icon symbol="chevron_right" className="w-6 h-6" />
+          <Icon symbol="chevron_right" className="h-6 w-6" />
         </IconButton>
       </div>
     </div>
@@ -255,7 +262,7 @@ function DataTablePaginationInner({
   totalItems,
   currentCount,
   pageSizeOptions = DEFAULT_PAGE_SIZES,
-  mode = "offset",
+  mode = 'offset',
   cursor,
 }: DataTablePaginationProps) {
   const { page, pageSize, setPage, setPageSize } = usePagination();
@@ -265,7 +272,7 @@ function DataTablePaginationInner({
     return Math.max(1, Math.ceil(totalItems / Math.max(pageSize, 1)));
   }, [totalItems, pageSize]);
 
-  if (mode === "cursor" && cursor) {
+  if (mode === 'cursor' && cursor) {
     return (
       <CursorPagination
         currentCount={currentCount}

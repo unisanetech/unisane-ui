@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 import {
   cn,
   Icon,
@@ -8,50 +8,55 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "@unisane/ui";
-import type { ExportFormat } from "../../utils/export";
-import type { ExportHandler } from "./types";
-import { ToolbarDropdownButton, SegmentedDropdownButton } from "./buttons";
-import { useI18n } from "../../i18n";
-import { useFeedback } from "../../feedback";
+} from '@unisane/ui';
+import type { ExportFormat } from '../../utils/export';
+import type { ExportHandler } from './types';
+import { ToolbarDropdownButton, SegmentedDropdownButton } from './buttons';
+import { useI18n } from '../../i18n';
+import { useFeedback } from '../../feedback';
 
 // ─── EXPORT FORMAT CONFIG ───────────────────────────────────────────────────
 
 interface FormatConfig {
-  labelKey: "exportCsv" | "exportExcel" | "exportPdf" | "exportJson" | "exportHtml";
+  labelKey: 'exportCsv' | 'exportExcel' | 'exportPdf' | 'exportJson' | 'exportHtml';
   icon: string;
-  descriptionKey: "exportCsvDesc" | "exportExcelDesc" | "exportPdfDesc" | "exportJsonDesc" | "exportHtmlDesc";
+  descriptionKey:
+    | 'exportCsvDesc'
+    | 'exportExcelDesc'
+    | 'exportPdfDesc'
+    | 'exportJsonDesc'
+    | 'exportHtmlDesc';
 }
 
 const FORMAT_CONFIG: Record<ExportFormat, FormatConfig> = {
   csv: {
-    labelKey: "exportCsv",
-    icon: "csv",
-    descriptionKey: "exportCsvDesc",
+    labelKey: 'exportCsv',
+    icon: 'csv',
+    descriptionKey: 'exportCsvDesc',
   },
   excel: {
-    labelKey: "exportExcel",
-    icon: "table_chart",
-    descriptionKey: "exportExcelDesc",
+    labelKey: 'exportExcel',
+    icon: 'table_chart',
+    descriptionKey: 'exportExcelDesc',
   },
   pdf: {
-    labelKey: "exportPdf",
-    icon: "picture_as_pdf",
-    descriptionKey: "exportPdfDesc",
+    labelKey: 'exportPdf',
+    icon: 'picture_as_pdf',
+    descriptionKey: 'exportPdfDesc',
   },
   json: {
-    labelKey: "exportJson",
-    icon: "data_object",
-    descriptionKey: "exportJsonDesc",
+    labelKey: 'exportJson',
+    icon: 'data_object',
+    descriptionKey: 'exportJsonDesc',
   },
   html: {
-    labelKey: "exportHtml",
-    icon: "code",
-    descriptionKey: "exportHtmlDesc",
+    labelKey: 'exportHtml',
+    icon: 'code',
+    descriptionKey: 'exportHtmlDesc',
   },
 };
 
-const DEFAULT_FORMATS: ExportFormat[] = ["csv", "excel", "pdf", "json"];
+const DEFAULT_FORMATS: ExportFormat[] = ['csv', 'excel', 'pdf', 'json'];
 
 // ─── EXPORT DROPDOWN ────────────────────────────────────────────────────────
 
@@ -76,54 +81,45 @@ export function ExportDropdown({
   const { onExport, formats = DEFAULT_FORMATS, exporting } = handler;
 
   const isExporting = exporting !== null && exporting !== undefined;
-  const iconSymbol = isExporting ? "hourglass_empty" : "download";
+  const iconSymbol = isExporting ? 'hourglass_empty' : 'download';
 
   // Wrap onExport to add feedback
   const handleExport = useCallback(
     async (format: ExportFormat) => {
       try {
-        feedback("exportStarted", { format: format.toUpperCase() });
+        feedback('exportStarted', { format: format.toUpperCase() });
         await onExport(format);
-        feedback("exportSuccess", { format: format.toUpperCase() });
+        feedback('exportSuccess', { format: format.toUpperCase() });
       } catch {
-        feedback("exportFailed");
+        feedback('exportFailed');
       }
     },
-    [onExport, feedback]
+    [onExport, feedback],
   );
 
   const trigger = segmented ? (
-    <SegmentedDropdownButton
-      icon={iconSymbol}
-      isFirst={isFirst}
-      isLast={isLast}
-    />
+    <SegmentedDropdownButton icon={iconSymbol} isFirst={isFirst} isLast={isLast} />
   ) : compact ? (
     <button
       className={cn(
         // Touch-friendly: 44px on mobile
-        "flex items-center justify-center w-11 h-11 rounded-lg transition-colors",
-        "text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8",
-        isExporting && "animate-pulse"
+        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
+        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        isExporting && 'animate-pulse',
       )}
-      aria-label={t("export")}
-      title={t("export")}
+      aria-label={t('export')}
+      title={t('export')}
     >
-      <Icon symbol={iconSymbol} className="w-5 h-5" />
+      <Icon symbol={iconSymbol} className="h-5 w-5" />
     </button>
   ) : (
-    <ToolbarDropdownButton
-      label={t("export")}
-      icon={iconSymbol}
-      as="div"
-    />
+    <ToolbarDropdownButton label={t('export')} icon={iconSymbol} as="div" />
   );
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        {trigger}
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-56">
         {formats.map((format) => {
           const config = FORMAT_CONFIG[format];
@@ -136,9 +132,9 @@ export function ExportDropdown({
               disabled={isExporting}
               icon={
                 isCurrentExporting ? (
-                  <Icon symbol="hourglass_empty" className="w-5 h-5 animate-spin" />
+                  <Icon symbol="hourglass_empty" className="h-5 w-5 animate-spin" />
                 ) : (
-                  <Icon symbol={config.icon} className="w-5 h-5" />
+                  <Icon symbol={config.icon} className="h-5 w-5" />
                 )
               }
             >

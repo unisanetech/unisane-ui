@@ -21,10 +21,11 @@ import type {
 import type { RowDragProps } from '../hooks/ui/use-row-drag';
 import { getNestedValue } from '../utils/get-nested-value';
 import { first, last } from '../utils/type-guards';
-import { DENSITY_STYLES, type Density, createCellId } from '../constants/index';
+import { COLUMN_WIDTHS, DENSITY_STYLES, type Density, createCellId } from '../constants/index';
 import { useI18n } from '../i18n';
 import { DragHandle } from './drag-handle';
 import { HighlightedText } from './highlighted-text';
+import { getRowBackgroundClass } from './row-state';
 
 // ─── ROW PROPS ──────────────────────────────────────────────────────────────
 
@@ -187,20 +188,17 @@ function DataTableRowInner<T extends { id: string }>({
     }
   };
 
-  // Background classes - using semantic Unisane UI tokens
-  const getBgClass = () => {
-    if (isSelected) return 'bg-secondary-container/35';
-    if (isActive) return 'bg-secondary-container/22';
-    if (isFocused) return 'bg-secondary-container/16';
-    if (zebra && isOddRow) return 'bg-surface-container-lowest';
-    return 'bg-surface';
-  };
-
-  const bgClass = getBgClass();
+  const bgClass = getRowBackgroundClass({
+    isSelected,
+    isActive,
+    isFocused,
+    zebra,
+    isOddRow,
+  });
 
   // Sticky cell background - includes drop target state
   const getStickyBgClass = () => {
-    if (isDropTarget) return 'bg-primary-container/45';
+    if (isDropTarget) return 'bg-primary-container/28';
     return bgClass;
   };
   const stickyBgClass = getStickyBgClass();
@@ -220,11 +218,11 @@ function DataTableRowInner<T extends { id: string }>({
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header
           'hover:z-[5]',
-          isFocused && 'ring-primary/40 ring-1 ring-inset',
+          isFocused && 'ring-primary/55 ring-1 ring-inset',
           // Drag state styling
           isDragging && 'scale-[0.98] opacity-50',
           // Drop target highlight
-          isDropTarget && 'bg-primary-container/45',
+          isDropTarget && 'bg-primary-container/28',
         )}
         style={style}
         data-index={dataIndex}
@@ -233,7 +231,7 @@ function DataTableRowInner<T extends { id: string }>({
         id={`data-table-row-${row.id}`}
         {...rowDragProps}
       >
-        {/* Drag handle column - fixed 40px width, scrolls with content */}
+        {/* Drag handle column - fixed utility width, scrolls with content */}
         {reorderableRows && (
           <td
             className={cn(
@@ -244,7 +242,11 @@ function DataTableRowInner<T extends { id: string }>({
               !isLastRow && 'border-outline-variant/50 border-b',
               showColumnBorders && 'border-outline-variant/50 border-r',
             )}
-            style={{ width: 40, minWidth: 40, maxWidth: 40 }}
+            style={{
+              width: COLUMN_WIDTHS.DRAG_HANDLE,
+              minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+              maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            }}
           >
             {/* Drop indicator line - spans full table width */}
             {isDropTarget && dropPosition && (
@@ -267,7 +269,7 @@ function DataTableRowInner<T extends { id: string }>({
           </td>
         )}
 
-        {/* Checkbox column - NO padding, fixed 48px width */}
+        {/* Checkbox column - NO padding, fixed utility width */}
         {selectable && (
           <td
             className={cn(
@@ -277,16 +279,12 @@ function DataTableRowInner<T extends { id: string }>({
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
               !isLastRow && 'border-outline-variant/50 border-b',
-              // Only show border-r if there are no more sticky columns after this
-              showColumnBorders &&
-                !enableExpansion &&
-                !hasPinnedLeftData &&
-                'border-outline-variant/50 border-r',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{
-              width: 48,
-              minWidth: 48,
-              maxWidth: 48,
+              width: COLUMN_WIDTHS.CHECKBOX,
+              minWidth: COLUMN_WIDTHS.CHECKBOX,
+              maxWidth: COLUMN_WIDTHS.CHECKBOX,
             }}
           >
             <div className="flex h-full items-center justify-center">
@@ -300,7 +298,7 @@ function DataTableRowInner<T extends { id: string }>({
           </td>
         )}
 
-        {/* Expander column - NO padding, fixed 40px width */}
+        {/* Expander column - NO padding, fixed utility width */}
         {enableExpansion && (
           <td
             className={cn(
@@ -310,15 +308,14 @@ function DataTableRowInner<T extends { id: string }>({
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
               !isLastRow && 'border-outline-variant/50 border-b',
-              // Only show border-r if there are no pinned-left data columns after this
-              showColumnBorders && !hasPinnedLeftData && 'border-outline-variant/50 border-r',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{
-              width: 40,
-              minWidth: 40,
-              maxWidth: 40,
-              // Position after checkbox (48px) if selectable, otherwise at 0
-              left: selectable ? 48 : 0,
+              width: COLUMN_WIDTHS.EXPANDER,
+              minWidth: COLUMN_WIDTHS.EXPANDER,
+              maxWidth: COLUMN_WIDTHS.EXPANDER,
+              // Position after checkbox if selectable, otherwise at 0
+              left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
             }}
           >
             {canExpand && (
@@ -524,22 +521,10 @@ function DataTableRowInner<T extends { id: string }>({
                 showNotEditableTooltip && 'relative overflow-visible',
                 // Cell selection styling
                 cellSelectionEnabled && 'cursor-cell select-none',
-                cellSelectionCtx?.isSelected && 'bg-secondary-container/42',
+                cellSelectionCtx?.isSelected &&
+                  'bg-secondary-container text-on-secondary-container',
                 cellSelectionCtx?.isActive &&
-                  'bg-primary-container/48 text-on-surface ring-primary/45 ring-1 ring-inset',
-                // Range edge borders (Excel-like selection border) - subtle borders
-                cellSelectionCtx?.isSelected &&
-                  cellSelectionCtx.isRangeEdge.top &&
-                  'border-t-primary/55 border-t',
-                cellSelectionCtx?.isSelected &&
-                  cellSelectionCtx.isRangeEdge.right &&
-                  'border-r-primary/55 border-r',
-                cellSelectionCtx?.isSelected &&
-                  cellSelectionCtx.isRangeEdge.bottom &&
-                  'border-b-primary/55 border-b',
-                cellSelectionCtx?.isSelected &&
-                  cellSelectionCtx.isRangeEdge.left &&
-                  'border-l-primary/55 border-l',
+                  'bg-primary-container text-on-primary-container ring-primary/60 ring-1 ring-inset',
               )}
               style={{
                 left: pinPosition === 'left' ? meta?.left : undefined,
@@ -547,9 +532,9 @@ function DataTableRowInner<T extends { id: string }>({
                 // Pinned column elevation shadow
                 boxShadow:
                   pinPosition === 'left'
-                    ? '4px 0 6px -2px rgba(0, 0, 0, 0.1)'
+                    ? '4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-left-alpha, 0))'
                     : pinPosition === 'right'
-                      ? '-4px 0 6px -2px rgba(0, 0, 0, 0.1)'
+                      ? '-4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-right-alpha, 0))'
                       : undefined,
               }}
               onClick={cellSelectionEnabled || isEditable ? handleCellClick : undefined}
@@ -584,28 +569,38 @@ function DataTableRowInner<T extends { id: string }>({
           {reorderableRows && (
             <td
               className="bg-surface-container-lowest border-outline-variant/50 border-b"
-              style={{ width: 40, minWidth: 40, maxWidth: 40 }}
+              style={{
+                width: COLUMN_WIDTHS.DRAG_HANDLE,
+                minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+                maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+              }}
             />
           )}
           {selectable && (
             <td
-              className="bg-surface-container-lowest border-outline-variant/50 left-0 isolate z-10 border-b @md:sticky"
+              className={cn(
+                'bg-surface-container-lowest border-outline-variant/50 left-0 isolate z-10 border-b @md:sticky',
+                showColumnBorders && 'border-outline-variant/50 border-r',
+              )}
               style={{
-                width: 48,
-                minWidth: 48,
-                maxWidth: 48,
+                width: COLUMN_WIDTHS.CHECKBOX,
+                minWidth: COLUMN_WIDTHS.CHECKBOX,
+                maxWidth: COLUMN_WIDTHS.CHECKBOX,
               }}
             />
           )}
           {enableExpansion && (
             <td
-              className="bg-surface-container-lowest border-outline-variant/50 isolate z-10 border-b @md:sticky"
+              className={cn(
+                'bg-surface-container-lowest border-outline-variant/50 isolate z-10 border-b @md:sticky',
+                showColumnBorders && 'border-outline-variant/50 border-r',
+              )}
               style={{
-                // Position after checkbox (48px) if selectable, otherwise at 0
-                left: selectable ? 48 : 0,
-                width: 40,
-                minWidth: 40,
-                maxWidth: 40,
+                // Position after checkbox if selectable, otherwise at 0
+                left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
+                width: COLUMN_WIDTHS.EXPANDER,
+                minWidth: COLUMN_WIDTHS.EXPANDER,
+                maxWidth: COLUMN_WIDTHS.EXPANDER,
               }}
             />
           )}

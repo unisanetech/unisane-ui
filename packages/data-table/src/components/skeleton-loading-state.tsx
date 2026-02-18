@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Skeleton } from "@unisane/ui";
-import { cn } from "@unisane/ui";
-import type { Column, ColumnMetaMap, PinPosition } from "../types/index";
-import type { Density } from "../constants/index";
-import { DENSITY_STYLES } from "../constants/index";
+import React from 'react';
+import { Skeleton } from '@unisane/ui';
+import { cn } from '@unisane/ui';
+import type { Column, ColumnMetaMap, PinPosition } from '../types/index';
+import type { Density } from '../constants/index';
+import { DENSITY_STYLES } from '../constants/index';
 
 // ─── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -29,39 +29,45 @@ interface SkeletonLoadingStateProps<T> {
  */
 function getSkeletonWidthClass<T>(column: Column<T>, rowIndex: number): string {
   // Check alignment - right-aligned columns are typically numbers
-  if (column.align === "end") {
-    return "w-12";
+  if (column.align === 'end') {
+    return 'w-12';
   }
 
   // Check inputType for editing hints
-  if (column.inputType === "number") {
-    return "w-12";
+  if (column.inputType === 'number') {
+    return 'w-12';
   }
 
-  if (column.inputType === "date" || column.inputType === "datetime-local") {
-    return "w-20";
+  if (column.inputType === 'date' || column.inputType === 'datetime-local') {
+    return 'w-20';
   }
 
   // For text columns, vary the width based on row index for visual interest
-  const widths = ["w-24", "w-32", "w-20", "w-28", "w-16"];
-  const keyLength = typeof column.key === "string" ? column.key.length : 0;
-  return widths[(rowIndex + keyLength) % widths.length] ?? "w-24";
+  const widths = ['w-24', 'w-32', 'w-20', 'w-28', 'w-16'];
+  const keyLength = typeof column.key === 'string' ? column.key.length : 0;
+  return widths[(rowIndex + keyLength) % widths.length] ?? 'w-24';
 }
 
 /**
  * Get skeleton variant based on column hints
  */
-function getSkeletonVariant<T>(column: Column<T>): "text" | "circular" | "rectangular" {
+function getSkeletonVariant<T>(column: Column<T>): 'text' | 'circular' | 'rectangular' {
   // If column header suggests avatar/image
-  const key = typeof column.key === "string" ? column.key.toLowerCase() : "";
-  const header = typeof column.header === "string" ? column.header.toLowerCase() : "";
+  const key = typeof column.key === 'string' ? column.key.toLowerCase() : '';
+  const header = typeof column.header === 'string' ? column.header.toLowerCase() : '';
 
-  if (key.includes("avatar") || key.includes("image") || key.includes("photo") ||
-      header.includes("avatar") || header.includes("image") || header.includes("photo")) {
-    return "circular";
+  if (
+    key.includes('avatar') ||
+    key.includes('image') ||
+    key.includes('photo') ||
+    header.includes('avatar') ||
+    header.includes('image') ||
+    header.includes('photo')
+  ) {
+    return 'circular';
   }
 
-  return "text";
+  return 'text';
 }
 
 // ─── SKELETON CELL ─────────────────────────────────────────────────────────────
@@ -94,22 +100,20 @@ function SkeletonCell<T>({
     <td
       className={cn(
         cellPadding,
-        showColumnBorders && "border-r border-outline-variant last:border-r-0",
-        isPinned && "sticky bg-surface z-10",
-        pinPosition === "left" && "left-0",
-        pinPosition === "right" && "right-0"
+        showColumnBorders && 'border-outline-variant border-r last:border-r-0',
+        isPinned && 'bg-surface sticky z-10',
+        pinPosition === 'left' && 'left-0',
+        pinPosition === 'right' && 'right-0',
       )}
       style={{
         width: meta?.width,
-        left: pinPosition === "left" ? meta?.left : undefined,
-        right: pinPosition === "right" ? meta?.right : undefined,
+        left: pinPosition === 'left' ? meta?.left : undefined,
+        right: pinPosition === 'right' ? meta?.right : undefined,
       }}
     >
       <Skeleton
         variant={variant}
-        className={cn(
-          variant === "circular" ? "size-8" : cn("h-4 rounded-sm", widthClass)
-        )}
+        className={cn(variant === 'circular' ? 'size-8' : cn('h-4 rounded-sm', widthClass))}
       />
     </td>
   );
@@ -141,27 +145,36 @@ function SkeletonRow<T>({
   const cellPadding = DENSITY_STYLES[density];
 
   return (
-    <tr
-      className="border-b border-outline-variant last:border-b-0"
-      aria-hidden="true"
-    >
+    <tr className="border-outline-variant border-b last:border-b-0" aria-hidden="true">
       {/* Drag handle column */}
       {reorderableRows && (
-        <td className={cn(cellPadding, "w-10")}>
+        <td className={cn(cellPadding, 'w-10')}>
           <Skeleton variant="rectangular" className="h-4 w-4 rounded-sm" />
         </td>
       )}
 
       {/* Selection checkbox column */}
       {selectable && (
-        <td className={cn(cellPadding, "w-12")}>
+        <td
+          className={cn(
+            cellPadding,
+            'w-12',
+            showColumnBorders && 'border-outline-variant/50 border-r',
+          )}
+        >
           <Skeleton variant="rectangular" className="size-5 rounded-sm" />
         </td>
       )}
 
       {/* Expansion toggle column */}
       {enableExpansion && (
-        <td className={cn(cellPadding, "w-12")}>
+        <td
+          className={cn(
+            cellPadding,
+            'w-12',
+            showColumnBorders && 'border-outline-variant/50 border-r',
+          )}
+        >
           <Skeleton variant="circular" className="size-5" />
         </td>
       )}

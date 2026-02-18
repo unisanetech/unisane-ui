@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import React, { memo } from "react";
-import type { ReactNode } from "react";
-import { cn, Icon } from "@unisane/ui";
-import type { Column, PinPosition, ColumnMetaMap } from "../types/index";
-import { COLUMN_WIDTHS, type Density } from "../constants/index";
-import { useI18n } from "../i18n";
-import { getNestedValue } from "../utils/get-nested-value";
+import React, { memo } from 'react';
+import type { ReactNode } from 'react';
+import { cn, Icon } from '@unisane/ui';
+import type { Column, PinPosition, ColumnMetaMap } from '../types/index';
+import { COLUMN_WIDTHS, type Density } from '../constants/index';
+import { useI18n } from '../i18n';
+import { getNestedValue } from '../utils/get-nested-value';
 
 // ─── SUMMARY TYPES ───────────────────────────────────────────────────────────
 
-export type SummaryCalculation = "sum" | "average" | "count" | "min" | "max";
+export type SummaryCalculation = 'sum' | 'average' | 'count' | 'min' | 'max';
 
 export interface SummaryValue {
   value: number | string | null;
   formattedValue: string;
-  type: SummaryCalculation | "custom";
+  type: SummaryCalculation | 'custom';
 }
 
 // ─── UTILITY FUNCTIONS ───────────────────────────────────────────────────────
@@ -26,27 +26,27 @@ export interface SummaryValue {
 export function calculateSummary<T extends object>(
   data: T[],
   columnKey: string,
-  calculation: SummaryCalculation
+  calculation: SummaryCalculation,
 ): number | null {
   const values = data
     .map((row) => {
       const val = getNestedValue(row, columnKey);
-      return typeof val === "number" ? val : null;
+      return typeof val === 'number' ? val : null;
     })
     .filter((v): v is number => v !== null);
 
   if (values.length === 0) return null;
 
   switch (calculation) {
-    case "sum":
+    case 'sum':
       return values.reduce((acc, v) => acc + v, 0);
-    case "average":
+    case 'average':
       return values.reduce((acc, v) => acc + v, 0) / values.length;
-    case "count":
+    case 'count':
       return values.length;
-    case "min":
+    case 'min':
       return Math.min(...values);
-    case "max":
+    case 'max':
       return Math.max(...values);
     default:
       return null;
@@ -60,23 +60,23 @@ export function calculateSummary<T extends object>(
 export function formatSummaryValue(
   value: number | null,
   calculation: SummaryCalculation,
-  formatNumber?: (value: number) => string
+  formatNumber?: (value: number) => string,
 ): string {
-  if (value === null) return "—";
+  if (value === null) return '—';
 
   const formatter = formatNumber ?? ((v: number) => v.toLocaleString());
 
   switch (calculation) {
-    case "count":
+    case 'count':
       return formatter(value);
-    case "average":
+    case 'average':
       return value.toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
-    case "sum":
-    case "min":
-    case "max":
+    case 'sum':
+    case 'min':
+    case 'max':
     default:
       return value.toLocaleString(undefined, {
         maximumFractionDigits: 2,
@@ -88,24 +88,19 @@ export function formatSummaryValue(
  * Get i18n key for summary type label
  */
 function getSummaryLabelKey(
-  type: SummaryCalculation
-):
-  | "summaryTotal"
-  | "summaryAverage"
-  | "summaryCount"
-  | "summaryMin"
-  | "summaryMax" {
+  type: SummaryCalculation,
+): 'summaryTotal' | 'summaryAverage' | 'summaryCount' | 'summaryMin' | 'summaryMax' {
   switch (type) {
-    case "sum":
-      return "summaryTotal";
-    case "average":
-      return "summaryAverage";
-    case "count":
-      return "summaryCount";
-    case "min":
-      return "summaryMin";
-    case "max":
-      return "summaryMax";
+    case 'sum':
+      return 'summaryTotal';
+    case 'average':
+      return 'summaryAverage';
+    case 'count':
+      return 'summaryCount';
+    case 'min':
+      return 'summaryMin';
+    case 'max':
+      return 'summaryMax';
   }
 }
 
@@ -177,7 +172,7 @@ function SummaryCell<T extends object>({
   if (customRenderer) {
     // Use custom renderer if provided
     content = customRenderer(data);
-  } else if (typeof summaryType === "function") {
+  } else if (typeof summaryType === 'function') {
     // Use column-defined custom function
     content = summaryType(data);
   } else if (summaryType) {
@@ -188,12 +183,8 @@ function SummaryCell<T extends object>({
 
     content = (
       <div className="flex items-center gap-1.5">
-        <span className="text-label-small text-on-surface-variant">
-          {label}:
-        </span>
-        <span className="text-label-small font-semibold text-on-surface">
-          {formatted}
-        </span>
+        <span className="text-label-small text-on-surface-variant">{label}:</span>
+        <span className="text-label-small text-on-surface font-semibold">{formatted}</span>
       </div>
     );
   }
@@ -201,37 +192,30 @@ function SummaryCell<T extends object>({
   return (
     <td
       className={cn(
-        "bg-surface-container-low border-t-2 border-outline-variant/50",
-        "text-on-surface whitespace-nowrap",
+        'bg-surface-container-low border-outline-variant/50 border-t-2',
+        'text-on-surface whitespace-nowrap',
         paddingClass,
-        column.align === "center" && "text-center",
-        column.align === "end" && "text-right",
-        column.align !== "center" && column.align !== "end" && "text-left",
+        column.align === 'center' && 'text-center',
+        column.align === 'end' && 'text-right',
+        column.align !== 'center' && column.align !== 'end' && 'text-left',
         // Pinned styling
-        pinPosition ? "sticky z-10 isolate" : "z-0",
+        pinPosition ? 'sticky isolate z-10' : 'z-0',
         // Column borders
-        showColumnBorders &&
-          !isLastColumn &&
-          !pinPosition &&
-          "border-r border-outline-variant/50",
-        showColumnBorders &&
-          isLastPinnedLeft &&
-          "border-r border-outline-variant/50",
-        showColumnBorders &&
-          isFirstPinnedRight &&
-          "border-l border-outline-variant/50"
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-variant/50 border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-variant/50 border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-variant/50 border-l',
       )}
       style={{
         width: meta?.width,
         minWidth: meta?.width,
         maxWidth: meta?.width,
-        left: pinPosition === "left" ? meta?.left : undefined,
-        right: pinPosition === "right" ? meta?.right : undefined,
+        left: pinPosition === 'left' ? meta?.left : undefined,
+        right: pinPosition === 'right' ? meta?.right : undefined,
         boxShadow:
-          pinPosition === "left"
-            ? "4px 0 8px -3px rgba(0, 0, 0, 0.15)"
-            : pinPosition === "right"
-              ? "-4px 0 8px -3px rgba(0, 0, 0, 0.15)"
+          pinPosition === 'left'
+            ? '4px 0 8px -3px rgb(0 0 0 / var(--data-table-pin-shadow-left-alpha, 0))'
+            : pinPosition === 'right'
+              ? '-4px 0 8px -3px rgb(0 0 0 / var(--data-table-pin-shadow-right-alpha, 0))'
               : undefined,
       }}
     >
@@ -250,7 +234,7 @@ function SummaryRowInner<T extends { id: string }>({
   selectable,
   enableExpansion,
   showColumnBorders,
-  density = "standard",
+  density = 'standard',
   label,
   lastPinnedLeftKey,
   firstPinnedRightKey,
@@ -259,13 +243,11 @@ function SummaryRowInner<T extends { id: string }>({
 }: SummaryRowProps<T>) {
   const { t } = useI18n();
   // Use compact padding for summary row regardless of table density
-  const paddingClass = "py-1.5 px-3";
-  const effectiveLabel = label ?? t("summary");
+  const paddingClass = 'py-1.5 px-3';
+  const effectiveLabel = label ?? t('summary');
 
   // Check if any column has summary defined
-  const hasSummary = columns.some(
-    (col) => col.summary || customSummaryRenderer[String(col.key)]
-  );
+  const hasSummary = columns.some((col) => col.summary || customSummaryRenderer[String(col.key)]);
 
   if (!hasSummary || data.length === 0) {
     return null;
@@ -289,8 +271,8 @@ function SummaryRowInner<T extends { id: string }>({
       {reorderableRows && (
         <td
           className={cn(
-            "bg-surface-container-low border-t-2 border-outline-variant/50",
-            "sticky left-0 z-10 isolate"
+            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'sticky left-0 isolate z-10',
           )}
           style={{
             width: COLUMN_WIDTHS.DRAG_HANDLE,
@@ -299,8 +281,8 @@ function SummaryRowInner<T extends { id: string }>({
           }}
         >
           {showIconInDragHandle && (
-            <div className="flex items-center justify-center h-full">
-              <Icon symbol="functions" className="text-[16px] text-primary" />
+            <div className="flex h-full items-center justify-center">
+              <Icon symbol="functions" className="text-primary text-[16px]" />
             </div>
           )}
         </td>
@@ -310,12 +292,9 @@ function SummaryRowInner<T extends { id: string }>({
       {selectable && (
         <td
           className={cn(
-            "bg-surface-container-low border-t-2 border-outline-variant/50",
-            "sticky z-10 isolate",
-            showColumnBorders &&
-              !enableExpansion &&
-              !lastPinnedLeftKey &&
-              "border-r border-outline-variant/50"
+            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'sticky isolate z-10',
+            showColumnBorders && 'border-outline-variant/50 border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.CHECKBOX,
@@ -325,8 +304,8 @@ function SummaryRowInner<T extends { id: string }>({
           }}
         >
           {showIconInCheckbox && (
-            <div className="flex items-center justify-center h-full">
-              <Icon symbol="functions" className="text-[16px] text-primary" />
+            <div className="flex h-full items-center justify-center">
+              <Icon symbol="functions" className="text-primary text-[16px]" />
             </div>
           )}
         </td>
@@ -336,11 +315,9 @@ function SummaryRowInner<T extends { id: string }>({
       {enableExpansion && (
         <td
           className={cn(
-            "bg-surface-container-low border-t-2 border-outline-variant/50",
-            "sticky z-10 isolate",
-            showColumnBorders &&
-              !lastPinnedLeftKey &&
-              "border-r border-outline-variant/50"
+            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'sticky isolate z-10',
+            showColumnBorders && 'border-outline-variant/50 border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.EXPANDER,
@@ -350,8 +327,8 @@ function SummaryRowInner<T extends { id: string }>({
           }}
         >
           {showIconInExpander && (
-            <div className="flex items-center justify-center h-full">
-              <Icon symbol="functions" className="text-[16px] text-primary" />
+            <div className="flex h-full items-center justify-center">
+              <Icon symbol="functions" className="text-primary text-[16px]" />
             </div>
           )}
         </td>
@@ -379,35 +356,35 @@ function SummaryRowInner<T extends { id: string }>({
             <td
               key={key}
               className={cn(
-                "bg-surface-container-low border-t-2 border-outline-variant/50",
+                'bg-surface-container-low border-outline-variant/50 border-t-2',
                 paddingClass,
-                pinPosition ? "sticky z-10 isolate" : "z-0",
+                pinPosition ? 'sticky isolate z-10' : 'z-0',
                 showColumnBorders &&
                   !isLastColumn &&
                   !pinPosition &&
-                  "border-r border-outline-variant/50",
+                  'border-outline-variant/50 border-r',
                 showColumnBorders &&
                   key === lastPinnedLeftKey &&
-                  "border-r border-outline-variant/50",
+                  'border-outline-variant/50 border-r',
                 showColumnBorders &&
                   key === firstPinnedRightKey &&
-                  "border-l border-outline-variant/50"
+                  'border-outline-variant/50 border-l',
               )}
               style={{
                 width: meta?.width,
                 minWidth: meta?.width,
                 maxWidth: meta?.width,
-                left: pinPosition === "left" ? meta?.left : undefined,
-                right: pinPosition === "right" ? meta?.right : undefined,
+                left: pinPosition === 'left' ? meta?.left : undefined,
+                right: pinPosition === 'right' ? meta?.right : undefined,
                 boxShadow:
-                  pinPosition === "left"
-                    ? "4px 0 8px -3px rgba(0, 0, 0, 0.15)"
-                    : pinPosition === "right"
-                      ? "-4px 0 8px -3px rgba(0, 0, 0, 0.15)"
+                  pinPosition === 'left'
+                    ? '4px 0 8px -3px rgb(0 0 0 / var(--data-table-pin-shadow-left-alpha, 0))'
+                    : pinPosition === 'right'
+                      ? '-4px 0 8px -3px rgb(0 0 0 / var(--data-table-pin-shadow-right-alpha, 0))'
                       : undefined,
               }}
             >
-              <span className="text-label-small font-semibold text-on-surface">
+              <span className="text-label-small text-on-surface font-semibold">
                 {effectiveLabel}
               </span>
             </td>

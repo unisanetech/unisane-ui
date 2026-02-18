@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useState, useCallback, useId } from "react";
+import React, { useState, useCallback, useId } from 'react';
 import {
   cn,
   Icon,
@@ -12,9 +12,9 @@ import {
   DropdownMenuSub,
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-} from "@unisane/ui";
-import type { Column, PinPosition, FilterValue } from "../../types";
-import { useI18n } from "../../i18n";
+} from '@unisane/ui';
+import type { Column, PinPosition, FilterValue } from '../../types';
+import { useI18n } from '../../i18n';
 
 export interface ColumnMenuProps<T> {
   column: Column<T>;
@@ -54,7 +54,7 @@ export function ColumnMenu<T>({
 }: ColumnMenuProps<T>) {
   const { t } = useI18n();
   const [filterInputValue, setFilterInputValue] = useState(
-    typeof currentFilter === "string" ? currentFilter : ""
+    typeof currentFilter === 'string' ? currentFilter : '',
   );
 
   const hasFilterOptions = column.filterable !== false;
@@ -68,19 +68,19 @@ export function ColumnMenu<T>({
 
   // Handle clearing the filter
   const handleFilterClear = useCallback(() => {
-    setFilterInputValue("");
+    setFilterInputValue('');
     onFilter?.(null);
   }, [onFilter]);
 
   return (
-    <div onClick={(e) => e.stopPropagation()}>
+    <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
             className={cn(
-              "inline-flex items-center justify-center w-6 h-6 rounded hover:bg-on-surface/10 transition-colors",
-              "opacity-0 group-hover:opacity-100 focus:opacity-100",
-              "outline-none shrink-0"
+              'text-on-surface-variant inline-flex h-7 w-7 items-center justify-center rounded',
+              'hover:bg-on-surface/8 hover:text-on-surface transition-colors',
+              'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
             )}
           >
             <Icon symbol="more_vert" className="text-[18px]" />
@@ -90,7 +90,7 @@ export function ColumnMenu<T>({
           {/* Filter options */}
           {hasFilterOptions && (
             <>
-              {column.filterType === "select" && column.filterOptions ? (
+              {column.filterType === 'select' && column.filterOptions ? (
                 <SelectFilter
                   column={column}
                   currentFilter={currentFilter}
@@ -117,16 +117,16 @@ export function ColumnMenu<T>({
           {pinnable && column.pinnable !== false && (
             <>
               <DropdownMenuItem
-                onClick={() => onPin(pinPosition === "left" ? null : "left")}
-                icon={<Icon symbol="push_pin" className="w-4 h-4 -rotate-45" />}
+                onClick={() => onPin(pinPosition === 'left' ? null : 'left')}
+                icon={<Icon symbol="push_pin" className="h-4 w-4 -rotate-45" />}
               >
-                {pinPosition === "left" ? t("unpinLeft") : t("pinLeft")}
+                {pinPosition === 'left' ? t('unpinLeft') : t('pinLeft')}
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onPin(pinPosition === "right" ? null : "right")}
-                icon={<Icon symbol="push_pin" className="w-4 h-4 rotate-45" />}
+                onClick={() => onPin(pinPosition === 'right' ? null : 'right')}
+                icon={<Icon symbol="push_pin" className="h-4 w-4 rotate-45" />}
               >
-                {pinPosition === "right" ? t("unpinRight") : t("pinRight")}
+                {pinPosition === 'right' ? t('unpinRight') : t('pinRight')}
               </DropdownMenuItem>
               {(column.hideable !== false || groupingEnabled) && <DropdownMenuSeparator />}
             </>
@@ -134,59 +134,61 @@ export function ColumnMenu<T>({
 
           {/* Group by this column */}
           {/* Only show grouping for columns that are explicitly groupable OR have select filter (categorical data) */}
-          {groupingEnabled && (column.groupable === true || (column.groupable !== false && column.filterType === "select")) && (
-            <>
-              {(() => {
-                const columnKey = String(column.key);
-                const isColumnGrouped = groupByArray.includes(columnKey);
-                const hasExistingGrouping = groupByArray.length > 0;
+          {groupingEnabled &&
+            (column.groupable === true ||
+              (column.groupable !== false && column.filterType === 'select')) && (
+              <>
+                {(() => {
+                  const columnKey = String(column.key);
+                  const isColumnGrouped = groupByArray.includes(columnKey);
+                  const hasExistingGrouping = groupByArray.length > 0;
 
-                return (
-                  <>
-                    {/* Primary grouping action */}
-                    <DropdownMenuItem
-                      onClick={() => {
-                        if (isColumnGrouped) {
-                          // Remove this column from grouping
-                          if (groupByArray.length === 1) {
-                            onGroupBy?.(null);
-                          } else {
-                            const newGroupBy = groupByArray.filter((k) => k !== columnKey);
-                            onGroupBy?.(newGroupBy.length === 1 ? newGroupBy[0]! : newGroupBy);
-                          }
-                        } else {
-                          // Set as the only grouping column
-                          onGroupBy?.(columnKey);
-                        }
-                      }}
-                      icon={<Icon symbol="workspaces" className="w-4 h-4" />}
-                    >
-                      {isColumnGrouped ? t("removeGrouping") : t("groupByColumn")}
-                    </DropdownMenuItem>
-
-                    {/* Add to multi-level grouping (only show if there's existing grouping and this column isn't grouped) */}
-                    {hasExistingGrouping && !isColumnGrouped && onAddGroupBy && (
+                  return (
+                    <>
+                      {/* Primary grouping action */}
                       <DropdownMenuItem
-                        onClick={() => onAddGroupBy(columnKey)}
-                        icon={<Icon symbol="add" className="w-4 h-4" />}
+                        onClick={() => {
+                          if (isColumnGrouped) {
+                            // Remove this column from grouping
+                            if (groupByArray.length === 1) {
+                              onGroupBy?.(null);
+                            } else {
+                              const newGroupBy = groupByArray.filter((k) => k !== columnKey);
+                              onGroupBy?.(newGroupBy.length === 1 ? newGroupBy[0]! : newGroupBy);
+                            }
+                          } else {
+                            // Set as the only grouping column
+                            onGroupBy?.(columnKey);
+                          }
+                        }}
+                        icon={<Icon symbol="workspaces" className="h-4 w-4" />}
                       >
-                        {t("addToGrouping", { level: groupByArray.length + 1 })}
+                        {isColumnGrouped ? t('removeGrouping') : t('groupByColumn')}
                       </DropdownMenuItem>
-                    )}
-                  </>
-                );
-              })()}
-              {column.hideable !== false && <DropdownMenuSeparator />}
-            </>
-          )}
+
+                      {/* Add to multi-level grouping (only show if there's existing grouping and this column isn't grouped) */}
+                      {hasExistingGrouping && !isColumnGrouped && onAddGroupBy && (
+                        <DropdownMenuItem
+                          onClick={() => onAddGroupBy(columnKey)}
+                          icon={<Icon symbol="add" className="h-4 w-4" />}
+                        >
+                          {t('addToGrouping', { level: groupByArray.length + 1 })}
+                        </DropdownMenuItem>
+                      )}
+                    </>
+                  );
+                })()}
+                {column.hideable !== false && <DropdownMenuSeparator />}
+              </>
+            )}
 
           {/* Hide column */}
           {column.hideable !== false && (
             <DropdownMenuItem
               onClick={onHide}
-              icon={<Icon symbol="visibility_off" className="w-4 h-4" />}
+              icon={<Icon symbol="visibility_off" className="h-4 w-4" />}
             >
-              {t("hideColumn")}
+              {t('hideColumn')}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -213,12 +215,10 @@ function SelectFilter<T>({
   const { t } = useI18n();
   return (
     <DropdownMenuSub>
-      <DropdownMenuSubTrigger
-        icon={<Icon symbol="filter_alt" className="w-4 h-4" />}
-      >
-        {t("filterBy", { column: String(column.header) })}
+      <DropdownMenuSubTrigger icon={<Icon symbol="filter_alt" className="h-4 w-4" />}>
+        {t('filterBy', { column: String(column.header) })}
         {hasActiveFilter && (
-          <span className="ml-auto text-primary text-xs">{t("filterActive")}</span>
+          <span className="text-primary ml-auto text-xs">{t('filterActive')}</span>
         )}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent className="min-w-40">
@@ -226,19 +226,15 @@ function SelectFilter<T>({
           <DropdownMenuItem
             key={String(opt.value)}
             onClick={() => onFilter?.(opt.value)}
-            className={currentFilter === opt.value ? "bg-primary/8 text-primary" : ""}
+            className={
+              currentFilter === opt.value ? 'bg-primary-container text-on-primary-container' : ''
+            }
           >
-            <span className="flex items-center gap-2 w-full">
-              {currentFilter === opt.value && (
-                <Icon symbol="check" className="w-4 h-4" />
-              )}
-              <span className={currentFilter !== opt.value ? "ml-6" : ""}>
-                {opt.label}
-              </span>
+            <span className="flex w-full items-center gap-2">
+              {currentFilter === opt.value && <Icon symbol="check" className="h-4 w-4" />}
+              <span className={currentFilter !== opt.value ? 'ml-6' : ''}>{opt.label}</span>
               {opt.count !== undefined && (
-                <span className="ml-auto text-on-surface-variant text-xs">
-                  {opt.count}
-                </span>
+                <span className="text-on-surface-variant ml-auto text-xs">{opt.count}</span>
               )}
             </span>
           </DropdownMenuItem>
@@ -248,9 +244,9 @@ function SelectFilter<T>({
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => onFilter?.(null)}
-              icon={<Icon symbol="close" className="w-4 h-4" />}
+              icon={<Icon symbol="close" className="h-4 w-4" />}
             >
-              {t("clearFilter")}
+              {t('clearFilter')}
             </DropdownMenuItem>
           </>
         )}
@@ -284,19 +280,21 @@ function TextFilter<T>({
 
   return (
     <DropdownMenuSub>
-      <DropdownMenuSubTrigger
-        icon={<Icon symbol="filter_alt" className="w-4 h-4" />}
-      >
-        {t("filterBy", { column: String(column.header) })}
+      <DropdownMenuSubTrigger icon={<Icon symbol="filter_alt" className="h-4 w-4" />}>
+        {t('filterBy', { column: String(column.header) })}
         {hasActiveFilter && (
-          <span className="ml-auto text-primary text-xs">{t("filterActive")}</span>
+          <span className="text-primary ml-auto text-xs">{t('filterActive')}</span>
         )}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent className="min-w-56 p-2">
-        <div className="flex flex-col gap-2" role="search" aria-label={t("filterBy", { column: String(column.header) })}>
+        <div
+          className="flex flex-col gap-2"
+          role="search"
+          aria-label={t('filterBy', { column: String(column.header) })}
+        >
           {/* Hidden description for screen readers */}
           <span id={descriptionId} className="sr-only">
-            {t("searchColumn", { column: String(column.header) })}
+            {t('searchColumn', { column: String(column.header) })}
           </span>
           <input
             id={inputId}
@@ -304,10 +302,10 @@ function TextFilter<T>({
             value={filterInputValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => onInputChange(e.target.value)}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-              if (e.key === "Enter") {
+              if (e.key === 'Enter') {
                 e.preventDefault();
                 onSubmit();
-              } else if (e.key === "Escape") {
+              } else if (e.key === 'Escape') {
                 // Let Escape propagate to close the dropdown menu
                 return;
               }
@@ -315,14 +313,14 @@ function TextFilter<T>({
               e.stopPropagation();
             }}
             onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            placeholder={t("searchColumn", { column: String(column.header) })}
+            placeholder={t('searchColumn', { column: String(column.header) })}
             aria-describedby={descriptionId}
-            aria-label={t("filterBy", { column: String(column.header) })}
+            aria-label={t('filterBy', { column: String(column.header) })}
             className={cn(
-              "w-full px-3 py-2 text-body-medium",
-              "bg-surface border border-outline-variant rounded-sm",
-              "focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/20",
-              "placeholder:text-on-surface-variant/60"
+              'text-body-medium w-full px-3 py-2',
+              'bg-surface border-outline-variant rounded-sm border',
+              'focus:border-primary focus:ring-primary/20 focus:ring-1 focus:outline-none',
+              'placeholder:text-on-surface-variant/60',
             )}
             autoFocus
           />
@@ -332,25 +330,25 @@ function TextFilter<T>({
               onClick={onSubmit}
               disabled={!filterInputValue.trim()}
               className={cn(
-                "flex-1 px-3 py-1.5 text-label-medium rounded",
-                "bg-primary text-on-primary",
-                "hover:bg-primary/90 transition-colors",
-                "disabled:opacity-50 disabled:cursor-not-allowed"
+                'text-label-medium flex-1 rounded px-3 py-1.5',
+                'bg-primary text-on-primary',
+                'hover:bg-primary/90 transition-colors',
+                'disabled:cursor-not-allowed disabled:opacity-50',
               )}
             >
-              {t("apply")}
+              {t('apply')}
             </button>
             {hasActiveFilter && (
               <button
                 type="button"
                 onClick={onClear}
                 className={cn(
-                  "px-3 py-1.5 text-label-medium rounded",
-                  "bg-surface-container text-on-surface",
-                  "hover:bg-surface-container-high transition-colors"
+                  'text-label-medium rounded px-3 py-1.5',
+                  'bg-surface-container text-on-surface',
+                  'hover:bg-surface-container-high transition-colors',
                 )}
               >
-                {t("clear")}
+                {t('clear')}
               </button>
             )}
           </div>

@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { memo } from "react";
-import { cn, Checkbox } from "@unisane/ui";
+import React, { memo } from 'react';
+import { cn, Checkbox } from '@unisane/ui';
 import type {
   Column,
   ColumnGroup,
@@ -10,20 +10,21 @@ import type {
   PinPosition,
   ColumnMetaMap,
   FilterValue,
-} from "../../types";
-import { isColumnGroup } from "../../types";
-import { DENSITY_STYLES, type Density } from "../../constants";
-import { useColumnDrag } from "../../hooks/ui/use-column-drag";
-import { useI18n } from "../../i18n";
-import { first, last, safeArrayAccess } from "../../utils/type-guards";
-import { HeaderCell } from "./header-cell";
-import { GroupHeaderRow } from "./group-header-row";
+} from '../../types';
+import { isColumnGroup } from '../../types';
+import { COLUMN_WIDTHS, DENSITY_STYLES, type Density } from '../../constants';
+import { useColumnDrag } from '../../hooks/ui/use-column-drag';
+import { useI18n } from '../../i18n';
+import { first, last, safeArrayAccess } from '../../utils/type-guards';
+import { HeaderCell } from './header-cell';
+import { GroupHeaderRow } from './group-header-row';
 
 // Re-export sub-components for direct use
-export { ResizeHandle } from "./resize-handle";
-export { ColumnMenu } from "./column-menu";
-export { HeaderCell } from "./header-cell";
-export { GroupHeaderRow } from "./group-header-row";
+export { ResizeHandle } from './resize-handle';
+export { ColumnMenu } from './column-menu';
+export { HeaderCell } from './header-cell';
+export { GroupHeaderRow } from './group-header-row';
+export { SortControl } from './sort-control';
 
 // ─── HEADER PROPS ───────────────────────────────────────────────────────────
 
@@ -87,7 +88,7 @@ function DataTableHeaderInner<T extends { id: string }>({
   onSelectAll,
   showColumnBorders,
   enableExpansion,
-  density = "standard",
+  density = 'standard',
   resizable = false,
   pinnable = false,
   reorderable = false,
@@ -108,15 +109,14 @@ function DataTableHeaderInner<T extends { id: string }>({
   const paddingClass = DENSITY_STYLES[density];
 
   // Column drag-to-reorder
-  const { getDragProps, isDraggingColumn, isDropTarget, getDropPosition } =
-    useColumnDrag({
-      enabled: reorderable,
-      onReorder: (fromKey, toKey) => onColumnReorder?.(fromKey, toKey),
-    });
+  const { getDragProps, isDraggingColumn, isDropTarget, getDropPosition } = useColumnDrag({
+    enabled: reorderable,
+    onReorder: (fromKey, toKey) => onColumnReorder?.(fromKey, toKey),
+  });
 
   // Helper to get sort info from sortState
   const getSortInfo = (
-    key: string
+    key: string,
   ): {
     isSorted: boolean;
     direction: SortDirection;
@@ -137,18 +137,16 @@ function DataTableHeaderInner<T extends { id: string }>({
   // Get columns that are children of groups (for second row when groups exist)
   const groupChildColumns =
     hasGroups && columnDefinitions
-      ? columnDefinitions.flatMap((def) =>
-          isColumnGroup(def) ? def.children : []
-        )
+      ? columnDefinitions.flatMap((def) => (isColumnGroup(def) ? def.children : []))
       : [];
 
   // Determine pinned column info for border logic
   const columnsToRender = hasGroups ? groupChildColumns : columns;
   const pinnedLeftColumns = columnsToRender.filter(
-    (col) => getEffectivePinPosition(col) === "left"
+    (col) => getEffectivePinPosition(col) === 'left',
   );
   const pinnedRightColumns = columnsToRender.filter(
-    (col) => getEffectivePinPosition(col) === "right"
+    (col) => getEffectivePinPosition(col) === 'right',
   );
   const hasPinnedLeftData = pinnedLeftColumns.length > 0;
   const lastPinnedLeft = last(pinnedLeftColumns);
@@ -176,10 +174,14 @@ function DataTableHeaderInner<T extends { id: string }>({
         {reorderableRows && (
           <th
             className={cn(
-              "bg-surface border-b border-outline-variant/50",
-              showColumnBorders && "border-r border-outline-variant/50"
+              'bg-surface border-outline-variant/50 border-b',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
-            style={{ width: 40, minWidth: 40, maxWidth: 40 }}
+            style={{
+              width: COLUMN_WIDTHS.DRAG_HANDLE,
+              minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+              maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            }}
           >
             <span className="sr-only">Reorder rows</span>
           </th>
@@ -189,28 +191,24 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && !hasGroups && (
           <th
             className={cn(
-              "bg-surface border-b border-outline-variant/50",
+              'bg-surface border-outline-variant/50 border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
-              "@md:sticky left-0 z-30 isolate",
-              // Only show border-r if there are no more sticky columns after this
-              showColumnBorders &&
-                !enableExpansion &&
-                !hasPinnedLeftData &&
-                "border-r border-outline-variant/50"
+              'left-0 isolate z-30 @md:sticky',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{
-              width: 48,
-              minWidth: 48,
-              maxWidth: 48,
+              width: COLUMN_WIDTHS.CHECKBOX,
+              minWidth: COLUMN_WIDTHS.CHECKBOX,
+              maxWidth: COLUMN_WIDTHS.CHECKBOX,
             }}
           >
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <Checkbox
                 checked={allSelected}
                 indeterminate={indeterminate}
                 onChange={(e) => onSelectAll(e.target.checked)}
-                aria-label={t("selectAll")}
-                className="[&>div]:w-8 [&>div]:h-8"
+                aria-label={t('selectAll')}
+                className="[&>div]:h-8 [&>div]:w-8"
               />
             </div>
           </th>
@@ -220,28 +218,24 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && hasGroups && (
           <th
             className={cn(
-              "bg-surface border-b border-outline-variant/50",
+              'bg-surface border-outline-variant/50 border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
-              "@md:sticky left-0 z-30 isolate",
-              // Only show border-r if there are no more sticky columns after this
-              showColumnBorders &&
-                !enableExpansion &&
-                !hasPinnedLeftData &&
-                "border-r border-outline-variant/50"
+              'left-0 isolate z-30 @md:sticky',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{
-              width: 48,
-              minWidth: 48,
-              maxWidth: 48,
+              width: COLUMN_WIDTHS.CHECKBOX,
+              minWidth: COLUMN_WIDTHS.CHECKBOX,
+              maxWidth: COLUMN_WIDTHS.CHECKBOX,
             }}
           >
-            <div className="flex items-center justify-center h-full">
+            <div className="flex h-full items-center justify-center">
               <Checkbox
                 checked={allSelected}
                 indeterminate={indeterminate}
                 onChange={(e) => onSelectAll(e.target.checked)}
-                aria-label={t("selectAll")}
-                className="[&>div]:w-8 [&>div]:h-8"
+                aria-label={t('selectAll')}
+                className="[&>div]:h-8 [&>div]:w-8"
               />
             </div>
           </th>
@@ -251,20 +245,17 @@ function DataTableHeaderInner<T extends { id: string }>({
         {enableExpansion && !hasGroups && (
           <th
             className={cn(
-              "bg-surface border-b border-outline-variant/50",
+              'bg-surface border-outline-variant/50 border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
-              "@md:sticky z-30 isolate",
-              // Only show border-r if there are no pinned-left data columns after this
-              showColumnBorders &&
-                !hasPinnedLeftData &&
-                "border-r border-outline-variant/50"
+              'isolate z-30 @md:sticky',
+              showColumnBorders && 'border-outline-variant/50 border-r',
             )}
             style={{
-              width: 40,
-              minWidth: 40,
-              maxWidth: 40,
-              // Position after checkbox (48px) if selectable, otherwise at 0
-              left: selectable ? 48 : 0,
+              width: COLUMN_WIDTHS.EXPANDER,
+              minWidth: COLUMN_WIDTHS.EXPANDER,
+              maxWidth: COLUMN_WIDTHS.EXPANDER,
+              // Position after checkbox if selectable, otherwise at 0
+              left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
             }}
           >
             <span className="sr-only">Expand row</span>
@@ -282,8 +273,7 @@ function DataTableHeaderInner<T extends { id: string }>({
           const isLastColumn = index === columnsToCheck.length - 1;
 
           // Only allow reordering non-pinned columns
-          const canReorder =
-            reorderable && col.reorderable !== false && !pinPosition;
+          const canReorder = reorderable && col.reorderable !== false && !pinPosition;
 
           return (
             <HeaderCell
@@ -326,6 +316,4 @@ function DataTableHeaderInner<T extends { id: string }>({
   );
 }
 
-export const DataTableHeader = memo(
-  DataTableHeaderInner
-) as typeof DataTableHeaderInner;
+export const DataTableHeader = memo(DataTableHeaderInner) as typeof DataTableHeaderInner;

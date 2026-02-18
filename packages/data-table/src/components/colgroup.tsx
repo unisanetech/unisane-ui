@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import type { Column, ColumnMetaMap, PinPosition } from "../types/index";
-import { COLUMN_WIDTHS } from "../constants/index";
+import type { Column, ColumnMetaMap, PinPosition } from '../types/index';
+import { COLUMN_WIDTHS } from '../constants/index';
 
 // ─── COLGROUP PROPS ───────────────────────────────────────────────────────
 
@@ -38,24 +38,43 @@ export function TableColgroup<T>({
     <colgroup>
       {/* Drag handle column - fixed width */}
       {reorderableRows && (
-        <col style={{ width: 40, minWidth: 40, maxWidth: 40 }} />
+        <col
+          style={{
+            width: COLUMN_WIDTHS.DRAG_HANDLE,
+            minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+          }}
+        />
       )}
 
       {/* Checkbox column - fixed width */}
       {selectable && (
-        <col style={{ width: COLUMN_WIDTHS.CHECKBOX, minWidth: COLUMN_WIDTHS.CHECKBOX, maxWidth: COLUMN_WIDTHS.CHECKBOX }} />
+        <col
+          style={{
+            width: COLUMN_WIDTHS.CHECKBOX,
+            minWidth: COLUMN_WIDTHS.CHECKBOX,
+            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+          }}
+        />
       )}
 
       {/* Expander column - fixed width */}
       {enableExpansion && (
-        <col style={{ width: COLUMN_WIDTHS.EXPANDER, minWidth: COLUMN_WIDTHS.EXPANDER, maxWidth: COLUMN_WIDTHS.EXPANDER }} />
+        <col
+          style={{
+            width: COLUMN_WIDTHS.EXPANDER,
+            minWidth: COLUMN_WIDTHS.EXPANDER,
+            maxWidth: COLUMN_WIDTHS.EXPANDER,
+          }}
+        />
       )}
 
       {/* Data columns */}
       {columns.map((col, idx) => {
         const key = String(col.key);
         const meta = columnMeta[key];
-        const width = meta?.width ?? (typeof col.width === "number" ? col.width : 150);
+        const width =
+          meta?.width ?? (typeof col.width === 'number' ? col.width : COLUMN_WIDTHS.DEFAULT);
         const isPinned = getEffectivePinPosition ? !!getEffectivePinPosition(col) : false;
         const isLastNonPinned = idx === lastNonPinnedIndex;
 
@@ -65,7 +84,7 @@ export function TableColgroup<T>({
           <col
             key={key}
             style={{
-              width: isPinned ? `${width}px` : isLastNonPinned ? "auto" : `${width}px`,
+              width: isPinned ? `${width}px` : isLastNonPinned ? 'auto' : `${width}px`,
               minWidth: `${col.minWidth ?? width}px`,
             }}
           />

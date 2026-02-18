@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '@unisane/ui';
+import { getRowInteractionBackgroundClass } from './row-state';
 
 // ─── TABLE ──────────────────────────────────────────────────────────────────
 
@@ -136,8 +137,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
       aria-rowindex={rowIndex}
       className={cn(
         'group duration-snappy transition-colors',
-        selected && 'bg-secondary-container/35',
-        active && 'bg-secondary-container',
+        getRowInteractionBackgroundClass({ isSelected: selected, isActive: active }),
         clickable && 'cursor-pointer',
         !selected && !active && 'hover:bg-surface-container-low',
         className,

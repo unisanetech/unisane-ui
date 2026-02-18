@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { cn, Icon, Badge, Button } from "@unisane/ui";
-import type { ToolbarAction } from "./types";
+import { cn, Icon, Badge, Button } from '@unisane/ui';
+import type { ToolbarAction } from './types';
 
 // ─── TOOLBAR DROPDOWN BUTTON (Facebook Ads Manager style) ─────────────────
 
@@ -13,7 +13,7 @@ export function ToolbarDropdownButton({
   active = false,
   disabled = false,
   className,
-  as: Component = "button",
+  as: Component = 'button',
   badge,
 }: {
   label: string;
@@ -22,24 +22,25 @@ export function ToolbarDropdownButton({
   active?: boolean;
   disabled?: boolean;
   className?: string;
-  as?: "button" | "div";
+  as?: 'button' | 'div';
   /** Badge count to show on the icon */
   badge?: number;
 }) {
   return (
     <Component
       onClick={onClick}
-      disabled={Component === "button" ? disabled : undefined}
+      disabled={Component === 'button' ? disabled : undefined}
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        "inline-flex items-center gap-2 min-h-[44px] @md:min-h-[36px] h-11 @md:h-9 px-3 transition-colors",
-        "text-body-medium font-medium rounded border border-outline-variant",
-        "text-on-surface hover:bg-on-surface/5",
-        "disabled:opacity-50 disabled:pointer-events-none",
-        active && "text-primary border-primary/30",
-        Component === "div" && "cursor-pointer",
-        disabled && Component === "div" && "opacity-50 pointer-events-none",
-        className
+        'inline-flex h-11 min-h-[44px] items-center gap-2 px-3 transition-colors @md:h-9 @md:min-h-[36px]',
+        'text-body-medium border-outline-variant rounded border font-medium',
+        'text-on-surface hover:bg-on-surface/5',
+        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'disabled:pointer-events-none disabled:opacity-50',
+        active && 'bg-primary-container text-on-primary-container border-primary-container',
+        Component === 'div' && 'cursor-pointer',
+        disabled && Component === 'div' && 'pointer-events-none opacity-50',
+        className,
       )}
       aria-label={label}
     >
@@ -48,32 +49,29 @@ export function ToolbarDropdownButton({
           <Icon
             symbol={icon}
             className={cn(
-              "w-5 h-5",
-              active ? "text-primary" : "text-on-surface-variant"
+              'h-5 w-5',
+              active ? 'text-on-primary-container' : 'text-on-surface-variant',
             )}
           />
           {/* Badge count indicator - positioned at top-left of icon */}
           {badge !== undefined && badge > 0 && (
             <Badge
               size="sm"
-              className="absolute -top-2 -left-2 z-10 !px-1 !py-0 min-w-[18px] h-[18px]"
+              className="absolute -top-2 -left-2 z-10 h-[18px] min-w-[18px] !px-1 !py-0"
             >
               {badge}
             </Badge>
           )}
           {/* Active dot indicator (when active but no badge) */}
           {active && (badge === undefined || badge === 0) && (
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full ring-1 ring-surface" />
+            <span className="bg-primary ring-surface absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full ring-1" />
           )}
         </span>
       )}
       <span>{label}</span>
       <Icon
         symbol="arrow_drop_down"
-        className={cn(
-          "w-5 h-5",
-          active ? "text-primary" : "text-on-surface-variant"
-        )}
+        className={cn('h-5 w-5', active ? 'text-on-primary-container' : 'text-on-surface-variant')}
       />
     </Component>
   );
@@ -104,11 +102,12 @@ export function ToolbarTextButton({
       disabled={disabled}
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        "inline-flex items-center gap-2 min-h-[44px] @md:min-h-[36px] h-11 @md:h-9 px-3 transition-colors",
-        "text-body-medium font-medium rounded border border-outline-variant",
-        "text-on-surface hover:bg-on-surface/5",
-        "disabled:opacity-50 disabled:pointer-events-none",
-        active && "text-primary border-primary/30"
+        'inline-flex h-11 min-h-[44px] items-center gap-2 px-3 transition-colors @md:h-9 @md:min-h-[36px]',
+        'text-body-medium border-outline-variant rounded border font-medium',
+        'text-on-surface hover:bg-on-surface/5',
+        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'disabled:pointer-events-none disabled:opacity-50',
+        active && 'bg-primary-container text-on-primary-container border-primary-container',
       )}
       aria-label={label}
     >
@@ -117,22 +116,22 @@ export function ToolbarTextButton({
           <Icon
             symbol={icon}
             className={cn(
-              "w-5 h-5",
-              active ? "text-primary" : "text-on-surface-variant"
+              'h-5 w-5',
+              active ? 'text-on-primary-container' : 'text-on-surface-variant',
             )}
           />
           {/* Badge count indicator - positioned at top-left of icon */}
           {badge !== undefined && badge > 0 && (
             <Badge
               size="sm"
-              className="absolute -top-2 -left-2 z-10 !px-1 !py-0 min-w-[18px] h-[18px]"
+              className="absolute -top-2 -left-2 z-10 h-[18px] min-w-[18px] !px-1 !py-0"
             >
               {badge}
             </Badge>
           )}
           {/* Active dot indicator (when active but no badge) */}
           {active && (badge === undefined || badge === 0) && (
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full ring-1 ring-surface" />
+            <span className="bg-primary ring-surface absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full ring-1" />
           )}
         </span>
       )}
@@ -164,40 +163,45 @@ export function SegmentedDropdownButton({
     <div
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 40px on larger
-        "flex items-center min-h-[44px] @md:min-h-[40px] h-11 @md:h-10 border border-outline-variant bg-surface transition-colors",
-        "hover:bg-on-surface/5",
-        active && "border-primary/30",
-        isFirst && "rounded-l-lg",
-        isLast && "rounded-r-lg",
-        !isFirst && "-ml-px"
+        'border-outline-variant bg-surface flex h-11 min-h-[44px] items-center border transition-colors @md:h-10 @md:min-h-[40px]',
+        'hover:bg-on-surface/5',
+        active && 'bg-primary-container border-primary-container',
+        isFirst && 'rounded-l-lg',
+        isLast && 'rounded-r-lg',
+        !isFirst && '-ml-px',
       )}
     >
       {/* Icon section */}
       <div
         className={cn(
-          "flex items-center justify-center h-full px-3",
-          "text-on-surface-variant",
-          active && "text-primary"
+          'flex h-full items-center justify-center px-3',
+          'text-on-surface-variant',
+          active && 'text-on-primary-container',
         )}
       >
         <span className="relative inline-flex">
-          <Icon symbol={icon} className="w-5 h-5" />
+          <Icon symbol={icon} className="h-5 w-5" />
           {/* Badge count indicator - positioned at top-left of icon */}
           {badge !== undefined && badge > 0 && (
             <Badge
               size="sm"
-              className="absolute -top-2 -left-2 z-10 !px-1 !py-0 min-w-[18px] h-[18px]"
+              className="absolute -top-2 -left-2 z-10 h-[18px] min-w-[18px] !px-1 !py-0"
             >
               {badge}
             </Badge>
           )}
           {/* Active dot indicator (when active but no badge) */}
           {active && (badge === undefined || badge === 0) && (
-            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-primary rounded-full ring-1 ring-surface" />
+            <span className="bg-primary ring-surface absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full ring-1" />
           )}
         </span>
         {label && (
-          <span className="ml-2 text-label-large font-medium text-on-surface">
+          <span
+            className={cn(
+              'text-label-large ml-2 font-medium',
+              active ? 'text-on-primary-container' : 'text-on-surface',
+            )}
+          >
             {label}
           </span>
         )}
@@ -205,11 +209,11 @@ export function SegmentedDropdownButton({
       {/* Dropdown arrow section */}
       <div
         className={cn(
-          "flex items-center justify-center h-full px-2 border-l border-outline-variant/50",
-          active ? "text-primary" : "text-on-surface-variant"
+          'border-outline-variant/50 flex h-full items-center justify-center border-l px-2',
+          active ? 'text-on-primary-container' : 'text-on-surface-variant',
         )}
       >
-        <Icon symbol="arrow_drop_down" className="w-5 h-5" />
+        <Icon symbol="arrow_drop_down" className="h-5 w-5" />
       </div>
     </div>
   );
@@ -241,19 +245,20 @@ export function SegmentedIconButton({
       disabled={disabled}
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 40px on larger
-        "flex items-center justify-center min-h-[44px] @md:min-h-[40px] h-11 @md:h-10 px-3 border border-outline-variant bg-surface transition-colors",
-        "hover:bg-on-surface/5",
-        "disabled:opacity-50 disabled:pointer-events-none",
-        active && "bg-primary/8 border-primary/30 text-primary",
-        !active && "text-on-surface-variant",
-        isFirst && "rounded-l-lg",
-        isLast && "rounded-r-lg",
-        !isFirst && "-ml-px"
+        'border-outline-variant bg-surface flex h-11 min-h-[44px] items-center justify-center border px-3 transition-colors @md:h-10 @md:min-h-[40px]',
+        'hover:bg-on-surface/5',
+        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'disabled:pointer-events-none disabled:opacity-50',
+        active && 'bg-primary-container text-on-primary-container border-primary-container',
+        !active && 'text-on-surface-variant',
+        isFirst && 'rounded-l-lg',
+        isLast && 'rounded-r-lg',
+        !isFirst && '-ml-px',
       )}
       aria-label={label}
       title={label}
     >
-      <Icon symbol={icon} className="w-5 h-5" />
+      <Icon symbol={icon} className="h-5 w-5" />
     </button>
   );
 }
@@ -261,26 +266,24 @@ export function SegmentedIconButton({
 // ─── ACTION BUTTON ─────────────────────────────────────────────────────────
 
 export function ActionButton({ action }: { action: ToolbarAction }) {
-  const isPrimary = action.variant === "primary";
-  const isDanger = action.variant === "danger";
+  const isPrimary = action.variant === 'primary';
+  const isDanger = action.variant === 'danger';
 
   return (
     <Button
-      variant={isPrimary ? "filled" : "outlined"}
+      variant={isPrimary ? 'filled' : 'outlined'}
       size="sm"
       onClick={action.onClick}
       disabled={action.disabled}
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        "min-h-[44px] @md:min-h-[36px] h-11 @md:h-9 gap-2 text-body-medium font-medium rounded",
-        isDanger && "border-error text-error hover:bg-error/8",
-        !isPrimary && !isDanger && "border border-outline-variant"
+        'text-body-medium h-11 min-h-[44px] gap-2 rounded font-medium @md:h-9 @md:min-h-[36px]',
+        isDanger && 'border-error text-error hover:bg-error/8',
+        !isPrimary && !isDanger && 'border-outline-variant border',
       )}
     >
-      {action.icon && <Icon symbol={action.icon} className="w-5 h-5" />}
-      <span className={action.iconOnly ? "hidden @md:inline" : undefined}>
-        {action.label}
-      </span>
+      {action.icon && <Icon symbol={action.icon} className="h-5 w-5" />}
+      <span className={action.iconOnly ? 'hidden @md:inline' : undefined}>{action.label}</span>
     </Button>
   );
 }
@@ -306,15 +309,16 @@ export function CompactIconButton({
       disabled={disabled}
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        "flex items-center justify-center w-11 h-11 @md:w-9 @md:h-9 rounded-lg transition-colors",
-        "text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8",
-        "disabled:opacity-50 disabled:pointer-events-none",
-        active && "text-primary bg-primary/8"
+        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors @md:h-9 @md:w-9',
+        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
+        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'disabled:pointer-events-none disabled:opacity-50',
+        active && 'bg-primary-container text-on-primary-container',
       )}
       aria-label={label}
       title={label}
     >
-      <Icon symbol={icon} className="w-5 h-5" />
+      <Icon symbol={icon} className="h-5 w-5" />
     </button>
   );
 }

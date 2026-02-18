@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useMemo } from "react";
-import { cn } from "@unisane/ui";
+import React, { useMemo } from 'react';
+import { cn } from '@unisane/ui';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
@@ -31,7 +31,7 @@ export interface HighlightedSpan {
  * Escapes special regex characters in a string.
  */
 function escapeRegex(str: string): string {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 /**
@@ -40,18 +40,18 @@ function escapeRegex(str: string): string {
 export function splitTextBySearch(
   text: string,
   searchTerm: string,
-  caseSensitive = false
+  caseSensitive = false,
 ): HighlightedSpan[] {
   if (!searchTerm || !text) {
     return [{ text, isHighlighted: false }];
   }
 
   const escapedSearch = escapeRegex(searchTerm);
-  const regex = new RegExp(`(${escapedSearch})`, caseSensitive ? "g" : "gi");
+  const regex = new RegExp(`(${escapedSearch})`, caseSensitive ? 'g' : 'gi');
   const parts = text.split(regex);
 
   return parts
-    .filter((part) => part !== "")
+    .filter((part) => part !== '')
     .map((part) => ({
       text: part,
       isHighlighted: caseSensitive
@@ -121,15 +121,15 @@ export function HighlightedText({
           <mark
             key={index}
             className={cn(
-              "bg-primary/20 text-on-surface rounded-sm px-0.5",
-              highlightClassName
+              'bg-primary-container text-on-primary-container rounded-sm px-0.5',
+              highlightClassName,
             )}
           >
             {segment.text}
           </mark>
         ) : (
           <span key={index}>{segment.text}</span>
-        )
+        ),
       )}
     </span>
   );

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn, Icon, Checkbox } from "@unisane/ui";
-import type { RowGroup, GroupHeaderProps, Column } from "../types/index";
-import { DENSITY_STYLES, type Density } from "../constants/index";
-import { useI18n } from "../i18n";
+import React from 'react';
+import { cn, Icon, Checkbox } from '@unisane/ui';
+import type { RowGroup, GroupHeaderProps, Column } from '../types/index';
+import { DENSITY_STYLES, type Density } from '../constants/index';
+import { useI18n } from '../i18n';
 
 // ─── GROUP ROW PROPS ─────────────────────────────────────────────────────────
 
@@ -49,38 +49,40 @@ function DefaultGroupHeader<T>({
   return (
     <div className="flex items-center gap-3">
       {/* Group label */}
-      <span className={cn(
-        "font-semibold text-on-surface",
-        depth > 0 && "text-body-medium",
-        isEmpty && "text-on-surface-variant italic"
-      )}>
+      <span
+        className={cn(
+          'text-on-surface font-semibold',
+          depth > 0 && 'text-body-medium',
+          isEmpty && 'text-on-surface-variant italic',
+        )}
+      >
         {groupLabel}
       </span>
 
       {/* Row count badge */}
-      <span className={cn(
-        "text-label-small px-2 py-0.5 rounded-full",
-        isEmpty
-          ? "text-on-surface-variant/60 bg-on-surface/5"
-          : "text-on-surface-variant bg-on-surface/8"
-      )}>
+      <span
+        className={cn(
+          'text-label-small rounded-full px-2 py-0.5',
+          isEmpty
+            ? 'bg-surface-container-low text-on-surface-variant'
+            : 'bg-surface-container text-on-surface-variant',
+        )}
+      >
         {isEmpty
-          ? t("groupEmpty")
+          ? t('groupEmpty')
           : rowCount === 1
-            ? `1 ${t("groupItemSingular")}`
-            : t("groupItemPlural", { count: formatNumber(rowCount) })}
+            ? `1 ${t('groupItemSingular')}`
+            : t('groupItemPlural', { count: formatNumber(rowCount) })}
       </span>
 
       {/* Aggregations (if any and not empty) */}
       {!isEmpty && aggregations && Object.keys(aggregations).length > 0 && (
-        <div className="flex items-center gap-2 ml-4 text-label-small text-on-surface-variant">
+        <div className="text-label-small text-on-surface-variant ml-4 flex items-center gap-2">
           {Object.entries(aggregations).map(([key, value]) => (
             <span key={key} className="flex items-center gap-1">
               <span className="opacity-60">{key}:</span>
               <span className="font-medium">
-                {typeof value === "number"
-                  ? formatNumber(value)
-                  : String(value ?? "-")}
+                {typeof value === 'number' ? formatNumber(value) : String(value ?? '-')}
               </span>
             </span>
           ))}
@@ -90,7 +92,7 @@ function DefaultGroupHeader<T>({
       {/* Expand indicator text - only show if there are items to expand */}
       {!isEmpty && (
         <span className="text-label-small text-on-surface-variant ml-auto">
-          {isExpanded ? t("collapseGroup") : t("expandGroup")}
+          {isExpanded ? t('collapseGroup') : t('expandGroup')}
         </span>
       )}
     </div>
@@ -105,7 +107,7 @@ export function GroupRow<T extends { id: string }>({
   selectable,
   enableExpansion,
   onToggle,
-  density = "standard",
+  density = 'standard',
   renderGroupHeader,
   style,
   isLastGroup = false,
@@ -117,14 +119,11 @@ export function GroupRow<T extends { id: string }>({
 
   // Calculate total colSpan
   // +1 for checkbox if selectable, +1 for expand if enableExpansion
-  const totalColumns =
-    columns.length + (selectable ? 1 : 0) + (enableExpansion ? 1 : 0);
+  const totalColumns = columns.length + (selectable ? 1 : 0) + (enableExpansion ? 1 : 0);
 
   // Calculate group selection state
   const groupRowIds = group.rows.map((row) => row.id);
-  const selectedCount = selectedRows
-    ? groupRowIds.filter((id) => selectedRows.has(id)).length
-    : 0;
+  const selectedCount = selectedRows ? groupRowIds.filter((id) => selectedRows.has(id)).length : 0;
   const allSelected = selectedCount === group.rows.length && group.rows.length > 0;
   const someSelected = selectedCount > 0 && selectedCount < group.rows.length;
 
@@ -156,11 +155,11 @@ export function GroupRow<T extends { id: string }>({
   return (
     <tr
       className={cn(
-        "group cursor-pointer transition-colors duration-snappy",
+        'group duration-snappy cursor-pointer transition-colors',
         group.depth === 0
-          ? "bg-surface-container-low hover:bg-surface-container"
-          : "bg-surface-container-lowest hover:bg-surface-container-low",
-        !isLastGroup && "border-b border-outline-variant/50"
+          ? 'bg-surface-container-low hover:bg-surface-container'
+          : 'bg-surface-container-lowest hover:bg-surface-container-low',
+        !isLastGroup && 'border-outline-variant/50 border-b',
       )}
       style={style}
       onClick={onToggle}
@@ -169,10 +168,7 @@ export function GroupRow<T extends { id: string }>({
     >
       <td
         colSpan={totalColumns}
-        className={cn(
-          "text-left",
-          paddingClass
-        )}
+        className={cn('text-left', paddingClass)}
         style={{ paddingLeft: depthPadding }}
       >
         <div className="flex items-center gap-2">
@@ -183,8 +179,11 @@ export function GroupRow<T extends { id: string }>({
                 checked={allSelected}
                 indeterminate={someSelected}
                 onChange={handleCheckboxChange}
-                aria-label={t("selectGroupRows", { count: group.rows.length, label: group.groupLabel })}
-                className="[&>div]:w-8 [&>div]:h-8"
+                aria-label={t('selectGroupRows', {
+                  count: group.rows.length,
+                  label: group.groupLabel,
+                })}
+                className="[&>div]:h-8 [&>div]:w-8"
               />
             </div>
           )}
@@ -192,16 +191,16 @@ export function GroupRow<T extends { id: string }>({
           {/* Expand/collapse icon */}
           <span
             className={cn(
-              "flex items-center justify-center w-6 h-6 rounded-full",
-              "text-on-surface-variant transition-transform duration-snappy",
-              group.isExpanded && "rotate-90"
+              'flex h-6 w-6 items-center justify-center rounded-full',
+              'text-on-surface-variant duration-snappy transition-transform',
+              group.isExpanded && 'rotate-90',
             )}
           >
             <Icon symbol="chevron_right" className="text-[20px]" />
           </span>
 
           {/* Group header content */}
-          <div className="flex-1 min-w-0">
+          <div className="min-w-0 flex-1">
             {renderGroupHeader ? (
               renderGroupHeader(headerProps)
             ) : (

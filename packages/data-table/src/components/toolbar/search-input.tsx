@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useRef, useCallback, useId } from "react";
-import { cn, Icon, Button } from "@unisane/ui";
-import { useFiltering } from "../../context";
-import { useDebounce } from "../../hooks/utilities/use-debounce";
-import { useI18n } from "../../i18n";
+import { useState, useEffect, useRef, useCallback, useId } from 'react';
+import { cn, Icon, Button } from '@unisane/ui';
+import { useFiltering } from '../../context';
+import { useDebounce } from '../../hooks/utilities/use-debounce';
+import { useI18n } from '../../i18n';
 
 const SEARCH_DEBOUNCE_MS = 300;
 
@@ -34,7 +34,7 @@ export function SearchInput({
 }: SearchInputProps) {
   const { t } = useI18n();
   const { searchText, setSearch } = useFiltering();
-  const effectivePlaceholder = placeholder ?? t("searchPlaceholder");
+  const effectivePlaceholder = placeholder ?? t('searchPlaceholder');
   const searchId = useId();
   const descriptionId = `${searchId}-desc`;
   // Local state for immediate UI feedback
@@ -55,12 +55,12 @@ export function SearchInput({
 
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
       // Check for Cmd+K (Mac) or Ctrl+K (Windows/Linux)
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
 
         // If on small screen (overlay mode), open the overlay
         // Otherwise focus the inline input
-        const isSmallScreen = !window.matchMedia("(min-width: 1024px)").matches;
+        const isSmallScreen = !window.matchMedia('(min-width: 1024px)').matches;
         if (isSmallScreen) {
           setIsOverlayOpen(true);
         } else {
@@ -69,8 +69,8 @@ export function SearchInput({
       }
     };
 
-    document.addEventListener("keydown", handleGlobalKeyDown);
-    return () => document.removeEventListener("keydown", handleGlobalKeyDown);
+    document.addEventListener('keydown', handleGlobalKeyDown);
+    return () => document.removeEventListener('keydown', handleGlobalKeyDown);
   }, [enableGlobalShortcut]);
 
   // Sync debounced value to context
@@ -82,8 +82,8 @@ export function SearchInput({
 
   // Sync external changes (e.g., clear from filter chips)
   useEffect(() => {
-    if (prevSearchTextRef.current !== "" && searchText === "") {
-      setLocalValue("");
+    if (prevSearchTextRef.current !== '' && searchText === '') {
+      setLocalValue('');
     }
     prevSearchTextRef.current = searchText;
   }, [searchText]);
@@ -96,8 +96,8 @@ export function SearchInput({
   }, [isOverlayOpen]);
 
   const handleClear = useCallback(() => {
-    setLocalValue("");
-    setSearch("");
+    setLocalValue('');
+    setSearch('');
   }, [setSearch]);
 
   const handleOverlayClose = useCallback(() => {
@@ -107,7 +107,7 @@ export function SearchInput({
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       e.stopPropagation();
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         if (isOverlayOpen) {
           handleOverlayClose();
         } else {
@@ -115,7 +115,7 @@ export function SearchInput({
         }
       }
     },
-    [isOverlayOpen, handleOverlayClose]
+    [isOverlayOpen, handleOverlayClose],
   );
 
   // Check if there's an active search (to show indicator on icon)
@@ -127,18 +127,18 @@ export function SearchInput({
       <button
         onClick={() => setIsOverlayOpen(true)}
         className={cn(
-          "@3xl:hidden flex items-center justify-center w-11 h-11 rounded-lg relative",
-          "text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8",
-          "transition-colors",
-          className
+          'relative flex h-11 w-11 items-center justify-center rounded-lg @3xl:hidden',
+          'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
+          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+          'transition-colors',
+          className,
         )}
-        aria-label={t("openSearch")}
-       
+        aria-label={t('openSearch')}
       >
-        <Icon symbol="search" className="w-5 h-5" />
+        <Icon symbol="search" className="h-5 w-5" />
         {/* Active search indicator */}
         {hasActiveSearch && (
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary rounded-full" />
+          <span className="bg-primary absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
         )}
       </button>
 
@@ -146,12 +146,11 @@ export function SearchInput({
       {isOverlayOpen && (
         <div
           className={cn(
-            "@3xl:hidden absolute left-0 right-0 top-0 bottom-0 bg-surface border-b-2 border-primary z-50 flex items-center px-3 gap-2",
-            "animate-in fade-in duration-150"
+            'bg-surface border-primary absolute top-0 right-0 bottom-0 left-0 z-50 flex items-center gap-2 border-b-2 px-3 @3xl:hidden',
+            'animate-in fade-in duration-150',
           )}
-         
         >
-          <Icon symbol="search" className="w-5 h-5 text-on-surface-variant shrink-0" />
+          <Icon symbol="search" className="text-on-surface-variant h-5 w-5 shrink-0" />
           <input
             ref={overlayInputRef}
             type="text"
@@ -161,26 +160,26 @@ export function SearchInput({
             value={localValue}
             onChange={(e) => setLocalValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            aria-label={t("searchPlaceholder")}
+            aria-label={t('searchPlaceholder')}
             className={cn(
-              "flex-1 min-w-0 h-full bg-transparent border-none outline-none",
-              "text-body-medium text-on-surface placeholder:text-on-surface-variant/70"
+              'h-full min-w-0 flex-1 border-none bg-transparent outline-none',
+              'text-body-medium text-on-surface placeholder:text-on-surface-variant/70',
             )}
           />
           {localValue && (
             <button
               onClick={handleClear}
-              className="px-2 py-1 rounded text-label-medium text-primary hover:bg-primary/8 transition-colors shrink-0"
+              className="text-label-medium text-primary hover:bg-primary-container/80 hover:text-on-primary-container focus-visible:ring-primary shrink-0 rounded px-2 py-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              {t("clear")}
+              {t('clear')}
             </button>
           )}
           <button
             onClick={handleOverlayClose}
-            className="flex items-center justify-center w-9 h-9 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 transition-colors shrink-0"
-            aria-label={t("clearSearch")}
+            className="text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 focus-visible:ring-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            aria-label={t('clearSearch')}
           >
-            <Icon symbol="close" className="w-5 h-5" />
+            <Icon symbol="close" className="h-5 w-5" />
           </button>
         </div>
       )}
@@ -188,20 +187,19 @@ export function SearchInput({
       {/* Large containers (@3xl+): Inline input field */}
       <div
         role="search"
-        aria-label={t("searchPlaceholder")}
+        aria-label={t('searchPlaceholder')}
         className={cn(
-          "hidden @3xl:flex relative items-center h-9 bg-surface border border-outline-variant rounded",
-          "focus-within:border-primary focus-within:ring-1 focus-within:ring-primary/20",
-          "transition-all duration-200 w-60",
-          className
+          'bg-surface border-outline-variant relative hidden h-9 items-center rounded border @3xl:flex',
+          'focus-within:border-primary focus-within:ring-primary/20 focus-within:ring-1',
+          'w-60 transition-all duration-200',
+          className,
         )}
-       
       >
         <span id={descriptionId} className="sr-only">
           {effectivePlaceholder}
         </span>
-        <span className="flex items-center justify-center w-9 h-full shrink-0" aria-hidden="true">
-          <Icon symbol="search" className="w-5 h-5 text-on-surface-variant" />
+        <span className="flex h-full w-9 shrink-0 items-center justify-center" aria-hidden="true">
+          <Icon symbol="search" className="text-on-surface-variant h-5 w-5" />
         </span>
         <input
           id={searchId}
@@ -214,22 +212,22 @@ export function SearchInput({
           onChange={(e) => setLocalValue(e.target.value)}
           onKeyDown={handleKeyDown}
           aria-describedby={descriptionId}
-          aria-label={t("searchPlaceholder")}
+          aria-label={t('searchPlaceholder')}
           className={cn(
-            "flex-1 min-w-0 h-full pr-2 text-body-medium bg-transparent",
-            "text-on-surface placeholder:text-on-surface-variant/70 outline-none"
+            'text-body-medium h-full min-w-0 flex-1 bg-transparent pr-2',
+            'text-on-surface placeholder:text-on-surface-variant/70 outline-none',
           )}
         />
         {localValue && (
           <button
             onClick={handleClear}
             className={cn(
-              "flex items-center justify-center w-8 h-full shrink-0",
-              "hover:bg-on-surface/8 transition-colors rounded-r"
+              'flex h-full w-8 shrink-0 items-center justify-center',
+              'hover:bg-on-surface/8 focus-visible:ring-primary rounded-r transition-colors focus-visible:ring-2 focus-visible:outline-none',
             )}
-            aria-label={t("clearSearch")}
+            aria-label={t('clearSearch')}
           >
-            <Icon symbol="close" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="close" className="text-on-surface-variant h-4 w-4" />
           </button>
         )}
       </div>
@@ -252,14 +250,10 @@ interface MobileSearchOverlayProps {
  * Full-screen search overlay for mobile devices.
  * Based on the dataflow-extract ReviewHeader pattern.
  */
-export function MobileSearchOverlay({
-  isOpen,
-  onClose,
-  placeholder,
-}: MobileSearchOverlayProps) {
+export function MobileSearchOverlay({ isOpen, onClose, placeholder }: MobileSearchOverlayProps) {
   const { t } = useI18n();
   const { searchText, setSearch } = useFiltering();
-  const effectivePlaceholder = placeholder ?? t("searchPlaceholder");
+  const effectivePlaceholder = placeholder ?? t('searchPlaceholder');
   const [localValue, setLocalValue] = useState(searchText);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedValue = useDebounce(localValue, SEARCH_DEBOUNCE_MS);
@@ -280,14 +274,14 @@ export function MobileSearchOverlay({
 
   // Sync external clears
   useEffect(() => {
-    if (searchText === "" && localValue !== "") {
-      setLocalValue("");
+    if (searchText === '' && localValue !== '') {
+      setLocalValue('');
     }
   }, [searchText, localValue]);
 
   const handleClear = useCallback(() => {
-    setLocalValue("");
-    setSearch("");
+    setLocalValue('');
+    setSearch('');
   }, [setSearch]);
 
   const handleClose = useCallback(() => {
@@ -296,11 +290,11 @@ export function MobileSearchOverlay({
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         handleClose();
       }
     },
-    [handleClose]
+    [handleClose],
   );
 
   if (!isOpen) return null;
@@ -308,15 +302,12 @@ export function MobileSearchOverlay({
   return (
     <div
       className={cn(
-        "absolute inset-0 bg-surface z-50 flex items-center px-2",
-        "animate-in fade-in slide-in-from-top-2 duration-200"
+        'bg-surface absolute inset-0 z-50 flex items-center px-2',
+        'animate-in fade-in slide-in-from-top-2 duration-200',
       )}
     >
-      <div className="flex-1 max-w-2xl mx-auto flex items-center gap-2 w-full">
-        <Icon
-          symbol="search"
-          className="w-5 h-5 text-on-surface-variant ml-2 shrink-0"
-        />
+      <div className="mx-auto flex w-full max-w-2xl flex-1 items-center gap-2">
+        <Icon symbol="search" className="text-on-surface-variant ml-2 h-5 w-5 shrink-0" />
         <input
           ref={inputRef}
           autoFocus
@@ -328,26 +319,21 @@ export function MobileSearchOverlay({
           onKeyDown={handleKeyDown}
           placeholder={effectivePlaceholder}
           className={cn(
-            "flex-1 bg-transparent border-none outline-none",
-            "text-body-large text-on-surface placeholder:text-on-surface-variant h-12"
+            'flex-1 border-none bg-transparent outline-none',
+            'text-body-large text-on-surface placeholder:text-on-surface-variant h-12',
           )}
         />
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex shrink-0 items-center gap-2">
           {localValue && (
             <button
               onClick={handleClear}
-              className="px-2 py-1 rounded text-label-medium text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 transition-colors"
+              className="text-label-medium text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 focus-visible:ring-primary rounded px-2 py-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
             >
-              {t("clear")}
+              {t('clear')}
             </button>
           )}
-          <Button
-            variant="text"
-            size="sm"
-            onClick={handleClose}
-            className="w-10 h-10 p-0"
-          >
-            <Icon symbol="close" className="w-5 h-5" />
+          <Button variant="text" size="sm" onClick={handleClose} className="h-10 w-10 p-0">
+            <Icon symbol="close" className="h-5 w-5" />
           </Button>
         </div>
       </div>
