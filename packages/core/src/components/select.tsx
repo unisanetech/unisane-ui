@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from "react";
-import { createPortal } from "react-dom";
-import { cn } from "@ui/lib/utils";
-import { Icon } from "@ui/primitives/icon";
+import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '@ui/lib/utils';
+import { Icon } from '@ui/primitives/icon';
 
 interface SelectOption {
   value: string;
@@ -16,7 +16,7 @@ interface SelectProps {
   options: SelectOption[];
   value?: string;
   onChange?: (value: string) => void;
-  variant?: "filled" | "outlined";
+  variant?: 'filled' | 'outlined';
   error?: boolean;
   disabled?: boolean;
   className?: string;
@@ -31,12 +31,12 @@ export const Select: React.FC<SelectProps> = ({
   options,
   value,
   onChange,
-  variant = "outlined",
+  variant = 'outlined',
   error,
   disabled,
   className,
   labelClassName,
-  placeholder = "Select an option",
+  placeholder = 'Select an option',
   portal = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +51,7 @@ export const Select: React.FC<SelectProps> = ({
 
   const selectedIndex = options.findIndex((option) => option.value === value);
   const selectedLabel = options[selectedIndex]?.label;
-  const displayLabel = selectedLabel || (!label ? placeholder : "");
+  const displayLabel = selectedLabel || (!label ? placeholder : '');
 
   // Calculate dropdown position for portal mode
   const updateDropdownPosition = useCallback(() => {
@@ -67,11 +67,11 @@ export const Select: React.FC<SelectProps> = ({
   useEffect(() => {
     if (portal && isOpen) {
       updateDropdownPosition();
-      window.addEventListener("scroll", updateDropdownPosition, true);
-      window.addEventListener("resize", updateDropdownPosition);
+      window.addEventListener('scroll', updateDropdownPosition, true);
+      window.addEventListener('resize', updateDropdownPosition);
       return () => {
-        window.removeEventListener("scroll", updateDropdownPosition, true);
-        window.removeEventListener("resize", updateDropdownPosition);
+        window.removeEventListener('scroll', updateDropdownPosition, true);
+        window.removeEventListener('resize', updateDropdownPosition);
       };
     }
   }, [portal, isOpen, updateDropdownPosition]);
@@ -95,8 +95,8 @@ export const Select: React.FC<SelectProps> = ({
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [portal]);
 
   const getNextEnabledIndex = (startIndex: number, direction: 1 | -1) => {
@@ -131,10 +131,10 @@ export const Select: React.FC<SelectProps> = ({
   const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
 
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
       if (!isOpen) setIsOpen(true);
-      const direction = event.key === "ArrowDown" ? 1 : -1;
+      const direction = event.key === 'ArrowDown' ? 1 : -1;
       const baseIndex =
         highlightedIndex !== -1
           ? highlightedIndex
@@ -147,7 +147,7 @@ export const Select: React.FC<SelectProps> = ({
       return;
     }
 
-    if (event.key === "Enter" || event.key === " ") {
+    if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       if (!isOpen) {
         setIsOpen(true);
@@ -160,7 +160,7 @@ export const Select: React.FC<SelectProps> = ({
       return;
     }
 
-    if (event.key === "Escape" && isOpen) {
+    if (event.key === 'Escape' && isOpen) {
       event.preventDefault();
       setIsOpen(false);
     }
@@ -173,7 +173,7 @@ export const Select: React.FC<SelectProps> = ({
   return (
     <div
       ref={containerRef}
-      className={cn("relative inline-flex flex-col w-full min-w-40", className)}
+      className={cn('relative inline-flex w-full min-w-40 flex-col', className)}
     >
       <button
         ref={triggerRef}
@@ -182,21 +182,18 @@ export const Select: React.FC<SelectProps> = ({
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
-          "relative flex items-center w-full transition-colors cursor-pointer select-none group h-10",
-          variant === "outlined"
-            ? "rounded-sm border border-outline-variant bg-surface"
-            : "rounded-t-sm border-b border-outline bg-surface-container-low",
+          'group relative flex h-10 w-full cursor-pointer items-center transition-colors select-none',
+          variant === 'outlined'
+            ? 'border-outline-variant bg-surface rounded-sm border'
+            : 'border-outline bg-surface-container-low rounded-t-sm border-b',
           !disabled &&
             !isOpen &&
-            (variant === "outlined"
-              ? "hover:border-outline"
-              : "hover:bg-surface-container hover:border-outline"),
-          isOpen &&
-            (variant === "outlined"
-              ? "border-primary! border-2"
-              : "bg-surface"),
-          error && "border-error",
-          disabled && "opacity-38 cursor-not-allowed"
+            (variant === 'outlined'
+              ? 'hover:border-outline'
+              : 'hover:bg-surface-container hover:border-outline'),
+          isOpen && (variant === 'outlined' ? 'border-primary! border-2' : 'bg-surface'),
+          error && 'border-error',
+          disabled && 'cursor-not-allowed opacity-38',
         )}
         disabled={disabled}
         role="combobox"
@@ -207,58 +204,53 @@ export const Select: React.FC<SelectProps> = ({
         aria-labelledby={label ? labelId : undefined}
         aria-label={!label ? placeholder : undefined}
       >
-        {variant === "filled" && (
+        {variant === 'filled' && (
           <div
             className={cn(
-              "absolute bottom-[calc(var(--unit)*-0.25)] left-0 right-0 h-0.5 scale-x-0 transition-transform duration-snappy ease-out origin-center",
-              error ? "bg-error scale-x-100" : "bg-primary",
-              isOpen && "scale-x-100"
+              'duration-snappy absolute right-0 bottom-[calc(var(--unit)*-0.25)] left-0 h-0.5 origin-center scale-x-0 transition-transform ease-out',
+              error ? 'bg-error scale-x-100' : 'bg-primary',
+              isOpen && 'scale-x-100',
             )}
           />
         )}
 
-        <div className="relative w-full h-full flex items-center px-4">
-            <span
-              className={cn(
-              "text-on-surface text-body-large font-medium w-full truncate",
-              variant === "filled" && "pt-4 pb-0.5"
+        <div className="relative flex h-full w-full items-center px-4">
+          <span
+            className={cn(
+              'text-on-surface text-body-large w-full truncate font-medium',
+              variant === 'filled' && 'pt-4 pb-0.5',
             )}
-            >
-              {displayLabel}
-            </span>
+          >
+            {displayLabel}
+          </span>
 
           {label && (
             <label
               htmlFor={triggerId}
               id={labelId}
               className={cn(
-                "absolute pointer-events-none truncate max-w-[calc(100%-calc(var(--unit)*12))] transition-all duration-snappy ease-emphasized origin-left left-4",
-                !isFloating &&
-                  "text-body-medium -translate-y-1/2 top-1/2 text-on-surface-variant",
+                'duration-snappy ease-emphasized pointer-events-none absolute left-4 max-w-[calc(100%-calc(var(--unit)*12))] origin-left truncate transition-all',
+                !isFloating && 'text-body-medium text-on-surface-variant top-1/2 -translate-y-1/2',
                 isFloating && [
-                  "text-label-small font-medium",
-                  variant === "outlined" && [
-                    "top-0 -translate-y-1/2 bg-surface px-1 -ml-1",
-                    labelClassName ? labelClassName : "bg-surface",
+                  'text-label-small font-medium',
+                  variant === 'outlined' && [
+                    'bg-surface top-0 -ml-1 -translate-y-1/2 px-1',
+                    labelClassName ? labelClassName : 'bg-surface',
                   ],
-                  variant === "filled" && "top-1 translate-y-0",
-                  error ? "text-error" : "text-primary",
+                  variant === 'filled' && 'top-1 translate-y-0',
+                  error ? 'text-error' : isOpen ? 'text-primary' : 'text-on-surface-variant',
                 ],
-                !value && isOpen && "text-primary"
               )}
             >
               {label}
             </label>
           )}
 
-          <div className="absolute right-3 text-on-surface-variant">
+          <div className="text-on-surface-variant absolute right-3">
             <Icon
               symbol="keyboard_arrow_down"
               size="sm"
-              className={cn(
-                "transition-transform duration-snappy",
-                isOpen && "rotate-180"
-              )}
+              className={cn('duration-snappy transition-transform', isOpen && 'rotate-180')}
             />
           </div>
         </div>
@@ -270,7 +262,7 @@ export const Select: React.FC<SelectProps> = ({
           id={listboxId}
           role="listbox"
           aria-labelledby={label ? labelId : undefined}
-          className="absolute top-[calc(100%+var(--unit))] left-0 w-full bg-surface border border-outline-variant rounded-sm shadow-2 py-1 max-h-70 overflow-y-auto z-100 animate-in fade-in zoom-in-95 duration-snappy"
+          className="bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy absolute top-[calc(100%+var(--unit))] left-0 z-100 max-h-70 w-full overflow-y-auto rounded-sm border py-1"
         >
           {options.length > 0 ? (
             options.map((option, index) => {
@@ -283,12 +275,12 @@ export const Select: React.FC<SelectProps> = ({
                   onClick={() => handleSelect(option.value, isDisabled)}
                   onMouseEnter={() => setHighlightedIndex(index)}
                   className={cn(
-                    "px-4 h-12 flex items-center text-body-large font-medium cursor-pointer transition-colors",
-                    isHighlighted && !isDisabled && "bg-surface-container-high",
+                    'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors',
+                    isHighlighted && !isDisabled && 'bg-on-surface/6',
                     value === option.value
-                      ? "bg-primary/8 text-primary"
-                      : "text-on-surface hover:bg-surface-container-high",
-                    isDisabled && "opacity-38 cursor-not-allowed"
+                      ? 'bg-primary/10 text-primary'
+                      : 'text-on-surface hover:bg-on-surface/6',
+                    isDisabled && 'cursor-not-allowed opacity-38',
                   )}
                   role="option"
                   aria-selected={value === option.value}
@@ -299,7 +291,7 @@ export const Select: React.FC<SelectProps> = ({
               );
             })
           ) : (
-            <div className="px-4 py-3 text-label-medium text-on-surface-variant font-medium">
+            <div className="text-label-medium text-on-surface-variant px-4 py-3 font-medium">
               No Options Available
             </div>
           )}
@@ -307,14 +299,17 @@ export const Select: React.FC<SelectProps> = ({
       )}
 
       {/* Portal mode dropdown */}
-      {isOpen && !disabled && portal && typeof document !== "undefined" &&
+      {isOpen &&
+        !disabled &&
+        portal &&
+        typeof document !== 'undefined' &&
         createPortal(
           <div
             ref={dropdownRef}
             id={listboxId}
             role="listbox"
             aria-labelledby={label ? labelId : undefined}
-            className="fixed bg-surface border border-outline-variant rounded-sm shadow-2 py-1 max-h-70 overflow-y-auto z-9999 animate-in fade-in zoom-in-95 duration-snappy"
+            className="bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy fixed z-9999 max-h-70 overflow-y-auto rounded-sm border py-1"
             style={{
               top: dropdownPosition.top,
               left: dropdownPosition.left,
@@ -332,12 +327,12 @@ export const Select: React.FC<SelectProps> = ({
                     onClick={() => handleSelect(option.value, isDisabled)}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     className={cn(
-                      "px-4 h-12 flex items-center text-body-large font-medium cursor-pointer transition-colors",
-                      isHighlighted && !isDisabled && "bg-surface-container-high",
+                      'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors',
+                      isHighlighted && !isDisabled && 'bg-on-surface/6',
                       value === option.value
-                        ? "bg-primary/8 text-primary"
-                        : "text-on-surface hover:bg-surface-container-high",
-                      isDisabled && "opacity-38 cursor-not-allowed"
+                        ? 'bg-primary/10 text-primary'
+                        : 'text-on-surface hover:bg-on-surface/6',
+                      isDisabled && 'cursor-not-allowed opacity-38',
                     )}
                     role="option"
                     aria-selected={value === option.value}
@@ -348,12 +343,12 @@ export const Select: React.FC<SelectProps> = ({
                 );
               })
             ) : (
-              <div className="px-4 py-3 text-label-medium text-on-surface-variant font-medium">
+              <div className="text-label-medium text-on-surface-variant px-4 py-3 font-medium">
                 No Options Available
               </div>
             )}
           </div>,
-          document.body
+          document.body,
         )}
     </div>
   );

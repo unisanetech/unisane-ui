@@ -1,29 +1,28 @@
-import React, { isValidElement, cloneElement } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, Slot } from "@/lib/utils";
-import { Ripple } from "../components/ripple";
+import React, { isValidElement, cloneElement } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, Slot } from '@/lib/utils';
+import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
-  "min-w-50 bg-surface shadow-2 border border-outline-variant/20 overflow-hidden",
+  'min-w-50 bg-surface shadow-2 border border-outline-variant/20 overflow-hidden',
   {
     variants: {
       rounded: {
-        sm: "rounded-sm",
-        md: "rounded-md",
-        lg: "rounded-lg",
-        xl: "rounded-xl",
-        "2xl": "rounded-2xl",
+        sm: 'rounded-sm',
+        md: 'rounded-md',
+        lg: 'rounded-lg',
+        xl: 'rounded-xl',
+        '2xl': 'rounded-2xl',
       },
     },
     defaultVariants: {
-      rounded: "sm",
+      rounded: 'sm',
     },
-  }
+  },
 );
 
 export interface MenuProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof menuVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof menuVariants> {
   open?: boolean;
   children: React.ReactNode;
 }
@@ -38,18 +37,13 @@ export const Menu: React.FC<MenuProps> = ({
   if (!open) return null;
 
   return (
-    <div
-      className={cn(menuVariants({ rounded }), "py-2", className)}
-      role="menu"
-      {...props}
-    >
+    <div className={cn(menuVariants({ rounded }), 'py-2', className)} role="menu" {...props}>
       {children}
     </div>
   );
 };
 
-export interface MenuItemProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface MenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   disabled?: boolean;
   selected?: boolean;
@@ -76,24 +70,28 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       : children;
 
   const itemClasses = cn(
-    "relative w-full text-left px-4 h-12 flex items-center gap-3 cursor-pointer select-none overflow-hidden",
-    "text-on-surface transition-colors duration-short ease-standard",
-    "hover:bg-on-surface/8 focus-visible:bg-on-surface/12 focus-visible:outline-none",
-    disabled && "opacity-38 cursor-not-allowed hover:bg-transparent",
-    selected && "bg-secondary-container text-on-secondary-container",
-    className
+    'relative w-full text-left px-4 h-10 flex items-center gap-3 cursor-pointer select-none overflow-hidden',
+    'text-on-surface transition-colors duration-short ease-standard',
+    'hover:bg-on-surface/6 focus-visible:bg-on-surface/10 focus-visible:outline-none',
+    disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
+    selected && 'bg-secondary-container text-on-secondary-container',
+    className,
   );
 
   const innerContent = (
     <>
       <Ripple disabled={disabled} />
       {icon && (
-        <div className="shrink-0 relative z-10 flex items-center justify-center min-w-[var(--size-icon-sm)] min-h-[var(--size-icon-sm)]">
+        <div className="relative z-10 flex min-h-[var(--size-icon-sm)] min-w-[var(--size-icon-sm)] shrink-0 items-center justify-center">
           {icon}
         </div>
       )}
-      <span className="flex-1 relative z-10 font-medium text-body-large">{label}</span>
-      {trailingIcon && <div className="shrink-0 relative z-10 text-on-surface-variant flex items-center justify-center">{trailingIcon}</div>}
+      <span className="text-body-large relative z-10 flex-1 font-medium">{label}</span>
+      {trailingIcon && (
+        <div className="text-on-surface-variant relative z-10 flex shrink-0 items-center justify-center">
+          {trailingIcon}
+        </div>
+      )}
     </>
   );
 
@@ -136,20 +134,13 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 
 export type MenuDividerProps = React.HTMLAttributes<HTMLDivElement>;
 
-export const MenuDivider: React.FC<MenuDividerProps> = ({
-  className,
-  ...props
-}) => {
+export const MenuDivider: React.FC<MenuDividerProps> = ({ className, ...props }) => {
   return (
-    <div
-      className={cn("h-px bg-outline-variant/40 my-1", className)}
-      role="separator"
-      {...props}
-    />
+    <div className={cn('bg-outline-variant/40 my-1 h-px', className)} role="separator" {...props} />
   );
 };
 
-export interface MenuCheckboxItemProps extends Omit<MenuItemProps, "selected"> {
+export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'selected'> {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 }
@@ -170,12 +161,12 @@ export const MenuCheckboxItem: React.FC<MenuCheckboxItemProps> = ({
       icon={
         <div
           className={cn(
-            "size-icon-sm rounded-xs border-2 border-current",
-            checked && "bg-primary border-primary text-on-primary"
+            'size-icon-sm rounded-xs border-2 border-current',
+            checked && 'bg-primary border-primary text-on-primary',
           )}
         >
           {checked && (
-            <svg className="w-full h-full" viewBox="0 0 24 24" fill="none">
+            <svg className="h-full w-full" viewBox="0 0 24 24" fill="none">
               <path
                 d="M5 13l4 4L19 7"
                 stroke="currentColor"
@@ -194,7 +185,7 @@ export const MenuCheckboxItem: React.FC<MenuCheckboxItemProps> = ({
   );
 };
 
-export interface MenuRadioItemProps extends Omit<MenuItemProps, "selected"> {
+export interface MenuRadioItemProps extends Omit<MenuItemProps, 'selected'> {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 }
@@ -215,13 +206,11 @@ export const MenuRadioItem: React.FC<MenuRadioItemProps> = ({
       icon={
         <div
           className={cn(
-            "size-icon-sm rounded-full border-2 border-current flex items-center justify-center",
-            checked && "bg-primary border-primary"
+            'size-icon-sm flex items-center justify-center rounded-full border-2 border-current',
+            checked && 'bg-primary border-primary',
           )}
         >
-          {checked && (
-            <div className="w-2.5 h-2.5 rounded-full bg-on-primary" />
-          )}
+          {checked && <div className="bg-on-primary h-2.5 w-2.5 rounded-full" />}
         </div>
       }
       {...props}

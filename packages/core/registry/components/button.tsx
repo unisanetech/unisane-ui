@@ -1,40 +1,46 @@
-"use client";
+'use client';
 
-import { type ReactNode, type ButtonHTMLAttributes, forwardRef, isValidElement, cloneElement } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { Ripple } from "./ripple";
-import { cn, Slot } from "@/lib/utils";
+import {
+  type ReactNode,
+  type ButtonHTMLAttributes,
+  forwardRef,
+  isValidElement,
+  cloneElement,
+} from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { Ripple } from './ripple';
+import { cn, Slot } from '@/lib/utils';
 
 const buttonVariants = cva(
-  "relative inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-short ease-standard overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed group whitespace-nowrap leading-none select-none",
+  'relative inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-short ease-standard overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed group whitespace-nowrap leading-none select-none',
   {
     variants: {
       variant: {
-        filled: "bg-primary text-on-primary",
-        tonal: "bg-secondary-container text-on-secondary-container",
-        outlined: "border border-outline text-primary bg-transparent",
-        text: "text-primary bg-transparent",
-        elevated: "bg-surface-container-low text-primary shadow-1",
+        filled: 'bg-primary text-on-primary',
+        tonal: 'bg-secondary-container text-on-secondary-container',
+        outlined:
+          'border border-outline-variant text-on-surface bg-transparent focus-visible:border-primary',
+        text: 'text-primary bg-transparent',
+        elevated: 'bg-surface-container-low text-primary shadow-1',
       },
       size: {
-        sm: "h-8 px-4 text-label-medium",
-        md: "h-10 px-6 text-label-large",
-        lg: "h-12 px-8 text-label-large",
+        sm: 'h-8 px-4 text-label-medium',
+        md: 'h-10 px-6 text-label-large',
+        lg: 'h-12 px-8 text-label-large',
       },
     },
     defaultVariants: {
-      variant: "filled",
-      size: "md",
+      variant: 'filled',
+      size: 'md',
     },
-  }
+  },
 );
 
 export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   children: ReactNode;
-  variant?: "filled" | "tonal" | "outlined" | "text" | "elevated";
-  size?: "sm" | "md" | "lg";
+  variant?: 'filled' | 'tonal' | 'outlined' | 'text' | 'elevated';
+  size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   icon?: ReactNode;
   trailingIcon?: ReactNode;
@@ -45,25 +51,25 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
-      variant = "filled",
-      size = "md",
+      variant = 'filled',
+      size = 'md',
       disabled = false,
       loading = false,
       icon,
       trailingIcon,
-      className = "",
-      type = "button",
+      className = '',
+      type = 'button',
       asChild = false,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const iconSizeClass = "size-icon-sm";
+    const iconSizeClass = 'size-icon-sm';
     const buttonClasses = cn(buttonVariants({ variant, size }), className);
 
     const innerContent = (
       <>
-        <span className="absolute inset-0 pointer-events-none bg-current opacity-0 transition-opacity duration-snappy group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed" />
+        <span className="duration-snappy group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity" />
         <Ripple disabled={disabled || loading} />
         {loading && (
           <svg
@@ -90,7 +96,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {!loading && icon && (
           <span
-            className={`${iconSizeClass} flex items-center justify-center shrink-0 relative z-10 pointer-events-none`}
+            className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
           >
             {icon}
           </span>
@@ -98,8 +104,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         <span
           className={cn(
-            "relative z-10 pointer-events-none",
-            loading ? "opacity-0" : "opacity-100"
+            'pointer-events-none relative z-10 inline-flex items-center justify-center gap-2',
+            loading ? 'opacity-0' : 'opacity-100',
           )}
         >
           {asChild ? null : children}
@@ -107,7 +113,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {!loading && trailingIcon && (
           <span
-            className={`${iconSizeClass} flex items-center justify-center shrink-0 relative z-10 pointer-events-none`}
+            className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
           >
             {trailingIcon}
           </span>
@@ -122,7 +128,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       const linkChildren = childElement.props.children;
       const contentWithText = (
         <>
-          <span className="absolute inset-0 pointer-events-none bg-current opacity-0 transition-opacity duration-snappy group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed" />
+          <span className="duration-snappy group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity" />
           <Ripple disabled={disabled || loading} />
           {loading && (
             <svg
@@ -148,22 +154,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           )}
           {!loading && icon && (
             <span
-              className={`${iconSizeClass} flex items-center justify-center shrink-0 relative z-10 pointer-events-none`}
+              className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
             >
               {icon}
             </span>
           )}
           <span
             className={cn(
-              "relative z-10 pointer-events-none",
-              loading ? "opacity-0" : "opacity-100"
+              'pointer-events-none relative z-10 inline-flex items-center justify-center gap-2',
+              loading ? 'opacity-0' : 'opacity-100',
             )}
           >
             {linkChildren}
           </span>
           {!loading && trailingIcon && (
             <span
-              className={`${iconSizeClass} flex items-center justify-center shrink-0 relative z-10 pointer-events-none`}
+              className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
             >
               {trailingIcon}
             </span>
@@ -188,9 +194,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {innerContent}
       </button>
     );
-  }
+  },
 );
 
-Button.displayName = "Button";
+Button.displayName = 'Button';
 
 export { buttonVariants };

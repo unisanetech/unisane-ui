@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@ui/lib/utils";
-import { Calendar } from "./calendar";
-import { DateInput } from "./date-input";
+import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@ui/lib/utils';
+import { Calendar } from './calendar';
+import { DateInput } from './date-input';
 
 // ─── M3 DOCKED DATE PICKER (HeroUI-STYLE SEGMENTS) ───────────────────────────
 // Combines HeroUI's segment-based input with Material Design 3 styling
@@ -12,15 +13,15 @@ import { DateInput } from "./date-input";
 // - Calendar popover for visual date selection
 // - Full keyboard navigation support
 
-const datePickerVariants = cva("relative w-full", {
+const datePickerVariants = cva('relative w-full', {
   variants: {
     variant: {
-      outlined: "",
-      filled: "",
+      outlined: '',
+      filled: '',
     },
   },
   defaultVariants: {
-    variant: "outlined",
+    variant: 'outlined',
   },
 });
 
@@ -39,6 +40,10 @@ export type DatePickerProps = VariantProps<typeof datePickerVariants> & {
   helperText?: string;
   /** Additional class name */
   className?: string;
+  /** Locale used by segmented input ordering */
+  locale?: string;
+  /** Optional date format pattern (e.g. dd/MM/yyyy, MM/dd/yyyy) */
+  format?: string;
   /** Minimum selectable date */
   min?: Date;
   /** Maximum selectable date */
@@ -52,37 +57,74 @@ export type DatePickerProps = VariantProps<typeof datePickerVariants> & {
 export const DatePicker: React.FC<DatePickerProps> = ({
   value,
   onChange,
-  label = "Date",
+  label = 'Date',
   disabled = false,
   error = false,
   helperText,
   className,
-  variant = "outlined",
+  variant = 'outlined',
+  locale,
+  format,
   min,
   max,
   labelBg,
   showCalendarButton = true,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const calendarRef = useRef<HTMLDivElement>(null);
+  const popoverRef = useRef<HTMLDivElement>(null);
   const popoverId = useId();
+  const [popoverPosition, setPopoverPosition] = useState({
+    top: 0,
+    left: 0,
+    width: 320,
+  });
+
+  const updatePopoverPosition = useCallback(() => {
+    if (!containerRef.current || typeof window === 'undefined') return;
+
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const preferredWidth = Math.max(rect.width, 320);
+    const maxWidth = Math.max(240, viewportWidth - 16);
+    const width = Math.min(preferredWidth, maxWidth);
+    const left = Math.min(Math.max(8, rect.left), viewportWidth - width - 8);
+    const popoverHeight = popoverRef.current?.offsetHeight ?? 360;
+    const preferredTop = rect.bottom + 8;
+    const shouldOpenUp =
+      preferredTop + popoverHeight > viewportHeight - 8 && rect.top - popoverHeight > 8;
+    const top = shouldOpenUp
+      ? Math.max(8, rect.top - popoverHeight - 8)
+      : Math.min(preferredTop, Math.max(8, viewportHeight - popoverHeight - 8));
+
+    setPopoverPosition({
+      top,
+      left,
+      width,
+    });
+  }, []);
 
   // Handle date selection from calendar
-  const handleDateSelect = useCallback((date: Date) => {
-    onChange?.(date);
-    setIsOpen(false);
-  }, [onChange]);
+  const handleDateSelect = useCallback(
+    (date: Date) => {
+      onChange?.(date);
+      setIsOpen(false);
+    },
+    [onChange],
+  );
 
   // Calendar toggle button handler
-  const handleCalendarButtonClick = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (!disabled) {
-      setIsOpen((prev) => !prev);
-    }
-  }, [disabled]);
+  const handleCalendarButtonClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!disabled) {
+        setIsOpen((prev) => !prev);
+      }
+    },
+    [disabled],
+  );
 
   // Handle click outside to close
   useEffect(() => {
@@ -90,28 +132,32 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(target)
-      ) {
-        setIsOpen(false);
-      }
+      if (containerRef.current?.contains(target)) return;
+      if (popoverRef.current?.contains(target)) return;
+      setIsOpen(false);
     };
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         setIsOpen(false);
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
+    updatePopoverPosition();
+    const rafId = window.requestAnimationFrame(updatePopoverPosition);
+    window.addEventListener('resize', updatePopoverPosition);
+    window.addEventListener('scroll', updatePopoverPosition, true);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', updatePopoverPosition);
+      window.removeEventListener('scroll', updatePopoverPosition, true);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen]);
+  }, [isOpen, updatePopoverPosition]);
 
   // Calendar button icon
   const calendarButton = showCalendarButton ? (
@@ -125,18 +171,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       aria-controls={popoverId}
       tabIndex={-1}
       className={cn(
-        "p-1 -mr-1 rounded-full transition-colors",
-        "hover:bg-on-surface/8 focus-visible:bg-on-surface/8 focus-visible:outline-none",
-        error ? "text-error" : "text-on-surface-variant"
+        '-mr-1 rounded-full p-1 transition-colors',
+        'hover:bg-on-surface/8 focus-visible:bg-on-surface/8 focus-visible:outline-none',
+        error ? 'text-error' : 'text-on-surface-variant',
       )}
     >
-      <svg
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        aria-hidden="true"
-      >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
       </svg>
     </button>
@@ -152,37 +192,45 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         error={error}
         helperText={helperText}
         variant={variant}
+        locale={locale}
+        format={format}
         min={min}
         max={max}
         labelBg={labelBg}
         trailingIcon={calendarButton}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
       />
 
       {/* Dropdown calendar */}
-      {isOpen && (
-        <div
-          ref={calendarRef}
-          id={popoverId}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Choose date"
-          className={cn(
-            "absolute z-modal top-[calc(100%+8px)] left-0",
-            "animate-in fade-in zoom-in-95 duration-short ease-standard"
-          )}
-        >
-          <Calendar
-            selectedDate={value}
-            onDateSelect={handleDateSelect}
-            min={min}
-            max={max}
-          />
-        </div>
-      )}
+      {isOpen && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              ref={popoverRef}
+              id={popoverId}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Choose date"
+              className={cn(
+                'z-popover animate-in fade-in zoom-in-95 duration-short ease-standard fixed',
+              )}
+              style={{
+                top: popoverPosition.top,
+                left: popoverPosition.left,
+                width: popoverPosition.width,
+              }}
+            >
+              <Calendar
+                className="max-w-none"
+                selectedDate={value}
+                onDateSelect={handleDateSelect}
+                min={min}
+                max={max}
+              />
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 };
 
-DatePicker.displayName = "DatePicker";
+DatePicker.displayName = 'DatePicker';
