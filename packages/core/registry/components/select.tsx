@@ -17,6 +17,7 @@ interface SelectProps {
   value?: string;
   onChange?: (value: string) => void;
   variant?: 'filled' | 'outlined';
+  size?: 'sm' | 'md';
   error?: boolean;
   disabled?: boolean;
   className?: string;
@@ -26,12 +27,23 @@ interface SelectProps {
   portal?: boolean;
 }
 
+type DropdownDirection = 'down' | 'up';
+
+type DropdownPosition = {
+  top: number;
+  left: number;
+  width: number;
+  maxHeight: number;
+  direction: DropdownDirection;
+};
+
 export const Select: React.FC<SelectProps> = ({
   label,
   options,
   value,
   onChange,
   variant = 'outlined',
+  size = 'md',
   error,
   disabled,
   className,
@@ -44,7 +56,13 @@ export const Select: React.FC<SelectProps> = ({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
+  const [dropdownPosition, setDropdownPosition] = useState<DropdownPosition>({
+    top: 0,
+    left: 0,
+    width: 0,
+    maxHeight: 280,
+    direction: 'down',
+  });
   const listboxId = useId();
   const labelId = useId();
   const triggerId = useId();
@@ -57,19 +75,47 @@ export const Select: React.FC<SelectProps> = ({
   const updateDropdownPosition = useCallback(() => {
     if (!triggerRef.current) return;
     const rect = triggerRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const edgePadding = 8;
+    const gap = 4;
+    const optionHeight = size === 'sm' ? 32 : 40;
+    const estimatedHeight = Math.min(Math.max(1, options.length) * optionHeight + 8, 280);
+    const minHeight = 120;
+    const spaceBelow = viewportHeight - rect.bottom - edgePadding;
+    const spaceAbove = rect.top - edgePadding;
+    const shouldOpenUp = spaceBelow < Math.min(estimatedHeight, 180) && spaceAbove > spaceBelow;
+    const maxHeight = Math.max(
+      minHeight,
+      Math.min(280, (shouldOpenUp ? spaceAbove : spaceBelow) - gap),
+    );
+    const measuredHeight = dropdownRef.current?.offsetHeight ?? estimatedHeight;
+    const placementHeight = Math.min(measuredHeight, maxHeight);
+    const width = Math.min(rect.width, viewportWidth - edgePadding * 2);
+    const left = Math.min(Math.max(rect.left, edgePadding), viewportWidth - width - edgePadding);
+    const unclampedTop = shouldOpenUp ? rect.top - placementHeight - gap : rect.bottom + gap;
+    const top = Math.min(
+      Math.max(unclampedTop, edgePadding),
+      viewportHeight - maxHeight - edgePadding,
+    );
+
     setDropdownPosition({
-      top: rect.bottom + 4, // 4px gap
-      left: rect.left,
-      width: rect.width,
+      top,
+      left,
+      width,
+      maxHeight,
+      direction: shouldOpenUp ? 'up' : 'down',
     });
-  }, []);
+  }, [options.length, size]);
 
   useEffect(() => {
     if (portal && isOpen) {
       updateDropdownPosition();
+      const raf = window.requestAnimationFrame(updateDropdownPosition);
       window.addEventListener('scroll', updateDropdownPosition, true);
       window.addEventListener('resize', updateDropdownPosition);
       return () => {
+        window.cancelAnimationFrame(raf);
         window.removeEventListener('scroll', updateDropdownPosition, true);
         window.removeEventListener('resize', updateDropdownPosition);
       };
@@ -169,6 +215,19 @@ export const Select: React.FC<SelectProps> = ({
   const isFloating = Boolean(value) || isOpen;
   const activeDescendantId =
     highlightedIndex >= 0 ? `${listboxId}-option-${highlightedIndex}` : undefined;
+  const triggerHeightClass = size === 'sm' ? 'h-8' : 'h-10';
+  const triggerPaddingClass = size === 'sm' ? 'px-3' : 'px-4';
+  const triggerValueClass = size === 'sm' ? 'text-label-medium' : 'text-body-large';
+  const triggerRestLabelClass = size === 'sm' ? 'text-label-medium' : 'text-body-medium';
+  const triggerChevronOffsetClass = size === 'sm' ? 'right-2.5' : 'right-3';
+  const optionClass =
+    size === 'sm'
+      ? 'text-label-medium flex h-8 cursor-pointer items-center px-3 font-medium transition-colors'
+      : 'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors';
+  const emptyClass =
+    size === 'sm'
+      ? 'text-label-small text-on-surface-variant px-3 py-2.5 font-medium'
+      : 'text-label-medium text-on-surface-variant px-4 py-3 font-medium';
 
   return (
     <div
@@ -182,7 +241,8 @@ export const Select: React.FC<SelectProps> = ({
         onClick={() => !disabled && setIsOpen((prev) => !prev)}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
-          'group relative flex h-10 w-full cursor-pointer items-center transition-colors select-none',
+          'group relative flex w-full cursor-pointer items-center transition-colors select-none',
+          triggerHeightClass,
           variant === 'outlined'
             ? 'border-outline-variant bg-surface rounded-sm border'
             : 'border-outline bg-surface-container-low rounded-t-sm border-b',
@@ -214,10 +274,11 @@ export const Select: React.FC<SelectProps> = ({
           />
         )}
 
-        <div className="relative flex h-full w-full items-center px-4">
+        <div className={cn('relative flex h-full w-full items-center', triggerPaddingClass)}>
           <span
             className={cn(
-              'text-on-surface text-body-large w-full truncate font-medium',
+              'text-on-surface w-full truncate font-medium',
+              triggerValueClass,
               variant === 'filled' && 'pt-4 pb-0.5',
             )}
           >
@@ -230,7 +291,10 @@ export const Select: React.FC<SelectProps> = ({
               id={labelId}
               className={cn(
                 'duration-snappy ease-emphasized pointer-events-none absolute left-4 max-w-[calc(100%-calc(var(--unit)*12))] origin-left truncate transition-all',
-                !isFloating && 'text-body-medium text-on-surface-variant top-1/2 -translate-y-1/2',
+                !isFloating && [
+                  triggerRestLabelClass,
+                  'text-on-surface-variant top-1/2 -translate-y-1/2',
+                ],
                 isFloating && [
                   'text-label-small font-medium',
                   variant === 'outlined' && [
@@ -246,7 +310,7 @@ export const Select: React.FC<SelectProps> = ({
             </label>
           )}
 
-          <div className="text-on-surface-variant absolute right-3">
+          <div className={cn('text-on-surface-variant absolute', triggerChevronOffsetClass)}>
             <Icon
               symbol="keyboard_arrow_down"
               size="sm"
@@ -275,7 +339,7 @@ export const Select: React.FC<SelectProps> = ({
                   onClick={() => handleSelect(option.value, isDisabled)}
                   onMouseEnter={() => setHighlightedIndex(index)}
                   className={cn(
-                    'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors',
+                    optionClass,
                     isHighlighted && !isDisabled && 'bg-on-surface/6',
                     value === option.value
                       ? 'bg-primary/10 text-primary'
@@ -291,9 +355,7 @@ export const Select: React.FC<SelectProps> = ({
               );
             })
           ) : (
-            <div className="text-label-medium text-on-surface-variant px-4 py-3 font-medium">
-              No Options Available
-            </div>
+            <div className={emptyClass}>No Options Available</div>
           )}
         </div>
       )}
@@ -309,11 +371,15 @@ export const Select: React.FC<SelectProps> = ({
             id={listboxId}
             role="listbox"
             aria-labelledby={label ? labelId : undefined}
-            className="bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy fixed z-9999 max-h-70 overflow-y-auto rounded-sm border py-1"
+            className={cn(
+              'bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy fixed z-9999 overflow-y-auto rounded-sm border py-1',
+              dropdownPosition.direction === 'up' ? 'origin-bottom' : 'origin-top',
+            )}
             style={{
               top: dropdownPosition.top,
               left: dropdownPosition.left,
               width: dropdownPosition.width,
+              maxHeight: dropdownPosition.maxHeight,
             }}
           >
             {options.length > 0 ? (
@@ -327,7 +393,7 @@ export const Select: React.FC<SelectProps> = ({
                     onClick={() => handleSelect(option.value, isDisabled)}
                     onMouseEnter={() => setHighlightedIndex(index)}
                     className={cn(
-                      'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors',
+                      optionClass,
                       isHighlighted && !isDisabled && 'bg-on-surface/6',
                       value === option.value
                         ? 'bg-primary/10 text-primary'
@@ -343,9 +409,7 @@ export const Select: React.FC<SelectProps> = ({
                 );
               })
             ) : (
-              <div className="text-label-medium text-on-surface-variant px-4 py-3 font-medium">
-                No Options Available
-              </div>
+              <div className={emptyClass}>No Options Available</div>
             )}
           </div>,
           document.body,

@@ -27,6 +27,9 @@ export type ComboboxOption = {
 export type ComboboxProps = VariantProps<typeof comboboxVariants> & {
   value?: string;
   onChange?: (value: string) => void;
+  onOpenChange?: (open: boolean) => void;
+  onSearchChange?: (query: string) => void;
+  highlightSelected?: boolean;
   options: ComboboxOption[];
   placeholder?: string;
   label?: string;
@@ -40,6 +43,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     {
       value,
       onChange,
+      onOpenChange,
+      onSearchChange,
+      highlightSelected = true,
       options,
       placeholder = 'Search or select...',
       label,
@@ -91,13 +97,14 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       const handleClickOutside = (event: MouseEvent) => {
         if (comboboxRef.current && !comboboxRef.current.contains(event.target as Node)) {
           setIsOpen(false);
+          onOpenChange?.(false);
           setActiveIndex(-1);
         }
       };
 
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, [onOpenChange]);
 
     useEffect(() => {
       if (!isOpen) {
@@ -115,18 +122,24 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         }
         onChange?.(option.value);
         setSearchValue('');
+        onSearchChange?.('');
         setIsSearching(false);
         setIsOpen(false);
+        onOpenChange?.(false);
         setActiveIndex(-1);
       },
-      [onChange],
+      [onChange, onOpenChange, onSearchChange],
     );
 
     const handleInputChange = (newValue: string) => {
       setSearchValue(newValue);
+      onSearchChange?.(newValue);
       setIsSearching(true);
       setActiveIndex(-1);
-      if (!isOpen) setIsOpen(true);
+      if (!isOpen) {
+        setIsOpen(true);
+        onOpenChange?.(true);
+      }
     };
 
     const handleBlur = useCallback(() => {
@@ -137,11 +150,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       // Use requestAnimationFrame + setTimeout for more reliable timing
       blurTimeoutRef.current = window.setTimeout(() => {
         if (!comboboxRef.current?.contains(document.activeElement)) {
+          onOpenChange?.(false);
           setIsSearching(false);
           setSearchValue('');
+          onSearchChange?.('');
         }
       }, 100);
-    }, []);
+    }, [onOpenChange, onSearchChange]);
 
     const handleKeyDown = useCallback(
       (e: React.KeyboardEvent) => {
@@ -152,6 +167,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             e.preventDefault();
             if (!isOpen) {
               setIsOpen(true);
+              onOpenChange?.(true);
             } else {
               setActiveIndex((prev) => {
                 const nextIndex = prev + 1;
@@ -179,6 +195,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           case 'Escape':
             e.preventDefault();
             setIsOpen(false);
+            onOpenChange?.(false);
             setActiveIndex(-1);
             break;
           case 'Home':
@@ -195,7 +212,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             break;
         }
       },
-      [disabled, isOpen, activeIndex, filteredOptions, handleSelect],
+      [activeIndex, disabled, filteredOptions, handleSelect, isOpen, onOpenChange],
     );
 
     return (
@@ -221,7 +238,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           )}
           onClick={() => {
             if (!disabled && !searchable) {
-              setIsOpen(!isOpen);
+              const nextOpen = !isOpen;
+              setIsOpen(nextOpen);
+              onOpenChange?.(nextOpen);
             }
           }}
           onKeyDown={!searchable ? handleKeyDown : undefined}
@@ -248,8 +267,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 onFocus={() => {
                   if (!disabled) {
                     setIsOpen(true);
+                    onOpenChange?.(true);
                     setIsSearching(true);
                     setSearchValue('');
+                    onSearchChange?.('');
                   }
                 }}
                 onBlur={handleBlur}
@@ -284,7 +305,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               aria-hidden="true"
               onClick={() => {
                 if (!disabled) {
-                  setIsOpen(!isOpen);
+                  const nextOpen = !isOpen;
+                  setIsOpen(nextOpen);
+                  onOpenChange?.(nextOpen);
                   if (searchable && inputRef.current) {
                     inputRef.current.focus();
                   }
@@ -310,8 +333,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     className={cn(
                       'relative flex h-10 cursor-pointer items-center gap-3 px-4 transition-colors',
                       'hover:bg-on-surface/6',
-                      value === option.value && 'bg-primary/10 text-primary',
-                      activeIndex === index && value !== option.value && 'bg-on-surface/6',
+                      highlightSelected && value === option.value && 'bg-primary/10 text-primary',
+                      activeIndex === index &&
+                        (!highlightSelected || value !== option.value) &&
+                        'bg-on-surface/6',
                       option.disabled && 'cursor-not-allowed opacity-38',
                     )}
                     onClick={() => handleSelect(option)}
@@ -325,7 +350,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       variant="bodyLarge"
                       className={cn(
                         'relative z-10',
-                        value === option.value
+                        highlightSelected && value === option.value
                           ? 'text-on-secondary-container font-semibold'
                           : 'text-on-surface font-medium',
                         option.disabled && 'text-on-surface-variant',
@@ -334,7 +359,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       {option.label}
                     </Text>
 
-                    {value === option.value && (
+                    {highlightSelected && value === option.value && (
                       <Icon
                         symbol="check"
                         size="xs"

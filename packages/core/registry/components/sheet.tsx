@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type SheetPlacement = 'right' | 'bottom';
 
 interface SheetProps {
   open: boolean;
@@ -16,6 +17,7 @@ interface SheetProps {
   footerRight?: React.ReactNode;
   className?: string;
   size?: SheetSize;
+  placement?: SheetPlacement;
 }
 
 export function Sheet({
@@ -28,6 +30,7 @@ export function Sheet({
   footerRight,
   className,
   size = 'md',
+  placement = 'right',
 }: SheetProps) {
   const [shouldRender, setShouldRender] = useState(open);
   const [isVisible, setIsVisible] = useState(false);
@@ -79,16 +82,30 @@ export function Sheet({
   if (!shouldRender) return null;
   if (typeof document === 'undefined') return null;
 
-  const sizeClasses = {
+  const rightSizeClasses: Record<SheetSize, string> = {
     sm: 'max-w-100',
     md: 'max-w-150',
     lg: 'max-w-210',
     xl: 'max-w-280',
     full: 'max-w-[calc(100vw-var(--spacing-14))]',
   };
+  const bottomSizeClasses: Record<SheetSize, string> = {
+    sm: 'max-h-[60dvh]',
+    md: 'max-h-[72dvh]',
+    lg: 'max-h-[82dvh]',
+    xl: 'max-h-[90dvh]',
+    full: 'h-[calc(100dvh-var(--spacing-8))]',
+  };
+  const isBottom = placement === 'bottom';
 
   return createPortal(
-    <div className="z-modal fixed inset-0 flex justify-end overflow-hidden" role="presentation">
+    <div
+      className={cn(
+        'z-modal fixed inset-0 flex overflow-hidden',
+        isBottom ? 'items-end justify-center' : 'justify-end',
+      )}
+      role="presentation"
+    >
       <div
         className={cn(
           'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',
@@ -106,11 +123,18 @@ export function Sheet({
 
       <div
         className={cn(
-          'bg-surface shadow-5 border-outline-variant relative flex h-full w-full transform-gpu flex-col border-l transition-all',
-          sizeClasses[size],
-          isVisible
-            ? 'translate-x-0 scale-100 opacity-100'
-            : 'translate-x-full scale-[0.98] opacity-0',
+          'bg-surface shadow-5 relative flex w-full transform-gpu flex-col transition-all',
+          isBottom
+            ? 'border-outline-variant rounded-t-xl border-t'
+            : 'border-outline-variant h-full border-l',
+          isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
+          isBottom
+            ? isVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-full opacity-0'
+            : isVisible
+              ? 'translate-x-0 scale-100 opacity-100'
+              : 'translate-x-full scale-[0.98] opacity-0',
           className,
         )}
         style={{

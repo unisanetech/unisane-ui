@@ -5,6 +5,7 @@ import { cn } from '@ui/lib/utils';
 import { useScrollLock } from '@ui/hooks/use-scroll-lock';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+export type SheetPlacement = 'right' | 'bottom';
 
 interface SheetProps {
   open: boolean;
@@ -16,6 +17,7 @@ interface SheetProps {
   footerRight?: React.ReactNode;
   className?: string;
   size?: SheetSize;
+  placement?: SheetPlacement;
 }
 
 export function Sheet({
@@ -27,7 +29,8 @@ export function Sheet({
   footerLeft,
   footerRight,
   className,
-  size = 'md'
+  size = 'md',
+  placement = 'right',
 }: SheetProps) {
   const [shouldRender, setShouldRender] = useState(open);
   const [isVisible, setIsVisible] = useState(false);
@@ -77,92 +80,122 @@ export function Sheet({
   }, [open, onClose]);
 
   if (!shouldRender) return null;
-  if (typeof document === "undefined") return null;
+  if (typeof document === 'undefined') return null;
 
-  const sizeClasses = {
-    sm: "max-w-100",
-    md: "max-w-150",
-    lg: "max-w-210",
-    xl: "max-w-280",
-    full: "max-w-[calc(100vw-var(--spacing-14))]"
+  const rightSizeClasses: Record<SheetSize, string> = {
+    sm: 'max-w-100',
+    md: 'max-w-150',
+    lg: 'max-w-210',
+    xl: 'max-w-280',
+    full: 'max-w-[calc(100vw-var(--spacing-14))]',
   };
+  const bottomSizeClasses: Record<SheetSize, string> = {
+    sm: 'max-h-[60dvh]',
+    md: 'max-h-[72dvh]',
+    lg: 'max-h-[82dvh]',
+    xl: 'max-h-[90dvh]',
+    full: 'h-[calc(100dvh-var(--spacing-8))]',
+  };
+  const isBottom = placement === 'bottom';
 
   return createPortal(
-    <div className="fixed inset-0 z-modal flex justify-end overflow-hidden" role="presentation">
-      <div 
+    <div
+      className={cn(
+        'z-modal fixed inset-0 flex overflow-hidden',
+        isBottom ? 'items-end justify-center' : 'justify-end',
+      )}
+      role="presentation"
+    >
+      <div
         className={cn(
-          "absolute inset-0 bg-scrim backdrop-blur-[calc(var(--unit)/2)] transition-opacity",
-          isVisible ? "opacity-100" : "opacity-0"
+          'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',
+          isVisible ? 'opacity-100' : 'opacity-0',
         )}
-        style={{ 
+        style={{
           transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
-          transitionTimingFunction: isVisible ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)' : 'cubic-bezier(0.3, 0, 1, 1)'
+          transitionTimingFunction: isVisible
+            ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)'
+            : 'cubic-bezier(0.3, 0, 1, 1)',
         }}
         onClick={onClose}
         aria-hidden="true"
       />
-      
-      <div 
+
+      <div
         className={cn(
-          "relative w-full h-full bg-surface shadow-5 flex flex-col border-l border-outline-variant transition-all transform-gpu",
-          sizeClasses[size],
-          isVisible ? "translate-x-0 opacity-100 scale-100" : "translate-x-full opacity-0 scale-[0.98]",
-          className
+          'bg-surface shadow-5 relative flex w-full transform-gpu flex-col transition-all',
+          isBottom
+            ? 'border-outline-variant rounded-t-xl border-t'
+            : 'border-outline-variant h-full border-l',
+          isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
+          isBottom
+            ? isVisible
+              ? 'translate-y-0 opacity-100'
+              : 'translate-y-full opacity-0'
+            : isVisible
+              ? 'translate-x-0 scale-100 opacity-100'
+              : 'translate-x-full scale-[0.98] opacity-0',
+          className,
         )}
-        style={{ 
+        style={{
           transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
-          transitionTimingFunction: isVisible ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)' : 'cubic-bezier(0.3, 0, 1, 1)'
+          transitionTimingFunction: isVisible
+            ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)'
+            : 'cubic-bezier(0.3, 0, 1, 1)',
         }}
         role="dialog"
         aria-modal="true"
       >
-        <header className="px-6 py-6 border-b border-outline-variant flex items-center justify-between bg-surface shrink-0 z-20">
+        <header className="border-outline-variant bg-surface z-20 flex shrink-0 items-center justify-between border-b px-6 py-6">
           <div className="flex items-center gap-3">
             {icon && (
-               <div className="w-10 h-10 rounded-sm bg-inverse-surface text-inverse-on-surface flex items-center justify-center shrink-0 transition-all duration-short">
-                  {icon}
-               </div>
+              <div className="bg-inverse-surface text-inverse-on-surface duration-short flex h-10 w-10 shrink-0 items-center justify-center rounded-sm transition-all">
+                {icon}
+              </div>
             )}
             <div className="flex flex-col">
-              <h2 className="text-title-medium text-on-surface leading-none">
-                {title}
-              </h2>
-              <div className="text-on-surface-variant font-medium text-label-small mt-1 flex items-center gap-1.5">
-                <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
+              <h2 className="text-title-medium text-on-surface leading-none">{title}</h2>
+              <div className="text-on-surface-variant text-label-small mt-1 flex items-center gap-1.5 font-medium">
+                <span className="bg-primary h-1 w-1 animate-pulse rounded-full" />
                 Active Instance
               </div>
             </div>
           </div>
-          <button 
-            onClick={onClose} 
-            className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all relative overflow-hidden"
+          <button
+            onClick={onClose}
+            className="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-sm transition-all"
             aria-label="Close sheet"
           >
             <Ripple />
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+            >
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
           </button>
         </header>
 
-        <div className="flex-1 overflow-y-auto no-scrollbar relative z-10 bg-surface">
+        <div className="no-scrollbar bg-surface relative z-10 flex-1 overflow-y-auto">
           {children}
         </div>
 
         {(footerLeft || footerRight) && (
-          <footer className="px-6 py-6 border-t border-outline-variant bg-surface-container-low shrink-0 z-20">
-            <div className="flex flex-col medium:flex-row items-center justify-between gap-4">
-               <div className="flex-1 min-w-0 w-full medium:w-auto">
-                  {footerLeft}
-               </div>
-               <div className="flex items-center gap-2 shrink-0 w-full medium:w-auto justify-end">
-                  {footerRight}
-               </div>
+          <footer className="border-outline-variant bg-surface-container-low z-20 shrink-0 border-t px-6 py-6">
+            <div className="medium:flex-row flex flex-col items-center justify-between gap-4">
+              <div className="medium:w-auto w-full min-w-0 flex-1">{footerLeft}</div>
+              <div className="medium:w-auto flex w-full shrink-0 items-center justify-end gap-2">
+                {footerRight}
+              </div>
             </div>
           </footer>
         )}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }

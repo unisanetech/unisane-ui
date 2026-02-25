@@ -1,22 +1,22 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const skeletonVariants = cva(
-  "relative overflow-hidden bg-surface-container-low animate-pulse",
+  'relative inline-block shrink-0 overflow-hidden bg-surface-container-low animate-pulse',
   {
     variants: {
       variant: {
-        text: "rounded-sm",
-        circular: "rounded-full",
-        rectangular: "rounded-sm",
-        rounded: "rounded-md",
+        text: 'rounded-sm',
+        circular: 'rounded-full',
+        rectangular: 'rounded-sm',
+        rounded: 'rounded-md',
       },
     },
     defaultVariants: {
-      variant: "rectangular",
+      variant: 'rectangular',
     },
-  }
+  },
 );
 
 export type SkeletonProps = VariantProps<typeof skeletonVariants> & {
@@ -29,7 +29,7 @@ export type SkeletonProps = VariantProps<typeof skeletonVariants> & {
 };
 
 export const Skeleton: React.FC<SkeletonProps> = ({
-  variant = "rectangular",
+  variant = 'rectangular',
   width,
   height,
   className,
@@ -68,16 +68,11 @@ export const SkeletonText: React.FC<{
   lines?: number;
   width?: number | string;
   className?: string;
-}> = ({ lines = 3, width = "100%", className }) => {
+}> = ({ lines = 3, width = '100%', className }) => {
   return (
-    <div className={cn("flex flex-col gap-2", className)}>
+    <div className={cn('flex flex-col gap-2', className)}>
       {Array.from({ length: lines }).map((_, i) => (
-        <Skeleton
-          key={i}
-          variant="text"
-          width={i === lines - 1 ? "60%" : width}
-          height="4u"
-        />
+        <Skeleton key={i} variant="text" width={i === lines - 1 ? '60%' : width} height="4u" />
       ))}
     </div>
   );
@@ -86,22 +81,15 @@ export const SkeletonText: React.FC<{
 export const SkeletonAvatar: React.FC<{
   size?: number | string;
   className?: string;
-}> = ({ size = "10u", className }) => {
-  return (
-    <Skeleton
-      variant="circular"
-      width={size}
-      height={size}
-      className={className}
-    />
-  );
+}> = ({ size = '10u', className }) => {
+  return <Skeleton variant="circular" width={size} height={size} className={className} />;
 };
 
 export const SkeletonCard: React.FC<{
   className?: string;
 }> = ({ className }) => {
   return (
-    <div className={cn("p-4 space-y-4", className)}>
+    <div className={cn('space-y-4 p-4', className)}>
       <div className="flex items-center gap-3">
         <SkeletonAvatar size="10u" />
         <div className="flex-1 space-y-2">
