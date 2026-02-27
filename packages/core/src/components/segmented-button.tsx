@@ -179,7 +179,9 @@ export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
       aria-pressed={active}
     >
       <Ripple disabled={disabled} />
-      <span className="relative z-10 leading-none">{children}</span>
+      <span className="relative z-10 inline-flex items-center justify-center gap-1.5 leading-none">
+        {children}
+      </span>
     </button>
   );
 };

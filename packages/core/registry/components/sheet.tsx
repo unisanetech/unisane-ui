@@ -101,7 +101,7 @@ export function Sheet({
   return createPortal(
     <div
       className={cn(
-        'z-modal fixed inset-0 flex overflow-hidden',
+        'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
         isBottom ? 'items-end justify-center' : 'justify-end',
       )}
       role="presentation"

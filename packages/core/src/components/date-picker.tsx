@@ -210,7 +210,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               aria-modal="true"
               aria-label="Choose date"
               className={cn(
-                'z-popover animate-in fade-in zoom-in-95 duration-short ease-standard fixed',
+                'animate-in fade-in zoom-in-95 duration-short ease-standard fixed z-[var(--z-popover,2000)]',
               )}
               style={{
                 top: popoverPosition.top,

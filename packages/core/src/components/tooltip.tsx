@@ -1,52 +1,50 @@
-import React, { useId } from "react";
-import { cn } from "@ui/lib/utils";
+import React, { useId } from 'react';
+import { cn } from '@ui/lib/utils';
 
 export interface TooltipProps {
   label: string;
   subhead?: string;
   children: React.ReactNode;
-  variant?: "plain" | "rich";
+  variant?: 'plain' | 'rich';
   className?: string;
-  side?: "top" | "bottom" | "left" | "right";
+  side?: 'top' | 'bottom' | 'left' | 'right';
 }
 
 export const Tooltip: React.FC<TooltipProps> = ({
   label,
   subhead,
   children,
-  variant = "plain",
+  variant = 'plain',
   className,
-  side = "top",
+  side = 'top',
 }) => {
   const tooltipId = useId();
 
   return (
-    <div className="relative group inline-flex" aria-describedby={tooltipId}>
+    <div className="group relative inline-flex" aria-describedby={tooltipId}>
       {children}
 
       <div
         id={tooltipId}
         role="tooltip"
         className={cn(
-          "absolute z-modal opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-snappy ease-emphasized pointer-events-none whitespace-nowrap",
-          side === "top" && "bottom-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2",
-          side === "bottom" && "top-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2",
-          side === "left" && "right-[calc(100%+(var(--unit)*2))] top-1/2 -translate-y-1/2",
-          side === "right" && "left-[calc(100%+(var(--unit)*2))] top-1/2 -translate-y-1/2",
-          variant === "plain"
-            ? "bg-inverse-surface text-inverse-on-surface text-label-medium font-medium py-1.5 px-2 rounded-sm shadow-2"
-            : "bg-surface-container text-on-surface p-4 rounded-sm shadow-3 min-w-50 whitespace-normal flex flex-col gap-1 border border-outline-variant/30",
-          className
+          'duration-snappy ease-emphasized pointer-events-none absolute z-[var(--z-popover,2000)] scale-95 whitespace-nowrap opacity-0 transition-all group-hover:scale-100 group-hover:opacity-100',
+          side === 'top' && 'bottom-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2',
+          side === 'bottom' && 'top-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2',
+          side === 'left' && 'top-1/2 right-[calc(100%+(var(--unit)*2))] -translate-y-1/2',
+          side === 'right' && 'top-1/2 left-[calc(100%+(var(--unit)*2))] -translate-y-1/2',
+          variant === 'plain'
+            ? 'bg-inverse-surface text-inverse-on-surface text-label-medium shadow-2 rounded-sm px-2 py-1.5 font-medium'
+            : 'bg-surface-container text-on-surface shadow-3 border-outline-variant/30 flex min-w-50 flex-col gap-1 rounded-sm border p-4 whitespace-normal',
+          className,
         )}
       >
-        {variant === "rich" && subhead && (
-          <span className="text-primary text-label-small font-medium opacity-70">
-            {subhead}
-          </span>
+        {variant === 'rich' && subhead && (
+          <span className="text-primary text-label-small font-medium opacity-70">{subhead}</span>
         )}
-        <span className={cn(
-          variant === "rich" ? "text-body-small font-medium" : "whitespace-nowrap"
-        )}>
+        <span
+          className={cn(variant === 'rich' ? 'text-body-small font-medium' : 'whitespace-nowrap')}
+        >
           {label}
         </span>
       </div>

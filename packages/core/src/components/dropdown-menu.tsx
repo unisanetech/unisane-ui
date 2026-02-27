@@ -429,9 +429,9 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
   // Get positioning classes for non-portal mode (CSS-based positioning)
   const getPositionClasses = () => {
-    if (portal) return 'fixed z-popover';
+    if (portal) return 'fixed z-[var(--z-popover,2000)]';
 
-    const classes = ['absolute z-popover'];
+    const classes = ['absolute z-[var(--z-popover,2000)]'];
     const actualSide = avoidCollisions ? computedPlacement.side : side;
     const actualAlign = avoidCollisions ? computedPlacement.align : align;
 
@@ -740,7 +740,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       aria-orientation="vertical"
       data-side={position.side}
       className={cn(
-        'z-popover fixed',
+        'fixed z-[var(--z-popover,2000)]',
         position.side === 'right'
           ? 'animate-in fade-in-0 slide-in-from-left-1'
           : 'animate-in fade-in-0 slide-in-from-right-1',
