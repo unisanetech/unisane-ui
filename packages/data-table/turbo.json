@@ -1,0 +1,11 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["@unisane/ui#build"]
+    },
+    "check-types": {
+      "dependsOn": ["@unisane/ui#build"]
+    }
+  }
+}
