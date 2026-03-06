@@ -166,6 +166,7 @@ export const productColumns: Column<Product>[] = [
     render: (row) => (
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 rounded-lg bg-surface-container overflow-hidden shrink-0">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={row.imageUrl} alt={row.name} className="w-full h-full object-cover" />
         </div>
         <div className="flex flex-col min-w-0">

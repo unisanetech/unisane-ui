@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../hero-background";
-import { Pagination, Card, IconButton } from "@unisane/ui";
+import { Pagination, Card } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const PaginationHeroVisual = () => (

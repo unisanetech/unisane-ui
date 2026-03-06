@@ -1,4 +1,4 @@
-import React, { isValidElement, cloneElement } from "react";
+import React, { isValidElement } from "react";
 import { cn, Slot } from "@/lib/utils";
 import { Icon } from "@/primitives/icon";
 import { IconButton } from "./icon-button";

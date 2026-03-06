@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../hero-background";
-import { Fab, Card } from "@unisane/ui";
+import { Fab } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const FabHeroVisual = () => (

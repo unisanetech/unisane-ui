@@ -1,4 +1,4 @@
-import React, { isValidElement, cloneElement } from "react";
+import React, { isValidElement } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn, Slot } from "@/lib/utils";
 import { Text } from "@/primitives/text";

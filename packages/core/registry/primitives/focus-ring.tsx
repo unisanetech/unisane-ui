@@ -2,7 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export interface FocusRingProps {
-  children: React.ReactElement<any>;
+  children: React.ReactElement<{ className?: string }>;
   className?: string;
 }
 

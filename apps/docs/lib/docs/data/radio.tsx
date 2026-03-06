@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../hero-background";
-import { Radio, Card } from "@unisane/ui";
+import { Radio } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const RadioHeroVisual = () => (

@@ -1,6 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import type {
-  NavigationItem,
   NavigationHoverState,
   UseNavigationHoverConfig,
 } from "../types/navigation";

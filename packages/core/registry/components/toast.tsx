@@ -6,10 +6,9 @@ import React, {
   useCallback,
   useState,
   useEffect,
-  useId,
 } from "react";
 import { createPortal } from "react-dom";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { Icon } from "@/primitives/icon";
 import { Button } from "./button";

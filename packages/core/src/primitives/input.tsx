@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { cn } from '@ui/lib/utils';
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 /**
  * Input primitive - a basic styled input element.

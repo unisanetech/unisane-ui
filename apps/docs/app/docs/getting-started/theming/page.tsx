@@ -1,9 +1,8 @@
 "use client";
 
 import { DocLayout, DocSection } from "@/components/layout";
-import { Card, Typography, Button, SegmentedButton } from "@unisane/ui";
+import { Card, Typography, Button } from "@unisane/ui";
 import { useTheme } from "@unisane/ui";
-import { useState } from "react";
 
 const TOC_ITEMS = [
   { id: "theme-provider", label: "ThemeProvider Setup" },
@@ -29,7 +28,7 @@ export default function ThemingPage() {
       >
         <div className="space-y-8">
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-            The ThemeProvider manages your application's theme state, including color mode, color theme,
+            The ThemeProvider manages your application&apos;s theme state, including color mode, color theme,
             border radius, and density. It persists user preferences to localStorage automatically.
           </Typography>
 
@@ -77,19 +76,16 @@ export default function RootLayout({
         <div className="space-y-8">
           <div className="grid grid-cols-1 @md:grid-cols-3 gap-4">
             <ModeCard
-              mode="light"
               icon="light_mode"
               title="Light Mode"
               description="Bright interface optimized for well-lit environments."
             />
             <ModeCard
-              mode="dark"
               icon="dark_mode"
               title="Dark Mode"
               description="Reduced eye strain for low-light conditions."
             />
             <ModeCard
-              mode="system"
               icon="contrast"
               title="System"
               description="Automatically matches device preferences."
@@ -482,12 +478,10 @@ function DensityDemo() {
 // ─── HELPER COMPONENTS ─────────────────────────────────────────────────────────
 
 function ModeCard({
-  mode,
   icon,
   title,
   description,
 }: {
-  mode: string;
   icon: string;
   title: string;
   description: string;

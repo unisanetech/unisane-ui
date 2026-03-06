@@ -114,7 +114,7 @@ export interface UseRTLOptions {
   useLogicalProperties?: boolean;
 }
 
-export interface UseRTLReturn extends RTLContextValue {}
+export type UseRTLReturn = RTLContextValue;
 
 export interface RTLProviderProps {
   /**

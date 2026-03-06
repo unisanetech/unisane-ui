@@ -19,8 +19,7 @@ export interface UseFilterPresetsWithFeedbackOptions
   showFeedback?: boolean;
 }
 
-export interface UseFilterPresetsWithFeedbackReturn
-  extends UseFilterPresetsReturn {}
+export type UseFilterPresetsWithFeedbackReturn = UseFilterPresetsReturn;
 
 /**
  * Enhanced filter presets hook with integrated feedback notifications.

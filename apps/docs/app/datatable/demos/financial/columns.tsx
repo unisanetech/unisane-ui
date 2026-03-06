@@ -4,7 +4,7 @@ import React from "react";
 import type { Column, RowContextMenuItemOrSeparator } from "@unisane/data-table";
 import { ActionsCell } from "@unisane/data-table";
 import { Badge, Tooltip, Icon } from "@unisane/ui";
-import type { Transaction, TransactionCategory, TransactionStatus } from "./types";
+import type { Transaction, TransactionStatus } from "./types";
 
 // ─── STATUS BADGE COLORS ─────────────────────────────────────────────────────
 

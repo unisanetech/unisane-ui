@@ -62,6 +62,40 @@ export interface SidebarProviderProps {
 
 const SidebarContext = createContext<SidebarState | null>(null);
 
+function parseStoredString(raw: string | null): string | null {
+  if (!raw) return null;
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return typeof parsed === "string" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function parseStoredBoolean(raw: string | null): boolean | null {
+  if (!raw) return null;
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    return typeof parsed === "boolean" ? parsed : null;
+  } catch {
+    return null;
+  }
+}
+
+function parseStoredStringArray(raw: string | null): string[] | null {
+  if (!raw) return null;
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    if (!parsed.every((value): value is string => typeof value === "string")) {
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 export function useSidebar(): SidebarState {
   const context = useContext(SidebarContext);
   if (!context) {
@@ -98,24 +132,22 @@ export function SidebarProvider({
     if (!persist) return;
 
     try {
-      const storedActive = localStorage.getItem(`${storageKey}-active`);
-      const storedExpanded = localStorage.getItem(`${storageKey}-expanded`);
-      const storedGroups = localStorage.getItem(`${storageKey}-groups`);
+      const storedActive = parseStoredString(localStorage.getItem(`${storageKey}-active`));
+      const storedExpanded = parseStoredBoolean(localStorage.getItem(`${storageKey}-expanded`));
+      const storedGroups = parseStoredStringArray(localStorage.getItem(`${storageKey}-groups`));
 
-      if (storedActive) {
-        const parsedActive = JSON.parse(storedActive);
-        setActiveIdState(parsedActive);
-        setLastContentId(parsedActive);
+      if (storedActive !== null) {
+        setActiveIdState(storedActive);
+        setLastContentId(storedActive);
       }
-      if (storedExpanded) {
-        setExpandedState(JSON.parse(storedExpanded));
+      if (storedExpanded !== null) {
+        setExpandedState(storedExpanded);
       }
       if (storedGroups) {
-        const parsedGroups = JSON.parse(storedGroups);
-        setExpandedGroups(new Set(parsedGroups));
+        setExpandedGroups(new Set(storedGroups));
       }
     } catch {
-      // Ignore localStorage errors
+      return;
     }
   }, [persist, storageKey]);
 
@@ -161,21 +193,27 @@ export function SidebarProvider({
     if (!persist || typeof window === "undefined") return;
     try {
       localStorage.setItem(`${storageKey}-active`, JSON.stringify(activeId));
-    } catch {}
+    } catch {
+      return;
+    }
   }, [activeId, persist, storageKey]);
 
   useEffect(() => {
     if (!persist || typeof window === "undefined") return;
     try {
       localStorage.setItem(`${storageKey}-expanded`, JSON.stringify(expanded));
-    } catch {}
+    } catch {
+      return;
+    }
   }, [expanded, persist, storageKey]);
 
   useEffect(() => {
     if (!persist || typeof window === "undefined") return;
     try {
       localStorage.setItem(`${storageKey}-groups`, JSON.stringify(Array.from(expandedGroups)));
-    } catch {}
+    } catch {
+      return;
+    }
   }, [expandedGroups, persist, storageKey]);
 
   useEffect(() => {

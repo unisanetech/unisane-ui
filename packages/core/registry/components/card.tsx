@@ -56,7 +56,7 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (isInteractive && (e.key === "Enter" || e.key === " ")) {
         e.preventDefault();
-        onClick?.(e as unknown as React.MouseEvent<HTMLDivElement>);
+        e.currentTarget.click();
       }
       onKeyDown?.(e);
     };

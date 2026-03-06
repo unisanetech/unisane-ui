@@ -96,7 +96,7 @@ export function formatMessage(
   template: string,
   context: MessageContext = {}
 ): string {
-  return template.replace(/\{(\w+)\}/g, (match, key) => {
+  return template.replace(/\{(\w+)\}/g, (match: string, key: string) => {
     const value = context[key];
     return value !== undefined ? String(value) : match;
   });

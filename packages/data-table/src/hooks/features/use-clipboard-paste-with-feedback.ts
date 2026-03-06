@@ -13,8 +13,8 @@ export interface UseClipboardPasteWithFeedbackOptions<T extends { id: string }>
   showFeedback?: boolean;
 }
 
-export interface UseClipboardPasteWithFeedbackReturn<T extends { id: string }>
-  extends UseClipboardPasteReturn<T> {}
+export type UseClipboardPasteWithFeedbackReturn<T extends { id: string }> =
+  UseClipboardPasteReturn<T>;
 
 /**
  * Enhanced clipboard paste hook with integrated feedback notifications.

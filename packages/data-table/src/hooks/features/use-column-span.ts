@@ -76,7 +76,7 @@ export interface UseColumnSpanOptions<T extends { id: string }> {
   onSpansChange?: (spans: ColumnSpan[]) => void;
 }
 
-export interface UseColumnSpanReturn<T extends { id: string }> {
+export interface UseColumnSpanReturn {
   /**
    * Get span info for a specific cell.
    */
@@ -210,7 +210,7 @@ export function useColumnSpan<T extends { id: string }>({
   columnKeys,
   data = [],
   onSpansChange,
-}: UseColumnSpanOptions<T>): UseColumnSpanReturn<T> {
+}: UseColumnSpanOptions<T>): UseColumnSpanReturn {
   // ─── COMPUTED SPANS ─────────────────────────────────────────────────────────
 
   // Build a lookup map for static spans

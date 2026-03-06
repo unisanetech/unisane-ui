@@ -70,7 +70,7 @@ function calculateAggregation<T extends object>(
 
   const values = rows
     .map((row) => getNestedValue(row, columnKey))
-    .filter((v) => v != null && typeof v === "number") as number[];
+    .filter((v) => v != null && typeof v === "number");
 
   if (values.length === 0) return null;
 
@@ -194,7 +194,7 @@ export function useRowGrouping<T extends { id: string }>({
     }
 
     // Convert to array and sort
-    let groupEntries = Array.from(groupMap.entries());
+    const groupEntries = Array.from(groupMap.entries());
 
     // Sort groups
     const sortFn = config?.sortGroups;

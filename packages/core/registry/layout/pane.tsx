@@ -77,7 +77,7 @@ export const Pane = React.forwardRef<HTMLDivElement, PaneProps>(
 );
 Pane.displayName = 'Pane';
 
-export interface PaneDividerProps extends React.HTMLAttributes<HTMLDivElement> {}
+export type PaneDividerProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const PaneDivider: React.FC<PaneDividerProps> = ({ className, ...props }) => {
   return (

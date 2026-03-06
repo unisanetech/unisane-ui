@@ -269,7 +269,7 @@ function UsersTable({
         },
       },
     ],
-    [data, setData]
+    [columns, data, setData]
   );
 
   const contextMenuItems: RowContextMenuItemOrSeparator<User>[] = useMemo(
@@ -583,7 +583,7 @@ function ProductsTable({
         },
       },
     ],
-    [data, setData]
+    [columns, data, setData]
   );
 
   const contextMenuItems: RowContextMenuItemOrSeparator<Product>[] = useMemo(

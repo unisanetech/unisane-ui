@@ -76,6 +76,17 @@ export interface UseRowDragReturn {
 
 const DRAG_DATA_TYPE = "text/x-datatable-row";
 
+interface DragPayload {
+  id: string;
+  index: number;
+}
+
+function isDragPayload(value: unknown): value is DragPayload {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return typeof candidate.id === "string" && typeof candidate.index === "number";
+}
+
 // ─── DRAG IMAGE STYLES ───────────────────────────────────────────────────────
 // CSS class name for the drag image element - extracted from inline styles (3.0.6)
 const DRAG_IMAGE_CLASS = "unisane-dt-drag-image";
@@ -403,9 +414,13 @@ export function useRowDrag<T extends { id: string }>({
           e.preventDefault();
 
           try {
-            const dragData = JSON.parse(e.dataTransfer.getData(DRAG_DATA_TYPE));
-            const fromIndex = dragData.index;
-            const fromId = dragData.id;
+            const parsed: unknown = JSON.parse(e.dataTransfer.getData(DRAG_DATA_TYPE));
+            if (!isDragPayload(parsed)) {
+              handleDragEndRef.current();
+              return;
+            }
+            const fromIndex = parsed.index;
+            const fromId = parsed.id;
 
             if (fromId === rowId) {
               handleDragEndRef.current();

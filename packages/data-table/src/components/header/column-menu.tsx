@@ -47,7 +47,6 @@ export function ColumnMenu<T>({
   onHide,
   onFilter,
   groupingEnabled = false,
-  groupBy,
   groupByArray = [],
   onGroupBy,
   onAddGroupBy,

@@ -83,6 +83,7 @@ export function useKeyboardNavigation({
   pageSize = DEFAULT_KEYBOARD_PAGE_SIZE,
   getRowId,
 }: UseKeyboardNavigationOptions): UseKeyboardNavigationReturn {
+  void containerRef;
   const [focusedIndex, setFocusedIndexState] = useState<number | null>(null);
   const [isFocused, setIsFocused] = useState(false);
 

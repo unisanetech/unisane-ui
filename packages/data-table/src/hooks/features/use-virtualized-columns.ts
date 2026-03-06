@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import type { Column, ColumnMeta, ColumnMetaMap } from "../../types";
 import { useSafeRAF } from "../use-safe-raf";
 

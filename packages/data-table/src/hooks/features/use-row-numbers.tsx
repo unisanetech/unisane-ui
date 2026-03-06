@@ -106,7 +106,7 @@ export function useRowNumbers<T extends { id: string }>(
       return null;
     }
 
-    return {
+    const column: Column<T> = {
       key: ROW_NUMBER_COLUMN_KEY,
       header,
       width,
@@ -126,7 +126,8 @@ export function useRowNumbers<T extends { id: string }>(
           </span>
         );
       },
-    } as Column<T>;
+    };
+    return column;
   }, [enabled, header, width, pinned, getRowNumber]);
 
   return {

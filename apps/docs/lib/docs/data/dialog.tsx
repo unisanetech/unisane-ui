@@ -57,7 +57,7 @@ const DialogHeroVisual = () => (
       {/* Content */}
       <div className="px-6 py-5">
         <p className="text-body-medium text-on-surface-variant">
-          This will permanently delete "document.pdf" from your drive. This action cannot be undone.
+          This will permanently delete &quot;document.pdf&quot; from your drive. This action cannot be undone.
         </p>
       </div>
       {/* Actions */}

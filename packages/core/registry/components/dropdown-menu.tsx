@@ -344,7 +344,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     if (!isOpen || !triggerRef?.current) return;
 
     const updatePosition = () => {
-      const triggerRect = triggerRef.current!.getBoundingClientRect();
+      const triggerRect = triggerRef.current.getBoundingClientRect();
       const menuWidth = ref.current?.offsetWidth || 200; // Estimate if not yet rendered
       const menuHeight = ref.current?.offsetHeight || 200;
 
@@ -421,7 +421,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     if (!closeOnSelect) return;
     const target = event.target as HTMLElement | null;
     if (!target) return;
-    const item = target.closest('[role="menuitem"]') as HTMLElement | null;
+    const item = target.closest('[role="menuitem"]');
     if (!item) return;
     if (item.getAttribute('aria-disabled') === 'true') return;
     setIsOpen?.(false);
@@ -704,7 +704,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     if (!isSubOpen || !subTriggerRef?.current) return;
 
     const updatePosition = () => {
-      const triggerRect = subTriggerRef.current!.getBoundingClientRect();
+      const triggerRect = subTriggerRef.current.getBoundingClientRect();
       const menuWidth = ref.current?.offsetWidth || 180;
       const menuHeight = ref.current?.offsetHeight || 150;
 

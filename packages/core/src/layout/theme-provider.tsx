@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 export type Density = "compact" | "standard" | "comfortable" | "dense";
 export type Theme = "light" | "dark" | "system";
@@ -110,20 +110,56 @@ function getInitialFromDOM(): Partial<ThemeConfig> {
 }
 
 // Get stored values from localStorage
-function getStoredConfig(storageKey: string | false): Partial<ThemeConfig> {
-  if (!storageKey || typeof localStorage === "undefined") return {};
+type PersistedThemeStorage = Partial<Record<keyof ThemeConfig, string>>;
+
+function parseStoredTheme(raw: string | null): PersistedThemeStorage {
+  if (!raw) return {};
   try {
-    return JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return {};
+    }
+    const record = parsed as Record<string, unknown>;
+    const stored: PersistedThemeStorage = {};
+    for (const key of Object.keys(DEFAULTS) as (keyof ThemeConfig)[]) {
+      const value = record[key];
+      if (typeof value === "string") {
+        stored[key] = value;
+      }
+    }
+    return stored;
   } catch {
     return {};
   }
 }
 
+function getStoredConfig(storageKey: string | false): Partial<ThemeConfig> {
+  if (!storageKey || typeof localStorage === "undefined") return {};
+  const stored = parseStoredTheme(localStorage.getItem(storageKey));
+  return {
+    density: isValid(stored.density as Density, VALID_DENSITIES) ? (stored.density as Density) : undefined,
+    theme: isValid(stored.theme as Theme, VALID_THEMES) ? (stored.theme as Theme) : undefined,
+    radius: isValid(stored.radius as RadiusTheme, VALID_RADII) ? (stored.radius as RadiusTheme) : undefined,
+    scheme: isValid(stored.scheme as ColorScheme, VALID_SCHEMES)
+      ? (stored.scheme as ColorScheme)
+      : undefined,
+    contrast: isValid(stored.contrast as ContrastLevel, VALID_CONTRASTS)
+      ? (stored.contrast as ContrastLevel)
+      : undefined,
+    colorTheme: isValid(stored.colorTheme as ColorTheme, VALID_COLOR_THEMES)
+      ? (stored.colorTheme as ColorTheme)
+      : undefined,
+    elevation: isValid(stored.elevation as Elevation, VALID_ELEVATIONS)
+      ? (stored.elevation as Elevation)
+      : undefined,
+  };
+}
+
 // Persist to localStorage
-function persist(key: string, value: string, storageKey: string | false) {
+function persist(key: keyof ThemeConfig, value: string, storageKey: string | false) {
   if (!storageKey) return;
   try {
-    const current = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    const current = parseStoredTheme(localStorage.getItem(storageKey));
     current[key] = value;
     localStorage.setItem(storageKey, JSON.stringify(current));
   } catch {
@@ -209,7 +245,7 @@ export function ThemeProvider({
     setResolvedTheme(resolved);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const setDensity = (v: Density) => {
+  const setDensity = useCallback((v: Density) => {
     if (!isValid(v, VALID_DENSITIES)) {
       console.warn(`Invalid density "${v}". Valid values: ${VALID_DENSITIES.join(", ")}`);
       return;
@@ -217,9 +253,9 @@ export function ThemeProvider({
     setDensityState(v);
     applyAttribute("data-density", v);
     persist("density", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setRadius = (v: RadiusTheme) => {
+  const setRadius = useCallback((v: RadiusTheme) => {
     if (!isValid(v, VALID_RADII)) {
       console.warn(`Invalid radius "${v}". Valid values: ${VALID_RADII.join(", ")}`);
       return;
@@ -227,9 +263,9 @@ export function ThemeProvider({
     setRadiusState(v);
     applyAttribute("data-radius", v);
     persist("radius", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setScheme = (v: ColorScheme) => {
+  const setScheme = useCallback((v: ColorScheme) => {
     if (!isValid(v, VALID_SCHEMES)) {
       console.warn(`Invalid scheme "${v}". Valid values: ${VALID_SCHEMES.join(", ")}`);
       return;
@@ -237,9 +273,9 @@ export function ThemeProvider({
     setSchemeState(v);
     applyAttribute("data-scheme", v);
     persist("scheme", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setContrast = (v: ContrastLevel) => {
+  const setContrast = useCallback((v: ContrastLevel) => {
     if (!isValid(v, VALID_CONTRASTS)) {
       console.warn(`Invalid contrast "${v}". Valid values: ${VALID_CONTRASTS.join(", ")}`);
       return;
@@ -247,9 +283,9 @@ export function ThemeProvider({
     setContrastState(v);
     applyAttribute("data-contrast", v);
     persist("contrast", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setColorTheme = (v: ColorTheme) => {
+  const setColorTheme = useCallback((v: ColorTheme) => {
     if (!isValid(v, VALID_COLOR_THEMES)) {
       console.warn(`Invalid colorTheme "${v}". Valid values: ${VALID_COLOR_THEMES.join(", ")}`);
       return;
@@ -257,9 +293,9 @@ export function ThemeProvider({
     setColorThemeState(v);
     applyAttribute("data-color-theme", v);
     persist("colorTheme", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setElevation = (v: Elevation) => {
+  const setElevation = useCallback((v: Elevation) => {
     if (!isValid(v, VALID_ELEVATIONS)) {
       console.warn(`Invalid elevation "${v}". Valid values: ${VALID_ELEVATIONS.join(", ")}`);
       return;
@@ -267,9 +303,9 @@ export function ThemeProvider({
     setElevationState(v);
     applyAttribute("data-elevation", v);
     persist("elevation", v, storageKey);
-  };
+  }, [storageKey]);
 
-  const setTheme = (v: Theme) => {
+  const setTheme = useCallback((v: Theme) => {
     if (!isValid(v, VALID_THEMES)) {
       console.warn(`Invalid theme "${v}". Valid values: ${VALID_THEMES.join(", ")}`);
       return;
@@ -281,7 +317,7 @@ export function ThemeProvider({
     const resolved = resolveDarkMode(v);
     setResolvedTheme(resolved);
     applyDarkMode(resolved);
-  };
+  }, [storageKey]);
 
   // Listen for system theme changes when in "system" mode
   useEffect(() => {
@@ -316,7 +352,23 @@ export function ThemeProvider({
       setColorTheme,
       setElevation,
     }),
-    [density, theme, resolvedTheme, radius, scheme, contrast, colorTheme, elevation]
+    [
+      density,
+      theme,
+      resolvedTheme,
+      radius,
+      scheme,
+      contrast,
+      colorTheme,
+      elevation,
+      setDensity,
+      setTheme,
+      setRadius,
+      setScheme,
+      setContrast,
+      setColorTheme,
+      setElevation,
+    ]
   );
 
   return (

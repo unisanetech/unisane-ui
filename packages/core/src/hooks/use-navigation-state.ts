@@ -4,6 +4,33 @@ import type {
   UseNavigationStateConfig,
 } from "../types/navigation";
 
+type PersistedNavigationState = {
+  active?: string | null;
+  collapsed?: boolean;
+};
+
+function parsePersistedNavigationState(raw: string | null): PersistedNavigationState | null {
+  if (!raw) return null;
+  try {
+    const parsed: unknown = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      return null;
+    }
+    const record = parsed as Record<string, unknown>;
+    const next: PersistedNavigationState = {};
+    if (record.active === null || typeof record.active === "string") {
+      next.active = record.active;
+    }
+    if (typeof record.collapsed === "boolean") {
+      next.collapsed = record.collapsed;
+    }
+    return next;
+  } catch (error) {
+    console.warn("Failed to parse navigation state from localStorage:", error);
+    return null;
+  }
+}
+
 export function useNavigationState(
   config: UseNavigationStateConfig = {}
 ): NavigationState {
@@ -25,16 +52,15 @@ export function useNavigationState(
     }
 
     try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored);
+      const parsed = parsePersistedNavigationState(localStorage.getItem(storageKey));
+      if (parsed) {
         return {
           active: parsed.active ?? defaultActive,
           collapsed: parsed.collapsed ?? defaultCollapsed,
         };
       }
     } catch (error) {
-      console.warn("Failed to parse navigation state from localStorage:", error);
+      console.warn("Failed to read navigation state from localStorage:", error);
     }
 
     return {

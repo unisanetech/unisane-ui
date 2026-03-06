@@ -241,6 +241,7 @@ function SummaryRowInner<T extends { id: string }>({
   customSummaryRenderer = {},
   reorderableRows = false,
 }: SummaryRowProps<T>) {
+  void density;
   const { t } = useI18n();
   // Use compact padding for summary row regardless of table density
   const paddingClass = 'py-1.5 px-3';
@@ -256,7 +257,6 @@ function SummaryRowInner<T extends { id: string }>({
   // Calculate sticky offsets for drag handle, checkbox and expander columns
   const dragHandleWidth = reorderableRows ? COLUMN_WIDTHS.DRAG_HANDLE : 0;
   const checkboxWidth = selectable ? COLUMN_WIDTHS.CHECKBOX : 0;
-  const expanderWidth = enableExpansion ? COLUMN_WIDTHS.EXPANDER : 0;
 
   // Determine which cell should show the icon
   // Priority: drag handle > checkbox > expander

@@ -11,6 +11,7 @@ const CardHeroVisual = () => (
     <div className="transform transition-transform hover:scale-[1.02] duration-500 ease-out">
       <Card variant="elevated" padding="none" className="w-80 overflow-hidden shadow-xl">
         <div className="h-44 bg-surface-container-high relative">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
             alt="Abstract art"

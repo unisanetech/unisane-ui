@@ -12,7 +12,6 @@ import {
 } from "@unisane/ui";
 import type {
   RowContextMenuItem,
-  RowContextMenuSeparator,
   RowContextMenuItemOrSeparator,
 } from "../types/index";
 import { useI18n } from "../i18n";

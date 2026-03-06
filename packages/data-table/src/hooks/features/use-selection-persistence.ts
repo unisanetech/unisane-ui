@@ -132,6 +132,11 @@ export interface UseSelectionPersistenceReturn {
 const DEFAULT_MAX_SELECTIONS = 10000;
 const STORAGE_DEBOUNCE_MS = 300;
 
+function toStringArray(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string");
+}
+
 // ─── HOOK ────────────────────────────────────────────────────────────────────
 
 /**
@@ -183,9 +188,9 @@ export function useSelectionPersistence<T extends { id: string }>({
       try {
         const stored = localStorage.getItem(storageKey);
         if (stored) {
-          const parsed = JSON.parse(stored);
+          const parsed: unknown = JSON.parse(stored);
           if (Array.isArray(parsed)) {
-            return new Set(parsed.slice(0, maxSelections));
+            return new Set(toStringArray(parsed).slice(0, maxSelections));
           }
         }
       } catch {

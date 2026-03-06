@@ -86,6 +86,8 @@ export interface ToolbarIconAction {
 
 /** Toolbar props */
 export interface DataTableToolbarProps<T> {
+  /** Internal generic anchor to preserve row type at call sites */
+  readonly __rowType?: T;
   title?: string;
   searchable?: boolean;
   selectedCount?: number;

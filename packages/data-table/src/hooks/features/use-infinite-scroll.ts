@@ -252,7 +252,6 @@ export function useInfiniteScroll({
       loadMore();
     }
     // Only run on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ─── CLEANUP ───────────────────────────────────────────────────────────────

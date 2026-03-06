@@ -1,7 +1,7 @@
 // ─── USE ERROR HUB HOOK ───────────────────────────────────────────────────────
 // React hook for accessing the ErrorHub and error state.
 
-import { useContext, useEffect, useState, useCallback, useMemo } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { DataTableError } from "../errors/base";
 import { ErrorSeverity } from "../errors/severity";
 import {

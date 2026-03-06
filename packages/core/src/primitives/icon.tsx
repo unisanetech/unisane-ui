@@ -83,7 +83,7 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
         strokeLinejoin="round"
         className={cn("inline-block shrink-0", isScale && sizeClasses, className)}
         style={style}
-        {...(props as unknown as React.SVGProps<SVGSVGElement>)}
+        {...(props as React.SVGProps<SVGSVGElement>)}
       >
         {children}
       </svg>

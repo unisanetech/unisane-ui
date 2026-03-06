@@ -44,7 +44,7 @@ interface I18nProviderProps {
 function interpolate(template: string, params?: Record<string, string | number>): string {
   if (!params) return template;
 
-  return template.replace(/\{(\w+)\}/g, (match, key) => {
+  return template.replace(/\{(\w+)\}/g, (match: string, key: string) => {
     const value = params[key];
     return value !== undefined ? String(value) : match;
   });

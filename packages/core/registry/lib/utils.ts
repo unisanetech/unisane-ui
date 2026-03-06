@@ -150,7 +150,7 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
         ...props,
         ...childProps,
         ref,
-        className: cn(props.className as string | undefined, childProps.className as string | undefined),
+        className: cn(props.className, childProps.className as string | undefined),
       });
     }
 

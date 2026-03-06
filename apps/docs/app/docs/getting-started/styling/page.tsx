@@ -245,7 +245,7 @@ export default function StylingPage() {
       >
         <div className="space-y-8">
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-            All color tokens automatically adjust when dark mode is active. You don't need to add any
+            All color tokens automatically adjust when dark mode is active. You don&apos;t need to add any
             dark: prefixes — the theme system handles everything.
           </Typography>
 

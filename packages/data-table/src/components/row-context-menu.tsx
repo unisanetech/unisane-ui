@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import { cn, Icon } from "@unisane/ui";
 import type {
   RowContextMenuItem,
-  RowContextMenuSeparator,
   RowContextMenuItemOrSeparator,
   RowContextMenuRenderProps,
 } from "../types/index";

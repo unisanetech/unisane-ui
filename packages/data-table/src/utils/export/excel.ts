@@ -2,6 +2,24 @@ import * as XLSX from "xlsx";
 import type { ExcelExportOptions, ExportResult } from "./types";
 import { prepareExportData, getCellValue, generateFilename } from "./utils";
 
+type CellStyle = Record<string, unknown>;
+type StyledCell = Record<string, unknown> & { s?: CellStyle };
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function getStyledCell(worksheet: XLSX.WorkSheet, cellRef: string): StyledCell | null {
+  const worksheetRecord = worksheet as Record<string, unknown>;
+  const cell = worksheetRecord[cellRef];
+  if (!isRecord(cell)) return null;
+  return cell as StyledCell;
+}
+
+function toArrayBuffer(value: unknown): ArrayBuffer | null {
+  return value instanceof ArrayBuffer ? value : null;
+}
+
 // ─── EXCEL EXPORT ───────────────────────────────────────────────────────────
 
 /**
@@ -59,7 +77,7 @@ export function exportToExcel<T extends { id: string }>(
 
     // Auto-size columns
     if (autoWidth) {
-      const colWidths = columns.map((col, i) => {
+      const colWidths = columns.map((col) => {
         const maxLength = Math.max(
           col.header.length,
           ...rows.map((row) => getCellValue(row, col, formatValue).length)
@@ -78,8 +96,9 @@ export function exportToExcel<T extends { id: string }>(
     if (styleHeader && includeHeaders) {
       for (let c = 0; c < columns.length; c++) {
         const cellRef = XLSX.utils.encode_cell({ r: 0, c });
-        if (worksheet[cellRef]) {
-          worksheet[cellRef].s = {
+        const cell = getStyledCell(worksheet, cellRef);
+        if (cell) {
+          cell.s = {
             font: { bold: true },
             fill: { fgColor: { rgb: "E0E0E0" } },
             alignment: { horizontal: "center" },
@@ -95,9 +114,10 @@ export function exportToExcel<T extends { id: string }>(
         if ((r - startRow) % 2 === 1) {
           for (let c = 0; c < columns.length; c++) {
             const cellRef = XLSX.utils.encode_cell({ r, c });
-            if (worksheet[cellRef]) {
-              worksheet[cellRef].s = {
-                ...worksheet[cellRef].s,
+            const cell = getStyledCell(worksheet, cellRef);
+            if (cell) {
+              cell.s = {
+                ...(cell.s ?? {}),
                 fill: { fgColor: { rgb: "F5F5F5" } },
               };
             }
@@ -111,7 +131,12 @@ export function exportToExcel<T extends { id: string }>(
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
     // Generate buffer
-    const buffer = XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+    const buffer = toArrayBuffer(
+      XLSX.write(workbook, { type: "array", bookType: "xlsx" }) as unknown
+    );
+    if (!buffer) {
+      return { success: false, error: "Failed to build Excel buffer" };
+    }
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
@@ -163,7 +188,12 @@ export function toExcelBlob<T extends { id: string }>(
   const workbook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-  const buffer = XLSX.write(workbook, { type: "array", bookType: "xlsx" });
+  const buffer = toArrayBuffer(
+    XLSX.write(workbook, { type: "array", bookType: "xlsx" }) as unknown
+  );
+  if (!buffer) {
+    throw new Error("Failed to build Excel buffer");
+  }
   return new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });

@@ -14,8 +14,8 @@ export interface UseInlineEditingWithFeedbackOptions<T extends { id: string }>
   showFeedback?: boolean;
 }
 
-export interface UseInlineEditingWithFeedbackReturn<T extends { id: string }>
-  extends InlineEditingController<T> {}
+export type UseInlineEditingWithFeedbackReturn<T extends { id: string }> =
+  InlineEditingController<T>;
 
 /**
  * Enhanced inline editing hook with integrated feedback notifications.

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Typography, Card, Surface } from "@unisane/ui";
+import { Typography } from "@unisane/ui";
 import {
   COMPONENT_REGISTRY,
   getComponentsByCategory,

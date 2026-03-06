@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../hero-background";
-import { List, ListItem, ListSubheader, Card, Avatar, Checkbox, Switch } from "@unisane/ui";
+import { List, ListItem, ListSubheader, Card, Avatar } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ListHeroVisual = () => (

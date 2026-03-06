@@ -28,7 +28,7 @@ const DatePickerHeroVisual = () => (
           {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
             <div key={i} className="text-center text-label-small text-on-surface-variant py-1">{d}</div>
           ))}
-          {[...Array(15)].map((_, i) => (
+          {Array.from({ length: 15 }).map((_, i) => (
             <div key={i} className={`text-center text-body-small py-1 rounded-full ${i === 14 ? "bg-primary text-on-primary" : "text-on-surface"}`}>
               {i + 1}
             </div>
@@ -97,7 +97,7 @@ export const datePickerDoc: ComponentDoc = {
         component: (
           <div className="w-24 h-16 bg-surface-container rounded-sm p-2">
             <div className="grid grid-cols-7 gap-0.5">
-              {[...Array(14)].map((_, i) => (
+              {Array.from({ length: 14 }).map((_, i) => (
                 <div key={i} className={`w-2 h-2 rounded-full ${i === 7 ? "bg-primary" : "bg-outline-variant/30"}`} />
               ))}
             </div>

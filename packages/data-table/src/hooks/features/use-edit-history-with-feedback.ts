@@ -18,8 +18,7 @@ export interface UseEditHistoryWithFeedbackOptions<T = unknown>
   showFeedback?: boolean;
 }
 
-export interface UseEditHistoryWithFeedbackReturn<T = unknown>
-  extends UseEditHistoryReturn<T> {}
+export type UseEditHistoryWithFeedbackReturn<T = unknown> = UseEditHistoryReturn<T>;
 
 /**
  * Enhanced edit history hook with integrated feedback notifications.

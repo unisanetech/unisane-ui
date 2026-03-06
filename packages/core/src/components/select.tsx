@@ -145,15 +145,18 @@ export const Select: React.FC<SelectProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [portal]);
 
-  const getNextEnabledIndex = (startIndex: number, direction: 1 | -1) => {
-    if (!options.length) return -1;
-    let index = startIndex;
-    for (let i = 0; i < options.length; i += 1) {
-      index = (index + direction + options.length) % options.length;
-      if (!options[index]?.disabled) return index;
-    }
-    return -1;
-  };
+  const getNextEnabledIndex = useCallback(
+    (startIndex: number, direction: 1 | -1) => {
+      if (!options.length) return -1;
+      let index = startIndex;
+      for (let i = 0; i < options.length; i += 1) {
+        index = (index + direction + options.length) % options.length;
+        if (!options[index]?.disabled) return index;
+      }
+      return -1;
+    },
+    [options],
+  );
 
   useEffect(() => {
     if (!isOpen) {
@@ -166,7 +169,7 @@ export const Select: React.FC<SelectProps> = ({
         ? selectedIndex
         : getNextEnabledIndex(-1, 1);
     setHighlightedIndex(initialIndex);
-  }, [isOpen, options, selectedIndex]);
+  }, [isOpen, options, selectedIndex, getNextEnabledIndex]);
 
   const handleSelect = (val: string, isDisabled?: boolean) => {
     if (isDisabled) return;

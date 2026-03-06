@@ -238,6 +238,49 @@ function validatePresetInput(input: FilterPresetInput): string | null {
   return null;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function toFilterPreset(value: unknown): FilterPreset | null {
+  if (!isRecord(value)) return null;
+  if (typeof value.id !== "string" || typeof value.name !== "string") return null;
+  if (!isRecord(value.filters)) return null;
+
+  const preset: FilterPreset = {
+    id: value.id,
+    name: value.name,
+    filters: value.filters as FilterState,
+  };
+
+  if (typeof value.description === "string") preset.description = value.description;
+  if (typeof value.isDefault === "boolean") preset.isDefault = value.isDefault;
+  if (typeof value.isQuickFilter === "boolean") preset.isQuickFilter = value.isQuickFilter;
+  if (typeof value.icon === "string") preset.icon = value.icon;
+  if (typeof value.color === "string") preset.color = value.color;
+  if (typeof value.createdAt === "number") preset.createdAt = value.createdAt;
+  if (typeof value.updatedAt === "number") preset.updatedAt = value.updatedAt;
+
+  return preset;
+}
+
+function toFilterPresetInput(value: unknown): FilterPresetInput | null {
+  if (!isRecord(value)) return null;
+  if (typeof value.name !== "string") return null;
+  if (!isRecord(value.filters)) return null;
+
+  const input: FilterPresetInput = {
+    name: value.name,
+    filters: value.filters as FilterState,
+  };
+  if (typeof value.description === "string") input.description = value.description;
+  if (typeof value.isDefault === "boolean") input.isDefault = value.isDefault;
+  if (typeof value.isQuickFilter === "boolean") input.isQuickFilter = value.isQuickFilter;
+  if (typeof value.icon === "string") input.icon = value.icon;
+  if (typeof value.color === "string") input.color = value.color;
+  return input;
+}
+
 // ─── HOOK ────────────────────────────────────────────────────────────────────
 
 /**
@@ -295,9 +338,11 @@ export function useFilterPresets({
       try {
         const stored = localStorage.getItem(storageKey);
         if (stored) {
-          const parsed = JSON.parse(stored);
+          const parsed: unknown = JSON.parse(stored);
           if (Array.isArray(parsed)) {
-            return parsed;
+            return parsed
+              .map((item) => toFilterPreset(item))
+              .filter((item): item is FilterPreset => item !== null);
           }
         }
       } catch {
@@ -558,16 +603,22 @@ export function useFilterPresets({
       let imported = 0;
 
       try {
-        const parsed = JSON.parse(json);
+        const parsed: unknown = JSON.parse(json);
         if (!Array.isArray(parsed)) {
           return { imported: 0, errors: ["Invalid format: expected array"] };
         }
 
         const newPresets: FilterPreset[] = [];
         for (const item of parsed) {
-          const error = validatePresetInput(item);
+          const presetInput = toFilterPresetInput(item);
+          if (!presetInput) {
+            errors.push("Skipped preset: invalid format");
+            continue;
+          }
+
+          const error = validatePresetInput(presetInput);
           if (error) {
-            errors.push(`Skipped "${item.name || "unnamed"}": ${error}`);
+            errors.push(`Skipped "${presetInput.name || "unnamed"}": ${error}`);
             continue;
           }
 
@@ -578,7 +629,7 @@ export function useFilterPresets({
 
           const now = Date.now();
           newPresets.push({
-            ...item,
+            ...presetInput,
             id: generatePresetId(),
             isDefault: false, // Imported presets are never default
             createdAt: now,

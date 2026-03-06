@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable react/prop-types */
 
 import type { PropDef } from "@/lib/docs/types";
 import { cn } from "@unisane/ui/lib/utils";

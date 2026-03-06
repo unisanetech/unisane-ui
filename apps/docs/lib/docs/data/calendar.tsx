@@ -22,7 +22,7 @@ const CalendarHeroVisual = () => (
           ))}
         </div>
         <div className="grid grid-cols-7 gap-1">
-          {[...Array(31)].map((_, i) => (
+          {Array.from({ length: 31 }).map((_, i) => (
             <div
               key={i}
               className={`aspect-square rounded-full flex items-center justify-center text-body-small ${
@@ -85,7 +85,7 @@ export const calendarDoc: ComponentDoc = {
         component: (
           <div className="w-24 h-20 bg-surface-container rounded-sm p-2">
             <div className="grid grid-cols-7 gap-0.5">
-              {[...Array(21)].map((_, i) => (
+              {Array.from({ length: 21 }).map((_, i) => (
                 <div key={i} className={`w-2 h-2 rounded-full ${i === 10 ? "bg-primary" : "bg-outline-variant/30"}`} />
               ))}
             </div>

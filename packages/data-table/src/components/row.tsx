@@ -134,6 +134,7 @@ function DataTableRowInner<T extends { id: string }>({
   dragHandleProps,
   searchText,
 }: DataTableRowProps<T>) {
+  void groupDepth;
   const { t } = useI18n();
   const isOddRow = rowIndex % 2 === 1;
   const paddingClass = DENSITY_STYLES[density];
@@ -157,8 +158,6 @@ function DataTableRowInner<T extends { id: string }>({
   // Determine pinned column info for border logic
   const pinnedLeftColumns = columns.filter((col) => getEffectivePinPosition(col) === 'left');
   const pinnedRightColumns = columns.filter((col) => getEffectivePinPosition(col) === 'right');
-  const hasPinnedLeftData = pinnedLeftColumns.length > 0;
-  const hasPinnedRightData = pinnedRightColumns.length > 0;
   const lastPinnedLeft = last(pinnedLeftColumns);
   const lastPinnedLeftKey = lastPinnedLeft ? String(lastPinnedLeft.key) : null;
   const firstPinnedRight = first(pinnedRightColumns);

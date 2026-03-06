@@ -34,39 +34,6 @@ interface DataTablePaginationProps {
   };
 }
 
-// ─── PAGINATION INFO ───────────────────────────────────────────────────────
-
-function PaginationInfo({
-  page,
-  pageSize,
-  totalItems,
-  currentCount,
-}: {
-  page: number;
-  pageSize: number;
-  totalItems?: number;
-  currentCount?: number;
-}) {
-  const { t, formatNumber } = useI18n();
-  const start = (page - 1) * pageSize + 1;
-  const end = Math.min(page * pageSize, totalItems ?? currentCount ?? 0);
-  const total = totalItems ?? currentCount ?? 0;
-
-  if (total === 0) {
-    return <span className="text-body-medium text-on-surface-variant">{t('noItems')}</span>;
-  }
-
-  return (
-    <span className="text-body-medium text-on-surface-variant">
-      {t('rangeOfTotal', {
-        start: formatNumber(start),
-        end: formatNumber(end),
-        total: formatNumber(total),
-      })}
-    </span>
-  );
-}
-
 // ─── PAGE SIZE SELECTOR ────────────────────────────────────────────────────
 
 function PageSizeSelector({

@@ -11,7 +11,7 @@ const ScrollAreaHeroVisual = () => (
     <div className="relative bg-surface w-72 h-52 rounded-xl shadow-xl overflow-hidden border border-outline-variant/30">
       <div className="p-4 h-full relative">
         <div className="space-y-3">
-          {[...Array(8)].map((_, i) => (
+          {Array.from({ length: 8 }).map((_, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-surface-container-high shrink-0" />
               <div className="flex-1 space-y-1">
@@ -34,7 +34,7 @@ const ScrollAreaHeroVisual = () => (
 const ScrollAreaVerticalExample = () => (
   <ScrollArea className="h-52 w-full max-w-xs rounded-lg border border-outline-variant/30">
     <div className="p-4 space-y-4">
-      {[...Array(10)].map((_, i) => (
+      {Array.from({ length: 10 }).map((_, i) => (
         <div key={i} className="flex items-center gap-3 p-3 bg-surface-container rounded-lg">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
             <span className="text-label-medium text-on-primary-container">{i + 1}</span>
@@ -52,7 +52,7 @@ const ScrollAreaVerticalExample = () => (
 const ScrollAreaHorizontalExample = () => (
   <ScrollArea orientation="horizontal" className="w-full max-w-xs">
     <div className="flex gap-4 p-4">
-      {[...Array(8)].map((_, i) => (
+      {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={i}
           className="w-32 h-24 shrink-0 rounded-lg bg-surface-container flex items-center justify-center border border-outline-variant/30"

@@ -173,6 +173,8 @@ export type EditActivationMode = 'doubleClick' | 'singleClick' | 'singleClickWhe
  * Controller returned by useInlineEditing hook
  */
 export interface InlineEditingController<T> {
+  /** Internal generic anchor to preserve row type in consumers */
+  readonly __rowType?: T;
   editingCell: EditingCell | null;
   pendingValue: unknown;
   validationError: string | null;

@@ -4,7 +4,6 @@ import React, { useMemo, useRef, useCallback, useEffect } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@unisane/ui';
 import type {
-  Column,
   BulkAction,
   InlineEditingController,
   GroupHeaderProps,
@@ -200,7 +199,6 @@ export function DataTableInner<T extends { id: string }>({
     groupByArray,
     setGroupBy,
     isGrouped,
-    isMultiLevel,
     toggleGroupExpand,
     isGroupExpanded,
     addGroupBy,
@@ -219,7 +217,7 @@ export function DataTableInner<T extends { id: string }>({
   // Use extracted hook for announcements (handles sort/filter changes automatically)
   const { announcerRegionId, announce } = useAnnouncements({
     sortState,
-    columns: columns as Column<T>[],
+    columns: columns,
     columnFilters,
     searchText,
     selectedCount: selectedRows.size,
@@ -235,7 +233,7 @@ export function DataTableInner<T extends { id: string }>({
   // Use extracted hook for all pin-related calculations (eliminates duplication)
   const { sortedVisibleColumns, columnMeta, totalTableWidth, pinnedLeftWidth, pinnedRightWidth } =
     useColumnLayout({
-      visibleColumns: visibleColumns as Column<T>[],
+      visibleColumns: visibleColumns,
       columnWidths,
       getEffectivePinPosition,
       selectable: effectiveSelectable,
@@ -247,17 +245,16 @@ export function DataTableInner<T extends { id: string }>({
   // ─── COLUMN VIRTUALIZATION ─────────────────────────────────────────────────
   // Helper to get pin position by column key (for virtualized columns hook)
   const getEffectivePinPositionByKey = useCallback(
-    (columnKey: string) => getEffectivePinPosition({ key: columnKey } as Column<T>),
-    [getEffectivePinPosition],
+    (columnKey: string) => {
+      const column = columns.find((candidate) => String(candidate.key) === columnKey);
+      return column ? getEffectivePinPosition(column) : null;
+    },
+    [columns, getEffectivePinPosition],
   );
 
   const {
     virtualColumns,
-    scrollableColumns,
     isVirtualized: isColumnVirtualized,
-    leftPadding: columnLeftPadding,
-    rightPadding: columnRightPadding,
-    onScroll: onColumnScroll,
     getScrollableContainerStyle,
   } = useVirtualizedColumns({
     columns: sortedVisibleColumns,
@@ -283,7 +280,7 @@ export function DataTableInner<T extends { id: string }>({
     searchText,
     columnFilters,
     sortState,
-    columns: columns as Column<T>[],
+    columns: columns,
     disableLocalProcessing,
     errorHub,
   });
@@ -373,7 +370,7 @@ export function DataTableInner<T extends { id: string }>({
     data: paginatedData,
     groupByKeys: groupByArray,
     isGroupExpanded,
-    columns: columns as Column<T>[],
+    columns: columns,
     enabled: isGrouped,
   });
 
@@ -590,7 +587,7 @@ export function DataTableInner<T extends { id: string }>({
   };
 
   // Extract keyboard props but override role for proper semantics
-  const { role: _keyboardRole, ...restKeyboardProps } = keyboardProps;
+  const restKeyboardProps = keyboardProps;
 
   return (
     <DataTableLayout>

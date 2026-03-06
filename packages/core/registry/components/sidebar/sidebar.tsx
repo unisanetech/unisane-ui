@@ -54,10 +54,14 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ children, className, variant, collapsible, ...props }, ref) => {
-    // variant and collapsible props are accepted for shadcn compatibility
-    // but the actual behavior is controlled via SidebarProvider context
     return (
-      <div ref={ref} className={cn("flex h-full", className)} {...props}>
+      <div
+        ref={ref}
+        className={cn("flex h-full", className)}
+        data-variant={variant}
+        data-collapsible={collapsible}
+        {...props}
+      >
         {children}
       </div>
     );

@@ -185,15 +185,7 @@ class SourcedLogger {
   ) {}
 
   debug(message: string, data?: Record<string, unknown>): void {
-    (this.parent as unknown as { options: Required<LoggerOptions>; shouldLog: (l: LogLevel) => boolean }).shouldLog(
-      "debug"
-    ) &&
-      (
-        this.parent as unknown as {
-          options: Required<LoggerOptions>;
-          shouldLog: (l: LogLevel) => boolean;
-        }
-      ).options.handler("debug", message, { source: this.source, data });
+    this.parent.debug(`[${this.source}] ${message}`, data);
   }
 
   info(message: string, data?: Record<string, unknown>): void {

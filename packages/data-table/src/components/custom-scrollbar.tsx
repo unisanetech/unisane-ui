@@ -113,7 +113,6 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   const dependenciesKey = useMemo(() => JSON.stringify(dependencies), [dependencies]);
   useEffect(() => {
     requestFrame(updateScrollbar);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pinnedLeftWidth, pinnedRightWidth, dependenciesKey, requestFrame]);
 
   // ─── STICKY POSITION LOGIC ────────────────────────────────────────────────────
@@ -199,7 +198,8 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     intersectionObserver.observe(dataTableRef.current);
 
     return () => {
-      window.removeEventListener("scroll", throttledUpdate, { capture: true } as EventListenerOptions);
+      const scrollListenerOptions: EventListenerOptions = { capture: true };
+      window.removeEventListener("scroll", throttledUpdate, scrollListenerOptions);
       window.removeEventListener("resize", throttledUpdate);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();

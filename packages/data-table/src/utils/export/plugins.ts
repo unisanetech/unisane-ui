@@ -204,7 +204,7 @@ class ExportPluginRegistry {
       );
     }
 
-    this.plugins.set(plugin.id, plugin as unknown as ExportPlugin);
+    this.plugins.set(plugin.id, plugin as ExportPlugin);
   }
 
   /**
@@ -489,10 +489,10 @@ export async function exportWithPlugin<
     const preparedData = preparePluginExportData(exportOptions);
 
     // Merge plugin default options with provided options
-    const mergedPluginOptions = {
+    const mergedPluginOptions: TOptions = {
       ...plugin.defaultOptions,
       ...pluginOptions,
-    } as TOptions;
+    };
 
     // Validate if plugin has validation
     if (plugin.validate) {
@@ -581,10 +581,10 @@ export async function pluginToString<
 
   try {
     const preparedData = preparePluginExportData(exportOptions);
-    const mergedPluginOptions = {
+    const mergedPluginOptions: TOptions = {
       ...plugin.defaultOptions,
       ...pluginOptions,
-    } as TOptions;
+    };
 
     return await plugin.toString(
       { data: preparedData, options: exportOptions },

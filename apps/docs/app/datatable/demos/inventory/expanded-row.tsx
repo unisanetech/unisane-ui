@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon, Badge, Button, Divider } from "@unisane/ui";
+import { Icon, Button, Divider } from "@unisane/ui";
 import type { InventoryItem } from "./types";
 
 // ─── STAT CARD ────────────────────────────────────────────────────────────────
@@ -45,7 +45,6 @@ function InfoRow({ label, value, icon }: { label: string; value: string | React.
 
 export function InventoryExpandedRow({ row }: { row: InventoryItem }) {
   const profitMargin = ((row.sellingPrice - row.costPrice) / row.costPrice * 100).toFixed(1);
-  const stockHealth = row.currentStock / row.maxStockLevel * 100;
   const daysOfStock = row.avgMonthlySales > 0 ? Math.round((row.currentStock / row.avgMonthlySales) * 30) : 0;
 
   return (

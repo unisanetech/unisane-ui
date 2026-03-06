@@ -25,6 +25,7 @@ import type {
 } from "./types";
 import { dataTableReducer, createInitialState } from "./reducer";
 import { flattenColumns, hasColumnGroups } from "../types/index";
+import type { ColumnPinState } from "../types/index";
 import { I18nProvider } from "../i18n/index";
 import { FeedbackProvider } from "../feedback";
 import { ErrorHub } from "../errors/error-hub";
@@ -42,6 +43,30 @@ const DataTableContext = createContext<DataTableContextValue<unknown> | null>(nu
 
 const getStorageKey = (tableId: string, suffix: string) =>
   `unisane-datatable-${tableId}-${suffix}`;
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function isNumberRecord(value: unknown): value is Record<string, number> {
+  return (
+    isRecord(value) &&
+    Object.values(value).every((item) => typeof item === "number" && Number.isFinite(item))
+  );
+}
+
+function isColumnPinState(value: unknown): value is ColumnPinState {
+  return (
+    isRecord(value) &&
+    Object.values(value).every(
+      (pin) => pin === "left" || pin === "right" || pin === null
+    )
+  );
+}
 
 // ─── PROVIDER ───────────────────────────────────────────────────────────────
 
@@ -256,14 +281,14 @@ export function DataTableProvider<T extends { id: string }>({
       // Load UI settings
       const savedSettings = localStorage.getItem(getStorageKey(tableId, "settings"));
       if (savedSettings) {
-        const parsed = JSON.parse(savedSettings);
-        if (parsed.hiddenColumns) {
+        const parsed: unknown = JSON.parse(savedSettings);
+        if (isRecord(parsed) && isStringArray(parsed.hiddenColumns)) {
           dispatch({
             type: "HYDRATE",
             state: { hiddenColumns: new Set(parsed.hiddenColumns) },
           });
         }
-        if (parsed.columnWidths) {
+        if (isRecord(parsed) && isNumberRecord(parsed.columnWidths)) {
           dispatch({
             type: "HYDRATE",
             state: { columnWidths: parsed.columnWidths },
@@ -275,8 +300,10 @@ export function DataTableProvider<T extends { id: string }>({
       if (!externalPinState) {
         const savedPins = localStorage.getItem(getStorageKey(tableId, "pins"));
         if (savedPins) {
-          const parsed = JSON.parse(savedPins);
-          dispatch({ type: "HYDRATE", state: { columnPinState: parsed } });
+          const parsed: unknown = JSON.parse(savedPins);
+          if (isColumnPinState(parsed)) {
+            dispatch({ type: "HYDRATE", state: { columnPinState: parsed } });
+          }
         }
       }
     } catch (e) {

@@ -326,7 +326,7 @@ function ManualStep({ number, title, description, children }: { number: number; 
   );
 }
 
-function CodeBlock({ code, language = "tsx" }: { code: string; language?: string }) {
+function CodeBlock({ code }: { code: string; language?: string }) {
   return (
     <div className="rounded-lg overflow-hidden border border-outline-variant/20 bg-surface-container-low">
       <pre className="p-4 overflow-x-auto">

@@ -38,7 +38,7 @@ const CommandDialog = ({ children, open, onOpenChange }: CommandDialogProps) => 
       onClose={() => onOpenChange?.(false)}
       className="overflow-hidden p-0 shadow-lg"
     >
-      <Command className="[&_[cmdk-group-heading]]:text-on-surface-variant [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
+      <Command className="[&_[cmdk-group-heading]]:text-on-surface-variant [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
         {children}
       </Command>
     </Dialog>
@@ -51,7 +51,7 @@ const CommandInput = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-  <div className="border-outline-variant flex items-center border-b px-4" cmdk-input-wrapper="">
+  <div className="border-outline-variant flex items-center border-b px-4" data-cmdk-input-wrapper="">
     <Icon symbol="search" size="sm" className="mr-2 shrink-0 opacity-50" />
     <CommandPrimitive.Input
       ref={ref}

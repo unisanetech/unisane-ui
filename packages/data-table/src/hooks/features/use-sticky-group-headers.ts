@@ -216,6 +216,7 @@ export function useStickyGroupHeaders({
   defaultHeaderHeight = DEFAULT_HEADER_HEIGHT,
   scrollDebounce = DEFAULT_SCROLL_DEBOUNCE,
 }: UseStickyGroupHeadersOptions): UseStickyGroupHeadersReturn {
+  void defaultHeaderHeight;
   // ─── STATE ────────────────────────────────────────────────────────────────
 
   const [stickyHeaders, setStickyHeaders] = useState<StickyGroupHeader[]>([]);
@@ -244,23 +245,13 @@ export function useStickyGroupHeaders({
 
     // Find groups that should be sticky
     const newStickyHeaders: StickyGroupHeader[] = [];
-    let accumulatedHeight = stickyOffset;
-
-    // Sort groups by depth and position
-    const sortedGroups = [...groups].sort((a, b) => {
-      // First by depth (parent groups first)
-      if (a.depth !== b.depth) return a.depth - b.depth;
-      // Then by position
-      return a.top - b.top;
-    });
-
     // Track which depth levels have a sticky header
     const stickyByDepth = new Map<number, GroupPosition>();
 
     for (const group of groups) {
       const groupTop = group.top - currentScrollTop;
       const groupBottom = group.bottom - currentScrollTop;
-      const effectiveTop = stickyOffset + accumulatedHeight;
+      const effectiveTop = stickyOffset;
 
       // Group header should be sticky if:
       // 1. The group top has scrolled past the sticky position

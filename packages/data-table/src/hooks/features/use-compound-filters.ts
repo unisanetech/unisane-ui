@@ -262,6 +262,20 @@ function createEmptyFilter(): CompoundFilter {
   };
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isCompoundFilter(value: unknown): value is CompoundFilter {
+  return (
+    isRecord(value) &&
+    typeof value.active === "boolean" &&
+    isRecord(value.root) &&
+    Array.isArray(value.root.conditions) &&
+    Array.isArray(value.root.groups)
+  );
+}
+
 /**
  * Deep clone a filter group
  */
@@ -885,8 +899,8 @@ export function useCompoundFilters<T extends { id: string }>({
   const fromJSON = useCallback(
     (json: string): boolean => {
       try {
-        const parsed = JSON.parse(json);
-        if (!parsed.root || typeof parsed.active !== "boolean") {
+        const parsed: unknown = JSON.parse(json);
+        if (!isCompoundFilter(parsed)) {
           console.warn("Invalid compound filter JSON");
           return false;
         }

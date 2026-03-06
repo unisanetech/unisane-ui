@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../hero-background";
-import { Tabs, TabsList, TabsTrigger, TabsContent, Card } from "@unisane/ui";
+import { Card } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const TabsHeroVisual = () => (

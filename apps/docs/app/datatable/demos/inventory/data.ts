@@ -1,5 +1,5 @@
 import type { InventoryItem, InventoryCategory, UnitType, InventoryStatus } from "./types";
-import { inventoryCategories, unitTypes, suppliers, warehouseLocations } from "./types";
+import { inventoryCategories, suppliers, warehouseLocations } from "./types";
 
 // ─── PRODUCT NAME TEMPLATES ───────────────────────────────────────────────────
 

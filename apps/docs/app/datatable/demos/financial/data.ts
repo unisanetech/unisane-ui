@@ -1,4 +1,4 @@
-import type { Transaction, TransactionCategory, TransactionStatus } from "./types";
+import type { Transaction, TransactionCategory } from "./types";
 
 // ─── DATA GENERATION ─────────────────────────────────────────────────────────
 
@@ -14,8 +14,6 @@ const categories: TransactionCategory[] = [
   "Payroll",
   "Utilities",
 ];
-
-const statuses: TransactionStatus[] = ["completed", "pending", "failed", "refunded"];
 
 const accounts = [
   "Business Checking",
@@ -90,7 +88,7 @@ export function generateTransactions(count: number): Transaction[] {
 
     // Most transactions are completed
     const statusRandom = Math.random();
-    let status: TransactionStatus;
+    let status: Transaction["status"];
     if (statusRandom < 0.75) {
       status = "completed";
     } else if (statusRandom < 0.90) {

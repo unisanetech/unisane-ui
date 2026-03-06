@@ -690,8 +690,7 @@ export interface SimpleColumn<T> {
 export function defineColumns<T>(columns: SimpleColumn<T>[]): Column<T>[] {
   return columns.map((col) => {
     const isStatic = col.static === true;
-
-    return {
+    const column: Column<T> = {
       key: col.key,
       header: col.header,
       width: col.width,
@@ -715,7 +714,8 @@ export function defineColumns<T>(columns: SimpleColumn<T>[]): Column<T>[] {
 
       // Summary
       summary: col.summary,
-    } as Column<T>;
+    };
+    return column;
   });
 }
 

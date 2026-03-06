@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId } from 'react';
+import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 
 export interface PopoverProps {
@@ -29,10 +29,13 @@ export const Popover: React.FC<PopoverProps> = ({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const popoverId = useId();
 
-  const handleOpenChange = (newOpen: boolean) => {
-    if (!isControlled) setUncontrolledOpen(newOpen);
-    onOpenChange?.(newOpen);
-  };
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      if (!isControlled) setUncontrolledOpen(newOpen);
+      onOpenChange?.(newOpen);
+    },
+    [isControlled, onOpenChange],
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -57,7 +60,7 @@ export const Popover: React.FC<PopoverProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, handleOpenChange]);
 
   const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {

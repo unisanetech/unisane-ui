@@ -238,7 +238,7 @@ export function useTreeData<T extends { id: string }>({
         let children = getChildren(row, config);
         const lazyChildren = loadedChildren.get(nodeId);
         if (lazyChildren) {
-          children = [...children, ...(lazyChildren as T[])];
+          children = [...children, ...(lazyChildren)];
         }
 
         const hasChildren = children.length > 0 || (config.onLoadChildren !== undefined && !loadedChildren.has(nodeId));

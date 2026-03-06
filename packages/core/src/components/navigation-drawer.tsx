@@ -52,8 +52,13 @@ export const NavigationDrawer = forwardRef<HTMLElement, DrawerProps>(
         className={cn(navigationDrawerVariants({ modal, open }), className)}
         style={style}
         onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onFocus={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onFocus={onMouseEnter}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          onClose?.();
+        }
+      }}
       >
         {children}
       </aside>

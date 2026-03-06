@@ -336,7 +336,7 @@ function isTypedFilterValue(
     typeof value === "object" &&
     value !== null &&
     "type" in value &&
-    typeof (value as TypedFilterValue).type === "string"
+    typeof (value).type === "string"
   );
 }
 
@@ -510,7 +510,7 @@ function matchesTypedFilter(
 
     default: {
       // Exhaustive check - should never reach here
-      const _exhaustive: never = filter;
+      void filter;
       return true;
     }
   }

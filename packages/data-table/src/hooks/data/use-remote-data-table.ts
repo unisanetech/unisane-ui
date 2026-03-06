@@ -195,7 +195,7 @@ export function useRemoteDataTable<T extends { id: string }>({
     if (queryData !== undefined && queryData !== null) {
       const extracted = Array.isArray(queryData)
         ? queryData
-        : (queryData.items ?? []) as T[];
+        : (queryData.items ?? []);
       // Store for future reference (outside useMemo to avoid stale closure)
       lastValidDataRef.current = extracted;
       return extracted;
@@ -210,7 +210,7 @@ export function useRemoteDataTable<T extends { id: string }>({
     if (initialData !== undefined) {
       const extracted = Array.isArray(initialData)
         ? initialData
-        : (initialData.items ?? []) as T[];
+        : (initialData.items ?? []);
       return extracted;
     }
 

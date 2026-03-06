@@ -203,7 +203,6 @@ export async function safeExportWithRetry<T extends { id: string }>(
   const { errorHub, ...restOptions } = options;
 
   let lastResult: SafeExportResult | null = null;
-  let lastError: ExportError | null = null;
 
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const isLastAttempt = attempt === maxAttempts;
