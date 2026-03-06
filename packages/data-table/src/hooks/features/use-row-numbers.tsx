@@ -115,10 +115,9 @@ export function useRowNumbers<T extends { id: string }>(
       align: "center",
       sortable: false,
       filterable: false,
-      resizable: false,
       pinned: pinned ? "left" : undefined,
       // Custom cell renderer that shows the row number
-      cell: ({ rowIndex }: CellContext<T>) => {
+      render: (_row: T, { rowIndex }: CellContext<T>) => {
         const rowNumber = getRowNumber(rowIndex);
         return (
           <span className="text-on-surface-variant text-label-sm tabular-nums">

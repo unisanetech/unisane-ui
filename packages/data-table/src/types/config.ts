@@ -664,7 +664,7 @@ export interface SimpleColumn<T> {
   reorderable?: boolean;
 
   /** Input type for inline editing */
-  inputType?: 'text' | 'number' | 'email' | 'date' | 'select';
+  inputType?: Column<T>['inputType'];
 
   /** Options for select input type */
   selectOptions?: { label: string; value: string }[];

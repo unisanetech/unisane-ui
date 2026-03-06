@@ -162,7 +162,7 @@ export interface PluginRegistryConfig {
  * Singleton pattern for global plugin management.
  */
 class ExportPluginRegistry {
-  private plugins: Map<string, ExportPlugin> = new Map();
+  private plugins: Map<string, unknown> = new Map();
   private allowOverwrite: boolean;
 
   constructor(config: PluginRegistryConfig = {}) {
@@ -204,7 +204,7 @@ class ExportPluginRegistry {
       );
     }
 
-    this.plugins.set(plugin.id, plugin as ExportPlugin);
+    this.plugins.set(plugin.id, plugin);
   }
 
   /**
@@ -220,7 +220,9 @@ class ExportPluginRegistry {
   get<T extends { id: string }, TOptions extends Record<string, unknown>>(
     pluginId: string
   ): ExportPlugin<T, TOptions> | undefined {
-    return this.plugins.get(pluginId) as ExportPlugin<T, TOptions> | undefined;
+    const plugin = this.plugins.get(pluginId);
+    if (!plugin) return undefined;
+    return plugin as ExportPlugin<T, TOptions>;
   }
 
   /**
@@ -234,7 +236,13 @@ class ExportPluginRegistry {
    * Get all registered plugins.
    */
   getAll(): ExportPlugin[] {
-    return Array.from(this.plugins.values());
+    return Array.from(this.plugins.values()).filter(
+      (plugin): plugin is ExportPlugin => {
+        if (typeof plugin !== "object" || plugin === null) return false;
+        if (!("id" in plugin) || !("name" in plugin)) return false;
+        return "export" in plugin;
+      }
+    );
   }
 
   /**
@@ -291,6 +299,15 @@ export function createExportPluginRegistry(
   config?: PluginRegistryConfig
 ): ExportPluginRegistry {
   return new ExportPluginRegistry(config);
+}
+
+function mergePluginOptions<TOptions extends Record<string, unknown>>(
+  defaults?: Partial<TOptions>,
+  provided?: TOptions
+): TOptions | undefined {
+  if (!defaults && !provided) return undefined;
+  const merged = Object.assign({}, defaults ?? {}, provided ?? {});
+  return merged as TOptions;
 }
 
 // ─── DATA PREPARATION ────────────────────────────────────────────────────────
@@ -489,10 +506,10 @@ export async function exportWithPlugin<
     const preparedData = preparePluginExportData(exportOptions);
 
     // Merge plugin default options with provided options
-    const mergedPluginOptions: TOptions = {
-      ...plugin.defaultOptions,
-      ...pluginOptions,
-    };
+    const mergedPluginOptions = mergePluginOptions<TOptions>(
+      plugin.defaultOptions,
+      pluginOptions
+    );
 
     // Validate if plugin has validation
     if (plugin.validate) {
@@ -581,10 +598,10 @@ export async function pluginToString<
 
   try {
     const preparedData = preparePluginExportData(exportOptions);
-    const mergedPluginOptions: TOptions = {
-      ...plugin.defaultOptions,
-      ...pluginOptions,
-    };
+    const mergedPluginOptions = mergePluginOptions<TOptions>(
+      plugin.defaultOptions,
+      pluginOptions
+    );
 
     return await plugin.toString(
       { data: preparedData, options: exportOptions },
