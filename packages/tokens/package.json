@@ -16,9 +16,6 @@
     "lint": "echo 'No lint targets for @unisane/tokens'"
   },
   "devDependencies": {
-    "@unisane/typescript-config": "workspace:*",
-    "chokidar": "^3.5.3",
-    "eslint": "^9.39.1",
-    "vitest": "^4.0.16"
+    "chokidar": "^3.5.3"
   }
 }

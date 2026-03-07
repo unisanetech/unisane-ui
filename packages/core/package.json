@@ -72,17 +72,12 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
     "@unisane/eslint-config": "workspace:*",
-    "@unisane/tailwind-config": "workspace:*",
-    "@unisane/tokens": "workspace:*",
     "@unisane/typescript-config": "workspace:*",
     "eslint": "^9.39.1",
-    "tailwindcss": "^4.1.16",
     "tsc-alias": "^1.8.10",
-    "typescript": "5.9.2",
-    "vitest": "^4.0.16"
+    "typescript": "5.9.2"
   },
   "dependencies": {
-    "@tanstack/react-virtual": "^3.13.13",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.4.0",
