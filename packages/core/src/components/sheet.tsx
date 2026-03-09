@@ -2,14 +2,16 @@ import React, { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { Ripple } from './ripple';
 import { cn } from '@ui/lib/utils';
+import { useControllableState } from '@ui/lib/use-controllable-state';
 import { useScrollLock } from '@ui/hooks/use-scroll-lock';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type SheetPlacement = 'right' | 'bottom';
 
-interface SheetProps {
-  open: boolean;
-  onClose: () => void;
+export interface SheetProps {
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   title: string;
   children: React.ReactNode;
   icon?: React.ReactNode;
@@ -22,7 +24,8 @@ interface SheetProps {
 
 export function Sheet({
   open,
-  onClose,
+  defaultOpen = false,
+  onOpenChange,
   title,
   children,
   icon,
@@ -32,7 +35,12 @@ export function Sheet({
   size = 'md',
   placement = 'right',
 }: SheetProps) {
-  const [shouldRender, setShouldRender] = useState(open);
+  const [isOpen = false, setIsOpen] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const [shouldRender, setShouldRender] = useState(isOpen);
   const [isVisible, setIsVisible] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -40,10 +48,10 @@ export function Sheet({
   const CLOSE_DURATION = 250;
 
   // Lock body scroll while preventing layout shift
-  useScrollLock(open);
+  useScrollLock(isOpen);
 
   useEffect(() => {
-    if (open) {
+    if (isOpen) {
       if (timerRef.current) window.clearTimeout(timerRef.current);
       setShouldRender(true);
       requestAnimationFrame(() => {
@@ -60,24 +68,24 @@ export function Sheet({
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
-  }, [open]);
+  }, [isOpen]);
 
   // Handle Escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && open) {
+      if (event.key === 'Escape' && isOpen) {
         event.preventDefault();
-        onClose();
+        setIsOpen(false);
       }
     };
 
-    if (open) {
+    if (isOpen) {
       document.addEventListener('keydown', handleKeyDown);
     }
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, onClose]);
+  }, [isOpen, setIsOpen]);
 
   if (!shouldRender) return null;
   if (typeof document === 'undefined') return null;
@@ -117,7 +125,7 @@ export function Sheet({
             ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)'
             : 'cubic-bezier(0.3, 0, 1, 1)',
         }}
-        onClick={onClose}
+        onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
 
@@ -162,7 +170,7 @@ export function Sheet({
             </div>
           </div>
           <button
-            onClick={onClose}
+            onClick={() => setIsOpen(false)}
             className="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-sm transition-all"
             aria-label="Close sheet"
           >

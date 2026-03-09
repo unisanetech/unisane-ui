@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import React, { useRef, useEffect, useId, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
 
 export interface PopoverProps {
   trigger: React.ReactNode;
   content: React.ReactNode;
   open?: boolean;
+  defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   align?: 'start' | 'center' | 'end';
   side?: 'top' | 'bottom' | 'left' | 'right';
@@ -17,24 +19,26 @@ export const Popover: React.FC<PopoverProps> = ({
   trigger,
   content,
   open: controlledOpen,
+  defaultOpen = false,
   onOpenChange,
   align = 'center',
   side = 'bottom',
   className,
 }) => {
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
+  const [isOpen = false, setIsOpen] = useControllableState<boolean>({
+    value: controlledOpen,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const popoverId = useId();
 
   const handleOpenChange = useCallback(
     (newOpen: boolean) => {
-      if (!isControlled) setUncontrolledOpen(newOpen);
-      onOpenChange?.(newOpen);
+      setIsOpen(newOpen);
     },
-    [isControlled, onOpenChange],
+    [setIsOpen],
   );
 
   useEffect(() => {

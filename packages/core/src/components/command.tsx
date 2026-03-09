@@ -27,15 +27,17 @@ Command.displayName = CommandPrimitive.displayName;
 
 export interface CommandDialogProps {
   open?: boolean;
+  defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   children?: React.ReactNode;
 }
 
-const CommandDialog = ({ children, open, onOpenChange }: CommandDialogProps) => {
+const CommandDialog = ({ children, open, defaultOpen, onOpenChange }: CommandDialogProps) => {
   return (
     <Dialog
-      open={open ?? false}
-      onClose={() => onOpenChange?.(false)}
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
       className="overflow-hidden p-0 shadow-lg"
     >
       <Command className="[&_[cmdk-group-heading]]:text-on-surface-variant [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">

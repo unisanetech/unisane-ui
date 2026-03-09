@@ -38,7 +38,7 @@ const TopAppBarSmallExample = () => (
         <IconButton
           variant="standard"
           icon={<span className="material-symbols-outlined">menu</span>}
-          ariaLabel="Open menu"
+          aria-label="Open menu"
         />
       }
       actions={
@@ -46,12 +46,12 @@ const TopAppBarSmallExample = () => (
           <IconButton
             variant="standard"
             icon={<span className="material-symbols-outlined">search</span>}
-            ariaLabel="Search"
+            aria-label="Search"
           />
           <IconButton
             variant="standard"
             icon={<span className="material-symbols-outlined">more_vert</span>}
-            ariaLabel="More options"
+            aria-label="More options"
           />
         </>
       }
@@ -68,14 +68,14 @@ const TopAppBarCenterExample = () => (
         <IconButton
           variant="standard"
           icon={<span className="material-symbols-outlined">arrow_back</span>}
-          ariaLabel="Go back"
+          aria-label="Go back"
         />
       }
       actions={
         <IconButton
           variant="standard"
           icon={<span className="material-symbols-outlined">share</span>}
-          ariaLabel="Share"
+          aria-label="Share"
         />
       }
     />
@@ -178,9 +178,9 @@ export const topAppBarDoc: ComponentDoc = {
   props: [
     {
       name: "title",
-      type: "string",
+      type: "ReactNode",
       required: true,
-      description: "The title text to display.",
+      description: "The title content to display.",
     },
     {
       name: "variant",
@@ -205,9 +205,9 @@ export const topAppBarDoc: ComponentDoc = {
       description: "Applies scrolled style with elevation.",
     },
     {
-      name: "scrollBehavior",
-      type: '"pinned" | "enterAlways" | "exitUntilCollapsed"',
-      description: "How the bar responds to scrolling.",
+      name: "aria-label",
+      type: "string",
+      description: "Accessible label for the header when the title is not plain text.",
     },
   ],
 
@@ -241,18 +241,18 @@ function AppHeader() {
         <IconButton
           icon={<span className="material-symbols-outlined">menu</span>}
           onClick={openDrawer}
-          ariaLabel="Open menu"
+          aria-label="Open menu"
         />
       }
       actions={
         <>
           <IconButton
             icon={<span className="material-symbols-outlined">search</span>}
-            ariaLabel="Search"
+            aria-label="Search"
           />
           <IconButton
             icon={<span className="material-symbols-outlined">account_circle</span>}
-            ariaLabel="Account"
+            aria-label="Account"
           />
         </>
       }

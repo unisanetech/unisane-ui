@@ -1,6 +1,6 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '@/lib/utils';
+import { cn, focusRing, Slot } from '@/lib/utils';
 import { Typography } from './typography';
 import { Ripple } from './ripple';
 
@@ -75,7 +75,10 @@ export const ListItem: React.FC<ListItemProps> = ({
   ...props
 }) => {
   const isInteractive = (!!onClick || !!href || asChild) && !disabled;
-  const itemClasses = cn(listItemVariants({ active, disabled, className }));
+  const itemClasses = cn(
+    listItemVariants({ active, disabled, className }),
+    isInteractive && focusRing
+  );
 
   // Build content for headline-based items
   const headlineContent = headline ? (
@@ -125,34 +128,43 @@ export const ListItem: React.FC<ListItemProps> = ({
   // asChild pattern: render user's Link component
   if (asChild && children && isValidElement(children)) {
     return (
-      <Slot className={itemClasses} role="listitem">
-        {cloneElement(children as React.ReactElement, {}, headlineContent)}
-      </Slot>
+      <div role="listitem">
+        <Slot className={itemClasses}>
+          {cloneElement(children as React.ReactElement, {}, headlineContent)}
+        </Slot>
+      </div>
     );
   }
 
   if (href && !disabled) {
     return (
-      <a href={href} className={itemClasses} role="listitem">
-        {headlineContent}
-      </a>
+      <div role="listitem">
+        <a href={href} className={itemClasses}>
+          {headlineContent}
+        </a>
+      </div>
     );
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (isInteractive && (e.key === 'Enter' || e.key === ' ')) {
-      e.preventDefault();
-      onClick?.();
-    }
-  };
+  if (onClick && !disabled) {
+    return (
+      <div role="listitem">
+        <button
+          type="button"
+          className={itemClasses}
+          onClick={onClick}
+          {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+        >
+          {headlineContent}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
       className={itemClasses}
-      onClick={isInteractive ? onClick : undefined}
-      onKeyDown={isInteractive ? handleKeyDown : undefined}
-      role={isInteractive ? 'button' : 'listitem'}
-      tabIndex={isInteractive ? 0 : undefined}
+      role="listitem"
       {...props}
     >
       {headlineContent}

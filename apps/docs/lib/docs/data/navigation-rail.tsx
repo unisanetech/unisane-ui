@@ -56,7 +56,7 @@ const NavigationRailBasicExample = () => {
           { value: "trash", label: "Trash", icon: "delete", activeIcon: "delete" },
         ]}
         value={active}
-        onChange={setActive}
+        onValueChange={setActive}
         header={
           <Fab
             size="md"
@@ -81,7 +81,7 @@ export const navigationRailDoc: ComponentDoc = {
   slug: "navigation-rail",
   name: "Navigation Rail",
   description:
-    "Navigation rail provides compact vertical navigation for tablet and desktop screens.",
+    "Navigation rail provides compact standalone vertical navigation for tablet and desktop screens.",
   category: "navigation",
   status: "stable",
   icon: "view_sidebar",
@@ -96,7 +96,7 @@ export const navigationRailDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose navigation component based on screen size and number of destinations.",
+      "Choose navigation based on whether you need a standalone widget or a full app-shell system.",
     columns: {
       emphasis: "Component",
       component: "Preview",
@@ -113,7 +113,7 @@ export const navigationRailDoc: ComponentDoc = {
             <div className="w-6 h-4 rounded-full bg-surface-container-high" />
           </div>
         ),
-        rationale: "Compact vertical navigation for larger screens.",
+        rationale: "Compact standalone vertical navigation for larger screens.",
         examples: "Desktop apps, Tablet apps, Admin panels",
       },
       {
@@ -124,7 +124,7 @@ export const navigationRailDoc: ComponentDoc = {
             <div className="h-3 rounded-sm bg-surface-container-high" />
           </div>
         ),
-        rationale: "Full navigation with labels always visible.",
+        rationale: "Standalone drawer navigation with labels always visible.",
         examples: "Complex apps, Many destinations",
       },
       {
@@ -166,13 +166,16 @@ export const navigationRailDoc: ComponentDoc = {
     {
       name: "value",
       type: "string",
-      required: true,
       description: "Currently active item value.",
     },
     {
-      name: "onChange",
+      name: "defaultValue",
+      type: "string",
+      description: "Initial active item for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
       type: "(value: string) => void",
-      required: true,
       description: "Callback when active item changes.",
     },
     {
@@ -195,6 +198,11 @@ export const navigationRailDoc: ComponentDoc = {
       name: "onItemHover",
       type: "(value: string) => void",
       description: "Callback when item is hovered.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes for the rail container.",
     },
   ],
 
@@ -236,12 +244,12 @@ function SideNav() {
     <NavigationRail
       items={items}
       value={pathname}
-      onChange={(path) => router.push(path)}
+      onValueChange={(path) => router.push(path)}
       header={
         <Fab
           icon={<span className="material-symbols-outlined">edit</span>}
           onClick={() => router.push("/compose")}
-          ariaLabel="Compose"
+          aria-label="Compose"
         />
       }
     />
@@ -252,8 +260,12 @@ function SideNav() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
+      slug: "sidebar",
+      reason: "Use for full app-shell navigation with responsive rail, drawer, and content inset behavior.",
+    },
+    {
       slug: "navigation-drawer",
-      reason: "Use for full navigation with labels.",
+      reason: "Use for standalone drawer navigation with labels always visible.",
     },
     {
       slug: "navigation-bar",

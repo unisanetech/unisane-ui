@@ -1,40 +1,91 @@
 'use client';
 
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Dialog } from './dialog';
 import { Button } from './button';
 import { IconButton } from './icon-button';
 import { Icon } from '@ui/primitives/icon';
 import { cn } from '@ui/lib/utils';
+import { useControllableState } from '@ui/lib/use-controllable-state';
 import { TextField } from './text-field';
 
 export interface TimePickerProps {
-  open: boolean;
-  onClose: () => void;
-  onSelect?: (time: string) => void;
-  initialTime?: string;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (time: string) => void;
+}
+
+function parseTimeParts(value: string) {
+  const [rawHours = '12', rawMinutes = '00'] = value.split(':');
+  const parsedHours = Number.parseInt(rawHours, 10);
+  const parsedMinutes = Number.parseInt(rawMinutes, 10);
+  const normalizedHours = Number.isNaN(parsedHours) ? 12 : Math.min(Math.max(parsedHours, 0), 23);
+  const normalizedMinutes = Number.isNaN(parsedMinutes)
+    ? 0
+    : Math.min(Math.max(parsedMinutes, 0), 59);
+
+  return {
+    hours: normalizedHours % 12 || 12,
+    minutes: normalizedMinutes,
+    period: (normalizedHours >= 12 ? 'PM' : 'AM'),
+  };
+}
+
+function formatTimeValue(hours: number, minutes: number, period: 'AM' | 'PM') {
+  let finalHours = hours;
+  if (period === 'PM' && hours !== 12) finalHours += 12;
+  if (period === 'AM' && hours === 12) finalHours = 0;
+
+  if (finalHours < 0) finalHours = 0;
+  if (finalHours > 23) finalHours = 23;
+  let finalMinutes = minutes;
+  if (finalMinutes < 0) finalMinutes = 0;
+  if (finalMinutes > 59) finalMinutes = 59;
+
+  return `${finalHours.toString().padStart(2, '0')}:${finalMinutes.toString().padStart(2, '0')}`;
 }
 
 export const TimePicker: React.FC<TimePickerProps> = ({
   open,
-  onClose,
-  onSelect,
-  initialTime = '12:00',
+  defaultOpen = false,
+  onOpenChange,
+  value,
+  defaultValue = '12:00',
+  onValueChange,
 }) => {
-  const parts = (initialTime || '12:00').split(':');
-  const hStr = parts[0] || '12';
-  const mStr = parts[1] || '00';
-  const initH = parseInt(hStr);
-  const initM = parseInt(mStr);
+  const [isOpen = false, setIsOpen] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const [selectedValue = defaultValue, setSelectedValue] = useControllableState<string>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+  const initialValue = parseTimeParts(selectedValue);
 
-  const [hours, setHours] = useState(initH % 12 || 12);
-  const [minutes, setMinutes] = useState(initM);
-  const [period, setPeriod] = useState<'AM' | 'PM'>(initH >= 12 ? 'PM' : 'AM');
+  const [hours, setHours] = useState(initialValue.hours);
+  const [minutes, setMinutes] = useState(initialValue.minutes);
+  const [period, setPeriod] = useState<'AM' | 'PM'>(initialValue.period);
 
   const [inputType, setInputType] = useState<'dial' | 'keyboard'>('dial');
   const [dialMode, setDialMode] = useState<'hour' | 'minute'>('hour');
   const [isDragging, setIsDragging] = useState(false);
   const dialRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const nextValue = parseTimeParts(selectedValue);
+    setHours(nextValue.hours);
+    setMinutes(nextValue.minutes);
+    setPeriod(nextValue.period);
+    setDialMode('hour');
+    setInputType('dial');
+  }, [isOpen, selectedValue]);
 
   const getRotation = () => {
     if (dialMode === 'hour') {
@@ -161,27 +212,13 @@ export const TimePicker: React.FC<TimePickerProps> = ({
     [dialMode],
   );
 
-  const formatTime = (h: number, m: number) => {
-    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`;
-  };
-
   const handleSave = () => {
-    let finalHours = hours;
-    if (period === 'PM' && hours !== 12) finalHours += 12;
-    if (period === 'AM' && hours === 12) finalHours = 0;
-
-    if (finalHours < 0) finalHours = 0;
-    if (finalHours > 23) finalHours = 23;
-    let finalMinutes = minutes;
-    if (finalMinutes < 0) finalMinutes = 0;
-    if (finalMinutes > 59) finalMinutes = 59;
-
-    onSelect?.(formatTime(finalHours, finalMinutes));
-    onClose();
+    setSelectedValue(formatTimeValue(hours, minutes, period));
+    setIsOpen(false);
   };
 
   return (
-    <Dialog open={open} onClose={onClose} title="" contentClassName="p-0 gap-0">
+    <Dialog open={isOpen} onOpenChange={setIsOpen} title="" contentClassName="p-0 gap-0">
       <div className="flex w-full flex-col items-center pb-4">
         <div className="w-full px-6 pt-6 pb-4">
           <span className="text-label-medium text-on-surface-variant font-medium">
@@ -306,7 +343,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               <div
                 className={cn(
                   'bg-primary pointer-events-none absolute top-1/2 left-1/2 z-10 h-25 w-0.5 origin-bottom',
-                  isDragging ? 'transition-none' : 'duration-long ease-smooth transition-transform',
+                  isDragging ? 'transition-none' : 'duration-long ease-standard transition-transform',
                 )}
                 style={{
                   transform: `translate(-50%, -100%) rotate(${getRotation()}deg)`,
@@ -381,12 +418,12 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         <div className="mt-2 flex w-full items-center justify-between px-4">
           <IconButton
             variant="standard"
-            ariaLabel={inputType === 'dial' ? 'Switch to keyboard' : 'Switch to clock'}
+            aria-label={inputType === 'dial' ? 'Switch to keyboard' : 'Switch to clock'}
             onClick={() => setInputType(inputType === 'dial' ? 'keyboard' : 'dial')}
             icon={<Icon symbol={inputType === 'dial' ? 'keyboard' : 'schedule'} size={24} />}
           />
           <div className="flex gap-2">
-            <Button variant="text" onClick={onClose}>
+            <Button variant="text" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
             <Button variant="text" onClick={handleSave}>

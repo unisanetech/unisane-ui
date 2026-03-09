@@ -170,3 +170,20 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(
   }
 );
 Slot.displayName = "Slot";
+
+export function composeAsChildClickHandler<E extends HTMLElement>(
+  isDisabled: boolean,
+  ...handlers: Array<((event: React.MouseEvent<E>) => void) | undefined>
+) {
+  return (event: React.MouseEvent<E>) => {
+    if (isDisabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
+    handlers.forEach((handler) => {
+      handler?.(event);
+    });
+  };
+}

@@ -4,6 +4,8 @@ import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@ui/lib/utils';
+import { type FieldSize } from '@ui/lib/field-size';
+import { useControllableState } from '@ui/lib/use-controllable-state';
 import { Calendar } from './calendar';
 import { DateInput } from './date-input';
 
@@ -28,8 +30,16 @@ const datePickerVariants = cva('relative w-full', {
 export type DatePickerProps = VariantProps<typeof datePickerVariants> & {
   /** The selected date value */
   value?: Date;
+  /** The default date value for uncontrolled usage */
+  defaultValue?: Date;
   /** Callback when date changes */
-  onChange?: (date: Date | undefined) => void;
+  onValueChange?: (date: Date | undefined) => void;
+  /** Controlled open state for the calendar popover */
+  open?: boolean;
+  /** Default open state for uncontrolled usage */
+  defaultOpen?: boolean;
+  /** Callback when the calendar popover opens or closes */
+  onOpenChange?: (open: boolean) => void;
   /** Label text for the input field */
   label?: string;
   /** Whether the date picker is disabled */
@@ -52,11 +62,17 @@ export type DatePickerProps = VariantProps<typeof datePickerVariants> & {
   labelBg?: string;
   /** Whether to show the calendar button */
   showCalendarButton?: boolean;
+  /** Shared control size */
+  size?: FieldSize;
 };
 
 export const DatePicker: React.FC<DatePickerProps> = ({
   value,
-  onChange,
+  defaultValue,
+  onValueChange,
+  open,
+  defaultOpen = false,
+  onOpenChange,
   label = 'Date',
   disabled = false,
   error = false,
@@ -69,8 +85,19 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   max,
   labelBg,
   showCalendarButton = true,
+  size = 'md',
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useControllableState<Date | undefined>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+  const [openState, setOpenState] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const isOpen = openState ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const popoverId = useId();
@@ -108,10 +135,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   // Handle date selection from calendar
   const handleDateSelect = useCallback(
     (date: Date) => {
-      onChange?.(date);
-      setIsOpen(false);
+      setSelectedValue(date);
+      setOpenState(false);
     },
-    [onChange],
+    [setOpenState, setSelectedValue],
   );
 
   // Calendar toggle button handler
@@ -120,10 +147,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       e.preventDefault();
       e.stopPropagation();
       if (!disabled) {
-        setIsOpen((prev) => !prev);
+        setOpenState(!isOpen);
       }
     },
-    [disabled],
+    [disabled, isOpen, setOpenState],
   );
 
   // Handle click outside to close
@@ -134,12 +161,12 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       const target = event.target as Node;
       if (containerRef.current?.contains(target)) return;
       if (popoverRef.current?.contains(target)) return;
-      setIsOpen(false);
+      setOpenState(false);
     };
 
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsOpen(false);
+        setOpenState(false);
       }
     };
 
@@ -157,7 +184,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, updatePopoverPosition]);
+  }, [isOpen, setOpenState, updatePopoverPosition]);
 
   // Calendar button icon
   const calendarButton = showCalendarButton ? (
@@ -185,8 +212,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   return (
     <div className={cn(datePickerVariants({ variant, className }))} ref={containerRef}>
       <DateInput
-        value={value}
-        onChange={onChange}
+        value={selectedValue}
+        onValueChange={setSelectedValue}
         label={label}
         disabled={disabled}
         error={error}
@@ -198,6 +225,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         max={max}
         labelBg={labelBg}
         trailingIcon={calendarButton}
+        size={size}
       />
 
       {/* Dropdown calendar */}
@@ -220,7 +248,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
             >
               <Calendar
                 className="max-w-none"
-                selectedDate={value}
+                selectedDate={selectedValue}
                 onDateSelect={handleDateSelect}
                 min={min}
                 max={max}

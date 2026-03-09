@@ -31,7 +31,7 @@ export function CodeBlock({ code, language, className }: CodeBlockProps) {
         <IconButton
           variant="standard"
           size="sm"
-          ariaLabel={copied ? "Copied!" : "Copy code"}
+          aria-label={copied ? "Copied!" : "Copy code"}
           onClick={handleCopy}
         >
           <span className="material-symbols-outlined text-[20px]">

@@ -1,11 +1,11 @@
 /* Tailwind v4 + Unisane UI */
-@import "tailwindcss";
-@import "@unisane/tokens/unisane.css";
+@import 'tailwindcss';
+@import '@unisane/tokens/unisane.css';
 
 /* Source paths for Tailwind class scanning */
 @source "../**/*.{ts,tsx,mdx}";
-@source "../../../packages/ui/core/src/**/*.{ts,tsx}";
-@source "../../../packages/ui/data-table/src/**/*.{ts,tsx}";
+@source "../../../packages/core/src/**/*.{ts,tsx}";
+@source "../../../packages/data-table/src/**/*.{ts,tsx}";
 
 /* ============================================================
    APP-SPECIFIC STYLES
@@ -99,7 +99,7 @@
 /* Sidebar layout - applies margin only on desktop (840px+) */
 /* Uses CSS variable set by SidebarInset component */
 @media (min-width: 840px) {
-  main[style*="--sidebar-margin"] {
+  main[style*='--sidebar-margin'] {
     margin-left: var(--sidebar-margin);
   }
 }

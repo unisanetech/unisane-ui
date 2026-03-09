@@ -280,6 +280,20 @@ export function ToastProvider({
     setToasts([]);
   }, []);
 
+  useEffect(() => {
+    const host = { toastFunc: toast, dismissFunc: dismiss, dismissAllFunc: dismissAll };
+    activeToastHost = host;
+    setToastFunctions(host.toastFunc, host.dismissFunc, host.dismissAllFunc);
+    return () => {
+      if (activeToastHost === host) {
+        activeToastHost = null;
+        toastFn = null;
+        dismissFn = null;
+        dismissAllFn = null;
+      }
+    };
+  }, [toast, dismiss, dismissAll]);
+
   return (
     <ToastContext.Provider value={{ toasts, toast, dismiss, dismissAll }}>
       {children}
@@ -291,11 +305,18 @@ export function ToastProvider({
 // ─── CONVENIENCE METHODS ─────────────────────────────────────────────────────
 
 // These are created as a standalone toast API for cases where context isn't available
-// They require the ToastProvider to be mounted somewhere in the app
+// They require a toast host (<Toaster /> or <ToastProvider />) to be mounted somewhere in the app
 
 let toastFn: ((options: ToastOptions) => string) | null = null;
 let dismissFn: ((id: string) => void) | null = null;
 let dismissAllFn: (() => void) | null = null;
+let activeToastHost:
+  | {
+      toastFunc: (options: ToastOptions) => string;
+      dismissFunc: (id: string) => void;
+      dismissAllFunc: () => void;
+    }
+  | null = null;
 
 export function setToastFunctions(
   toastFunc: (options: ToastOptions) => string,
@@ -310,7 +331,7 @@ export function setToastFunctions(
 export const toast = {
   show: (options: ToastOptions) => {
     if (!toastFn) {
-      console.warn("Toast: ToastProvider not mounted. Wrap your app with <ToastProvider>");
+      console.warn("Toast: no host mounted. Mount <Toaster /> or <ToastProvider>.");
       return "";
     }
     return toastFn(options);
@@ -356,11 +377,20 @@ export function Toaster({ position = "bottom-right", maxToasts = 5 }: ToasterPro
   }, []);
 
   useEffect(() => {
-    setToastFunctions(toastFnInternal, dismissInternal, dismissAllInternal);
+    const host = {
+      toastFunc: toastFnInternal,
+      dismissFunc: dismissInternal,
+      dismissAllFunc: dismissAllInternal,
+    };
+    activeToastHost = host;
+    setToastFunctions(host.toastFunc, host.dismissFunc, host.dismissAllFunc);
     return () => {
-      toastFn = null;
-      dismissFn = null;
-      dismissAllFn = null;
+      if (activeToastHost === host) {
+        activeToastHost = null;
+        toastFn = null;
+        dismissFn = null;
+        dismissAllFn = null;
+      }
     };
   }, [toastFnInternal, dismissInternal, dismissAllInternal]);
 

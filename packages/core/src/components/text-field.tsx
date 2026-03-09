@@ -3,6 +3,7 @@
 import React, { useId, useState, useEffect, useRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@ui/lib/utils";
+import { getFieldSizeStyles, type FieldSize } from "@ui/lib/field-size";
 
 const textFieldContainerVariants = cva(
   "relative flex w-full transition-all duration-snappy ease-emphasized group cursor-text",
@@ -28,8 +29,8 @@ const textFieldContainerVariants = cva(
   }
 );
 
-export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> &
-  React.TextareaHTMLAttributes<HTMLTextAreaElement> &
+export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> &
+  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
   VariantProps<typeof textFieldContainerVariants> & {
     label: string;
     helperText?: string;
@@ -38,6 +39,7 @@ export type TextFieldProps = React.InputHTMLAttributes<HTMLInputElement> &
     multiline?: boolean;
     labelClassName?: string;
     labelBg?: string;
+    size?: FieldSize;
   };
 
 export const TextField = React.forwardRef<
@@ -55,6 +57,7 @@ export const TextField = React.forwardRef<
       className,
       labelClassName,
       labelBg,
+      size = "md",
       id,
       multiline = false,
       disabled,
@@ -70,6 +73,7 @@ export const TextField = React.forwardRef<
     const generatedId = useId();
     const inputId = id || `textfield-${generatedId}`;
     const internalRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+    const fieldSize = getFieldSizeStyles(size);
     const [isFocused, setIsFocused] = useState(false);
     const [internalValue, setInternalValue] = useState(
       value || defaultValue || ""
@@ -113,14 +117,15 @@ export const TextField = React.forwardRef<
         <div
           className={cn(
             textFieldContainerVariants({ variant, error, disabled }),
-            multiline ? "items-start py-0" : "items-center h-10"
+            multiline ? "items-start py-0" : ["items-center", fieldSize.containerHeight]
           )}
         >
           {leadingIcon && (
             <span
               className={cn(
-                "pl-4 transition-colors shrink-0 flex items-center justify-center",
-                multiline ? "mt-4" : "h-full",
+                "transition-colors shrink-0 flex items-center justify-center",
+                fieldSize.leadingPadding,
+                multiline ? fieldSize.multilineIconOffset : "h-full",
                 error
                   ? "text-error"
                   : isFocused
@@ -128,7 +133,7 @@ export const TextField = React.forwardRef<
                   : "text-on-surface-variant"
               )}
             >
-              <div className="size-icon-sm flex items-center justify-center">
+              <div className={cn(fieldSize.iconSize, "flex items-center justify-center")}>
                 {leadingIcon}
               </div>
             </span>
@@ -144,8 +149,11 @@ export const TextField = React.forwardRef<
                 onBlur={handleBlur}
                 onChange={handleChange}
                 className={cn(
-                  "w-full h-full bg-transparent px-4 outline-none border-none focus:ring-0 text-on-surface text-body-large caret-primary placeholder-transparent resize-none py-4 min-h-24",
-                  variant === "filled" ? "pt-6 pb-2" : ""
+                  "w-full h-full bg-transparent outline-none border-none focus:ring-0 text-on-surface caret-primary placeholder-transparent resize-none min-h-24",
+                  fieldSize.horizontalPadding,
+                  fieldSize.multilinePaddingY,
+                  fieldSize.valueText,
+                  variant === "filled" ? fieldSize.filledTextareaPadding : ""
                 )}
                 placeholder=" "
                 {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
@@ -160,8 +168,10 @@ export const TextField = React.forwardRef<
                 onBlur={handleBlur}
                 onChange={handleChange}
                 className={cn(
-                  "w-full h-full bg-transparent px-4 outline-none border-none focus:ring-0 text-on-surface text-body-large caret-primary placeholder-transparent",
-                  variant === "filled" ? "pt-5 pb-0.5" : ""
+                  "w-full h-full bg-transparent outline-none border-none focus:ring-0 text-on-surface caret-primary placeholder-transparent",
+                  fieldSize.horizontalPadding,
+                  fieldSize.valueText,
+                  variant === "filled" ? fieldSize.filledInputPadding : ""
                 )}
                 placeholder=" "
                 {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
@@ -170,10 +180,12 @@ export const TextField = React.forwardRef<
             <label
               htmlFor={inputId}
               className={cn(
-                "absolute pointer-events-none truncate max-w-[calc(100%-calc(var(--unit)*4))] transition-all duration-medium ease-emphasized origin-left left-4",
+                "absolute pointer-events-none truncate max-w-[calc(100%-calc(var(--unit)*4))] transition-all duration-medium ease-emphasized origin-left",
+                fieldSize.labelLeft,
                 !isFloating && [
-                  "text-body-large text-on-surface-variant",
-                  multiline ? "top-4" : "top-1/2 -translate-y-1/2",
+                  fieldSize.valueText,
+                  "text-on-surface-variant",
+                  multiline ? fieldSize.multilineLabelTop : "top-1/2 -translate-y-1/2",
                 ],
                 isFloating && [
                   "text-label-small font-medium",
@@ -182,7 +194,7 @@ export const TextField = React.forwardRef<
                     labelBg || "bg-surface",
                     labelClassName,
                   ],
-                  variant === "filled" && "top-1 translate-y-0",
+                  variant === "filled" && fieldSize.filledFloatingLabel,
                   error
                     ? "text-error"
                     : isFocused
@@ -197,12 +209,13 @@ export const TextField = React.forwardRef<
           {trailingIcon && (
             <span
               className={cn(
-                "pr-4 transition-colors shrink-0 flex items-center justify-center",
-                multiline ? "mt-4" : "h-full",
+                "transition-colors shrink-0 flex items-center justify-center",
+                fieldSize.trailingPadding,
+                multiline ? fieldSize.multilineIconOffset : "h-full",
                 error ? "text-error" : "text-on-surface-variant"
               )}
             >
-              <div className="size-icon-sm flex items-center justify-center">
+              <div className={cn(fieldSize.iconSize, "flex items-center justify-center")}>
                 {trailingIcon}
               </div>
             </span>
@@ -211,7 +224,9 @@ export const TextField = React.forwardRef<
         {helperText && (
           <span
             className={cn(
-              "text-label-small mt-1.5 px-4 font-medium",
+              "text-label-small font-medium",
+              fieldSize.helperMarginTop,
+              fieldSize.helperPaddingX,
               error ? "text-error" : "text-on-surface-variant"
             )}
           >

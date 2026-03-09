@@ -56,7 +56,7 @@ export function ThemeSwitcher() {
       variant="filled"
       size="lg"
       onClick={cycleTheme}
-      ariaLabel={ariaLabel}
+      aria-label={ariaLabel}
       className="border-2 border-outline-variant"
     />
   );

@@ -211,7 +211,7 @@ async function scanLibDirectory(dir) {
     const files = await fs.readdir(dir);
 
     for (const file of files) {
-      if (!file.endsWith('.ts')) continue;
+      if (!file.endsWith('.ts') && !file.endsWith('.tsx')) continue;
       if (file === 'index.ts') continue;
 
       const key = fileToKey(file);

@@ -1,7 +1,8 @@
 "use client";
 
-import React, { createContext, useContext, useState, useId } from "react";
+import React, { createContext, useContext, useId } from "react";
 import { cn } from "@/lib/utils";
+import { useControllableState } from "@/lib/use-controllable-state";
 import { Ripple } from "./ripple";
 
 interface TabsContextValue {
@@ -27,21 +28,16 @@ export const Tabs: React.FC<TabsProps> = ({
   children,
   className,
 }) => {
-  const [internalValue, setInternalValue] = useState(defaultValue || "");
-  const isControlled = value !== undefined;
-  const currentValue = isControlled ? value : internalValue;
+  const [currentValue = "", setCurrentValue] = useControllableState<string>({
+    value,
+    defaultValue: defaultValue ?? "",
+    onChange: onValueChange,
+  });
   const baseId = useId();
-
-  const handleValueChange = (newValue: string) => {
-    if (!isControlled) {
-      setInternalValue(newValue);
-    }
-    onValueChange?.(newValue);
-  };
 
   return (
     <TabsContext.Provider
-      value={{ value: currentValue, onValueChange: handleValueChange, baseId }}
+      value={{ value: currentValue, onValueChange: setCurrentValue, baseId }}
     >
       <div className={cn("w-full flex flex-col", className)}>{children}</div>
     </TabsContext.Provider>
@@ -76,6 +72,8 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   icon,
   className,
   children,
+  onClick,
+  type = "button",
   ...props
 }) => {
   const context = useContext(TabsContext);
@@ -87,12 +85,18 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
 
   return (
     <button
+      type={type}
       id={triggerId}
       role="tab"
       aria-selected={isSelected}
       aria-controls={panelId}
       tabIndex={isSelected ? 0 : -1}
-      onClick={() => context.onValueChange(value)}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!event.defaultPrevented) {
+          context.onValueChange(value);
+        }
+      }}
       className={cn(
         "min-w-fit relative flex items-center justify-center py-4 px-6 min-h-12 gap-2 cursor-pointer group transition-all focus-visible:outline-none select-none shrink-0 overflow-hidden",
         isSelected

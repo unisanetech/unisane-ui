@@ -2088,7 +2088,11 @@ export default function DataTableDemoPage() {
       {/* Using Sheet for edit forms */}
       <Sheet
         open={userActions.isDialogOpen("edit")}
-        onClose={userActions.closeDialog}
+        onOpenChange={(nextOpen) => {
+          if (!nextOpen) {
+            userActions.closeDialog();
+          }
+        }}
         title={`Edit ${userActions.selectedRow?.name ?? "User"}`}
         size="sm"
       >

@@ -191,6 +191,12 @@ export const textFieldDoc: ComponentDoc = {
       description: "The visual style of the text field.",
     },
     {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for height and horizontal spacing.",
+    },
+    {
       name: "value",
       type: "string",
       description: "The controlled value of the input.",

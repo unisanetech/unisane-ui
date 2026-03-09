@@ -9,57 +9,26 @@ import React, {
   useId,
 } from "react";
 import { cn, Slot } from "@/lib/utils";
+import {
+  NavigationDrawerItemContent,
+  NavigationIcon,
+  NavigationRailItemContent,
+  getNavigationDrawerItemClasses,
+  getNavigationRailItemClasses,
+} from "@/lib/navigation-visuals";
 import { useSidebar } from "./sidebar-context";
 import { Ripple } from "../ripple";
 
-/**
- * Renders a Material Symbol icon with proper styling.
- * Handles both string icon names and React nodes.
- */
-interface MaterialIconProps {
-  icon: React.ReactNode | string;
-  /** Whether the icon should appear in its active/filled state */
-  active?: boolean;
-  /** Font size in pixels (default: 20) */
-  size?: number;
-  className?: string;
-}
-
-export function MaterialIcon({ icon, active = false, size = 20, className }: MaterialIconProps) {
-  if (typeof icon === "string") {
-    return (
-      <span
-        className={cn("material-symbols-outlined transition-all duration-short", className)}
-        style={{
-          fontSize: size,
-          fontVariationSettings: active
-            ? "'FILL' 1, 'wght' 500"
-            : "'wght' 400",
-        }}
-      >
-        {icon}
-      </span>
-    );
-  }
-  return <>{icon}</>;
-}
-
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
-  /** shadcn compatibility: variant style (currently ignored, for API compat) */
-  variant?: "sidebar" | "floating" | "inset";
-  /** shadcn compatibility: collapsible behavior (currently ignored, for API compat) */
-  collapsible?: "offcanvas" | "icon" | "none";
 }
 
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
-  ({ children, className, variant, collapsible, ...props }, ref) => {
+  ({ children, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn("flex h-full", className)}
-        data-variant={variant}
-        data-collapsible={collapsible}
         {...props}
       >
         {children}
@@ -134,67 +103,18 @@ export function SidebarRailItem({
   const isDirectlyActive = activeId === id;
   const hasChildActive = childIds.length > 0 && hasActiveChild(childIds);
   const isActive = isDirectlyActive || hasChildActive;
-
   const content = (
-    <>
-      <div className="relative flex items-center justify-center">
-        <div
-          className={cn(
-            "w-13 h-7 rounded-xl flex items-center justify-center",
-            "transition-all duration-medium ease-emphasized overflow-hidden relative",
-            isActive
-              ? "bg-secondary-container text-on-secondary-container"
-              : "text-on-surface-variant bg-transparent hover:bg-on-surface/8"
-          )}
-        >
-          <Ripple center disabled={disabled} />
-          <span className="z-10 relative flex items-center justify-center">
-            <MaterialIcon
-              icon={isActive && activeIcon ? activeIcon : icon}
-              active={isActive}
-              size={22}
-            />
-          </span>
-        </div>
-
-        {badge !== undefined && (
-          <span
-            className={cn(
-              "absolute -top-0.5 -right-0.5 min-w-3 h-3 px-0.5",
-              "bg-error text-on-error text-[10px] leading-none",
-              "flex items-center justify-center rounded-full font-medium",
-              "z-20 pointer-events-none ring-1 ring-surface",
-              typeof badge === "number" && badge < 10 && "min-w-2 h-2 p-0.5"
-            )}
-            role="status"
-            aria-label={typeof badge === "number" ? `${badge} notifications` : String(badge)}
-          >
-            {badge}
-          </span>
-        )}
-      </div>
-
-      <span
-        className={cn(
-          "text-label-small transition-colors duration-short",
-          "text-center px-0.5 max-w-full",
-          isActive
-            ? "text-on-secondary-container font-bold"
-            : "text-on-surface-variant font-medium group-hover:text-on-surface"
-        )}
-      >
-        {label}
-      </span>
-    </>
+    <NavigationRailItemContent
+      icon={icon}
+      activeIcon={activeIcon}
+      badge={badge}
+      label={label}
+      active={isActive}
+      disabled={disabled}
+      ripple={<Ripple center disabled={disabled} />}
+    />
   );
-
-  const commonClasses = cn(
-    "group flex flex-col items-center gap-0.5 w-full py-1 min-h-12",
-    "relative select-none cursor-pointer outline-none",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-    "focus-visible:ring-offset-2 rounded-sm",
-    disabled && "opacity-38 cursor-not-allowed pointer-events-none"
-  );
+  const commonClasses = getNavigationRailItemClasses(disabled);
 
   const commonProps = {
     onClick: (e: React.MouseEvent) => {
@@ -507,6 +427,8 @@ export interface SidebarNavItemProps {
   id?: string;
   href?: string;
   icon?: React.ReactNode | string;
+  activeIcon?: React.ReactNode | string;
+  badge?: React.ReactNode | string | number;
   label: string;
   active?: boolean;
   disabled?: boolean;
@@ -520,6 +442,8 @@ export function SidebarNavItem({
   id,
   href,
   icon,
+  activeIcon,
+  badge,
   label,
   active,
   disabled,
@@ -544,27 +468,22 @@ export function SidebarNavItem({
   };
 
   const innerContent = (
-    <>
-      <Ripple disabled={!!disabled} />
-      {icon && (
-        <span className="shrink-0">
-          <MaterialIcon icon={icon} active={isActive} size={20} />
-        </span>
-      )}
-      <span className="flex-1 truncate">{label}</span>
-    </>
+    <NavigationDrawerItemContent
+      icon={icon}
+      activeIcon={activeIcon}
+      badge={badge}
+      active={isActive}
+      disabled={disabled}
+      ripple={<Ripple disabled={!!disabled} />}
+    >
+      {label}
+    </NavigationDrawerItemContent>
   );
-
-  const itemClasses = cn(
-    "flex items-center gap-3 px-4 py-3 rounded-xl",
-    "text-body-medium transition-colors duration-short cursor-pointer",
-    "relative overflow-hidden select-none",
-    isActive
-      ? "bg-secondary-container text-on-secondary-container font-semibold"
-      : "text-on-surface-variant font-medium hover:bg-on-surface/8 hover:text-on-surface",
-    disabled && "opacity-38 cursor-not-allowed pointer-events-none",
-    className
-  );
+  const itemClasses = getNavigationDrawerItemClasses({
+    active: isActive,
+    disabled,
+    className,
+  });
 
   const commonProps = {
     onClick: handleItemClick,
@@ -780,7 +699,7 @@ export function SidebarCollapsibleGroup({
         <Ripple />
         {icon && (
           <span className="shrink-0">
-            <MaterialIcon icon={icon} active={hasActiveChild} size={20} />
+            <NavigationIcon icon={icon} active={hasActiveChild} size={20} />
           </span>
         )}
         <span className="flex-1 text-left truncate">{label}</span>

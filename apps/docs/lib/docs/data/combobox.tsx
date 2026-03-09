@@ -45,7 +45,7 @@ const ComboboxBasicExample = () => {
         placeholder="Search frameworks..."
         options={options}
         value={value}
-        onChange={setValue}
+        onValueChange={setValue}
       />
     </div>
   );
@@ -65,7 +65,7 @@ const ComboboxNonSearchableExample = () => {
         label="Size"
         options={options}
         value={value}
-        onChange={setValue}
+        onValueChange={setValue}
         searchable={false}
       />
     </div>
@@ -157,7 +157,12 @@ export const comboboxDoc: ComponentDoc = {
       description: "The controlled selected value.",
     },
     {
-      name: "onChange",
+      name: "defaultValue",
+      type: "string",
+      description: "The default selected value for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
       type: "(value: string) => void",
       description: "Callback fired when selection changes.",
     },
@@ -173,6 +178,28 @@ export const comboboxDoc: ComponentDoc = {
       description: "Label displayed above the combobox.",
     },
     {
+      name: "open",
+      type: "boolean",
+      description: "Controlled open state of the listbox.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state for uncontrolled usage.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when the listbox opens or closes.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for trigger and option sizing.",
+    },
+    {
       name: "searchable",
       type: "boolean",
       default: "true",
@@ -183,6 +210,11 @@ export const comboboxDoc: ComponentDoc = {
       type: "boolean",
       default: "false",
       description: "Disable the combobox.",
+    },
+    {
+      name: "onSearchChange",
+      type: "(query: string) => void",
+      description: "Callback fired when the search query changes.",
     },
   ],
 
@@ -229,7 +261,7 @@ function CountrySelector() {
       placeholder="Search countries..."
       options={countries}
       value={country}
-      onChange={setCountry}
+      onValueChange={setCountry}
     />
   );
 }`,

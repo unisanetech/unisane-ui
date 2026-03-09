@@ -154,6 +154,22 @@ export const fabMenuDoc: ComponentDoc = {
       description: "Icon shown when menu is open.",
     },
     {
+      name: "open",
+      type: "boolean",
+      description: "Controlled open state for the menu.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state for uncontrolled usage.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when the menu opens or closes.",
+    },
+    {
       name: "aria-label",
       type: "string",
       default: '"Actions menu"',
@@ -186,7 +202,7 @@ export const fabMenuDoc: ComponentDoc = {
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Define actions array with icons and handlers.",
+    description: "Define actions array with icons and handlers, or control the open state when needed.",
     code: `import { FabMenu } from "@unisane/ui";
 
 function ContentActions() {

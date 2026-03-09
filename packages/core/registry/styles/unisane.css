@@ -55,7 +55,6 @@
 }
 
 :root {
-
   /* Derived hues (auto-calculated) */
   --hue-secondary: var(--hue);
   --hue-tertiary: calc(var(--hue) + 60);
@@ -92,7 +91,7 @@
   --ref-primary-90: oklch(0.94 calc(var(--chroma) * 0.35) var(--hue));
   --ref-primary-95: oklch(0.97 calc(var(--chroma) * 0.25) var(--hue));
   --ref-primary-99: oklch(0.995 calc(var(--chroma) * 0.15) var(--hue));
-  --ref-primary-100: #FFFFFF;
+  --ref-primary-100: #ffffff;
 
   /* secondary */
   --ref-secondary-0: #000000;
@@ -113,7 +112,7 @@
   --ref-secondary-90: oklch(0.94 calc(var(--chroma-secondary) * 0.35) var(--hue-secondary));
   --ref-secondary-95: oklch(0.97 calc(var(--chroma-secondary) * 0.25) var(--hue-secondary));
   --ref-secondary-99: oklch(0.995 calc(var(--chroma-secondary) * 0.15) var(--hue-secondary));
-  --ref-secondary-100: #FFFFFF;
+  --ref-secondary-100: #ffffff;
 
   /* tertiary */
   --ref-tertiary-0: #000000;
@@ -134,7 +133,7 @@
   --ref-tertiary-90: oklch(0.94 calc(var(--chroma-tertiary) * 0.35) var(--hue-tertiary));
   --ref-tertiary-95: oklch(0.97 calc(var(--chroma-tertiary) * 0.25) var(--hue-tertiary));
   --ref-tertiary-99: oklch(0.995 calc(var(--chroma-tertiary) * 0.15) var(--hue-tertiary));
-  --ref-tertiary-100: #FFFFFF;
+  --ref-tertiary-100: #ffffff;
 
   /* neutral */
   --ref-neutral-0: #000000;
@@ -155,28 +154,52 @@
   --ref-neutral-90: oklch(0.94 calc(var(--chroma-neutral) * 0.35) var(--hue-neutral));
   --ref-neutral-95: oklch(0.97 calc(var(--chroma-neutral) * 0.25) var(--hue-neutral));
   --ref-neutral-99: oklch(0.995 calc(var(--chroma-neutral) * 0.15) var(--hue-neutral));
-  --ref-neutral-100: #FFFFFF;
+  --ref-neutral-100: #ffffff;
 
   /* neutral-variant */
   --ref-neutral-variant-0: #000000;
   --ref-neutral-variant-4: oklch(0.1 calc(var(--chroma-neutral-variant) * 0.5) var(--hue-neutral));
   --ref-neutral-variant-6: oklch(0.13 calc(var(--chroma-neutral-variant) * 0.6) var(--hue-neutral));
-  --ref-neutral-variant-10: oklch(0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral));
-  --ref-neutral-variant-12: oklch(0.25 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
+  --ref-neutral-variant-10: oklch(
+    0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral)
+  );
+  --ref-neutral-variant-12: oklch(
+    0.25 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral)
+  );
   --ref-neutral-variant-17: oklch(0.3 calc(var(--chroma-neutral-variant) * 0.8) var(--hue-neutral));
-  --ref-neutral-variant-20: oklch(0.33 calc(var(--chroma-neutral-variant) * 0.85) var(--hue-neutral));
-  --ref-neutral-variant-22: oklch(0.36 calc(var(--chroma-neutral-variant) * 0.87) var(--hue-neutral));
-  --ref-neutral-variant-24: oklch(0.38 calc(var(--chroma-neutral-variant) * 0.88) var(--hue-neutral));
-  --ref-neutral-variant-30: oklch(0.44 calc(var(--chroma-neutral-variant) * 0.95) var(--hue-neutral));
+  --ref-neutral-variant-20: oklch(
+    0.33 calc(var(--chroma-neutral-variant) * 0.85) var(--hue-neutral)
+  );
+  --ref-neutral-variant-22: oklch(
+    0.36 calc(var(--chroma-neutral-variant) * 0.87) var(--hue-neutral)
+  );
+  --ref-neutral-variant-24: oklch(
+    0.38 calc(var(--chroma-neutral-variant) * 0.88) var(--hue-neutral)
+  );
+  --ref-neutral-variant-30: oklch(
+    0.44 calc(var(--chroma-neutral-variant) * 0.95) var(--hue-neutral)
+  );
   --ref-neutral-variant-40: oklch(0.55 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
   --ref-neutral-variant-50: oklch(0.65 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
-  --ref-neutral-variant-60: oklch(0.74 calc(var(--chroma-neutral-variant) * 0.9) var(--hue-neutral));
-  --ref-neutral-variant-70: oklch(0.82 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
-  --ref-neutral-variant-80: oklch(0.88 calc(var(--chroma-neutral-variant) * 0.55) var(--hue-neutral));
-  --ref-neutral-variant-90: oklch(0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral));
-  --ref-neutral-variant-95: oklch(0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral));
-  --ref-neutral-variant-99: oklch(0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral));
-  --ref-neutral-variant-100: #FFFFFF;
+  --ref-neutral-variant-60: oklch(
+    0.74 calc(var(--chroma-neutral-variant) * 0.9) var(--hue-neutral)
+  );
+  --ref-neutral-variant-70: oklch(
+    0.82 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral)
+  );
+  --ref-neutral-variant-80: oklch(
+    0.88 calc(var(--chroma-neutral-variant) * 0.55) var(--hue-neutral)
+  );
+  --ref-neutral-variant-90: oklch(
+    0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral)
+  );
+  --ref-neutral-variant-95: oklch(
+    0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral)
+  );
+  --ref-neutral-variant-99: oklch(
+    0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral)
+  );
+  --ref-neutral-variant-100: #ffffff;
 
   /* error */
   --ref-error-0: #000000;
@@ -197,15 +220,14 @@
   --ref-error-90: oklch(0.94 calc(var(--chroma-error) * 0.35) var(--hue-error));
   --ref-error-95: oklch(0.97 calc(var(--chroma-error) * 0.25) var(--hue-error));
   --ref-error-99: oklch(0.995 calc(var(--chroma-error) * 0.15) var(--hue-error));
-  --ref-error-100: #FFFFFF;
-
+  --ref-error-100: #ffffff;
 
   /* === SCALING KNOBS === */
   --scale-space: 1;
   --scale-type: 1;
   /* Radius uses combined multiplier: density-radius × theme-radius */
-  --scale-radius-density: 1;   /* Modified by data-density */
-  --scale-radius-theme: 1;     /* Modified by data-radius */
+  --scale-radius-density: 1; /* Modified by data-density */
+  --scale-radius-theme: 1; /* Modified by data-radius */
   --scale-radius: calc(var(--scale-radius-density) * var(--scale-radius-theme));
   --unit: calc(4px * var(--scale-space));
 
@@ -239,8 +261,9 @@
   --tone-tertiary-container: var(--ref-tertiary-90);
   --tone-on-tertiary-container: var(--ref-tertiary-10);
 
-  /* Surface tone mapping */
-  --tone-surface: var(--ref-neutral-99);
+  /* Surface tone mapping
+     Unisane uses surface as the canonical app/page canvas in light mode. */
+  --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-10);
   --tone-surface-container-lowest: var(--ref-neutral-100);
   --tone-surface-container-low: var(--ref-neutral-95);
@@ -251,7 +274,7 @@
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
   /* Background/outline tone mapping */
-  --tone-background: var(--ref-neutral-99);
+  --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-50);
   --tone-outline-variant: var(--ref-neutral-variant-80);
@@ -324,7 +347,8 @@
   --color-scrim: rgba(0, 0, 0, 0.32);
 
   /* Typography */
-  --font-sans: var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* === TYPOGRAPHY === */
   --type-display-large-font: var(--font-sans);
@@ -417,11 +441,21 @@
   /* Shadow opacity scale (controlled by data-elevation attribute) */
   --shadow-opacity: 1;
   --shadow-0: none;
-  --shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 2px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 2px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-3: 0px 4px 8px 3px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 3px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-4: 0px 6px 10px 4px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 2px 3px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-5: 0px 8px 12px 6px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 4px 4px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
+  --shadow-1:
+    0px 1px 3px 1px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 2px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-2:
+    0px 2px 6px 2px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 2px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-3:
+    0px 4px 8px 3px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 3px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-4:
+    0px 6px 10px 4px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 2px 3px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-5:
+    0px 8px 12px 6px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 4px 4px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
 
   /* === MOTION === */
   --duration-short: 100ms;
@@ -436,11 +470,11 @@
 
   /* === OPACITY === */
   --opacity-hover: 0.08;
-  --opacity-focus: 0.10;
-  --opacity-pressed: 0.10;
+  --opacity-focus: 0.1;
+  --opacity-pressed: 0.1;
   --opacity-dragged: 0.16;
   --opacity-disabled: 0.38;
-  --opacity-muted: 0.60;
+  --opacity-muted: 0.6;
 
   /* === ICON SIZES === */
   --icon-xs: calc(16px * var(--scale-space));
@@ -610,49 +644,49 @@
    - black           - Zero saturation, monochrome
    ============================================================ */
 
-:root[data-color-theme="blue"] {
+:root[data-color-theme='blue'] {
   --hue: 240;
   --chroma: 0.13;
 }
 
-:root[data-color-theme="purple"] {
+:root[data-color-theme='purple'] {
   --hue: 285;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="pink"] {
+:root[data-color-theme='pink'] {
   --hue: 340;
   --chroma: 0.15;
 }
 
-:root[data-color-theme="red"] {
+:root[data-color-theme='red'] {
   --hue: 25;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="orange"] {
+:root[data-color-theme='orange'] {
   --hue: 55;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="yellow"] {
+:root[data-color-theme='yellow'] {
   --hue: 85;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="green"] {
+:root[data-color-theme='green'] {
   --hue: 145;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="cyan"] {
+:root[data-color-theme='cyan'] {
   --hue: 195;
   --chroma: 0.12;
 }
 
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
-:root[data-color-theme="black"] {
+:root[data-color-theme='black'] {
   --chroma: 0;
   --chroma-neutral: 0;
 }
@@ -671,14 +705,14 @@
    ============================================================ */
 
 /* Neutral scheme - low saturation, subtle color hints */
-[data-scheme="neutral"] {
+[data-scheme='neutral'] {
   --chroma: 0.04;
   --chroma-neutral: 0.01;
 }
 
 /* Monochrome scheme - pure grayscale
    Only sets chroma to 0, tone mapping unchanged (controlled by contrast) */
-[data-scheme="monochrome"] {
+[data-scheme='monochrome'] {
   --chroma: 0;
   --chroma-neutral: 0;
 }
@@ -697,7 +731,7 @@
    ============================================================ */
 
 /* Medium contrast - boosted readability (darker primary: tone 30) */
-[data-contrast="medium"] {
+[data-contrast='medium'] {
   --tone-primary: var(--ref-primary-30);
   --tone-on-primary: var(--ref-primary-100);
   --tone-primary-container: var(--ref-primary-95);
@@ -710,8 +744,8 @@
   --tone-outline: var(--ref-neutral-variant-40);
 }
 
-.dark[data-contrast="medium"],
-[data-contrast="medium"].dark {
+.dark[data-contrast='medium'],
+[data-contrast='medium'].dark {
   --tone-primary: var(--ref-primary-80);
   --tone-on-primary: var(--ref-primary-10);
   --tone-primary-container: var(--ref-primary-30);
@@ -725,7 +759,7 @@
 }
 
 /* High contrast - boosted accessibility, WCAG AAA (darker primary: tone 20) */
-[data-contrast="high"] {
+[data-contrast='high'] {
   --tone-primary: var(--ref-primary-20);
   --tone-on-primary: var(--ref-primary-100);
   --tone-primary-container: var(--ref-primary-95);
@@ -749,8 +783,8 @@
   --tone-on-error: var(--ref-error-100);
 }
 
-.dark[data-contrast="high"],
-[data-contrast="high"].dark {
+.dark[data-contrast='high'],
+[data-contrast='high'].dark {
   --tone-primary: var(--ref-primary-95);
   --tone-on-primary: var(--ref-primary-0);
   --tone-primary-container: var(--ref-primary-10);
@@ -779,22 +813,22 @@
    Usage: <html data-density="compact">
    ============================================================ */
 
-[data-density="compact"] {
+[data-density='compact'] {
   --scale-space: 0.875;
   --scale-type: 0.9;
   --scale-radius-density: 0.9;
 }
 
-[data-density="dense"] {
+[data-density='dense'] {
   --scale-space: 0.75;
   --scale-type: 0.85;
   --scale-radius-density: 0.85;
 }
 
-[data-density="comfortable"] {
+[data-density='comfortable'] {
   --scale-space: 1.1;
-  --scale-type: 1.0;
-  --scale-radius-density: 1.0;
+  --scale-type: 1;
+  --scale-radius-density: 1;
 }
 
 /* ============================================================
@@ -803,23 +837,23 @@
    Values must match ThemeProvider RADIUS_PRESETS
    ============================================================ */
 
-[data-radius="none"] {
+[data-radius='none'] {
   --scale-radius-theme: 0;
 }
 
-[data-radius="minimal"] {
+[data-radius='minimal'] {
   --scale-radius-theme: 0.25;
 }
 
-[data-radius="sharp"] {
+[data-radius='sharp'] {
   --scale-radius-theme: 0.5;
 }
 
-[data-radius="standard"] {
-  --scale-radius-theme: 1.0;
+[data-radius='standard'] {
+  --scale-radius-theme: 1;
 }
 
-[data-radius="soft"] {
+[data-radius='soft'] {
   --scale-radius-theme: 1.25;
 }
 
@@ -837,19 +871,19 @@
    - pronounced  - Stronger shadows for depth (--shadow-opacity: 1.5)
    ============================================================ */
 
-[data-elevation="flat"] {
+[data-elevation='flat'] {
   --shadow-opacity: 0;
 }
 
-[data-elevation="subtle"] {
+[data-elevation='subtle'] {
   --shadow-opacity: 0.5;
 }
 
-[data-elevation="standard"] {
+[data-elevation='standard'] {
   --shadow-opacity: 1;
 }
 
-[data-elevation="pronounced"] {
+[data-elevation='pronounced'] {
   --shadow-opacity: 1.5;
 }
 
@@ -1154,4 +1188,32 @@
   --opacity-dragged: var(--opacity-dragged);
   --opacity-disabled: var(--opacity-disabled);
   --opacity-muted: var(--opacity-muted);
+}
+
+/* ============================================================
+   SHARED RUNTIME UTILITIES
+   Public utility aliases that source-mode and package-mode consumers
+   both rely on at runtime.
+   ============================================================ */
+
+@layer utilities {
+  .duration-short {
+    transition-duration: var(--duration-short);
+  }
+
+  .duration-snappy {
+    transition-duration: var(--duration-snappy);
+  }
+
+  .duration-medium {
+    transition-duration: var(--duration-medium);
+  }
+
+  .duration-emphasized {
+    transition-duration: var(--duration-emphasized);
+  }
+
+  .duration-long {
+    transition-duration: var(--duration-long);
+  }
 }

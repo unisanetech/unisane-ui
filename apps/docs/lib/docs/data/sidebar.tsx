@@ -134,7 +134,7 @@ export const sidebarDoc: ComponentDoc = {
   slug: "sidebar",
   name: "Sidebar",
   description:
-    "A comprehensive app-level navigation system with a collapsible rail and expandable drawer. Follows Material Design 3 navigation patterns with responsive behavior across all screen sizes.",
+    "A comprehensive app-shell navigation system with a collapsible rail, coordinated drawer, backdrop, and content inset. Use it when navigation behavior has to manage the whole application layout.",
   category: "navigation",
   status: "stable",
   icon: "dock_to_left",
@@ -154,6 +154,8 @@ export const sidebarDoc: ComponentDoc = {
     "SidebarGroupLabel",
     "SidebarMenu",
     "SidebarMenuItem",
+    "SidebarNavItem",
+    "SidebarMenuButton",
     "SidebarTrigger",
     "SidebarBackdrop",
     "SidebarInset",
@@ -167,7 +169,7 @@ export const sidebarDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose the right navigation pattern based on your app structure and screen requirements.",
+      "Choose between a full app-shell sidebar and simpler standalone navigation widgets based on how much layout behavior you need.",
     columns: {
       emphasis: "Pattern",
       component: "Preview",
@@ -192,7 +194,7 @@ export const sidebarDoc: ComponentDoc = {
             </div>
           </div>
         ),
-        rationale: "Full navigation with icons and expandable menu.",
+        rationale: "App-shell navigation that coordinates rail, drawer, and content layout together.",
         examples: "Admin dashboards, Complex apps",
       },
       {
@@ -209,7 +211,7 @@ export const sidebarDoc: ComponentDoc = {
             </div>
           </div>
         ),
-        rationale: "Compact icon-based navigation.",
+        rationale: "Use NavigationRail instead when you only need a standalone compact nav surface.",
         examples: "Simple apps, Limited nav items",
       },
       {
@@ -224,7 +226,7 @@ export const sidebarDoc: ComponentDoc = {
             </div>
           </div>
         ),
-        rationale: "Overlay navigation for mobile screens.",
+        rationale: "Use NavigationDrawer instead when you only need a standalone drawer surface.",
         examples: "Mobile views, Tablet compact",
       },
     ],
@@ -361,12 +363,14 @@ export const sidebarDoc: ComponentDoc = {
       ],
     },
     {
-      name: "SidebarMenuItem",
-      description: "Navigation item within the drawer menu.",
+      name: "SidebarNavItem",
+      description: "Props-based navigation item within the drawer menu.",
       props: [
         { name: "id", type: "string", description: "Unique identifier for state management." },
         { name: "label", type: "string", required: true, description: "Item text." },
         { name: "icon", type: "ReactNode | string", description: "Leading icon." },
+        { name: "activeIcon", type: "ReactNode | string", description: "Optional active icon." },
+        { name: "badge", type: "string | number | ReactNode", description: "Optional trailing badge." },
         { name: "active", type: "boolean", description: "Controlled active state." },
         { name: "disabled", type: "boolean", description: "Disable the item." },
         { name: "href", type: "string", description: "Link URL." },
@@ -444,7 +448,7 @@ export const sidebarDoc: ComponentDoc = {
   SidebarHeader,
   SidebarContent,
   SidebarMenu,
-  SidebarMenuItem,
+  SidebarNavItem,
   SidebarTrigger,
   SidebarBackdrop,
   SidebarInset,
@@ -486,7 +490,7 @@ function AppLayout({ children }) {
           <SidebarContent>
             <SidebarMenu>
               {navItems.map((item) => (
-                <SidebarMenuItem
+                <SidebarNavItem
                   key={item.id}
                   id={item.id}
                   label={item.label}
@@ -495,7 +499,7 @@ function AppLayout({ children }) {
                   asChild
                 >
                   <Link href={item.href}>{item.label}</Link>
-                </SidebarMenuItem>
+                </SidebarNavItem>
               ))}
             </SidebarMenu>
           </SidebarContent>
@@ -516,11 +520,11 @@ function AppLayout({ children }) {
   related: [
     {
       slug: "navigation-drawer",
-      reason: "Simpler navigation drawer without rail pattern.",
+      reason: "Use for standalone drawer navigation without app-shell state orchestration.",
     },
     {
       slug: "navigation-rail",
-      reason: "Standalone rail component without drawer integration.",
+      reason: "Use for standalone rail navigation without coordinated drawer behavior.",
     },
     {
       slug: "navigation-bar",

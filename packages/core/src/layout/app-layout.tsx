@@ -3,7 +3,7 @@
 import React from "react";
 import { cn } from "@ui/lib/utils";
 
-export interface AppLayoutProps {
+export interface AppLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   topBar?: React.ReactNode;
   bottomBar?: React.ReactNode;
   fab?: React.ReactNode;
@@ -11,7 +11,6 @@ export interface AppLayoutProps {
   secondaryNavigation?: React.ReactNode;
   mobileNavigation?: React.ReactNode;
   children: React.ReactNode;
-  className?: string;
   mainRef?: React.RefObject<HTMLElement | null>;
   disableScroll?: boolean;
 }
@@ -27,11 +26,13 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   className,
   mainRef,
   disableScroll = false,
+  ...props
 }) => {
   return (
     <div
+      {...props}
       className={cn(
-        "flex flex-col h-full w-full bg-surface text-on-surface overflow-hidden relative isolate",
+        "relative isolate flex h-screen min-h-0 w-full flex-col overflow-hidden bg-surface text-on-surface",
         className
       )}
     >
@@ -39,7 +40,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
       {topBar && <div className="z-30 shrink-0 relative">{topBar}</div>}
 
-      <div className="flex flex-1 overflow-hidden relative z-0">
+      <div className="relative z-0 flex min-h-0 flex-1 overflow-hidden">
         {navigation && (
           <div className="z-40 shrink-0 relative hidden medium:flex">
             {navigation}
@@ -55,7 +56,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         <main
           ref={mainRef as React.RefObject<HTMLElement>}
           className={cn(
-            "flex-1 relative bg-surface z-0 min-w-0 flex flex-col",
+            "relative z-0 flex min-h-0 min-w-0 flex-1 flex-col bg-surface",
             disableScroll ? "overflow-hidden" : "overflow-y-auto scroll-smooth"
           )}
         >

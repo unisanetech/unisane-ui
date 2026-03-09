@@ -38,14 +38,14 @@ const RatingHeroVisual = () => (
 const RatingBasicExample = () => {
   const [value, setValue] = useState(3);
   return (
-    <Rating value={value} onChange={setValue} showValue />
+    <Rating value={value} onValueChange={setValue} showValue />
   );
 };
 
 const RatingHalfExample = () => {
   const [value, setValue] = useState(3.5);
   return (
-    <Rating value={value} onChange={setValue} allowHalf showValue />
+    <Rating value={value} onValueChange={setValue} allowHalf showValue />
   );
 };
 
@@ -121,11 +121,16 @@ export const ratingDoc: ComponentDoc = {
     {
       name: "value",
       type: "number",
-      required: true,
-      description: "Current rating value.",
+      description: "Controlled rating value.",
     },
     {
-      name: "onChange",
+      name: "defaultValue",
+      type: "number",
+      default: "0",
+      description: "Initial rating for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
       type: "(value: number) => void",
       description: "Callback fired when rating changes.",
     },
@@ -192,7 +197,7 @@ function ProductRating() {
       <p>Rate this product:</p>
       <Rating
         value={rating}
-        onChange={setRating}
+        onValueChange={setRating}
         allowHalf
         showValue
       />

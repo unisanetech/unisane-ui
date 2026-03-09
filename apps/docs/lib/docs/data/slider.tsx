@@ -244,7 +244,7 @@ export const sliderDoc: ComponentDoc = {
       description: "If true, the slider is disabled.",
     },
     {
-      name: "onChange",
+      name: "onValueChange",
       type: "(value: number) => void",
       description: "Callback fired when the value changes.",
     },
@@ -286,7 +286,7 @@ function VolumeControl() {
       </div>
       <Slider
         value={volume}
-        onChange={setVolume}
+        onValueChange={setVolume}
         min={0}
         max={100}
         withLabel
@@ -303,7 +303,7 @@ function DiscreteSlider() {
       <label>Quality: {rating}/5</label>
       <Slider
         value={rating}
-        onChange={setRating}
+        onValueChange={setRating}
         min={1}
         max={5}
         step={1}

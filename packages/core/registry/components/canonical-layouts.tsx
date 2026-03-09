@@ -1,5 +1,8 @@
-import React from 'react';
+"use client";
+
+import React, { useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
 import { IconButton } from './icon-button';
 import { Pane, PaneLayout } from '../layout/pane';
 
@@ -41,7 +44,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
               onClick={onBackClick}
               variant="standard"
               className="bg-surface/50 border-outline-variant/30 border backdrop-blur-md"
-              ariaLabel="Back"
+              aria-label="Back"
               icon={<span className="material-symbols-outlined">arrow_back</span>}
             />
           </div>
@@ -58,12 +61,11 @@ export interface SupportingPaneLayoutProps {
   main: React.ReactNode;
   supporting: React.ReactNode;
   open?: boolean;
-  onClose?: () => void;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   className?: string;
   isRoot?: boolean;
   mainRef?: React.RefObject<HTMLDivElement | null>;
-  showSupportingMobile?: boolean;
-  onToggleSupporting?: () => void;
   title?: string;
   mainScrollable?: boolean;
   supportingScrollable?: boolean;
@@ -73,9 +75,8 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   main,
   supporting,
   open,
-  onClose,
-  showSupportingMobile,
-  onToggleSupporting,
+  defaultOpen = false,
+  onOpenChange,
   className,
   isRoot = false,
   mainRef,
@@ -83,17 +84,35 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   mainScrollable = true,
   supportingScrollable = true,
 }) => {
-  const isOpen = open !== undefined ? open : showSupportingMobile;
+  const [resolvedOpen = false, setOpen] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const isOpen = resolvedOpen;
+
   const handleClose = () => {
-    if (onClose) {
-      onClose();
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
       return;
     }
-    onToggleSupporting?.();
-  };
-  const handleToggle = () => {
-    onToggleSupporting?.();
-  };
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, setOpen]);
 
   return (
     <div
@@ -142,7 +161,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                     close
                   </span>
                 }
-                ariaLabel="Close pane"
+                aria-label="Close pane"
                 className="expanded:hidden"
               />
             </header>
@@ -163,7 +182,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
               onClick={handleToggle}
               variant="standard"
               className="border-outline-variant/30 bg-surface hover:border-primary/50 group shrink-0 rounded-sm border transition-all"
-              ariaLabel="Expand pane"
+              aria-label="Expand pane"
               icon={
                 <span className="material-symbols-outlined group-hover:text-primary transition-colors">
                   chevron_left

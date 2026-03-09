@@ -16,7 +16,7 @@ const DialogInteractiveExample = () => {
       </Button>
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onOpenChange={setOpen}
         title="Delete item?"
         icon={<span className="material-symbols-outlined text-error">delete</span>}
         actions={
@@ -50,7 +50,7 @@ const DialogHeroVisual = () => (
           <span className="material-symbols-outlined text-primary">delete</span>
           <span className="text-title-medium text-on-surface">Delete file?</span>
         </div>
-        <IconButton variant="standard" size="sm" ariaLabel="Close dialog">
+        <IconButton variant="standard" size="sm" aria-label="Close dialog">
           <span className="material-symbols-outlined text-[20px]">close</span>
         </IconButton>
       </div>
@@ -161,7 +161,7 @@ export const dialogDoc: ComponentDoc = {
 
 <Dialog
   open={open}
-  onClose={() => setOpen(false)}
+  onOpenChange={setOpen}
   title="Delete item?"
   icon={<span className="material-symbols-outlined">delete</span>}
   actions={
@@ -234,14 +234,18 @@ export const dialogDoc: ComponentDoc = {
     {
       name: "open",
       type: "boolean",
-      required: true,
-      description: "Controls whether the dialog is visible.",
+      description: "Controlled open state.",
     },
     {
-      name: "onClose",
-      type: "() => void",
-      required: true,
-      description: "Callback fired when the dialog should close (clicking scrim, pressing Escape, or close button).",
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state when the dialog is uncontrolled.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when the dialog requests an open-state change.",
     },
     {
       name: "title",
@@ -319,7 +323,7 @@ function DeleteConfirmation() {
 
       <Dialog
         open={open}
-        onClose={() => setOpen(false)}
+        onOpenChange={setOpen}
         title="Delete item?"
         icon={<span className="material-symbols-outlined">delete</span>}
         actions={

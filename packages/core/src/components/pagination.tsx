@@ -119,6 +119,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
     return (
       <button
+        type="button"
         className={buttonClasses}
         onClick={() => onPageChange(page)}
         aria-current={isCurrent ? "page" : undefined}
@@ -142,7 +143,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         }
         onClick={() => onPageChange(Math.max(1, currentPage - 1))}
         disabled={currentPage === 1}
-        ariaLabel="Previous page"
+        aria-label="Previous page"
         className="text-on-surface-variant"
       />
 
@@ -171,7 +172,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         }
         onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
         disabled={currentPage === totalPages}
-        ariaLabel="Next page"
+        aria-label="Next page"
         className="text-on-surface-variant"
       />
     </nav>

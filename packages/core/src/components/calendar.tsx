@@ -235,7 +235,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             </svg>
           }
           onClick={handlePreviousMonth}
-          ariaLabel="Previous month"
+          aria-label="Previous month"
         />
 
         <Text variant="titleMedium" aria-live="polite">
@@ -249,7 +249,7 @@ export const Calendar: React.FC<CalendarProps> = ({
             </svg>
           }
           onClick={handleNextMonth}
-          ariaLabel="Next month"
+          aria-label="Next month"
         />
       </div>
 

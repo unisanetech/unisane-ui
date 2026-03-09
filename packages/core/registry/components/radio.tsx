@@ -58,19 +58,14 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
               "relative z-10 size-icon-sm rounded-full border-2 bg-surface",
               "transition-colors duration-snappy ease-emphasized flex items-center justify-center",
               !error && "border-outline group-hover:border-on-surface",
-              !error && props.checked && "border-primary",
-              error && "border-error"
+              !error && "peer-checked:border-primary",
+              error && "border-error peer-checked:border-error",
+              "peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2",
+              "after:content-[''] after:block after:w-2.5 after:h-2.5 after:rounded-full after:scale-0 after:transition-transform after:duration-snappy after:ease-emphasized",
+              !error && "after:bg-primary peer-checked:after:scale-100",
+              error && "after:bg-error peer-checked:after:scale-100"
             )}
-          >
-            <div
-              className={cn(
-                "w-2.5 h-2.5 rounded-full transition-transform duration-snappy ease-emphasized",
-                props.checked ? "scale-100" : "scale-0",
-                !error && "bg-primary",
-                error && "bg-error"
-              )}
-            />
-          </div>
+          />
         </div>
 
         {label && (

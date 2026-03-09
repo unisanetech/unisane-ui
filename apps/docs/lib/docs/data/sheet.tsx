@@ -45,7 +45,7 @@ const SheetBasicExample = () => {
       </Button>
       <Sheet
         open={open}
-        onClose={() => setOpen(false)}
+        onOpenChange={setOpen}
         title="Details"
         size="sm"
       >
@@ -70,7 +70,7 @@ const SheetWithFooterExample = () => {
       </Button>
       <Sheet
         open={open}
-        onClose={() => setOpen(false)}
+        onOpenChange={setOpen}
         title="Edit Item"
         size="md"
         footerRight={
@@ -223,14 +223,18 @@ export const sheetDoc: ComponentDoc = {
     {
       name: "open",
       type: "boolean",
-      required: true,
-      description: "Controls whether the sheet is visible.",
+      description: "Controlled open state.",
     },
     {
-      name: "onClose",
-      type: "() => void",
-      required: true,
-      description: "Callback fired when the sheet should close.",
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state when the sheet is uncontrolled.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when the sheet requests an open-state change.",
     },
     {
       name: "title",
@@ -302,7 +306,7 @@ function ItemDetails() {
 
       <Sheet
         open={open}
-        onClose={() => setOpen(false)}
+        onOpenChange={setOpen}
         title="Item Details"
         size="md"
         icon={<span className="material-symbols-outlined">info</span>}

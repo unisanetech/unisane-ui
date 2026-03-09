@@ -3,6 +3,8 @@
 import React, { useState, useRef, useEffect, useId, useCallback, useMemo } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
+import { useControllableState } from '@/lib/use-controllable-state';
 
 // ─── SEGMENT-BASED DATE INPUT ────────────────────────────────────────────────
 // HeroUI-style segment-based date input with M3 styling
@@ -55,8 +57,10 @@ interface DateSegmentValue {
 export type DateInputProps = VariantProps<typeof dateInputVariants> & {
   /** The selected date value */
   value?: Date;
+  /** The default date value for uncontrolled usage */
+  defaultValue?: Date;
   /** Callback when date changes */
-  onChange?: (date: Date | undefined) => void;
+  onValueChange?: (date: Date | undefined) => void;
   /** Label text for the input field */
   label?: string;
   /** Whether the date input is disabled */
@@ -85,6 +89,8 @@ export type DateInputProps = VariantProps<typeof dateInputVariants> & {
   onBlur?: () => void;
   /** Custom ID for the input */
   id?: string;
+  /** Shared control size */
+  size?: FieldSize;
 };
 
 // Get max days for a given month/year
@@ -179,6 +185,7 @@ interface SegmentProps {
   onFocusChange: (focused: boolean) => void;
   id?: string;
   describedBy?: string;
+  size: FieldSize;
 }
 
 const Segment: React.FC<SegmentProps> = ({
@@ -196,7 +203,9 @@ const Segment: React.FC<SegmentProps> = ({
   onFocusChange,
   id,
   describedBy,
+  size,
 }) => {
+  const fieldSize = getFieldSizeStyles(size);
   const [enteredDigits, setEnteredDigits] = useState('');
   const maxValue = max ?? (type === 'month' ? 12 : type === 'day' ? 31 : 9999);
   const minValue = min;
@@ -369,8 +378,9 @@ const Segment: React.FC<SegmentProps> = ({
       disabled={disabled}
       className={cn(
         'border-none bg-transparent text-center caret-transparent outline-none select-none focus:ring-0',
-        'text-on-surface text-body-large font-medium tabular-nums',
-        type === 'year' ? 'w-12' : 'w-7',
+        'text-on-surface font-medium tabular-nums',
+        fieldSize.segmentText,
+        type === 'year' ? fieldSize.segmentYearWidth : fieldSize.segmentWidth,
         value === null && !enteredDigits && 'text-on-surface-variant',
         isFocused && 'bg-primary/10 rounded-xs',
       )}
@@ -388,7 +398,8 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
   (
     {
       value,
-      onChange,
+      defaultValue,
+      onValueChange,
       label = 'Date',
       disabled = false,
       error = false,
@@ -404,9 +415,15 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       onFocus,
       onBlur,
       id,
+      size = 'md',
     },
     ref,
   ) => {
+    const [currentValue, setCurrentValue] = useControllableState<Date | undefined>({
+      value,
+      defaultValue,
+      onChange: onValueChange,
+    });
     const generatedId = useId();
     const inputId = id || `dateinput-${generatedId}`;
     const helperId = `${inputId}-helper`;
@@ -414,6 +431,7 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
     const monthRef = useRef<HTMLInputElement>(null);
     const dayRef = useRef<HTMLInputElement>(null);
     const yearRef = useRef<HTMLInputElement>(null);
+    const fieldSize = getFieldSizeStyles(size);
     const segmentOrder = useMemo(() => resolveSegmentOrder(locale, format), [locale, format]);
     const segmentSeparator = useMemo(
       () => resolveSegmentSeparator(locale, format),
@@ -422,23 +440,23 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
 
     const [focusedSegment, setFocusedSegment] = useState<DateSegment | null>(null);
     const [segments, setSegments] = useState<DateSegmentValue>(() => ({
-      month: value ? value.getMonth() + 1 : null,
-      day: value ? value.getDate() : null,
-      year: value ? value.getFullYear() : null,
+      month: currentValue ? currentValue.getMonth() + 1 : null,
+      day: currentValue ? currentValue.getDate() : null,
+      year: currentValue ? currentValue.getFullYear() : null,
     }));
 
     // Sync with external value
     useEffect(() => {
-      if (value) {
+      if (currentValue) {
         setSegments({
-          month: value.getMonth() + 1,
-          day: value.getDate(),
-          year: value.getFullYear(),
+          month: currentValue.getMonth() + 1,
+          day: currentValue.getDate(),
+          year: currentValue.getFullYear(),
         });
       } else {
         setSegments({ month: null, day: null, year: null });
       }
-    }, [value]);
+    }, [currentValue]);
 
     // Handle focus/blur callbacks
     useEffect(() => {
@@ -465,21 +483,21 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
             ) {
               // Check min/max constraints
               if (min && date < min) {
-                onChange?.(undefined);
+                setCurrentValue(undefined);
                 return;
               }
               if (max && date > max) {
-                onChange?.(undefined);
+                setCurrentValue(undefined);
                 return;
               }
-              onChange?.(date);
+              setCurrentValue(date);
             }
           } else if (segments.month === null && segments.day === null && segments.year === null) {
-            onChange?.(undefined);
+            setCurrentValue(undefined);
           }
         }
       },
-      [segments, onChange, onBlur, min, max],
+      [segments, onBlur, min, max, setCurrentValue],
     );
 
     const updateSegment = useCallback((segment: DateSegment, newValue: number | null) => {
@@ -542,12 +560,18 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           <div
             className={cn(
               inputContainerVariants({ variant, error, disabled }),
-              'h-10 items-center',
+              fieldSize.containerHeight,
+              'items-center',
             )}
             onClick={handleContainerClick}
             onBlur={handleContainerBlur}
           >
-            <div className="relative flex h-full min-w-0 flex-1 items-center gap-0.5 px-4">
+            <div
+              className={cn(
+                'relative flex h-full min-w-0 flex-1 items-center gap-0.5',
+                fieldSize.horizontalPadding,
+              )}
+            >
               {segmentOrder.map((segment, index) => {
                 const previousSegment = segmentOrder[index - 1];
                 const nextSegment = segmentOrder[index + 1];
@@ -577,11 +601,12 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
                       inputRef={getSegmentRef(segment)}
                       isFocused={focusedSegment === segment}
                       onFocusChange={(f) => setFocusedSegment(f ? segment : null)}
+                      size={size}
                       {...(index === 0 ? { id: inputId } : {})}
                       {...(index === 0 && helperText ? { describedBy: helperId } : {})}
                     />
                     {index < segmentOrder.length - 1 ? (
-                      <span className="text-on-surface-variant text-body-large">
+                      <span className={cn('text-on-surface-variant', fieldSize.segmentText)}>
                         {segmentSeparator}
                       </span>
                     ) : null}
@@ -593,9 +618,11 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
               <label
                 htmlFor={inputId}
                 className={cn(
-                  'duration-medium ease-emphasized pointer-events-none absolute left-4 origin-left truncate transition-all',
+                  'duration-medium ease-emphasized pointer-events-none absolute origin-left truncate transition-all',
+                  fieldSize.labelLeft,
                   !isFloating && [
-                    'text-body-large text-on-surface-variant',
+                    fieldSize.valueText,
+                    'text-on-surface-variant',
                     'top-1/2 -translate-y-1/2',
                   ],
                   isFloating && [
@@ -604,7 +631,7 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
                       'top-0 -ml-1 -translate-y-1/2 px-1',
                       labelBg || 'bg-surface',
                     ],
-                    variant === 'filled' && 'top-1 translate-y-0',
+                    variant === 'filled' && fieldSize.filledFloatingLabel,
                     error
                       ? 'text-error'
                       : focusedSegment !== null
@@ -621,11 +648,14 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
             {trailingIcon && (
               <span
                 className={cn(
-                  'flex h-full shrink-0 items-center justify-center pr-4 transition-colors',
+                  'flex h-full shrink-0 items-center justify-center transition-colors',
+                  fieldSize.trailingPadding,
                   error ? 'text-error' : 'text-on-surface-variant',
                 )}
               >
-                <div className="size-icon-sm flex items-center justify-center">{trailingIcon}</div>
+                <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
+                  {trailingIcon}
+                </div>
               </span>
             )}
           </div>
@@ -635,7 +665,9 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
             <span
               id={helperId}
               className={cn(
-                'text-label-small mt-1.5 px-4 font-medium',
+                'text-label-small font-medium',
+                fieldSize.helperMarginTop,
+                fieldSize.helperPaddingX,
                 error ? 'text-error' : 'text-on-surface-variant',
               )}
             >

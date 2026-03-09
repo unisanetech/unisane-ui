@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback, useId, forwardRef } from 'react';
+import React, { useRef, useEffect, useCallback, useId, forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@ui/lib/utils';
 import { Text } from '@ui/primitives/text';
 import { Icon } from '@ui/primitives/icon';
+import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
+import { useControllableState } from '@ui/lib/use-controllable-state';
 import { Ripple } from './ripple';
 
 const comboboxVariants = cva('relative w-full', {
@@ -26,13 +28,17 @@ export type ComboboxOption = {
 
 export type ComboboxProps = VariantProps<typeof comboboxVariants> & {
   value?: string;
-  onChange?: (value: string) => void;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   onSearchChange?: (query: string) => void;
   highlightSelected?: boolean;
   options: ComboboxOption[];
   placeholder?: string;
   label?: string;
+  size?: FieldSize;
   disabled?: boolean;
   searchable?: boolean;
   className?: string;
@@ -42,30 +48,44 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
   (
     {
       value,
-      onChange,
+      defaultValue,
+      onValueChange,
+      open,
+      defaultOpen = false,
       onOpenChange,
       onSearchChange,
       highlightSelected = true,
       options,
       placeholder = 'Search or select...',
       label,
+      size = 'md',
       disabled = false,
       searchable = true,
       className,
     },
     ref,
   ) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
-    const [activeIndex, setActiveIndex] = useState(-1);
+    const [searchValue, setSearchValue] = React.useState('');
+    const [isSearching, setIsSearching] = React.useState(false);
+    const [activeIndex, setActiveIndex] = React.useState(-1);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const blurTimeoutRef = useRef<number | null>(null);
+    const fieldSize = getFieldSizeStyles(size);
     const listboxId = useId();
     const inputId = useId();
+    const [selectedValue, setSelectedValue] = useControllableState<string>({
+      value,
+      defaultValue,
+      onChange: onValueChange,
+    });
+    const [openState, setOpenState] = useControllableState<boolean>({
+      value: open,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange,
+    });
+    const isOpen = openState ?? false;
 
-    // Merge refs
     const setRefs = useCallback(
       (node: HTMLDivElement | null) => {
         comboboxRef.current = node;
@@ -78,7 +98,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       [ref],
     );
 
-    // Cleanup blur timeout on unmount
     useEffect(() => {
       return () => {
         if (blurTimeoutRef.current) {
@@ -87,7 +106,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       };
     }, []);
 
-    const selectedOption = options.find((opt) => opt.value === value);
+    const selectedOption = options.find((option) => option.value === selectedValue);
 
     const filteredOptions = options.filter((option) =>
       option.label.toLowerCase().includes(searchValue.toLowerCase()),
@@ -96,15 +115,14 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (comboboxRef.current && !comboboxRef.current.contains(event.target as Node)) {
-          setIsOpen(false);
-          onOpenChange?.(false);
+          setOpenState(false);
           setActiveIndex(-1);
         }
       };
 
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [onOpenChange]);
+    }, [setOpenState]);
 
     useEffect(() => {
       if (!isOpen) {
@@ -115,104 +133,99 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const handleSelect = useCallback(
       (option: ComboboxOption) => {
         if (option.disabled) return;
-        // Clear any pending blur timeout since we're selecting
         if (blurTimeoutRef.current) {
           clearTimeout(blurTimeoutRef.current);
           blurTimeoutRef.current = null;
         }
-        onChange?.(option.value);
+        setSelectedValue(option.value);
         setSearchValue('');
         onSearchChange?.('');
         setIsSearching(false);
-        setIsOpen(false);
-        onOpenChange?.(false);
+        setOpenState(false);
         setActiveIndex(-1);
       },
-      [onChange, onOpenChange, onSearchChange],
+      [onSearchChange, setOpenState, setSelectedValue],
     );
 
-    const handleInputChange = (newValue: string) => {
-      setSearchValue(newValue);
-      onSearchChange?.(newValue);
+    const handleInputChange = (nextValue: string) => {
+      setSearchValue(nextValue);
+      onSearchChange?.(nextValue);
       setIsSearching(true);
       setActiveIndex(-1);
       if (!isOpen) {
-        setIsOpen(true);
-        onOpenChange?.(true);
+        setOpenState(true);
       }
     };
 
     const handleBlur = useCallback(() => {
-      // Clear any existing timeout
       if (blurTimeoutRef.current) {
         clearTimeout(blurTimeoutRef.current);
       }
-      // Use requestAnimationFrame + setTimeout for more reliable timing
       blurTimeoutRef.current = window.setTimeout(() => {
         if (!comboboxRef.current?.contains(document.activeElement)) {
-          onOpenChange?.(false);
+          setOpenState(false);
           setIsSearching(false);
           setSearchValue('');
           onSearchChange?.('');
         }
       }, 100);
-    }, [onOpenChange, onSearchChange]);
+    }, [onSearchChange, setOpenState]);
 
     const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent) => {
+      (event: React.KeyboardEvent) => {
         if (disabled) return;
 
-        switch (e.key) {
+        switch (event.key) {
           case 'ArrowDown':
-            e.preventDefault();
+            event.preventDefault();
             if (!isOpen) {
-              setIsOpen(true);
-              onOpenChange?.(true);
+              setOpenState(true);
             } else {
-              setActiveIndex((prev) => {
-                const nextIndex = prev + 1;
+              setActiveIndex((previousIndex) => {
+                const nextIndex = previousIndex + 1;
                 return nextIndex < filteredOptions.length ? nextIndex : 0;
               });
             }
             break;
           case 'ArrowUp':
-            e.preventDefault();
+            event.preventDefault();
             if (isOpen) {
-              setActiveIndex((prev) => {
-                const nextIndex = prev - 1;
+              setActiveIndex((previousIndex) => {
+                const nextIndex = previousIndex - 1;
                 return nextIndex >= 0 ? nextIndex : filteredOptions.length - 1;
               });
             }
             break;
           case 'Enter':
-            e.preventDefault();
+            event.preventDefault();
             if (isOpen && activeIndex >= 0 && filteredOptions[activeIndex]) {
               handleSelect(filteredOptions[activeIndex]);
             } else if (!isOpen) {
-              setIsOpen(true);
+              setOpenState(true);
             }
             break;
           case 'Escape':
-            e.preventDefault();
-            setIsOpen(false);
-            onOpenChange?.(false);
+            event.preventDefault();
+            setOpenState(false);
             setActiveIndex(-1);
             break;
           case 'Home':
             if (isOpen) {
-              e.preventDefault();
+              event.preventDefault();
               setActiveIndex(0);
             }
             break;
           case 'End':
             if (isOpen) {
-              e.preventDefault();
+              event.preventDefault();
               setActiveIndex(filteredOptions.length - 1);
             }
             break;
+          default:
+            break;
         }
       },
-      [activeIndex, disabled, filteredOptions, handleSelect, isOpen, onOpenChange],
+      [activeIndex, disabled, filteredOptions, handleSelect, isOpen, setOpenState],
     );
 
     return (
@@ -221,8 +234,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           <Text
             as="label"
             htmlFor={inputId}
-            variant="labelMedium"
-            className="text-on-surface-variant mb-2 block font-medium"
+            variant={size === 'lg' ? 'labelLarge' : 'labelMedium'}
+            className={cn(
+              'text-on-surface-variant mb-2 block font-medium',
+              fieldSize.externalLabelText,
+            )}
           >
             {label}
           </Text>
@@ -230,7 +246,8 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
         <div
           className={cn(
-            'border-outline-variant bg-surface relative h-10 w-full rounded-sm border transition-all',
+            'border-outline-variant bg-surface relative w-full rounded-sm border transition-all',
+            fieldSize.containerHeight,
             isOpen && 'border-primary! ring-primary/20 ring-1',
             !isOpen && 'hover:border-outline',
             disabled && 'cursor-not-allowed opacity-38',
@@ -238,9 +255,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           )}
           onClick={() => {
             if (!disabled && !searchable) {
-              const nextOpen = !isOpen;
-              setIsOpen(nextOpen);
-              onOpenChange?.(nextOpen);
+              setOpenState(!isOpen);
             }
           }}
           onKeyDown={!searchable ? handleKeyDown : undefined}
@@ -255,19 +270,24 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         >
           {!searchable && <Ripple disabled={disabled} />}
 
-          <div className="flex h-full items-center gap-2 px-4">
+          <div
+            className={cn(
+              'flex h-full items-center',
+              fieldSize.horizontalPadding,
+              size === 'lg' ? 'gap-3' : 'gap-2',
+            )}
+          >
             {searchable ? (
               <input
                 ref={inputRef}
                 id={inputId}
                 type="text"
                 value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
-                onChange={(e) => handleInputChange(e.target.value)}
+                onChange={(event) => handleInputChange(event.target.value)}
                 onKeyDown={handleKeyDown}
                 onFocus={() => {
                   if (!disabled) {
-                    setIsOpen(true);
-                    onOpenChange?.(true);
+                    setOpenState(true);
                     setIsSearching(true);
                     setSearchValue('');
                     onSearchChange?.('');
@@ -276,7 +296,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 onBlur={handleBlur}
                 placeholder={placeholder}
                 disabled={disabled}
-                className="text-body-large text-on-surface placeholder:text-on-surface-variant/60 flex-1 cursor-text bg-transparent outline-none"
+                className={cn(
+                  'text-on-surface placeholder:text-on-surface-variant/60 flex-1 cursor-text bg-transparent outline-none',
+                  fieldSize.valueText,
+                )}
                 role="combobox"
                 aria-expanded={isOpen}
                 aria-haspopup="listbox"
@@ -287,12 +310,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 aria-autocomplete="list"
               />
             ) : (
-              <Text
-                variant="bodyLarge"
-                className={cn(!selectedOption && 'text-on-surface-variant/40')}
+              <span
+                className={cn(fieldSize.valueText, !selectedOption && 'text-on-surface-variant/40')}
               >
                 {selectedOption ? selectedOption.label : placeholder}
-              </Text>
+              </span>
             )}
 
             <Icon
@@ -306,9 +328,8 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               onClick={() => {
                 if (!disabled) {
                   const nextOpen = !isOpen;
-                  setIsOpen(nextOpen);
-                  onOpenChange?.(nextOpen);
-                  if (searchable && inputRef.current) {
+                  setOpenState(nextOpen);
+                  if (searchable && nextOpen && inputRef.current) {
                     inputRef.current.focus();
                   }
                 }
@@ -331,49 +352,40 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     key={option.value}
                     id={`${listboxId}-option-${index}`}
                     className={cn(
-                      'relative flex h-10 cursor-pointer items-center gap-3 px-4 transition-colors',
+                      'relative flex cursor-pointer items-center gap-3 transition-colors',
+                      fieldSize.optionHeight,
+                      fieldSize.optionPaddingX,
                       'hover:bg-on-surface/6',
-                      highlightSelected && value === option.value && 'bg-primary/10 text-primary',
+                      highlightSelected &&
+                        selectedValue === option.value &&
+                        'bg-primary/10 text-primary',
                       activeIndex === index &&
-                        (!highlightSelected || value !== option.value) &&
+                        (!highlightSelected || selectedValue !== option.value) &&
                         'bg-on-surface/6',
                       option.disabled && 'cursor-not-allowed opacity-38',
                     )}
                     onClick={() => handleSelect(option)}
                     role="option"
-                    aria-selected={value === option.value}
+                    aria-selected={selectedValue === option.value}
                     aria-disabled={option.disabled}
                   >
                     <Ripple disabled={option.disabled} />
-
-                    <Text
-                      variant="bodyLarge"
-                      className={cn(
-                        'relative z-10',
-                        highlightSelected && value === option.value
-                          ? 'text-on-secondary-container font-semibold'
-                          : 'text-on-surface font-medium',
-                        option.disabled && 'text-on-surface-variant',
-                      )}
-                    >
-                      {option.label}
-                    </Text>
-
-                    {highlightSelected && value === option.value && (
-                      <Icon
-                        symbol="check"
-                        size="xs"
-                        className="text-on-secondary-container relative z-10 ml-auto"
-                        aria-hidden="true"
-                      />
+                    <span className="relative z-10 flex-1 truncate font-medium">{option.label}</span>
+                    {highlightSelected && selectedValue === option.value && (
+                      <Icon symbol="check" size="sm" className="relative z-10 text-primary" />
                     )}
                   </div>
                 ))
               ) : (
-                <div className="px-4 py-3" role="option" aria-disabled="true">
-                  <Text variant="bodyMedium" className="text-on-surface-variant italic">
-                    No matching records
-                  </Text>
+                <div
+                  className={cn(
+                    'text-on-surface-variant font-medium',
+                    size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
+                    size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
+                    fieldSize.optionPaddingX,
+                  )}
+                >
+                  No results found
                 </div>
               )}
             </div>

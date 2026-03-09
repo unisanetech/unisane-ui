@@ -2,8 +2,11 @@
 
 import * as React from 'react';
 import { cn } from '@ui/lib/utils';
+import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
 
-export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+  size?: FieldSize;
+};
 
 /**
  * Input primitive - a basic styled input element.
@@ -12,12 +15,17 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
  * Use this Input primitive when you need lower-level control or custom compositions.
  */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, size = 'md', ...props }, ref) => {
+    const fieldSize = getFieldSizeStyles(size);
+
     return (
       <input
         type={type}
         className={cn(
-          'border-outline-variant bg-surface text-body-medium text-on-surface ring-offset-surface file:text-body-small file:text-on-surface placeholder:text-on-surface-variant focus-visible:ring-primary flex h-10 w-full rounded-sm border px-4 file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          'border-outline-variant bg-surface text-on-surface ring-offset-surface file:text-body-small file:text-on-surface placeholder:text-on-surface-variant focus-visible:ring-primary flex w-full rounded-sm border file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          fieldSize.containerHeight,
+          fieldSize.horizontalPadding,
+          fieldSize.valueText,
           className,
         )}
         ref={ref}

@@ -1,6 +1,6 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn, focusRing } from "@/lib/utils";
 import { Icon } from "@/primitives/icon";
 import { Text } from "@/primitives/text";
 import { Ripple } from "./ripple";
@@ -130,22 +130,8 @@ export const Step: React.FC<StepProps> = ({
   onClick,
   className,
 }) => {
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if ((e.key === "Enter" || e.key === " ") && onClick) {
-      e.preventDefault();
-      onClick();
-    }
-  };
-
-  return (
-    <div
-      className={cn(stepVariants({ orientation, active, completed, className }))}
-      onClick={onClick}
-      onKeyDown={handleKeyDown}
-      role="button"
-      tabIndex={onClick ? 0 : undefined}
-      aria-current={active ? "step" : undefined}
-    >
+  const content = (
+    <>
       <Ripple />
       <div
         className={cn(
@@ -163,6 +149,28 @@ export const Step: React.FC<StepProps> = ({
       <div className={cn("flex-1", orientation === "vertical" && "ml-0 mt-2")}>
         {children}
       </div>
+    </>
+  );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        className={cn(stepVariants({ orientation, active, completed, className }), focusRing)}
+        onClick={onClick}
+        aria-current={active ? "step" : undefined}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div
+      className={cn(stepVariants({ orientation, active, completed, className }))}
+      aria-current={active ? "step" : undefined}
+    >
+      {content}
     </div>
   );
 };

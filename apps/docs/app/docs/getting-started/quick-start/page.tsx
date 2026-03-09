@@ -99,7 +99,7 @@ export function Counter() {
         <IconButton
           variant="tonal"
           onClick={() => setCount(c => c - 1)}
-          ariaLabel="Decrease"
+          aria-label="Decrease"
         >
           <span className="material-symbols-outlined">
             remove
@@ -108,7 +108,7 @@ export function Counter() {
         <IconButton
           variant="tonal"
           onClick={() => setCount(c => c + 1)}
-          ariaLabel="Increase"
+          aria-label="Increase"
         >
           <span className="material-symbols-outlined">
             add
@@ -250,14 +250,14 @@ function CounterDemo() {
         <IconButton
           variant="tonal"
           onClick={() => setCount((c) => c - 1)}
-          ariaLabel="Decrease"
+          aria-label="Decrease"
         >
           <span className="material-symbols-outlined">remove</span>
         </IconButton>
         <IconButton
           variant="tonal"
           onClick={() => setCount((c) => c + 1)}
-          ariaLabel="Increase"
+          aria-label="Increase"
         >
           <span className="material-symbols-outlined">add</span>
         </IconButton>

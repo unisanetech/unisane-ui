@@ -55,7 +55,7 @@ export function CliCommand({ command, className }: CliCommandProps) {
         <IconButton
           variant="standard"
           size="sm"
-          ariaLabel={copied ? "Copied!" : "Copy command"}
+          aria-label={copied ? "Copied!" : "Copy command"}
           onClick={handleCopy}
           className="shrink-0"
         >

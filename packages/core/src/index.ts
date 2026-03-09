@@ -122,6 +122,7 @@ export { Switch } from "./components/switch";
 export { Card } from "./components/card";
 export type { CardProps } from "./components/card";
 export { Select } from "./components/select";
+export type { SelectProps, SelectOption } from "./components/select";
 export { Sheet } from "./components/sheet";
 export { Chip } from "./components/chip";
 export type { ChipProps } from "./components/chip";
@@ -191,6 +192,7 @@ export {
   NavigationDrawerDivider,
 } from "./components/navigation-drawer";
 export { NavigationRail, type RailItem } from "./components/navigation-rail";
+export type { NavigationRailProps } from "./components/navigation-rail";
 export { TopAppBar } from "./components/top-app-bar";
 export type { TopAppBarProps } from "./components/top-app-bar";
 export { SearchBar } from "./components/search-bar";
@@ -212,7 +214,7 @@ export type { DialogProps } from "./components/dialog";
 export { ConfirmDialog } from "./components/confirm-dialog";
 export type { ConfirmDialogProps } from "./components/confirm-dialog";
 export { Combobox } from "./components/combobox";
-export type { ComboboxProps } from "./components/combobox";
+export type { ComboboxProps, ComboboxOption } from "./components/combobox";
 export {
   SupportingPaneLayout,
   ListDetailLayout,

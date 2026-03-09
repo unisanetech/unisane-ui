@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Text } from "@/primitives/text";
 
 const topAppBarVariants = cva(
-  "w-full flex items-center px-4 transition-all duration-medium ease-standard bg-surface text-on-surface relative z-20 border-b border-outline-variant/30",
+  "relative z-20 flex w-full items-center border-b border-outline-variant/30 bg-surface px-4 text-on-surface transition-all duration-medium ease-standard",
   {
     variants: {
       variant: {
@@ -30,8 +30,7 @@ export type TopAppBarProps = VariantProps<typeof topAppBarVariants> & {
   navigationIcon?: React.ReactNode;
   actions?: React.ReactNode;
   className?: string;
-  ariaLabel?: string;
-};
+} & Omit<React.HTMLAttributes<HTMLElement>, "children" | "title">;
 
 export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
   (
@@ -42,7 +41,8 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
       navigationIcon,
       actions,
       className,
-      ariaLabel,
+      ["aria-label"]: ariaLabel,
+      ...props
     },
     ref
   ) => {
@@ -53,66 +53,67 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
     return (
       <header
         ref={ref}
+        {...props}
         className={cn(topAppBarVariants({ variant, scrolled, className }))}
         aria-label={ariaLabel || titleString}
       >
-      <div
-        className={cn(
-          "w-full flex items-center",
-          isTall ? "h-16 mb-auto" : "h-full",
-          isCenter ? "justify-center relative" : "justify-between"
-        )}
-      >
-        {navigationIcon && (
-          <div
-            className={cn(
-              "text-on-surface mr-4 z-10",
-              isCenter ? "absolute left-0" : ""
-            )}
-          >
-            {navigationIcon}
-          </div>
-        )}
+        <div
+          className={cn(
+            "flex w-full items-center",
+            isTall ? "mb-auto h-16" : "h-full",
+            isCenter ? "relative justify-center" : "justify-between"
+          )}
+        >
+          {navigationIcon && (
+            <div
+              className={cn(
+                "text-on-surface mr-4 z-10",
+                isCenter ? "absolute left-0" : ""
+              )}
+            >
+              {navigationIcon}
+            </div>
+          )}
 
-        {!isTall && (
+          {!isTall && (
+            <div
+              className={cn(
+                "truncate",
+                isCenter ? "w-full px-12 text-center" : "flex-1 text-left"
+              )}
+            >
+              <Text variant="titleLarge" className="truncate text-primary">
+                {title}
+              </Text>
+            </div>
+          )}
+
           <div
             className={cn(
-              "truncate",
-              isCenter ? "text-center px-12 w-full" : "text-left flex-1"
+              "z-10 flex items-center gap-2 text-on-surface-variant",
+              isCenter && "absolute right-0"
             )}
           >
-            <Text variant="titleLarge" className="truncate text-primary">
+            {actions}
+          </div>
+        </div>
+
+        {isTall && (
+          <div
+            className={cn(
+              "w-full px-4 transition-opacity duration-short",
+              scrolled ? "h-0 overflow-hidden opacity-0" : "opacity-100"
+            )}
+          >
+            <Text
+              variant={variant === "large" ? "headlineMedium" : "headlineSmall"}
+              className="truncate"
+            >
               {title}
             </Text>
           </div>
         )}
-
-        <div
-          className={cn(
-            "flex items-center gap-2 text-on-surface-variant z-10",
-            isCenter && "absolute right-0"
-          )}
-        >
-          {actions}
-        </div>
-      </div>
-
-      {isTall && (
-        <div
-          className={cn(
-            "px-4 w-full transition-opacity duration-short",
-            scrolled ? "opacity-0 h-0 overflow-hidden" : "opacity-100"
-          )}
-        >
-          <Text
-            variant={variant === "large" ? "headlineMedium" : "headlineSmall"}
-            className="truncate"
-          >
-            {title}
-          </Text>
-        </div>
-      )}
-    </header>
+      </header>
     );
   }
 );

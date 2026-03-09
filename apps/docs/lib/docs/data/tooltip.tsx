@@ -15,19 +15,19 @@ const TooltipHeroVisual = () => (
       <div className="p-5">
         <div className="flex items-center justify-center gap-2">
           <Tooltip label="Undo (Ctrl+Z)">
-            <IconButton variant="standard" ariaLabel="Undo" icon={<span className="material-symbols-outlined">undo</span>} />
+            <IconButton variant="standard" aria-label="Undo" icon={<span className="material-symbols-outlined">undo</span>} />
           </Tooltip>
           <Tooltip label="Redo (Ctrl+Y)">
-            <IconButton variant="standard" ariaLabel="Redo" icon={<span className="material-symbols-outlined">redo</span>} />
+            <IconButton variant="standard" aria-label="Redo" icon={<span className="material-symbols-outlined">redo</span>} />
           </Tooltip>
           <Tooltip label="Copy">
-            <IconButton variant="standard" ariaLabel="Copy" icon={<span className="material-symbols-outlined">content_copy</span>} />
+            <IconButton variant="standard" aria-label="Copy" icon={<span className="material-symbols-outlined">content_copy</span>} />
           </Tooltip>
           <Tooltip label="Paste">
-            <IconButton variant="standard" ariaLabel="Paste" icon={<span className="material-symbols-outlined">content_paste</span>} />
+            <IconButton variant="standard" aria-label="Paste" icon={<span className="material-symbols-outlined">content_paste</span>} />
           </Tooltip>
           <Tooltip label="Delete" variant="rich" subhead="Warning">
-            <IconButton variant="standard" ariaLabel="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
+            <IconButton variant="standard" aria-label="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
           </Tooltip>
         </div>
       </div>
@@ -142,13 +142,13 @@ export const tooltipDoc: ComponentDoc = {
         visual: (
           <div className="flex items-center gap-1">
             <Tooltip label="Bold (Ctrl+B)">
-              <IconButton variant="standard" ariaLabel="Bold" icon={<span className="material-symbols-outlined">format_bold</span>} />
+              <IconButton variant="standard" aria-label="Bold" icon={<span className="material-symbols-outlined">format_bold</span>} />
             </Tooltip>
             <Tooltip label="Italic (Ctrl+I)">
-              <IconButton variant="standard" ariaLabel="Italic" icon={<span className="material-symbols-outlined">format_italic</span>} />
+              <IconButton variant="standard" aria-label="Italic" icon={<span className="material-symbols-outlined">format_italic</span>} />
             </Tooltip>
             <Tooltip label="Underline (Ctrl+U)">
-              <IconButton variant="standard" ariaLabel="Underline" icon={<span className="material-symbols-outlined">format_underlined</span>} />
+              <IconButton variant="standard" aria-label="Underline" icon={<span className="material-symbols-outlined">format_underlined</span>} />
             </Tooltip>
           </div>
         ),
@@ -159,13 +159,13 @@ export const tooltipDoc: ComponentDoc = {
         visual: (
           <div className="flex items-center gap-2">
             <Tooltip label="Edit item">
-              <IconButton variant="tonal" ariaLabel="Edit" icon={<span className="material-symbols-outlined">edit</span>} />
+              <IconButton variant="tonal" aria-label="Edit" icon={<span className="material-symbols-outlined">edit</span>} />
             </Tooltip>
             <Tooltip label="Share item">
-              <IconButton variant="tonal" ariaLabel="Share" icon={<span className="material-symbols-outlined">share</span>} />
+              <IconButton variant="tonal" aria-label="Share" icon={<span className="material-symbols-outlined">share</span>} />
             </Tooltip>
             <Tooltip variant="rich" label="This will permanently remove the item" subhead="Delete">
-              <IconButton variant="tonal" ariaLabel="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
+              <IconButton variant="tonal" aria-label="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
             </Tooltip>
           </div>
         ),

@@ -277,7 +277,8 @@ export const canonicalLayoutsDoc: ComponentDoc = {
         { name: "main", type: "ReactNode", required: true, description: "Main content area." },
         { name: "supporting", type: "ReactNode", required: true, description: "Content for the supporting pane." },
         { name: "open", type: "boolean", description: "Controls supporting pane visibility." },
-        { name: "onClose", type: "() => void", description: "Callback when pane should close." },
+        { name: "defaultOpen", type: "boolean", default: "false", description: "Initial supporting-pane visibility when uncontrolled." },
+        { name: "onOpenChange", type: "(open: boolean) => void", description: "Callback when the pane requests an open-state change." },
         { name: "title", type: "string", default: '"Audit Protocol"', description: "Title shown in the supporting pane header." },
         { name: "mainRef", type: "RefObject<HTMLDivElement>", description: "Ref for the main content container." },
       ],
@@ -304,8 +305,8 @@ export const canonicalLayoutsDoc: ComponentDoc = {
       { key: "Escape", description: "Close supporting pane on mobile" },
     ],
     focus: [
-      "Focus is managed when switching between list and detail on mobile.",
-      "Supporting pane traps focus when open on mobile.",
+      "Back and close actions remain reachable in the visible pane.",
+      "The supporting pane keeps a visible close affordance on mobile.",
     ],
   },
 
@@ -351,7 +352,7 @@ function DocumentEditor() {
       main={<Editor />}
       supporting={<DocumentProperties />}
       open={showProperties}
-      onClose={() => setShowProperties(false)}
+      onOpenChange={setShowProperties}
       title="Properties"
       isRoot
     />

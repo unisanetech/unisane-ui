@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { useControllableState } from "@/lib/use-controllable-state";
 import { Text } from "@/primitives/text";
 import { Ripple } from "./ripple";
 
@@ -25,8 +26,9 @@ const ratingVariants = cva("flex items-center gap-1", {
 });
 
 export type RatingProps = VariantProps<typeof ratingVariants> & {
-  value: number;
-  onChange?: (value: number) => void;
+  value?: number;
+  defaultValue?: number;
+  onValueChange?: (value: number) => void;
   max?: number;
   allowHalf?: boolean;
   showValue?: boolean;
@@ -36,7 +38,8 @@ export type RatingProps = VariantProps<typeof ratingVariants> & {
 
 export const Rating: React.FC<RatingProps> = ({
   value,
-  onChange,
+  defaultValue = 0,
+  onValueChange,
   max = 5,
   allowHalf = false,
   showValue = false,
@@ -45,12 +48,18 @@ export const Rating: React.FC<RatingProps> = ({
   size = "md",
 }) => {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
+  const [currentValue, setCurrentValue] = useControllableState<number>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+  const ratingValue = currentValue ?? defaultValue;
 
-  const displayValue = hoverValue ?? value;
+  const displayValue = hoverValue ?? ratingValue;
 
   const handleStarClick = (starValue: number) => {
     if (disabled) return;
-    onChange?.(starValue);
+    setCurrentValue(starValue);
   };
 
   const handleStarMouseEnter = (starValue: number) => {
@@ -75,11 +84,11 @@ export const Rating: React.FC<RatingProps> = ({
     <div
       className={cn(ratingVariants({ size, disabled, className }))}
       role="radiogroup"
-      aria-label={`Rating: ${value} out of ${max} stars`}
+      aria-label={`Rating: ${ratingValue} out of ${max} stars`}
     >
       {Array.from({ length: max }, (_, index) => {
         const fill = getStarFill(index);
-        const isSelected = value === index + 1;
+        const isSelected = ratingValue === index + 1;
 
         return (
           <button
@@ -133,7 +142,7 @@ export const Rating: React.FC<RatingProps> = ({
 
       {showValue && (
         <Text variant="bodyMedium" className="ml-2 text-on-surface-variant">
-          {value.toFixed(allowHalf ? 1 : 0)} / {max}
+          {ratingValue.toFixed(allowHalf ? 1 : 0)} / {max}
         </Text>
       )}
     </div>

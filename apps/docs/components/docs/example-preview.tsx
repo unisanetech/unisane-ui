@@ -41,8 +41,8 @@ export function ExamplePreview({ example, className }: ExamplePreviewProps) {
               { value: "code", label: "Code" },
             ]}
             value={activeTab}
-            onChange={(value) => setActiveTab(value as "preview" | "code")}
-            density="high"
+            onValueChange={(value) => setActiveTab(value as "preview" | "code")}
+            size="sm"
           />
         )}
       </div>

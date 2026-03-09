@@ -165,6 +165,7 @@ export const bottomAppBarDoc: ComponentDoc = {
         { name: "icon", type: "ReactNode", required: true, description: "Icon to display." },
         { name: "label", type: "string", required: true, description: "Accessible label for the action." },
         { name: "active", type: "boolean", description: "Whether the action is active." },
+        { name: "disabled", type: "boolean", description: "Disables the action." },
         { name: "onClick", type: "() => void", description: "Click handler." },
       ],
     },
@@ -202,7 +203,7 @@ function MobileLayout() {
           <Fab
             icon={<span className="material-symbols-outlined">add</span>}
             onClick={handleCreate}
-            ariaLabel="Create new"
+            aria-label="Create new"
           />
         }
       >

@@ -1,6 +1,6 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import { cn, focusRing } from "@/lib/utils";
 import { Surface } from "@/primitives/surface";
 import { Ripple } from "./ripple";
 
@@ -47,7 +47,7 @@ export const BottomAppBar: React.FC<BottomAppBarProps> = ({
 };
 
 const bottomAppBarActionVariants = cva(
-  "relative flex items-center justify-center w-12 h-12 rounded-full cursor-pointer select-none transition-colors duration-short overflow-hidden",
+  "relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38",
   {
     variants: {
       active: {
@@ -67,23 +67,24 @@ export type BottomAppBarActionProps = VariantProps<
   icon: React.ReactNode;
   label: string;
   active?: boolean;
-  onClick?: () => void;
   className?: string;
-};
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">;
 
 export const BottomAppBarAction: React.FC<BottomAppBarActionProps> = ({
   icon,
   label,
   active,
-  onClick,
   className,
+  type = "button",
+  ...props
 }) => {
   return (
     <button
-      className={cn(bottomAppBarActionVariants({ active, className }))}
-      onClick={onClick}
-      aria-label={label}
+      type={type}
+      className={cn(bottomAppBarActionVariants({ active, className }), focusRing)}
+      aria-label={props["aria-label"] ?? label}
       aria-pressed={active}
+      {...props}
     >
       <Ripple />
       <div className="size-icon-sm flex items-center justify-center relative z-10">{icon}</div>

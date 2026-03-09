@@ -40,9 +40,9 @@ const TimePickerExample = () => {
       </Button>
       <TimePicker
         open={open}
-        onClose={() => setOpen(false)}
-        onSelect={setTime}
-        initialTime={time}
+        onOpenChange={setOpen}
+        value={time}
+        onValueChange={setTime}
       />
     </div>
   );
@@ -120,25 +120,34 @@ export const timePickerDoc: ComponentDoc = {
     {
       name: "open",
       type: "boolean",
-      required: true,
-      description: "Controls visibility of the picker dialog.",
+      description: "Controlled open state.",
     },
     {
-      name: "onClose",
-      type: "() => void",
-      required: true,
-      description: "Callback fired when picker should close.",
+      name: "defaultOpen",
+      type: "boolean",
+      default: '"false"',
+      description: "Initial open state when the picker is uncontrolled.",
     },
     {
-      name: "onSelect",
-      type: "(time: string) => void",
-      description: "Callback fired when time is selected (format: HH:mm).",
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when picker visibility changes.",
     },
     {
-      name: "initialTime",
+      name: "value",
+      type: "string",
+      description: "Controlled time value in HH:mm format.",
+    },
+    {
+      name: "defaultValue",
       type: "string",
       default: '"12:00"',
-      description: "Initial time value in HH:mm format.",
+      description: "Initial time value in HH:mm format when uncontrolled.",
+    },
+    {
+      name: "onValueChange",
+      type: "(time: string) => void",
+      description: "Callback fired when time is selected (format: HH:mm).",
     },
   ],
 
@@ -180,9 +189,9 @@ function MeetingScheduler() {
 
       <TimePicker
         open={open}
-        onClose={() => setOpen(false)}
-        onSelect={setTime}
-        initialTime={time}
+        onOpenChange={setOpen}
+        value={time}
+        onValueChange={setTime}
       />
     </div>
   );

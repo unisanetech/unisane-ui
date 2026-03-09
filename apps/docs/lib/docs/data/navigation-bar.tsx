@@ -172,7 +172,7 @@ export const navigationBarDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "Uses semantic <nav> element.",
-      "aria-current indicates active page.",
+      "Link items can expose the active route with aria-current.",
       "Labels provide context for each destination.",
     ],
     keyboard: [

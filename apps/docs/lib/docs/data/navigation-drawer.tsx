@@ -73,7 +73,7 @@ export const navigationDrawerDoc: ComponentDoc = {
   slug: "navigation-drawer",
   name: "Navigation Drawer",
   description:
-    "Navigation drawers provide access to destinations and app functionality in a sliding panel.",
+    "Navigation drawers provide standalone drawer-style access to destinations and app functionality in a sliding panel.",
   category: "navigation",
   status: "stable",
   icon: "menu",
@@ -88,7 +88,7 @@ export const navigationDrawerDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose drawer type based on screen size and navigation complexity.",
+      "Choose drawer type based on screen size and whether you need a standalone nav surface or a full app-shell layout.",
     columns: {
       emphasis: "Type",
       component: "Preview",
@@ -109,7 +109,7 @@ export const navigationDrawerDoc: ComponentDoc = {
             </div>
           </div>
         ),
-        rationale: "Persistent navigation on large screens.",
+        rationale: "Standalone persistent navigation on large screens.",
         examples: "Desktop apps, Admin dashboards",
       },
       {
@@ -123,7 +123,7 @@ export const navigationDrawerDoc: ComponentDoc = {
             </div>
           </div>
         ),
-        rationale: "Overlay navigation on mobile.",
+        rationale: "Standalone overlay navigation on mobile.",
         examples: "Mobile apps, Compact screens",
       },
     ],
@@ -269,8 +269,12 @@ function AppNavigation() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
+      slug: "sidebar",
+      reason: "Use for full app-shell navigation that coordinates rail, drawer, backdrop, and content inset together.",
+    },
+    {
       slug: "navigation-rail",
-      reason: "Compact vertical navigation for larger screens.",
+      reason: "Use for compact standalone vertical navigation on larger screens.",
     },
     {
       slug: "navigation-bar",

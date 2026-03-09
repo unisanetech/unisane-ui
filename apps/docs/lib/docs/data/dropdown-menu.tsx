@@ -167,7 +167,7 @@ export const dropdownMenuDoc: ComponentDoc = {
         visual: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <IconButton variant="tonal" ariaLabel="More options" icon={<span className="material-symbols-outlined">more_vert</span>} />
+              <IconButton variant="tonal" aria-label="More options" icon={<span className="material-symbols-outlined">more_vert</span>} />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Edit</DropdownMenuItem>
@@ -239,6 +239,22 @@ export const dropdownMenuDoc: ComponentDoc = {
       required: true,
       description: "DropdownMenuTrigger and DropdownMenuContent components.",
     },
+    {
+      name: "open",
+      type: "boolean",
+      description: "Controlled open state.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      default: '"false"',
+      description: "Initial open state when the menu is uncontrolled.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback when the root menu requests an open-state change.",
+    },
   ],
 
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
@@ -256,7 +272,10 @@ export const dropdownMenuDoc: ComponentDoc = {
       description: "Container for menu items.",
       props: [
         { name: "children", type: "ReactNode", required: true, description: "Menu items." },
-        { name: "align", type: '"start" | "end"', default: '"start"', description: "Alignment relative to trigger." },
+        { name: "align", type: '"start" | "center" | "end"', default: '"start"', description: "Alignment relative to trigger." },
+        { name: "side", type: '"top" | "bottom" | "left" | "right"', default: '"bottom"', description: "Preferred side for the menu." },
+        { name: "portal", type: "boolean", default: "false", description: "Render the menu into document.body for safer layering." },
+        { name: "closeOnSelect", type: "boolean", default: "false", description: "Close the menu after selecting a menu item." },
         { name: "className", type: "string", description: "Custom classes for padding, radius, etc." },
       ],
     },
@@ -280,6 +299,9 @@ export const dropdownMenuDoc: ComponentDoc = {
       description: "Container for a submenu.",
       props: [
         { name: "children", type: "ReactNode", required: true, description: "SubTrigger and SubContent components." },
+        { name: "open", type: "boolean", description: "Controlled open state for the submenu." },
+        { name: "defaultOpen", type: "boolean", default: '"false"', description: "Initial open state when the submenu is uncontrolled." },
+        { name: "onOpenChange", type: "(open: boolean) => void", description: "Callback when the submenu requests an open-state change." },
       ],
     },
     {
@@ -339,7 +361,7 @@ function ItemActions({ onEdit, onDuplicate, onDelete }) {
       <DropdownMenuTrigger asChild>
         <IconButton
           icon={<span className="material-symbols-outlined">more_vert</span>}
-          ariaLabel="Item options"
+          aria-label="Item options"
         />
       </DropdownMenuTrigger>
       {/* px-2 adds horizontal padding, rounded-lg for container */}

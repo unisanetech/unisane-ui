@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import React, { useState, useRef, useEffect } from "react";
-import { cn } from "@/lib/utils";
-import { Fab } from "./fab";
-import { Icon } from "@/primitives/icon";
+import React, { useEffect, useRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Fab } from './fab';
+import { Icon } from '@/primitives/icon';
+import { useControllableState } from '@/lib/use-controllable-state';
 
 export interface FabAction {
   label: string;
@@ -16,6 +17,9 @@ export interface FabMenuProps {
   activeIcon?: React.ReactNode;
   actions: FabAction[];
   className?: string;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   "aria-label"?: string;
 }
 
@@ -24,9 +28,17 @@ export const FabMenu: React.FC<FabMenuProps> = ({
   activeIcon = <Icon symbol="close" />,
   actions,
   className,
+  open,
+  defaultOpen = false,
+  onOpenChange,
   "aria-label": ariaLabel = "Actions menu",
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [openState, setOpenState] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const isOpen = openState ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -35,14 +47,14 @@ export const FabMenu: React.FC<FabMenuProps> = ({
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
+        setOpenState(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        setIsOpen(false);
+        setOpenState(false);
       }
     };
 
@@ -54,7 +66,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen]);
+  }, [isOpen, setOpenState]);
 
   return (
     <div
@@ -63,7 +75,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
     >
       <div
         className={cn(
-          "flex flex-col items-end gap-3 transition-all duration-medium ease-smooth",
+          "flex flex-col items-end gap-3 transition-all duration-medium ease-emphasized",
           isOpen
             ? "opacity-100 translate-y-0 visible"
             : "opacity-0 translate-y-10 invisible pointer-events-none"
@@ -84,7 +96,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
               onClick={(e) => {
                 e.stopPropagation();
                 action.onClick();
-                setIsOpen(false);
+                setOpenState(false);
               }}
               aria-label={action.label}
               role="menuitem"
@@ -101,7 +113,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
           "transition-transform duration-emphasized",
           isOpen ? "rotate-90" : "rotate-0"
         )}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setOpenState(!isOpen)}
         icon={isOpen ? activeIcon : mainIcon}
         aria-label={isOpen ? "Close menu" : ariaLabel}
         aria-expanded={isOpen}

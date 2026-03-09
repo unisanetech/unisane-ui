@@ -47,7 +47,7 @@ const DatePickerBasicExample = () => {
       <DatePicker
         label="Select Date"
         value={date}
-        onChange={setDate}
+        onValueChange={setDate}
       />
     </div>
   );
@@ -126,30 +126,69 @@ export const datePickerDoc: ComponentDoc = {
   props: [
     {
       name: "value",
-      type: "Date",
+      type: "Date | undefined",
       description: "The selected date value.",
     },
     {
-      name: "onChange",
-      type: "(date: Date) => void",
-      description: "Callback fired when date is selected.",
+      name: "defaultValue",
+      type: "Date | undefined",
+      description: "The default date for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
+      type: "(date: Date | undefined) => void",
+      description: "Callback fired when date is selected or cleared.",
+    },
+    {
+      name: "open",
+      type: "boolean",
+      description: "Controlled open state for the calendar popover.",
+    },
+    {
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state for uncontrolled usage.",
+    },
+    {
+      name: "onOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback fired when the calendar popover opens or closes.",
     },
     {
       name: "label",
       type: "string",
+      default: '"Date"',
       description: "Label for the input field.",
     },
     {
-      name: "placeholder",
+      name: "variant",
+      type: '"outlined" | "filled"',
+      default: '"outlined"',
+      description: "Visual style variant of the trigger field.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for the trigger height and spacing.",
+    },
+    {
+      name: "helperText",
       type: "string",
-      default: '"Select a date"',
-      description: "Placeholder text when no date selected.",
+      description: "Helper or error text displayed below the field.",
     },
     {
       name: "disabled",
       type: "boolean",
       default: "false",
       description: "Disable the date picker.",
+    },
+    {
+      name: "showCalendarButton",
+      type: "boolean",
+      default: "true",
+      description: "Whether to show the calendar toggle button.",
     },
     {
       name: "className",
@@ -191,12 +230,12 @@ function BookingForm() {
       <DatePicker
         label="Check-in"
         value={checkIn}
-        onChange={setCheckIn}
+        onValueChange={setCheckIn}
       />
       <DatePicker
         label="Check-out"
         value={checkOut}
-        onChange={setCheckOut}
+        onValueChange={setCheckOut}
       />
     </div>
   );

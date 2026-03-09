@@ -1,29 +1,34 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import React, { useRef, useEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@ui/lib/utils';
 import { Icon } from '@ui/primitives/icon';
+import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
+import { useControllableState } from '@ui/lib/use-controllable-state';
 
-interface SelectOption {
+export interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
 }
 
-interface SelectProps {
+export interface SelectProps {
   label?: string;
   options: SelectOption[];
   value?: string;
-  onChange?: (value: string) => void;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   variant?: 'filled' | 'outlined';
-  size?: 'sm' | 'md';
+  size?: FieldSize;
   error?: boolean;
   disabled?: boolean;
   className?: string;
   labelClassName?: string;
   placeholder?: string;
-  /** Use portal to render dropdown outside DOM hierarchy (escapes overflow:hidden) */
   portal?: boolean;
 }
 
@@ -41,7 +46,11 @@ export const Select: React.FC<SelectProps> = ({
   label,
   options,
   value,
-  onChange,
+  defaultValue,
+  onValueChange,
+  open,
+  defaultOpen = false,
+  onOpenChange,
   variant = 'outlined',
   size = 'md',
   error,
@@ -51,35 +60,46 @@ export const Select: React.FC<SelectProps> = ({
   placeholder = 'Select an option',
   portal = false,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const fieldSize = getFieldSizeStyles(size);
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const [dropdownPosition, setDropdownPosition] = useState<DropdownPosition>({
+  const [highlightedIndex, setHighlightedIndex] = React.useState(-1);
+  const [dropdownPosition, setDropdownPosition] = React.useState<DropdownPosition>({
     top: 0,
     left: 0,
     width: 0,
     maxHeight: 280,
     direction: 'down',
   });
+  const [selectedValue, setSelectedValue] = useControllableState<string>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+  const [openState, setOpenState] = useControllableState<boolean>({
+    value: open,
+    defaultValue: defaultOpen,
+    onChange: onOpenChange,
+  });
+  const isOpen = openState ?? false;
   const listboxId = useId();
   const labelId = useId();
   const triggerId = useId();
 
-  const selectedIndex = options.findIndex((option) => option.value === value);
+  const selectedIndex = options.findIndex((option) => option.value === selectedValue);
   const selectedLabel = options[selectedIndex]?.label;
   const displayLabel = selectedLabel || (!label ? placeholder : '');
 
-  // Calculate dropdown position for portal mode
   const updateDropdownPosition = useCallback(() => {
     if (!triggerRef.current) return;
+
     const rect = triggerRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const edgePadding = 8;
     const gap = 4;
-    const optionHeight = size === 'sm' ? 32 : 40;
+    const optionHeight = fieldSize.optionHeightPx;
     const estimatedHeight = Math.min(Math.max(1, options.length) * optionHeight + 8, 280);
     const minHeight = 120;
     const spaceBelow = viewportHeight - rect.bottom - edgePadding;
@@ -106,7 +126,7 @@ export const Select: React.FC<SelectProps> = ({
       maxHeight,
       direction: shouldOpenUp ? 'up' : 'down',
     });
-  }, [options.length, size]);
+  }, [fieldSize.optionHeightPx, options.length]);
 
   useEffect(() => {
     if (portal && isOpen) {
@@ -120,7 +140,7 @@ export const Select: React.FC<SelectProps> = ({
         window.removeEventListener('resize', updateDropdownPosition);
       };
     }
-  }, [portal, isOpen, updateDropdownPosition]);
+  }, [isOpen, portal, updateDropdownPosition]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -129,30 +149,31 @@ export const Select: React.FC<SelectProps> = ({
       const isOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(target);
 
       if (portal) {
-        // In portal mode, check both container and dropdown
         if (isOutsideContainer && isOutsideDropdown) {
-          setIsOpen(false);
+          setOpenState(false);
         }
-      } else {
-        // In non-portal mode, just check container
-        if (isOutsideContainer) {
-          setIsOpen(false);
-        }
+        return;
+      }
+
+      if (isOutsideContainer) {
+        setOpenState(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [portal]);
+  }, [portal, setOpenState]);
 
   const getNextEnabledIndex = useCallback(
     (startIndex: number, direction: 1 | -1) => {
       if (!options.length) return -1;
+
       let index = startIndex;
-      for (let i = 0; i < options.length; i += 1) {
+      for (let attempt = 0; attempt < options.length; attempt += 1) {
         index = (index + direction + options.length) % options.length;
         if (!options[index]?.disabled) return index;
       }
+
       return -1;
     },
     [options],
@@ -168,13 +189,14 @@ export const Select: React.FC<SelectProps> = ({
       selectedIndex !== -1 && !options[selectedIndex]?.disabled
         ? selectedIndex
         : getNextEnabledIndex(-1, 1);
-    setHighlightedIndex(initialIndex);
-  }, [isOpen, options, selectedIndex, getNextEnabledIndex]);
 
-  const handleSelect = (val: string, isDisabled?: boolean) => {
-    if (isDisabled) return;
-    onChange?.(val);
-    setIsOpen(false);
+    setHighlightedIndex(initialIndex);
+  }, [getNextEnabledIndex, isOpen, options, selectedIndex]);
+
+  const handleSelect = (nextValue: string, isOptionDisabled?: boolean) => {
+    if (isOptionDisabled) return;
+    setSelectedValue(nextValue);
+    setOpenState(false);
   };
 
   const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
@@ -182,7 +204,7 @@ export const Select: React.FC<SelectProps> = ({
 
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      if (!isOpen) setIsOpen(true);
+      if (!isOpen) setOpenState(true);
       const direction = event.key === 'ArrowDown' ? 1 : -1;
       const baseIndex =
         highlightedIndex !== -1
@@ -199,7 +221,7 @@ export const Select: React.FC<SelectProps> = ({
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       if (!isOpen) {
-        setIsOpen(true);
+        setOpenState(true);
         return;
       }
       const option = options[highlightedIndex];
@@ -211,26 +233,81 @@ export const Select: React.FC<SelectProps> = ({
 
     if (event.key === 'Escape' && isOpen) {
       event.preventDefault();
-      setIsOpen(false);
+      setOpenState(false);
     }
   };
 
-  const isFloating = Boolean(value) || isOpen;
+  const isFloating = Boolean(selectedValue) || isOpen;
   const activeDescendantId =
     highlightedIndex >= 0 ? `${listboxId}-option-${highlightedIndex}` : undefined;
-  const triggerHeightClass = size === 'sm' ? 'h-8' : 'h-10';
-  const triggerPaddingClass = size === 'sm' ? 'px-3' : 'px-4';
-  const triggerValueClass = size === 'sm' ? 'text-label-medium' : 'text-body-large';
-  const triggerRestLabelClass = size === 'sm' ? 'text-label-medium' : 'text-body-medium';
-  const triggerChevronOffsetClass = size === 'sm' ? 'right-2.5' : 'right-3';
-  const optionClass =
-    size === 'sm'
-      ? 'text-label-medium flex h-8 cursor-pointer items-center px-3 font-medium transition-colors'
-      : 'text-body-large flex h-10 cursor-pointer items-center px-4 font-medium transition-colors';
-  const emptyClass =
-    size === 'sm'
-      ? 'text-label-small text-on-surface-variant px-3 py-2.5 font-medium'
-      : 'text-label-medium text-on-surface-variant px-4 py-3 font-medium';
+  const optionClass = cn(
+    'flex cursor-pointer items-center font-medium transition-colors',
+    fieldSize.optionHeight,
+    fieldSize.optionPaddingX,
+    fieldSize.optionText,
+  );
+  const emptyClass = cn(
+    'text-on-surface-variant font-medium',
+    size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
+    size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
+    fieldSize.optionPaddingX,
+  );
+
+  const dropdown = (
+    <div
+      ref={dropdownRef}
+      className={cn(
+        'bg-surface border-outline-variant shadow-2 z-50 overflow-y-auto rounded-sm border',
+        portal
+          ? 'fixed'
+          : cn(
+              'absolute right-0 left-0',
+              dropdownPosition.direction === 'up'
+                ? 'bottom-[calc(100%+var(--unit))]'
+                : 'top-[calc(100%+var(--unit))]',
+            ),
+      )}
+      style={
+        portal
+          ? {
+              top: dropdownPosition.top,
+              left: dropdownPosition.left,
+              width: dropdownPosition.width,
+              maxHeight: dropdownPosition.maxHeight,
+            }
+          : { maxHeight: dropdownPosition.maxHeight }
+      }
+      role="listbox"
+      id={listboxId}
+      aria-label={label || 'Options'}
+    >
+      <div className="py-1">
+        {options.length > 0 ? (
+          options.map((option, index) => (
+            <div
+              key={option.value}
+              id={`${listboxId}-option-${index}`}
+              className={cn(
+                optionClass,
+                'hover:bg-on-surface/6',
+                selectedValue === option.value && 'bg-primary/10 text-primary',
+                highlightedIndex === index && selectedValue !== option.value && 'bg-on-surface/6',
+                option.disabled && 'cursor-not-allowed opacity-38',
+              )}
+              onClick={() => handleSelect(option.value, option.disabled)}
+              role="option"
+              aria-selected={selectedValue === option.value}
+              aria-disabled={option.disabled}
+            >
+              {option.label}
+            </div>
+          ))
+        ) : (
+          <div className={emptyClass}>No options</div>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div
@@ -241,11 +318,11 @@ export const Select: React.FC<SelectProps> = ({
         ref={triggerRef}
         id={triggerId}
         type="button"
-        onClick={() => !disabled && setIsOpen((prev) => !prev)}
+        onClick={() => !disabled && setOpenState(!isOpen)}
         onKeyDown={handleTriggerKeyDown}
         className={cn(
           'group relative flex w-full cursor-pointer items-center transition-colors select-none',
-          triggerHeightClass,
+          fieldSize.containerHeight,
           variant === 'outlined'
             ? 'border-outline-variant bg-surface rounded-sm border'
             : 'border-outline bg-surface-container-low rounded-t-sm border-b',
@@ -277,12 +354,12 @@ export const Select: React.FC<SelectProps> = ({
           />
         )}
 
-        <div className={cn('relative flex h-full w-full items-center', triggerPaddingClass)}>
+        <div className={cn('relative flex h-full w-full items-center', fieldSize.horizontalPadding)}>
           <span
             className={cn(
               'text-on-surface w-full truncate font-medium',
-              triggerValueClass,
-              variant === 'filled' && 'pt-4 pb-0.5',
+              fieldSize.valueText,
+              variant === 'filled' && fieldSize.filledInputPadding,
             )}
           >
             {displayLabel}
@@ -293,9 +370,10 @@ export const Select: React.FC<SelectProps> = ({
               htmlFor={triggerId}
               id={labelId}
               className={cn(
-                'duration-snappy ease-emphasized pointer-events-none absolute left-4 max-w-[calc(100%-calc(var(--unit)*12))] origin-left truncate transition-all',
+                'duration-snappy ease-emphasized pointer-events-none absolute max-w-[calc(100%-calc(var(--unit)*12))] origin-left truncate transition-all',
+                fieldSize.labelLeft,
                 !isFloating && [
-                  triggerRestLabelClass,
+                  fieldSize.selectRestingLabelText,
                   'text-on-surface-variant top-1/2 -translate-y-1/2',
                 ],
                 isFloating && [
@@ -304,7 +382,7 @@ export const Select: React.FC<SelectProps> = ({
                     'bg-surface top-0 -ml-1 -translate-y-1/2 px-1',
                     labelClassName ? labelClassName : 'bg-surface',
                   ],
-                  variant === 'filled' && 'top-1 translate-y-0',
+                  variant === 'filled' && fieldSize.filledFloatingLabel,
                   error ? 'text-error' : isOpen ? 'text-primary' : 'text-on-surface-variant',
                 ],
               )}
@@ -313,110 +391,23 @@ export const Select: React.FC<SelectProps> = ({
             </label>
           )}
 
-          <div className={cn('text-on-surface-variant absolute', triggerChevronOffsetClass)}>
+          <div className={cn('text-on-surface-variant absolute', fieldSize.chevronOffset)}>
             <Icon
-              symbol="keyboard_arrow_down"
-              size="sm"
-              className={cn('duration-snappy transition-transform', isOpen && 'rotate-180')}
+              symbol="arrow_drop_down"
+              size={size === 'sm' ? 'sm' : 'md'}
+              className={cn(
+                'duration-short ease-standard transition-transform',
+                isOpen && 'rotate-180',
+              )}
             />
           </div>
         </div>
       </button>
 
-      {isOpen && !disabled && !portal && (
-        <div
-          ref={dropdownRef}
-          id={listboxId}
-          role="listbox"
-          aria-labelledby={label ? labelId : undefined}
-          className="bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy absolute top-[calc(100%+var(--unit))] left-0 z-100 max-h-70 w-full overflow-y-auto rounded-sm border py-1"
-        >
-          {options.length > 0 ? (
-            options.map((option, index) => {
-              const isDisabled = Boolean(option.disabled);
-              const isHighlighted = index === highlightedIndex;
-              return (
-                <div
-                  key={option.value}
-                  id={`${listboxId}-option-${index}`}
-                  onClick={() => handleSelect(option.value, isDisabled)}
-                  onMouseEnter={() => setHighlightedIndex(index)}
-                  className={cn(
-                    optionClass,
-                    isHighlighted && !isDisabled && 'bg-on-surface/6',
-                    value === option.value
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-on-surface hover:bg-on-surface/6',
-                    isDisabled && 'cursor-not-allowed opacity-38',
-                  )}
-                  role="option"
-                  aria-selected={value === option.value}
-                  aria-disabled={isDisabled}
-                >
-                  {option.label}
-                </div>
-              );
-            })
-          ) : (
-            <div className={emptyClass}>No Options Available</div>
-          )}
-        </div>
-      )}
-
-      {/* Portal mode dropdown */}
       {isOpen &&
-        !disabled &&
-        portal &&
-        typeof document !== 'undefined' &&
-        createPortal(
-          <div
-            ref={dropdownRef}
-            id={listboxId}
-            role="listbox"
-            aria-labelledby={label ? labelId : undefined}
-            className={cn(
-              'bg-surface border-outline-variant shadow-2 animate-in fade-in zoom-in-95 duration-snappy fixed z-9999 overflow-y-auto rounded-sm border py-1',
-              dropdownPosition.direction === 'up' ? 'origin-bottom' : 'origin-top',
-            )}
-            style={{
-              top: dropdownPosition.top,
-              left: dropdownPosition.left,
-              width: dropdownPosition.width,
-              maxHeight: dropdownPosition.maxHeight,
-            }}
-          >
-            {options.length > 0 ? (
-              options.map((option, index) => {
-                const isDisabled = Boolean(option.disabled);
-                const isHighlighted = index === highlightedIndex;
-                return (
-                  <div
-                    key={option.value}
-                    id={`${listboxId}-option-${index}`}
-                    onClick={() => handleSelect(option.value, isDisabled)}
-                    onMouseEnter={() => setHighlightedIndex(index)}
-                    className={cn(
-                      optionClass,
-                      isHighlighted && !isDisabled && 'bg-on-surface/6',
-                      value === option.value
-                        ? 'bg-primary/10 text-primary'
-                        : 'text-on-surface hover:bg-on-surface/6',
-                      isDisabled && 'cursor-not-allowed opacity-38',
-                    )}
-                    role="option"
-                    aria-selected={value === option.value}
-                    aria-disabled={isDisabled}
-                  >
-                    {option.label}
-                  </div>
-                );
-              })
-            ) : (
-              <div className={emptyClass}>No Options Available</div>
-            )}
-          </div>,
-          document.body,
-        )}
+        (portal && typeof document !== 'undefined'
+          ? createPortal(dropdown, document.body)
+          : dropdown)}
     </div>
   );
 };

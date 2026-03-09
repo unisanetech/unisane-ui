@@ -381,8 +381,9 @@ function generateUniTokens() {
   --tone-tertiary-container: var(--ref-tertiary-90);
   --tone-on-tertiary-container: var(--ref-tertiary-10);
 
-  /* Surface tone mapping */
-  --tone-surface: var(--ref-neutral-99);
+  /* Surface tone mapping
+     Unisane uses surface as the canonical app/page canvas in light mode. */
+  --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-10);
   --tone-surface-container-lowest: var(--ref-neutral-100);
   --tone-surface-container-low: var(--ref-neutral-95);
@@ -393,7 +394,7 @@ function generateUniTokens() {
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
   /* Background/outline tone mapping */
-  --tone-background: var(--ref-neutral-99);
+  --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-50);
   --tone-outline-variant: var(--ref-neutral-variant-80);
@@ -1244,11 +1245,42 @@ function generateTailwindTheme() {
   return css;
 }
 
-/* NOTE: Base styles (animations, focus rings, utilities) are defined in
-   @unisane/ui core/src/styles.css - NOT here in tokens.
-   This keeps separation of concerns:
-   - tokens: design tokens (colors, typography, spacing, etc.)
-   - core: component styles and utilities
+function generateSharedRuntimeUtilities() {
+  return `
+/* ============================================================
+   SHARED RUNTIME UTILITIES
+   Public utility aliases that source-mode and package-mode consumers
+   both rely on at runtime.
+   ============================================================ */
+
+@layer utilities {
+  .duration-short {
+    transition-duration: var(--duration-short);
+  }
+
+  .duration-snappy {
+    transition-duration: var(--duration-snappy);
+  }
+
+  .duration-medium {
+    transition-duration: var(--duration-medium);
+  }
+
+  .duration-emphasized {
+    transition-duration: var(--duration-emphasized);
+  }
+
+  .duration-long {
+    transition-duration: var(--duration-long);
+  }
+}
+`;
+}
+
+/* NOTE: Component-specific styles (animations, focus rings, layout helpers)
+   stay in @unisane/ui core/src/styles.css.
+   Shared public motion aliases live here because apps and registry consumers
+   already import @unisane/tokens/unisane.css directly.
 */
 
 // Build
@@ -1259,11 +1291,12 @@ function build() {
   // Generate tokens and theme (base styles are in @unisane/ui core/src/styles.css)
   const tokensCss = generateUniTokens();
   const tailwindTheme = generateTailwindTheme();
+  const sharedRuntimeUtilities = generateSharedRuntimeUtilities();
 
-  // Single merged file: unisane.css (tokens + theme only, no base styles)
-  const mergedCss = tokensCss + tailwindTheme;
+  // Single merged file: unisane.css (tokens + theme + shared runtime utilities)
+  const mergedCss = tokensCss + tailwindTheme + sharedRuntimeUtilities;
   writeFileSync(join(distDir, "unisane.css"), mergedCss);
-  console.log("✓ Generated unisane.css (tokens + @theme mapping)");
+  console.log("✓ Generated unisane.css (tokens + @theme mapping + shared runtime utilities)");
 
   console.log("\nDone! Import in your app:");
   console.log('  @import "@unisane/tokens/unisane.css";');

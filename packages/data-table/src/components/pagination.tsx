@@ -124,7 +124,7 @@ function OffsetPagination({
           variant="standard"
           onClick={() => setPage(page - 1)}
           disabled={!canGoPrev}
-          ariaLabel={t('previous')}
+          aria-label={t('previous')}
         >
           <Icon symbol="chevron_left" className="h-6 w-6" />
         </IconButton>
@@ -133,7 +133,7 @@ function OffsetPagination({
           variant="standard"
           onClick={() => setPage(page + 1)}
           disabled={!canGoNext}
-          ariaLabel={t('next')}
+          aria-label={t('next')}
         >
           <Icon symbol="chevron_right" className="h-6 w-6" />
         </IconButton>
@@ -205,7 +205,7 @@ function CursorPagination({
           variant="standard"
           onClick={cursor.onPrev}
           disabled={!hasPrev}
-          ariaLabel={t('previous')}
+          aria-label={t('previous')}
         >
           <Icon symbol="chevron_left" className="h-6 w-6" />
         </IconButton>
@@ -214,7 +214,7 @@ function CursorPagination({
           variant="standard"
           onClick={cursor.onNext}
           disabled={!hasNext}
-          ariaLabel={t('next')}
+          aria-label={t('next')}
         >
           <Icon symbol="chevron_right" className="h-6 w-6" />
         </IconButton>

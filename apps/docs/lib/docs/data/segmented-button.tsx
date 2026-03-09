@@ -38,7 +38,7 @@ const SegmentedButtonSingleExample = () => {
         { value: "month", label: "Month" },
       ]}
       value={value}
-      onChange={(v) => setValue(v as string)}
+      onValueChange={(v) => setValue(v as string)}
     />
   );
 };
@@ -53,7 +53,7 @@ const SegmentedButtonMultiExample = () => {
         { value: "underline", label: "U", icon: <span className="underline">U</span> },
       ]}
       value={value}
-      onChange={(v) => setValue(v as string[])}
+      onValueChange={(v) => setValue(v as string[])}
       multiSelect
     />
   );
@@ -96,7 +96,7 @@ export const segmentedButtonDoc: ComponentDoc = {
               { value: "b", label: "Two" },
             ]}
             value="a"
-            onChange={() => {}}
+            onValueChange={() => {}}
           />
         ),
         rationale: "Only one option can be active at a time.",
@@ -112,7 +112,7 @@ export const segmentedButtonDoc: ComponentDoc = {
               { value: "c", label: "C" },
             ]}
             value={["a", "b"]}
-            onChange={() => {}}
+            onValueChange={() => {}}
             multiSelect
           />
         ),
@@ -153,7 +153,12 @@ export const segmentedButtonDoc: ComponentDoc = {
       description: "Selected value(s).",
     },
     {
-      name: "onChange",
+      name: "defaultValue",
+      type: "string | string[]",
+      description: "Initial selection for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
       type: "(value: string | string[]) => void",
       description: "Callback fired when selection changes.",
     },
@@ -164,10 +169,10 @@ export const segmentedButtonDoc: ComponentDoc = {
       description: "Allow multiple selections.",
     },
     {
-      name: "density",
-      type: '"default" | "high"',
-      default: '"default"',
-      description: "Density of the button group.",
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared control size used for the group height and item spacing.",
     },
     {
       name: "className",
@@ -211,7 +216,7 @@ function ViewSwitcher() {
         { value: "table", label: "Table" },
       ]}
       value={view}
-      onChange={(v) => setView(v as string)}
+      onValueChange={(v) => setView(v as string)}
     />
   );
 }`,

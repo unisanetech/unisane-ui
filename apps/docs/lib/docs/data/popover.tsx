@@ -188,6 +188,12 @@ export const popoverDoc: ComponentDoc = {
       description: "Controlled open state.",
     },
     {
+      name: "defaultOpen",
+      type: "boolean",
+      default: '"false"',
+      description: "Initial open state when the popover is uncontrolled.",
+    },
+    {
       name: "onOpenChange",
       type: "(open: boolean) => void",
       description: "Callback when open state changes.",

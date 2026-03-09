@@ -267,8 +267,8 @@ export const listDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "List has role='list' for proper screen reader navigation.",
-      "Interactive items have role='button' or render as links.",
-      "Active state communicated through aria-current.",
+      "Interactive items render as semantic buttons or links.",
+      "Non-interactive items remain plain list items.",
     ],
     keyboard: [
       { key: "Tab", description: "Moves focus to next interactive item" },

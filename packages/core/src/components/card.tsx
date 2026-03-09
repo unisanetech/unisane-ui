@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@ui/lib/utils";
+import { cn, focusRing } from "@ui/lib/utils";
 import { Ripple } from "./ripple";
 
 const cardVariants = cva(
@@ -18,7 +18,7 @@ const cardVariants = cva(
         high: "bg-surface-container-high border-none shadow-1",
       },
       interactive: {
-        true: "cursor-pointer",
+        true: "cursor-pointer appearance-none text-left",
         false: "",
       },
       padding: {
@@ -44,38 +44,22 @@ const cardVariants = cva(
 );
 
 export interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLElement>,
     VariantProps<typeof cardVariants> {
   interactive?: boolean;
 }
 
-const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, padding, interactive, onClick, onKeyDown, children, ...props }, ref) => {
-    const isInteractive = interactive || !!onClick;
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (isInteractive && (e.key === "Enter" || e.key === " ")) {
-        e.preventDefault();
-        e.currentTarget.click();
-      }
-      onKeyDown?.(e);
-    };
-
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          cardVariants({ variant, padding, interactive: isInteractive }),
-          isInteractive && "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-          className
-        )}
-        onClick={onClick}
-        onKeyDown={isInteractive ? handleKeyDown : onKeyDown}
-        role={isInteractive ? "button" : undefined}
-        tabIndex={isInteractive ? 0 : undefined}
-        {...props}
-      >
-        {isInteractive && (
+const CardRoot = React.forwardRef<HTMLElement, CardProps>(
+  ({ className, variant, padding, interactive, onClick, children, ...props }, ref) => {
+    const hasInteractiveStyles = interactive || !!onClick;
+    const cardClasses = cn(
+      cardVariants({ variant, padding, interactive: hasInteractiveStyles }),
+      onClick && focusRing,
+      className
+    );
+    const cardContent = (
+      <>
+        {hasInteractiveStyles && (
           <>
             <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-8 transition-opacity bg-primary z-0" />
             <Ripple />
@@ -86,6 +70,30 @@ const CardRoot = React.forwardRef<HTMLDivElement, CardProps>(
             {children}
           </div>
         </div>
+      </>
+    );
+
+    if (onClick) {
+      return (
+        <button
+          ref={ref as React.Ref<HTMLButtonElement>}
+          type="button"
+          className={cardClasses}
+          onClick={onClick}
+          {...props}
+        >
+          {cardContent}
+        </button>
+      );
+    }
+
+    return (
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={cardClasses}
+        {...props}
+      >
+        {cardContent}
       </div>
     );
   }

@@ -1,10 +1,19 @@
-import { type ButtonHTMLAttributes, forwardRef } from 'react';
+import {
+  type ButtonHTMLAttributes,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
+  type Ref,
+  cloneElement,
+  forwardRef,
+  isValidElement,
+} from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
-import { cn } from '@/lib/utils';
+import { cn, Slot, composeAsChildClickHandler } from '@/lib/utils';
 
 const iconButtonVariants = cva(
-  'relative inline-flex items-center justify-center rounded-full transition-all duration-snappy ease-emphasized overflow-hidden disabled:opacity-38 disabled:cursor-not-allowed group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none',
+  'relative inline-flex items-center justify-center rounded-full transition-all duration-snappy ease-emphasized overflow-hidden disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none',
   {
     variants: {
       variant: {
@@ -45,78 +54,124 @@ const iconButtonVariants = cva(
 );
 
 export interface IconButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {
-  icon?: React.ReactNode;
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>,
+    VariantProps<typeof iconButtonVariants> {
+  'aria-label': string;
+  icon?: ReactNode;
   loading?: boolean;
-  ariaLabel: string;
-  children?: React.ReactNode;
+  asChild?: boolean;
+  children?: ReactNode;
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
     {
       icon,
+      children,
       variant = 'standard',
       size = 'md',
       selected = false,
       disabled = false,
       loading = false,
-      ariaLabel,
+      asChild = false,
+      'aria-label': ariaLabel,
       className = '',
       type = 'button',
-      children,
       ...props
     },
     ref,
   ) => {
+    const isDisabled = disabled || loading;
+    const canRenderAsChild = asChild && isValidElement(children);
     const iconSizeClasses = {
       sm: 'size-icon-sm',
-      md: 'w-6 h-6',
-      lg: 'w-7 h-7',
+      md: 'size-icon-md',
+      lg: 'size-icon-md',
     };
+    const resolvedContent = children ?? icon;
+    const renderContent = (content: ReactNode) => {
+      const sizeClass = iconSizeClasses[size || 'md'];
+
+      return (
+        <>
+          <div className="group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 z-0 bg-current opacity-0 transition-opacity" />
+          <Ripple center disabled={isDisabled} />
+          {loading ? (
+            <svg
+              className={cn('relative z-10 animate-spin', sizeClass)}
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              />
+            </svg>
+          ) : (
+            <span className={cn('relative z-10 flex items-center justify-center', sizeClass)}>
+              {content}
+            </span>
+          )}
+        </>
+      );
+    };
+
+    if (canRenderAsChild) {
+      const childElement = children as ReactElement<Record<string, unknown>>;
+      const childProps = childElement.props as {
+        children?: ReactNode;
+        onClick?: (event: MouseEvent<HTMLElement>) => void;
+        tabIndex?: number;
+      };
+
+      return (
+        <Slot
+          ref={ref as unknown as Ref<HTMLElement>}
+          className={cn(iconButtonVariants({ variant, size, selected }), className)}
+          aria-label={ariaLabel}
+          aria-busy={loading || undefined}
+          aria-disabled={isDisabled || undefined}
+          data-disabled={isDisabled ? 'true' : undefined}
+        >
+          {cloneElement(
+            childElement,
+            {
+              ...props,
+              onClick: composeAsChildClickHandler(
+                isDisabled,
+                props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
+                childProps.onClick,
+              ),
+              tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
+            } as Record<string, unknown>,
+            renderContent(childProps.children ?? icon),
+          )}
+        </Slot>
+      );
+    }
 
     return (
       <button
         ref={ref}
         type={type}
         className={cn(iconButtonVariants({ variant, size, selected }), className)}
-        disabled={disabled || loading}
+        disabled={isDisabled}
         aria-label={ariaLabel}
+        aria-busy={loading || undefined}
+        data-disabled={isDisabled ? 'true' : undefined}
         {...props}
       >
-        <div className="group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 z-0 bg-current opacity-0 transition-opacity" />
-        <Ripple center disabled={disabled || loading} />
-        {loading ? (
-          <svg
-            className={cn('relative z-10 animate-spin', iconSizeClasses[size || 'md'])}
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
-        ) : (
-          <span
-            className={cn(
-              'relative z-10 flex items-center justify-center',
-              iconSizeClasses[size || 'md'],
-            )}
-          >
-            {children || icon}
-          </span>
-        )}
+        {renderContent(resolvedContent)}
       </button>
     );
   },

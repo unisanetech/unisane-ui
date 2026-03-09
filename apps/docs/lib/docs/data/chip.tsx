@@ -190,21 +190,21 @@ export const chipDoc: ComponentDoc = {
     {
       name: "onClick",
       type: "(event: MouseEvent) => void",
-      description: "Callback fired when the chip is clicked.",
+      description: "Callback fired when the primary chip action is clicked.",
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Interactive chips have role='button' for screen reader support.",
+      "Pressable chips render native buttons when they do not also include a trailing remove action.",
+      "Chips with both a primary action and a trailing remove action keep button semantics on the wrapper.",
       "Filter chips use aria-pressed to indicate selection state.",
       "Delete button is separately focusable with clear label.",
     ],
     keyboard: [
       { key: "Enter / Space", description: "Activates the chip (click action)" },
       { key: "Tab", description: "Moves focus between chips and delete button" },
-      { key: "Delete / Backspace", description: "Removes input chip when focused" },
     ],
     focus: [
       "Focus ring clearly indicates the focused chip.",

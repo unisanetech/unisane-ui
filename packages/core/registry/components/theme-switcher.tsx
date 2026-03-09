@@ -2,48 +2,11 @@
 
 import React from 'react';
 import { useColorScheme, type Theme } from '../layout/theme-provider';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
+import { type FieldSize, getFieldSizeStyles } from '@/lib/field-size';
 
-const themeSwitcherVariants = cva(
-  'inline-flex items-center rounded-sm border border-outline-variant overflow-hidden',
-  {
-    variants: {
-      size: {
-        sm: 'h-8',
-        md: 'h-10',
-        lg: 'h-12',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
-    },
-  },
-);
-
-const themeButtonVariants = cva(
-  'flex items-center justify-center gap-2 px-4 transition-colors duration-snappy relative',
-  {
-    variants: {
-      active: {
-        true: 'bg-secondary-container text-on-secondary-container',
-        false: 'text-on-surface-variant hover:bg-surface-container',
-      },
-      size: {
-        sm: 'text-label-small',
-        md: 'text-label-medium',
-        lg: 'text-label-large',
-      },
-    },
-    defaultVariants: {
-      active: false,
-      size: 'md',
-    },
-  },
-);
-
-export interface ThemeSwitcherProps
-  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof themeSwitcherVariants> {
+export interface ThemeSwitcherProps extends React.HTMLAttributes<HTMLDivElement> {
+  size?: FieldSize;
   showLabels?: boolean;
   showIcons?: boolean;
 }
@@ -57,11 +20,20 @@ const themes: { value: Theme; label: string; icon: string }[] = [
 export const ThemeSwitcher = React.forwardRef<HTMLDivElement, ThemeSwitcherProps>(
   ({ className, size = 'md', showLabels = true, showIcons = true, ...props }, ref) => {
     const { theme, setTheme } = useColorScheme();
+    const fieldSize = getFieldSizeStyles(size);
+    const gapClass = size === 'sm' ? 'gap-1.5' : size === 'lg' ? 'gap-3' : 'gap-2';
+    const paddingClass = size === 'sm' ? 'px-3' : size === 'lg' ? 'px-5' : 'px-4';
+    const labelClass = size === 'lg' ? 'text-label-large' : 'text-label-medium';
+    const iconClass = size === 'lg' ? 'text-icon-md' : 'text-icon-sm';
 
     return (
       <div
         ref={ref}
-        className={cn(themeSwitcherVariants({ size }), className)}
+        className={cn(
+          'inline-flex items-center overflow-hidden rounded-sm border border-outline-variant',
+          fieldSize.containerHeight,
+          className,
+        )}
         role="radiogroup"
         aria-label="Theme selection"
         {...props}
@@ -73,10 +45,18 @@ export const ThemeSwitcher = React.forwardRef<HTMLDivElement, ThemeSwitcherProps
             role="radio"
             aria-checked={theme === t.value}
             onClick={() => setTheme(t.value)}
-            className={cn(themeButtonVariants({ active: theme === t.value, size }))}
+            className={cn(
+              'relative flex items-center justify-center transition-colors duration-snappy',
+              gapClass,
+              paddingClass,
+              labelClass,
+              theme === t.value
+                ? 'bg-secondary-container text-on-secondary-container'
+                : 'text-on-surface-variant hover:bg-surface-container',
+            )}
           >
             {showIcons && (
-              <span className="material-symbols-outlined text-icon-sm" aria-hidden="true">
+              <span className={cn('material-symbols-outlined', iconClass)} aria-hidden="true">
                 {t.icon}
               </span>
             )}

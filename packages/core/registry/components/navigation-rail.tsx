@@ -1,6 +1,13 @@
-import React, { cloneElement, isValidElement } from "react";
-import { cn, Slot } from "@/lib/utils";
-import { Ripple } from "./ripple";
+'use client';
+
+import React, { cloneElement, isValidElement } from 'react';
+import { cn, Slot } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
+import {
+  NavigationRailItemContent,
+  getNavigationRailItemClasses,
+} from '@/lib/navigation-visuals';
+import { Ripple } from './ripple';
 
 export interface RailItem {
   value: string;
@@ -14,133 +21,86 @@ export interface RailItem {
   linkElement?: React.ReactNode;
 }
 
-// Helper to render icon - handles both ReactNode and Material Symbol string
-const renderIcon = (icon: React.ReactNode | string, isActive: boolean = false) => {
-  if (typeof icon === "string") {
-    return (
-      <span
-        className="material-symbols-outlined text-[26px]! transition-all duration-short"
-        style={isActive ? { fontVariationSettings: "'FILL' 1, 'wght' 500" } : { fontVariationSettings: "'wght' 400" }}
-      >
-        {icon}
-      </span>
-    );
-  }
-  return icon;
-};
-
-interface NavigationRailProps {
+export interface NavigationRailProps {
   items: RailItem[];
-  value: string;
-  onChange: (value: string) => void;
+  value?: string;
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
   onItemHover?: (value: string) => void;
   onMouseLeave?: () => void;
   header?: React.ReactNode;
   footer?: React.ReactNode;
   className?: string;
-  alignment?: "start" | "center" | "end";
+  alignment?: 'start' | 'center' | 'end';
 }
 
 export const NavigationRail: React.FC<NavigationRailProps> = ({
   items,
   value,
-  onChange,
+  defaultValue,
+  onValueChange,
   onItemHover,
   onMouseLeave,
   header,
   footer,
   className,
-  alignment = "start",
+  alignment = 'start',
 }) => {
+  const [currentValue, setCurrentValue] = useControllableState<string>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+
   return (
     <nav
       className={cn(
-        "flex flex-col items-center w-24 h-full bg-surface-container text-on-surface py-3 gap-1 border-r border-outline-variant z-50 shrink-0 transition-all duration-medium ease-standard",
-        className
+        'flex h-full w-24 shrink-0 flex-col items-center gap-1 border-r border-outline-variant bg-surface-container py-3 text-on-surface z-50 transition-all duration-medium ease-standard',
+        className,
       )}
       aria-label="Sidebar Navigation"
       onMouseLeave={onMouseLeave}
     >
-      {header && (
-        <div className="flex flex-col items-center gap-4 pb-2 w-full">
-          {header}
-        </div>
-      )}
+      {header && <div className="flex w-full flex-col items-center gap-4 pb-2">{header}</div>}
 
       <div
         className={cn(
-          "flex flex-col items-center gap-3 w-full flex-1",
-          alignment === "center" && "justify-center",
-          alignment === "end" && "justify-end pb-4"
+          'flex w-full flex-1 flex-col items-center gap-3',
+          alignment === 'center' && 'justify-center',
+          alignment === 'end' && 'justify-end pb-4',
         )}
       >
         {items.map((item) => {
-          const isActive = value === item.value;
-
+          const isActive = currentValue === item.value;
           const content = (
-            <>
-              <div className="relative flex items-center justify-center">
-                <div
-                  className={cn(
-                    "w-14 h-8 rounded-full flex items-center justify-center transition-all duration-medium ease-emphasized overflow-hidden relative",
-                    isActive
-                      ? "bg-secondary-container text-on-secondary-container"
-                      : "text-on-surface-variant bg-transparent hover:bg-on-surface/8"
-                  )}
-                >
-                  <Ripple center disabled={item.disabled} />
-                  {isActive && item.activeIcon
-                    ? renderIcon(item.activeIcon, true)
-                    : renderIcon(item.icon, isActive)}
-                </div>
-
-                {item.badge !== undefined && (
-                  <span
-                    className={cn(
-                      "absolute -top-0.5 -right-0.5 min-w-3 h-3 px-0.5 bg-error text-on-error text-[10px] leading-none flex items-center justify-center rounded-full font-medium z-20 pointer-events-none ring-1 ring-surface",
-                      typeof item.badge === "number" && item.badge < 10
-                        ? "min-w-2 h-2 p-0.5"
-                        : ""
-                    )}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </div>
-
-              <span
-                className={cn(
-                  "text-label-medium transition-colors duration-short text-center px-0.5 max-w-full",
-                  isActive
-                    ? "text-on-secondary-container font-bold"
-                    : "text-on-surface-variant font-semibold group-hover:text-on-surface"
-                )}
-              >
-                {item.label}
-              </span>
-            </>
+            <NavigationRailItemContent
+              icon={item.icon}
+              activeIcon={item.activeIcon}
+              badge={item.badge}
+              label={item.label}
+              active={isActive}
+              disabled={item.disabled}
+              ripple={<Ripple center disabled={item.disabled} />}
+            />
           );
+          const commonClasses = getNavigationRailItemClasses(item.disabled);
 
-          const commonClasses = cn(
-            "group flex flex-col items-center gap-0.5 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-sm py-1 min-h-12 relative select-none cursor-pointer outline-none",
-            item.disabled && "opacity-38 cursor-not-allowed pointer-events-none"
-          );
-
-          const commonProps = {
-            onClick: (e: React.MouseEvent) => {
-              if (item.disabled) {
-                e.preventDefault();
-                return;
-              }
-              onChange(item.value);
-            },
-            onMouseEnter: () => !item.disabled && onItemHover && onItemHover(item.value),
-            className: commonClasses,
-            "aria-current": isActive ? ("page" as const) : undefined,
-            "aria-disabled": item.disabled || undefined,
+          const handleActivate = (event?: React.MouseEvent) => {
+            if (item.disabled) {
+              event?.preventDefault();
+              return;
+            }
+            setCurrentValue(item.value);
           };
 
-          // asChild pattern: render user's Link component with merged props
+          const commonProps = {
+            onClick: handleActivate,
+            onMouseEnter: () => !item.disabled && onItemHover?.(item.value),
+            className: commonClasses,
+            'aria-current': isActive ? ('page' as const) : undefined,
+            'aria-disabled': item.disabled || undefined,
+          };
+
           if (item.asChild && item.linkElement) {
             return (
               <Slot key={item.value} {...commonProps}>
@@ -167,13 +127,12 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
           return (
             <button
               key={item.value}
-              onClick={() => !item.disabled && onChange(item.value)}
-              onMouseEnter={() =>
-                !item.disabled && onItemHover && onItemHover(item.value)
-              }
+              type="button"
+              onClick={() => handleActivate()}
+              onMouseEnter={() => !item.disabled && onItemHover?.(item.value)}
               disabled={item.disabled}
               className={commonClasses}
-              aria-current={isActive ? "page" : undefined}
+              aria-current={isActive ? 'page' : undefined}
             >
               {content}
             </button>
@@ -181,11 +140,7 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
         })}
       </div>
 
-      {footer && (
-        <div className="flex flex-col items-center gap-4 pt-2 w-full mt-auto mb-4">
-          {footer}
-        </div>
-      )}
+      {footer && <div className="mt-auto mb-4 flex w-full flex-col items-center gap-4 pt-2">{footer}</div>}
     </nav>
   );
 };

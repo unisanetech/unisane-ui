@@ -122,10 +122,15 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   ) => {
     const config = variantConfig[variant];
 
-    const handleClose = () => {
-      if (!loading) {
-        onOpenChange(false);
+    const handleOpenChange = (nextOpen: boolean) => {
+      if (!nextOpen && loading) {
+        return;
       }
+      onOpenChange(nextOpen);
+    };
+
+    const handleClose = () => {
+      handleOpenChange(false);
     };
 
     const handleCancel = () => {
@@ -151,7 +156,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
       <Dialog
         ref={ref}
         open={open}
-        onClose={handleClose}
+        onOpenChange={handleOpenChange}
         title={title}
         icon={dialogIcon}
         className={className}

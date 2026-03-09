@@ -95,7 +95,7 @@ export const Banner: React.FC<BannerProps> = ({
         icon={<Icon symbol="close" size="sm" />}
         onClick={onClose}
         className="text-on-surface-variant hover:bg-on-surface/10 ml-2 shrink-0"
-        ariaLabel="Close banner"
+        aria-label="Close banner"
       />
     </Surface>
   );

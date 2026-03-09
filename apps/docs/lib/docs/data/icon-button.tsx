@@ -11,15 +11,15 @@ const IconButtonHeroVisual = () => (
     <div className="bg-surface w-80 rounded-xl shadow-xl overflow-hidden border border-outline-variant/30">
       {/* Top App Bar */}
       <div className="h-16 flex items-center justify-between px-4 bg-surface border-b border-outline-variant/20">
-        <IconButton variant="standard" ariaLabel="Menu">
+        <IconButton variant="standard" aria-label="Menu">
           <span className="material-symbols-outlined">menu</span>
         </IconButton>
         <span className="text-title-medium text-on-surface">Photo Gallery</span>
         <div className="flex gap-1">
-          <IconButton variant="standard" ariaLabel="Search">
+          <IconButton variant="standard" aria-label="Search">
             <span className="material-symbols-outlined">search</span>
           </IconButton>
-          <IconButton variant="standard" ariaLabel="More options">
+          <IconButton variant="standard" aria-label="More options">
             <span className="material-symbols-outlined">more_vert</span>
           </IconButton>
         </div>
@@ -30,7 +30,7 @@ const IconButtonHeroVisual = () => (
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="aspect-square bg-surface-container-high rounded-lg relative group">
               <div className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <IconButton variant="filled" size="sm" ariaLabel="Favorite">
+                <IconButton variant="filled" size="sm" aria-label="Favorite">
                   <span className="material-symbols-outlined text-[16px]">favorite</span>
                 </IconButton>
               </div>
@@ -73,7 +73,7 @@ export const iconButtonDoc: ComponentDoc = {
       {
         emphasis: "Filled",
         component: (
-          <IconButton variant="filled" ariaLabel="Add" className="pointer-events-none">
+          <IconButton variant="filled" aria-label="Add" className="pointer-events-none">
             <span className="material-symbols-outlined">add</span>
           </IconButton>
         ),
@@ -84,7 +84,7 @@ export const iconButtonDoc: ComponentDoc = {
       {
         emphasis: "Tonal",
         component: (
-          <IconButton variant="tonal" ariaLabel="Bookmark" className="pointer-events-none">
+          <IconButton variant="tonal" aria-label="Bookmark" className="pointer-events-none">
             <span className="material-symbols-outlined">bookmark</span>
           </IconButton>
         ),
@@ -95,7 +95,7 @@ export const iconButtonDoc: ComponentDoc = {
       {
         emphasis: "Outlined",
         component: (
-          <IconButton variant="outlined" ariaLabel="Edit" className="pointer-events-none">
+          <IconButton variant="outlined" aria-label="Edit" className="pointer-events-none">
             <span className="material-symbols-outlined">edit</span>
           </IconButton>
         ),
@@ -106,7 +106,7 @@ export const iconButtonDoc: ComponentDoc = {
       {
         emphasis: "Standard",
         component: (
-          <IconButton variant="standard" ariaLabel="Close" className="pointer-events-none">
+          <IconButton variant="standard" aria-label="Close" className="pointer-events-none">
             <span className="material-symbols-outlined">close</span>
           </IconButton>
         ),
@@ -124,7 +124,7 @@ export const iconButtonDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <IconButton variant="filled" size="lg" ariaLabel="Add">
+          <IconButton variant="filled" size="lg" aria-label="Add">
             <span className="material-symbols-outlined">add</span>
           </IconButton>
         ),
@@ -133,7 +133,7 @@ export const iconButtonDoc: ComponentDoc = {
       },
       {
         component: (
-          <IconButton variant="filled" size="md" ariaLabel="Add">
+          <IconButton variant="filled" size="md" aria-label="Add">
             <span className="material-symbols-outlined">add</span>
           </IconButton>
         ),
@@ -142,7 +142,7 @@ export const iconButtonDoc: ComponentDoc = {
       },
       {
         component: (
-          <IconButton variant="filled" size="sm" ariaLabel="Add">
+          <IconButton variant="filled" size="sm" aria-label="Add">
             <span className="material-symbols-outlined">add</span>
           </IconButton>
         ),
@@ -162,11 +162,11 @@ export const iconButtonDoc: ComponentDoc = {
         visual: (
           <div className="bg-surface rounded-xl border border-outline-variant/30 overflow-hidden max-w-80 mx-auto">
             <div className="h-14 flex items-center justify-between px-4">
-              <IconButton variant="standard" ariaLabel="Back">
+              <IconButton variant="standard" aria-label="Back">
                 <span className="material-symbols-outlined">arrow_back</span>
               </IconButton>
               <span className="text-title-medium text-on-surface">Settings</span>
-              <IconButton variant="standard" ariaLabel="Help">
+              <IconButton variant="standard" aria-label="Help">
                 <span className="material-symbols-outlined">help</span>
               </IconButton>
             </div>
@@ -185,7 +185,7 @@ export const iconButtonDoc: ComponentDoc = {
                 Just shared a new photo with you
               </div>
             </div>
-            <IconButton variant="standard" ariaLabel="More options">
+            <IconButton variant="standard" aria-label="More options">
               <span className="material-symbols-outlined">more_vert</span>
             </IconButton>
           </div>
@@ -203,10 +203,15 @@ export const iconButtonDoc: ComponentDoc = {
       description: "The icon element to display inside the button.",
     },
     {
-      name: "ariaLabel",
+      name: '"aria-label"',
       type: "string",
       required: true,
       description: "Accessible label for the button (required for icon-only buttons).",
+    },
+    {
+      name: "icon",
+      type: "ReactNode",
+      description: "Alternative icon prop when you do not want to pass the icon as children.",
     },
     {
       name: "variant",
@@ -248,13 +253,19 @@ export const iconButtonDoc: ComponentDoc = {
       type: "string",
       description: "Additional CSS classes to apply to the button.",
     },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "When true, applies icon button styling to the provided child element.",
+    },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "The ariaLabel prop is required and provides the accessible name for screen readers.",
-      "Icons are treated as decorative; the ariaLabel describes the button's action.",
+      'The aria-label prop is required and provides the accessible name for screen readers.',
+      'Icons are treated as decorative; the aria-label describes the button action.',
       "Disabled buttons receive both disabled attribute and aria-disabled=\"true\".",
       "Focus states are clearly visible with an outline ring.",
     ],
@@ -266,7 +277,7 @@ export const iconButtonDoc: ComponentDoc = {
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Import the component and provide an ariaLabel for accessibility.",
+    description: "Import the component and provide an aria-label for accessibility.",
     code: `import { IconButton } from "@unisane/ui";
 
 function Toolbar() {
@@ -274,7 +285,7 @@ function Toolbar() {
     <div className="flex items-center gap-2">
       <IconButton
         variant="standard"
-        ariaLabel="Go back"
+        aria-label="Go back"
         onClick={() => navigate(-1)}
       >
         <span className="material-symbols-outlined">arrow_back</span>
@@ -282,7 +293,7 @@ function Toolbar() {
 
       <IconButton
         variant="filled"
-        ariaLabel="Add new item"
+        aria-label="Add new item"
         onClick={() => setOpen(true)}
       >
         <span className="material-symbols-outlined">add</span>
@@ -290,7 +301,7 @@ function Toolbar() {
 
       <IconButton
         variant="tonal"
-        ariaLabel="Toggle favorite"
+        aria-label="Toggle favorite"
         selected={isFavorite}
         onClick={() => setFavorite(!isFavorite)}
       >

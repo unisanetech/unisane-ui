@@ -140,13 +140,13 @@ export const cardDoc: ComponentDoc = {
     {
       name: "variant",
       type: '"elevated" | "filled" | "outlined" | "low" | "high"',
-      default: '"elevated"',
+      default: '"filled"',
       description: "The visual style of the card.",
     },
     {
       name: "padding",
       type: '"none" | "sm" | "md" | "lg"',
-      default: '"md"',
+      default: '"none"',
       description: "The internal padding of the card.",
     },
     {
@@ -154,7 +154,7 @@ export const cardDoc: ComponentDoc = {
       type: "boolean",
       default: "false",
       description:
-        "If true, the card will have hover and active states with a ripple effect.",
+        "Adds interactive affordances like hover and ripple treatment. With onClick, the card renders as a semantic button.",
     },
     {
       name: "children",
@@ -177,7 +177,7 @@ export const cardDoc: ComponentDoc = {
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
   subComponents: [
     {
-      name: "CardHeader",
+      name: "Card.Header",
       description: "Header section for title, subtitle, and action button.",
       props: [
         {
@@ -195,7 +195,7 @@ export const cardDoc: ComponentDoc = {
       ],
     },
     {
-      name: "CardTitle",
+      name: "Card.Title",
       description: "Title text styled with titleMedium typography.",
       props: [
         {
@@ -213,7 +213,7 @@ export const cardDoc: ComponentDoc = {
       ],
     },
     {
-      name: "CardContent",
+      name: "Card.Content",
       description: "Main content area of the card.",
       props: [
         {
@@ -231,8 +231,8 @@ export const cardDoc: ComponentDoc = {
       ],
     },
     {
-      name: "CardMedia",
-      description: "Image or media content with proper aspect ratio.",
+      name: "Card.Media",
+      description: "Image or media content.",
       props: [
         {
           name: "src",
@@ -247,12 +247,6 @@ export const cardDoc: ComponentDoc = {
           description: "Alt text for accessibility.",
         },
         {
-          name: "aspectRatio",
-          type: '"16/9" | "4/3" | "1/1" | "3/4"',
-          default: '"16/9"',
-          description: "Aspect ratio of the media.",
-        },
-        {
           name: "className",
           type: "string",
           default: "''",
@@ -261,7 +255,7 @@ export const cardDoc: ComponentDoc = {
       ],
     },
     {
-      name: "CardFooter",
+      name: "Card.Footer",
       description: "Footer section for actions and supplementary info.",
       props: [
         {
@@ -284,7 +278,7 @@ export const cardDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "Cards are generic containers. If a card is interactive (clickable), ensure it follows the following guidelines:",
-      "If the entire card is clickable, use a semantic button or link tag, or add role=\"button\" and proper tab index.",
+      "If the entire card is clickable, prefer a semantic button or link root.",
       "Avoid \"card within a card\" accessibility issues where multiple actions exist in a clickable card. It is better to place actions in the card footer.",
     ],
   },

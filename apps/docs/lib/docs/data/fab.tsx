@@ -72,6 +72,7 @@ export const fabDoc: ComponentDoc = {
         component: (
           <Fab
             variant="primary"
+            aria-label="Create item"
             icon={<span className="material-symbols-outlined">add</span>}
             className="pointer-events-none"
           />
@@ -85,6 +86,7 @@ export const fabDoc: ComponentDoc = {
         component: (
           <Fab
             variant="surface"
+            aria-label="Edit item"
             icon={<span className="material-symbols-outlined">edit</span>}
             className="pointer-events-none"
           />
@@ -98,6 +100,7 @@ export const fabDoc: ComponentDoc = {
         component: (
           <Fab
             variant="secondary"
+            aria-label="Share item"
             icon={<span className="material-symbols-outlined">share</span>}
             className="pointer-events-none"
           />
@@ -111,6 +114,7 @@ export const fabDoc: ComponentDoc = {
         component: (
           <Fab
             variant="tertiary"
+            aria-label="Favorite item"
             icon={<span className="material-symbols-outlined">favorite</span>}
             className="pointer-events-none"
           />
@@ -132,6 +136,7 @@ export const fabDoc: ComponentDoc = {
           <Fab
             variant="primary"
             size="lg"
+            aria-label="Create item"
             icon={<span className="material-symbols-outlined text-[36px]">add</span>}
           />
         ),
@@ -143,6 +148,7 @@ export const fabDoc: ComponentDoc = {
           <Fab
             variant="primary"
             size="md"
+            aria-label="Create item"
             icon={<span className="material-symbols-outlined">add</span>}
           />
         ),
@@ -154,6 +160,7 @@ export const fabDoc: ComponentDoc = {
           <Fab
             variant="primary"
             size="sm"
+            aria-label="Create item"
             icon={<span className="material-symbols-outlined">add</span>}
           />
         ),
@@ -186,6 +193,7 @@ export const fabDoc: ComponentDoc = {
             <div className="absolute bottom-4 right-4">
               <Fab
                 variant="primary"
+                aria-label="Add item"
                 icon={<span className="material-symbols-outlined">add</span>}
               />
             </div>
@@ -230,6 +238,11 @@ export const fabDoc: ComponentDoc = {
       description: "Optional text label for extended FAB variant.",
     },
     {
+      name: '"aria-label"',
+      type: "string",
+      description: "Accessible label for icon-only FAB usage.",
+    },
+    {
       name: "variant",
       type: '"primary" | "surface" | "secondary" | "tertiary"',
       default: '"primary"',
@@ -248,6 +261,12 @@ export const fabDoc: ComponentDoc = {
       description: "If true, the FAB is disabled and cannot be clicked.",
     },
     {
+      name: "loading",
+      type: "boolean",
+      default: "false",
+      description: "If true, shows a loading spinner and disables the FAB.",
+    },
+    {
       name: "onClick",
       type: "() => void",
       description: "Callback fired when the FAB is clicked.",
@@ -256,6 +275,12 @@ export const fabDoc: ComponentDoc = {
       name: "className",
       type: "string",
       description: "Additional CSS classes to apply to the FAB.",
+    },
+    {
+      name: "asChild",
+      type: "boolean",
+      default: "false",
+      description: "When true, applies FAB styling to the provided child element.",
     },
   ],
 

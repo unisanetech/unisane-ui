@@ -3,14 +3,16 @@
 import React, { useEffect, useRef, useId, forwardRef } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
 import { Text } from '@/primitives/text';
 import { Surface } from '@/primitives/surface';
 import { Ripple } from './ripple';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 
 export interface DialogProps {
-  open: boolean;
-  onClose: () => void;
+  open?: boolean;
+  defaultOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   title?: string;
   children: React.ReactNode;
   actions?: React.ReactNode;
@@ -20,11 +22,37 @@ export interface DialogProps {
 }
 
 export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
-  ({ open, onClose, title, children, actions, icon, contentClassName, className }, ref) => {
+  (
+    {
+      open,
+      defaultOpen = false,
+      onOpenChange,
+      title,
+      children,
+      actions,
+      icon,
+      contentClassName,
+      className,
+    },
+    ref,
+  ) => {
     const dialogRef = useRef<HTMLDivElement>(null);
     const previousActiveElement = useRef<HTMLElement | null>(null);
     const titleId = useId();
     const descId = useId();
+    const [isOpen = false, setIsOpen] = useControllableState<boolean>({
+      value: open,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange,
+    });
+
+    const handleOpenChange = React.useCallback(
+      (nextOpen: boolean) => {
+        setIsOpen(nextOpen);
+      },
+      [setIsOpen],
+    );
+
     const setRefs = (node: HTMLDivElement | null) => {
       dialogRef.current = node;
       if (typeof ref === 'function') {
@@ -35,10 +63,10 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     };
 
     // Lock body scroll while preventing layout shift
-    useScrollLock(open);
+    useScrollLock(isOpen);
 
     useEffect(() => {
-      if (open) {
+      if (isOpen) {
         const dialogNode = dialogRef.current;
         previousActiveElement.current = document.activeElement as HTMLElement;
 
@@ -60,7 +88,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
         const handleKeyDown = (e: KeyboardEvent) => {
           if (e.key === 'Escape') {
-            onClose();
+            handleOpenChange(false);
           }
           if (e.key === 'Tab') {
             const focusables = getFocusableElements();
@@ -97,9 +125,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           previousActiveElement.current?.focus();
         };
       }
-    }, [open, onClose]);
+    }, [isOpen, handleOpenChange]);
 
-    if (!open) return null;
+    if (!isOpen) return null;
     if (typeof document === 'undefined') return null;
 
     return createPortal(
@@ -109,7 +137,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       >
         <div
           className="bg-scrim animate-in fade-in duration-medium absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity"
-          onClick={onClose}
+          onClick={() => handleOpenChange(false)}
           aria-hidden="true"
         />
 
@@ -117,7 +145,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           ref={setRefs}
           role="dialog"
           aria-modal="true"
-          aria-labelledby={titleId}
+          aria-labelledby={title ? titleId : undefined}
           aria-describedby={descId}
           tabIndex={-1}
           tone="surface"
@@ -148,7 +176,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               </div>
             </div>
             <button
-              onClick={onClose}
+              onClick={() => handleOpenChange(false)}
               className="text-on-surface-variant hover:text-on-surface hover:bg-surface-variant relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full transition-all"
               aria-label="Close dialog"
             >

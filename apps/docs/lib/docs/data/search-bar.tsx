@@ -10,7 +10,7 @@ const SearchBarHeroVisual = () => (
     {/* Mock Search Interface */}
     <div className="relative bg-surface w-80 rounded-xl shadow-xl overflow-hidden border border-outline-variant/30 p-6">
       {/* Search Bar */}
-      <div className="bg-surface-container-high rounded-sm h-14 flex items-center px-4 gap-3 mb-4 border border-outline-variant/30">
+      <div className="bg-surface-container-high rounded-sm h-10 flex items-center px-4 gap-3 mb-4 border border-outline-variant/30">
         <span className="material-symbols-outlined text-on-surface">search</span>
         <span className="text-body-medium text-on-surface-variant flex-1">Search products...</span>
         <span className="material-symbols-outlined text-on-surface-variant">mic</span>
@@ -50,7 +50,7 @@ const SearchBarWithIconsExample = () => (
           variant="standard"
           size="sm"
           icon={<span className="material-symbols-outlined">mic</span>}
-          ariaLabel="Voice search"
+          aria-label="Voice search"
         />
       }
     />
@@ -136,6 +136,12 @@ export const searchBarDoc: ComponentDoc = {
       type: "string",
       default: '"Search"',
       description: "Placeholder text for the input.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for the search bar height and spacing.",
     },
     {
       name: "leadingIcon",

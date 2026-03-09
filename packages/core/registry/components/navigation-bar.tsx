@@ -1,6 +1,6 @@
 import React, { isValidElement, cloneElement } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn, Slot } from "@/lib/utils";
+import { cn, focusRing, Slot } from "@/lib/utils";
 import { Ripple } from "./ripple";
 
 const navigationBarVariants = cva(
@@ -56,7 +56,8 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
   children,
 }) => {
   const itemClasses = cn(
-    "relative flex flex-col items-center justify-center gap-1 h-full min-w-16 px-2 cursor-pointer select-none group focus-visible:outline-none",
+    "relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 group select-none focus-visible:outline-none",
+    focusRing,
     className
   );
 
@@ -109,7 +110,12 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
   }
 
   return (
-    <button className={itemClasses} onClick={onClick} aria-pressed={active}>
+    <button
+      type="button"
+      className={itemClasses}
+      onClick={onClick}
+      aria-pressed={active}
+    >
       {innerContent}
     </button>
   );

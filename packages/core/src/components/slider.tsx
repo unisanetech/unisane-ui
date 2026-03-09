@@ -2,18 +2,19 @@
 
 import React, { useState, useRef } from "react";
 import { cn } from "@ui/lib/utils";
+import { useControllableState } from "@ui/lib/use-controllable-state";
 
 export interface SliderProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
-    "value" | "onChange"
+    "value" | "defaultValue" | "onChange"
   > {
   value?: number;
   defaultValue?: number;
   min?: number;
   max?: number;
   step?: number;
-  onChange?: (value: number) => void;
+  onValueChange?: (value: number) => void;
   withLabel?: boolean;
   withTicks?: boolean;
   showValue?: boolean;
@@ -25,9 +26,9 @@ export const Slider: React.FC<SliderProps> = ({
   min = 0,
   max = 100,
   step = 1,
-  value: controlledValue,
+  value,
   defaultValue = 50,
-  onChange,
+  onValueChange,
   className,
   disabled,
   withLabel = false,
@@ -35,21 +36,21 @@ export const Slider: React.FC<SliderProps> = ({
   showValue = false,
   ...props
 }) => {
-  const [internalValue, setInternalValue] = useState(defaultValue);
-  const isControlled = controlledValue !== undefined;
-  const val = isControlled ? controlledValue : internalValue;
+  const [currentValue, setCurrentValue] = useControllableState<number>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
   const inputRef = useRef<HTMLInputElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const val = currentValue ?? defaultValue;
 
   const percentage = ((val - min) / (max - min)) * 100;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseFloat(e.target.value);
-    if (!isControlled) {
-      setInternalValue(newValue);
-    }
-    onChange?.(newValue);
+    setCurrentValue(newValue);
   };
 
   const ticks: number[] = [];
@@ -86,7 +87,7 @@ export const Slider: React.FC<SliderProps> = ({
         step={step}
         value={val}
         disabled={disabled}
-        onChange={handleChange}
+        onChange={handleValueChange}
         onFocus={() => setIsHovered(true)}
         onBlur={() => setIsHovered(false)}
         aria-valuemin={min}

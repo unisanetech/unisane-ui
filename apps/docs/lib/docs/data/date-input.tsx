@@ -44,7 +44,7 @@ const DateInputBasicExample = () => {
       <DateInput
         label="Date of Birth"
         value={date}
-        onChange={setDate}
+        onValueChange={setDate}
       />
       {date && (
         <p className="text-label-small text-on-surface-variant mt-2">
@@ -64,13 +64,13 @@ const DateInputVariantsExample = () => {
         label="Outlined"
         variant="outlined"
         value={date1}
-        onChange={setDate1}
+        onValueChange={setDate1}
       />
       <DateInput
         label="Filled"
         variant="filled"
         value={date2}
-        onChange={setDate2}
+        onValueChange={setDate2}
       />
     </div>
   );
@@ -83,7 +83,7 @@ const DateInputWithIconExample = () => {
       <DateInput
         label="Event Date"
         value={date}
-        onChange={setDate}
+        onValueChange={setDate}
         trailingIcon={
           <span className="material-symbols-outlined text-[20px]">event</span>
         }
@@ -105,7 +105,7 @@ const DateInputStatesExample = () => {
         error
         helperText="Please enter a valid date"
         value={errorDate}
-        onChange={setErrorDate}
+        onValueChange={setErrorDate}
       />
       <DateInput
         label="Disabled"
@@ -127,7 +127,7 @@ const DateInputConstraintsExample = () => {
       <DateInput
         label="Appointment Date"
         value={date}
-        onChange={setDate}
+        onValueChange={setDate}
         min={minDate}
         max={maxDate}
         helperText="Select a date within the next 3 months"
@@ -233,7 +233,12 @@ export const dateInputDoc: ComponentDoc = {
       description: "The currently selected date value.",
     },
     {
-      name: "onChange",
+      name: "defaultValue",
+      type: "Date | undefined",
+      description: "The default date for uncontrolled usage.",
+    },
+    {
+      name: "onValueChange",
       type: "(date: Date | undefined) => void",
       description: "Callback fired when the date changes.",
     },
@@ -248,6 +253,12 @@ export const dateInputDoc: ComponentDoc = {
       type: '"outlined" | "filled"',
       default: '"outlined"',
       description: "Visual style variant of the input.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for height and horizontal spacing.",
     },
     {
       name: "disabled",
@@ -362,7 +373,7 @@ function BirthDateForm() {
     <DateInput
       label="Date of Birth"
       value={birthDate}
-      onChange={validateAge}
+      onValueChange={validateAge}
       error={error}
       helperText={error ? "You must be 18 or older" : "MM/DD/YYYY format"}
       max={new Date()} // Can't be born in the future

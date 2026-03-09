@@ -12,7 +12,7 @@ const BadgeHeroVisual = () => (
       <div className="px-5 py-4 border-b border-outline-variant/20 flex items-center justify-between">
         <span className="text-title-medium text-on-surface">Dashboard</span>
         <div className="relative">
-          <IconButton variant="standard" ariaLabel="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
+          <IconButton variant="standard" aria-label="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
           <div className="absolute -top-1 -right-1">
             <Badge color="error" size="sm">3</Badge>
           </div>
@@ -128,13 +128,13 @@ export const badgeDoc: ComponentDoc = {
           <Card variant="outlined" padding="lg" className="max-w-52 mx-auto">
             <div className="flex items-center justify-center gap-6">
               <div className="relative">
-                <IconButton variant="standard" ariaLabel="Mail" icon={<span className="material-symbols-outlined">mail</span>} />
+                <IconButton variant="standard" aria-label="Mail" icon={<span className="material-symbols-outlined">mail</span>} />
                 <div className="absolute -top-1 -right-1">
                   <Badge color="error" size="sm">12</Badge>
                 </div>
               </div>
               <div className="relative">
-                <IconButton variant="standard" ariaLabel="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
+                <IconButton variant="standard" aria-label="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
                 <div className="absolute -top-1 -right-1">
                   <Badge color="error" size="sm">3</Badge>
                 </div>

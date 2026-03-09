@@ -359,7 +359,7 @@ export function ThemeSettings() {
           <div className="flex-1">
             <Slider
               value={contrastIndex}
-              onChange={handleContrastChange}
+              onValueChange={handleContrastChange}
               min={0}
               max={2}
               step={1}

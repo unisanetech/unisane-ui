@@ -51,7 +51,7 @@ export const BreadcrumbLink: React.FC<{
   }
 
   return (
-    <button onClick={onClick} className={linkClasses}>
+    <button type="button" onClick={onClick} className={linkClasses}>
       {children}
     </button>
   );
@@ -88,7 +88,7 @@ export const BreadcrumbEllipsis: React.FC<{
           </svg>
         }
         onClick={onClick}
-        ariaLabel="More items"
+        aria-label="More items"
         className="text-on-surface-variant"
       />
       <BreadcrumbSeparator />

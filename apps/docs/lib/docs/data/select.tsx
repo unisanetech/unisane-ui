@@ -51,7 +51,7 @@ export const selectDoc: ComponentDoc = {
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
   importPath: "@unisane/ui",
-  exports: ["Select", "SelectTrigger", "SelectContent", "SelectItem", "SelectValue"],
+  exports: ["Select"],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <SelectHeroVisual />,
@@ -198,6 +198,12 @@ export const selectDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
+      name: "options",
+      type: "SelectOption[]",
+      required: true,
+      description: "Array of selectable options with value and label.",
+    },
+    {
       name: "value",
       type: "string",
       description: "The controlled value of the select.",
@@ -215,7 +221,25 @@ export const selectDoc: ComponentDoc = {
     {
       name: "placeholder",
       type: "string",
+      default: '"Select an option"',
       description: "Placeholder text shown when no value is selected.",
+    },
+    {
+      name: "label",
+      type: "string",
+      description: "Optional floating label displayed above the trigger.",
+    },
+    {
+      name: "variant",
+      type: '"filled" | "outlined"',
+      default: '"outlined"',
+      description: "Visual style variant of the trigger field.",
+    },
+    {
+      name: "size",
+      type: '"sm" | "md" | "lg"',
+      default: '"md"',
+      description: "Shared field size used for the trigger and option rows.",
     },
     {
       name: "disabled",
@@ -224,57 +248,20 @@ export const selectDoc: ComponentDoc = {
       description: "If true, the select is disabled.",
     },
     {
-      name: "required",
-      type: "boolean",
-      default: "false",
-      description: "If true, marks the select as required.",
-    },
-    {
       name: "open",
       type: "boolean",
       description: "Controlled open state of the dropdown.",
     },
     {
+      name: "defaultOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial open state for uncontrolled usage.",
+    },
+    {
       name: "onOpenChange",
       type: "(open: boolean) => void",
       description: "Callback when the dropdown opens or closes.",
-    },
-  ],
-
-  // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
-  subComponents: [
-    {
-      name: "SelectTrigger",
-      description: "The button that opens the select dropdown.",
-      props: [
-        { name: "variant", type: '"filled" | "outlined"', default: '"filled"', description: "Visual style of the trigger." },
-        { name: "size", type: '"sm" | "md" | "lg"', default: '"md"', description: "Size of the trigger button." },
-        { name: "className", type: "string", description: "Additional CSS classes." },
-      ],
-    },
-    {
-      name: "SelectValue",
-      description: "Displays the currently selected value or placeholder.",
-      props: [
-        { name: "placeholder", type: "string", description: "Text shown when no value is selected." },
-      ],
-    },
-    {
-      name: "SelectContent",
-      description: "The dropdown container for select items.",
-      props: [
-        { name: "position", type: '"popper" | "item-aligned"', default: '"popper"', description: "Positioning strategy for the dropdown." },
-        { name: "className", type: "string", description: "Additional CSS classes." },
-      ],
-    },
-    {
-      name: "SelectItem",
-      description: "Individual option in the select dropdown.",
-      props: [
-        { name: "value", type: "string", required: true, description: "The value for this option." },
-        { name: "disabled", type: "boolean", description: "Whether this option is disabled." },
-        { name: "className", type: "string", description: "Additional CSS classes." },
-      ],
     },
   ],
 
@@ -302,14 +289,8 @@ export const selectDoc: ComponentDoc = {
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use the compound component pattern for full control.",
-    code: `import {
-  Select,
-  SelectTrigger,
-  SelectContent,
-  SelectItem,
-  SelectValue,
-} from "@unisane/ui";
+    description: "Use the props-first API with an options array and controlled state.",
+    code: `import { Select } from "@unisane/ui";
 import { useState } from "react";
 
 function LanguageSelector() {
@@ -324,18 +305,13 @@ function LanguageSelector() {
   ];
 
   return (
-    <Select value={language} onValueChange={setLanguage}>
-      <SelectTrigger>
-        <SelectValue placeholder="Select language" />
-      </SelectTrigger>
-      <SelectContent>
-        {languages.map((lang) => (
-          <SelectItem key={lang.value} value={lang.value}>
-            {lang.label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <Select
+      label="Language"
+      options={languages}
+      value={language}
+      onValueChange={setLanguage}
+      placeholder="Select language"
+    />
   );
 }`,
   },

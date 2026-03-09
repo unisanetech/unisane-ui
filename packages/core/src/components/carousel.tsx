@@ -143,7 +143,7 @@ export const Carousel: React.FC<CarouselProps> = ({
               </svg>
             }
             onClick={prevSlide}
-            ariaLabel="Previous slide"
+            aria-label="Previous slide"
             className="absolute left-4 top-1/2 -translate-y-1/2 bg-surface/80 backdrop-blur-sm"
           />
           <IconButton
@@ -158,7 +158,7 @@ export const Carousel: React.FC<CarouselProps> = ({
               </svg>
             }
             onClick={nextSlide}
-            ariaLabel="Next slide"
+            aria-label="Next slide"
             className="absolute right-4 top-1/2 -translate-y-1/2 bg-surface/80 backdrop-blur-sm"
           />
         </>

@@ -17,7 +17,7 @@ const CarouselHeroVisual = () => (
         <IconButton
           variant="filled"
           size="md"
-          ariaLabel="Previous slide"
+          aria-label="Previous slide"
           className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface/80"
         >
           <span className="material-symbols-outlined text-on-surface">chevron_left</span>
@@ -25,7 +25,7 @@ const CarouselHeroVisual = () => (
         <IconButton
           variant="filled"
           size="md"
-          ariaLabel="Next slide"
+          aria-label="Next slide"
           className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface/80"
         >
           <span className="material-symbols-outlined text-on-surface">chevron_right</span>
