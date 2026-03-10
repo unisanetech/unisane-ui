@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button, Surface, Typography } from "@unisane/ui";
-import { UnisaneLogo } from "@/features/branding";
-import { HeroShowcase } from "./hero-showcase";
+import Link from 'next/link';
+import { Button, Surface, Typography } from '@unisane/ui';
+import { UnisaneLogo } from '@/features/branding';
+import { HeroShowcase } from './hero-showcase';
 
 export function HeroSection() {
   return (
@@ -15,14 +15,14 @@ export function HeroSection() {
       >
         <div className="flex h-full max-w-[30rem] flex-col gap-8 @3xl:gap-10">
           <div className="space-y-6">
-            <div className="mb-8 inline-flex items-center gap-2 text-on-secondary-container/72">
+            <div className="text-on-secondary-container/72 mb-8 inline-flex items-center gap-2">
               <UnisaneLogo size={22} />
               <Typography variant="labelLarge" component="span">
                 unisane/ui
               </Typography>
             </div>
 
-            <h1 className="max-w-[9ch] text-[3rem] leading-[0.9] font-semibold tracking-tight text-on-secondary-container @2xl:text-[4.25rem] @4xl:text-[5.35rem]">
+            <h1 className="text-on-secondary-container max-w-[9ch] text-[3rem] leading-[0.9] font-semibold tracking-tight @2xl:text-[4.25rem] @4xl:text-[5.35rem]">
               Build product
               <br />
               interfaces.
@@ -30,10 +30,10 @@ export function HeroSection() {
 
             <Typography
               variant="titleMedium"
-              className="mt-6 max-w-[26ch] leading-relaxed text-on-secondary-container/80 @3xl:text-title-large"
+              className="text-on-secondary-container/80 @3xl:text-title-large mt-6 max-w-[26ch] leading-relaxed"
             >
-              Token-driven React components, themes, and layout patterns for app
-              teams building forms, navigation, workflows, and data-heavy interfaces.
+              Token-driven React components, themes, and reusable app blocks for app teams building
+              forms, navigation, workflows, and data-heavy interfaces.
             </Typography>
           </div>
 

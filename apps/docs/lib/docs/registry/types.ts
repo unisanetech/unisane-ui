@@ -10,17 +10,17 @@
 // =============================================================================
 
 export type ComponentCategory =
-  | "actions"
-  | "containment"
-  | "communication"
-  | "selection"
-  | "navigation"
-  | "text-inputs"
-  | "data-display"
-  | "layout"
-  | "foundations";
+  | 'actions'
+  | 'containment'
+  | 'communication'
+  | 'selection'
+  | 'navigation'
+  | 'text-inputs'
+  | 'data-display'
+  | 'layout'
+  | 'foundations';
 
-export type ComponentStatus = "stable" | "beta" | "experimental" | "deprecated";
+export type ComponentStatus = 'stable' | 'beta' | 'experimental' | 'deprecated';
 
 // =============================================================================
 // PROP DOCUMENTATION
@@ -88,7 +88,7 @@ export interface ExampleDef {
 
 export interface AccessibilityNote {
   /** Type of accessibility feature */
-  type: "keyboard" | "screen-reader" | "focus" | "aria" | "motion";
+  type: 'keyboard' | 'screen-reader' | 'focus' | 'aria' | 'motion';
   /** Description of the accessibility feature */
   description: string;
 }
@@ -115,7 +115,7 @@ export interface AccessibilityDef {
 
 export interface UsageGuideline {
   /** Type of guideline */
-  type: "do" | "dont" | "caution";
+  type: 'do' | 'dont' | 'caution';
   /** The guideline text */
   text: string;
   /** Optional visual example */
@@ -209,23 +209,23 @@ export interface PlacementSectionDef {
 export interface PreviewStageConfig {
   /** Surface tone for the preview stage */
   tone?:
-    | "surface"
-    | "surfaceVariant"
-    | "surfaceContainerLowest"
-    | "surfaceContainerLow"
-    | "surfaceContainer"
-    | "surfaceContainerHigh"
-    | "surfaceContainerHighest";
+    | 'surface'
+    | 'surfaceVariant'
+    | 'surfaceContainerLowest'
+    | 'surfaceContainerLow'
+    | 'surfaceContainer'
+    | 'surfaceContainerHigh'
+    | 'surfaceContainerHighest';
   /** Whether preview content can bleed outside the stage */
-  overflow?: "hidden" | "visible";
+  overflow?: 'hidden' | 'visible';
   /** Height preset for the stage */
-  minHeight?: "sm" | "md" | "lg" | "xl" | "2xl";
+  minHeight?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'screen';
   /** Vertical alignment inside the stage */
-  align?: "center" | "start" | "end";
+  align?: 'center' | 'start' | 'end';
   /** Horizontal alignment inside the stage */
-  justify?: "center" | "start" | "end";
+  justify?: 'center' | 'start' | 'end';
   /** Internal stage padding */
-  padding?: "none" | "sm" | "md" | "lg";
+  padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
 // =============================================================================
@@ -314,7 +314,7 @@ export interface ComponentDoc {
 /** Minimal component info for listings */
 export type ComponentListItem = Pick<
   ComponentDoc,
-  "slug" | "name" | "description" | "category" | "status" | "icon"
+  'slug' | 'name' | 'description' | 'category' | 'status' | 'icon'
 >;
 
 /** Full component data with examples (for detail pages) */
@@ -333,51 +333,51 @@ export interface CategoryMeta {
 
 export const CATEGORY_META: CategoryMeta[] = [
   {
-    id: "actions",
-    label: "Actions",
-    description: "Buttons and interactive elements that trigger actions.",
-    icon: "touch_app",
+    id: 'actions',
+    label: 'Actions',
+    description: 'Buttons and interactive elements that trigger actions.',
+    icon: 'touch_app',
   },
   {
-    id: "containment",
-    label: "Containment",
-    description: "Components that contain and organize other content.",
-    icon: "crop_square",
+    id: 'containment',
+    label: 'Containment',
+    description: 'Components that contain and organize other content.',
+    icon: 'crop_square',
   },
   {
-    id: "communication",
-    label: "Communication",
-    description: "Components that communicate status and feedback.",
-    icon: "chat",
+    id: 'communication',
+    label: 'Communication',
+    description: 'Components that communicate status and feedback.',
+    icon: 'chat',
   },
   {
-    id: "selection",
-    label: "Selection",
-    description: "Controls for selecting options and values.",
-    icon: "check_circle",
+    id: 'selection',
+    label: 'Selection',
+    description: 'Controls for selecting options and values.',
+    icon: 'check_circle',
   },
   {
-    id: "text-inputs",
-    label: "Text Inputs",
-    description: "Components for entering and editing text data.",
-    icon: "edit_note",
+    id: 'text-inputs',
+    label: 'Text Inputs',
+    description: 'Components for entering and editing text data.',
+    icon: 'edit_note',
   },
   {
-    id: "navigation",
-    label: "Navigation",
-    description: "Components for navigating between screens and content.",
-    icon: "menu",
+    id: 'navigation',
+    label: 'Navigation',
+    description: 'Components for navigating between screens and content.',
+    icon: 'menu',
   },
   {
-    id: "data-display",
-    label: "Data Display",
-    description: "Components for displaying data and content.",
-    icon: "table_chart",
+    id: 'data-display',
+    label: 'Data Display',
+    description: 'Components for displaying data and content.',
+    icon: 'table_chart',
   },
   {
-    id: "layout",
-    label: "Layout",
-    description: "Components for structuring and organizing layouts.",
-    icon: "grid_view",
+    id: 'layout',
+    label: 'Layout',
+    description: 'Components for structuring and organizing layouts.',
+    icon: 'grid_view',
   },
 ];

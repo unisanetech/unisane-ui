@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import type { ExampleDef, PreviewStageConfig } from "@/lib/docs/registry/types";
-import { cn } from "@unisane/ui/lib/utils";
-import { SegmentedButton, Surface, Typography } from "@unisane/ui";
-import { PreviewStage, mergePreviewStageConfig } from "./preview-stage";
+import { useState } from 'react';
+import type { ExampleDef, PreviewStageConfig } from '@/lib/docs/registry/types';
+import { cn } from '@unisane/ui/lib/utils';
+import { SegmentedButton, Surface, Typography } from '@unisane/ui';
+import { PreviewStage, mergePreviewStageConfig } from './preview-stage';
+import { CodeBlock } from './code-block';
 
 interface ExamplePreviewProps {
   example: ExampleDef;
@@ -12,19 +13,15 @@ interface ExamplePreviewProps {
   className?: string;
 }
 
-export function ExamplePreview({
-  example,
-  previewDefaults,
-  className,
-}: ExamplePreviewProps) {
-  const [activeTab, setActiveTab] = useState<"preview" | "code">("preview");
+export function ExamplePreview({ example, previewDefaults, className }: ExamplePreviewProps) {
+  const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const previewConfig = mergePreviewStageConfig(previewDefaults, example.preview);
 
   return (
     <Surface
       tone="surfaceContainerLow"
       rounded="sm"
-      className={cn("p-5 overflow-visible", className)}
+      className={cn('overflow-visible p-5', className)}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
@@ -33,11 +30,7 @@ export function ExamplePreview({
             {example.title}
           </Typography>
           {example.description && (
-            <Typography
-              variant="bodySmall"
-              component="p"
-              className="text-on-surface-variant mt-1"
-            >
+            <Typography variant="bodySmall" component="p" className="text-on-surface-variant mt-1">
               {example.description}
             </Typography>
           )}
@@ -47,11 +40,11 @@ export function ExamplePreview({
         {example.code && (
           <SegmentedButton
             options={[
-              { value: "preview", label: "Preview" },
-              { value: "code", label: "Code" },
+              { value: 'preview', label: 'Preview' },
+              { value: 'code', label: 'Code' },
             ]}
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as "preview" | "code")}
+            onValueChange={(value) => setActiveTab(value as 'preview' | 'code')}
             size="sm"
           />
         )}
@@ -59,16 +52,10 @@ export function ExamplePreview({
 
       {/* Content */}
       <div className="mt-5">
-        {activeTab === "preview" ? (
-          <PreviewStage config={previewConfig}>
-            {example.component}
-          </PreviewStage>
+        {activeTab === 'preview' ? (
+          <PreviewStage config={previewConfig}>{example.component}</PreviewStage>
         ) : (
-          <Surface tone="surfaceContainerHigh" rounded="sm" className="p-5 overflow-x-auto">
-            <pre className="overflow-x-auto text-body-small font-mono text-on-surface-variant leading-relaxed">
-              <code>{example.code}</code>
-            </pre>
-          </Surface>
+          <CodeBlock code={example.code ?? ''} language="tsx" />
         )}
       </div>
     </Surface>
@@ -81,21 +68,13 @@ interface ExampleGridProps {
   className?: string;
 }
 
-export function ExampleGrid({
-  examples,
-  previewDefaults,
-  className,
-}: ExampleGridProps) {
+export function ExampleGrid({ examples, previewDefaults, className }: ExampleGridProps) {
   if (!examples.length) return null;
 
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       {examples.map((example) => (
-        <ExamplePreview
-          key={example.id}
-          example={example}
-          previewDefaults={previewDefaults}
-        />
+        <ExamplePreview key={example.id} example={example} previewDefaults={previewDefaults} />
       ))}
     </div>
   );

@@ -1,4 +1,7 @@
-import { DocLayout } from "@/features/docs-page";
+import Link from 'next/link';
+import { Surface, Typography } from '@unisane/ui';
+import { DocLayout } from '@/features/docs-page';
+import { getAllFoundationPages } from '@/lib/docs/content/foundations/selectors';
 
 export default function FoundationsPage() {
   return (
@@ -6,43 +9,16 @@ export default function FoundationsPage() {
       title="Foundations"
       description="Understand the core design principles and token system that power Unisane UI."
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <FoundationCard
-          icon="hexagon"
-          title="Design Tokens"
-          description="The building blocks of our design system - colors, spacing, typography, and more."
-          href="/docs/foundations/design-tokens"
-        />
-        <FoundationCard
-          icon="text_fields"
-          title="Typography"
-          description="A complete type scale with semantic typography roles."
-          href="/docs/foundations/typography"
-        />
-        <FoundationCard
-          icon="palette"
-          title="Colors"
-          description="Dynamic color system with automatic light/dark mode support."
-          href="/docs/foundations/colors"
-        />
-        <FoundationCard
-          icon="space_bar"
-          title="Spacing"
-          description="Consistent spacing scale using the 4px unit system."
-          href="/docs/foundations/spacing"
-        />
-        <FoundationCard
-          icon="layers"
-          title="Elevation"
-          description="Shadow system for creating depth and visual hierarchy."
-          href="/docs/foundations/elevation"
-        />
-        <FoundationCard
-          icon="animation"
-          title="Motion"
-          description="Animation curves and durations for smooth, meaningful transitions."
-          href="/docs/foundations/motion"
-        />
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {getAllFoundationPages().map((page) => (
+          <FoundationCard
+            key={page.slug}
+            icon={page.icon}
+            title={page.title}
+            description={page.description}
+            href={`/docs/foundations/${page.slug}`}
+          />
+        ))}
       </div>
     </DocLayout>
   );
@@ -60,19 +36,28 @@ function FoundationCard({
   href: string;
 }) {
   return (
-    <a
-      href={href}
-      className="group block p-6 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant transition-all duration-200 hover:shadow-1"
-    >
-      <div className="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center mb-4">
-        <span className="material-symbols-outlined text-on-secondary-container text-[24px]!">
-          {icon}
-        </span>
-      </div>
-      <h3 className="text-title-large text-on-surface mb-2 group-hover:text-primary transition-colors">
-        {title}
-      </h3>
-      <p className="text-body-medium text-on-surface-variant">{description}</p>
-    </a>
+    <Link href={href} className="group block h-full">
+      <Surface
+        tone="surfaceContainerLow"
+        rounded="sm"
+        className="group-hover:bg-surface-container h-full p-6 transition-colors"
+      >
+        <div className="bg-secondary-container mb-4 flex h-12 w-12 items-center justify-center rounded-full">
+          <span className="material-symbols-outlined text-on-secondary-container text-[24px]">
+            {icon}
+          </span>
+        </div>
+        <Typography
+          variant="titleLarge"
+          component="h3"
+          className="group-hover:text-primary mb-2 transition-colors"
+        >
+          {title}
+        </Typography>
+        <Typography variant="bodyMedium" className="text-on-surface-variant leading-relaxed">
+          {description}
+        </Typography>
+      </Surface>
+    </Link>
   );
 }

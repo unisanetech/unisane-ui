@@ -1,4 +1,6 @@
-import { DocLayout } from "@/features/docs-page";
+import { DocLayout } from '@/features/docs-page';
+import Link from 'next/link';
+import { Surface, Typography } from '@unisane/ui';
 
 export default function DocsPage() {
   return (
@@ -6,7 +8,7 @@ export default function DocsPage() {
       title="Documentation"
       description="Get started with Unisane UI - a modern React component library."
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         <QuickLinkCard
           icon="rocket_launch"
           title="Getting Started"
@@ -25,6 +27,12 @@ export default function DocsPage() {
           description="Explore our 50+ production-ready React components."
           href="/docs/components"
         />
+        <QuickLinkCard
+          icon="dashboard"
+          title="Blocks"
+          description="Browse real app scaffolds and reusable interface compositions."
+          href="/docs/blocks"
+        />
       </div>
     </DocLayout>
   );
@@ -42,19 +50,28 @@ function QuickLinkCard({
   href: string;
 }) {
   return (
-    <a
-      href={href}
-      className="group block p-6 rounded-xl bg-surface-container hover:bg-surface-container-high border border-outline-variant transition-all duration-200 hover:shadow-1"
-    >
-      <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center mb-4">
-        <span className="material-symbols-outlined text-on-primary-container !text-[24px]">
-          {icon}
-        </span>
-      </div>
-      <h3 className="text-title-large text-on-surface mb-2 group-hover:text-primary transition-colors">
-        {title}
-      </h3>
-      <p className="text-body-medium text-on-surface-variant">{description}</p>
-    </a>
+    <Link href={href} className="group block h-full">
+      <Surface
+        tone="surfaceContainerLow"
+        rounded="sm"
+        className="group-hover:bg-surface-container h-full p-6 transition-colors"
+      >
+        <div className="bg-primary-container mb-4 flex h-12 w-12 items-center justify-center rounded-full">
+          <span className="material-symbols-outlined text-on-primary-container !text-[24px]">
+            {icon}
+          </span>
+        </div>
+        <Typography
+          variant="titleLarge"
+          component="h3"
+          className="group-hover:text-primary mb-2 transition-colors"
+        >
+          {title}
+        </Typography>
+        <Typography variant="bodyMedium" className="text-on-surface-variant leading-relaxed">
+          {description}
+        </Typography>
+      </Surface>
+    </Link>
   );
 }
