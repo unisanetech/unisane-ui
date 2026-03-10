@@ -4,10 +4,15 @@
   "id": "@unisane/tokens",
   "edition": "oss",
   "maturity": "beta",
-  "supportedModes": ["full-platform"],
+  "supportedModes": [
+    "full-platform"
+  ],
   "requiresPackages": [],
   "requiresTokens": [],
   "runtimeProfiles": [],
   "docs": [],
-  "exports": [".", "./unisane.css"]
+  "exports": [
+    ".",
+    "./unisane.css"
+  ]
 }

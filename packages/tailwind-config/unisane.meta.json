@@ -4,10 +4,17 @@
   "id": "@unisane/tailwind-config",
   "edition": "oss",
   "maturity": "beta",
-  "supportedModes": ["full-platform"],
-  "requiresPackages": ["@unisane/tokens"],
+  "supportedModes": [
+    "full-platform"
+  ],
+  "requiresPackages": [
+    "@unisane/tokens"
+  ],
   "requiresTokens": [],
   "runtimeProfiles": [],
   "docs": [],
-  "exports": [".", "./postcss"]
+  "exports": [
+    ".",
+    "./postcss"
+  ]
 }

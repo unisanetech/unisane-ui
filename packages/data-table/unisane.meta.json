@@ -4,10 +4,29 @@
   "id": "@unisane/data-table",
   "edition": "oss",
   "maturity": "beta",
-  "supportedModes": ["full-platform"],
-  "requiresPackages": ["@unisane/ui"],
+  "supportedModes": [
+    "full-platform"
+  ],
+  "requiresPackages": [
+    "@unisane/ui"
+  ],
   "requiresTokens": [],
   "runtimeProfiles": [],
-  "docs": ["README.md"],
-  "exports": [".", "./constants", "./context", "./errors", "./hooks", "./hooks/data", "./hooks/features", "./hooks/ui", "./hooks/utilities", "./types", "./types/*", "./utils"]
+  "docs": [
+    "README.md"
+  ],
+  "exports": [
+    ".",
+    "./constants",
+    "./context",
+    "./errors",
+    "./hooks",
+    "./hooks/data",
+    "./hooks/features",
+    "./hooks/ui",
+    "./hooks/utilities",
+    "./types",
+    "./types/*",
+    "./utils"
+  ]
 }
