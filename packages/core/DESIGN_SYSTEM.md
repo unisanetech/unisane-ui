@@ -2,7 +2,10 @@
 
 Unisane is a token-first product UI system. It borrows useful semantics from Material and useful authoring ergonomics from shadcn-style component patterns, but it is not a clone of either.
 
-Refactor tracking: see `COMPONENT_SYSTEM_REFACTOR.md` in this directory for the component API, theming, and audit plan.
+System docs:
+
+- `DESIGN_SYSTEM.md`: tokens, theming, surfaces, motion, and visual-system rules
+- `COMPONENT_AUTHORING.md`: component API, composition, accessibility, and no-drift authoring rules
 
 ## Token Architecture
 
@@ -71,8 +74,13 @@ Light theme keeps `bg-surface` white. Dark theme keeps `bg-surface-container-low
 ### Token And Alpha Usage
 
 - Use semantic tokens when the role is semantic: `bg-surface`, `bg-surface-container`, `text-on-surface`, `border-outline-variant`
-- Use `/nn` alpha modifiers when transparency is the treatment: `bg-scrim/30`, `hover:bg-on-surface/8`, `border-outline-variant/30`, `bg-surface/80`
+- Use semantic border tokens for structural chrome:
+  - `border-outline-variant` for default cards, tables, panels, and section dividers
+  - `border-outline` for stronger hover and emphasis borders
+  - `border-primary`, `border-error`, and similar semantic colors only for selected or status states
+- Use `/nn` alpha modifiers when transparency is the treatment: `bg-scrim/30`, `hover:bg-on-surface/8`, `bg-surface/80`
 - Do not invent alpha-based classes to replace tokens that already exist semantically
+- Do not use `/nn` alpha border classes as the default site or component border pattern
 - Do not create new token variants only to express a simple alpha treatment
 
 ---
@@ -254,3 +262,8 @@ All interactive components should use `forwardRef` for accessibility and ref att
 ### Ripple Effect
 
 Use the `<Ripple />` component inside interactive elements for M3-compliant touch feedback.
+
+### Authoring Boundary
+
+- Token and utility choices belong here in the design-system contract.
+- Component API naming, composition rules, and authoring constraints belong in `COMPONENT_AUTHORING.md`.

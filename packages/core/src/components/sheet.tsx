@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Ripple } from './ripple';
 import { cn } from '@ui/lib/utils';
 import { useControllableState } from '@ui/lib/use-controllable-state';
 import { useScrollLock } from '@ui/hooks/use-scroll-lock';
+import { Text } from '@ui/primitives/text';
+import { IconButton } from './icon-button';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type SheetPlacement = 'right' | 'bottom';
@@ -12,198 +13,347 @@ export interface SheetProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  title: string;
+  title?: React.ReactNode;
+  description?: React.ReactNode;
   children: React.ReactNode;
   icon?: React.ReactNode;
+  footer?: React.ReactNode;
   footerLeft?: React.ReactNode;
   footerRight?: React.ReactNode;
   className?: string;
+  contentClassName?: string;
+  headerClassName?: string;
+  footerClassName?: string;
   size?: SheetSize;
   placement?: SheetPlacement;
+  showCloseButton?: boolean;
+  closeLabel?: string;
 }
 
-export function Sheet({
-  open,
-  defaultOpen = false,
-  onOpenChange,
-  title,
-  children,
-  icon,
-  footerLeft,
-  footerRight,
-  className,
-  size = 'md',
-  placement = 'right',
-}: SheetProps) {
-  const [isOpen = false, setIsOpen] = useControllableState<boolean>({
-    value: open,
-    defaultValue: defaultOpen,
-    onChange: onOpenChange,
-  });
-  const [shouldRender, setShouldRender] = useState(isOpen);
-  const [isVisible, setIsVisible] = useState(false);
-  const timerRef = useRef<number | null>(null);
+function getFocusableElements(root: HTMLElement | null) {
+  if (!root) {
+    return [];
+  }
 
-  const OPEN_DURATION = 600;
-  const CLOSE_DURATION = 250;
+  return Array.from(
+    root.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  ).filter((element) => !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden'));
+}
 
-  // Lock body scroll while preventing layout shift
-  useScrollLock(isOpen);
+const closeIcon = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    aria-hidden="true"
+  >
+    <path d="M18 6L6 18M6 6l12 12" />
+  </svg>
+);
 
-  useEffect(() => {
-    if (isOpen) {
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-      setShouldRender(true);
-      requestAnimationFrame(() => {
+export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
+  (
+    {
+      open,
+      defaultOpen = false,
+      onOpenChange,
+      title,
+      description,
+      children,
+      icon,
+      footer,
+      footerLeft,
+      footerRight,
+      className,
+      contentClassName,
+      headerClassName,
+      footerClassName,
+      size = 'md',
+      placement = 'right',
+      showCloseButton,
+      closeLabel = 'Close sheet',
+    },
+    ref,
+  ) => {
+    const panelRef = useRef<HTMLDivElement>(null);
+    const previousActiveElement = useRef<HTMLElement | null>(null);
+    const timerRef = useRef<number | null>(null);
+    const [isOpen = false, setIsOpen] = useControllableState<boolean>({
+      value: open,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange,
+    });
+    const [shouldRender, setShouldRender] = useState(isOpen);
+    const [isVisible, setIsVisible] = useState(false);
+    const titleId = useId();
+    const descriptionId = useId();
+    const bodyDescriptionId = useId();
+    const isBottom = placement === 'bottom';
+    const resolvedShowCloseButton = showCloseButton ?? Boolean(title || description || icon);
+    const hasHeader = Boolean(title || description || icon || resolvedShowCloseButton);
+    const describedBy = description ? descriptionId : bodyDescriptionId;
+
+    const OPEN_DURATION = 320;
+    const CLOSE_DURATION = 220;
+
+    useScrollLock(isOpen);
+
+    useEffect(() => {
+      if (isOpen) {
+        if (timerRef.current) {
+          window.clearTimeout(timerRef.current);
+        }
+        setShouldRender(true);
         requestAnimationFrame(() => {
-          setIsVisible(true);
+          requestAnimationFrame(() => {
+            setIsVisible(true);
+          });
         });
-      });
-    } else {
+        return;
+      }
+
       setIsVisible(false);
       timerRef.current = window.setTimeout(() => {
         setShouldRender(false);
       }, CLOSE_DURATION);
-    }
-    return () => {
-      if (timerRef.current) window.clearTimeout(timerRef.current);
-    };
-  }, [isOpen]);
 
-  // Handle Escape key
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isOpen) {
-        event.preventDefault();
-        setIsOpen(false);
+      return () => {
+        if (timerRef.current) {
+          window.clearTimeout(timerRef.current);
+        }
+      };
+    }, [isOpen]);
+
+    useEffect(() => {
+      if (!isOpen) {
+        return;
       }
-    };
 
-    if (isOpen) {
+      const panelNode = panelRef.current;
+      previousActiveElement.current = document.activeElement as HTMLElement;
+
+      const timer = window.setTimeout(() => {
+        const focusableElements = getFocusableElements(panelNode);
+        (focusableElements[0] ?? panelNode)?.focus();
+      }, 0);
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          setIsOpen(false);
+          return;
+        }
+
+        if (event.key !== 'Tab') {
+          return;
+        }
+
+        const focusableElements = getFocusableElements(panelNode);
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          return;
+        }
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement as HTMLElement | null;
+
+        if (!first || !last) {
+          event.preventDefault();
+          return;
+        }
+
+        if (event.shiftKey) {
+          if (activeElement === first || activeElement === panelNode) {
+            event.preventDefault();
+            last.focus();
+          }
+          return;
+        }
+
+        if (activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      };
+
       document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.clearTimeout(timer);
+        document.removeEventListener('keydown', handleKeyDown);
+        previousActiveElement.current?.focus();
+      };
+    }, [isOpen, setIsOpen]);
+
+    if (!shouldRender || typeof document === 'undefined') {
+      return null;
     }
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
+
+    const rightSizeClasses: Record<SheetSize, string> = {
+      sm: 'max-w-96',
+      md: 'max-w-120',
+      lg: 'max-w-170',
+      xl: 'max-w-220',
+      full: 'max-w-[calc(100vw-var(--spacing-8))]',
     };
-  }, [isOpen, setIsOpen]);
+    const bottomSizeClasses: Record<SheetSize, string> = {
+      sm: 'max-h-[58dvh]',
+      md: 'max-h-[72dvh]',
+      lg: 'max-h-[82dvh]',
+      xl: 'max-h-[90dvh]',
+      full: 'h-[calc(100dvh-var(--spacing-6))]',
+    };
 
-  if (!shouldRender) return null;
-  if (typeof document === 'undefined') return null;
+    const resolvedFooter =
+      footer ??
+      (footerLeft || footerRight ? (
+        <div className="medium:flex-row flex flex-col items-start justify-between gap-4">
+          <div className="w-full min-w-0 flex-1 medium:w-auto">{footerLeft}</div>
+          <div className="flex w-full shrink-0 items-center justify-end gap-2 medium:w-auto">
+            {footerRight}
+          </div>
+        </div>
+      ) : null);
 
-  const rightSizeClasses: Record<SheetSize, string> = {
-    sm: 'max-w-100',
-    md: 'max-w-150',
-    lg: 'max-w-210',
-    xl: 'max-w-280',
-    full: 'max-w-[calc(100vw-var(--spacing-14))]',
-  };
-  const bottomSizeClasses: Record<SheetSize, string> = {
-    sm: 'max-h-[60dvh]',
-    md: 'max-h-[72dvh]',
-    lg: 'max-h-[82dvh]',
-    xl: 'max-h-[90dvh]',
-    full: 'h-[calc(100dvh-var(--spacing-8))]',
-  };
-  const isBottom = placement === 'bottom';
-
-  return createPortal(
-    <div
-      className={cn(
-        'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
-        isBottom ? 'items-end justify-center' : 'justify-end',
-      )}
-      role="presentation"
-    >
+    return createPortal(
       <div
         className={cn(
-          'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',
-          isVisible ? 'opacity-100' : 'opacity-0',
+          'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden p-3 medium:p-4',
+          isBottom ? 'items-end justify-center' : 'items-stretch justify-end',
         )}
-        style={{
-          transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
-          transitionTimingFunction: isVisible
-            ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)'
-            : 'cubic-bezier(0.3, 0, 1, 1)',
-        }}
-        onClick={() => setIsOpen(false)}
-        aria-hidden="true"
-      />
-
-      <div
-        className={cn(
-          'bg-surface shadow-5 relative flex w-full transform-gpu flex-col transition-all',
-          isBottom
-            ? 'border-outline-variant rounded-t-xl border-t'
-            : 'border-outline-variant h-full border-l',
-          isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
-          isBottom
-            ? isVisible
-              ? 'translate-y-0 opacity-100'
-              : 'translate-y-full opacity-0'
-            : isVisible
-              ? 'translate-x-0 scale-100 opacity-100'
-              : 'translate-x-full scale-[0.98] opacity-0',
-          className,
-        )}
-        style={{
-          transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
-          transitionTimingFunction: isVisible
-            ? 'cubic-bezier(0.05, 0.7, 0.1, 1.0)'
-            : 'cubic-bezier(0.3, 0, 1, 1)',
-        }}
-        role="dialog"
-        aria-modal="true"
+        role="presentation"
       >
-        <header className="border-outline-variant bg-surface z-20 flex shrink-0 items-center justify-between border-b px-6 py-6">
-          <div className="flex items-center gap-3">
-            {icon && (
-              <div className="bg-inverse-surface text-inverse-on-surface duration-short flex h-10 w-10 shrink-0 items-center justify-center rounded-sm transition-all">
-                {icon}
+        <div
+          className={cn(
+            'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',
+            isVisible ? 'opacity-100' : 'opacity-0',
+          )}
+          style={{
+            transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
+            transitionTimingFunction: isVisible
+              ? 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+              : 'cubic-bezier(0.4, 0, 1, 1)',
+          }}
+          onClick={() => setIsOpen(false)}
+          aria-hidden="true"
+        />
+
+        <div
+          ref={(node) => {
+            panelRef.current = node;
+            if (typeof ref === 'function') {
+              ref(node);
+            } else if (ref) {
+              ref.current = node;
+            }
+          }}
+          className={cn(
+            'bg-surface shadow-5 relative flex w-full max-h-full transform-gpu flex-col overflow-hidden border border-outline-variant/20',
+            isBottom ? 'rounded-2xl' : 'h-full rounded-2xl',
+            isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
+            isBottom
+              ? isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-6 opacity-0'
+              : isVisible
+                ? 'translate-x-0 opacity-100'
+                : 'translate-x-6 opacity-0',
+            className,
+          )}
+          style={{
+            transitionDuration: `${isVisible ? OPEN_DURATION : CLOSE_DURATION}ms`,
+            transitionTimingFunction: isVisible
+              ? 'cubic-bezier(0.2, 0.8, 0.2, 1)'
+              : 'cubic-bezier(0.4, 0, 1, 1)',
+          }}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={title ? titleId : undefined}
+          aria-describedby={describedBy}
+          tabIndex={-1}
+        >
+          {hasHeader ? (
+            <div
+              className={cn(
+                'border-outline-variant/20 bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
+                headerClassName,
+              )}
+            >
+              {icon ? (
+                <div
+                  className="bg-surface-container-low text-primary border-outline-variant/20 flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
+                  aria-hidden="true"
+                >
+                  {icon}
+                </div>
+              ) : null}
+
+              <div className="min-w-0 flex-1 space-y-1 text-left">
+                {title ? (
+                  <Text
+                    as="div"
+                    variant="titleLarge"
+                    id={titleId}
+                    className="wrap-break-word text-on-surface leading-tight"
+                  >
+                    {title}
+                  </Text>
+                ) : null}
+                {description ? (
+                  <Text
+                    as="div"
+                    variant="bodySmall"
+                    id={descriptionId}
+                    className="wrap-break-word text-on-surface-variant leading-relaxed"
+                  >
+                    {description}
+                  </Text>
+                ) : null}
               </div>
-            )}
-            <div className="flex flex-col">
-              <h2 className="text-title-medium text-on-surface leading-none">{title}</h2>
-              <div className="text-on-surface-variant text-label-small mt-1 flex items-center gap-1.5 font-medium">
-                <span className="bg-primary h-1 w-1 animate-pulse rounded-full" />
-                Active Instance
-              </div>
+
+              {resolvedShowCloseButton ? (
+                <IconButton
+                  aria-label={closeLabel}
+                  icon={closeIcon}
+                  variant="standard"
+                  size="md"
+                  className="bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                  onClick={() => setIsOpen(false)}
+                />
+              ) : null}
+            </div>
+          ) : null}
+
+          <div className="no-scrollbar relative z-10 flex-1 overflow-y-auto">
+            <div
+              id={!description ? bodyDescriptionId : undefined}
+              className={cn('px-5 pb-5 text-on-surface', hasHeader ? 'pt-4' : 'pt-5', contentClassName)}
+            >
+              {children}
             </div>
           </div>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-sm transition-all"
-            aria-label="Close sheet"
-          >
-            <Ripple />
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
+
+          {resolvedFooter ? (
+            <div
+              className={cn(
+                'border-outline-variant/20 bg-surface-container-lowest/80 shrink-0 border-t px-5 py-3',
+                footerClassName,
+              )}
             >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </header>
-
-        <div className="no-scrollbar bg-surface relative z-10 flex-1 overflow-y-auto">
-          {children}
-        </div>
-
-        {(footerLeft || footerRight) && (
-          <footer className="border-outline-variant bg-surface-container-low z-20 shrink-0 border-t px-6 py-6">
-            <div className="medium:flex-row flex flex-col items-center justify-between gap-4">
-              <div className="medium:w-auto w-full min-w-0 flex-1">{footerLeft}</div>
-              <div className="medium:w-auto flex w-full shrink-0 items-center justify-end gap-2">
-                {footerRight}
-              </div>
+              {resolvedFooter}
             </div>
-          </footer>
-        )}
-      </div>
-    </div>,
-    document.body,
-  );
-}
+          ) : null}
+        </div>
+      </div>,
+      document.body,
+    );
+  },
+);
+
+Sheet.displayName = 'Sheet';

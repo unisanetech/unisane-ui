@@ -5,7 +5,8 @@
   "private": true,
   "exports": {
     ".": "./shared-styles.css",
-    "./postcss": "./postcss.config.js"
+    "./postcss": "./postcss.config.js",
+    "./meta": "./unisane.meta.json"
   },
   "scripts": {
     "build": "echo 'Tailwind config package - no build needed'"
@@ -13,5 +14,10 @@
   "dependencies": {
     "@unisane/tokens": "workspace:*"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "unisane": {
+    "kind": "ui",
+    "edition": "oss",
+    "meta": "./unisane.meta.json"
+  }
 }

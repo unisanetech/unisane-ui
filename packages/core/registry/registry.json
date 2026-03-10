@@ -344,7 +344,7 @@
       "description": "Dialog component",
       "files": ["components/dialog.tsx"],
       "dependencies": [],
-      "registryDependencies": ["text", "surface", "ripple"]
+      "registryDependencies": ["text", "surface", "icon-button"]
     },
     "divider": {
       "name": "Divider",
@@ -528,7 +528,7 @@
       "description": "Sheet component",
       "files": ["components/sheet.tsx"],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": ["text", "icon-button"]
     },
     "sidebar": {
       "name": "Sidebar",

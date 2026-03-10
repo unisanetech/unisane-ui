@@ -4,11 +4,13 @@
   "type": "module",
   "private": true,
   "files": [
-    "dist"
+    "dist",
+    "unisane.meta.json"
   ],
   "exports": {
     ".": "./dist/unisane.css",
-    "./unisane.css": "./dist/unisane.css"
+    "./unisane.css": "./dist/unisane.css",
+    "./meta": "./unisane.meta.json"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -17,5 +19,10 @@
   },
   "devDependencies": {
     "chokidar": "^3.5.3"
+  },
+  "unisane": {
+    "kind": "ui",
+    "edition": "oss",
+    "meta": "./unisane.meta.json"
   }
 }

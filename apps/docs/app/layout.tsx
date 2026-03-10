@@ -3,15 +3,20 @@ import "./globals.css";
 // This provides offline capability while keeping bundle size reasonable
 import "@material-symbols/font-400/outlined.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Sora } from "next/font/google";
 import { ThemeProvider, Toaster } from "@unisane/ui";
 import type { ThemeConfig, Theme } from "@unisane/ui";
-import { DocsShell } from "@/components/layout";
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-inter",
+});
+
+const sora = Sora({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-sora",
 });
 
 export const metadata: Metadata = {
@@ -42,7 +47,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={inter.variable}
+      className={`${inter.variable} ${sora.variable}`}
       suppressHydrationWarning
       data-density={themeConfig.density}
       data-radius={themeConfig.radius}
@@ -54,7 +59,7 @@ export default function RootLayout({
     >
       <body suppressHydrationWarning>
         <ThemeProvider>
-          <DocsShell>{children}</DocsShell>
+          {children}
           <Toaster position="bottom-right" />
         </ThemeProvider>
       </body>

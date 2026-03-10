@@ -125,10 +125,19 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
         onClick?: (event: MouseEvent<HTMLElement>) => void;
         tabIndex?: number;
       };
+      const forwardedChildProps: Record<string, unknown> = {
+        ...props,
+        onClick: composeAsChildClickHandler(
+          isDisabled,
+          props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
+          childProps.onClick,
+        ),
+        tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
+      };
 
       return (
         <Slot
-          ref={ref as unknown as Ref<HTMLElement>}
+          ref={ref as Ref<HTMLElement>}
           className={cn(fabVariants({ variant, size: finalSize }), className)}
           aria-busy={loading || undefined}
           aria-disabled={isDisabled || undefined}
@@ -136,15 +145,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
         >
           {cloneElement(
             childElement,
-            {
-              ...props,
-              onClick: composeAsChildClickHandler(
-                isDisabled,
-                props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
-                childProps.onClick,
-              ),
-              tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
-            } as Record<string, unknown>,
+            forwardedChildProps,
             renderContent(label ?? childProps.children, label ? childProps.children : null),
           )}
         </Slot>

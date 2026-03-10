@@ -1,0 +1,299 @@
+"use client";
+
+import { ComponentDoc } from "../types";
+import { HeroBackground } from "../../runtime/hero-background";
+import { NavigationDrawer, NavigationDrawerItem, NavigationDrawerHeadline, NavigationDrawerDivider } from "@unisane/ui";
+
+// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
+const NavigationDrawerHeroVisual = () => (
+  <HeroBackground tone="surface">
+    {/* Mock App with Drawer */}
+    <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
+      {/* Navigation Drawer */}
+      <div className="w-36 bg-surface-container border-r border-outline-variant p-3">
+        <div className="text-label-small text-on-surface-variant mb-3 px-2">Navigation</div>
+        <div className="space-y-1">
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-secondary-container">
+            <span className="material-symbols-outlined text-primary text-[20px]">home</span>
+            <span className="text-label-medium text-primary">Home</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full text-on-surface-variant">
+            <span className="material-symbols-outlined text-[20px]">inbox</span>
+            <span className="text-label-medium">Inbox</span>
+          </div>
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full text-on-surface-variant">
+            <span className="material-symbols-outlined text-[20px]">send</span>
+            <span className="text-label-medium">Sent</span>
+          </div>
+        </div>
+      </div>
+      {/* Main Content */}
+      <div className="flex-1 p-4">
+        <div className="space-y-3">
+          <div className="h-4 bg-surface-container-high rounded-sm w-full" />
+          <div className="h-4 bg-surface-container-high rounded-sm w-3/4" />
+          <div className="h-4 bg-surface-container-high rounded-sm w-1/2" />
+        </div>
+      </div>
+    </div>
+  </HeroBackground>
+);
+
+// ─── EXAMPLES ────────────────────────────────────────────────────────────────
+const NavigationDrawerBasicExample = () => (
+  <div className="relative h-full w-full overflow-hidden rounded-sm bg-surface-container-low">
+    <NavigationDrawer
+      open
+      modal={false}
+      className="relative h-full w-[min(320px,100%)] max-w-[85vw] rounded-e-none"
+    >
+      <div className="p-4">
+        <div className="text-title-medium text-on-surface mb-4">My App</div>
+      </div>
+      <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
+      <NavigationDrawerItem icon="home" active>
+        Home
+      </NavigationDrawerItem>
+      <NavigationDrawerItem icon="inbox" badge="24">
+        Inbox
+      </NavigationDrawerItem>
+      <NavigationDrawerItem icon="send">
+        Sent
+      </NavigationDrawerItem>
+      <NavigationDrawerDivider />
+      <NavigationDrawerHeadline>Labels</NavigationDrawerHeadline>
+      <NavigationDrawerItem icon="label">
+        Important
+      </NavigationDrawerItem>
+      <NavigationDrawerItem icon="label">
+        Work
+      </NavigationDrawerItem>
+    </NavigationDrawer>
+  </div>
+);
+
+export const navigationDrawerDoc: ComponentDoc = {
+  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
+  slug: "navigation-drawer",
+  name: "Navigation Drawer",
+  description:
+    "Navigation drawers provide standalone drawer-style access to destinations and app functionality in a sliding panel.",
+  category: "navigation",
+  status: "stable",
+  icon: "menu",
+
+  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
+  importPath: "@unisane/ui",
+  exports: ["NavigationDrawer", "NavigationDrawerItem", "NavigationDrawerHeadline", "NavigationDrawerDivider"],
+
+  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
+  heroVisual: <NavigationDrawerHeroVisual />,
+
+  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+  choosing: {
+    description:
+      "Choose drawer type based on screen size and whether you need a standalone nav surface or a full app-shell layout.",
+    columns: {
+      emphasis: "Type",
+      component: "Preview",
+      rationale: "When to use",
+      examples: "Common uses",
+    },
+    rows: [
+      {
+        emphasis: "Standard",
+        component: (
+          <div className="w-32 h-16 bg-surface-container rounded-sm flex">
+            <div className="w-10 border-r border-outline-variant p-1 space-y-1">
+              <div className="h-2 rounded-sm bg-secondary-container" />
+              <div className="h-2 rounded-sm bg-surface-container-high" />
+            </div>
+            <div className="flex-1 p-1">
+              <div className="h-2 bg-surface-container-high rounded-sm" />
+            </div>
+          </div>
+        ),
+        rationale: "Standalone persistent navigation on large screens.",
+        examples: "Desktop apps, Admin dashboards",
+      },
+      {
+        emphasis: "Modal",
+        component: (
+          <div className="w-32 h-16 bg-surface-container rounded-sm relative overflow-hidden">
+            <div className="absolute inset-0 bg-scrim/30" />
+            <div className="absolute left-0 top-0 bottom-0 w-12 bg-surface rounded-r-xl shadow-2 p-1 space-y-1 z-10">
+              <div className="h-2 rounded-sm bg-secondary-container" />
+              <div className="h-2 rounded-sm bg-surface-container-high" />
+            </div>
+          </div>
+        ),
+        rationale: "Standalone overlay navigation on mobile.",
+        examples: "Mobile apps, Compact screens",
+      },
+    ],
+  },
+
+  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
+  placement: {
+    description:
+      "Navigation drawers appear from the left edge of the screen.",
+    previewDefaults: {
+      tone: "surfaceContainerLow",
+      minHeight: "2xl",
+      padding: "none",
+      align: "start",
+      justify: "start",
+    },
+    examples: [
+      {
+        title: "Standard drawer",
+        visual: <NavigationDrawerBasicExample />,
+        caption: "Navigation drawer with items and sections",
+      },
+    ],
+  },
+
+  // ─── PROPS ──────────────────────────────────────────────────────────────────
+  props: [
+    {
+      name: "open",
+      type: "boolean",
+      default: "true",
+      description: "Controls drawer visibility.",
+    },
+    {
+      name: "modal",
+      type: "boolean",
+      default: "false",
+      description: "Whether drawer overlays content.",
+    },
+    {
+      name: "onClose",
+      type: "() => void",
+      description: "Callback when drawer should close.",
+    },
+    {
+      name: "children",
+      type: "ReactNode",
+      required: true,
+      description: "Navigation items and content.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Additional CSS classes.",
+    },
+  ],
+
+  // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
+  subComponents: [
+    {
+      name: "NavigationDrawerItem",
+      description: "Navigation item within the drawer.",
+      props: [
+        { name: "icon", type: "ReactNode | string", description: "Icon to display." },
+        { name: "active", type: "boolean", description: "Whether item is active." },
+        { name: "badge", type: "string | number", description: "Badge content." },
+        { name: "href", type: "string", description: "Link URL." },
+        { name: "asChild", type: "boolean", description: "Render as child element." },
+      ],
+    },
+    {
+      name: "NavigationDrawerHeadline",
+      description: "Section headline within the drawer.",
+      props: [
+        { name: "children", type: "ReactNode", description: "Headline text." },
+      ],
+    },
+    {
+      name: "NavigationDrawerDivider",
+      description: "Visual divider between sections.",
+      props: [],
+    },
+  ],
+
+  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
+  accessibility: {
+    screenReader: [
+      "Uses semantic <aside> element.",
+      "Active item indicated via aria-current.",
+      "Modal drawer manages focus properly.",
+    ],
+    keyboard: [
+      { key: "Tab", description: "Navigate between items" },
+      { key: "Enter/Space", description: "Activate focused item" },
+      { key: "Escape", description: "Close modal drawer" },
+    ],
+    focus: [
+      "Focus visible on navigation items.",
+      "Focus trapped in modal drawer.",
+    ],
+  },
+
+  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
+  implementation: {
+    description: "Use with state or router for navigation.",
+    code: `import {
+  NavigationDrawer,
+  NavigationDrawerItem,
+  NavigationDrawerHeadline,
+} from "@unisane/ui";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+
+function AppNavigation() {
+  const pathname = usePathname();
+
+  return (
+    <NavigationDrawer>
+      <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
+
+      <NavigationDrawerItem
+        icon="home"
+        active={pathname === "/"}
+        asChild
+      >
+        <Link href="/">Home</Link>
+      </NavigationDrawerItem>
+
+      <NavigationDrawerItem
+        icon="inbox"
+        badge={5}
+        active={pathname === "/inbox"}
+        asChild
+      >
+        <Link href="/inbox">Inbox</Link>
+      </NavigationDrawerItem>
+
+      <NavigationDrawerItem
+        icon="settings"
+        active={pathname === "/settings"}
+        asChild
+      >
+        <Link href="/settings">Settings</Link>
+      </NavigationDrawerItem>
+    </NavigationDrawer>
+  );
+}`,
+  },
+
+  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  related: [
+    {
+      slug: "sidebar",
+      reason: "Use for full app-shell navigation that coordinates rail, drawer, backdrop, and content inset together.",
+    },
+    {
+      slug: "navigation-rail",
+      reason: "Use for compact standalone vertical navigation on larger screens.",
+    },
+    {
+      slug: "navigation-bar",
+      reason: "Bottom navigation for mobile.",
+    },
+    {
+      slug: "sheet",
+      reason: "Use for non-navigation content panels.",
+    },
+  ],
+};

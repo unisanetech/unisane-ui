@@ -14,6 +14,7 @@ interface TabsContextValue {
 const TabsContext = createContext<TabsContextValue | undefined>(undefined);
 
 export interface TabsProps {
+  id?: string;
   defaultValue?: string;
   value?: string;
   onValueChange?: (value: string) => void;
@@ -22,6 +23,7 @@ export interface TabsProps {
 }
 
 export const Tabs: React.FC<TabsProps> = ({
+  id,
   defaultValue,
   value,
   onValueChange,
@@ -33,7 +35,8 @@ export const Tabs: React.FC<TabsProps> = ({
     defaultValue: defaultValue ?? "",
     onChange: onValueChange,
   });
-  const baseId = useId();
+  const generatedBaseId = useId();
+  const baseId = id ?? generatedBaseId;
 
   return (
     <TabsContext.Provider

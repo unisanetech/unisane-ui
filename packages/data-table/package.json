@@ -5,7 +5,8 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "dist"
+    "dist",
+    "unisane.meta.json"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -58,7 +59,8 @@
     "./utils": {
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js"
-    }
+    },
+    "./meta": "./unisane.meta.json"
   },
   "license": "MIT",
   "scripts": {
@@ -94,5 +96,10 @@
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",
     "xlsx": "^0.18.5"
+  },
+  "unisane": {
+    "kind": "ui",
+    "edition": "oss",
+    "meta": "./unisane.meta.json"
   }
 }

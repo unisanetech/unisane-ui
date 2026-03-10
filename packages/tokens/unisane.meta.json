@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "ui",
+  "id": "@unisane/tokens",
+  "edition": "oss",
+  "maturity": "beta",
+  "supportedModes": ["full-platform"],
+  "requiresPackages": [],
+  "requiresTokens": [],
+  "runtimeProfiles": [],
+  "docs": [],
+  "exports": [".", "./unisane.css"]
+}

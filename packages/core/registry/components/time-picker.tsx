@@ -18,7 +18,7 @@ export interface TimePickerProps {
   onValueChange?: (time: string) => void;
 }
 
-function parseTimeParts(value: string) {
+function parseTimeParts(value: string): { hours: number; minutes: number; period: 'AM' | 'PM' } {
   const [rawHours = '12', rawMinutes = '00'] = value.split(':');
   const parsedHours = Number.parseInt(rawHours, 10);
   const parsedMinutes = Number.parseInt(rawMinutes, 10);

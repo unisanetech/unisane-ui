@@ -158,6 +158,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
         open={open}
         onOpenChange={handleOpenChange}
         title={title}
+        description={description}
         icon={dialogIcon}
         className={className}
         actions={
@@ -181,9 +182,6 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
           </>
         }
       >
-        {description && (
-          <p className="text-on-surface-variant">{description}</p>
-        )}
         {children}
       </Dialog>
     );

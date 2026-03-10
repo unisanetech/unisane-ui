@@ -1,7 +1,7 @@
 import type { MDXComponents } from "mdx/types";
 import Link from "next/link";
 import { Typography, cn } from "@unisane/ui";
-import { ComponentPreview } from "@/components/docs/ComponentPreview";
+import { ComponentPreview } from "@/features/docs-page";
 import React from "react";
 
 export function useMDXComponents(components: MDXComponents): MDXComponents {
@@ -87,7 +87,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <div className="my-6">
         <pre
           className={cn(
-            "overflow-x-auto rounded-xs bg-surface-container-low p-4 text-[12px] font-mono text-on-surface-variant border border-outline-variant/30",
+            "overflow-x-auto rounded-xs bg-surface-container-low p-4 text-[12px] font-mono text-on-surface-variant border border-outline-variant",
             className
           )}
           {...props}

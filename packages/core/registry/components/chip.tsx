@@ -3,6 +3,7 @@ import {
   type ForwardedRef,
   type HTMLAttributes,
   type KeyboardEvent,
+  type MouseEventHandler,
   type ReactNode,
   forwardRef,
 } from 'react';
@@ -40,12 +41,13 @@ const chipVariants = cva(
   },
 );
 
-export type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onSelect'> &
+export type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onClick' | 'onSelect'> &
   VariantProps<typeof chipVariants> & {
     label: string;
     icon?: ReactNode;
     onDelete?: () => void;
     disabled?: boolean;
+    onClick?: MouseEventHandler<HTMLElement>;
   };
 
 export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
@@ -152,15 +154,14 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
       );
     }
 
+    const wrapperOnClick: HTMLAttributes<HTMLDivElement>['onClick'] | undefined =
+      hasRemoveAction && isPressable ? onClick : undefined;
+
     return (
-        <div
+      <div
         ref={ref as ForwardedRef<HTMLDivElement>}
         className={cn(rootClasses, hasRemoveAction && 'pr-2')}
-        onClick={
-          hasRemoveAction && isPressable
-            ? (onClick as unknown as HTMLAttributes<HTMLDivElement>['onClick'])
-            : undefined
-        }
+        onClick={wrapperOnClick}
         onKeyDown={hasRemoveAction && isPressable ? handleKeyDown : undefined}
         role={hasRemoveAction && isPressable ? 'button' : undefined}
         tabIndex={hasRemoveAction && isPressable ? 0 : undefined}

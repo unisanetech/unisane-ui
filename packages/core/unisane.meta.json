@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "kind": "ui",
+  "id": "@unisane/ui",
+  "edition": "oss",
+  "maturity": "beta",
+  "supportedModes": ["full-platform"],
+  "requiresPackages": [],
+  "requiresTokens": [],
+  "runtimeProfiles": [],
+  "docs": [],
+  "exports": [".", "./components/*", "./components/data-table", "./components/navigation", "./components/sidebar", "./hooks/*", "./layout/*", "./lib/*", "./primitives/*", "./styles.css"]
+}

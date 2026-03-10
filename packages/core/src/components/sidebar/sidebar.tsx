@@ -600,11 +600,10 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
     const { railWidth, drawerWidth, expanded, usesOverlayDrawer } = useSidebar();
 
     // Calculate desktop margin:
-    // - When drawer is expanded (pinned), include drawer width
-    // - When drawer is collapsed (or hover-only), just rail width
-    // Note: We use 'expanded' (pinned state) not 'isDrawerVisible' (which includes hover)
-    // because hover is temporary and shouldn't shift content
-    const desktopMargin = expanded ? railWidth + drawerWidth : railWidth;
+    // - SidebarRail already sits in the flex layout and consumes its own width
+    // - Only reserve inline space for the pinned drawer on desktop
+    // - Hover-only drawer remains overlay and should not shift content
+    const desktopMargin = expanded ? drawerWidth : 0;
 
     return (
       <main

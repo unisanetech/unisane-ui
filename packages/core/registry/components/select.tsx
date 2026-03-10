@@ -14,6 +14,7 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
+  id?: string;
   label?: string;
   options: SelectOption[];
   value?: string;
@@ -43,6 +44,7 @@ type DropdownPosition = {
 };
 
 export const Select: React.FC<SelectProps> = ({
+  id,
   label,
   options,
   value,
@@ -83,9 +85,11 @@ export const Select: React.FC<SelectProps> = ({
     onChange: onOpenChange,
   });
   const isOpen = openState ?? false;
-  const listboxId = useId();
-  const labelId = useId();
-  const triggerId = useId();
+  const generatedBaseId = useId();
+  const baseId = id ?? generatedBaseId;
+  const listboxId = `${baseId}-listbox`;
+  const labelId = `${baseId}-label`;
+  const triggerId = `${baseId}-trigger`;
 
   const selectedIndex = options.findIndex((option) => option.value === selectedValue);
   const selectedLabel = options[selectedIndex]?.label;

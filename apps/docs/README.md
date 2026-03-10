@@ -27,3 +27,14 @@ Use this app to:
 - document component APIs and usage examples
 - validate registry/component-install flows for external consumers
 - keep the distributable UI layer separate from product-specific app UI
+
+## Local Architecture
+
+This app is organized with clear boundaries:
+
+- `app/` for routing only
+- `features/` for render logic by product area
+- `lib/docs/registry/` for docs metadata SSOT
+- `lib/docs/runtime/` for shared docs runtime helpers
+
+Route files should stay thin. Docs metadata should be added under `lib/docs/registry/components/*.docs.tsx`.
