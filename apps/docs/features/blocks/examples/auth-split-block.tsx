@@ -7,7 +7,7 @@ export function AuthSplitBlock() {
     <Surface
       tone="surface"
       rounded="sm"
-      className="border-outline-variant/15 grid h-full w-full overflow-hidden border @3xl:grid-cols-[minmax(0,1.1fr)_420px]"
+      className="border-outline-variant grid h-full w-full overflow-hidden border @3xl:grid-cols-[minmax(0,1.1fr)_420px]"
     >
       <Surface
         tone="secondaryContainer"

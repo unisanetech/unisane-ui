@@ -17,9 +17,14 @@ export const BLOCK_REGISTRY: DocsBlock[] = [
     preview: <AppShellBlock />,
     previewShell: {
       canvasHeight: 'screen-max',
-      canvasInset: 'sm',
+      canvasInset: 'md',
       defaultViewport: 'desktop',
-      viewportOptions: ['desktop', 'tablet'],
+      viewportOptions: ['desktop', 'tablet', 'mobile'],
+      viewportWidths: {
+        desktop: 1320,
+        tablet: 900,
+        mobile: 390,
+      },
     },
     previewConfig: {
       tone: 'surfaceContainerLowest',
@@ -136,9 +141,14 @@ export function AppShellBlock() {
     preview: <SupportingPaneBlock />,
     previewShell: {
       canvasHeight: 'screen-tall',
-      canvasInset: 'sm',
+      canvasInset: 'md',
       defaultViewport: 'desktop',
-      viewportOptions: ['desktop', 'tablet'],
+      viewportOptions: ['desktop', 'tablet', 'mobile'],
+      viewportWidths: {
+        desktop: 1220,
+        tablet: 860,
+        mobile: 390,
+      },
     },
     previewConfig: {
       tone: 'surfaceContainerLowest',

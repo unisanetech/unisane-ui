@@ -18,6 +18,29 @@ import {
 } from "@/lib/navigation-visuals";
 import { useSidebar } from "./sidebar-context";
 import { Ripple } from "../ripple";
+import type { NavigationItem } from "../../types/navigation";
+
+function collectDescendantIds(items?: NavigationItem[]): string[] {
+  if (!items || items.length === 0) return [];
+  return items.flatMap((item) => {
+    if (!item.items || item.items.length === 0) return [item.id];
+    return collectDescendantIds(item.items);
+  });
+}
+
+function findNavigationItemById(
+  items: NavigationItem[],
+  id: string
+): NavigationItem | null {
+  for (const item of items) {
+    if (item.id === id) return item;
+    if (item.items && item.items.length > 0) {
+      const found = findNavigationItemById(item.items, id);
+      if (found) return found;
+    }
+  }
+  return null;
+}
 
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -99,9 +122,13 @@ export function SidebarRailItem({
   children,
   childIds = [],
 }: SidebarRailItemProps) {
-  const { activeId, handleClick, handleHover, hasActiveChild } = useSidebar();
+  const { activeId, handleClick, handleHover, hasActiveChild, items } = useSidebar();
+  const resolvedChildIds =
+    childIds.length > 0
+      ? childIds
+      : collectDescendantIds(findNavigationItemById(items, id)?.items);
   const isDirectlyActive = activeId === id;
-  const hasChildActive = childIds.length > 0 && hasActiveChild(childIds);
+  const hasChildActive = resolvedChildIds.length > 0 && hasActiveChild(resolvedChildIds);
   const isActive = isDirectlyActive || hasChildActive;
   const content = (
     <NavigationRailItemContent
@@ -376,15 +403,15 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
     };
 
     const buttonClasses = cn(
-      "flex w-full items-center gap-2 rounded-md px-2 py-1.5",
-      "text-sm transition-colors duration-short cursor-pointer",
+      "relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2",
+      "text-body-medium text-left transition-colors duration-short cursor-pointer",
       "relative overflow-hidden select-none outline-none",
       "focus-visible:ring-2 focus-visible:ring-primary",
-      size === "sm" && "py-1 text-xs",
-      size === "lg" && "py-2.5 text-base",
+      size === "sm" && "min-h-8 gap-2 py-1.5 text-label-medium",
+      size === "lg" && "min-h-12 py-3 text-body-large",
       isActive
         ? "bg-secondary-container text-on-secondary-container font-medium"
-        : "text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface",
+      : "text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface",
       variant === "outline" && "border border-outline-variant",
       props.disabled && "opacity-38 cursor-not-allowed pointer-events-none",
       className
@@ -525,10 +552,10 @@ export const SidebarTrigger = forwardRef<
   HTMLButtonElement,
   SidebarTriggerProps
 >(({ children, className, onClick, ...props }, ref) => {
-  const { isMobile, toggleMobile, toggleExpanded } = useSidebar();
+  const { usesOverlayDrawer, toggleMobile, toggleExpanded } = useSidebar();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (isMobile) {
+    if (usesOverlayDrawer) {
       toggleMobile();
     } else {
       toggleExpanded();
@@ -654,12 +681,19 @@ export function SidebarCollapsibleGroup({
   childIds = [],
   ...props
 }: SidebarCollapsibleGroupProps) {
-  const { isGroupExpanded, toggleGroup, setGroupExpanded, activeId } =
+  const { isGroupExpanded, toggleGroup, setGroupExpanded, activeId, items } =
     useSidebar();
   const contentId = useId();
   const defaultAppliedRef = useRef(false);
+  const resolvedChildIds =
+    childIds.length > 0
+      ? childIds
+      : collectDescendantIds(findNavigationItemById(items, id)?.items);
+  const isSelfActive = activeId === id;
   const hasActiveChild =
-    childIds.length > 0 && activeId !== null && childIds.includes(activeId);
+    resolvedChildIds.length > 0 &&
+    activeId !== null &&
+    resolvedChildIds.includes(activeId);
 
   useEffect(() => {
     if (!defaultAppliedRef.current && defaultOpen) {
@@ -674,7 +708,7 @@ export function SidebarCollapsibleGroup({
     }
   }, [hasActiveChild, id, setGroupExpanded]);
 
-  const isOpen = isGroupExpanded(id, childIds);
+  const isOpen = isGroupExpanded(id, resolvedChildIds);
 
   const handleToggle = () => {
     toggleGroup(id);
@@ -685,11 +719,13 @@ export function SidebarCollapsibleGroup({
       <button
         onClick={handleToggle}
         className={cn(
-          "flex items-center gap-3 px-4 py-3 rounded-xl w-full",
-          "text-body-medium transition-colors duration-short",
-          "cursor-pointer select-none relative overflow-hidden",
-          hasActiveChild
-            ? "bg-secondary-container/50 text-on-secondary-container font-semibold"
+          "relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2",
+          "text-body-medium text-left transition-colors duration-short cursor-pointer select-none outline-none",
+          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
+          isSelfActive
+            ? "bg-secondary-container text-on-secondary-container font-medium"
+            : hasActiveChild
+              ? "text-primary font-semibold hover:bg-on-surface/8"
             : "text-on-surface-variant font-medium hover:bg-on-surface/8 hover:text-on-surface"
         )}
         aria-expanded={isOpen}
@@ -698,10 +734,10 @@ export function SidebarCollapsibleGroup({
         <Ripple />
         {icon && (
           <span className="shrink-0">
-            <NavigationIcon icon={icon} active={hasActiveChild} size={20} />
+            <NavigationIcon icon={icon} active={isSelfActive || hasActiveChild} size={20} />
           </span>
         )}
-        <span className="flex-1 text-left truncate">{label}</span>
+        <span className="flex-1 truncate text-left">{label}</span>
         <svg
           className={cn(
             "size-icon-sm transition-transform duration-medium ease-emphasized shrink-0",
@@ -726,7 +762,7 @@ export function SidebarCollapsibleGroup({
         )}
         aria-hidden={!isOpen}
       >
-        <div className="flex flex-col pl-4 overflow-hidden">{children}</div>
+        <div className="mt-1 flex flex-col gap-0.5 pl-4 overflow-hidden">{children}</div>
       </div>
     </div>
   );

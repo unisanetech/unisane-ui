@@ -1,52 +1,86 @@
 'use client';
 
-import { useState } from 'react';
+import React, {
+  cloneElement,
+  isValidElement,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo as useReactMemo,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { DocsBlock, DocsBlockCanvasHeight, DocsBlockViewport } from '@/lib/docs/blocks/types';
 import { cn } from '@unisane/ui/lib/utils';
-import { IconButton, SegmentedButton, Typography } from '@unisane/ui';
+import { SegmentedButton, Typography } from '@unisane/ui';
 import { CodeBlock } from '@/features/docs-page/components/code-block';
-import {
-  PreviewStage,
-  mergePreviewStageConfig,
-} from '@/features/docs-page/components/preview-stage';
 
 interface BlockPreviewShellProps {
   block: DocsBlock;
   className?: string;
 }
 
+const DEFAULT_VIEWPORT_WIDTHS: Record<DocsBlockViewport, number> = {
+  desktop: 1440,
+  tablet: 920,
+  mobile: 420,
+};
+
+const MIN_VIEWPORT_WIDTH: Record<DocsBlockViewport, number> = {
+  desktop: 840,
+  tablet: 600,
+  mobile: 320,
+};
+
+const VIEWPORT_LABELS: Record<DocsBlockViewport, string> = {
+  desktop: 'Desktop',
+  tablet: 'Tablet',
+  mobile: 'Mobile',
+};
+
+const BREAKPOINTS = [
+  { key: 'mobile', minWidth: 0, label: 'Mobile', widthClass: 'w-[40rem]' },
+  { key: 'sm', minWidth: 640, label: 'sm', widthClass: 'w-32' },
+  { key: 'md', minWidth: 768, label: 'md', widthClass: 'w-40' },
+  { key: 'lg', minWidth: 1024, label: 'lg', widthClass: 'w-40' },
+  { key: 'xl', minWidth: 1280, label: 'xl', widthClass: 'w-40' },
+] as const;
+
+function getViewportWidth(
+  viewport: DocsBlockViewport,
+  containerWidth: number,
+  previewShell?: DocsBlock['previewShell'],
+) {
+  const configuredWidth = previewShell?.viewportWidths?.[viewport];
+  const targetWidth = configuredWidth ?? DEFAULT_VIEWPORT_WIDTHS[viewport];
+  const horizontalBuffer = containerWidth >= 768 ? 64 : 24;
+  const maxWidth = Math.max(MIN_VIEWPORT_WIDTH.mobile, containerWidth - horizontalBuffer);
+
+  return Math.min(targetWidth, maxWidth);
+}
+
 export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) {
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const previewShell = block.previewShell;
   const canvasHeight = previewShell?.canvasHeight ?? 'screen';
-  const [viewport, setViewport] = useState<DocsBlockViewport>(
-    previewShell?.defaultViewport ?? 'desktop',
+  const defaultViewport = previewShell?.defaultViewport ?? 'desktop';
+  const [containerWidth, setContainerWidth] = useState(0);
+  const [resizeTrackWidth, setResizeTrackWidth] = useState(0);
+  const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const resizeTrackRef = useRef<HTMLDivElement | null>(null);
+  const resizeRafRef = useRef<number | null>(null);
+  const pendingWidthRef = useRef<number | null>(null);
+  const rawPatternId = useId();
+  const dotPatternId = useReactMemo(
+    () => `block-preview-dot-${rawPatternId.replace(/[^a-zA-Z0-9_-]/g, '')}`,
+    [rawPatternId],
   );
-  const previewConfig = mergePreviewStageConfig(
-    {
-      tone: 'surfaceContainerLowest',
-      minHeight:
-        canvasHeight === 'md'
-          ? 'md'
-          : canvasHeight === 'lg'
-            ? 'lg'
-            : canvasHeight === 'xl'
-              ? 'xl'
-              : 'screen',
-      padding: 'none',
-      align: 'start',
-      justify: 'start',
-      overflow: 'hidden',
-    },
-    block.previewConfig,
-  );
+
   const viewportOptions = previewShell?.viewportOptions ?? ['desktop', 'tablet', 'mobile'];
-  const showViewportControls = previewShell?.showViewportControls ?? true;
-  const viewportWidthClass = {
-    desktop: 'w-full',
-    tablet: 'w-full max-w-[900px]',
-    mobile: 'w-full max-w-[420px]',
-  } as const;
+  const resizable = previewShell?.resizable ?? true;
   const canvasInset = previewShell?.canvasInset ?? 'sm';
   const canvasInsetClass = {
     none: 'p-0',
@@ -63,10 +97,147 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
     'screen-max': 'h-[calc(100svh-5.5rem)]',
   };
 
+  const currentWidth = viewportWidth ?? getViewportWidth(defaultViewport, containerWidth, previewShell);
+  const effectiveViewport: DocsBlockViewport = useMemo(() => {
+    if (currentWidth >= MIN_VIEWPORT_WIDTH.desktop) return 'desktop';
+    if (currentWidth >= MIN_VIEWPORT_WIDTH.tablet) return 'tablet';
+    return 'mobile';
+  }, [currentWidth]);
+  const activeBreakpoint = useMemo(() => {
+    for (let index = 0; index < BREAKPOINTS.length; index += 1) {
+      const current = BREAKPOINTS[index];
+      if (!current) continue;
+      const next = BREAKPOINTS[index + 1];
+      const inRange = next
+        ? currentWidth >= current.minWidth && currentWidth < next.minWidth
+        : currentWidth >= current.minWidth;
+      if (inRange) return current.key;
+    }
+    return 'mobile';
+  }, [currentWidth]);
+
+  const getMaxViewportWidth = useCallback(() => {
+    const fallbackWidth = Math.max(MIN_VIEWPORT_WIDTH.mobile, containerWidth - 24);
+    const trackWidth = resizeTrackWidth > 0 ? resizeTrackWidth : fallbackWidth;
+    return Math.max(MIN_VIEWPORT_WIDTH.mobile, trackWidth - 2);
+  }, [containerWidth, resizeTrackWidth]);
+
+  useEffect(() => {
+    if (activeTab !== 'preview') return;
+
+    const frameNode = frameRef.current;
+    const trackNode = resizeTrackRef.current;
+    if (!frameNode || !trackNode) return;
+
+    const update = () => {
+      setContainerWidth(frameNode.clientWidth);
+      setResizeTrackWidth(trackNode.clientWidth);
+    };
+
+    update();
+
+    const observer = new ResizeObserver(() => update());
+    observer.observe(frameNode);
+    observer.observe(trackNode);
+
+    return () => observer.disconnect();
+  }, [activeTab]);
+
+  useEffect(() => {
+    return () => {
+      if (resizeRafRef.current !== null) {
+        window.cancelAnimationFrame(resizeRafRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (containerWidth === 0) return;
+    const maxWidth = getMaxViewportWidth();
+    setViewportWidth((previous) => {
+      if (previous === null) {
+        return getViewportWidth(defaultViewport, containerWidth, previewShell);
+      }
+      return Math.min(maxWidth, Math.max(MIN_VIEWPORT_WIDTH.mobile, previous));
+    });
+  }, [containerWidth, defaultViewport, getMaxViewportWidth, previewShell]);
+
+  const startResize = useCallback(
+    (event: React.PointerEvent<HTMLButtonElement>) => {
+      if (!resizable || containerWidth === 0) return;
+      const trackNode = resizeTrackRef.current;
+      if (!trackNode) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+      const startX = event.clientX;
+      const startWidth = currentWidth;
+      const maxWidth = getMaxViewportWidth();
+      const minWidth = MIN_VIEWPORT_WIDTH.mobile;
+      const previousCursor = document.body.style.cursor;
+      const previousUserSelect = document.body.style.userSelect;
+
+      const scheduleWidthUpdate = (nextWidth: number) => {
+        pendingWidthRef.current = nextWidth;
+        if (resizeRafRef.current !== null) return;
+        resizeRafRef.current = window.requestAnimationFrame(() => {
+          resizeRafRef.current = null;
+          if (pendingWidthRef.current !== null) {
+            setViewportWidth(pendingWidthRef.current);
+          }
+        });
+      };
+
+      const updateWidthFromPointer = (clientX: number) => {
+        const nextWidth = startWidth + (clientX - startX);
+        const clampedWidth = Math.max(minWidth, Math.min(maxWidth, nextWidth));
+        scheduleWidthUpdate(clampedWidth);
+      };
+
+      const handleMove = (moveEvent: PointerEvent) => {
+        updateWidthFromPointer(moveEvent.clientX);
+      };
+
+      const endResize = () => {
+        setIsDragging(false);
+        document.body.style.cursor = previousCursor;
+        document.body.style.userSelect = previousUserSelect;
+        pendingWidthRef.current = null;
+        if (resizeRafRef.current !== null) {
+          window.cancelAnimationFrame(resizeRafRef.current);
+          resizeRafRef.current = null;
+        }
+        window.removeEventListener('pointermove', handleMove);
+        window.removeEventListener('pointerup', endResize);
+        window.removeEventListener('pointercancel', endResize);
+      };
+
+      setIsDragging(true);
+      document.body.style.cursor = 'ew-resize';
+      document.body.style.userSelect = 'none';
+      updateWidthFromPointer(event.clientX);
+      window.addEventListener('pointermove', handleMove, { passive: true });
+      window.addEventListener('pointerup', endResize);
+      window.addEventListener('pointercancel', endResize);
+    },
+    [containerWidth, currentWidth, getMaxViewportWidth, resizable],
+  );
+
+  const previewNode = useMemo(() => {
+    if (!isValidElement(block.preview)) {
+      return block.preview;
+    }
+
+    return cloneElement(block.preview as React.ReactElement<Record<string, unknown>>, {
+      viewport: effectiveViewport,
+    });
+  }, [block.preview, effectiveViewport]);
+
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="border-outline-variant/10 flex flex-col gap-3 border-b pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
-        <div className="flex flex-col gap-3 @2xl:flex-row @2xl:items-center">
+      <div className="border-outline-variant flex flex-col gap-3 border-b pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
+        <div className="flex items-center">
           <SegmentedButton
             options={[
               { value: 'preview', label: 'Preview' },
@@ -76,67 +247,115 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
             onValueChange={(value) => setActiveTab(value as 'preview' | 'code')}
             size="sm"
           />
-          <Typography variant="bodyMedium" className="text-on-surface-variant">
-            {block.description}
-          </Typography>
         </div>
 
-        {activeTab === 'preview' && showViewportControls && (
-          <div className="flex items-center gap-2">
-            <SegmentedButton
-              options={viewportOptions.map((value) => ({
-                value,
-                label: value === 'desktop' ? 'Desktop' : value === 'tablet' ? 'Tablet' : 'Mobile',
-                icon: (
-                  <span className="material-symbols-outlined text-[16px]">
-                    {value === 'desktop'
-                      ? 'desktop_windows'
-                      : value === 'tablet'
-                        ? 'tablet_mac'
-                        : 'smartphone'}
-                  </span>
-                ),
-              }))}
-              value={viewport}
-              onValueChange={(value) => setViewport(value as DocsBlockViewport)}
-              size="sm"
-            />
-            <IconButton
-              variant="outlined"
-              size="sm"
-              aria-label="Reset viewport"
-              className="pointer-events-none"
-            >
-              <span className="material-symbols-outlined text-[16px]">refresh</span>
-            </IconButton>
-          </div>
+        {activeTab === 'preview' && viewportOptions.length > 0 && (
+          <Typography variant="labelMedium" className="text-on-surface-variant font-mono">
+            Drag to resize · {VIEWPORT_LABELS[effectiveViewport]}
+          </Typography>
         )}
       </div>
 
       {activeTab === 'preview' ? (
-        <div className="border-outline-variant/10 bg-surface overflow-hidden rounded-sm border">
-          <div
-            className={cn(
-              'bg-surface-container-lowest overflow-auto',
-              canvasHeightClass[canvasHeight],
-            )}
-          >
-            <div className={cn('box-border h-full', canvasInsetClass[canvasInset])}>
-              <PreviewStage
-                config={previewConfig}
-                className="bg-surface-container-lowest h-full min-h-0 border-0"
-              >
-                <div
-                  className={cn(
-                    'duration-medium ease-emphasized mx-auto h-full transition-[max-width]',
-                    viewportWidthClass[viewport],
-                  )}
-                >
-                  {block.preview}
-                </div>
-              </PreviewStage>
+        <div
+          ref={frameRef}
+          className={cn(
+            'border-outline-variant relative overflow-auto rounded-sm border',
+            canvasHeightClass[canvasHeight],
+          )}
+          style={{
+            backgroundColor: 'hsl(240 4.8% 95.9% / 0.4)',
+          }}
+        >
+            <div className="absolute inset-0 opacity-10" style={{ color: 'var(--color-on-surface)' }}>
+              <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <pattern
+                    id={dotPatternId}
+                    x="5"
+                    y="5"
+                    width="12"
+                    height="12"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle
+                      cx="2"
+                      cy="2"
+                      r="1"
+                      fill="currentColor"
+                    />
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill={`url(#${dotPatternId})`} />
+              </svg>
             </div>
-          </div>
+            <div className={cn('relative box-border flex h-full flex-col', canvasInsetClass[canvasInset])}>
+              <div className="mb-2 hidden h-9 w-full overflow-hidden @2xl:flex">
+                {BREAKPOINTS.map((breakpoint, index) => {
+                  const isActive = activeBreakpoint === breakpoint.key;
+                  return (
+                    <div
+                      key={breakpoint.key}
+                      className={cn(
+                        'border-outline-variant relative flex h-full items-center justify-between border-l px-6 text-sm',
+                        breakpoint.widthClass,
+                        index === 0 && 'border-l',
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'font-mono text-xs transition-colors',
+                          isActive ? 'text-primary font-semibold' : 'text-on-surface-variant',
+                        )}
+                      >
+                        {breakpoint.label}
+                      </span>
+                      <span
+                        className={cn(
+                          'ml-2 font-mono text-xs transition-opacity',
+                          isActive ? 'text-primary/80 opacity-100' : 'pointer-events-none opacity-0',
+                        )}
+                      >
+                        {Math.round(currentWidth)}px
+                      </span>
+                    </div>
+                  );
+                })}
+                <div className="border-outline-variant flex h-full items-center border-l px-4">
+                  <span className="font-mono text-xs text-on-surface-variant/70">x1</span>
+                </div>
+              </div>
+
+              <div ref={resizeTrackRef} className="flex min-h-0 flex-1 items-start justify-start">
+                <div
+                  className="relative flex h-full max-w-full items-stretch justify-center"
+                  style={{ width: currentWidth }}
+                >
+                  <div className="border-outline-variant bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm border">
+                    <div className="h-full w-full overflow-auto">{previewNode}</div>
+                  </div>
+
+                  {resizable && containerWidth > 0 && (
+                    <button
+                      type="button"
+                      aria-label="Resize preview"
+                      onPointerDown={startResize}
+                      style={{ touchAction: 'none' }}
+                      className={cn(
+                        'absolute right-[-11px] top-0 hidden h-full w-6 cursor-ew-resize items-center justify-center bg-transparent @3xl:flex',
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'bg-outline-variant/45 h-12 w-1.5 rounded-full transition-colors',
+                          isDragging && 'bg-primary/70',
+                        )}
+                      />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
         </div>
       ) : (
         <CodeBlock code={block.code} language="tsx" />

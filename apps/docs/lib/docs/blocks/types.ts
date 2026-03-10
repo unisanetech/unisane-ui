@@ -11,6 +11,8 @@ export interface DocsBlockPreviewShellConfig {
   defaultViewport?: DocsBlockViewport;
   viewportOptions?: DocsBlockViewport[];
   showViewportControls?: boolean;
+  resizable?: boolean;
+  viewportWidths?: Partial<Record<DocsBlockViewport, number>>;
 }
 
 export interface DocsBlockMeta {

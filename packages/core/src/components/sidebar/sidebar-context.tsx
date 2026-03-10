@@ -49,6 +49,7 @@ export interface SidebarProviderProps {
   items?: NavigationItem[];
   defaultActiveId?: string | null;
   defaultExpanded?: boolean;
+  defaultMobileOpen?: boolean;
   persist?: boolean;
   storageKey?: string;
   hoverDelay?: number;
@@ -56,6 +57,7 @@ export interface SidebarProviderProps {
   railWidth?: number;
   drawerWidth?: number;
   mobileDrawerWidth?: number;
+  forceViewport?: "mobile" | "tablet" | "desktop";
   onActiveChange?: (id: string | null) => void;
   onExpandedChange?: (expanded: boolean) => void;
 }
@@ -109,6 +111,7 @@ export function SidebarProvider({
   items = [],
   defaultActiveId = null,
   defaultExpanded = false,
+  defaultMobileOpen = false,
   persist = false,
   storageKey = "unisane-sidebar",
   hoverDelay = 150,
@@ -116,12 +119,13 @@ export function SidebarProvider({
   railWidth = 96,
   drawerWidth = 220,
   mobileDrawerWidth = 280,
+  forceViewport,
   onActiveChange,
   onExpandedChange,
 }: SidebarProviderProps) {
   const [activeId, setActiveIdState] = useState<string | null>(defaultActiveId);
   const [expanded, setExpandedState] = useState<boolean>(defaultExpanded);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(defaultMobileOpen);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [lastContentId, setLastContentId] = useState<string | null>(defaultActiveId);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
@@ -154,9 +158,9 @@ export function SidebarProvider({
   // Default to mobile state to avoid hydration mismatch flash.
   // CSS media queries handle the actual responsive visibility,
   // and JS state updates after mount for behavior logic.
-  const [isMobile, setIsMobile] = useState(true);
-  const [isTablet, setIsTablet] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isMobile, setIsMobile] = useState(forceViewport === "mobile" || !forceViewport);
+  const [isTablet, setIsTablet] = useState(forceViewport === "tablet");
+  const [isDesktop, setIsDesktop] = useState(forceViewport === "desktop");
 
   const entryTimeoutRef = useRef<number | null>(null);
   const exitTimeoutRef = useRef<number | null>(null);
@@ -177,6 +181,13 @@ export function SidebarProvider({
   }, [defaultActiveId, items]);
 
   useEffect(() => {
+    if (forceViewport) {
+      setIsMobile(forceViewport === "mobile");
+      setIsTablet(forceViewport === "tablet");
+      setIsDesktop(forceViewport === "desktop");
+      return;
+    }
+
     const updateBreakpoint = () => {
       const width = window.innerWidth;
       // M3 breakpoints: compact (<600), medium (600-840), expanded (840+)
@@ -187,7 +198,11 @@ export function SidebarProvider({
     updateBreakpoint();
     window.addEventListener("resize", updateBreakpoint);
     return () => window.removeEventListener("resize", updateBreakpoint);
-  }, []);
+  }, [forceViewport]);
+
+  useEffect(() => {
+    setMobileOpen(defaultMobileOpen);
+  }, [defaultMobileOpen, forceViewport]);
 
   useEffect(() => {
     if (!persist || typeof window === "undefined") return;

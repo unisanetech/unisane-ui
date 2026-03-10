@@ -49,7 +49,7 @@ export function BlocksCatalog() {
                   >
                     {block.preview}
                   </PreviewStage>
-                  <div className="border-outline-variant/10 flex items-center justify-between gap-3 border-t p-4">
+                  <div className="border-outline-variant flex items-center justify-between gap-3 border-t p-4">
                     <div className="min-w-0">
                       <Typography variant="titleMedium" component="h3" className="truncate">
                         {block.title}

@@ -7,7 +7,7 @@ export function AiChatWorkspaceBlock() {
     <Surface
       tone="surface"
       rounded="sm"
-      className="border-outline-variant/15 h-full w-full overflow-hidden border"
+      className="border-outline-variant h-full w-full overflow-hidden border"
     >
       <div className="flex min-h-[420px] flex-col justify-between p-5">
         <div className="space-y-4">

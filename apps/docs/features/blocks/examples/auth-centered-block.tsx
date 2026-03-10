@@ -12,7 +12,7 @@ export function AuthCenteredBlock() {
       <Surface
         tone="surface"
         rounded="sm"
-        className="border-outline-variant/15 shadow-1 w-full max-w-[26rem] border p-6"
+        className="border-outline-variant shadow-1 w-full max-w-[26rem] border p-6"
       >
         <div className="space-y-5">
           <div className="space-y-2 text-center">

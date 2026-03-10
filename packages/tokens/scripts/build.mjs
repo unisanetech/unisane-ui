@@ -386,18 +386,18 @@ function generateUniTokens() {
   --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-10);
   --tone-surface-container-lowest: var(--ref-neutral-100);
-  --tone-surface-container-low: var(--ref-neutral-95);
-  --tone-surface-container: var(--ref-neutral-90);
-  --tone-surface-container-high: var(--ref-neutral-80);
-  --tone-surface-container-highest: var(--ref-neutral-70);
+  --tone-surface-container-low: var(--ref-neutral-99);
+  --tone-surface-container: var(--ref-neutral-95);
+  --tone-surface-container-high: var(--ref-neutral-90);
+  --tone-surface-container-highest: var(--ref-neutral-80);
   --tone-surface-variant: var(--ref-neutral-variant-90);
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
   /* Background/outline tone mapping */
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-80);
+  --tone-outline: var(--ref-neutral-variant-60);
+  --tone-outline-variant: var(--ref-neutral-variant-90);
 
   /* Error tone mapping */
   --tone-error: var(--ref-error-40);
@@ -602,7 +602,7 @@ function generateUniTokens() {
     --tone-background: var(--ref-neutral-6);
     --tone-on-background: var(--ref-neutral-90);
     --tone-outline: var(--ref-neutral-variant-60);
-    --tone-outline-variant: var(--ref-neutral-variant-30);
+    --tone-outline-variant: var(--ref-neutral-variant-24);
 
     --tone-error: var(--ref-error-80);
     --tone-on-error: var(--ref-error-20);
@@ -661,7 +661,7 @@ function generateUniTokens() {
   --tone-background: var(--ref-neutral-6);
   --tone-on-background: var(--ref-neutral-90);
   --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-30);
+  --tone-outline-variant: var(--ref-neutral-variant-24);
 
   --tone-error: var(--ref-error-80);
   --tone-on-error: var(--ref-error-20);
@@ -804,7 +804,8 @@ function generateUniTokens() {
   --tone-on-secondary: var(--ref-secondary-100);
 
   --tone-on-surface: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-40);
+  --tone-outline: var(--ref-neutral-variant-50);
+  --tone-outline-variant: var(--ref-neutral-variant-80);
 }
 
 .dark[data-contrast="medium"],
@@ -819,6 +820,7 @@ function generateUniTokens() {
 
   --tone-on-surface: var(--ref-neutral-95);
   --tone-outline: var(--ref-neutral-variant-70);
+  --tone-outline-variant: var(--ref-neutral-variant-30);
 }
 
 /* High contrast - boosted accessibility, WCAG AAA (darker primary: tone 20) */
@@ -841,6 +843,7 @@ function generateUniTokens() {
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-0);
   --tone-outline: var(--ref-neutral-variant-20);
+  --tone-outline-variant: var(--ref-neutral-variant-70);
 
   --tone-error: var(--ref-error-20);
   --tone-on-error: var(--ref-error-100);
@@ -866,6 +869,7 @@ function generateUniTokens() {
   --tone-background: var(--ref-neutral-0);
   --tone-on-background: var(--ref-neutral-100);
   --tone-outline: var(--ref-neutral-variant-80);
+  --tone-outline-variant: var(--ref-neutral-variant-60);
 
   --tone-error: var(--ref-error-95);
   --tone-on-error: var(--ref-error-0);

@@ -117,11 +117,11 @@ export function getNavigationDrawerItemClasses(args: {
   const { active, disabled, className } = args;
 
   return cn(
-    "group relative flex w-full min-h-12 items-center gap-3 rounded-xl px-4 py-3",
-    "text-body-medium transition-colors duration-short select-none overflow-hidden outline-none",
+    "group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-sm px-4 py-2",
+    "text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none",
     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
     active
-      ? "bg-secondary-container text-on-secondary-container font-semibold"
+      ? "bg-secondary-container text-on-secondary-container font-medium"
       : "text-on-surface-variant font-medium hover:bg-on-surface/8 hover:text-on-surface",
     disabled && "opacity-38 cursor-not-allowed pointer-events-none",
     className,
@@ -168,7 +168,7 @@ export function NavigationDrawerItemContent({
         </span>
       )}
 
-      <span className="relative z-10 flex-1 truncate">{children}</span>
+      <span className="relative z-10 flex-1 truncate text-left">{children}</span>
 
       {badge && (
         <span className="relative z-10 ml-auto">
