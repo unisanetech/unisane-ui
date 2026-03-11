@@ -22,7 +22,7 @@ const StepperHeroVisual = () => (
         </div>
         {/* Step 2 - Active */}
         <div className="flex flex-col items-center relative flex-1">
-          <div className="absolute top-4 left-1/2 w-full h-0.5 bg-outline-variant/30 z-0" />
+          <div className="absolute top-4 left-1/2 w-full h-0.5 bg-outline-subtle z-0" />
           <div className="w-8 h-8 rounded-sm flex items-center justify-center text-label-small font-medium bg-primary border-2 border-primary text-on-primary z-10 scale-110">
             2
           </div>
@@ -119,7 +119,7 @@ export const stepperDoc: ComponentDoc = {
             <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">1</div>
             <div className="w-8 h-0.5 bg-primary" />
             <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">2</div>
-            <div className="w-8 h-0.5 bg-outline-variant/30" />
+            <div className="w-8 h-0.5 bg-outline-subtle" />
             <div className="w-6 h-6 rounded-xs flex items-center justify-center border border-outline-variant text-on-surface-variant text-[10px]">3</div>
           </div>
         ),

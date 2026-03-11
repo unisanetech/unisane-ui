@@ -20,8 +20,8 @@ const FabHeroVisual = () => (
           <div key={i} className="flex items-center gap-3 p-3 rounded-xl hover:bg-surface-container-low">
             <div className="w-10 h-10 rounded-full bg-primary-container shrink-0" />
             <div className="flex-1 min-w-0">
-              <div className="h-3 w-24 bg-on-surface/10 rounded mb-2" />
-              <div className="h-2.5 w-full bg-on-surface/5 rounded" />
+              <div className="h-3 w-24 bg-outline-weak rounded mb-2" />
+              <div className="h-2.5 w-full bg-state-hover rounded" />
             </div>
           </div>
         ))}

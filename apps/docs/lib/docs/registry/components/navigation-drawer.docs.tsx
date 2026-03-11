@@ -120,7 +120,7 @@ export const navigationDrawerDoc: ComponentDoc = {
         emphasis: "Modal",
         component: (
           <div className="w-32 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute inset-0 bg-scrim/30" />
+            <div className="absolute inset-0 bg-scrim-soft" />
             <div className="absolute left-0 top-0 bottom-0 w-12 bg-surface rounded-r-xl shadow-2 p-1 space-y-1 z-10">
               <div className="h-2 rounded-sm bg-secondary-container" />
               <div className="h-2 rounded-sm bg-surface-container-high" />

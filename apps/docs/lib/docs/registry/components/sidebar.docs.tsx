@@ -31,7 +31,7 @@ const SidebarHeroVisual = () => (
       </div>
       {/* Main Content */}
       <div className="flex-1 p-4 bg-surface-container-lowest">
-        <div className="h-3 bg-on-surface/15 rounded-sm w-1/3 mb-3" />
+        <div className="h-3 bg-outline-soft rounded-sm w-1/3 mb-3" />
         <div className="grid grid-cols-2 gap-2">
           <div className="h-16 bg-surface-container rounded-sm" />
           <div className="h-16 bg-surface-container rounded-sm" />
@@ -53,13 +53,13 @@ const RailOnlyExample = () => (
         <span className="text-[11px] text-primary font-bold">Home</span>
       </div>
       <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-on-surface/8">
+        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover">
           <span className="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
         </div>
         <span className="text-[11px] text-on-surface-variant">Search</span>
       </div>
       <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-on-surface/8 relative">
+        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover relative">
           <span className="material-symbols-outlined text-on-surface-variant text-[20px]">notifications</span>
           <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-error text-on-error text-[10px] rounded-full flex items-center justify-center">3</span>
         </div>
@@ -68,7 +68,7 @@ const RailOnlyExample = () => (
     </div>
     {/* Content */}
     <div className="flex-1 p-4 bg-surface-container-lowest">
-      <div className="h-4 bg-on-surface/15 rounded-sm w-1/2 mb-4" />
+      <div className="h-4 bg-outline-soft rounded-sm w-1/2 mb-4" />
       <div className="space-y-2">
         <div className="h-3 bg-surface-container-high rounded-sm w-full" />
         <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
@@ -88,7 +88,7 @@ const ExpandedSidebarExample = () => (
         <span className="text-[11px] text-primary font-bold">Files</span>
       </div>
       <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-on-surface/8">
+        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover">
           <span className="material-symbols-outlined text-on-surface-variant text-[20px]">star</span>
         </div>
         <span className="text-[11px] text-on-surface-variant">Starred</span>
@@ -102,11 +102,11 @@ const ExpandedSidebarExample = () => (
           <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>folder</span>
           <span className="text-body-medium text-primary font-semibold">Documents</span>
         </div>
-        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-on-surface/8">
+        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-state-hover">
           <span className="material-symbols-outlined text-[20px]">folder</span>
           <span className="text-body-medium">Images</span>
         </div>
-        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-on-surface/8">
+        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-state-hover">
           <span className="material-symbols-outlined text-[20px]">folder</span>
           <span className="text-body-medium">Downloads</span>
         </div>
@@ -218,7 +218,7 @@ export const sidebarDoc: ComponentDoc = {
         emphasis: "Mobile Drawer",
         component: (
           <div className="w-32 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute inset-0 bg-scrim/20" />
+            <div className="absolute inset-0 bg-scrim-soft" />
             <div className="absolute left-0 top-0 bottom-0 w-16 bg-surface-container shadow-3 p-1 space-y-1 z-10">
               <div className="h-2 rounded-sm bg-secondary-container" />
               <div className="h-2 rounded-sm bg-surface-container-high" />

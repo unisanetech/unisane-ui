@@ -5,6 +5,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 export type Density = "compact" | "standard" | "comfortable" | "dense";
 export type Theme = "light" | "dark" | "system";
 export type RadiusTheme = "none" | "minimal" | "sharp" | "standard" | "soft";
+export type ActionShape = "standard" | "full";
 export type ColorScheme = "tonal" | "monochrome" | "neutral";
 export type ContrastLevel = "standard" | "medium" | "high";
 export type ColorTheme = "blue" | "purple" | "pink" | "red" | "orange" | "yellow" | "green" | "cyan" | "black" | "neutral";
@@ -14,6 +15,7 @@ export type Elevation = "flat" | "subtle" | "standard" | "pronounced";
 const VALID_DENSITIES: Density[] = ["compact", "standard", "comfortable", "dense"];
 const VALID_THEMES: Theme[] = ["light", "dark", "system"];
 const VALID_RADII: RadiusTheme[] = ["none", "minimal", "sharp", "standard", "soft"];
+const VALID_ACTION_SHAPES: ActionShape[] = ["standard", "full"];
 const VALID_SCHEMES: ColorScheme[] = ["tonal", "monochrome", "neutral"];
 const VALID_CONTRASTS: ContrastLevel[] = ["standard", "medium", "high"];
 const VALID_COLOR_THEMES: ColorTheme[] = ["blue", "purple", "pink", "red", "orange", "yellow", "green", "cyan", "black", "neutral"];
@@ -28,6 +30,7 @@ export interface ThemeConfig {
   density?: Density;
   theme?: Theme;
   radius?: RadiusTheme;
+  actionShape?: ActionShape;
   scheme?: ColorScheme;
   contrast?: ContrastLevel;
   colorTheme?: ColorTheme;
@@ -39,6 +42,7 @@ interface ThemeContextType {
   theme: Theme;
   resolvedTheme: "light" | "dark";
   radius: RadiusTheme;
+  actionShape: ActionShape;
   scheme: ColorScheme;
   contrast: ContrastLevel;
   colorTheme: ColorTheme;
@@ -46,6 +50,7 @@ interface ThemeContextType {
   setDensity: (density: Density) => void;
   setTheme: (theme: Theme) => void;
   setRadius: (radius: RadiusTheme) => void;
+  setActionShape: (actionShape: ActionShape) => void;
   setScheme: (scheme: ColorScheme) => void;
   setContrast: (contrast: ContrastLevel) => void;
   setColorTheme: (colorTheme: ColorTheme) => void;
@@ -88,6 +93,7 @@ const DEFAULTS: Required<ThemeConfig> = {
   density: "standard",
   theme: "system",
   radius: "standard",
+  actionShape: "standard",
   scheme: "tonal",
   contrast: "standard",
   colorTheme: "blue",
@@ -101,6 +107,7 @@ function getInitialFromDOM(): Partial<ThemeConfig> {
   return {
     density: root.getAttribute("data-density") as Density | undefined,
     radius: root.getAttribute("data-radius") as RadiusTheme | undefined,
+    actionShape: root.getAttribute("data-action-shape") as ActionShape | undefined,
     scheme: root.getAttribute("data-scheme") as ColorScheme | undefined,
     contrast: root.getAttribute("data-contrast") as ContrastLevel | undefined,
     colorTheme: root.getAttribute("data-color-theme") as ColorTheme | undefined,
@@ -140,6 +147,9 @@ function getStoredConfig(storageKey: string | false): Partial<ThemeConfig> {
     density: isValid(stored.density as Density, VALID_DENSITIES) ? (stored.density as Density) : undefined,
     theme: isValid(stored.theme as Theme, VALID_THEMES) ? (stored.theme as Theme) : undefined,
     radius: isValid(stored.radius as RadiusTheme, VALID_RADII) ? (stored.radius as RadiusTheme) : undefined,
+    actionShape: isValid(stored.actionShape as ActionShape, VALID_ACTION_SHAPES)
+      ? (stored.actionShape as ActionShape)
+      : undefined,
     scheme: isValid(stored.scheme as ColorScheme, VALID_SCHEMES)
       ? (stored.scheme as ColorScheme)
       : undefined,
@@ -209,6 +219,7 @@ export function ThemeProvider({
     density: stored.density ?? domValues.density ?? DEFAULTS.density,
     theme: stored.theme ?? domValues.theme ?? DEFAULTS.theme,
     radius: stored.radius ?? domValues.radius ?? DEFAULTS.radius,
+    actionShape: stored.actionShape ?? domValues.actionShape ?? DEFAULTS.actionShape,
     scheme: stored.scheme ?? domValues.scheme ?? DEFAULTS.scheme,
     contrast: stored.contrast ?? domValues.contrast ?? DEFAULTS.contrast,
     colorTheme: stored.colorTheme ?? domValues.colorTheme ?? DEFAULTS.colorTheme,
@@ -218,6 +229,7 @@ export function ThemeProvider({
   const [density, setDensityState] = useState<Density>(initialConfig.density);
   const [theme, setThemeState] = useState<Theme>(initialConfig.theme);
   const [radius, setRadiusState] = useState<RadiusTheme>(initialConfig.radius);
+  const [actionShape, setActionShapeState] = useState<ActionShape>(initialConfig.actionShape);
   const [scheme, setSchemeState] = useState<ColorScheme>(initialConfig.scheme);
   const [contrast, setContrastState] = useState<ContrastLevel>(initialConfig.contrast);
   const [colorTheme, setColorThemeState] = useState<ColorTheme>(initialConfig.colorTheme);
@@ -233,6 +245,7 @@ export function ThemeProvider({
     applyAttributes({
       "data-density": density,
       "data-radius": radius,
+      "data-action-shape": actionShape,
       "data-scheme": scheme,
       "data-contrast": contrast,
       "data-color-theme": colorTheme,
@@ -263,6 +276,16 @@ export function ThemeProvider({
     setRadiusState(v);
     applyAttribute("data-radius", v);
     persist("radius", v, storageKey);
+  }, [storageKey]);
+
+  const setActionShape = useCallback((v: ActionShape) => {
+    if (!isValid(v, VALID_ACTION_SHAPES)) {
+      console.warn(`Invalid actionShape "${v}". Valid values: ${VALID_ACTION_SHAPES.join(", ")}`);
+      return;
+    }
+    setActionShapeState(v);
+    applyAttribute("data-action-shape", v);
+    persist("actionShape", v, storageKey);
   }, [storageKey]);
 
   const setScheme = useCallback((v: ColorScheme) => {
@@ -340,6 +363,7 @@ export function ThemeProvider({
       theme,
       resolvedTheme,
       radius,
+      actionShape,
       scheme,
       contrast,
       colorTheme,
@@ -347,6 +371,7 @@ export function ThemeProvider({
       setDensity,
       setTheme,
       setRadius,
+      setActionShape,
       setScheme,
       setContrast,
       setColorTheme,
@@ -357,6 +382,7 @@ export function ThemeProvider({
       theme,
       resolvedTheme,
       radius,
+      actionShape,
       scheme,
       contrast,
       colorTheme,
@@ -364,6 +390,7 @@ export function ThemeProvider({
       setDensity,
       setTheme,
       setRadius,
+      setActionShape,
       setScheme,
       setContrast,
       setColorTheme,

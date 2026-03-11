@@ -85,7 +85,7 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
             {choosing.rows.map((row, index) => (
               <tr
                 key={index}
-                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low/50 transition-colors"
+                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
               >
                 <td className="px-5 py-4 text-body-medium font-medium text-on-surface">
                   {row.emphasis}

@@ -293,9 +293,9 @@ export const Select: React.FC<SelectProps> = ({
               id={`${listboxId}-option-${index}`}
               className={cn(
                 optionClass,
-                'hover:bg-on-surface/6',
-                selectedValue === option.value && 'bg-primary/10 text-primary',
-                highlightedIndex === index && selectedValue !== option.value && 'bg-on-surface/6',
+                'hover:bg-state-hover',
+                selectedValue === option.value && 'bg-state-selected text-primary',
+                highlightedIndex === index && selectedValue !== option.value && 'bg-state-hover',
                 option.disabled && 'cursor-not-allowed opacity-38',
               )}
               onClick={() => handleSelect(option.value, option.disabled)}

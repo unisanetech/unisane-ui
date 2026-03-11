@@ -10,27 +10,27 @@ const CanonicalLayoutsHeroVisual = () => (
     <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
       {/* List Pane */}
       <div className="w-28 bg-surface border-r border-outline-variant p-3 space-y-2">
-        <div className="h-3 bg-primary/20 rounded-sm w-full" />
+        <div className="h-3 bg-primary-container rounded-sm w-full" />
         <div className="h-8 bg-secondary-container rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-primary/30" />
-          <div className="h-2 bg-primary/40 rounded-sm flex-1" />
+          <div className="w-4 h-4 rounded-full bg-primary-container" />
+          <div className="h-2 bg-primary-container rounded-sm flex-1" />
         </div>
         <div className="h-8 bg-surface-container-high rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-on-surface-variant/20" />
-          <div className="h-2 bg-on-surface-variant/20 rounded-sm flex-1" />
+          <div className="w-4 h-4 rounded-full bg-outline-muted" />
+          <div className="h-2 bg-outline-muted rounded-sm flex-1" />
         </div>
         <div className="h-8 bg-surface-container-high rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-on-surface-variant/20" />
-          <div className="h-2 bg-on-surface-variant/20 rounded-sm flex-1" />
+          <div className="w-4 h-4 rounded-full bg-outline-muted" />
+          <div className="h-2 bg-outline-muted rounded-sm flex-1" />
         </div>
       </div>
       {/* Detail Pane */}
       <div className="flex-1 bg-surface-container-low p-4">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-primary/20" />
+          <div className="w-10 h-10 rounded-full bg-primary-container" />
           <div className="flex-1 space-y-1">
-            <div className="h-3 bg-on-surface/20 rounded-sm w-3/4" />
-            <div className="h-2 bg-on-surface-variant/20 rounded-sm w-1/2" />
+            <div className="h-3 bg-outline-muted rounded-sm w-3/4" />
+            <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
           </div>
         </div>
         <div className="space-y-2">
@@ -61,7 +61,7 @@ const ListDetailExample = () => (
     {/* Detail Side */}
     <div className="flex-1 p-4 bg-surface-container-low">
       <div className="flex items-center gap-3 pb-3 border-b border-outline-variant mb-3">
-        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary text-label-medium">A</div>
+        <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary text-label-medium">A</div>
         <div>
           <div className="text-title-small text-on-surface">Alice</div>
           <div className="text-body-small text-on-surface-variant">Online</div>
@@ -115,23 +115,23 @@ const FeedLayoutExample = () => (
     <div className="grid grid-cols-2 gap-3 h-full">
       <div className="bg-surface rounded-sm p-3 border border-outline-variant">
         <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-on-surface/20 rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-on-surface-variant/20 rounded-sm w-1/2" />
+        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
+        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
       </div>
       <div className="bg-surface rounded-sm p-3 border border-outline-variant">
         <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-on-surface/20 rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-on-surface-variant/20 rounded-sm w-1/2" />
+        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
+        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
       </div>
       <div className="bg-surface rounded-sm p-3 border border-outline-variant">
         <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-on-surface/20 rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-on-surface-variant/20 rounded-sm w-1/2" />
+        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
+        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
       </div>
       <div className="bg-surface rounded-sm p-3 border border-outline-variant">
         <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-on-surface/20 rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-on-surface-variant/20 rounded-sm w-1/2" />
+        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
+        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
       </div>
     </div>
   </div>
@@ -193,7 +193,7 @@ export const canonicalLayoutsDoc: ComponentDoc = {
               <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
             </div>
             <div className="w-8 border-l border-outline-variant bg-surface-container-low p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-primary/30" />
+              <div className="h-2 rounded-sm bg-primary-container" />
               <div className="h-1 rounded-sm bg-surface-container-high" />
               <div className="h-1 rounded-sm bg-surface-container-high" />
             </div>

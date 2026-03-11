@@ -411,7 +411,7 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
       size === "lg" && "min-h-12 py-3 text-body-large",
       isActive
         ? "bg-secondary-container text-on-secondary-container font-medium"
-      : "text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface",
+      : "text-on-surface-variant hover:bg-state-hover hover:text-on-surface",
       variant === "outline" && "border border-outline-variant",
       props.disabled && "opacity-38 cursor-not-allowed pointer-events-none",
       className
@@ -570,7 +570,7 @@ export const SidebarTrigger = forwardRef<
       className={cn(
         "inline-flex items-center justify-center",
         "w-10 h-10 rounded-full",
-        "text-on-surface-variant hover:bg-on-surface/8",
+        "text-on-surface-variant hover:bg-state-hover",
         "transition-colors duration-short",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         className
@@ -602,7 +602,7 @@ export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
   return (
     <div
       className={cn(
-        "fixed inset-0 bg-scrim/30 transition-opacity duration-medium ease-standard",
+        "fixed inset-0 bg-scrim-soft transition-opacity duration-medium ease-standard",
         usesOverlayDrawer ? "z-55" : "z-20",
         "opacity-100",
         className
@@ -725,8 +725,8 @@ export function SidebarCollapsibleGroup({
           isSelfActive
             ? "bg-secondary-container text-on-secondary-container font-medium"
             : hasActiveChild
-              ? "text-primary font-semibold hover:bg-on-surface/8"
-            : "text-on-surface-variant font-medium hover:bg-on-surface/8 hover:text-on-surface"
+              ? "text-primary font-semibold hover:bg-state-hover"
+            : "text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface"
         )}
         aria-expanded={isOpen}
         aria-controls={contentId}

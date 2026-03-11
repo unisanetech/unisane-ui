@@ -8,7 +8,7 @@ import type { InventoryItem } from "./types";
 function StatCard({ label, value, icon, trend }: { label: string; value: string; icon: string; trend?: { value: number; isPositive: boolean } }) {
   return (
     <div className="flex items-center gap-3 p-3 bg-surface-container rounded-md">
-      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+      <div className="w-10 h-10 rounded-full bg-state-selected flex items-center justify-center">
         <Icon symbol={icon} className="text-[20px] text-primary" />
       </div>
       <div className="flex flex-col">

@@ -21,7 +21,7 @@ export const ListSubheader: React.FC<{
   className?: string;
 }> = ({ children, className }) => (
   <div
-    className={cn('text-label-medium text-on-surface-variant/70 px-4 py-2 font-medium', className)}
+    className={cn('text-label-medium text-on-surface-variant px-4 py-2 font-medium', className)}
   >
     {children}
   </div>
@@ -32,8 +32,8 @@ const listItemVariants = cva(
   {
     variants: {
       active: {
-        true: 'bg-primary/8 text-primary',
-        false: 'text-on-surface hover:bg-on-surface/6',
+        true: 'bg-state-selected text-primary',
+        false: 'text-on-surface hover:bg-state-hover',
       },
       disabled: {
         true: 'opacity-38 pointer-events-none grayscale',

@@ -57,7 +57,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
               "absolute inset-0 rounded-full transition-colors duration-medium ease-standard border-2",
               "border-outline bg-surface-container-highest",
               "peer-checked:bg-primary peer-checked:border-primary",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-primary/30"
+              "peer-focus-visible:ring-2 peer-focus-visible:ring-focus-ring"
             )}
           />
 

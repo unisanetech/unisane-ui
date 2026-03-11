@@ -68,10 +68,10 @@ export function createProductActionsColumn(
 
 function ProductStatusBadge({ status }: { status: ProductStatus }) {
   const config: Record<ProductStatus, { bg: string; text: string; icon: string }> = {
-    active: { bg: "bg-primary/10", text: "text-primary", icon: "check_circle" },
-    draft: { bg: "bg-tertiary/10", text: "text-tertiary", icon: "edit_note" },
-    archived: { bg: "bg-outline/10", text: "text-outline", icon: "archive" },
-    out_of_stock: { bg: "bg-error/10", text: "text-error", icon: "inventory_2" },
+    active: { bg: "bg-state-selected", text: "text-primary", icon: "check_circle" },
+    draft: { bg: "bg-tertiary-container", text: "text-tertiary", icon: "edit_note" },
+    archived: { bg: "bg-outline-weak", text: "text-outline", icon: "archive" },
+    out_of_stock: { bg: "bg-error-container", text: "text-error", icon: "inventory_2" },
   };
 
   const { bg, text, icon } = config[status];
@@ -109,12 +109,12 @@ function VisibilityBadge({ visibility }: { visibility: ProductVisibility }) {
 
 function CategoryBadge({ category }: { category: ProductCategory }) {
   const config: Record<ProductCategory, { bg: string; icon: string }> = {
-    electronics: { bg: "bg-blue-500/10 text-blue-600", icon: "devices" },
-    clothing: { bg: "bg-pink-500/10 text-pink-600", icon: "checkroom" },
-    home: { bg: "bg-amber-500/10 text-amber-600", icon: "home" },
-    sports: { bg: "bg-green-500/10 text-green-600", icon: "sports_soccer" },
-    beauty: { bg: "bg-purple-500/10 text-purple-600", icon: "spa" },
-    toys: { bg: "bg-orange-500/10 text-orange-600", icon: "toys" },
+    electronics: { bg: "bg-secondary-container text-secondary", icon: "devices" },
+    clothing: { bg: "bg-tertiary-container text-tertiary", icon: "checkroom" },
+    home: { bg: "bg-warning-container text-warning", icon: "home" },
+    sports: { bg: "bg-success-container text-success", icon: "sports_soccer" },
+    beauty: { bg: "bg-primary-container text-primary", icon: "spa" },
+    toys: { bg: "bg-info-container text-info", icon: "toys" },
   };
 
   const { bg, icon } = config[category];
@@ -132,7 +132,7 @@ function CategoryBadge({ category }: { category: ProductCategory }) {
 function RatingDisplay({ rating, reviewCount }: { rating: number; reviewCount: number }) {
   return (
     <div className="flex items-center gap-1">
-      <Icon symbol="star" className="w-4 h-4 text-amber-500" />
+      <Icon symbol="star" className="w-4 h-4 text-warning" />
       <span className="text-body-small font-medium">{rating.toFixed(1)}</span>
       <span className="text-label-small text-on-surface-variant">({reviewCount})</span>
     </div>

@@ -40,7 +40,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           side === 'right' && 'top-1/2 left-[calc(100%+(var(--unit)*2))] -translate-y-1/2',
           variant === 'plain'
             ? 'bg-inverse-surface text-inverse-on-surface text-label-medium shadow-2 rounded-sm px-2 py-1.5 font-medium'
-            : 'bg-surface-container text-on-surface shadow-3 border-outline-variant/30 flex min-w-50 flex-col gap-1 rounded-sm border p-4 whitespace-normal',
+            : 'bg-surface-container text-on-surface shadow-3 border-outline-subtle flex min-w-50 flex-col gap-1 rounded-sm border p-4 whitespace-normal',
           className,
         )}
       >

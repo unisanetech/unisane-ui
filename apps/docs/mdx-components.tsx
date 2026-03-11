@@ -44,7 +44,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
           <Link
             href={href}
             className={cn(
-              "text-primary font-bold hover:text-primary/80 transition-colors",
+              "text-primary font-bold hover:text-primary transition-colors",
               className
             )}
             {...props}
@@ -54,7 +54,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       return (
         <a
           className={cn(
-            "text-primary font-bold hover:text-primary/80 transition-colors",
+            "text-primary font-bold hover:text-primary transition-colors",
             className
           )}
           href={href}
@@ -102,7 +102,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
             "font-mono",
             isBlock
               ? "text-[12px]"
-              : "text-body-small px-2 py-0.5 rounded-xs bg-surface-variant/40 text-on-surface",
+              : "text-body-small px-2 py-0.5 rounded-xs bg-surface-variant text-on-surface",
             className
           )}
           {...props}

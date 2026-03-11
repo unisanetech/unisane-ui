@@ -16,12 +16,12 @@ const ComboboxHeroVisual = () => (
         <span className="material-symbols-outlined text-on-surface-variant rotate-180">arrow_drop_down</span>
       </div>
       <div className="mt-2 bg-surface-container-high rounded-sm shadow-2 overflow-hidden">
-        <div className="px-4 py-3 bg-primary/10 text-primary font-medium flex items-center justify-between">
+        <div className="px-4 py-3 bg-state-selected text-primary font-medium flex items-center justify-between">
           United States
           <span className="material-symbols-outlined text-primary text-[18px]">check</span>
         </div>
-        <div className="px-4 py-3 text-on-surface hover:bg-on-surface/5">United Kingdom</div>
-        <div className="px-4 py-3 text-on-surface hover:bg-on-surface/5">United Arab Emirates</div>
+        <div className="px-4 py-3 text-on-surface hover:bg-state-hover">United Kingdom</div>
+        <div className="px-4 py-3 text-on-surface hover:bg-state-hover">United Arab Emirates</div>
       </div>
     </div>
   </HeroBackground>

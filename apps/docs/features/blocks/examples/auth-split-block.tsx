@@ -14,7 +14,7 @@ export function AuthSplitBlock() {
         className="flex min-h-[420px] flex-col justify-between p-8"
       >
         <div className="space-y-4">
-          <Typography variant="labelLarge" className="text-on-secondary-container/72">
+          <Typography variant="labelLarge" className="text-on-secondary-container">
             Team portal
           </Typography>
           <Typography
@@ -25,7 +25,7 @@ export function AuthSplitBlock() {
           </Typography>
           <Typography
             variant="bodyLarge"
-            className="text-on-secondary-container/82 max-w-[28ch] leading-relaxed"
+            className="text-on-secondary-container max-w-[28ch] leading-relaxed"
           >
             Review approvals, manage handoffs, and coordinate cross-functional work from one
             workspace.

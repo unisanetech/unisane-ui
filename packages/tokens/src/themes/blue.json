@@ -1,5 +1,5 @@
 {
   "name": "Blue",
-  "primary": { "hue": 210, "chroma": 0.16 },
-  "description": "M3-style blue - matches #296197 reference with muted containers"
+  "primary": { "hue": 230, "chroma": 0.15 },
+  "description": "Truer blue (less cyan) tuned for white-first surfaces"
 }

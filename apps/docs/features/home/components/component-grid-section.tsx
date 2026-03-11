@@ -29,16 +29,16 @@ function BentoCard({
 }) {
   return (
     <Link href={href} className="group block">
-      <div className="h-full overflow-hidden rounded-lg border border-outline-variant/10 bg-surface-container/30 transition-colors hover:border-outline-variant/20">
+      <div className="h-full overflow-hidden rounded-lg border border-outline-weak bg-surface-container-low transition-colors hover:border-outline-muted">
         <div className="h-[180px]">{children}</div>
-        <div className="flex items-center justify-between border-t border-outline-variant/10 p-4">
+        <div className="flex items-center justify-between border-t border-outline-weak p-4">
           <Typography
             variant="titleMedium"
             className="text-on-surface transition-colors group-hover:text-primary"
           >
             {title}
           </Typography>
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant/50 transition-all group-hover:translate-x-0.5 group-hover:text-primary">
+          <span className="material-symbols-outlined text-[18px] text-on-surface-variant transition-all group-hover:translate-x-0.5 group-hover:text-primary">
             arrow_forward
           </span>
         </div>

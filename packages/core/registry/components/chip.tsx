@@ -31,7 +31,7 @@ const chipVariants = cva(
       {
         variant: 'filter',
         selected: true,
-        className: 'bg-primary-container text-on-primary-container border-primary/20',
+        className: 'bg-primary-container text-on-primary-container border-primary-container',
       },
     ],
     defaultVariants: {
@@ -173,7 +173,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
         {onDelete && (
           <button
             type="button"
-            className="relative z-10 -mr-1 ml-1 rounded-sm p-0.5 transition-colors hover:bg-on-surface/10 hover:text-on-surface focus-visible:ring-2 focus-visible:ring-primary"
+            className="relative z-10 -mr-1 ml-1 rounded-sm p-0.5 transition-colors hover:bg-state-hover hover:text-on-surface focus-visible:ring-2 focus-visible:ring-primary"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();

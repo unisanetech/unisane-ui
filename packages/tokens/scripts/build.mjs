@@ -22,13 +22,14 @@ mkdirSync(distDir, { recursive: true });
  *   :root { --hue: 145; }  // Green theme
  *
  * Available hues:
- *   Blue: 240 (default)  Green: 145   Teal: 180
- *   Purple: 285          Orange: 70   Red: 25
+ *   Blue: 230 (default)  Green: 145   Cyan: 195
+ *   Purple: 285          Orange: 55   Red: 25
  *
  * NO JS REQUIRED - CSS handles:
  *   - Dark mode via prefers-color-scheme OR .dark class
  *   - Density via data-density attribute
  *   - Radius via data-radius attribute
+ *   - Action control shape via data-action-shape attribute
  *
  * To switch build themes: node scripts/build.mjs --theme=green
  */
@@ -52,7 +53,10 @@ const TONAL_LIGHTNESS = {
   70: 0.82,
   80: 0.88,
   90: 0.94,
+  92: 0.955,
+  94: 0.965,
   95: 0.97,
+  96: 0.978,
   99: 0.995,
   100: 1.0,
 };
@@ -75,7 +79,10 @@ const CHROMA_SCALE = {
   70: 0.75,
   80: 0.55,
   90: 0.35,   // Muted containers (reference: ~21% saturation)
+  92: 0.30,
+  94: 0.27,
   95: 0.25,   // Surface containers - subtle tint
+  96: 0.22,
   99: 0.15,   // Surface - subtle blue-gray tint
   100: 0,
 };
@@ -132,7 +139,7 @@ function generateTonalPalette(hue, baseChroma) {
 /**
  * Generate neutral palette with optional tint from primary
  */
-function generateNeutralPalette(primaryHue, tintAmount = 0.02) {
+function generateNeutralPalette(primaryHue, tintAmount = 0.012) {
   const palette = {};
 
   for (const [tone, lightness] of Object.entries(TONAL_LIGHTNESS)) {
@@ -159,10 +166,10 @@ function loadThemeConfig(themeName = 'blue') {
     // Default config if file doesn't exist
     baseConfig = {
       name: "Blue",
-      primary: { hue: 210, chroma: 0.15 },
-      secondary: { strategy: "analogous", hueShift: 0, chromaScale: 0.4 },
+      primary: { hue: 210, chroma: 0.16 },
+      secondary: { strategy: "analogous", hueShift: 0, chromaScale: 0.7 },
       tertiary: { strategy: "complementary", hueShift: 60, chromaScale: 0.7 },
-      neutral: { tintFromPrimary: 0.02 },
+      neutral: { tintFromPrimary: 0.012 },
       error: { hue: 25, chroma: 0.18 },
     };
   }
@@ -185,19 +192,19 @@ function generatePalettes(config) {
   const primaryChroma = config.primary.chroma;
 
   // Secondary: desaturated version of primary (same hue family)
-  const secondaryChroma = primaryChroma * (config.secondary?.chromaScale || 0.4);
-  const secondaryHue = primaryHue + (config.secondary?.hueShift || 0);
+  const secondaryChroma = primaryChroma * (config.secondary?.chromaScale ?? 0.7);
+  const secondaryHue = primaryHue + (config.secondary?.hueShift ?? 0);
 
   // Tertiary: complementary accent (typically 60° shift for triadic harmony)
-  const tertiaryHue = (primaryHue + (config.tertiary?.hueShift || 60)) % 360;
-  const tertiaryChroma = primaryChroma * (config.tertiary?.chromaScale || 0.7);
+  const tertiaryHue = (primaryHue + (config.tertiary?.hueShift ?? 60)) % 360;
+  const tertiaryChroma = primaryChroma * (config.tertiary?.chromaScale ?? 0.7);
 
   // Neutral: very low chroma, tinted toward primary
-  const neutralTint = config.neutral?.tintFromPrimary || 0.02;
+  const neutralTint = config.neutral?.tintFromPrimary ?? 0.012;
 
   // Error: fixed red/orange hue for consistency
-  const errorHue = config.error?.hue || 25;
-  const errorChroma = config.error?.chroma || 0.18;
+  const errorHue = config.error?.hue ?? 25;
+  const errorChroma = config.error?.chroma ?? 0.18;
 
   return {
     primary: generateTonalPalette(primaryHue, primaryChroma),
@@ -226,12 +233,12 @@ writeFileSync(join(srcDir, 'ref.json'), JSON.stringify(palettes, null, 2));
 function generateUniTokens() {
   const primaryHue = config.primary.hue;
   const primaryChroma = config.primary.chroma;
-  const secondaryChromaScale = config.secondary?.chromaScale || 0.4;
-  const tertiaryHueShift = config.tertiary?.hueShift || 60;
-  const tertiaryChromaScale = config.tertiary?.chromaScale || 0.7;
-  const neutralTint = config.neutral?.tintFromPrimary || 0.02;
-  const errorHue = config.error?.hue || 25;
-  const errorChroma = config.error?.chroma || 0.18;
+  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.7;
+  const tertiaryHueShift = config.tertiary?.hueShift ?? 60;
+  const tertiaryChromaScale = config.tertiary?.chromaScale ?? 0.7;
+  const neutralTint = config.neutral?.tintFromPrimary ?? 0.012;
+  const errorHue = config.error?.hue ?? 25;
+  const errorChroma = config.error?.chroma ?? 0.18;
 
   let css = `/* ============================================================
    Unisane UI Design Tokens
@@ -245,11 +252,11 @@ function generateUniTokens() {
    1. HUE - Change the primary color:
       :root { --hue: 145; }     // Green
       :root { --hue: 285; }     // Purple
-      :root { --hue: 70; }      // Orange
+      :root { --hue: 55; }      // Orange
 
       Available hues:
-      Blue: 240 (default)  Green: 145   Teal: 180
-      Purple: 285          Orange: 70   Red: 25
+      Blue: 230 (default)  Green: 145   Cyan: 195
+      Purple: 285          Orange: 55   Red: 25
 
    2. CHROMA - Adjust color intensity:
       :root { --chroma: 0.08; }  // Muted
@@ -284,8 +291,8 @@ function generateUniTokens() {
 /* Theme defaults layer - can be overridden by unlayered app CSS */
 @layer unisane-defaults {
   :root {
-    --hue: 240;
-    --chroma: 0.16;
+    --hue: ${primaryHue};
+    --chroma: ${primaryChroma};
   }
 }
 
@@ -386,10 +393,10 @@ function generateUniTokens() {
   --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-10);
   --tone-surface-container-lowest: var(--ref-neutral-100);
-  --tone-surface-container-low: var(--ref-neutral-99);
-  --tone-surface-container: var(--ref-neutral-95);
-  --tone-surface-container-high: var(--ref-neutral-90);
-  --tone-surface-container-highest: var(--ref-neutral-80);
+  --tone-surface-container-low: var(--ref-neutral-96);
+  --tone-surface-container: var(--ref-neutral-94);
+  --tone-surface-container-high: var(--ref-neutral-92);
+  --tone-surface-container-highest: var(--ref-neutral-90);
   --tone-surface-variant: var(--ref-neutral-variant-90);
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
@@ -465,6 +472,24 @@ function generateUniTokens() {
   --color-inverse-on-surface: var(--tone-inverse-on-surface);
   --color-inverse-primary: var(--tone-inverse-primary);
   --color-scrim: rgba(0, 0, 0, 0.32);
+  --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);
+
+  /* Outline role aliases (replaces ad-hoc /nn opacity usage) */
+  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 10%, var(--color-surface) 90%);
+  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 15%, var(--color-surface) 85%);
+  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 20%, var(--color-surface) 80%);
+  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 30%, var(--color-surface) 70%);
+  --color-outline-medium: color-mix(in oklab, var(--color-outline-variant) 40%, var(--color-surface) 60%);
+  --color-outline-strong: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
+
+  /* Surface interaction state aliases */
+  --color-state-hover: color-mix(in oklab, var(--color-on-surface) 8%, transparent);
+  --color-state-focus: color-mix(in oklab, var(--color-on-surface) 10%, transparent);
+  --color-state-pressed: color-mix(in oklab, var(--color-on-surface) 12%, transparent);
+  --color-state-selected: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  --color-state-error: color-mix(in oklab, var(--color-error) 8%, transparent);
+  --color-focus-ring: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  --color-focus-ring-error: color-mix(in oklab, var(--color-error) 20%, transparent);
 
   /* Typography */
   --font-sans: var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -509,6 +534,12 @@ function generateUniTokens() {
   --radius-xl: calc(32px * var(--scale-radius));
   --radius-2xl: calc(48px * var(--scale-radius));
   --radius-full: 9999px;
+  --radius-button-default: var(--radius-sm);
+  --radius-button-full: var(--radius-full);
+  --radius-button-family: var(--radius-button-default);
+  --radius-button: var(--radius-button-family);
+  --radius-icon-button: var(--radius-button-family);
+  --radius-fab: var(--radius-button-family);
 
   /* === ELEVATION === */
   /* Shadow opacity scale (controlled by data-elevation attribute) */
@@ -696,7 +727,7 @@ function generateUniTokens() {
    Can be combined with any scheme.
 
    Available themes:
-   - blue (default)  - Hue 240, professional blue
+   - blue (default)  - Hue 230, professional blue
    - purple          - Hue 285, creative purple
    - pink            - Hue 340, playful pink
    - red             - Hue 25, bold red/coral
@@ -708,8 +739,8 @@ function generateUniTokens() {
    ============================================================ */
 
 :root[data-color-theme="blue"] {
-  --hue: 240;
-  --chroma: 0.13;
+  --hue: 230;
+  --chroma: 0.15;
 }
 
 :root[data-color-theme="purple"] {
@@ -747,6 +778,13 @@ function generateUniTokens() {
   --chroma: 0.12;
 }
 
+/* Neutral theme - soft accent for product UIs */
+:root[data-color-theme="neutral"] {
+  --hue: 230;
+  --chroma: 0.06;
+  --chroma-neutral: 0.008;
+}
+
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
 :root[data-color-theme="black"] {
@@ -769,8 +807,8 @@ function generateUniTokens() {
 
 /* Neutral scheme - low saturation, subtle color hints */
 [data-scheme="neutral"] {
-  --chroma: 0.04;
-  --chroma-neutral: 0.01;
+  --chroma: 0.03;
+  --chroma-neutral: 0.008;
 }
 
 /* Monochrome scheme - pure grayscale
@@ -922,6 +960,19 @@ function generateUniTokens() {
 
 [data-radius="soft"] {
   --scale-radius-theme: 1.25;
+}
+
+/* ============================================================
+   ACTION SHAPE MODE - Optional global override
+   Usage: <html data-action-shape="full">
+   ============================================================ */
+
+[data-action-shape="standard"] {
+  --radius-button-family: var(--radius-button-default);
+}
+
+[data-action-shape="full"] {
+  --radius-button-family: var(--radius-button-full);
 }
 
 /* ============================================================
@@ -1083,6 +1134,20 @@ function generateTailwindTheme() {
   --color-inverse-on-surface: var(--color-inverse-on-surface);
   --color-inverse-primary: var(--color-inverse-primary);
   --color-scrim: var(--color-scrim);
+  --color-scrim-soft: var(--color-scrim-soft);
+  --color-outline-weak: var(--color-outline-weak);
+  --color-outline-soft: var(--color-outline-soft);
+  --color-outline-muted: var(--color-outline-muted);
+  --color-outline-subtle: var(--color-outline-subtle);
+  --color-outline-medium: var(--color-outline-medium);
+  --color-outline-strong: var(--color-outline-strong);
+  --color-state-hover: var(--color-state-hover);
+  --color-state-focus: var(--color-state-focus);
+  --color-state-pressed: var(--color-state-pressed);
+  --color-state-selected: var(--color-state-selected);
+  --color-state-error: var(--color-state-error);
+  --color-focus-ring: var(--color-focus-ring);
+  --color-focus-ring-error: var(--color-focus-ring-error);
 
   /* Radius */
   --radius-none: var(--radius-none);
@@ -1093,6 +1158,12 @@ function generateTailwindTheme() {
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
   --radius-full: var(--radius-full);
+  --radius-button-default: var(--radius-button-default);
+  --radius-button-full: var(--radius-button-full);
+  --radius-button-family: var(--radius-button-family);
+  --radius-button: var(--radius-button);
+  --radius-icon-button: var(--radius-icon-button);
+  --radius-fab: var(--radius-fab);
 
   /* Shadows */
   --shadow-0: var(--shadow-0);

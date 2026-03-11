@@ -102,9 +102,9 @@ export const cardDoc: ComponentDoc = {
       {
         component: (
           <Card variant="elevated" className="w-full max-w-52 p-4 min-h-36 flex flex-col">
-            <div className="h-3 w-10 bg-outline-variant/30 rounded mb-3" />
-            <div className="h-3 w-3/4 bg-outline-variant/30 rounded mb-2" />
-            <div className="h-3 w-1/2 bg-outline-variant/30 rounded" />
+            <div className="h-3 w-10 bg-outline-subtle rounded mb-3" />
+            <div className="h-3 w-3/4 bg-outline-subtle rounded mb-2" />
+            <div className="h-3 w-1/2 bg-outline-subtle rounded" />
           </Card>
         ),
         title: "Elevated",
@@ -113,9 +113,9 @@ export const cardDoc: ComponentDoc = {
       {
         component: (
           <Card variant="filled" className="w-full max-w-52 p-4 min-h-36 flex flex-col">
-            <div className="h-3 w-10 bg-on-surface/10 rounded mb-3" />
-            <div className="h-3 w-3/4 bg-on-surface/10 rounded mb-2" />
-            <div className="h-3 w-1/2 bg-on-surface/10 rounded" />
+            <div className="h-3 w-10 bg-outline-weak rounded mb-3" />
+            <div className="h-3 w-3/4 bg-outline-weak rounded mb-2" />
+            <div className="h-3 w-1/2 bg-outline-weak rounded" />
           </Card>
         ),
         title: "Filled",
@@ -124,9 +124,9 @@ export const cardDoc: ComponentDoc = {
       {
         component: (
           <Card variant="outlined" className="w-full max-w-52 p-4 min-h-36 flex flex-col">
-            <div className="h-3 w-10 bg-outline-variant/30 rounded mb-3" />
-            <div className="h-3 w-3/4 bg-outline-variant/30 rounded mb-2" />
-            <div className="h-3 w-1/2 bg-outline-variant/30 rounded" />
+            <div className="h-3 w-10 bg-outline-subtle rounded mb-3" />
+            <div className="h-3 w-3/4 bg-outline-subtle rounded mb-2" />
+            <div className="h-3 w-1/2 bg-outline-subtle rounded" />
           </Card>
         ),
         title: "Outlined",

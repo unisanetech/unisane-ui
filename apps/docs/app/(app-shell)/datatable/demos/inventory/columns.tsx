@@ -78,11 +78,11 @@ export function createInventoryActionsColumn(
 
 function StatusBadge({ status }: { status: InventoryStatus }) {
   const config: Record<InventoryStatus, { label: string; color: string; icon: string }> = {
-    in_stock: { label: "In Stock", color: "bg-primary/10 text-primary", icon: "check_circle" },
-    low_stock: { label: "Low Stock", color: "bg-tertiary/10 text-tertiary", icon: "warning" },
-    out_of_stock: { label: "Out of Stock", color: "bg-error/10 text-error", icon: "error" },
-    discontinued: { label: "Discontinued", color: "bg-on-surface/10 text-on-surface-variant", icon: "block" },
-    on_order: { label: "On Order", color: "bg-secondary/10 text-secondary", icon: "local_shipping" },
+    in_stock: { label: "In Stock", color: "bg-state-selected text-primary", icon: "check_circle" },
+    low_stock: { label: "Low Stock", color: "bg-tertiary-container text-tertiary", icon: "warning" },
+    out_of_stock: { label: "Out of Stock", color: "bg-error-container text-error", icon: "error" },
+    discontinued: { label: "Discontinued", color: "bg-outline-weak text-on-surface-variant", icon: "block" },
+    on_order: { label: "On Order", color: "bg-secondary-container text-secondary", icon: "local_shipping" },
   };
 
   const { label, color, icon } = config[status];

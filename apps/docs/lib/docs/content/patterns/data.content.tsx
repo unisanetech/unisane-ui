@@ -5,7 +5,7 @@ import { dataPatternMeta as meta } from './pattern-page-meta';
 const heroVisual = (
   <Surface tone="surface" rounded="sm" className="h-full p-4">
     <div className="grid gap-3">
-      <div className="border-outline-variant/15 text-label-medium text-on-surface-variant grid grid-cols-[minmax(0,1.6fr)_120px_100px] gap-3 border-b pb-2">
+      <div className="border-outline-soft text-label-medium text-on-surface-variant grid grid-cols-[minmax(0,1.6fr)_120px_100px] gap-3 border-b pb-2">
         <span>Queue</span>
         <span>Status</span>
         <span>Owner</span>
@@ -17,7 +17,7 @@ const heroVisual = (
       ].map(([name, status, owner]) => (
         <div
           key={name}
-          className="border-outline-variant/10 grid grid-cols-[minmax(0,1.6fr)_120px_100px] items-center gap-3 border-b pb-3"
+          className="border-outline-weak grid grid-cols-[minmax(0,1.6fr)_120px_100px] items-center gap-3 border-b pb-3"
         >
           <Typography variant="bodyMedium">{name}</Typography>
           <Surface

@@ -43,7 +43,7 @@ export const Stepper: React.FC<StepperProps> = ({
               <div
                 className={cn(
                   "absolute top-4 left-1/2 w-full h-0.5 transition-colors duration-medium z-0",
-                  isCompleted ? "bg-primary" : "bg-outline-variant/30"
+                  isCompleted ? "bg-primary" : "bg-outline-subtle"
                 )}
               />
             )}
@@ -75,7 +75,7 @@ export const Stepper: React.FC<StepperProps> = ({
                 {step.label}
               </span>
               {step.description && (
-                <span className="hidden @md:block text-label-small font-medium text-on-surface-variant/60 mt-1 leading-none">
+                <span className="hidden @md:block text-label-small font-medium text-on-surface-variant mt-1 leading-none">
                   {step.description}
                 </span>
               )}

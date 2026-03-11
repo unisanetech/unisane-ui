@@ -308,7 +308,7 @@ export const Calendar: React.FC<CalendarProps> = ({
                     // M3 spec: Today's date uses 1dp stroke with colorPrimary (ring instead of fill)
                     : isTodayDate
                       ? "ring-1 ring-inset ring-primary text-primary font-medium"
-                      : "text-on-surface hover:bg-on-surface/8",
+                      : "text-on-surface hover:bg-state-hover",
                   isDisabled && "opacity-38 cursor-not-allowed pointer-events-none"
                 )}
                 onClick={() => handleDateClick(day)}

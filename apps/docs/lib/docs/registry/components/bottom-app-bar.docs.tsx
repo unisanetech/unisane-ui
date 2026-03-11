@@ -36,7 +36,7 @@ const BottomAppBarHeroVisual = () => (
 const BottomAppBarBasicExample = () => (
   <div className="relative h-full min-h-[160px] w-full overflow-hidden rounded-sm bg-surface-container-low">
     <div className="space-y-3 p-4">
-      <div className="h-3 w-1/2 rounded-sm bg-on-surface/15" />
+      <div className="h-3 w-1/2 rounded-sm bg-outline-soft" />
       <div className="h-3 w-full rounded-sm bg-surface-container-high" />
       <div className="h-3 w-5/6 rounded-sm bg-surface-container-high" />
     </div>

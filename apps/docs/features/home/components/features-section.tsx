@@ -13,8 +13,8 @@ function FeatureCard({
   description: string;
 }) {
   return (
-    <div className="rounded-lg border border-outline-variant/10 bg-surface-container/50 p-6 transition-colors hover:border-outline-variant/20">
-      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-primary/10">
+    <div className="rounded-lg border border-outline-weak bg-surface-container p-6 transition-colors hover:border-outline-muted">
+      <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-md bg-state-selected">
         <span className="material-symbols-outlined text-[22px] text-primary">
           {icon}
         </span>

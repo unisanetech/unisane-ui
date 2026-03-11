@@ -39,9 +39,9 @@ function CatalogCard({
 }) {
   return (
     <Link href={href} className="group block h-full">
-      <div className="h-full overflow-hidden rounded-lg bg-surface-container/30 transition-colors group-hover:bg-surface-container/40">
+      <div className="h-full overflow-hidden rounded-lg bg-surface-container-low transition-colors group-hover:bg-surface-container">
         <div className="h-[200px] overflow-hidden">{children}</div>
-        <div className="flex items-center justify-between gap-3 border-t border-outline-variant/10 p-4">
+        <div className="flex items-center justify-between gap-3 border-t border-outline-weak p-4">
           <Typography
             variant="titleMedium"
             component="h3"
@@ -49,7 +49,7 @@ function CatalogCard({
           >
             {title}
           </Typography>
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant/50 transition-all group-hover:translate-x-0.5 group-hover:text-primary">
+          <span className="material-symbols-outlined text-[18px] text-on-surface-variant transition-all group-hover:translate-x-0.5 group-hover:text-primary">
             arrow_forward
           </span>
         </div>
@@ -243,16 +243,16 @@ function renderCatalogPreview(slug: string, icon?: string) {
         <HeroBackground tone="surface" className="rounded-md">
           <div className="flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border border-outline-variant bg-surface">
             <div className="w-20 border-r border-outline-variant bg-surface-container-low p-3 space-y-2">
-              <div className="h-8 rounded-sm bg-primary/20" />
+              <div className="h-8 rounded-sm bg-primary-container" />
               <div className="h-8 rounded-sm bg-surface-container-high" />
               <div className="h-8 rounded-sm bg-surface-container-high" />
             </div>
             <div className="flex-1 p-4">
               <div className="mb-3 h-10 rounded-sm bg-surface-container-high" />
               <div className="space-y-2">
-                <div className="h-3 rounded-sm bg-outline-variant/20" />
-                <div className="h-3 rounded-sm bg-outline-variant/20" />
-                <div className="h-3 w-3/4 rounded-sm bg-outline-variant/20" />
+                <div className="h-3 rounded-sm bg-outline-muted" />
+                <div className="h-3 rounded-sm bg-outline-muted" />
+                <div className="h-3 w-3/4 rounded-sm bg-outline-muted" />
               </div>
             </div>
           </div>
@@ -293,7 +293,7 @@ function renderCatalogPreview(slug: string, icon?: string) {
             <IconButton variant="filled" size="sm" aria-label="Previous slide" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 bg-surface">
               <span className="material-symbols-outlined">chevron_left</span>
             </IconButton>
-            <div className="flex h-28 items-center justify-center rounded-sm bg-surface/60">
+            <div className="flex h-28 items-center justify-center rounded-sm bg-surface-container-low">
               <span className="material-symbols-outlined text-[36px] text-on-surface-variant">image</span>
             </div>
             <IconButton variant="filled" size="sm" aria-label="Next slide" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 bg-surface">
@@ -309,17 +309,17 @@ function renderCatalogPreview(slug: string, icon?: string) {
         <HeroBackground tone="surface" className="rounded-md">
           <div className="flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border border-outline-variant bg-surface">
             <div className="w-24 border-r border-outline-variant bg-surface p-3 space-y-2">
-              <div className="h-3 rounded-sm bg-primary/20" />
+              <div className="h-3 rounded-sm bg-primary-container" />
               <div className="h-8 rounded-sm bg-secondary-container" />
               <div className="h-8 rounded-sm bg-surface-container-high" />
               <div className="h-8 rounded-sm bg-surface-container-high" />
             </div>
             <div className="flex-1 bg-surface-container-low p-4">
               <div className="mb-3 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/20" />
+                <div className="h-10 w-10 rounded-full bg-primary-container" />
                 <div className="flex-1 space-y-1">
-                  <div className="h-3 w-3/4 rounded-sm bg-on-surface/20" />
-                  <div className="h-2 w-1/2 rounded-sm bg-on-surface-variant/20" />
+                  <div className="h-3 w-3/4 rounded-sm bg-outline-muted" />
+                  <div className="h-2 w-1/2 rounded-sm bg-outline-muted" />
                 </div>
               </div>
               <div className="space-y-2">

@@ -23,7 +23,7 @@ const TableHeroVisual = () => (
             <td className="px-4 py-3"><span className="text-primary text-label-small font-medium">Active</span></td>
             <td className="px-4 py-3 text-right text-on-surface tabular-nums">$12,500</td>
           </tr>
-          <tr className="border-b border-outline-variant bg-primary/5">
+          <tr className="border-b border-outline-variant bg-state-selected">
             <td className="px-4 py-3 text-on-surface">Project Beta</td>
             <td className="px-4 py-3"><span className="text-tertiary text-label-small font-medium">Pending</span></td>
             <td className="px-4 py-3 text-right text-on-surface tabular-nums">$8,200</td>

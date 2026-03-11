@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Text } from "@/primitives/text";
 
 const topAppBarVariants = cva(
-  "relative z-20 flex w-full items-center border-b border-outline-variant/30 bg-surface px-4 text-on-surface transition-all duration-medium ease-standard",
+  "relative z-20 flex w-full items-center border-b border-outline-subtle bg-surface px-4 text-on-surface transition-all duration-medium ease-standard",
   {
     variants: {
       variant: {

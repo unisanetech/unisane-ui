@@ -13,7 +13,7 @@ import { Ripple } from './ripple';
 import { cn, Slot, composeAsChildClickHandler } from '@ui/lib/utils';
 
 const iconButtonVariants = cva(
-  'relative inline-flex items-center justify-center rounded-full transition-all duration-snappy ease-emphasized overflow-hidden disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none',
+  'relative inline-flex items-center justify-center rounded-icon-button transition-all duration-snappy ease-emphasized overflow-hidden disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none group focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary select-none',
   {
     variants: {
       variant: {
@@ -41,7 +41,7 @@ const iconButtonVariants = cva(
       {
         variant: 'outlined',
         selected: true,
-        className: 'bg-primary/10 border-primary text-primary',
+        className: 'bg-state-selected border-primary text-primary',
       },
       { variant: 'standard', selected: true, className: 'text-primary' },
     ],

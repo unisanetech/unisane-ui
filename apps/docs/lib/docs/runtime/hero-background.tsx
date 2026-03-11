@@ -19,11 +19,11 @@ interface HeroBackgroundProps {
 }
 
 const toneClasses: Record<HeroTone, string> = {
-  primary: "bg-primary-container/40",
-  secondary: "bg-secondary-container/35",
-  tertiary: "bg-tertiary-container/35",
-  surface: "bg-surface-container/50",
-  error: "bg-error-container/25",
+  primary: "bg-primary-container",
+  secondary: "bg-secondary-container",
+  tertiary: "bg-tertiary-container",
+  surface: "bg-surface-container",
+  error: "bg-error-container",
 };
 
 const alignClasses: Record<string, string> = {

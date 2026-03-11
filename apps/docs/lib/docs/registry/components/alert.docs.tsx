@@ -137,7 +137,7 @@ export const alertDoc: ComponentDoc = {
               Please correct the errors below.
             </Alert>
             <div className="space-y-3">
-              <div className="h-10 bg-error-container/30 border border-error rounded-sm" />
+              <div className="h-10 bg-error-container border border-error rounded-sm" />
               <div className="h-10 bg-surface-container-high rounded-sm" />
             </div>
           </Card>

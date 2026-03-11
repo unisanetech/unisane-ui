@@ -11,7 +11,7 @@ const cardVariants = cva(
     variants: {
       variant: {
         elevated:
-          "bg-surface shadow-1 border border-outline-variant/10",
+          "bg-surface shadow-1 border border-outline-weak",
         filled: "bg-surface-container border-none shadow-0",
         outlined: "bg-surface border border-outline-variant shadow-0",
         low: "bg-surface-container-low border-none shadow-0",
@@ -32,7 +32,7 @@ const cardVariants = cva(
       {
         variant: "outlined",
         interactive: true,
-        className: "hover:border-primary/50",
+        className: "hover:border-primary",
       },
     ],
     defaultVariants: {

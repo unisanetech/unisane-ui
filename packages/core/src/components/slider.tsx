@@ -102,14 +102,14 @@ export const Slider: React.FC<SliderProps> = ({
         <div
           className={cn(
             "absolute w-full h-full rounded-sm transition-colors",
-            disabled ? "bg-on-surface/12" : "bg-surface-container-highest"
+            disabled ? "bg-outline-weak" : "bg-surface-container-highest"
           )}
         />
 
         <div
           className={cn(
             "absolute h-full rounded-sm transition-all duration-snappy",
-            disabled ? "bg-on-surface/38" : "bg-primary"
+            disabled ? "bg-outline" : "bg-primary"
           )}
           style={{ width: `${percentage}%` }}
         />
@@ -121,8 +121,8 @@ export const Slider: React.FC<SliderProps> = ({
               className={cn(
                 "absolute w-0.5 h-0.5 rounded-full z-10",
                 tick <= percentage
-                  ? "bg-on-primary/60"
-                  : "bg-on-surface-variant/40"
+                  ? "bg-on-primary"
+                  : "bg-outline-medium"
               )}
               style={{ left: `${tick}%` }}
             />
@@ -147,7 +147,7 @@ export const Slider: React.FC<SliderProps> = ({
           className={cn(
             "rounded-full transition-all duration-medium ease-emphasized",
             disabled
-              ? "bg-on-surface/38 w-3 h-3"
+              ? "bg-outline w-3 h-3"
               : "bg-primary size-icon-sm group-active:scale-125"
           )}
         >

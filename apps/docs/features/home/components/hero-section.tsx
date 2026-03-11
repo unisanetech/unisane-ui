@@ -15,7 +15,7 @@ export function HeroSection() {
       >
         <div className="flex h-full max-w-[30rem] flex-col gap-8 @3xl:gap-10">
           <div className="space-y-6">
-            <div className="text-on-secondary-container/72 mb-8 inline-flex items-center gap-2">
+            <div className="text-on-secondary-container mb-8 inline-flex items-center gap-2">
               <UnisaneLogo size={22} />
               <Typography variant="labelLarge" component="span">
                 unisane/ui
@@ -30,7 +30,7 @@ export function HeroSection() {
 
             <Typography
               variant="titleMedium"
-              className="text-on-secondary-container/80 @3xl:text-title-large mt-6 max-w-[26ch] leading-relaxed"
+              className="text-on-secondary-container @3xl:text-title-large mt-6 max-w-[26ch] leading-relaxed"
             >
               Token-driven React components, themes, and reusable app blocks for app teams building
               forms, navigation, workflows, and data-heavy interfaces.

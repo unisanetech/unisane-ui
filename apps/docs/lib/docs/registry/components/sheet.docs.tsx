@@ -31,7 +31,7 @@ const SheetHeroVisual = () => (
         <div className="px-4 pt-4 pb-5 space-y-3">
           <div className="h-3 bg-surface-container-high rounded-sm w-full" />
           <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
-          <div className="h-8 bg-primary/20 rounded-sm w-full" />
+          <div className="h-8 bg-primary-container rounded-sm w-full" />
         </div>
       </div>
     </div>
@@ -102,9 +102,9 @@ const SheetWithFooterExample = () => {
 
 const SheetPlacementBasicVisual = () => (
   <div className="relative h-full w-full overflow-hidden rounded-sm bg-surface-container-low">
-    <div className="absolute inset-0 bg-surface-container-lowest/80" />
+    <div className="absolute inset-0 bg-surface-container-lowest" />
     <div className="absolute left-0 top-0 bottom-0 w-[42%] border-r border-outline-variant bg-surface-container-lowest p-4">
-      <div className="h-3 w-1/2 rounded-sm bg-on-surface/15 mb-4" />
+      <div className="h-3 w-1/2 rounded-sm bg-outline-soft mb-4" />
       <div className="space-y-3">
         <div className="h-10 rounded-sm bg-surface-container" />
         <div className="h-10 rounded-sm bg-surface-container" />
@@ -129,9 +129,9 @@ const SheetPlacementBasicVisual = () => (
 
 const SheetPlacementFooterVisual = () => (
   <div className="relative h-full w-full overflow-hidden rounded-sm bg-surface-container-low">
-    <div className="absolute inset-0 bg-surface-container-lowest/80" />
+    <div className="absolute inset-0 bg-surface-container-lowest" />
     <div className="absolute left-0 top-0 bottom-0 w-[38%] border-r border-outline-variant bg-surface-container-lowest p-4">
-      <div className="h-3 w-2/3 rounded-sm bg-on-surface/15 mb-4" />
+      <div className="h-3 w-2/3 rounded-sm bg-outline-soft mb-4" />
       <div className="grid grid-cols-2 gap-3">
         <div className="h-20 rounded-sm bg-surface-container" />
         <div className="h-20 rounded-sm bg-surface-container" />
@@ -151,7 +151,7 @@ const SheetPlacementFooterVisual = () => (
       </div>
       <div className="px-5 py-3 border-t border-outline-variant bg-surface-container-lowest flex items-center justify-end gap-2">
         <div className="h-10 w-20 rounded-full bg-surface-container-high" />
-        <div className="h-10 w-24 rounded-full bg-primary/20" />
+        <div className="h-10 w-24 rounded-full bg-primary-container" />
       </div>
     </div>
   </div>
@@ -255,7 +255,7 @@ export const sheetDoc: ComponentDoc = {
         component: (
           <div className="w-24 h-16 bg-surface-container rounded-sm relative overflow-hidden">
             <div className="absolute right-0 top-0 bottom-0 w-10 bg-surface shadow-2 p-1">
-              <div className="h-1 bg-on-surface/10 rounded-full w-full mb-1" />
+              <div className="h-1 bg-outline-weak rounded-full w-full mb-1" />
             </div>
           </div>
         ),
@@ -433,7 +433,7 @@ function ItemDetails() {
       >
         <div>
           <h3 className="text-lg font-medium mb-4">Item Information</h3>
-          <p className="text-gray-600">
+          <p className="text-on-surface-variant">
             This is the content of your sheet. You can put any
             content here including forms, details, or other UI.
           </p>

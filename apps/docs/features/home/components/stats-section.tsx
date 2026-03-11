@@ -12,7 +12,7 @@ export function StatsSection() {
   );
 
   return (
-    <section className="border-y border-outline-variant/10 bg-surface-container-lowest/50 px-4 py-8 medium:px-6 @3xl:px-8 @3xl:py-10">
+    <section className="border-y border-outline-weak bg-surface-container-lowest px-4 py-8 medium:px-6 @3xl:px-8 @3xl:py-10">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 @lg:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="text-center">

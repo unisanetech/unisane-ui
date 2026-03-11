@@ -81,7 +81,7 @@ export function ProductExpandedRow({ row }: { row: Product }) {
         </Typography>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <Icon symbol="star" className="w-4 h-4 text-amber-500" />
+            <Icon symbol="star" className="w-4 h-4 text-warning" />
             <span className="text-body-small">{row.rating.toFixed(1)} rating ({row.reviewCount} reviews)</span>
           </div>
           <div className="flex items-center gap-2">

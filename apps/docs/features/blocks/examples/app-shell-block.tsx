@@ -152,7 +152,7 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
             title="App shell"
             navigationIcon={
               !isDesktop ? (
-                <SidebarTrigger className="size-9 rounded-sm text-on-surface-variant hover:bg-on-surface/8">
+                <SidebarTrigger className="size-9 rounded-sm text-on-surface-variant hover:bg-state-hover">
                   <span className="material-symbols-outlined text-[18px]">menu</span>
                 </SidebarTrigger>
               ) : undefined

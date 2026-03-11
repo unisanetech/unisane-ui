@@ -23,7 +23,7 @@ const heroVisual = (
         </Typography>
         <Typography
           variant="bodySmall"
-          className={index === 2 ? 'text-on-primary-container/80' : 'text-on-surface-variant'}
+          className={index === 2 ? 'text-on-primary-container' : 'text-on-surface-variant'}
         >
           {subtitle}
         </Typography>

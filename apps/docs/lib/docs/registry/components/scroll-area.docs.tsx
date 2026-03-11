@@ -22,8 +22,8 @@ const ScrollAreaHeroVisual = () => (
           ))}
         </div>
         {/* Scrollbar indicator */}
-        <div className="absolute right-1 top-4 bottom-4 w-2 bg-outline-variant/20 rounded-full">
-          <div className="w-full h-1/3 bg-outline-variant/60 rounded-full" />
+        <div className="absolute right-1 top-4 bottom-4 w-2 bg-outline-muted rounded-full">
+          <div className="w-full h-1/3 bg-outline-strong rounded-full" />
         </div>
       </div>
     </div>
@@ -96,8 +96,8 @@ export const scrollAreaDoc: ComponentDoc = {
         emphasis: "Vertical",
         component: (
           <div className="w-20 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-1 top-1 bottom-1 w-1 bg-outline-variant/20 rounded-full">
-              <div className="w-full h-1/3 bg-outline-variant/60 rounded-full" />
+            <div className="absolute right-1 top-1 bottom-1 w-1 bg-outline-muted rounded-full">
+              <div className="w-full h-1/3 bg-outline-strong rounded-full" />
             </div>
           </div>
         ),
@@ -108,8 +108,8 @@ export const scrollAreaDoc: ComponentDoc = {
         emphasis: "Horizontal",
         component: (
           <div className="w-20 h-12 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute left-1 right-1 bottom-1 h-1 bg-outline-variant/20 rounded-full">
-              <div className="h-full w-1/3 bg-outline-variant/60 rounded-full" />
+            <div className="absolute left-1 right-1 bottom-1 h-1 bg-outline-muted rounded-full">
+              <div className="h-full w-1/3 bg-outline-strong rounded-full" />
             </div>
           </div>
         ),
@@ -120,11 +120,11 @@ export const scrollAreaDoc: ComponentDoc = {
         emphasis: "Both",
         component: (
           <div className="w-20 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-1 top-1 bottom-3 w-1 bg-outline-variant/20 rounded-full">
-              <div className="w-full h-1/3 bg-outline-variant/60 rounded-full" />
+            <div className="absolute right-1 top-1 bottom-3 w-1 bg-outline-muted rounded-full">
+              <div className="w-full h-1/3 bg-outline-strong rounded-full" />
             </div>
-            <div className="absolute left-1 right-3 bottom-1 h-1 bg-outline-variant/20 rounded-full">
-              <div className="h-full w-1/3 bg-outline-variant/60 rounded-full" />
+            <div className="absolute left-1 right-3 bottom-1 h-1 bg-outline-muted rounded-full">
+              <div className="h-full w-1/3 bg-outline-strong rounded-full" />
             </div>
           </div>
         ),

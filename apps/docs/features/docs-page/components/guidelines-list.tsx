@@ -12,19 +12,19 @@ const GUIDELINE_CONFIG = {
   do: {
     icon: "check_circle",
     label: "Do",
-    className: "text-success bg-success-container/30 border-success",
+    className: "text-success bg-success-container border-success",
     iconClassName: "text-success",
   },
   dont: {
     icon: "cancel",
     label: "Don't",
-    className: "text-error bg-error-container/30 border-error",
+    className: "text-error bg-error-container border-error",
     iconClassName: "text-error",
   },
   caution: {
     icon: "warning",
     label: "Caution",
-    className: "text-warning bg-warning-container/30 border-warning",
+    className: "text-warning bg-warning-container border-warning",
     iconClassName: "text-warning",
   },
 };

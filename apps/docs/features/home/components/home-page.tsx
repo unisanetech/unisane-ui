@@ -22,11 +22,11 @@ export function HomePage() {
         <FeaturesSection />
       </HomeContentSection>
 
-      <HomeContentSection className="border-t border-outline-variant/10">
+      <HomeContentSection className="border-t border-outline-weak">
         <ComponentGridSection />
       </HomeContentSection>
 
-      <HomeContentSection className="border-t border-outline-variant/10">
+      <HomeContentSection className="border-t border-outline-weak">
         <CtaSection />
       </HomeContentSection>
     </div>

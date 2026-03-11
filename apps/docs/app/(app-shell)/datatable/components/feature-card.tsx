@@ -11,7 +11,7 @@ interface FeatureCardProps {
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <div className="flex gap-4 p-4 rounded-lg border border-outline-variant">
-      <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+      <div className="w-10 h-10 rounded-lg bg-state-selected flex items-center justify-center shrink-0">
         <Icon symbol={icon} className="w-5 h-5 text-primary" />
       </div>
       <div>

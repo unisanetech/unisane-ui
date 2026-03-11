@@ -14,12 +14,12 @@ const PaginationHeroVisual = () => (
           <span className="material-symbols-outlined">chevron_left</span>
         </div>
         <div className="flex items-center gap-1">
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-on-surface/10">1</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-on-surface/10">2</div>
+          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">1</div>
+          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">2</div>
           <div className="w-10 h-10 rounded-sm flex items-center justify-center bg-primary text-on-primary">3</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-on-surface/10">4</div>
+          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">4</div>
           <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant">...</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-on-surface/10">12</div>
+          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">12</div>
         </div>
         <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant">
           <span className="material-symbols-outlined">chevron_right</span>
@@ -234,7 +234,7 @@ function PaginatedList({ items, itemsPerPage = 10 }) {
       </ul>
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-on-surface-variant">
           Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, items.length)} of {items.length}
         </span>
         <Pagination

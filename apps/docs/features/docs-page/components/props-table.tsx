@@ -61,7 +61,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
             {props.map((prop) => (
               <tr
                 key={prop.name}
-                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low/50 transition-colors"
+                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
               >
                 <td className="px-5 py-4 align-top">
                   <code className="text-primary font-mono text-body-small font-medium">
@@ -70,7 +70,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
                   </code>
                 </td>
                 <td className="px-5 py-4 align-top">
-                  <code className="text-tertiary font-mono text-label-small bg-surface-variant/40 px-2 py-1 rounded-sm break-all">
+                  <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm break-all">
                     {prop.type}
                   </code>
                 </td>
@@ -78,7 +78,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
                   {prop.default ? (
                     <code className="font-mono text-label-small">{prop.default}</code>
                   ) : (
-                    <span className="text-on-surface-variant/50">—</span>
+                    <span className="text-on-surface-variant">—</span>
                   )}
                 </td>
                 <td className="px-5 py-4 align-top text-on-surface-variant font-medium">
@@ -120,7 +120,7 @@ function PropCard({
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-3 @sm:mb-4">
-        <code className="text-tertiary font-mono text-label-small bg-surface-variant/40 px-2 py-1 rounded-sm">
+        <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
           {prop.type}
         </code>
         {prop.default && (

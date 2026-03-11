@@ -13,12 +13,12 @@ import { cn, Slot, composeAsChildClickHandler } from '@ui/lib/utils';
 import { Ripple } from './ripple';
 
 const fabVariants = cva(
-  'relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-lg transition-all duration-medium ease-emphasized group cursor-pointer select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none z-30',
+  'relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-fab transition-all duration-medium ease-emphasized group cursor-pointer select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none z-30',
   {
     variants: {
       variant: {
         primary: 'bg-primary-container text-on-primary-container shadow-3 hover:shadow-4',
-        surface: 'bg-surface text-primary border border-outline-variant/30 shadow-1 hover:shadow-2',
+        surface: 'bg-surface text-primary border border-outline-subtle shadow-1 hover:shadow-2',
         secondary: 'bg-secondary-container text-on-secondary-container shadow-3 hover:shadow-4',
         tertiary: 'bg-tertiary-container text-on-tertiary-container shadow-3 hover:shadow-4',
       },

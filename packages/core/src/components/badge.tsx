@@ -9,7 +9,7 @@ const badgeVariants = cva(
       variant: {
         filled: "",
         tonal: "",
-        outlined: "border border-outline-variant/30",
+        outlined: "border border-outline-subtle",
       },
       color: {
         primary: "",
@@ -35,11 +35,11 @@ const badgeVariants = cva(
       { variant: "tonal", color: "tertiary", className: "bg-tertiary-container text-on-tertiary-container" },
       { variant: "tonal", color: "error", className: "bg-error-container text-on-error-container" },
       { variant: "tonal", color: "success", className: "bg-success-container text-on-success-container" },
-      { variant: "outlined", color: "primary", className: "text-primary border-primary/30" },
-      { variant: "outlined", color: "secondary", className: "text-secondary border-secondary/30" },
-      { variant: "outlined", color: "tertiary", className: "text-tertiary border-tertiary/30" },
-      { variant: "outlined", color: "error", className: "text-error border-error/30" },
-      { variant: "outlined", color: "success", className: "text-success border-success/30" },
+      { variant: "outlined", color: "primary", className: "text-primary border-primary-container" },
+      { variant: "outlined", color: "secondary", className: "text-secondary border-secondary-container" },
+      { variant: "outlined", color: "tertiary", className: "text-tertiary border-tertiary-container" },
+      { variant: "outlined", color: "error", className: "text-error border-error-container" },
+      { variant: "outlined", color: "success", className: "text-success border-success-container" },
     ],
     defaultVariants: {
       variant: "filled",

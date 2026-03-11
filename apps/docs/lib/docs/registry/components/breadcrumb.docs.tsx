@@ -72,7 +72,7 @@ export const breadcrumbDoc: ComponentDoc = {
         emphasis: "Ellipsis",
         component: (
           <div className="flex items-center gap-1">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant hover:bg-on-surface/10 cursor-pointer">
+            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant hover:bg-state-hover cursor-pointer">
               <span className="text-[12px]">•••</span>
             </div>
             <span className="material-symbols-outlined text-[12px] text-outline">chevron_right</span>

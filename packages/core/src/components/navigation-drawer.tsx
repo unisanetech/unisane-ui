@@ -8,7 +8,7 @@ import {
 import { Ripple } from "./ripple";
 
 const navigationDrawerVariants = cva(
-  "flex flex-col h-full bg-surface-container border-r border-outline-variant/30 transition-transform duration-emphasized ease-emphasized overflow-y-auto",
+  "flex flex-col h-full bg-surface-container border-r border-outline-subtle transition-transform duration-emphasized ease-emphasized overflow-y-auto",
   {
     variants: {
       modal: {
@@ -168,5 +168,5 @@ export const NavigationDrawerHeadline = ({
 
 // NavigationDrawerDivider
 export const NavigationDrawerDivider = ({ className }: { className?: string }) => (
-  <div className={cn("h-px bg-outline-variant/30 my-2 mx-4", className)} />
+  <div className={cn("h-px bg-outline-subtle my-2 mx-4", className)} />
 );

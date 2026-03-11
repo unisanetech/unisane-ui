@@ -50,7 +50,7 @@ export const layoutsPatternPage: PatternPageDoc = {
             <Surface
               tone="surface"
               rounded="sm"
-              className="border-outline-variant/15 w-full max-w-[44rem] overflow-hidden border"
+              className="border-outline-soft w-full max-w-[44rem] overflow-hidden border"
             >
               <div className="grid grid-cols-[220px_minmax(0,1fr)]">
                 <Surface tone="surfaceContainerLow" className="space-y-2 p-3">
@@ -76,9 +76,9 @@ export const layoutsPatternPage: PatternPageDoc = {
                     <Badge variant="tonal">Review</Badge>
                   </div>
                   <div className="space-y-2">
-                    <div className="bg-outline-variant/15 h-3 w-3/4 rounded-sm" />
-                    <div className="bg-outline-variant/15 h-3 rounded-sm" />
-                    <div className="bg-outline-variant/15 h-3 w-2/3 rounded-sm" />
+                    <div className="bg-outline-soft h-3 w-3/4 rounded-sm" />
+                    <div className="bg-outline-soft h-3 rounded-sm" />
+                    <div className="bg-outline-soft h-3 w-2/3 rounded-sm" />
                   </div>
                   <div className="flex gap-3">
                     <Button size="sm">Approve</Button>
@@ -94,7 +94,7 @@ export const layoutsPatternPage: PatternPageDoc = {
 
 export function ListDetailWorkspace() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid grid-cols-[220px_minmax(0,1fr)]">
         <Surface tone="surfaceContainerLow" className="space-y-2 p-3">
           {["Invoice review", "Billing handoff", "Access issue"].map((item, index) => (
@@ -119,9 +119,9 @@ export function ListDetailWorkspace() {
             <Badge variant="tonal">Review</Badge>
           </div>
           <div className="space-y-2">
-            <div className="h-3 w-3/4 rounded-sm bg-outline-variant/15" />
-            <div className="h-3 rounded-sm bg-outline-variant/15" />
-            <div className="h-3 w-2/3 rounded-sm bg-outline-variant/15" />
+            <div className="h-3 w-3/4 rounded-sm bg-outline-soft" />
+            <div className="h-3 rounded-sm bg-outline-soft" />
+            <div className="h-3 w-2/3 rounded-sm bg-outline-soft" />
           </div>
           <div className="flex gap-3">
             <Button size="sm">Approve</Button>
@@ -142,7 +142,7 @@ export function ListDetailWorkspace() {
             <Surface
               tone="surface"
               rounded="sm"
-              className="border-outline-variant/15 w-full max-w-[44rem] overflow-hidden border"
+              className="border-outline-soft w-full max-w-[44rem] overflow-hidden border"
             >
               <div className="grid grid-cols-[minmax(0,1fr)_220px]">
                 <div className="space-y-4 p-4">
@@ -172,7 +172,7 @@ export function ListDetailWorkspace() {
 
 export function SupportingPaneLayout() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid grid-cols-[minmax(0,1fr)_220px]">
         <div className="space-y-4 p-4">
           <div className="h-10 rounded-sm bg-surface-container-low" />

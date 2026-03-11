@@ -32,6 +32,7 @@ export const metadata: Metadata = {
 const themeConfig = {
   density: "standard",
   radius: "standard",
+  actionShape: "standard",
   scheme: "tonal",
   contrast: "standard",
   elevation: "subtle",
@@ -51,6 +52,7 @@ export default function RootLayout({
       suppressHydrationWarning
       data-density={themeConfig.density}
       data-radius={themeConfig.radius}
+      data-action-shape={themeConfig.actionShape}
       data-scheme={themeConfig.scheme}
       data-contrast={themeConfig.contrast}
       data-elevation={themeConfig.elevation}

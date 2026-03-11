@@ -33,8 +33,8 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
           <div
             className={cn(
               "absolute inset-0 rounded-full transition-colors z-0 overflow-hidden",
-              "group-hover:bg-on-surface/8",
-              error && "group-hover:bg-error/8"
+              "group-hover:bg-state-hover",
+              error && "group-hover:bg-state-error"
             )}
           >
             <Ripple

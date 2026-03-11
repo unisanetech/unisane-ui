@@ -124,7 +124,7 @@ function renderStaticDocSection(section: StaticDocSection) {
                   </span>
                   <Typography
                     variant="bodyMedium"
-                    className="text-on-secondary-container/90 leading-relaxed"
+                    className="text-on-secondary-container leading-relaxed"
                   >
                     {item}
                   </Typography>
@@ -148,7 +148,7 @@ function renderStaticDocSection(section: StaticDocSection) {
                   </span>
                   <Typography
                     variant="bodyMedium"
-                    className="text-on-error-container/90 leading-relaxed"
+                    className="text-on-error-container leading-relaxed"
                   >
                     {item}
                   </Typography>

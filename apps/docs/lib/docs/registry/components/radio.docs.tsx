@@ -20,7 +20,7 @@ const RadioHeroVisual = () => (
           </div>
           <Radio name="plan" />
         </div>
-        <div className="flex items-center justify-between py-2 px-2 rounded-sm bg-primary-container/30">
+        <div className="flex items-center justify-between py-2 px-2 rounded-sm bg-primary-container">
           <div>
             <div className="text-body-medium text-on-surface">Pro</div>
             <div className="text-body-small text-on-surface-variant">$29/month</div>
@@ -150,7 +150,7 @@ export const radioDoc: ComponentDoc = {
         visual: (
           <div className="w-full max-w-xs border border-outline-variant rounded-sm overflow-hidden">
             {["Small", "Medium", "Large"].map((size, i) => (
-              <div key={size} className={`flex items-center gap-3 px-4 py-3 border-b border-outline-variant last:border-0 ${i === 1 ? "bg-primary-container/20" : "bg-surface"}`}>
+              <div key={size} className={`flex items-center gap-3 px-4 py-3 border-b border-outline-variant last:border-0 ${i === 1 ? "bg-primary-container" : "bg-surface"}`}>
                 <Radio name="size" defaultChecked={i === 1} />
                 <span className="text-body-medium text-on-surface">{size}</span>
               </div>

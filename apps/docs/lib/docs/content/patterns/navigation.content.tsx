@@ -50,7 +50,7 @@ export const navigationPatternPage: PatternPageDoc = {
             <Surface
               tone="surface"
               rounded="sm"
-              className="border-outline-variant/15 w-full max-w-[44rem] overflow-hidden border"
+              className="border-outline-soft w-full max-w-[44rem] overflow-hidden border"
             >
               <div className="grid grid-cols-[84px_minmax(0,1fr)]">
                 <Surface tone="surfaceContainerLow" className="space-y-3 p-3">
@@ -86,7 +86,7 @@ export const navigationPatternPage: PatternPageDoc = {
 
 export function RailShellBlock() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid grid-cols-[84px_minmax(0,1fr)]">
         <Surface tone="surfaceContainerLow" className="space-y-3 p-3">
           {["home", "rocket_launch", "widgets"].map((icon, index) => (
@@ -127,7 +127,7 @@ export function RailShellBlock() {
             <Surface
               tone="surface"
               rounded="sm"
-              className="border-outline-variant/15 w-full max-w-[38rem] overflow-hidden border p-4"
+              className="border-outline-soft w-full max-w-[38rem] overflow-hidden border p-4"
             >
               <div className="flex items-center justify-between gap-4">
                 <div>
@@ -154,7 +154,7 @@ export function RailShellBlock() {
 
 export function ContextHeader() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15 p-4">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft p-4">
       <div className="flex items-center justify-between gap-4">
         <div>
           <Typography variant="titleLarge">Billing review</Typography>

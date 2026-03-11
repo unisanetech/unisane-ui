@@ -75,7 +75,7 @@ const workspaceChildIds = ["overview", "team", "billing", "settings"];
 export function AppShellBlock() {
   return (
     <SidebarProvider items={navigationItems} defaultActiveId="overview" defaultExpanded persist={false}>
-      <div className="h-full w-full overflow-hidden rounded-sm border border-outline-variant/15">
+      <div className="h-full w-full overflow-hidden rounded-sm border border-outline-soft">
         <Sidebar className="h-full">
           <SidebarRail>
             <SidebarRailItem
@@ -161,7 +161,7 @@ export function AppShellBlock() {
 
 export function SupportingPaneBlock() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid grid-cols-[minmax(0,1fr)_240px]">
         <div className="space-y-4 p-4">
           <div className="flex items-center justify-between gap-3">
@@ -169,7 +169,7 @@ export function SupportingPaneBlock() {
             <Button variant="tonal" size="sm">Add comment</Button>
           </div>
         </div>
-        <Surface tone="surfaceContainerLow" className="border-l border-outline-variant/10 p-4">
+        <Surface tone="surfaceContainerLow" className="border-l border-outline-weak p-4">
           <Typography variant="titleMedium">Properties</Typography>
         </Surface>
       </div>
@@ -202,7 +202,7 @@ export function SupportingPaneBlock() {
 
 export function AuthSplitBlock() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid @3xl:grid-cols-[minmax(0,1.1fr)_420px]">
         <Surface tone="secondaryContainer" className="p-8">
           <Typography variant="displaySmall">Welcome back.</Typography>
@@ -244,7 +244,7 @@ export function AuthSplitBlock() {
 export function AuthCenteredBlock() {
   return (
     <Surface tone="surfaceContainerLow" rounded="sm" className="flex items-center justify-center p-8">
-      <Surface tone="surface" rounded="sm" className="w-full max-w-[26rem] border border-outline-variant/15 p-6 shadow-1">
+      <Surface tone="surface" rounded="sm" className="w-full max-w-[26rem] border border-outline-soft p-6 shadow-1">
         <Typography variant="headlineSmall">Create account</Typography>
         <TextField id="email" label="Email" placeholder="estelle@northstar.so" size="sm" />
         <TextField id="password" label="Password" placeholder="Create password" size="sm" type="password" />
@@ -329,7 +329,7 @@ export function ReviewQueueBlock() {
 
 export function AiChatWorkspaceBlock() {
   return (
-    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-variant/15">
+    <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="flex min-h-[420px] flex-col justify-between p-5">
         <div className="space-y-4">
           <Surface tone="surfaceContainerLow" rounded="sm" className="ml-auto max-w-[75%] p-3">

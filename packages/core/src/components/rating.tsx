@@ -93,7 +93,7 @@ export const Rating: React.FC<RatingProps> = ({
         return (
           <button
             key={index}
-            className="relative p-1 rounded-full hover:bg-on-surface/10 transition-colors overflow-hidden"
+            className="relative p-1 rounded-icon-button hover:bg-state-hover transition-colors overflow-hidden"
             onClick={() => handleStarClick(index + 1)}
             onMouseEnter={() => handleStarMouseEnter(index + 1)}
             onMouseLeave={handleStarMouseLeave}

@@ -1333,7 +1333,7 @@ function FinancialTable({
           disabled={!inlineEditing.canUndo}
           className={cn(
             "inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors",
-            "text-on-surface-variant hover:bg-on-surface/8 active:bg-on-surface/12",
+            "text-on-surface-variant hover:bg-state-hover active:bg-state-pressed",
             "disabled:opacity-40 disabled:pointer-events-none"
           )}
           aria-label="Undo"
@@ -1350,7 +1350,7 @@ function FinancialTable({
           disabled={!inlineEditing.canRedo}
           className={cn(
             "inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors",
-            "text-on-surface-variant hover:bg-on-surface/8 active:bg-on-surface/12",
+            "text-on-surface-variant hover:bg-state-hover active:bg-state-pressed",
             "disabled:opacity-40 disabled:pointer-events-none"
           )}
           aria-label="Redo"

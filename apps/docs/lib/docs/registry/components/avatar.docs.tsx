@@ -254,7 +254,7 @@ function UserProfile({ user }) {
       />
       <div>
         <div className="font-medium">{user.name}</div>
-        <div className="text-sm text-gray-500">{user.email}</div>
+        <div className="text-sm text-on-surface-variant">{user.email}</div>
       </div>
     </div>
   );

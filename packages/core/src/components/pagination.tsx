@@ -73,7 +73,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       "relative w-12 h-12 rounded-sm flex items-center justify-center transition-colors overflow-hidden",
       isCurrent
         ? "bg-primary text-on-primary"
-        : "text-on-surface-variant hover:bg-on-surface/10"
+        : "text-on-surface-variant hover:bg-state-hover"
     );
 
     const innerContent = (

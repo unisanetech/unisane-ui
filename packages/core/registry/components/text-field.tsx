@@ -11,12 +11,12 @@ const textFieldContainerVariants = cva(
     variants: {
       variant: {
         outlined:
-          "rounded-sm border border-outline-variant bg-surface hover:border-outline focus-within:border-primary! focus-within:ring-1 focus-within:ring-primary/20",
+          "rounded-sm border border-outline-variant bg-surface hover:border-outline focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring",
         filled:
           "rounded-t-sm rounded-b-none border-b border-outline-variant bg-surface-container-low hover:bg-surface-container focus-within:bg-surface",
       },
       error: {
-        true: "border-error focus-within:border-error hover:border-error ring-error/20",
+        true: "border-error focus-within:border-error hover:border-error ring-focus-ring-error",
       },
       disabled: {
         true: "opacity-38 cursor-not-allowed pointer-events-none",

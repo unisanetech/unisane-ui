@@ -42,7 +42,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     <AccordionContext.Provider value={{ expanded, toggle }}>
       <div
         className={cn(
-          "flex flex-col border border-outline-variant/30 rounded-sm overflow-hidden bg-surface",
+          "flex flex-col border border-outline-subtle rounded-sm overflow-hidden bg-surface",
           className
         )}
       >
@@ -71,8 +71,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   return (
     <div
       className={cn(
-        "border-b border-outline-variant/15 last:border-none",
-        isExpanded && "bg-surface-container-low/50",
+        "border-b border-outline-soft last:border-none",
+        isExpanded && "bg-surface-container-low",
         className
       )}
     >
@@ -111,20 +111,20 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      context?.toggle(value!);
+      context?.toggle(value);
     }
   };
 
   return (
     <button
       id={triggerId}
-      onClick={() => context?.toggle(value!)}
+      onClick={() => context?.toggle(value)}
       onKeyDown={handleKeyDown}
       aria-expanded={isExpanded}
       aria-controls={contentId}
       className={cn(
         "w-full h-12 px-4 flex items-center justify-between text-label-medium font-medium transition-all relative overflow-hidden group",
-        isExpanded ? "text-primary" : "text-on-surface hover:bg-on-surface/8"
+        isExpanded ? "text-primary" : "text-on-surface hover:bg-state-hover"
       )}
     >
       <Ripple />

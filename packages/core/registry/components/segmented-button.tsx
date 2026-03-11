@@ -192,11 +192,11 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
                 sizeStyles.itemGap,
                 sizeStyles.itemPaddingX,
                 sizeStyles.itemText,
-                !isLast && 'border-outline-variant/60 border-r',
+                !isLast && 'border-outline-strong border-r',
                 option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
                 selected && !option.disabled
                   ? 'bg-secondary-container text-on-secondary-container'
-                  : 'text-on-surface-variant bg-surface hover:bg-surface-variant/40',
+                  : 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
               )}
             >
               <Ripple disabled={option.disabled} />
@@ -244,7 +244,7 @@ const segmentedButtonItemVariants = cva(
     variants: {
       active: {
         true: 'bg-secondary-container text-on-secondary-container',
-        false: 'text-on-surface-variant bg-surface hover:bg-surface-variant/40',
+        false: 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
       },
       disabled: {
         true: 'opacity-38 cursor-not-allowed',

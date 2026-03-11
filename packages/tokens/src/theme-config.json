@@ -4,16 +4,16 @@
   "description": "Default blue theme - professional and trustworthy",
 
   "primary": {
-    "hue": 210,
-    "chroma": 0.16,
-    "comment": "M3-style blue (210°) with good saturation - matches #296197 reference"
+    "hue": 230,
+    "chroma": 0.15,
+    "comment": "Core blue (230°) tuned to avoid cyan/teal drift on white-first surfaces"
   },
 
   "secondary": {
     "strategy": "analogous",
     "hueShift": 0,
-    "chromaScale": 1.2,
-    "comment": "Slightly boosted chroma (1.2x) to maintain visible secondary-container"
+    "chromaScale": 0.7,
+    "comment": "Moderately muted secondary for cleaner UI hierarchy"
   },
 
   "tertiary": {
@@ -25,8 +25,8 @@
 
   "neutral": {
     "strategy": "tinted",
-    "tintFromPrimary": 0.02,
-    "comment": "Very subtle gray with minimal blue tint"
+    "tintFromPrimary": 0.012,
+    "comment": "Subtle neutral tint to keep whites clean while preserving brand character"
   },
 
   "error": {

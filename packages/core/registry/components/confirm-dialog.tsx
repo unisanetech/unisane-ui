@@ -50,12 +50,12 @@ const variantConfig = {
   danger: {
     icon: "warning",
     iconClass: "text-error",
-    confirmClass: "bg-error text-on-error hover:bg-error/90",
+    confirmClass: "bg-error text-on-error",
   },
   warning: {
     icon: "warning",
     iconClass: "text-tertiary",
-    confirmClass: "bg-tertiary text-on-tertiary hover:bg-tertiary/90",
+    confirmClass: "bg-tertiary text-on-tertiary",
   },
 } as const;
 

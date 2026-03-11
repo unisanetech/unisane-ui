@@ -8,14 +8,14 @@ import { IconButton } from "./icon-button";
 import { Icon } from "@ui/primitives/icon";
 
 const bannerVariants = cva(
-  "relative w-full flex items-start gap-4 p-4 border-b border-outline-variant/30 transition-all duration-medium ease-standard",
+  "relative w-full flex items-start gap-4 p-4 border-b border-outline-subtle transition-all duration-medium ease-standard",
   {
     variants: {
       variant: {
         default: "bg-surface text-on-surface",
         info: "bg-surface text-on-surface",
-        warning: "bg-warning-container/30 text-on-warning-container",
-        error: "bg-error-container/30 text-on-error-container",
+        warning: "bg-warning-container text-on-warning-container",
+        error: "bg-error-container text-on-error-container",
       },
     },
     defaultVariants: {
@@ -94,7 +94,7 @@ export const Banner: React.FC<BannerProps> = ({
       <IconButton
         icon={<Icon symbol="close" size="sm" />}
         onClick={onClose}
-        className="text-on-surface-variant hover:bg-on-surface/10 ml-2 shrink-0"
+        className="text-on-surface-variant hover:bg-state-hover ml-2 shrink-0"
         aria-label="Close banner"
       />
     </Surface>

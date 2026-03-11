@@ -271,7 +271,7 @@ export default defineConfig({
           </div>
         </Card>
 
-        <div className="mt-8 p-4 rounded-lg bg-primary-container/30 border border-primary">
+        <div className="mt-8 p-4 rounded-lg bg-primary-container border border-primary">
           <div className="flex gap-3">
             <span className="material-symbols-outlined text-primary shrink-0">lightbulb</span>
             <div>

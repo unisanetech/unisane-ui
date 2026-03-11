@@ -45,7 +45,7 @@ export default function Page() {
       <h2 className="text-xl font-semibold mb-2">
         Welcome to Unisane UI
       </h2>
-      <p className="text-gray-600 mb-4">
+      <p className="mb-4 text-on-surface-variant">
         Beautiful, accessible components
         for your next project.
       </p>

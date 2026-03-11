@@ -50,8 +50,8 @@ export const Nav = forwardRef<HTMLElement, NavProps>(function Nav(
           variant === "compact" && "gap-1",
           variant === "default" && "gap-2",
           variant === "comfortable" && "gap-3",
-          vertical && "border-r border-outline-variant/30",
-          !vertical && "border-b border-outline-variant/30",
+          vertical && "border-r border-outline-subtle",
+          !vertical && "border-b border-outline-subtle",
 
           className
         )}

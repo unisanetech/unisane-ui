@@ -20,7 +20,7 @@ export const TableHeader: React.FC<React.HTMLAttributes<HTMLTableSectionElement>
 }) => (
   <thead
     className={cn(
-      'bg-surface-container-low border-outline-variant/30 sticky top-0 z-10 border-b',
+      'bg-surface-container-low border-outline-subtle sticky top-0 z-10 border-b',
       className,
     )}
     {...props}
@@ -38,7 +38,7 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
 }) => (
   <tr
     className={cn(
-      'border-outline-variant/15 hover:bg-surface-container-low border-b transition-colors',
+      'border-outline-soft hover:bg-surface-container-low border-b transition-colors',
       className,
     )}
     {...props}

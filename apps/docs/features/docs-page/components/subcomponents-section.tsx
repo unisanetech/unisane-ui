@@ -94,7 +94,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
                 {props.map((prop) => (
                   <tr
                     key={prop.name}
-                    className="border-b border-outline-variant last:border-none hover:bg-surface-container-low/50 transition-colors"
+                    className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
                   >
                     <td className="px-5 py-4 align-top">
                       <code className="text-primary font-mono font-medium">
@@ -103,7 +103,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
                       </code>
                     </td>
                     <td className="px-5 py-4 align-top">
-                      <code className="text-tertiary font-mono text-label-small bg-surface-variant/40 px-2 py-1 rounded-sm">
+                      <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
                         {prop.type}
                       </code>
                     </td>
@@ -111,7 +111,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
                       {prop.default ? (
                         <code className="font-mono text-label-small">{prop.default}</code>
                       ) : (
-                        <span className="text-on-surface-variant/50">—</span>
+                        <span className="text-on-surface-variant">—</span>
                       )}
                     </td>
                     <td className="px-5 py-4 align-top text-on-surface-variant font-medium">
@@ -155,7 +155,7 @@ function SubComponentPropCard({
       </div>
 
       <div className="flex flex-wrap items-center gap-2 mb-2.5 @sm:mb-3">
-        <code className="text-tertiary font-mono text-label-small bg-surface-variant/40 px-2 py-1 rounded-sm">
+        <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
           {prop.type}
         </code>
         {prop.default && (

@@ -67,7 +67,7 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
         <div
           className={cn(
             "absolute inset-0 rounded-sm transition-all duration-medium ease-standard overflow-hidden",
-            active ? "bg-secondary-container scale-x-100 opacity-100" : "bg-transparent scale-x-50 opacity-0 group-hover:bg-on-surface/8"
+            active ? "bg-secondary-container scale-x-100 opacity-100" : "bg-transparent scale-x-50 opacity-0 group-hover:bg-state-hover"
           )}
         >
           <Ripple center />

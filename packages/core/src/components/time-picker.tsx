@@ -234,7 +234,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                   'text-display-large flex h-20 min-w-24 cursor-pointer items-center justify-center rounded-sm border-2 px-4 py-3 transition-colors',
                   dialMode === 'hour'
                     ? 'bg-primary-container text-on-primary-container border-transparent'
-                    : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-highest/80 border-transparent',
+                    : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-high border-transparent',
                 )}
                 onClick={() => setDialMode('hour')}
                 role="button"
@@ -253,7 +253,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                   'text-display-large flex h-20 min-w-24 cursor-pointer items-center justify-center rounded-sm border-2 px-4 py-3 transition-colors',
                   dialMode === 'minute'
                     ? 'bg-primary-container text-on-primary-container border-transparent'
-                    : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-highest/80 border-transparent',
+                    : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-high border-transparent',
                 )}
                 onClick={() => setDialMode('minute')}
                 role="button"
@@ -299,7 +299,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               role="radio"
               aria-checked={period === 'AM'}
               className={cn(
-                'text-label-medium hover:bg-surface-variant/20 border-outline-variant flex-1 border-b px-4 font-medium transition-colors',
+                'text-label-medium hover:bg-state-hover border-outline-variant flex-1 border-b px-4 font-medium transition-colors',
                 period === 'AM'
                   ? 'bg-tertiary-container text-on-tertiary-container'
                   : 'text-on-surface-variant',
@@ -312,7 +312,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               role="radio"
               aria-checked={period === 'PM'}
               className={cn(
-                'text-label-medium hover:bg-surface-variant/20 flex-1 px-4 font-medium transition-colors',
+                'text-label-medium hover:bg-state-hover flex-1 px-4 font-medium transition-colors',
                 period === 'PM'
                   ? 'bg-tertiary-container text-on-tertiary-container'
                   : 'text-on-surface-variant',
@@ -374,7 +374,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           handleNumberClick(num);
                         }}
                         className={cn(
-                          'text-body-medium hover:bg-on-surface/8 absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
+                          'text-body-medium hover:bg-state-hover absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
                           isSelected ? 'text-on-primary font-medium' : 'text-on-surface',
                         )}
                         style={{ left: `${x}%`, top: `${y}%` }}
@@ -402,7 +402,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                           handleNumberClick(num);
                         }}
                         className={cn(
-                          'text-body-medium hover:bg-on-surface/8 absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
+                          'text-body-medium hover:bg-state-hover absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
                           isSelected ? 'text-on-primary font-medium' : 'text-on-surface',
                         )}
                         style={{ left: `${x}%`, top: `${y}%` }}

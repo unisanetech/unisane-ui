@@ -10,11 +10,11 @@
    1. HUE - Change the primary color:
       :root { --hue: 145; }     // Green
       :root { --hue: 285; }     // Purple
-      :root { --hue: 70; }      // Orange
+      :root { --hue: 55; }      // Orange
 
       Available hues:
-      Blue: 240 (default)  Green: 145   Teal: 180
-      Purple: 285          Orange: 70   Red: 25
+      Blue: 230 (default)  Green: 145   Cyan: 195
+      Purple: 285          Orange: 55   Red: 25
 
    2. CHROMA - Adjust color intensity:
       :root { --chroma: 0.08; }  // Muted
@@ -49,8 +49,8 @@
 /* Theme defaults layer - can be overridden by unlayered app CSS */
 @layer unisane-defaults {
   :root {
-    --hue: 240;
-    --chroma: 0.16;
+    --hue: 230;
+    --chroma: 0.15;
   }
 }
 
@@ -62,9 +62,9 @@
   --hue-error: 25;
 
   /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * 1.2);
+  --chroma-secondary: calc(var(--chroma) * 0.7);
   --chroma-tertiary: calc(var(--chroma) * 0.7);
-  --chroma-neutral: 0.02;
+  --chroma-neutral: 0.012;
   --chroma-error: 0.18;
 
   /* Neutral variant chroma (1.5x neutral) */
@@ -89,7 +89,10 @@
   --ref-primary-70: oklch(0.82 calc(var(--chroma) * 0.75) var(--hue));
   --ref-primary-80: oklch(0.88 calc(var(--chroma) * 0.55) var(--hue));
   --ref-primary-90: oklch(0.94 calc(var(--chroma) * 0.35) var(--hue));
+  --ref-primary-92: oklch(0.955 calc(var(--chroma) * 0.3) var(--hue));
+  --ref-primary-94: oklch(0.965 calc(var(--chroma) * 0.27) var(--hue));
   --ref-primary-95: oklch(0.97 calc(var(--chroma) * 0.25) var(--hue));
+  --ref-primary-96: oklch(0.978 calc(var(--chroma) * 0.22) var(--hue));
   --ref-primary-99: oklch(0.995 calc(var(--chroma) * 0.15) var(--hue));
   --ref-primary-100: #ffffff;
 
@@ -110,7 +113,10 @@
   --ref-secondary-70: oklch(0.82 calc(var(--chroma-secondary) * 0.75) var(--hue-secondary));
   --ref-secondary-80: oklch(0.88 calc(var(--chroma-secondary) * 0.55) var(--hue-secondary));
   --ref-secondary-90: oklch(0.94 calc(var(--chroma-secondary) * 0.35) var(--hue-secondary));
+  --ref-secondary-92: oklch(0.955 calc(var(--chroma-secondary) * 0.3) var(--hue-secondary));
+  --ref-secondary-94: oklch(0.965 calc(var(--chroma-secondary) * 0.27) var(--hue-secondary));
   --ref-secondary-95: oklch(0.97 calc(var(--chroma-secondary) * 0.25) var(--hue-secondary));
+  --ref-secondary-96: oklch(0.978 calc(var(--chroma-secondary) * 0.22) var(--hue-secondary));
   --ref-secondary-99: oklch(0.995 calc(var(--chroma-secondary) * 0.15) var(--hue-secondary));
   --ref-secondary-100: #ffffff;
 
@@ -131,7 +137,10 @@
   --ref-tertiary-70: oklch(0.82 calc(var(--chroma-tertiary) * 0.75) var(--hue-tertiary));
   --ref-tertiary-80: oklch(0.88 calc(var(--chroma-tertiary) * 0.55) var(--hue-tertiary));
   --ref-tertiary-90: oklch(0.94 calc(var(--chroma-tertiary) * 0.35) var(--hue-tertiary));
+  --ref-tertiary-92: oklch(0.955 calc(var(--chroma-tertiary) * 0.3) var(--hue-tertiary));
+  --ref-tertiary-94: oklch(0.965 calc(var(--chroma-tertiary) * 0.27) var(--hue-tertiary));
   --ref-tertiary-95: oklch(0.97 calc(var(--chroma-tertiary) * 0.25) var(--hue-tertiary));
+  --ref-tertiary-96: oklch(0.978 calc(var(--chroma-tertiary) * 0.22) var(--hue-tertiary));
   --ref-tertiary-99: oklch(0.995 calc(var(--chroma-tertiary) * 0.15) var(--hue-tertiary));
   --ref-tertiary-100: #ffffff;
 
@@ -152,7 +161,10 @@
   --ref-neutral-70: oklch(0.82 calc(var(--chroma-neutral) * 0.75) var(--hue-neutral));
   --ref-neutral-80: oklch(0.88 calc(var(--chroma-neutral) * 0.55) var(--hue-neutral));
   --ref-neutral-90: oklch(0.94 calc(var(--chroma-neutral) * 0.35) var(--hue-neutral));
+  --ref-neutral-92: oklch(0.955 calc(var(--chroma-neutral) * 0.3) var(--hue-neutral));
+  --ref-neutral-94: oklch(0.965 calc(var(--chroma-neutral) * 0.27) var(--hue-neutral));
   --ref-neutral-95: oklch(0.97 calc(var(--chroma-neutral) * 0.25) var(--hue-neutral));
+  --ref-neutral-96: oklch(0.978 calc(var(--chroma-neutral) * 0.22) var(--hue-neutral));
   --ref-neutral-99: oklch(0.995 calc(var(--chroma-neutral) * 0.15) var(--hue-neutral));
   --ref-neutral-100: #ffffff;
 
@@ -193,8 +205,17 @@
   --ref-neutral-variant-90: oklch(
     0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral)
   );
+  --ref-neutral-variant-92: oklch(
+    0.955 calc(var(--chroma-neutral-variant) * 0.3) var(--hue-neutral)
+  );
+  --ref-neutral-variant-94: oklch(
+    0.965 calc(var(--chroma-neutral-variant) * 0.27) var(--hue-neutral)
+  );
   --ref-neutral-variant-95: oklch(
     0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral)
+  );
+  --ref-neutral-variant-96: oklch(
+    0.978 calc(var(--chroma-neutral-variant) * 0.22) var(--hue-neutral)
   );
   --ref-neutral-variant-99: oklch(
     0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral)
@@ -218,7 +239,10 @@
   --ref-error-70: oklch(0.82 calc(var(--chroma-error) * 0.75) var(--hue-error));
   --ref-error-80: oklch(0.88 calc(var(--chroma-error) * 0.55) var(--hue-error));
   --ref-error-90: oklch(0.94 calc(var(--chroma-error) * 0.35) var(--hue-error));
+  --ref-error-92: oklch(0.955 calc(var(--chroma-error) * 0.3) var(--hue-error));
+  --ref-error-94: oklch(0.965 calc(var(--chroma-error) * 0.27) var(--hue-error));
   --ref-error-95: oklch(0.97 calc(var(--chroma-error) * 0.25) var(--hue-error));
+  --ref-error-96: oklch(0.978 calc(var(--chroma-error) * 0.22) var(--hue-error));
   --ref-error-99: oklch(0.995 calc(var(--chroma-error) * 0.15) var(--hue-error));
   --ref-error-100: #ffffff;
 
@@ -266,10 +290,10 @@
   --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-10);
   --tone-surface-container-lowest: var(--ref-neutral-100);
-  --tone-surface-container-low: var(--ref-neutral-99);
-  --tone-surface-container: var(--ref-neutral-95);
-  --tone-surface-container-high: var(--ref-neutral-90);
-  --tone-surface-container-highest: var(--ref-neutral-80);
+  --tone-surface-container-low: var(--ref-neutral-96);
+  --tone-surface-container: var(--ref-neutral-94);
+  --tone-surface-container-high: var(--ref-neutral-92);
+  --tone-surface-container-highest: var(--ref-neutral-90);
   --tone-surface-variant: var(--ref-neutral-variant-90);
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
@@ -345,6 +369,48 @@
   --color-inverse-on-surface: var(--tone-inverse-on-surface);
   --color-inverse-primary: var(--tone-inverse-primary);
   --color-scrim: rgba(0, 0, 0, 0.32);
+  --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);
+
+  /* Outline role aliases (replaces ad-hoc /nn opacity usage) */
+  --color-outline-weak: color-mix(
+    in oklab,
+    var(--color-outline-variant) 10%,
+    var(--color-surface) 90%
+  );
+  --color-outline-soft: color-mix(
+    in oklab,
+    var(--color-outline-variant) 15%,
+    var(--color-surface) 85%
+  );
+  --color-outline-muted: color-mix(
+    in oklab,
+    var(--color-outline-variant) 20%,
+    var(--color-surface) 80%
+  );
+  --color-outline-subtle: color-mix(
+    in oklab,
+    var(--color-outline-variant) 30%,
+    var(--color-surface) 70%
+  );
+  --color-outline-medium: color-mix(
+    in oklab,
+    var(--color-outline-variant) 40%,
+    var(--color-surface) 60%
+  );
+  --color-outline-strong: color-mix(
+    in oklab,
+    var(--color-outline-variant) 60%,
+    var(--color-surface) 40%
+  );
+
+  /* Surface interaction state aliases */
+  --color-state-hover: color-mix(in oklab, var(--color-on-surface) 8%, transparent);
+  --color-state-focus: color-mix(in oklab, var(--color-on-surface) 10%, transparent);
+  --color-state-pressed: color-mix(in oklab, var(--color-on-surface) 12%, transparent);
+  --color-state-selected: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  --color-state-error: color-mix(in oklab, var(--color-error) 8%, transparent);
+  --color-focus-ring: color-mix(in oklab, var(--color-primary) 20%, transparent);
+  --color-focus-ring-error: color-mix(in oklab, var(--color-error) 20%, transparent);
 
   /* Typography */
   --font-sans:
@@ -436,6 +502,12 @@
   --radius-xl: calc(32px * var(--scale-radius));
   --radius-2xl: calc(48px * var(--scale-radius));
   --radius-full: 9999px;
+  --radius-button-default: var(--radius-sm);
+  --radius-button-full: var(--radius-full);
+  --radius-button-family: var(--radius-button-default);
+  --radius-button: var(--radius-button-family);
+  --radius-icon-button: var(--radius-button-family);
+  --radius-fab: var(--radius-button-family);
 
   /* === ELEVATION === */
   /* Shadow opacity scale (controlled by data-elevation attribute) */
@@ -633,7 +705,7 @@
    Can be combined with any scheme.
 
    Available themes:
-   - blue (default)  - Hue 240, professional blue
+   - blue (default)  - Hue 230, professional blue
    - purple          - Hue 285, creative purple
    - pink            - Hue 340, playful pink
    - red             - Hue 25, bold red/coral
@@ -645,8 +717,8 @@
    ============================================================ */
 
 :root[data-color-theme='blue'] {
-  --hue: 240;
-  --chroma: 0.13;
+  --hue: 230;
+  --chroma: 0.15;
 }
 
 :root[data-color-theme='purple'] {
@@ -684,6 +756,13 @@
   --chroma: 0.12;
 }
 
+/* Neutral theme - soft accent for product UIs */
+:root[data-color-theme='neutral'] {
+  --hue: 230;
+  --chroma: 0.06;
+  --chroma-neutral: 0.008;
+}
+
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
 :root[data-color-theme='black'] {
@@ -706,8 +785,8 @@
 
 /* Neutral scheme - low saturation, subtle color hints */
 [data-scheme='neutral'] {
-  --chroma: 0.04;
-  --chroma-neutral: 0.01;
+  --chroma: 0.03;
+  --chroma-neutral: 0.008;
 }
 
 /* Monochrome scheme - pure grayscale
@@ -862,6 +941,19 @@
 }
 
 /* ============================================================
+   ACTION SHAPE MODE - Optional global override
+   Usage: <html data-action-shape="full">
+   ============================================================ */
+
+[data-action-shape='standard'] {
+  --radius-button-family: var(--radius-button-default);
+}
+
+[data-action-shape='full'] {
+  --radius-button-family: var(--radius-button-full);
+}
+
+/* ============================================================
    ELEVATION - Control shadow intensity
    Usage: <html data-elevation="subtle">
 
@@ -1010,6 +1102,20 @@
   --color-inverse-on-surface: var(--color-inverse-on-surface);
   --color-inverse-primary: var(--color-inverse-primary);
   --color-scrim: var(--color-scrim);
+  --color-scrim-soft: var(--color-scrim-soft);
+  --color-outline-weak: var(--color-outline-weak);
+  --color-outline-soft: var(--color-outline-soft);
+  --color-outline-muted: var(--color-outline-muted);
+  --color-outline-subtle: var(--color-outline-subtle);
+  --color-outline-medium: var(--color-outline-medium);
+  --color-outline-strong: var(--color-outline-strong);
+  --color-state-hover: var(--color-state-hover);
+  --color-state-focus: var(--color-state-focus);
+  --color-state-pressed: var(--color-state-pressed);
+  --color-state-selected: var(--color-state-selected);
+  --color-state-error: var(--color-state-error);
+  --color-focus-ring: var(--color-focus-ring);
+  --color-focus-ring-error: var(--color-focus-ring-error);
 
   /* Radius */
   --radius-none: var(--radius-none);
@@ -1020,6 +1126,12 @@
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
   --radius-full: var(--radius-full);
+  --radius-button-default: var(--radius-button-default);
+  --radius-button-full: var(--radius-button-full);
+  --radius-button-family: var(--radius-button-family);
+  --radius-button: var(--radius-button);
+  --radius-icon-button: var(--radius-icon-button);
+  --radius-fab: var(--radius-fab);
 
   /* Shadows */
   --shadow-0: var(--shadow-0);

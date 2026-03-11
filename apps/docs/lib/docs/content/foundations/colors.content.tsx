@@ -8,7 +8,7 @@ const heroVisual = (
       <Typography variant="titleMedium" className="text-on-primary-container mb-2">
         Primary container
       </Typography>
-      <Typography variant="bodySmall" className="text-on-primary-container/80">
+      <Typography variant="bodySmall" className="text-on-primary-container">
         Calls attention to key actions and highlights.
       </Typography>
     </Surface>
@@ -16,7 +16,7 @@ const heroVisual = (
       <Typography variant="titleMedium" className="text-on-secondary-container mb-2">
         Secondary container
       </Typography>
-      <Typography variant="bodySmall" className="text-on-secondary-container/80">
+      <Typography variant="bodySmall" className="text-on-secondary-container">
         Supports less dominant supportive emphasis.
       </Typography>
     </Surface>
@@ -24,7 +24,7 @@ const heroVisual = (
       <Typography variant="titleMedium" className="text-on-tertiary-container mb-2">
         Tertiary container
       </Typography>
-      <Typography variant="bodySmall" className="text-on-tertiary-container/80">
+      <Typography variant="bodySmall" className="text-on-tertiary-container">
         Adds variety without breaking the semantic system.
       </Typography>
     </Surface>

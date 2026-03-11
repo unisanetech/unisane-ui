@@ -45,7 +45,7 @@ const BannerDefaultVisual = () => (
 );
 
 const BannerWarningVisual = () => (
-  <div className="w-72 mx-auto bg-warning-container/30 rounded-sm overflow-hidden border border-outline-variant">
+  <div className="w-72 mx-auto bg-warning-container rounded-sm overflow-hidden border border-outline-variant">
     <div className="flex items-start gap-3 p-3">
       <span className="material-symbols-outlined text-on-warning-container text-[20px]">warning</span>
       <div className="flex-1 min-w-0">
@@ -98,7 +98,7 @@ export const bannerDoc: ComponentDoc = {
       {
         emphasis: "Warning",
         component: (
-          <div className="w-40 bg-warning-container/30 rounded-sm p-2">
+          <div className="w-40 bg-warning-container rounded-sm p-2">
             <div className="text-body-small text-on-warning-container">Warning message</div>
           </div>
         ),
@@ -109,7 +109,7 @@ export const bannerDoc: ComponentDoc = {
       {
         emphasis: "Error",
         component: (
-          <div className="w-40 bg-error-container/30 rounded-sm p-2">
+          <div className="w-40 bg-error-container rounded-sm p-2">
             <div className="text-body-small text-on-error-container">Error message</div>
           </div>
         ),

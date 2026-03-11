@@ -499,7 +499,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
         open={true}
         onClick={handleContentClick}
         className={cn(
-          'shadow-2 border-outline-variant/20 relative w-full overflow-visible border',
+          'shadow-2 border-outline-muted relative w-full overflow-visible border',
           className,
         )}
       >
@@ -787,7 +787,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     >
       <Menu
         open={true}
-        className={cn('shadow-2 border-outline-variant/20 min-w-40 border', className)}
+        className={cn('shadow-2 border-outline-muted min-w-40 border', className)}
       >
         {children}
       </Menu>

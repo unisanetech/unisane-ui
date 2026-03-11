@@ -53,10 +53,10 @@ const toastVariants = cva(
     variants: {
       variant: {
         default: "bg-inverse-surface text-inverse-on-surface border-transparent",
-        success: "bg-surface text-on-surface border-outline-variant/30 [&_.toast-icon]:text-primary",
-        error: "bg-error-container text-on-error-container border-error/20 [&_.toast-icon]:text-on-error-container",
-        warning: "bg-surface text-on-surface border-outline-variant/30 [&_.toast-icon]:text-tertiary",
-        info: "bg-surface text-on-surface border-outline-variant/30 [&_.toast-icon]:text-secondary",
+        success: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-primary",
+        error: "bg-error-container text-on-error-container border-error [&_.toast-icon]:text-on-error-container",
+        warning: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-tertiary",
+        info: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-secondary",
       },
     },
     defaultVariants: {
@@ -157,7 +157,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
           {message}
         </p>
         {description && (
-          <p className={cn("text-body-small mt-1 leading-snug", isInverse ? "text-inverse-on-surface/70" : "text-on-surface-variant")}>
+          <p className={cn("text-body-small mt-1 leading-snug", isInverse ? "text-inverse-on-surface opacity-70" : "text-on-surface-variant")}>
             {description}
           </p>
         )}
@@ -174,7 +174,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
             }}
             className={cn(
               "h-8 px-3 font-medium",
-              isInverse ? "text-inverse-primary hover:bg-inverse-primary/10" : ""
+              isInverse ? "text-inverse-primary hover:bg-state-focus" : ""
             )}
           >
             {action.label}
@@ -185,9 +185,9 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
           <button
             onClick={() => onDismiss(id)}
             className={cn(
-              "group p-1 rounded-full transition-colors relative overflow-hidden",
+              "group p-1 rounded-icon-button transition-colors relative overflow-hidden",
               isInverse
-                ? "text-inverse-on-surface/50 hover:text-inverse-on-surface"
+                ? "text-inverse-on-surface opacity-50 hover:opacity-100"
                 : "text-on-surface-variant hover:text-on-surface"
             )}
             aria-label="Dismiss"

@@ -1,6 +1,7 @@
 "use client";
 
 import { DocLayout, DocSection } from "@/features/docs-page";
+import { COLOR_THEME_OPTIONS, getColorThemeSwatch } from "@/lib/theme/color-theme-options";
 import { Card, Typography, Button } from "@unisane/ui";
 import { useTheme } from "@unisane/ui";
 
@@ -356,32 +357,22 @@ function ThemeSwitcherDemo() {
 function ColorThemeGrid() {
   const { colorTheme, setColorTheme } = useTheme();
 
-  const themes: Array<{ value: typeof colorTheme; label: string; color: string }> = [
-    { value: "blue", label: "Blue", color: "bg-[#0087A4]" },
-    { value: "purple", label: "Purple", color: "bg-[#7B4EA8]" },
-    { value: "pink", label: "Pink", color: "bg-[#C14B7A]" },
-    { value: "red", label: "Red", color: "bg-[#C53637]" },
-    { value: "orange", label: "Orange", color: "bg-[#C46A00]" },
-    { value: "yellow", label: "Yellow", color: "bg-[#8A7500]" },
-    { value: "green", label: "Green", color: "bg-[#3A7D44]" },
-    { value: "cyan", label: "Cyan", color: "bg-[#007B8A]" },
-    { value: "neutral", label: "Neutral", color: "bg-[#5E6668]" },
-    { value: "black", label: "Black", color: "bg-[#1A1A1A]" },
-  ];
-
   return (
     <div className="grid grid-cols-2 @sm:grid-cols-5 gap-3">
-      {themes.map((t) => (
+      {COLOR_THEME_OPTIONS.map((t) => (
         <button
           key={t.value}
           onClick={() => setColorTheme(t.value)}
           className={`relative p-4 rounded-lg border-2 transition-all ${
             colorTheme === t.value
-              ? "border-primary bg-primary-container/30"
+              ? "border-primary bg-primary-container"
               : "border-outline-variant hover:border-outline"
           }`}
         >
-          <div className={`w-8 h-8 rounded-full ${t.color} mx-auto mb-2`} />
+          <div
+            className="w-8 h-8 rounded-full mx-auto mb-2"
+            style={{ backgroundColor: getColorThemeSwatch(t) }}
+          />
           <Typography variant="labelMedium" className="text-center">
             {t.label}
           </Typography>
@@ -516,8 +507,8 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
 
 function InfoCard({ icon, variant, children }: { icon: string; variant: "info" | "tip"; children: React.ReactNode }) {
   const styles = {
-    info: "bg-primary-container/30 border-primary",
-    tip: "bg-tertiary-container/30 border-tertiary",
+    info: "bg-primary-container border-primary",
+    tip: "bg-tertiary-container border-tertiary",
   };
   const iconColor = variant === "info" ? "text-primary" : "text-tertiary";
 

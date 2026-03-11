@@ -60,8 +60,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           <div
             className={cn(
               "absolute inset-0 rounded-xs overflow-hidden transition-colors z-0",
-              "group-hover:bg-on-surface/8",
-              error && "group-hover:bg-error/8"
+              "group-hover:bg-state-hover",
+              error && "group-hover:bg-state-error"
             )}
           >
             <Ripple

@@ -198,8 +198,8 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       aria-controls={popoverId}
       tabIndex={-1}
       className={cn(
-        '-mr-1 rounded-full p-1 transition-colors',
-        'hover:bg-on-surface/8 focus-visible:bg-on-surface/8 focus-visible:outline-none',
+        'rounded-icon-button -mr-1 p-1 transition-colors',
+        'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
         error ? 'text-error' : 'text-on-surface-variant',
       )}
     >

@@ -4,7 +4,7 @@ import { cn, Slot } from '@/lib/utils';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
-  'min-w-50 bg-surface shadow-2 border border-outline-variant/20 overflow-hidden',
+  'min-w-50 bg-surface shadow-2 border border-outline-muted overflow-hidden',
   {
     variants: {
       rounded: {
@@ -72,7 +72,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const itemClasses = cn(
     'relative w-full text-left px-4 h-10 flex items-center gap-3 cursor-pointer select-none overflow-hidden',
     'text-on-surface transition-colors duration-short ease-standard',
-    'hover:bg-on-surface/6 focus-visible:bg-on-surface/10 focus-visible:outline-none',
+    'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
     selected && 'bg-secondary-container text-on-secondary-container',
     className,
@@ -136,7 +136,7 @@ export type MenuDividerProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const MenuDivider: React.FC<MenuDividerProps> = ({ className, ...props }) => {
   return (
-    <div className={cn('bg-outline-variant/40 my-1 h-px', className)} role="separator" {...props} />
+    <div className={cn('bg-outline-medium my-1 h-px', className)} role="separator" {...props} />
   );
 };
 

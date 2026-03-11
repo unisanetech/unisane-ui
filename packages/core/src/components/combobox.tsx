@@ -248,7 +248,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           className={cn(
             'border-outline-variant bg-surface relative w-full rounded-sm border transition-all',
             fieldSize.containerHeight,
-            isOpen && 'border-primary! ring-primary/20 ring-1',
+            isOpen && 'border-primary! ring-focus-ring ring-1',
             !isOpen && 'hover:border-outline',
             disabled && 'cursor-not-allowed opacity-38',
             !searchable && 'cursor-pointer',
@@ -297,7 +297,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 placeholder={placeholder}
                 disabled={disabled}
                 className={cn(
-                  'text-on-surface placeholder:text-on-surface-variant/60 flex-1 cursor-text bg-transparent outline-none',
+                  'text-on-surface placeholder:text-on-surface-variant flex-1 cursor-text bg-transparent outline-none',
                   fieldSize.valueText,
                 )}
                 role="combobox"
@@ -311,7 +311,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
               />
             ) : (
               <span
-                className={cn(fieldSize.valueText, !selectedOption && 'text-on-surface-variant/40')}
+                className={cn(fieldSize.valueText, !selectedOption && 'text-on-surface-variant')}
               >
                 {selectedOption ? selectedOption.label : placeholder}
               </span>
@@ -355,13 +355,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       'relative flex cursor-pointer items-center gap-3 transition-colors',
                       fieldSize.optionHeight,
                       fieldSize.optionPaddingX,
-                      'hover:bg-on-surface/6',
+                      'hover:bg-state-hover',
                       highlightSelected &&
                         selectedValue === option.value &&
-                        'bg-primary/10 text-primary',
+                        'bg-state-selected text-primary',
                       activeIndex === index &&
                         (!highlightSelected || selectedValue !== option.value) &&
-                        'bg-on-surface/6',
+                        'bg-state-hover',
                       option.disabled && 'cursor-not-allowed opacity-38',
                     )}
                     onClick={() => handleSelect(option)}

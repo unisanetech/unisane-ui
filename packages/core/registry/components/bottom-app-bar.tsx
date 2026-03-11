@@ -47,7 +47,7 @@ export const BottomAppBar: React.FC<BottomAppBarProps> = ({
 };
 
 const bottomAppBarActionVariants = cva(
-  "relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38",
+  "relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-icon-button select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38",
   {
     variants: {
       active: {

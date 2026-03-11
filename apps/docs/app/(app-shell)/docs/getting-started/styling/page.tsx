@@ -346,8 +346,8 @@ function TokenSwatch({ name, className, textClass }: { name: string; className: 
 
 function InfoCard({ icon, variant, children }: { icon: string; variant: "info" | "tip"; children: React.ReactNode }) {
   const styles = {
-    info: "bg-primary-container/30 border-primary",
-    tip: "bg-tertiary-container/30 border-tertiary",
+    info: "bg-primary-container border-primary",
+    tip: "bg-tertiary-container border-tertiary",
   };
   const iconColor = variant === "info" ? "text-primary" : "text-tertiary";
 

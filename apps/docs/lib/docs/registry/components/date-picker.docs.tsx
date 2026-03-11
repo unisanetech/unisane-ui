@@ -102,7 +102,7 @@ export const datePickerDoc: ComponentDoc = {
           <div className="w-24 h-16 bg-surface-container rounded-sm p-2">
             <div className="grid grid-cols-7 gap-0.5">
               {Array.from({ length: 14 }).map((_, i) => (
-                <div key={i} className={`w-2 h-2 rounded-full ${i === 7 ? "bg-primary" : "bg-outline-variant/30"}`} />
+                <div key={i} className={`w-2 h-2 rounded-full ${i === 7 ? "bg-primary" : "bg-outline-subtle"}`} />
               ))}
             </div>
           </div>

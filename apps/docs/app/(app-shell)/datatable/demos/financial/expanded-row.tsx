@@ -72,7 +72,7 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
       </div>
 
       {row.notes && (
-        <div className="mt-4 p-3 bg-tertiary/10 rounded-lg border border-tertiary/20">
+        <div className="mt-4 rounded-lg border border-tertiary-container bg-tertiary-container p-3">
           <div className="flex items-center gap-2">
             <span className="material-symbols-rounded text-tertiary">flag</span>
             <Typography variant="labelMedium" className="text-tertiary">

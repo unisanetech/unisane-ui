@@ -62,7 +62,7 @@ export const popoverDoc: ComponentDoc = {
         emphasis: "Bottom",
         component: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full border border-outline text-label-large text-on-surface hover:bg-on-surface/8">Bottom</span>}
+            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full border border-outline text-label-large text-on-surface hover:bg-state-hover">Bottom</span>}
             content={<div className="text-body-small">Popover content</div>}
             side="bottom"
           />
@@ -75,7 +75,7 @@ export const popoverDoc: ComponentDoc = {
         emphasis: "Top",
         component: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full border border-outline text-label-large text-on-surface hover:bg-on-surface/8">Top</span>}
+            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full border border-outline text-label-large text-on-surface hover:bg-state-hover">Top</span>}
             content={<div className="text-body-small">Popover content</div>}
             side="top"
           />
@@ -95,7 +95,7 @@ export const popoverDoc: ComponentDoc = {
       {
         component: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container/80">Start</span>}
+            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container">Start</span>}
             content={<div className="text-body-small w-24">Left aligned</div>}
             align="start"
           />
@@ -106,7 +106,7 @@ export const popoverDoc: ComponentDoc = {
       {
         component: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container/80">Center</span>}
+            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container">Center</span>}
             content={<div className="text-body-small w-24">Centered</div>}
             align="center"
           />
@@ -117,7 +117,7 @@ export const popoverDoc: ComponentDoc = {
       {
         component: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container/80">End</span>}
+            trigger={<span className="inline-flex items-center justify-center h-9 px-4 rounded-full bg-secondary-container text-on-secondary-container text-label-large hover:bg-secondary-container">End</span>}
             content={<div className="text-body-small w-24">Right aligned</div>}
             align="end"
           />
@@ -137,7 +137,7 @@ export const popoverDoc: ComponentDoc = {
         title: "Info popover",
         visual: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-10 px-6 rounded-full bg-secondary-container text-on-secondary-container text-label-large font-medium hover:bg-secondary-container/80 cursor-pointer">View Details</span>}
+            trigger={<span className="inline-flex items-center justify-center h-10 px-6 rounded-full bg-secondary-container text-on-secondary-container text-label-large font-medium hover:bg-secondary-container cursor-pointer">View Details</span>}
             content={
               <div className="w-44">
                 <div className="text-title-small text-on-surface mb-2">Item Details</div>
@@ -154,7 +154,7 @@ export const popoverDoc: ComponentDoc = {
         title: "Action popover",
         visual: (
           <Popover
-            trigger={<span className="inline-flex items-center justify-center h-10 px-6 rounded-full bg-primary text-on-primary text-label-large font-medium hover:bg-primary/90 cursor-pointer">Share</span>}
+            trigger={<span className="inline-flex items-center justify-center h-10 px-6 rounded-full bg-primary text-on-primary text-label-large font-medium hover:bg-primary cursor-pointer">Share</span>}
             content={
               <div className="w-40">
                 <div className="text-label-medium text-on-surface mb-3">Share via</div>

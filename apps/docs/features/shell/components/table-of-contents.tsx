@@ -83,7 +83,7 @@ export function TableOfContents({ title, items }: TableOfContentsProps) {
                   "block rounded-lg border px-3 py-2 text-left text-body-medium transition-all duration-short",
                   isActive
                     ? "border-outline-variant font-medium text-on-surface"
-                    : "border-transparent text-on-surface-variant hover:bg-on-surface/5 hover:text-on-surface"
+                    : "border-transparent text-on-surface-variant hover:bg-state-hover hover:text-on-surface"
                 )}
               >
                 {item.label}

@@ -144,7 +144,7 @@ export const Carousel: React.FC<CarouselProps> = ({
             }
             onClick={prevSlide}
             aria-label="Previous slide"
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-surface/80 backdrop-blur-sm"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-surface-container-low backdrop-blur-sm"
           />
           <IconButton
             icon={
@@ -159,7 +159,7 @@ export const Carousel: React.FC<CarouselProps> = ({
             }
             onClick={nextSlide}
             aria-label="Next slide"
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-surface/80 backdrop-blur-sm"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-surface-container-low backdrop-blur-sm"
           />
         </>
       )}
@@ -178,7 +178,7 @@ export const Carousel: React.FC<CarouselProps> = ({
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 index === currentIndex
                   ? "bg-primary"
-                  : "bg-on-surface-variant/50 hover:bg-on-surface-variant/70"
+                  : "bg-outline-medium hover:bg-outline-strong"
               )}
               onClick={() => goToSlide(index)}
               aria-label={`Go to slide ${index + 1}`}

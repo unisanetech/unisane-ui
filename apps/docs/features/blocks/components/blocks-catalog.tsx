@@ -61,7 +61,7 @@ export function BlocksCatalog() {
                         {block.description}
                       </Typography>
                     </div>
-                    <span className="material-symbols-outlined text-on-surface-variant/60 group-hover:text-primary transition-all group-hover:translate-x-0.5">
+                    <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-all group-hover:translate-x-0.5">
                       arrow_forward
                     </span>
                   </div>

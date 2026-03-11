@@ -51,9 +51,9 @@ export function createUserActionsColumn(
 
 function StatusBadge({ status }: { status: User["status"] }) {
   const colors: Record<User["status"], { bg: string; text: string }> = {
-    active: { bg: "bg-primary/10", text: "text-primary" },
-    inactive: { bg: "bg-error/10", text: "text-error" },
-    pending: { bg: "bg-tertiary/10", text: "text-tertiary" },
+    active: { bg: "bg-state-selected", text: "text-primary" },
+    inactive: { bg: "bg-error-container", text: "text-error" },
+    pending: { bg: "bg-tertiary-container", text: "text-tertiary" },
   };
 
   return (

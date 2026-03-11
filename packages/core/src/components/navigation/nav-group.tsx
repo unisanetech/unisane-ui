@@ -43,7 +43,7 @@ export const NavGroup = forwardRef<HTMLDivElement, NavGroupProps>(
         ref={ref}
         className={cn(
           "flex flex-col",
-          showDivider && "pb-3 mb-3 border-b border-outline-variant/30",
+          showDivider && "pb-3 mb-3 border-b border-outline-subtle",
           className
         )}
         {...props}
@@ -53,7 +53,7 @@ export const NavGroup = forwardRef<HTMLDivElement, NavGroupProps>(
             className={cn(
               "flex items-center justify-between",
               "text-label-small font-semibold uppercase tracking-wide",
-              "text-on-surface-variant/60",
+              "text-on-surface-variant",
               variant === "compact" && "px-3 py-2",
               variant === "default" && "px-4 py-2.5",
               variant === "comfortable" && "px-5 py-3",

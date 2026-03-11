@@ -12,7 +12,7 @@ const DateInputHeroVisual = () => (
     <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
       <div className="text-label-small text-primary mb-1 px-1">Date</div>
       <div className="bg-surface border-2 border-primary rounded-sm px-4 py-3 flex items-center gap-1">
-        <span className="bg-primary/10 text-on-surface text-body-large font-medium px-1 rounded-xs">12</span>
+        <span className="bg-state-selected text-on-surface text-body-large font-medium px-1 rounded-xs">12</span>
         <span className="text-on-surface-variant text-body-large">/</span>
         <span className="text-on-surface text-body-large font-medium px-1">25</span>
         <span className="text-on-surface-variant text-body-large">/</span>

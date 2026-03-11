@@ -10,10 +10,10 @@ const ListHeroVisual = () => (
     {/* Mock List */}
     <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
       <div className="px-4 py-2 border-b border-outline-variant">
-        <span className="text-label-medium text-on-surface-variant/70">Recent</span>
+        <span className="text-label-medium text-on-surface-variant">Recent</span>
       </div>
       <div className="py-2">
-        <div className="flex items-center gap-4 px-4 py-2 hover:bg-on-surface/8">
+        <div className="flex items-center gap-4 px-4 py-2 hover:bg-state-hover">
           <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
             <span className="text-title-small text-on-primary-container">JD</span>
           </div>
@@ -22,7 +22,7 @@ const ListHeroVisual = () => (
             <div className="text-label-small text-on-surface-variant">john@example.com</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 px-4 py-2 bg-primary/8">
+        <div className="flex items-center gap-4 px-4 py-2 bg-state-selected">
           <div className="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center">
             <span className="text-title-small text-on-tertiary-container">AS</span>
           </div>
@@ -31,7 +31,7 @@ const ListHeroVisual = () => (
             <div className="text-label-small text-on-surface-variant">alice@example.com</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 px-4 py-2 hover:bg-on-surface/8">
+        <div className="flex items-center gap-4 px-4 py-2 hover:bg-state-hover">
           <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
             <span className="text-title-small text-on-secondary-container">BJ</span>
           </div>

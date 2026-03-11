@@ -10,7 +10,7 @@ const PaneGroupHeroVisual = () => (
     <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
       {/* Sidebar Pane */}
       <div className="w-28 bg-surface border-r border-outline-variant p-3 space-y-2 shrink-0">
-        <div className="h-3 bg-on-surface-variant/20 rounded-sm w-2/3 mb-3" />
+        <div className="h-3 bg-outline-muted rounded-sm w-2/3 mb-3" />
         <div className="h-7 bg-secondary-container rounded-sm" />
         <div className="h-7 bg-surface-container-high rounded-sm" />
         <div className="h-7 bg-surface-container-high rounded-sm" />
@@ -18,7 +18,7 @@ const PaneGroupHeroVisual = () => (
       </div>
       {/* Detail Pane */}
       <div className="flex-1 bg-surface-container p-4">
-        <div className="h-4 bg-on-surface/20 rounded-sm w-1/2 mb-4" />
+        <div className="h-4 bg-outline-muted rounded-sm w-1/2 mb-4" />
         <div className="space-y-2">
           <div className="h-3 bg-surface-container-high rounded-sm w-full" />
           <div className="h-3 bg-surface-container-high rounded-sm w-full" />
@@ -62,13 +62,13 @@ const ResponsivePaneGroupExample = () => (
     {/* Desktop View */}
     <div className="h-44 w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
       <div className="w-28 border-r border-outline-variant p-2 space-y-1 shrink-0">
-        <div className="text-label-small text-on-surface-variant/70 mb-1">Desktop</div>
+        <div className="text-label-small text-on-surface-variant mb-1">Desktop</div>
         <div className="h-6 bg-secondary-container rounded-md" />
         <div className="h-6 bg-surface-container-high rounded-md" />
         <div className="h-6 bg-surface-container-high rounded-md" />
       </div>
       <div className="flex-1 p-3 bg-surface-container">
-        <div className="h-3 bg-on-surface/20 rounded-sm w-1/3 mb-2" />
+        <div className="h-3 bg-outline-muted rounded-sm w-1/3 mb-2" />
         <div className="h-2 bg-surface-container-high rounded-sm w-full mb-1" />
         <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
       </div>
@@ -76,7 +76,7 @@ const ResponsivePaneGroupExample = () => (
     {/* Mobile View */}
     <div className="w-[220px] max-w-full h-36 bg-surface rounded-sm overflow-hidden border border-outline-variant">
       <div className="p-2 space-y-1 h-full">
-        <div className="text-label-small text-on-surface-variant/70 mb-1">Mobile (list)</div>
+        <div className="text-label-small text-on-surface-variant mb-1">Mobile (list)</div>
         <div className="h-8 bg-secondary-container rounded-md" />
         <div className="h-8 bg-surface-container-high rounded-md" />
         <div className="h-8 bg-surface-container-high rounded-md" />

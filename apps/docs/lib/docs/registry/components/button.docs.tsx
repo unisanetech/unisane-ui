@@ -11,7 +11,7 @@ const ButtonHeroVisual = () => (
     <div className="relative bg-surface w-72 h-80 rounded-sm shadow-xl overflow-hidden flex flex-col border border-outline-variant">
       {/* Mock Image Header */}
       <div className="h-36 bg-surface-container-high relative">
-        <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-scrim-soft to-transparent" />
         <div className="absolute bottom-4 right-4">
           <Button variant="filled" size="sm">
             <span className="material-symbols-outlined text-[16px]!">edit</span>
@@ -21,7 +21,7 @@ const ButtonHeroVisual = () => (
       </div>
       {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        <div className="h-2 w-14 bg-outline-variant/30 rounded mb-3" />
+        <div className="h-2 w-14 bg-outline-subtle rounded mb-3" />
         <h3 className="text-title-medium font-medium text-on-surface mb-2">Top 5 tea houses</h3>
         <p className="text-body-small text-on-surface-variant mb-auto line-clamp-2">
           Seattle is full of amazing tea spots. Here are 5 of the coziest ones.
@@ -170,9 +170,9 @@ export const buttonDoc: ComponentDoc = {
           <Card variant="elevated" padding="none" className="max-w-80 mx-auto overflow-hidden">
             <div className="h-28 bg-surface-container-high w-full" />
             <div className="p-4">
-              <div className="h-5 bg-outline-variant/30 rounded w-3/4 mb-3" />
-              <div className="h-4 bg-outline-variant/20 rounded w-full mb-2" />
-              <div className="h-4 bg-outline-variant/20 rounded w-2/3 mb-5" />
+              <div className="h-5 bg-outline-subtle rounded w-3/4 mb-3" />
+              <div className="h-4 bg-outline-muted rounded w-full mb-2" />
+              <div className="h-4 bg-outline-muted rounded w-2/3 mb-5" />
               <div className="flex gap-2">
                 <Button variant="filled" size="sm">
                   Buy
@@ -208,12 +208,6 @@ export const buttonDoc: ComponentDoc = {
       type: '"sm" | "md" | "lg"',
       default: '"md"',
       description: "The size of the button.",
-    },
-    {
-      name: "fullWidth",
-      type: "boolean",
-      default: "false",
-      description: "If true, the button expands to full width.",
     },
     {
       name: "disabled",

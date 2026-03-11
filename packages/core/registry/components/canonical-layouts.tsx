@@ -24,7 +24,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
   isRoot = false,
 }) => {
   return (
-    <PaneLayout className={cn(!isRoot && 'border-outline-variant/30 rounded-sm border', className)}>
+    <PaneLayout className={cn(!isRoot && 'border-outline-subtle rounded-sm border', className)}>
       <Pane
         role="list"
         isActive={!showDetailMobile}
@@ -43,7 +43,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
             <IconButton
               onClick={onBackClick}
               variant="standard"
-              className="bg-surface/50 border-outline-variant/30 border backdrop-blur-md"
+              className="bg-surface-container-low border-outline-subtle border backdrop-blur-md"
               aria-label="Back"
               icon={<span className="material-symbols-outlined">arrow_back</span>}
             />
@@ -118,7 +118,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
     <div
       className={cn(
         'bg-surface duration-long ease-emphasized relative isolate grid h-full w-full overflow-hidden transition-[grid-template-columns]',
-        !isRoot && 'border-outline-variant/30 rounded-sm border',
+        !isRoot && 'border-outline-subtle rounded-sm border',
         isOpen
           ? 'expanded:grid-cols-[1fr_var(--width-pane-supporting)]'
           : 'expanded:grid-cols-[1fr_var(--width-rail-collapsed)]',
@@ -146,12 +146,12 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
           'bg-surface duration-long ease-emphasized z-20 shrink-0 overflow-hidden transition-all',
           'medium:w-[min(100%,var(--width-pane-supporting))] absolute inset-y-0 right-0 h-full w-full',
           isOpen ? 'shadow-3 translate-x-0' : 'translate-x-full shadow-none',
-          'expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-variant/30 expanded:w-full',
+          'expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-subtle expanded:w-full',
         )}
       >
         {isOpen ? (
           <div className="flex h-full flex-col">
-            <header className="border-outline-variant/10 flex shrink-0 items-center justify-between border-b px-6 py-4">
+            <header className="border-outline-weak flex shrink-0 items-center justify-between border-b px-6 py-4">
               <div className="text-primary text-label-medium font-medium">{title}</div>
               <IconButton
                 onClick={handleClose}
@@ -181,7 +181,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
             <IconButton
               onClick={handleToggle}
               variant="standard"
-              className="border-outline-variant/30 bg-surface hover:border-primary/50 group shrink-0 rounded-sm border transition-all"
+              className="border-outline-subtle bg-surface hover:border-primary group shrink-0 rounded-sm border transition-all"
               aria-label="Expand pane"
               icon={
                 <span className="material-symbols-outlined group-hover:text-primary transition-colors">
@@ -189,8 +189,8 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                 </span>
               }
             />
-            <div className="bg-outline-variant/30 min-h-10 w-[calc(var(--unit)/4)] flex-1" />
-            <div className="text-label-small text-on-surface-variant/50 mt-12 mb-6 shrink-0 origin-center rotate-90 font-medium tracking-wide whitespace-nowrap">
+            <div className="bg-outline-subtle min-h-10 w-[calc(var(--unit)/4)] flex-1" />
+            <div className="text-label-small text-on-surface-variant mt-12 mb-6 shrink-0 origin-center rotate-90 font-medium tracking-wide whitespace-nowrap">
               {title}
             </div>
           </div>
@@ -219,7 +219,7 @@ export const FeedLayout: React.FC<FeedLayoutProps> = ({ children, className, isR
     <div
       className={cn(
         'bg-surface-container-low expanded:p-6 no-scrollbar h-full w-full overflow-y-auto scroll-smooth p-4',
-        !isRoot && 'border-outline-variant/30 rounded-sm border',
+        !isRoot && 'border-outline-subtle rounded-sm border',
         className,
       )}
     >

@@ -11,7 +11,7 @@ const DropdownMenuHeroVisual = () => (
     <div className="relative">
       <div className="relative">
         {/* Avatar trigger */}
-        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary text-title-medium cursor-pointer ring-2 ring-primary/20">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary text-title-medium cursor-pointer ring-2 ring-focus-ring">
           JD
         </div>
         {/* Simulated profile menu */}
@@ -27,20 +27,20 @@ const DropdownMenuHeroVisual = () => (
             </div>
           </div>
           {/* Menu items */}
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-on-surface/8 cursor-pointer flex items-center gap-3 rounded-md mx-1">
+          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
             <span className="material-symbols-outlined text-[20px] text-on-surface-variant">person</span>
             View profile
           </div>
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-on-surface/8 cursor-pointer flex items-center gap-3 rounded-md mx-1">
+          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
             <span className="material-symbols-outlined text-[20px] text-on-surface-variant">settings</span>
             Settings
           </div>
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-on-surface/8 cursor-pointer flex items-center gap-3 rounded-md mx-1">
+          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
             <span className="material-symbols-outlined text-[20px] text-on-surface-variant">help</span>
             Help & support
           </div>
-          <div className="h-px bg-outline-variant/20 my-1" />
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-on-surface/8 cursor-pointer flex items-center gap-3 rounded-md mx-1">
+          <div className="h-px bg-outline-muted my-1" />
+          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
             <span className="material-symbols-outlined text-[20px] text-on-surface-variant">logout</span>
             Sign out
           </div>
@@ -86,7 +86,7 @@ export const dropdownMenuDoc: ComponentDoc = {
         emphasis: "Action Item",
         component: (
           <div className="w-36 bg-surface rounded-sm shadow-2 py-1 border border-outline-variant">
-            <div className="px-3 py-2 text-body-small text-on-surface hover:bg-on-surface/8">Edit</div>
+            <div className="px-3 py-2 text-body-small text-on-surface hover:bg-state-hover">Edit</div>
           </div>
         ),
         rationale:
@@ -112,7 +112,7 @@ export const dropdownMenuDoc: ComponentDoc = {
         component: (
           <div className="w-36 bg-surface rounded-sm shadow-2 py-1 border border-outline-variant">
             <div className="px-3 py-1 text-body-small text-on-surface">Action 1</div>
-            <div className="h-px bg-outline-variant/20 my-1" />
+            <div className="h-px bg-outline-muted my-1" />
             <div className="px-3 py-1 text-body-small text-error">Delete</div>
           </div>
         ),

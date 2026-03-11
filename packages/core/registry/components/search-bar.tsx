@@ -121,7 +121,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             onClick={handleTrailingAction}
             aria-label={shouldShowDefaultClear ? 'Clear search' : 'Search action'}
             className={cn(
-              'text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface focus-visible:outline-primary absolute top-1/2 inline-flex -translate-y-1/2 items-center justify-center rounded-full transition-colors focus-visible:outline focus-visible:outline-2',
+              'text-on-surface-variant hover:bg-state-hover hover:text-on-surface focus-visible:outline-primary rounded-icon-button absolute top-1/2 inline-flex -translate-y-1/2 items-center justify-center transition-colors focus-visible:outline focus-visible:outline-2',
               fieldSize.actionInset,
               fieldSize.actionSize,
             )}

@@ -260,14 +260,11 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
         <div
           ref={frameRef}
           className={cn(
-            'border-outline-variant relative overflow-auto rounded-sm border',
+            'border-outline-muted bg-surface-container-low relative overflow-auto rounded-sm border',
             canvasHeightClass[canvasHeight],
           )}
-          style={{
-            backgroundColor: 'hsl(240 4.8% 95.9% / 0.4)',
-          }}
         >
-            <div className="absolute inset-0 opacity-10" style={{ color: 'var(--color-on-surface)' }}>
+            <div className="text-outline-medium absolute inset-0 opacity-45">
               <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <pattern
@@ -313,7 +310,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                       <span
                         className={cn(
                           'ml-2 font-mono text-xs transition-opacity',
-                          isActive ? 'text-primary/80 opacity-100' : 'pointer-events-none opacity-0',
+                          isActive ? 'text-primary opacity-80' : 'pointer-events-none opacity-0',
                         )}
                       >
                         {Math.round(currentWidth)}px
@@ -322,7 +319,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                   );
                 })}
                 <div className="border-outline-variant flex h-full items-center border-l px-4">
-                  <span className="font-mono text-xs text-on-surface-variant/70">x1</span>
+                  <span className="font-mono text-xs text-on-surface-variant">x1</span>
                 </div>
               </div>
 
@@ -347,8 +344,8 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                     >
                       <span
                         className={cn(
-                          'bg-outline-variant/45 h-12 w-1.5 rounded-full transition-colors',
-                          isDragging && 'bg-primary/70',
+                          'bg-outline-medium h-12 w-1.5 rounded-full transition-colors',
+                          isDragging && 'bg-primary',
                         )}
                       />
                     </button>

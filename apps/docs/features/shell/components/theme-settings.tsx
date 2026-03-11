@@ -5,27 +5,14 @@ import {
   useTheme,
   Popover,
   Slider,
-  type ColorTheme,
   type Density,
   type RadiusTheme,
+  type ActionShape,
   type ColorScheme,
   type ContrastLevel,
   type Elevation,
 } from "@unisane/ui";
-
-// Color theme options with visual indicators
-const COLOR_THEMES: { value: ColorTheme; label: string; hue: number }[] = [
-  { value: "blue", label: "Blue", hue: 240 },
-  { value: "purple", label: "Purple", hue: 285 },
-  { value: "pink", label: "Pink", hue: 340 },
-  { value: "red", label: "Red", hue: 25 },
-  { value: "orange", label: "Orange", hue: 55 },
-  { value: "yellow", label: "Yellow", hue: 85 },
-  { value: "green", label: "Green", hue: 145 },
-  { value: "cyan", label: "Cyan", hue: 195 },
-  { value: "neutral", label: "Neutral", hue: 60 },
-  { value: "black", label: "Black", hue: 0 },
-];
+import { COLOR_THEME_OPTIONS, getColorThemeSwatch } from "@/lib/theme/color-theme-options";
 
 const DENSITY_OPTIONS: { value: Density; label: string }[] = [
   { value: "dense", label: "Dense" },
@@ -40,6 +27,11 @@ const RADIUS_OPTIONS: { value: RadiusTheme; label: string }[] = [
   { value: "sharp", label: "Sharp" },
   { value: "standard", label: "Standard" },
   { value: "soft", label: "Soft" },
+];
+
+const ACTION_SHAPE_OPTIONS: { value: ActionShape; label: string }[] = [
+  { value: "standard", label: "Standard" },
+  { value: "full", label: "Full" },
 ];
 
 const SCHEME_OPTIONS: { value: ColorScheme; label: string }[] = [
@@ -100,33 +92,23 @@ function AppearanceToggle({
 
 // Color swatch with checkmark for selected
 function ColorSwatch({
-  hue,
+  color,
   selected,
   onClick,
   label,
-  isBlack,
-  isNeutral,
 }: {
-  hue: number;
+  color: string;
   selected: boolean;
   onClick: () => void;
   label: string;
-  isBlack?: boolean;
-  isNeutral?: boolean;
 }) {
-  const bgColor = isBlack
-    ? "#3a3a3a"
-    : isNeutral
-    ? "#6b7280"
-    : `oklch(0.6 0.18 ${hue})`;
-
   return (
     <button
       type="button"
       onClick={onClick}
       title={label}
       className="w-10 h-10 rounded-full transition-all duration-short flex items-center justify-center hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-      style={{ backgroundColor: bgColor }}
+      style={{ backgroundColor: color }}
       aria-label={label}
       aria-pressed={selected}
     >
@@ -219,6 +201,8 @@ export function ThemeSettings() {
     setDensity,
     radius,
     setRadius,
+    actionShape,
+    setActionShape,
     scheme,
     setScheme,
     contrast,
@@ -248,7 +232,7 @@ export function ThemeSettings() {
   if (!mounted) {
     return (
       <span
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-on-surface/8 transition-colors cursor-pointer"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-state-hover transition-colors cursor-pointer"
         aria-label="Theme settings"
       >
         <span className="material-symbols-outlined text-[24px]">tune</span>
@@ -275,15 +259,13 @@ export function ThemeSettings() {
       <div>
         <SectionLabel>Primary Color</SectionLabel>
         <div className="flex flex-wrap gap-3">
-          {COLOR_THEMES.map((t) => (
+          {COLOR_THEME_OPTIONS.map((t) => (
             <ColorSwatch
               key={t.value}
-              hue={t.hue}
+              color={getColorThemeSwatch(t)}
               selected={colorTheme === t.value}
               onClick={() => setColorTheme(t.value)}
               label={t.label}
-              isBlack={t.value === "black"}
-              isNeutral={t.value === "neutral"}
             />
           ))}
         </div>
@@ -337,6 +319,24 @@ export function ThemeSettings() {
         </div>
       </div>
 
+      {/* Action Shape */}
+      <div>
+        <SectionLabel>Action Shape</SectionLabel>
+        <div className="flex gap-2">
+          {ACTION_SHAPE_OPTIONS.map((shape) => (
+            <PillButton
+              key={shape.value}
+              selected={actionShape === shape.value}
+              onClick={() => setActionShape(shape.value)}
+              label={shape.label}
+            />
+          ))}
+        </div>
+        <SectionDescription>
+          Controls the global shape for button-family actions.
+        </SectionDescription>
+      </div>
+
       {/* Elevation */}
       <div>
         <SectionLabel>Elevation</SectionLabel>
@@ -377,7 +377,7 @@ export function ThemeSettings() {
     <Popover
       trigger={
         <span
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-on-surface/8 transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-state-hover transition-colors cursor-pointer"
           aria-label="Theme settings"
         >
           <span className="material-symbols-outlined text-[24px]">tune</span>

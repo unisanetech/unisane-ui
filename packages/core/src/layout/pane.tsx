@@ -9,9 +9,9 @@ const paneVariants = cva(
   {
     variants: {
       role: {
-        list: 'border-r border-outline-variant/20 z-0',
+        list: 'border-r border-outline-muted z-0',
         main: 'flex-1 z-0',
-        supporting: 'border-l border-outline-variant/20 z-10 bg-surface-container-low',
+        supporting: 'border-l border-outline-muted z-10 bg-surface-container-low',
       },
       isActive: {
         true: 'block',
@@ -83,7 +83,7 @@ export const PaneDivider: React.FC<PaneDividerProps> = ({ className, ...props })
   return (
     <div
       className={cn(
-        'bg-outline-variant/20 hover:bg-primary/50 medium:block z-20 hidden h-full w-px cursor-col-resize transition-colors',
+        'bg-outline-muted hover:bg-outline-strong medium:block z-20 hidden h-full w-px cursor-col-resize transition-colors',
         className,
       )}
       {...props}

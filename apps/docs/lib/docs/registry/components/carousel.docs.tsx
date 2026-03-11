@@ -18,7 +18,7 @@ const CarouselHeroVisual = () => (
           variant="filled"
           size="md"
           aria-label="Previous slide"
-          className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface/80"
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface-container-low"
         >
           <span className="material-symbols-outlined text-on-surface">chevron_left</span>
         </IconButton>
@@ -26,15 +26,15 @@ const CarouselHeroVisual = () => (
           variant="filled"
           size="md"
           aria-label="Next slide"
-          className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface/80"
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface-container-low"
         >
           <span className="material-symbols-outlined text-on-surface">chevron_right</span>
         </IconButton>
         {/* Indicators */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
           <div className="w-2 h-2 rounded-full bg-primary" />
-          <div className="w-2 h-2 rounded-full bg-on-surface-variant/50" />
-          <div className="w-2 h-2 rounded-full bg-on-surface-variant/50" />
+          <div className="w-2 h-2 rounded-full bg-outline-medium" />
+          <div className="w-2 h-2 rounded-full bg-outline-medium" />
         </div>
       </div>
     </div>
@@ -138,7 +138,7 @@ export const carouselDoc: ComponentDoc = {
             <div className="w-4 h-4 rounded-full bg-surface absolute left-1 flex items-center justify-center">
               <span className="text-[8px]">&lt;</span>
             </div>
-            <div className="w-8 h-8 bg-primary/20 rounded-sm" />
+            <div className="w-8 h-8 bg-primary-container rounded-sm" />
             <div className="w-4 h-4 rounded-full bg-surface absolute right-1 flex items-center justify-center">
               <span className="text-[8px]">&gt;</span>
             </div>
@@ -151,7 +151,7 @@ export const carouselDoc: ComponentDoc = {
         emphasis: "Auto-play",
         component: (
           <div className="w-32 h-16 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-secondary/20 rounded-sm animate-pulse" />
+            <div className="w-8 h-8 bg-secondary-container rounded-sm animate-pulse" />
           </div>
         ),
         rationale: "For passive viewing experiences.",
@@ -161,7 +161,7 @@ export const carouselDoc: ComponentDoc = {
         emphasis: "Minimal",
         component: (
           <div className="w-32 h-16 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-tertiary/20 rounded-sm" />
+            <div className="w-8 h-8 bg-tertiary-container rounded-sm" />
           </div>
         ),
         rationale: "For clean, swipe-only interfaces.",
@@ -181,14 +181,14 @@ export const carouselDoc: ComponentDoc = {
             <div className="w-4 h-4 rounded-full bg-surface absolute left-1 shadow-sm flex items-center justify-center">
               <span className="text-[8px] text-on-surface">&lt;</span>
             </div>
-            <div className="w-8 h-8 bg-primary/30 rounded-sm" />
+            <div className="w-8 h-8 bg-primary-container rounded-sm" />
             <div className="w-4 h-4 rounded-full bg-surface absolute right-1 shadow-sm flex items-center justify-center">
               <span className="text-[8px] text-on-surface">&gt;</span>
             </div>
             <div className="absolute bottom-1 flex gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <div className="w-1.5 h-1.5 rounded-full bg-on-surface/30" />
-              <div className="w-1.5 h-1.5 rounded-full bg-on-surface/30" />
+              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
+              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
             </div>
           </div>
         ),
@@ -198,11 +198,11 @@ export const carouselDoc: ComponentDoc = {
       {
         component: (
           <div className="w-32 h-20 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-secondary/30 rounded-sm" />
+            <div className="w-8 h-8 bg-secondary-container rounded-sm" />
             <div className="absolute bottom-1 flex gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-              <div className="w-1.5 h-1.5 rounded-full bg-on-surface/30" />
-              <div className="w-1.5 h-1.5 rounded-full bg-on-surface/30" />
+              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
+              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
             </div>
           </div>
         ),
@@ -212,7 +212,7 @@ export const carouselDoc: ComponentDoc = {
       {
         component: (
           <div className="w-32 h-20 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-tertiary/30 rounded-sm" />
+            <div className="w-8 h-8 bg-tertiary-container rounded-sm" />
           </div>
         ),
         title: "Minimal",

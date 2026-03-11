@@ -41,7 +41,7 @@ export function CodeBlock({ code, language, className }: CodeBlockProps) {
 
       {/* Language Badge */}
       {language && (
-        <span className="absolute top-3 right-12 text-label-small text-on-surface-variant/60 font-mono">
+        <span className="absolute top-3 right-12 text-label-small text-on-surface-variant font-mono">
           {language}
         </span>
       )}

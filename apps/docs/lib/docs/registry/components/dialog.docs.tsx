@@ -39,7 +39,7 @@ const DialogInteractiveExample = () => {
 const DialogHeroVisual = () => (
   <HeroBackground tone="tertiary">
     {/* Background App (dimmed) */}
-    <div className="absolute inset-8 bg-surface/40 rounded-lg" />
+    <div className="absolute inset-8 bg-surface-container rounded-lg" />
 
     {/* Dialog Mock */}
     <div className="bg-surface w-84 rounded-[28px] shadow-xl overflow-hidden border border-outline-variant">
@@ -72,7 +72,7 @@ const DialogHeroVisual = () => (
         </p>
       </div>
       {/* Actions */}
-      <div className="flex justify-end gap-2 px-6 py-4 border-t border-outline-variant bg-surface-container-lowest/80">
+      <div className="flex justify-end gap-2 px-6 py-4 border-t border-outline-variant bg-surface-container-lowest">
         <Button variant="text" size="sm">Cancel</Button>
         <Button variant="filled" size="sm">Delete</Button>
       </div>
@@ -84,7 +84,7 @@ const DialogHeroVisual = () => (
 const DialogPlacementBasic = () => (
   <div className="relative w-80 h-44 rounded-xl overflow-hidden mx-auto bg-surface-container-high">
     {/* Scrim overlay */}
-    <div className="absolute inset-0 bg-black/30" />
+    <div className="absolute inset-0 bg-scrim" />
     {/* Dialog */}
     <div className="absolute inset-4 rounded-[24px] shadow-lg px-5 pt-5 pb-4 flex flex-col bg-surface border border-outline-variant">
       <div className="text-title-medium text-on-surface mb-1.5">Dialog Title</div>
@@ -102,7 +102,7 @@ const DialogPlacementBasic = () => (
 const DialogPlacementWithIcon = () => (
   <div className="relative w-80 h-48 rounded-xl overflow-hidden mx-auto bg-surface-container-high">
     {/* Scrim overlay */}
-    <div className="absolute inset-0 bg-black/30" />
+    <div className="absolute inset-0 bg-scrim" />
     {/* Dialog */}
     <div className="absolute inset-4 rounded-[24px] shadow-lg overflow-hidden flex flex-col bg-surface border border-outline-variant">
       <div className="px-5 pt-5 pb-4 border-b border-outline-variant flex items-start gap-3">
@@ -117,7 +117,7 @@ const DialogPlacementWithIcon = () => (
       <div className="px-5 pt-4 pb-5 text-body-small text-on-surface flex-1">
         Are you sure you want to proceed?
       </div>
-      <div className="flex justify-end gap-2 px-5 py-4 border-t border-outline-variant bg-surface-container-lowest/80">
+      <div className="flex justify-end gap-2 px-5 py-4 border-t border-outline-variant bg-surface-container-lowest">
         <Button variant="text" size="sm">Cancel</Button>
         <Button variant="filled" size="sm">Continue</Button>
       </div>
