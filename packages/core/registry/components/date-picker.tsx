@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
@@ -154,7 +154,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   );
 
   // Handle click outside to close
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {

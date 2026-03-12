@@ -2,41 +2,45 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { DesktopPreviewFrame } from "../../runtime/desktop-preview-frame";
 import { FeedLayout, ListDetailLayout, SupportingPaneLayout } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CanonicalLayoutsHeroVisual = () => (
-  <HeroBackground tone="surface">
-    <div className="relative isolate h-56 w-80 overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
-      <ListDetailLayout
-        isRoot
-        list={
-          <div className="space-y-2 p-3">
-            <div className="text-label-small text-on-surface-variant">Conversations</div>
-            <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
-              Design review
+  <HeroBackground tone="surface" padding="sm">
+    <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
+      <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+        <ListDetailLayout
+          isRoot
+          className="[&>div]:!block [&>div:first-child]:!w-72 [&>div:first-child]:!shrink-0 [&>div:last-child]:!w-auto [&>div:last-child]:!flex-1"
+          list={
+            <div className="space-y-2 p-3">
+              <div className="text-label-small text-on-surface-variant">Conversations</div>
+              <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
+                Design review
+              </div>
+              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+                Product sync
+              </div>
+              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+                Engineering
+              </div>
             </div>
-            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
-              Product sync
+          }
+          detail={
+            <div className="space-y-3 p-4">
+              <div className="text-title-small text-on-surface">Design review</div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+                Updated canonical layout blocks are ready for QA.
+              </div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+                Ship preview refinements before release.
+              </div>
             </div>
-            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
-              Engineering
-            </div>
-          </div>
-        }
-        detail={
-          <div className="space-y-3 p-4">
-            <div className="text-title-small text-on-surface">Design review</div>
-            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
-              Updated canonical layout blocks are ready for QA.
-            </div>
-            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
-              Ship preview refinements before release.
-            </div>
-          </div>
-        }
-      />
-    </div>
+          }
+        />
+      </div>
+    </DesktopPreviewFrame>
   </HeroBackground>
 );
 
@@ -135,6 +139,13 @@ export const canonicalLayoutsDoc: ComponentDoc = {
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <CanonicalLayoutsHeroVisual />,
+  heroPreview: {
+    minHeight: "xl",
+  },
+  docsLayout: {
+    hideChoosing: true,
+    hidePlacement: true,
+  },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {

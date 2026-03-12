@@ -30,11 +30,11 @@ const paddingClasses = {
 };
 
 const minHeightClasses = {
-  sm: 'min-h-[160px]',
-  md: 'min-h-[220px]',
-  lg: 'min-h-[280px]',
-  xl: 'min-h-[340px]',
-  '2xl': 'min-h-[420px]',
+  sm: 'min-h-[140px] @sm:min-h-[160px]',
+  md: 'min-h-[180px] @sm:min-h-[220px]',
+  lg: 'min-h-[220px] @sm:min-h-[260px] @xl:min-h-[280px]',
+  xl: 'min-h-[260px] @sm:min-h-[300px] @xl:min-h-[340px]',
+  '2xl': 'min-h-[280px] @sm:min-h-[340px] @xl:min-h-[420px]',
   screen: 'min-h-[calc(100svh-10rem)]',
 };
 
@@ -63,7 +63,7 @@ export function PreviewStage({ children, config, className }: PreviewStageProps)
       tone={tone}
       rounded="sm"
       className={cn(
-        'relative flex w-full',
+        'relative flex w-full min-w-0',
         overflowClasses[overflow],
         minHeightClasses[minHeight],
         alignClasses[align],
@@ -72,7 +72,7 @@ export function PreviewStage({ children, config, className }: PreviewStageProps)
         className,
       )}
     >
-      {children}
+      <div className="relative h-full w-full min-h-0 min-w-0 max-w-full">{children}</div>
     </Surface>
   );
 }

@@ -76,6 +76,8 @@ export default function ComponentPage({ params }: ComponentPageProps) {
       ? placementHero.preview ?? component.placement?.previewDefaults
       : undefined;
   const heroPreview = component.heroPreview ?? fallbackHeroPreview;
+  const showChoosing = Boolean(component.choosing) && !component.docsLayout?.hideChoosing;
+  const showPlacement = Boolean(component.placement) && !component.docsLayout?.hidePlacement;
 
   // Build table of contents based on available sections
   // Order: Installation → Usage → Design guidance → API → Accessibility → Related
@@ -92,13 +94,13 @@ export default function ComponentPage({ params }: ComponentPageProps) {
     toc.push({ id: "usage", label: "Usage" });
   }
   // Design guidance sections
-  if (component.choosing) {
+  if (showChoosing) {
     toc.push({ id: "choosing", label: `Choosing ${component.name.toLowerCase()}` });
   }
   if (component.hierarchy) {
     toc.push({ id: "hierarchy", label: "Hierarchy" });
   }
-  if (component.placement) {
+  if (showPlacement) {
     toc.push({ id: "placement", label: "Placement" });
   }
   // API documentation
@@ -277,7 +279,7 @@ export default function ComponentPage({ params }: ComponentPageProps) {
       )}
 
       {/* ─── CHOOSING SECTION ───────────────────────────────────────────────────── */}
-      {component.choosing && (
+      {showChoosing && component.choosing && (
         <DocSection
           id="choosing"
           title={`Choosing ${component.name.toLowerCase()}`}
@@ -299,7 +301,7 @@ export default function ComponentPage({ params }: ComponentPageProps) {
       )}
 
       {/* ─── PLACEMENT SECTION ──────────────────────────────────────────────────── */}
-      {component.placement && (
+      {showPlacement && component.placement && (
         <DocSection
           id="placement"
           title="Placement"

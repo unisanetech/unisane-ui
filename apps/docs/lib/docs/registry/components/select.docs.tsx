@@ -148,6 +148,12 @@ export const selectDoc: ComponentDoc = {
   placement: {
     description:
       "Selects are commonly used in forms and settings pages where users need to choose from options.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Settings form",

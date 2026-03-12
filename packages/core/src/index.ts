@@ -247,6 +247,12 @@ export {
 export type {
   SidebarState,
   SidebarProviderProps,
+  SidebarSide,
+  SidebarMode,
+  SidebarBehavior,
+  SidebarContainerMode,
+  SidebarTriggerVisibility,
+  SidebarBreakpoints,
   SidebarProps,
   SidebarRailProps,
   SidebarRailItemProps,

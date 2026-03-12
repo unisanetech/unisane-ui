@@ -9,7 +9,7 @@ import {
   getNavigationDrawerItemClasses,
   getNavigationRailItemClasses,
 } from '@/lib/navigation-visuals';
-import { useSidebar } from './sidebar-context';
+import { useSidebar, type SidebarTriggerVisibility } from './sidebar-context';
 import { Ripple } from '../ripple';
 import type { NavigationItem } from '../../types/navigation';
 
@@ -32,14 +32,43 @@ function findNavigationItemById(items: NavigationItem[], id: string): Navigation
   return null;
 }
 
+function getFocusableElements(root: HTMLElement | null) {
+  if (!root) {
+    return [];
+  }
+
+  return Array.from(
+    root.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  ).filter((element) => !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden'));
+}
+
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ children, className, ...props }, ref) => {
+    const { registerContainer, containerMode, side } = useSidebar();
+
     return (
-      <div ref={ref} className={cn('flex h-full', className)} {...props}>
+      <div
+        ref={(node) => {
+          if (typeof ref === 'function') {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+          registerContainer(containerMode === 'contained' ? node : null);
+        }}
+        className={cn(
+          'relative isolate flex h-full',
+          side === 'right' && 'flex-row-reverse',
+          className,
+        )}
+        {...props}
+      >
         {children}
       </div>
     );
@@ -53,7 +82,12 @@ export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
 
 export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
   ({ children, className, ...props }, ref) => {
-    const { handleRailLeave, railWidth, isDrawerVisible } = useSidebar();
+    const { handleRailLeave, railWidth, isDrawerVisible, isRailVisible, side } = useSidebar();
+
+    if (!isRailVisible) {
+      return null;
+    }
+
     return (
       <nav
         ref={ref}
@@ -61,9 +95,9 @@ export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
           'relative h-full flex-col items-center',
           'bg-surface-container text-on-surface gap-1 py-3',
           'z-50 shrink-0',
-          'duration-medium ease-standard transition-all',
-          'expanded:flex hidden',
-          isDrawerVisible && 'border-outline-variant border-r',
+          'duration-medium ease-standard transition-all motion-reduce:transition-none',
+          'flex',
+          isDrawerVisible && (side === 'left' ? 'border-outline-variant border-r' : 'border-outline-variant border-l'),
           className,
         )}
         style={{ width: railWidth }}
@@ -177,34 +211,124 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
       railWidth,
       drawerWidth,
       mobileDrawerWidth,
+      railEnabled,
+      drawerEnabled,
+      side,
+      containerMode,
+      close,
     } = useSidebar();
+
+    const drawerRef = useRef<HTMLElement | null>(null);
+    const previousActiveElementRef = useRef<HTMLElement | null>(null);
 
     const isOpen = usesOverlayDrawer ? mobileOpen : isDrawerVisible;
     const isOverlay = usesOverlayDrawer || !expanded;
     const effectiveWidth = usesOverlayDrawer ? mobileDrawerWidth : drawerWidth;
+    const baseOffset = railEnabled && !usesOverlayDrawer ? railWidth : 0;
+    const isContained = containerMode === 'contained';
+
+    useEffect(() => {
+      if (!drawerEnabled || !isOpen || !usesOverlayDrawer) {
+        return;
+      }
+
+      const drawerNode = drawerRef.current;
+      previousActiveElementRef.current = document.activeElement as HTMLElement;
+
+      const timer = window.setTimeout(() => {
+        const focusable = getFocusableElements(drawerNode);
+        (focusable[0] ?? drawerNode)?.focus();
+      }, 0);
+
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          close();
+          return;
+        }
+
+        if (event.key !== 'Tab') {
+          return;
+        }
+
+        const focusableElements = getFocusableElements(drawerNode);
+        if (focusableElements.length === 0) {
+          event.preventDefault();
+          return;
+        }
+
+        const first = focusableElements[0];
+        const last = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement as HTMLElement | null;
+
+        if (!first || !last) {
+          event.preventDefault();
+          return;
+        }
+
+        if (event.shiftKey) {
+          if (activeElement === first || activeElement === drawerNode) {
+            event.preventDefault();
+            last.focus();
+          }
+          return;
+        }
+
+        if (activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      };
+
+      document.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.clearTimeout(timer);
+        document.removeEventListener('keydown', handleKeyDown);
+        previousActiveElementRef.current?.focus();
+      };
+    }, [close, drawerEnabled, isOpen, usesOverlayDrawer]);
+
+    if (!drawerEnabled) {
+      return null;
+    }
 
     return (
       <aside
-        ref={ref}
+        ref={(node) => {
+          drawerRef.current = node;
+          if (typeof ref === 'function') {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
+          }
+        }}
         className={cn(
-          'fixed top-0 flex flex-col',
-          usesOverlayDrawer ? 'h-dvh' : 'h-screen',
+          isContained ? 'absolute top-0 bottom-0 flex flex-col' : 'fixed top-0 flex flex-col',
+          isContained ? 'h-full' : usesOverlayDrawer ? 'h-dvh' : 'h-screen',
           'bg-surface-container text-on-surface',
-          'duration-emphasized ease-emphasized transition-transform',
+          'duration-emphasized ease-emphasized transition-transform motion-reduce:transition-none',
           'overflow-hidden',
-          usesOverlayDrawer && 'left-0 z-60 max-w-[85vw]',
+          usesOverlayDrawer && 'z-60 max-w-[85vw]',
           !usesOverlayDrawer && 'z-30',
           isOverlay && isOpen && 'shadow-3',
-          isOpen ? 'translate-x-0' : '-translate-x-full',
+          side === 'left'
+            ? isOpen
+              ? 'translate-x-0'
+              : '-translate-x-full'
+            : isOpen
+              ? 'translate-x-0'
+              : 'translate-x-full',
           className,
         )}
         style={{
           width: effectiveWidth,
-          left: usesOverlayDrawer ? 0 : railWidth,
+          [side]: usesOverlayDrawer ? 0 : baseOffset,
         }}
         onMouseEnter={!usesOverlayDrawer ? handleDrawerEnter : undefined}
         onMouseLeave={!usesOverlayDrawer ? handleDrawerLeave : undefined}
         aria-hidden={!isOpen}
+        tabIndex={usesOverlayDrawer && isOpen ? -1 : undefined}
         {...props}
       >
         {children}
@@ -353,7 +477,7 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       props.onClick?.(e);
-      if (sidebar.isMobile) {
+      if (sidebar.usesOverlayDrawer) {
         sidebar.setMobileOpen(false);
       }
     };
@@ -443,7 +567,7 @@ export function SidebarNavItem({
       sidebar.setActiveId(id);
     }
     onClick?.();
-    if (sidebar.isMobile) {
+    if (sidebar.usesOverlayDrawer) {
       sidebar.setMobileOpen(false);
     }
   };
@@ -499,18 +623,41 @@ export function SidebarNavItem({
 
 export interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
+  visibility?: SidebarTriggerVisibility;
 }
 
 export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>(
-  ({ children, className, onClick, ...props }, ref) => {
-    const { usesOverlayDrawer, toggleMobile, toggleExpanded } = useSidebar();
+  ({ children, className, onClick, visibility, ...props }, ref) => {
+    const {
+      triggerVisibility,
+      isDesktop,
+      isMobile,
+      isTablet,
+      usesOverlayDrawer,
+      expanded,
+      mobileOpen,
+      drawerEnabled,
+      toggle,
+    } = useSidebar();
+
+    if (!drawerEnabled) {
+      return null;
+    }
+
+    const resolvedVisibility = visibility ?? triggerVisibility;
+
+    const isVisibleBySetting =
+      resolvedVisibility === 'always' ||
+      (resolvedVisibility === 'desktop' && isDesktop) ||
+      (resolvedVisibility === 'mobile' && (isMobile || isTablet)) ||
+      (resolvedVisibility === 'auto' && drawerEnabled);
+
+    if (resolvedVisibility === 'hidden' || !isVisibleBySetting) {
+      return null;
+    }
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      if (usesOverlayDrawer) {
-        toggleMobile();
-      } else {
-        toggleExpanded();
-      }
+      toggle();
       onClick?.(e);
     };
 
@@ -524,9 +671,11 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
           'text-on-surface-variant hover:bg-state-hover',
           'duration-short transition-colors',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+          usesOverlayDrawer && 'bg-surface-container-low',
           className,
         )}
         aria-label="Toggle sidebar"
+        aria-expanded={usesOverlayDrawer ? mobileOpen : expanded}
         {...props}
       >
         {children || <span className="material-symbols-outlined">menu</span>}
@@ -539,25 +688,34 @@ SidebarTrigger.displayName = 'SidebarTrigger';
 export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, setMobileOpen } = useSidebar();
+  const {
+    isDrawerVisible,
+    expanded,
+    mobileOpen,
+    usesOverlayDrawer,
+    containerMode,
+    close,
+    drawerEnabled,
+  } = useSidebar();
 
-  const isVisible = mobileOpen || (isDrawerVisible && !expanded);
+  if (!drawerEnabled) {
+    return null;
+  }
+
+  const isVisible = usesOverlayDrawer ? mobileOpen : isDrawerVisible && !expanded;
 
   if (!isVisible) return null;
 
   return (
     <div
       className={cn(
-        'bg-scrim-soft duration-medium ease-standard fixed inset-0 transition-opacity',
+        'bg-scrim-soft duration-medium ease-standard transition-opacity motion-reduce:transition-none',
+        containerMode === 'contained' ? 'absolute inset-0' : 'fixed inset-0',
         usesOverlayDrawer ? 'z-55' : 'z-20',
         'opacity-100',
         className,
       )}
-      onClick={() => {
-        if (mobileOpen) {
-          setMobileOpen(false);
-        }
-      }}
+      onClick={close}
       aria-hidden="true"
       {...props}
     />
@@ -570,22 +728,34 @@ export interface SidebarInsetProps extends React.HTMLAttributes<HTMLElement> {
 
 export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
   ({ children, className, style, ...props }, ref) => {
-    const { railWidth, drawerWidth, expanded, usesOverlayDrawer } = useSidebar();
-    const desktopMargin = expanded ? drawerWidth : 0;
+    const {
+      side,
+      drawerWidth,
+      expanded,
+      usesOverlayDrawer,
+      drawerEnabled,
+      containerMode,
+      mobileInsetOffset,
+    } = useSidebar();
+
+    const desktopMargin = !drawerEnabled || usesOverlayDrawer || !expanded ? 0 : drawerWidth;
+    const topOffset = containerMode === 'contained' ? 0 : usesOverlayDrawer ? mobileInsetOffset : 0;
 
     return (
       <main
         ref={ref}
         className={cn(
-          'flex flex-1 flex-col',
-          'bg-surface',
-          'duration-emphasized ease-emphasized transition-[margin]',
-          'expanded:mt-0 mt-16',
-          'expanded:h-screen h-[calc(100vh-4rem)] overflow-x-hidden overflow-y-auto',
+          'flex min-w-0 flex-1 flex-col bg-surface',
+          'duration-emphasized ease-emphasized transition-[margin,height,margin-top] motion-reduce:transition-none',
+          'overflow-x-hidden overflow-y-auto',
           className,
         )}
         style={{
-          marginLeft: usesOverlayDrawer ? 0 : desktopMargin,
+          marginTop: topOffset,
+          height: containerMode === 'contained' ? '100%' : topOffset > 0 ? `calc(100vh - ${topOffset}px)` : '100vh',
+          marginLeft: side === 'left' ? desktopMargin : 0,
+          marginRight: side === 'right' ? desktopMargin : 0,
+          ['--sidebar-margin' as string]: `${desktopMargin}px`,
           ...style,
         }}
         {...props}
@@ -687,7 +857,7 @@ export function SidebarCollapsibleGroup({
         id={contentId}
         role="region"
         className={cn(
-          'duration-medium ease-emphasized grid transition-all',
+          'duration-medium ease-emphasized grid transition-all motion-reduce:transition-none',
           isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
         )}
         aria-hidden={!isOpen}

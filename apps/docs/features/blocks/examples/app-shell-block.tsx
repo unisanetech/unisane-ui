@@ -96,6 +96,8 @@ export function AppShellBlock({ viewport = 'desktop' }: AppShellBlockProps) {
       defaultMobileOpen={false}
       forceViewport={viewport}
       persist={false}
+      containerMode="contained"
+      mobileInsetOffset={0}
     >
       <AppShellBlockContent viewport={viewport} />
     </SidebarProvider>
@@ -111,7 +113,7 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
   return (
     <div className="border-outline-variant relative h-full w-full [transform:translateZ(0)] overflow-hidden rounded-sm border">
       <Sidebar className="h-full">
-        <SidebarRail className={cn(!isDesktop && '!hidden')}>
+        <SidebarRail>
           <SidebarRailItem id="workspace" label="Workspace" icon="space_dashboard" />
           <SidebarRailItem id="queue" label="Queue" icon="inbox" />
           <SidebarRailItem id="reports" label="Reports" icon="bar_chart" />
@@ -146,16 +148,14 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
         </SidebarDrawer>
         <SidebarBackdrop />
 
-        <SidebarInset className="!mt-0 !h-full">
+        <SidebarInset className="h-full">
           <TopAppBar
             variant="small"
             title="App shell"
             navigationIcon={
-              !isDesktop ? (
-                <SidebarTrigger className="size-9 rounded-sm text-on-surface-variant hover:bg-state-hover">
-                  <span className="material-symbols-outlined text-[18px]">menu</span>
-                </SidebarTrigger>
-              ) : undefined
+              <SidebarTrigger visibility="mobile" className="size-9 rounded-sm text-on-surface-variant hover:bg-state-hover">
+                <span className="material-symbols-outlined text-[18px]">menu</span>
+              </SidebarTrigger>
             }
             actions={
               <>

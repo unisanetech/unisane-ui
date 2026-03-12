@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useId, useCallback } from 'react';
+import React, { useRef, useEffect, useLayoutEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@ui/lib/utils';
 import { Icon } from '@ui/primitives/icon';
@@ -132,7 +132,7 @@ export const Select: React.FC<SelectProps> = ({
     });
   }, [fieldSize.optionHeightPx, options.length]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (portal && isOpen) {
       updateDropdownPosition();
       const raf = window.requestAnimationFrame(updateDropdownPosition);

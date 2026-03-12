@@ -74,7 +74,7 @@ const workspaceChildIds = ["overview", "team", "billing", "settings"];
 
 export function AppShellBlock() {
   return (
-    <SidebarProvider items={navigationItems} defaultActiveId="overview" defaultExpanded persist={false}>
+    <SidebarProvider items={navigationItems} defaultActiveId="overview" defaultExpanded persist={false} containerMode="contained" mobileInsetOffset={0}>
       <div className="h-full w-full overflow-hidden rounded-sm border border-outline-soft">
         <Sidebar className="h-full">
           <SidebarRail>
@@ -104,7 +104,7 @@ export function AppShellBlock() {
               </SidebarMenu>
             </SidebarContent>
           </SidebarDrawer>
-          <SidebarInset className="!mt-0 !h-full">
+          <SidebarInset className="h-full">
             <TopAppBar
               variant="small"
               title="App shell"

@@ -85,7 +85,7 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Action Item",
         component: (
-          <DropdownMenu open>
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outlined" size="sm">Actions</Button>
             </DropdownMenuTrigger>
@@ -102,7 +102,7 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Checkbox Item",
         component: (
-          <DropdownMenu open>
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outlined" size="sm">View</Button>
             </DropdownMenuTrigger>
@@ -119,7 +119,7 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Separator",
         component: (
-          <DropdownMenu open>
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outlined" size="sm">File</Button>
             </DropdownMenuTrigger>
@@ -179,6 +179,12 @@ export const dropdownMenuDoc: ComponentDoc = {
   placement: {
     description:
       "Dropdown menus are commonly used for contextual actions and settings.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Actions menu",

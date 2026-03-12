@@ -43,7 +43,7 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
       <Surface
         tone="surfaceContainerLowest"
         rounded="sm"
-        className="@2xl:hidden overflow-hidden"
+        className="@2xl:hidden overflow-visible"
       >
         {choosing.rows.map((row, index) => (
           <ChoosingCard
@@ -60,7 +60,7 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
       <Surface
         tone="surfaceContainerLowest"
         rounded="sm"
-        className="hidden @2xl:block overflow-x-auto"
+        className="hidden @2xl:block overflow-visible"
       >
         <table className="w-full text-body-medium">
           <thead>
@@ -90,7 +90,9 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
                 <td className="px-5 py-4 text-body-medium font-medium text-on-surface">
                   {row.emphasis}
                 </td>
-                <td className="px-5 py-4">{row.component}</td>
+                <td className="px-5 py-4">
+                  <div className="max-w-full overflow-visible">{row.component}</div>
+                </td>
                 <td className="px-5 py-4 text-body-small text-on-surface-variant leading-relaxed">
                   {row.rationale}
                 </td>
@@ -146,7 +148,9 @@ function ChoosingCard({
         <Typography variant="labelSmall" component="p" className="text-on-surface-variant">
           {columns.component}
         </Typography>
-        <div className="mt-1 text-body-medium text-on-surface">{row.component}</div>
+        <div className="mt-1 max-w-full overflow-visible text-body-medium text-on-surface">
+          {row.component}
+        </div>
       </div>
 
       <div className={hasExamples && row.examples ? "mb-3 @sm:mb-4" : ""}>

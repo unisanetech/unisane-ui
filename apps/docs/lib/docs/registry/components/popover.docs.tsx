@@ -132,6 +132,12 @@ export const popoverDoc: ComponentDoc = {
   placement: {
     description:
       "Popovers are commonly used for additional information, forms, or interactive content.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Info popover",

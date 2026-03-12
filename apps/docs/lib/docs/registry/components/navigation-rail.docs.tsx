@@ -109,6 +109,13 @@ export const navigationRailDoc: ComponentDoc = {
   heroPreview: {
     minHeight: "xl",
   },
+  examplesPreview: {
+    tone: "surfaceContainerLow",
+    minHeight: "xl",
+    padding: "none",
+    align: "start",
+    justify: "start",
+  },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {

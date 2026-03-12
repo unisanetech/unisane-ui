@@ -228,6 +228,13 @@ export interface PreviewStageConfig {
   padding?: 'none' | 'sm' | 'md' | 'lg';
 }
 
+export interface DocsLayoutConfig {
+  /** Hide choosing section for hero-first complex components */
+  hideChoosing?: boolean;
+  /** Hide placement section for hero-first complex components */
+  hidePlacement?: boolean;
+}
+
 // =============================================================================
 // MAIN COMPONENT DOCUMENTATION INTERFACE
 // =============================================================================
@@ -260,6 +267,8 @@ export interface ComponentDoc {
   heroPreview?: PreviewStageConfig;
   /** Default preview-stage behavior for examples on this page */
   examplesPreview?: PreviewStageConfig;
+  /** Page-level section visibility controls */
+  docsLayout?: DocsLayoutConfig;
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   /** Table showing how to choose between variants */

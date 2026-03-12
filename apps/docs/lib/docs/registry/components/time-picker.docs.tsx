@@ -127,6 +127,12 @@ export const timePickerDoc: ComponentDoc = {
   placement: {
     description:
       "Time picker opens in a dialog for focused time selection.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Time picker dialog",

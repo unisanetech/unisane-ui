@@ -2,6 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { DesktopPreviewFrame } from "../../runtime/desktop-preview-frame";
 import {
   NavigationDrawer,
   NavigationDrawerHeadline,
@@ -22,53 +23,56 @@ import {
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SidebarHeroVisual = () => (
-  <HeroBackground tone="surface">
-    <div className="relative isolate h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
-      <SidebarProvider
-        forceViewport="desktop"
-        defaultExpanded
-        railWidth={72}
-        drawerWidth={168}
-        items={[
-          { id: "home", label: "Home", icon: "home" },
-          { id: "inbox", label: "Inbox", icon: "inbox" },
-          { id: "settings", label: "Settings", icon: "settings" },
-        ]}
-        defaultActiveId="home"
-      >
-        <Sidebar className="relative h-full w-full">
-          <SidebarRail>
-            <SidebarRailItem id="home" label="Home" icon="home" />
-            <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
-            <SidebarRailItem id="settings" label="Settings" icon="settings" />
-          </SidebarRail>
-          <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
-            <SidebarHeader>
-              <div className="text-label-medium text-on-surface">Dashboard</div>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                <SidebarNavItem id="home" label="Overview" icon="home" />
-                <SidebarNavItem id="inbox" label="Messages" icon="inbox" />
-                <SidebarNavItem id="settings" label="Settings" icon="settings" />
-              </SidebarMenu>
-            </SidebarContent>
-          </SidebarDrawer>
-          <SidebarBackdrop />
-          <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
-            <div className="space-y-2 p-4">
-              <div className="text-title-small text-on-surface">Overview</div>
-              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
-                Revenue report updated.
+  <HeroBackground tone="surface" padding="sm">
+    <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
+      <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+        <SidebarProvider
+          containerMode="contained"
+          forceViewport="desktop"
+          defaultExpanded
+          railWidth={72}
+          drawerWidth={168}
+          items={[
+            { id: "home", label: "Home", icon: "home" },
+            { id: "inbox", label: "Inbox", icon: "inbox" },
+            { id: "settings", label: "Settings", icon: "settings" },
+          ]}
+          defaultActiveId="home"
+        >
+          <Sidebar className="relative h-full w-full">
+            <SidebarRail>
+              <SidebarRailItem id="home" label="Home" icon="home" />
+              <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
+              <SidebarRailItem id="settings" label="Settings" icon="settings" />
+            </SidebarRail>
+            <SidebarDrawer className="shadow-none">
+              <SidebarHeader>
+                <div className="text-label-medium text-on-surface">Dashboard</div>
+              </SidebarHeader>
+              <SidebarContent>
+                <SidebarMenu>
+                  <SidebarNavItem id="home" label="Overview" icon="home" />
+                  <SidebarNavItem id="inbox" label="Messages" icon="inbox" />
+                  <SidebarNavItem id="settings" label="Settings" icon="settings" />
+                </SidebarMenu>
+              </SidebarContent>
+            </SidebarDrawer>
+            <SidebarBackdrop />
+            <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+              <div className="space-y-2 p-4">
+                <div className="text-title-small text-on-surface">Overview</div>
+                <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+                  Revenue report updated.
+                </div>
+                <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+                  Pending approvals: 3
+                </div>
               </div>
-              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
-                Pending approvals: 3
-              </div>
-            </div>
-          </SidebarInset>
-        </Sidebar>
-      </SidebarProvider>
-    </div>
+            </SidebarInset>
+          </Sidebar>
+        </SidebarProvider>
+      </div>
+    </DesktopPreviewFrame>
   </HeroBackground>
 );
 
@@ -94,6 +98,7 @@ const RailOnlyExample = () => (
 const ExpandedSidebarExample = () => (
   <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
     <SidebarProvider
+      containerMode="contained"
       forceViewport="desktop"
       defaultExpanded
       railWidth={72}
@@ -111,7 +116,7 @@ const ExpandedSidebarExample = () => (
           <SidebarRailItem id="starred" label="Starred" icon="star" />
           <SidebarRailItem id="shared" label="Shared" icon="group" />
         </SidebarRail>
-        <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
+        <SidebarDrawer className="shadow-none">
           <SidebarHeader>
             <div className="text-label-medium text-on-surface">Library</div>
           </SidebarHeader>
@@ -124,7 +129,7 @@ const ExpandedSidebarExample = () => (
         </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
-        <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
           <div className="space-y-2 p-4">
             <div className="text-title-medium text-on-surface">Documents</div>
             <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
@@ -143,6 +148,7 @@ const ExpandedSidebarExample = () => (
 const SidebarSystemPreview = () => (
   <div className="relative isolate h-40 w-72 overflow-hidden rounded-sm border border-outline-variant bg-surface">
     <SidebarProvider
+      containerMode="contained"
       forceViewport="desktop"
       defaultExpanded
       railWidth={64}
@@ -158,7 +164,7 @@ const SidebarSystemPreview = () => (
           <SidebarRailItem id="home" label="Home" icon="home" />
           <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
         </SidebarRail>
-        <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
+        <SidebarDrawer className="shadow-none">
           <SidebarHeader>
             <div className="text-label-medium text-on-surface">Workspace</div>
           </SidebarHeader>
@@ -170,7 +176,7 @@ const SidebarSystemPreview = () => (
           </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
-        <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
           <div className="space-y-2 p-3">
             <div className="h-2 rounded-sm bg-surface-container-high" />
             <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
@@ -195,7 +201,7 @@ const SidebarRailPreview = () => (
 
 const SidebarMobileDrawerPreview = () => (
   <div className="relative isolate h-40 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
-    <NavigationDrawer open modal className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none">
+    <NavigationDrawer open modal className="absolute inset-y-0 left-0 h-full w-44 max-w-none">
       <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
       <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
       <NavigationDrawerItem icon="inbox">Inbox</NavigationDrawerItem>
@@ -246,6 +252,10 @@ export const sidebarDoc: ComponentDoc = {
   heroVisual: <SidebarHeroVisual />,
   heroPreview: {
     minHeight: "xl",
+  },
+  docsLayout: {
+    hideChoosing: true,
+    hidePlacement: true,
   },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
@@ -313,16 +323,67 @@ export const sidebarDoc: ComponentDoc = {
       description: "Navigation items configuration for the SidebarProvider.",
     },
     {
+      name: "activeId",
+      type: "string | null",
+      description: "Controlled active item ID.",
+    },
+    {
       name: "defaultActiveId",
       type: "string | null",
       default: "null",
       description: "Initially active navigation item ID.",
     },
     {
+      name: "expanded",
+      type: "boolean",
+      description: "Controlled desktop expanded state.",
+    },
+    {
       name: "defaultExpanded",
       type: "boolean",
       default: "false",
       description: "Whether drawer is expanded by default on desktop.",
+    },
+    {
+      name: "mobileOpen",
+      type: "boolean",
+      description: "Controlled overlay drawer open state.",
+    },
+    {
+      name: "defaultMobileOpen",
+      type: "boolean",
+      default: "false",
+      description: "Initial overlay drawer open state.",
+    },
+    {
+      name: "side",
+      type: '"left" | "right"',
+      default: '"left"',
+      description: "Places the sidebar system on the left or right edge.",
+    },
+    {
+      name: "mode",
+      type: '"rail-drawer" | "drawer-only" | "rail-only"',
+      default: '"rail-drawer"',
+      description: "Chooses which sidebar surfaces are rendered.",
+    },
+    {
+      name: "behavior",
+      type: '"adaptive" | "overlay" | "inset"',
+      default: '"adaptive"',
+      description: "Controls when drawer overlays content versus pushing layout.",
+    },
+    {
+      name: "containerMode",
+      type: '"viewport" | "contained"',
+      default: '"viewport"',
+      description: "Use contained mode for embedded canvases and previews.",
+    },
+    {
+      name: "triggerVisibility",
+      type: '"auto" | "always" | "desktop" | "mobile" | "hidden"',
+      default: '"auto"',
+      description: "Default visibility policy for SidebarTrigger.",
     },
     {
       name: "persist",
@@ -367,7 +428,13 @@ export const sidebarDoc: ComponentDoc = {
       description: "Width of the drawer on mobile in pixels.",
     },
     {
-      name: "onActiveChange",
+      name: "mobileInsetOffset",
+      type: "number",
+      default: "64",
+      description: "Top offset applied to SidebarInset while in overlay mode.",
+    },
+    {
+      name: "onActiveIdChange",
       type: "(id: string | null) => void",
       description: "Callback when active item changes.",
     },
@@ -375,6 +442,11 @@ export const sidebarDoc: ComponentDoc = {
       name: "onExpandedChange",
       type: "(expanded: boolean) => void",
       description: "Callback when drawer expanded state changes.",
+    },
+    {
+      name: "onMobileOpenChange",
+      type: "(open: boolean) => void",
+      description: "Callback when overlay drawer open state changes.",
     },
   ],
 
@@ -456,6 +528,7 @@ export const sidebarDoc: ComponentDoc = {
       description: "Button to toggle sidebar open/closed state.",
       props: [
         { name: "children", type: "ReactNode", description: "Custom trigger content." },
+        { name: "visibility", type: '"auto" | "always" | "desktop" | "mobile" | "hidden"', description: "Per-trigger visibility override." },
       ],
     },
     {
@@ -482,11 +555,11 @@ export const sidebarDoc: ComponentDoc = {
     keyboard: [
       { key: "Tab", description: "Navigate between rail items and menu items" },
       { key: "Enter/Space", description: "Activate focused item" },
-      { key: "Escape", description: "Close mobile drawer" },
+      { key: "Escape", description: "Close overlay drawer" },
     ],
     focus: [
       "Focus visible ring on all interactive items.",
-      "Focus trapped in mobile drawer when open.",
+      "Focus is trapped while overlay drawer is open.",
       "Drawer respects prefers-reduced-motion.",
     ],
   },
@@ -564,6 +637,10 @@ function AppLayout({ children }) {
       </Sidebar>
 
       <SidebarInset>
+        <header className="flex items-center gap-2 border-b border-outline-variant px-4 py-3">
+          <SidebarTrigger visibility="mobile" />
+          <h1 className="text-title-medium">Dashboard</h1>
+        </header>
         {children}
       </SidebarInset>
     </SidebarProvider>

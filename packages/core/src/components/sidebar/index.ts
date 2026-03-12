@@ -1,5 +1,14 @@
 export { SidebarProvider, useSidebar } from './sidebar-context';
-export type { SidebarState, SidebarProviderProps } from './sidebar-context';
+export type {
+  SidebarState,
+  SidebarProviderProps,
+  SidebarSide,
+  SidebarMode,
+  SidebarBehavior,
+  SidebarContainerMode,
+  SidebarTriggerVisibility,
+  SidebarBreakpoints,
+} from './sidebar-context';
 
 export {
   Sidebar,

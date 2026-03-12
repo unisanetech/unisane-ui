@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { cn, Slot } from '@ui/lib/utils';
 import { useControllableState } from '@ui/lib/use-controllable-state';
@@ -85,8 +85,7 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
     }
   }, [triggerRef, asChild]);
 
-  const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handleClick = () => {
     setOpen(!open);
   };
 
@@ -335,7 +334,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     };
   }, [collisionPadding]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open || !triggerRef.current) return;
 
     const updatePosition = () => {
@@ -695,7 +694,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open || !triggerRef.current) return;
 
     const updatePosition = () => {

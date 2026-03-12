@@ -3,6 +3,17 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
 import type { NavigationItem } from '../../types/navigation';
 
+export type SidebarSide = 'left' | 'right';
+export type SidebarMode = 'rail-drawer' | 'drawer-only' | 'rail-only';
+export type SidebarBehavior = 'adaptive' | 'overlay' | 'inset';
+export type SidebarContainerMode = 'viewport' | 'contained';
+export type SidebarTriggerVisibility = 'auto' | 'always' | 'desktop' | 'mobile' | 'hidden';
+
+export interface SidebarBreakpoints {
+  mobile: number;
+  desktop: number;
+}
+
 export interface SidebarState {
   activeId: string | null;
   setActiveId: (id: string | null) => void;
@@ -12,8 +23,11 @@ export interface SidebarState {
   mobileOpen: boolean;
   setMobileOpen: (open: boolean) => void;
   toggleMobile: () => void;
+  toggle: () => void;
+  close: () => void;
   hoveredId: string | null;
   isDrawerVisible: boolean;
+  isRailVisible: boolean;
   effectiveItem: NavigationItem | null;
   handleHover: (id: string) => void;
   handleClick: (id: string) => void;
@@ -24,24 +38,35 @@ export interface SidebarState {
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
-
   usesOverlayDrawer: boolean;
+  railEnabled: boolean;
+  drawerEnabled: boolean;
+  side: SidebarSide;
+  mode: SidebarMode;
+  behavior: SidebarBehavior;
+  containerMode: SidebarContainerMode;
+  triggerVisibility: SidebarTriggerVisibility;
   railWidth: number;
   drawerWidth: number;
   mobileDrawerWidth: number;
+  mobileInsetOffset: number;
   contentMargin: number;
   hasActiveChild: (childIds: string[]) => boolean;
   expandedGroups: Set<string>;
   setGroupExpanded: (groupId: string, expanded: boolean) => void;
   toggleGroup: (groupId: string) => void;
   isGroupExpanded: (groupId: string, childIds?: string[]) => boolean;
+  registerContainer: (node: HTMLElement | null) => void;
 }
 
 export interface SidebarProviderProps {
   children: React.ReactNode;
   items?: NavigationItem[];
+  activeId?: string | null;
   defaultActiveId?: string | null;
+  expanded?: boolean;
   defaultExpanded?: boolean;
+  mobileOpen?: boolean;
   defaultMobileOpen?: boolean;
   persist?: boolean;
   storageKey?: string;
@@ -50,10 +75,24 @@ export interface SidebarProviderProps {
   railWidth?: number;
   drawerWidth?: number;
   mobileDrawerWidth?: number;
+  side?: SidebarSide;
+  mode?: SidebarMode;
+  behavior?: SidebarBehavior;
+  containerMode?: SidebarContainerMode;
+  breakpoints?: Partial<SidebarBreakpoints>;
+  mobileInsetOffset?: number;
+  triggerVisibility?: SidebarTriggerVisibility;
   forceViewport?: 'mobile' | 'tablet' | 'desktop';
+  onActiveIdChange?: (id: string | null) => void;
   onActiveChange?: (id: string | null) => void;
   onExpandedChange?: (expanded: boolean) => void;
+  onMobileOpenChange?: (open: boolean) => void;
 }
+
+const DEFAULT_BREAKPOINTS: SidebarBreakpoints = {
+  mobile: 600,
+  desktop: 840,
+};
 
 const SidebarContext = createContext<SidebarState | null>(null);
 
@@ -91,6 +130,16 @@ function parseStoredStringArray(raw: string | null): string[] | null {
   }
 }
 
+function computeViewportFlags(
+  width: number,
+  breakpoints: SidebarBreakpoints,
+): { isMobile: boolean; isTablet: boolean; isDesktop: boolean } {
+  const isMobile = width < breakpoints.mobile;
+  const isDesktop = width >= breakpoints.desktop;
+  const isTablet = !isMobile && !isDesktop;
+  return { isMobile, isTablet, isDesktop };
+}
+
 export function useSidebar(): SidebarState {
   const context = useContext(SidebarContext);
   if (!context) {
@@ -102,8 +151,11 @@ export function useSidebar(): SidebarState {
 export function SidebarProvider({
   children,
   items = [],
+  activeId: controlledActiveId,
   defaultActiveId = null,
+  expanded: controlledExpanded,
   defaultExpanded = false,
+  mobileOpen: controlledMobileOpen,
   defaultMobileOpen = false,
   persist = false,
   storageKey = 'unisane-sidebar',
@@ -112,40 +164,41 @@ export function SidebarProvider({
   railWidth = 96,
   drawerWidth = 220,
   mobileDrawerWidth = 280,
+  side = 'left',
+  mode = 'rail-drawer',
+  behavior = 'adaptive',
+  containerMode = 'viewport',
+  breakpoints,
+  mobileInsetOffset = 64,
+  triggerVisibility = 'auto',
   forceViewport,
+  onActiveIdChange,
   onActiveChange,
   onExpandedChange,
+  onMobileOpenChange,
 }: SidebarProviderProps) {
-  const [activeId, setActiveIdState] = useState<string | null>(defaultActiveId);
-  const [expanded, setExpandedState] = useState<boolean>(defaultExpanded);
-  const [mobileOpen, setMobileOpen] = useState(defaultMobileOpen);
+  const [activeIdState, setActiveIdState] = useState<string | null>(defaultActiveId);
+  const [expandedState, setExpandedState] = useState<boolean>(defaultExpanded);
+  const [mobileOpenState, setMobileOpenState] = useState(defaultMobileOpen);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [lastContentId, setLastContentId] = useState<string | null>(defaultActiveId);
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
+  const [containerNode, setContainerNode] = useState<HTMLElement | null>(null);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
-  useEffect(() => {
-    if (!persist) return;
+  const resolvedBreakpoints: SidebarBreakpoints = {
+    mobile: breakpoints?.mobile ?? DEFAULT_BREAKPOINTS.mobile,
+    desktop: breakpoints?.desktop ?? DEFAULT_BREAKPOINTS.desktop,
+  };
 
-    try {
-      const storedActive = parseStoredString(localStorage.getItem(`${storageKey}-active`));
-      const storedExpanded = parseStoredBoolean(localStorage.getItem(`${storageKey}-expanded`));
-      const storedGroups = parseStoredStringArray(localStorage.getItem(`${storageKey}-groups`));
+  const isActiveControlled = controlledActiveId !== undefined;
+  const isExpandedControlled = controlledExpanded !== undefined;
+  const isMobileOpenControlled = controlledMobileOpen !== undefined;
 
-      if (storedActive !== null) {
-        setActiveIdState(storedActive);
-        setLastContentId(storedActive);
-      }
-      if (storedExpanded !== null) {
-        setExpandedState(storedExpanded);
-      }
-      if (storedGroups) {
-        setExpandedGroups(new Set(storedGroups));
-      }
-    } catch {
-      return;
-    }
-  }, [persist, storageKey]);
+  const activeId = isActiveControlled ? controlledActiveId ?? null : activeIdState;
+  const expanded = isExpandedControlled ? !!controlledExpanded : expandedState;
+  const mobileOpen = isMobileOpenControlled ? !!controlledMobileOpen : mobileOpenState;
 
   const [isMobile, setIsMobile] = useState(forceViewport === 'mobile' || !forceViewport);
   const [isTablet, setIsTablet] = useState(forceViewport === 'tablet');
@@ -154,20 +207,38 @@ export function SidebarProvider({
   const entryTimeoutRef = useRef<number | null>(null);
   const exitTimeoutRef = useRef<number | null>(null);
 
-  const prevDefaultActiveIdRef = useRef(defaultActiveId);
-  useEffect(() => {
-    if (defaultActiveId !== prevDefaultActiveIdRef.current) {
-      prevDefaultActiveIdRef.current = defaultActiveId;
-      if (defaultActiveId) {
-        setActiveIdState(defaultActiveId);
-        setLastContentId(defaultActiveId);
-        const item = items.find((i) => i.id === defaultActiveId);
-        if (item?.items && item.items.length > 0) {
-          setExpandedState(true);
-        }
-      }
+  const railEnabled = mode !== 'drawer-only';
+  const drawerEnabled = mode !== 'rail-only';
+
+  const usesOverlayDrawer =
+    drawerEnabled &&
+    (behavior === 'overlay' || (behavior === 'adaptive' && (isMobile || isTablet)));
+
+  const isRailVisible = railEnabled && !usesOverlayDrawer;
+
+  const registerContainer = useCallback((node: HTMLElement | null) => {
+    setContainerNode(node);
+    if (!node) {
+      setContainerWidth(null);
+      return;
     }
-  }, [defaultActiveId, items]);
+    setContainerWidth(node.clientWidth);
+  }, []);
+
+  useEffect(() => {
+    if (containerMode !== 'contained' || !containerNode || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      setContainerWidth(entry.contentRect.width);
+    });
+
+    observer.observe(containerNode);
+    return () => observer.disconnect();
+  }, [containerMode, containerNode]);
 
   useEffect(() => {
     if (forceViewport) {
@@ -177,21 +248,76 @@ export function SidebarProvider({
       return;
     }
 
-    const updateBreakpoint = () => {
-      const width = window.innerWidth;
-
-      setIsMobile(width < 600);
-      setIsTablet(width >= 600 && width < 840);
-      setIsDesktop(width >= 840);
+    const updateFlags = () => {
+      const sourceWidth =
+        containerMode === 'contained' && containerWidth !== null ? containerWidth : window.innerWidth;
+      const next = computeViewportFlags(sourceWidth, resolvedBreakpoints);
+      setIsMobile(next.isMobile);
+      setIsTablet(next.isTablet);
+      setIsDesktop(next.isDesktop);
     };
-    updateBreakpoint();
-    window.addEventListener('resize', updateBreakpoint);
-    return () => window.removeEventListener('resize', updateBreakpoint);
-  }, [forceViewport]);
+
+    updateFlags();
+
+    if (containerMode === 'contained') {
+      return;
+    }
+
+    window.addEventListener('resize', updateFlags);
+    return () => window.removeEventListener('resize', updateFlags);
+  }, [
+    containerMode,
+    containerWidth,
+    forceViewport,
+    resolvedBreakpoints.desktop,
+    resolvedBreakpoints.mobile,
+  ]);
 
   useEffect(() => {
-    setMobileOpen(defaultMobileOpen);
-  }, [defaultMobileOpen, forceViewport]);
+    if (!persist) return;
+
+    try {
+      const storedActive = parseStoredString(localStorage.getItem(`${storageKey}-active`));
+      const storedExpanded = parseStoredBoolean(localStorage.getItem(`${storageKey}-expanded`));
+      const storedGroups = parseStoredStringArray(localStorage.getItem(`${storageKey}-groups`));
+
+      if (!isActiveControlled && storedActive !== null) {
+        setActiveIdState(storedActive);
+        setLastContentId(storedActive);
+      }
+      if (!isExpandedControlled && storedExpanded !== null) {
+        setExpandedState(storedExpanded);
+      }
+      if (storedGroups) {
+        setExpandedGroups(new Set(storedGroups));
+      }
+    } catch {
+      return;
+    }
+  }, [isActiveControlled, isExpandedControlled, persist, storageKey]);
+
+  const prevDefaultActiveIdRef = useRef(defaultActiveId);
+  useEffect(() => {
+    if (isActiveControlled) return;
+
+    if (defaultActiveId !== prevDefaultActiveIdRef.current) {
+      prevDefaultActiveIdRef.current = defaultActiveId;
+      if (defaultActiveId) {
+        setActiveIdState(defaultActiveId);
+        setLastContentId(defaultActiveId);
+        const item = items.find((i) => i.id === defaultActiveId);
+        if (item?.items && item.items.length > 0 && !isExpandedControlled) {
+          setExpandedState(true);
+        }
+      }
+    }
+  }, [defaultActiveId, isActiveControlled, isExpandedControlled, items]);
+
+  useEffect(() => {
+    if (!isMobileOpenControlled) {
+      setMobileOpenState(defaultMobileOpen);
+    }
+  }, [defaultMobileOpen, isMobileOpenControlled, forceViewport]);
 
   useEffect(() => {
     if (!persist || typeof window === 'undefined') return;
@@ -229,18 +355,33 @@ export function SidebarProvider({
 
   const setActiveId = useCallback(
     (id: string | null) => {
-      setActiveIdState(id);
+      if (!isActiveControlled) {
+        setActiveIdState(id);
+      }
+      onActiveIdChange?.(id);
       onActiveChange?.(id);
     },
-    [onActiveChange],
+    [isActiveControlled, onActiveIdChange, onActiveChange],
   );
 
   const setExpanded = useCallback(
     (value: boolean) => {
-      setExpandedState(value);
+      if (!isExpandedControlled) {
+        setExpandedState(value);
+      }
       onExpandedChange?.(value);
     },
-    [onExpandedChange],
+    [isExpandedControlled, onExpandedChange],
+  );
+
+  const setMobileOpen = useCallback(
+    (next: boolean) => {
+      if (!isMobileOpenControlled) {
+        setMobileOpenState(next);
+      }
+      onMobileOpenChange?.(next);
+    },
+    [isMobileOpenControlled, onMobileOpenChange],
   );
 
   const toggleExpanded = useCallback(() => {
@@ -248,8 +389,26 @@ export function SidebarProvider({
   }, [expanded, setExpanded]);
 
   const toggleMobile = useCallback(() => {
-    setMobileOpen((prev) => !prev);
-  }, []);
+    setMobileOpen(!mobileOpen);
+  }, [mobileOpen, setMobileOpen]);
+
+  const close = useCallback(() => {
+    if (usesOverlayDrawer) {
+      setMobileOpen(false);
+      return;
+    }
+    setExpanded(false);
+    setHoveredId(null);
+  }, [setExpanded, setMobileOpen, usesOverlayDrawer]);
+
+  const toggle = useCallback(() => {
+    if (!drawerEnabled) return;
+    if (usesOverlayDrawer) {
+      toggleMobile();
+    } else {
+      toggleExpanded();
+    }
+  }, [drawerEnabled, toggleExpanded, toggleMobile, usesOverlayDrawer]);
 
   const handleClick = useCallback(
     (id: string) => {
@@ -263,41 +422,50 @@ export function SidebarProvider({
       }
 
       const item = items.find((i) => i.id === id);
-      const hasChildren = item?.items && item.items.length > 0;
+      const hasChildren = !!(item?.items && item.items.length > 0);
       const wasDrawerVisible = expanded || !!hoveredId;
 
       setHoveredId(null);
 
       if (activeId === id) {
+        if (!drawerEnabled) return;
+
         if (hasChildren) {
           setExpanded(!expanded);
         } else {
           setExpanded(false);
         }
-      } else {
-        setActiveId(id);
+        return;
+      }
 
-        if (hasChildren) {
-          setLastContentId(id);
+      setActiveId(id);
 
-          if (wasDrawerVisible) {
-            if (!expanded) {
-              setExpanded(true);
-            }
-          } else {
+      if (!drawerEnabled) {
+        return;
+      }
+
+      if (hasChildren) {
+        setLastContentId(id);
+
+        if (wasDrawerVisible) {
+          if (!expanded) {
             setExpanded(true);
           }
         } else {
-          setExpanded(false);
+          setExpanded(true);
         }
+      } else {
+        setExpanded(false);
       }
     },
-    [items, activeId, expanded, hoveredId, setActiveId, setExpanded],
+    [activeId, drawerEnabled, expanded, hoveredId, items, setActiveId, setExpanded],
   );
+
+  const canHoverDrawer = drawerEnabled && !usesOverlayDrawer;
 
   const handleHover = useCallback(
     (id: string) => {
-      if (isMobile) return;
+      if (!canHoverDrawer) return;
 
       if (exitTimeoutRef.current) {
         clearTimeout(exitTimeoutRef.current);
@@ -313,11 +481,11 @@ export function SidebarProvider({
         setHoveredId(id);
       }, hoverDelay);
     },
-    [isMobile, hoverDelay],
+    [canHoverDrawer, hoverDelay],
   );
 
   const handleRailLeave = useCallback(() => {
-    if (isMobile) return;
+    if (!canHoverDrawer) return;
 
     if (entryTimeoutRef.current) {
       clearTimeout(entryTimeoutRef.current);
@@ -327,10 +495,10 @@ export function SidebarProvider({
     exitTimeoutRef.current = window.setTimeout(() => {
       setHoveredId(null);
     }, exitDelay);
-  }, [isMobile, exitDelay]);
+  }, [canHoverDrawer, exitDelay]);
 
   const handleDrawerEnter = useCallback(() => {
-    if (isMobile) return;
+    if (!canHoverDrawer) return;
 
     if (exitTimeoutRef.current) {
       clearTimeout(exitTimeoutRef.current);
@@ -341,15 +509,15 @@ export function SidebarProvider({
       clearTimeout(entryTimeoutRef.current);
       entryTimeoutRef.current = null;
     }
-  }, [isMobile]);
+  }, [canHoverDrawer]);
 
   const handleDrawerLeave = useCallback(() => {
-    if (isMobile) return;
+    if (!canHoverDrawer) return;
 
     exitTimeoutRef.current = window.setTimeout(() => {
       setHoveredId(null);
     }, exitDelay);
-  }, [isMobile, exitDelay]);
+  }, [canHoverDrawer, exitDelay]);
 
   const hasActiveChild = useCallback(
     (childIds: string[]): boolean => {
@@ -409,23 +577,22 @@ export function SidebarProvider({
   const hoveredItem = hoveredId ? items.find((i) => i.id === hoveredId) : null;
   const hoverHasChildren = !!(hoveredItem?.items && hoveredItem.items.length > 0);
 
-  let targetItem = activeItem;
-  if (hoveredItem && hoverHasChildren) {
-    targetItem = hoveredItem;
-  }
+  const targetItem = hoveredItem && hoverHasChildren ? hoveredItem : activeItem;
 
   useEffect(() => {
+    if (!drawerEnabled) return;
     if (targetItem?.items && targetItem.items.length > 0) {
       setLastContentId(targetItem.id);
     }
-  }, [targetItem]);
+  }, [drawerEnabled, targetItem]);
 
-  const effectiveItem = items.find((i) => i.id === lastContentId) || null;
-  const isDrawerVisible = expanded || (!!hoveredId && hoverHasChildren);
+  const effectiveItem = drawerEnabled ? items.find((i) => i.id === lastContentId) || null : null;
 
-  const usesOverlayDrawer = isMobile || isTablet;
+  const isDrawerVisible =
+    drawerEnabled && (usesOverlayDrawer ? mobileOpen : expanded || (!!hoveredId && hoverHasChildren));
 
-  const contentMargin = usesOverlayDrawer ? 0 : expanded ? railWidth + drawerWidth : railWidth;
+  const contentMargin =
+    !drawerEnabled || usesOverlayDrawer || !expanded ? 0 : mode === 'drawer-only' ? drawerWidth : drawerWidth;
 
   const value: SidebarState = {
     activeId,
@@ -436,8 +603,11 @@ export function SidebarProvider({
     mobileOpen,
     setMobileOpen,
     toggleMobile,
+    toggle,
+    close,
     hoveredId,
     isDrawerVisible,
+    isRailVisible,
     effectiveItem,
     handleHover,
     handleClick,
@@ -449,15 +619,24 @@ export function SidebarProvider({
     isTablet,
     isDesktop,
     usesOverlayDrawer,
+    railEnabled,
+    drawerEnabled,
+    side,
+    mode,
+    behavior,
+    containerMode,
+    triggerVisibility,
     railWidth,
     drawerWidth,
     mobileDrawerWidth,
+    mobileInsetOffset,
     contentMargin,
     hasActiveChild,
     expandedGroups,
     setGroupExpanded,
     toggleGroup,
     isGroupExpanded,
+    registerContainer,
   };
 
   return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;

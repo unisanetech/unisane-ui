@@ -133,6 +133,16 @@ export const switchDoc: ComponentDoc = {
         title: "With icons",
         subtitle: "Visual confirmation",
       },
+      {
+        component: <Switch icons readOnly />,
+        title: "Icons (off)",
+        subtitle: "Unchecked state with icon",
+      },
+      {
+        component: <Switch defaultChecked icons disabled readOnly />,
+        title: "Icons disabled",
+        subtitle: "Read-only status display",
+      },
     ],
   },
 
@@ -168,6 +178,20 @@ export const switchDoc: ComponentDoc = {
           </Card>
         ),
         caption: "Vertical list with labels for form settings",
+      },
+      {
+        title: "Status toggles with icons",
+        visual: (
+          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+            <div className="text-title-small text-on-surface mb-4">Automation</div>
+            <div className="space-y-4">
+              <Switch label="Auto backup" defaultChecked icons readOnly />
+              <Switch label="Auto sync" icons readOnly />
+              <Switch label="Safe mode" defaultChecked icons disabled readOnly />
+            </div>
+          </Card>
+        ),
+        caption: "Icon switches for quick state scanning in settings panels",
       },
     ],
   },

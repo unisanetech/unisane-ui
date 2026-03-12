@@ -7,7 +7,6 @@ import { IconButton } from './icon-button';
 import { Icon } from '@/primitives/icon';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { TextField } from './text-field';
 
 export interface TimePickerProps {
   open?: boolean;
@@ -48,6 +47,14 @@ function formatTimeValue(hours: number, minutes: number, period: 'AM' | 'PM') {
   return `${finalHours.toString().padStart(2, '0')}:${finalMinutes.toString().padStart(2, '0')}`;
 }
 
+function clampHours(value: number) {
+  return Math.min(Math.max(value, 1), 12);
+}
+
+function clampMinutes(value: number) {
+  return Math.min(Math.max(value, 0), 59);
+}
+
 export const TimePicker: React.FC<TimePickerProps> = ({
   open,
   defaultOpen = false,
@@ -76,6 +83,8 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   const [dialMode, setDialMode] = useState<'hour' | 'minute'>('hour');
   const [isDragging, setIsDragging] = useState(false);
   const dialRef = useRef<HTMLDivElement>(null);
+  const hourInputId = React.useId();
+  const minuteInputId = React.useId();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -208,7 +217,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   );
 
   const handleSave = () => {
-    setSelectedValue(formatTimeValue(hours, minutes, period));
+    setSelectedValue(formatTimeValue(clampHours(hours), clampMinutes(minutes), period));
     setIsOpen(false);
   };
 
@@ -221,7 +230,12 @@ export const TimePicker: React.FC<TimePickerProps> = ({
           </span>
         </div>
 
-        <div className="mb-6 flex w-full items-center justify-center gap-2 px-6">
+        <div
+          className={cn(
+            'flex w-full items-center justify-center gap-2 px-6',
+            inputType === 'dial' ? 'mb-6' : 'mb-4',
+          )}
+        >
           {inputType === 'dial' ? (
             <>
               <div
@@ -259,28 +273,52 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               </div>
             </>
           ) : (
-            <div className="flex items-center gap-2">
-              <TextField
-                variant="outlined"
-                className="w-24"
-                label="Hour"
-                type="number"
-                min={1}
-                max={12}
-                value={hours}
-                onChange={(e) => setHours(Number(e.target.value))}
-              />
-              <span className="text-display-large">:</span>
-              <TextField
-                variant="outlined"
-                className="w-24"
-                label="Minute"
-                type="number"
-                min={0}
-                max={59}
-                value={minutes}
-                onChange={(e) => setMinutes(Number(e.target.value))}
-              />
+            <div className="flex items-end gap-3">
+              <div className="space-y-2">
+                <label htmlFor={hourInputId} className="text-title-medium text-on-surface-variant block pl-1">
+                  Hour
+                </label>
+                <input
+                  id={hourInputId}
+                  type="number"
+                  min={1}
+                  max={12}
+                  inputMode="numeric"
+                  value={hours}
+                  onChange={(e) => {
+                    const nextValue = Number.parseInt(e.target.value, 10);
+                    if (Number.isNaN(nextValue)) return;
+                    setHours(nextValue);
+                  }}
+                  onBlur={() => setHours((current) => clampHours(current))}
+                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 outline-none transition-colors focus:ring-1"
+                />
+              </div>
+
+              <span className="text-display-small text-on-surface pb-2 leading-none" aria-hidden="true">
+                :
+              </span>
+
+              <div className="space-y-2">
+                <label htmlFor={minuteInputId} className="text-title-medium text-on-surface-variant block pl-1">
+                  Minute
+                </label>
+                <input
+                  id={minuteInputId}
+                  type="number"
+                  min={0}
+                  max={59}
+                  inputMode="numeric"
+                  value={minutes}
+                  onChange={(e) => {
+                    const nextValue = Number.parseInt(e.target.value, 10);
+                    if (Number.isNaN(nextValue)) return;
+                    setMinutes(nextValue);
+                  }}
+                  onBlur={() => setMinutes((current) => clampMinutes(current))}
+                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 outline-none transition-colors focus:ring-1"
+                />
+              </div>
             </div>
           )}
 

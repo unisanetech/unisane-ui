@@ -2,41 +2,43 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { DesktopPreviewFrame } from "../../runtime/desktop-preview-frame";
 import { ListDetailLayout, PaneGroup } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const PaneGroupHeroVisual = () => (
-  <HeroBackground tone="surface">
-    <div className="relative isolate h-56 w-80 overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
-      <PaneGroup
-        isRoot
-        list={
-          <div className="space-y-2 p-3">
-            <div className="text-label-small text-on-surface-variant">Mailboxes</div>
-            <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
-              Inbox
-            </div>
-            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
-              Sent
-            </div>
-            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
-              Drafts
-            </div>
-          </div>
-        }
-        detail={
-          <div className="space-y-3 p-4">
-            <div className="text-title-small text-on-surface">Inbox</div>
-            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
-              Welcome to your new workspace.
-            </div>
-            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
-              Team update posted 2h ago.
+  <HeroBackground tone="surface" padding="sm">
+    <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
+      <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+        <div className="flex h-full w-full">
+          <div className="w-72 shrink-0 border-r border-outline-variant bg-surface">
+            <div className="space-y-2 p-3">
+              <div className="text-label-small text-on-surface-variant">Mailboxes</div>
+              <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
+                Inbox
+              </div>
+              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+                Sent
+              </div>
+              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+                Drafts
+              </div>
             </div>
           </div>
-        }
-      />
-    </div>
+          <div className="min-w-0 flex-1 bg-surface-container-low">
+            <div className="space-y-3 p-4">
+              <div className="text-title-small text-on-surface">Inbox</div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+                Welcome to your new workspace.
+              </div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+                Team update posted 2h ago.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DesktopPreviewFrame>
   </HeroBackground>
 );
 
@@ -127,6 +129,13 @@ export const paneGroupDoc: ComponentDoc = {
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <PaneGroupHeroVisual />,
+  heroPreview: {
+    minHeight: "xl",
+  },
+  docsLayout: {
+    hideChoosing: true,
+    hidePlacement: true,
+  },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {

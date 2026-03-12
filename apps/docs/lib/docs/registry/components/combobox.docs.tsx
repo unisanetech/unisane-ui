@@ -147,6 +147,12 @@ export const comboboxDoc: ComponentDoc = {
   placement: {
     description:
       "Comboboxes are used in forms where users need to select from a large list of options.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Searchable combobox",

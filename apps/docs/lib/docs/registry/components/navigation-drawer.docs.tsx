@@ -2,6 +2,7 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
+import { DesktopPreviewFrame } from '../../runtime/desktop-preview-frame';
 import {
   NavigationDrawer,
   NavigationDrawerItem,
@@ -11,36 +12,35 @@ import {
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const NavigationDrawerHeroVisual = () => (
-  <HeroBackground tone="surface">
-    {/* Mock App with Drawer */}
-    <div className="bg-surface border-outline-variant relative flex h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border shadow-xl">
-      {/* Navigation Drawer */}
-      <div className="bg-surface-container border-outline-variant w-36 border-r p-3">
-        <div className="text-label-small text-on-surface-variant mb-3 px-2">Navigation</div>
-        <div className="space-y-1">
-          <div className="bg-secondary-container flex items-center gap-2 rounded-full px-3 py-2">
-            <span className="material-symbols-outlined text-primary text-[20px]">home</span>
-            <span className="text-label-medium text-primary">Home</span>
+  <HeroBackground tone="surface" padding="sm">
+    <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
+      <div className="bg-surface border-outline-variant relative flex h-full w-full overflow-hidden rounded-sm border shadow-xl">
+        <div className="bg-surface-container border-outline-variant w-36 border-r p-3">
+          <div className="text-label-small text-on-surface-variant mb-3 px-2">Navigation</div>
+          <div className="space-y-1">
+            <div className="bg-secondary-container flex items-center gap-2 rounded-full px-3 py-2">
+              <span className="material-symbols-outlined text-primary text-[20px]">home</span>
+              <span className="text-label-medium text-primary">Home</span>
+            </div>
+            <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
+              <span className="material-symbols-outlined text-[20px]">inbox</span>
+              <span className="text-label-medium">Inbox</span>
+            </div>
+            <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
+              <span className="material-symbols-outlined text-[20px]">send</span>
+              <span className="text-label-medium">Sent</span>
+            </div>
           </div>
-          <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
-            <span className="material-symbols-outlined text-[20px]">inbox</span>
-            <span className="text-label-medium">Inbox</span>
-          </div>
-          <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
-            <span className="material-symbols-outlined text-[20px]">send</span>
-            <span className="text-label-medium">Sent</span>
+        </div>
+        <div className="flex-1 p-4">
+          <div className="space-y-3">
+            <div className="bg-surface-container-high h-4 w-full rounded-sm" />
+            <div className="bg-surface-container-high h-4 w-3/4 rounded-sm" />
+            <div className="bg-surface-container-high h-4 w-1/2 rounded-sm" />
           </div>
         </div>
       </div>
-      {/* Main Content */}
-      <div className="flex-1 p-4">
-        <div className="space-y-3">
-          <div className="bg-surface-container-high h-4 w-full rounded-sm" />
-          <div className="bg-surface-container-high h-4 w-3/4 rounded-sm" />
-          <div className="bg-surface-container-high h-4 w-1/2 rounded-sm" />
-        </div>
-      </div>
-    </div>
+    </DesktopPreviewFrame>
   </HeroBackground>
 );
 
@@ -103,6 +103,10 @@ export const navigationDrawerDoc: ComponentDoc = {
   heroVisual: <NavigationDrawerHeroVisual />,
   heroPreview: {
     minHeight: 'xl',
+  },
+  docsLayout: {
+    hideChoosing: true,
+    hidePlacement: true,
   },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────

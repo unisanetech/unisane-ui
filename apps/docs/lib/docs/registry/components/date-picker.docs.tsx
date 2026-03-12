@@ -112,6 +112,12 @@ export const datePickerDoc: ComponentDoc = {
   placement: {
     description:
       "Date pickers are commonly used in forms for date input.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "xl",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Form input",

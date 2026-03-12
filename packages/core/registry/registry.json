@@ -576,7 +576,7 @@
       "description": "Switch component",
       "files": ["components/switch.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon"]
+      "registryDependencies": []
     },
     "table": {
       "name": "Table",
@@ -616,7 +616,7 @@
       "description": "TimePicker component",
       "files": ["components/time-picker.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon", "dialog", "button", "icon-button", "text-field"]
+      "registryDependencies": ["icon", "dialog", "button", "icon-button"]
     },
     "toast": {
       "name": "Toast",

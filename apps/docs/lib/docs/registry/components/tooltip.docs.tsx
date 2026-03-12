@@ -136,6 +136,12 @@ export const tooltipDoc: ComponentDoc = {
   placement: {
     description:
       "Tooltips are commonly used on icon buttons, truncated text, and interactive elements that need explanation.",
+    previewDefaults: {
+      overflow: "visible",
+      minHeight: "lg",
+      align: "start",
+      justify: "start",
+    },
     examples: [
       {
         title: "Toolbar icons",
