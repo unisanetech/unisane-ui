@@ -57,7 +57,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
   const sizeStyles = getSegmentedButtonSizeStyles(size);
   const [currentValue, setCurrentValue] = useControllableState<SegmentedButtonValue>({
     value,
-    defaultValue: multiSelect ? defaultValue ?? [] : defaultValue,
+    defaultValue: multiSelect ? (defaultValue ?? []) : defaultValue,
     onChange: onValueChange,
   });
   const buttonRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
@@ -287,7 +287,9 @@ export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
   return (
     <button
       type="button"
-      className={cn(segmentedButtonItemVariants({ active, disabled, size: resolvedSize, className }))}
+      className={cn(
+        segmentedButtonItemVariants({ active, disabled, size: resolvedSize, className }),
+      )}
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
       role="button"

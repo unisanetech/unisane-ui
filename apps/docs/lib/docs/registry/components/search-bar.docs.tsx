@@ -88,9 +88,8 @@ export const searchBarDoc: ComponentDoc = {
       {
         emphasis: "Basic",
         component: (
-          <div className="w-36 h-10 bg-surface-container-high rounded-sm flex items-center px-3 gap-2">
-            <span className="material-symbols-outlined text-on-surface text-[18px]">search</span>
-            <span className="text-body-small text-on-surface-variant">Search</span>
+          <div className="w-56">
+            <SearchBar placeholder="Search" />
           </div>
         ),
         rationale: "Simple search without extra actions.",
@@ -99,10 +98,18 @@ export const searchBarDoc: ComponentDoc = {
       {
         emphasis: "With voice",
         component: (
-          <div className="w-36 h-10 bg-surface-container-high rounded-sm flex items-center px-3 gap-2">
-            <span className="material-symbols-outlined text-on-surface text-[18px]">search</span>
-            <span className="text-body-small text-on-surface-variant flex-1">Search</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px]">mic</span>
+          <div className="w-56">
+            <SearchBar
+              placeholder="Search"
+              trailingIcon={
+                <IconButton
+                  variant="standard"
+                  size="sm"
+                  icon={<span className="material-symbols-outlined">mic</span>}
+                  aria-label="Voice search"
+                />
+              }
+            />
           </div>
         ),
         rationale: "When voice input is supported.",

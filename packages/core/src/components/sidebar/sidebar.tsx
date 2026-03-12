@@ -1,24 +1,17 @@
-"use client";
+'use client';
 
-import React, {
-  forwardRef,
-  cloneElement,
-  isValidElement,
-  useEffect,
-  useRef,
-  useId,
-} from "react";
-import { cn, Slot } from "@ui/lib/utils";
+import React, { forwardRef, cloneElement, isValidElement, useEffect, useRef, useId } from 'react';
+import { cn, Slot } from '@ui/lib/utils';
 import {
   NavigationDrawerItemContent,
   NavigationIcon,
   NavigationRailItemContent,
   getNavigationDrawerItemClasses,
   getNavigationRailItemClasses,
-} from "@ui/lib/navigation-visuals";
-import { useSidebar } from "./sidebar-context";
-import { Ripple } from "../ripple";
-import type { NavigationItem } from "../../types/navigation";
+} from '@ui/lib/navigation-visuals';
+import { useSidebar } from './sidebar-context';
+import { Ripple } from '../ripple';
+import type { NavigationItem } from '../../types/navigation';
 
 function collectDescendantIds(items?: NavigationItem[]): string[] {
   if (!items || items.length === 0) return [];
@@ -28,10 +21,7 @@ function collectDescendantIds(items?: NavigationItem[]): string[] {
   });
 }
 
-function findNavigationItemById(
-  items: NavigationItem[],
-  id: string
-): NavigationItem | null {
+function findNavigationItemById(items: NavigationItem[], id: string): NavigationItem | null {
   for (const item of items) {
     if (item.id === id) return item;
     if (item.items && item.items.length > 0) {
@@ -49,17 +39,13 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("flex h-full", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('flex h-full', className)} {...props}>
         {children}
       </div>
     );
-  }
+  },
 );
-Sidebar.displayName = "Sidebar";
+Sidebar.displayName = 'Sidebar';
 
 export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
@@ -68,22 +54,17 @@ export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
 export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
   ({ children, className, ...props }, ref) => {
     const { handleRailLeave, railWidth, isDrawerVisible } = useSidebar();
-
-    // Use CSS media queries for responsive visibility to avoid hydration mismatch.
-    // Rail is hidden on mobile (<600px) and tablet (600-840px) via CSS, shown on desktop (840px+).
     return (
       <nav
         ref={ref}
         className={cn(
-          "relative h-full flex-col items-center",
-          "bg-surface-container text-on-surface py-3 gap-1",
-          "z-50 shrink-0",
-          "transition-all duration-medium ease-standard",
-          // CSS-based responsive: hidden below expanded breakpoint (840px)
-          "hidden expanded:flex",
-          // Only show border when drawer is visible
-          isDrawerVisible && "border-r border-outline-variant",
-          className
+          'relative h-full flex-col items-center',
+          'bg-surface-container text-on-surface gap-1 py-3',
+          'z-50 shrink-0',
+          'duration-medium ease-standard transition-all',
+          'expanded:flex hidden',
+          isDrawerVisible && 'border-outline-variant border-r',
+          className,
         )}
         style={{ width: railWidth }}
         onMouseLeave={handleRailLeave}
@@ -93,9 +74,9 @@ export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
         {children}
       </nav>
     );
-  }
+  },
 );
-SidebarRail.displayName = "SidebarRail";
+SidebarRail.displayName = 'SidebarRail';
 
 export interface SidebarRailItemProps {
   id: string;
@@ -124,9 +105,7 @@ export function SidebarRailItem({
 }: SidebarRailItemProps) {
   const { activeId, handleClick, handleHover, hasActiveChild, items } = useSidebar();
   const resolvedChildIds =
-    childIds.length > 0
-      ? childIds
-      : collectDescendantIds(findNavigationItemById(items, id)?.items);
+    childIds.length > 0 ? childIds : collectDescendantIds(findNavigationItemById(items, id)?.items);
   const isDirectlyActive = activeId === id;
   const hasChildActive = resolvedChildIds.length > 0 && hasActiveChild(resolvedChildIds);
   const isActive = isDirectlyActive || hasChildActive;
@@ -153,8 +132,8 @@ export function SidebarRailItem({
     },
     onMouseEnter: () => !disabled && handleHover(id),
     className: commonClasses,
-    "aria-current": isActive ? ("page" as const) : undefined,
-    "aria-disabled": disabled || undefined,
+    'aria-current': isActive ? ('page' as const) : undefined,
+    'aria-disabled': disabled || undefined,
   };
 
   if (asChild && children) {
@@ -169,11 +148,7 @@ export function SidebarRailItem({
 
   if (href) {
     return (
-      <a
-        href={disabled ? undefined : href}
-        {...commonProps}
-        tabIndex={disabled ? -1 : undefined}
-      >
+      <a href={disabled ? undefined : href} {...commonProps} tabIndex={disabled ? -1 : undefined}>
         {content}
       </a>
     );
@@ -212,17 +187,16 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
       <aside
         ref={ref}
         className={cn(
-          "fixed top-0 flex flex-col",
-          // Use dvh for mobile (accounts for browser chrome), screen for desktop
-          usesOverlayDrawer ? "h-dvh" : "h-screen",
-          "bg-surface-container text-on-surface",
-          "transition-transform duration-emphasized ease-emphasized",
-          "overflow-hidden", // Let SidebarContent handle scrolling
-          usesOverlayDrawer && "left-0 z-60 max-w-[85vw]",
-          !usesOverlayDrawer && "z-30",
-          isOverlay && isOpen && "shadow-3",
-          isOpen ? "translate-x-0" : "-translate-x-full",
-          className
+          'fixed top-0 flex flex-col',
+          usesOverlayDrawer ? 'h-dvh' : 'h-screen',
+          'bg-surface-container text-on-surface',
+          'duration-emphasized ease-emphasized transition-transform',
+          'overflow-hidden',
+          usesOverlayDrawer && 'left-0 z-60 max-w-[85vw]',
+          !usesOverlayDrawer && 'z-30',
+          isOverlay && isOpen && 'shadow-3',
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          className,
         )}
         style={{
           width: effectiveWidth,
@@ -236,114 +210,92 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
         {children}
       </aside>
     );
-  }
+  },
 );
-SidebarDrawer.displayName = "SidebarDrawer";
+SidebarDrawer.displayName = 'SidebarDrawer';
 
-export interface SidebarHeaderProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const SidebarHeader = forwardRef<HTMLDivElement, SidebarHeaderProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("shrink-0 px-4 pt-4 pb-2", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('shrink-0 px-4 pt-4 pb-2', className)} {...props}>
         {children}
       </div>
     );
-  }
+  },
 );
-SidebarHeader.displayName = "SidebarHeader";
+SidebarHeader.displayName = 'SidebarHeader';
 
-export interface SidebarFooterProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarFooterProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const SidebarFooter = forwardRef<HTMLDivElement, SidebarFooterProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("shrink-0 mt-auto px-4 pb-4 pt-2", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('mt-auto shrink-0 px-4 pt-2 pb-4', className)} {...props}>
         {children}
       </div>
     );
-  }
+  },
 );
-SidebarFooter.displayName = "SidebarFooter";
+SidebarFooter.displayName = 'SidebarFooter';
 
-export interface SidebarContentProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const SidebarContent = forwardRef<HTMLDivElement, SidebarContentProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn("flex-1 overflow-y-auto px-2 py-2", className)}
-        {...props}
-      >
+      <div ref={ref} className={cn('flex-1 overflow-y-auto px-2 py-2', className)} {...props}>
         {children}
       </div>
     );
-  }
+  },
 );
-SidebarContent.displayName = "SidebarContent";
+SidebarContent.displayName = 'SidebarContent';
 
-export interface SidebarGroupProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
 export const SidebarGroup = forwardRef<HTMLDivElement, SidebarGroupProps>(
   ({ children, className, ...props }, ref) => {
     return (
+      <div ref={ref} className={cn('flex flex-col gap-1', className)} {...props}>
+        {children}
+      </div>
+    );
+  },
+);
+SidebarGroup.displayName = 'SidebarGroup';
+
+export interface SidebarGroupLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: React.ReactNode;
+}
+
+export const SidebarGroupLabel = forwardRef<HTMLDivElement, SidebarGroupLabelProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
       <div
         ref={ref}
-        className={cn("flex flex-col gap-1", className)}
+        className={cn(
+          'text-label-small text-on-surface-variant px-4 py-2 font-semibold',
+          'tracking-wider uppercase',
+          className,
+        )}
         {...props}
       >
         {children}
       </div>
     );
-  }
+  },
 );
-SidebarGroup.displayName = "SidebarGroup";
-
-export interface SidebarGroupLabelProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-}
-
-export const SidebarGroupLabel = forwardRef<
-  HTMLDivElement,
-  SidebarGroupLabelProps
->(({ children, className, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "px-4 py-2 text-label-small font-semibold text-on-surface-variant",
-        "uppercase tracking-wider",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
-SidebarGroupLabel.displayName = "SidebarGroupLabel";
+SidebarGroupLabel.displayName = 'SidebarGroupLabel';
 
 export interface SidebarMenuProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -352,19 +304,13 @@ export interface SidebarMenuProps extends React.HTMLAttributes<HTMLElement> {
 export const SidebarMenu = forwardRef<HTMLElement, SidebarMenuProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <nav
-        ref={ref}
-        className={cn("flex flex-col gap-0.5", className)}
-        {...props}
-      >
+      <nav ref={ref} className={cn('flex flex-col gap-0.5', className)} {...props}>
         {children}
       </nav>
     );
-  }
+  },
 );
-SidebarMenu.displayName = "SidebarMenu";
-
-// ─── SHADCN-COMPATIBLE SIDEBAR MENU ITEM (WRAPPER) ─────────────────────────
+SidebarMenu.displayName = 'SidebarMenu';
 
 export interface SidebarMenuItemProps extends React.HTMLAttributes<HTMLLIElement> {
   children: React.ReactNode;
@@ -373,26 +319,36 @@ export interface SidebarMenuItemProps extends React.HTMLAttributes<HTMLLIElement
 export const SidebarMenuItem = forwardRef<HTMLLIElement, SidebarMenuItemProps>(
   ({ children, className, ...props }, ref) => {
     return (
-      <li ref={ref} className={cn("list-none", className)} {...props}>
+      <li ref={ref} className={cn('list-none', className)} {...props}>
         {children}
       </li>
     );
-  }
+  },
 );
-SidebarMenuItem.displayName = "SidebarMenuItem";
-
-// ─── SHADCN-COMPATIBLE SIDEBAR MENU BUTTON ─────────────────────────────────
+SidebarMenuItem.displayName = 'SidebarMenuItem';
 
 export interface SidebarMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
   isActive?: boolean;
   tooltip?: string;
-  size?: "default" | "sm" | "lg";
-  variant?: "default" | "outline";
+  size?: 'default' | 'sm' | 'lg';
+  variant?: 'default' | 'outline';
 }
 
 export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButtonProps>(
-  ({ children, className, asChild, isActive, tooltip, size = "default", variant = "default", ...props }, ref) => {
+  (
+    {
+      children,
+      className,
+      asChild,
+      isActive,
+      tooltip,
+      size = 'default',
+      variant = 'default',
+      ...props
+    },
+    ref,
+  ) => {
     const sidebar = useSidebar();
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -403,18 +359,18 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
     };
 
     const buttonClasses = cn(
-      "relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2",
-      "text-body-medium text-left transition-colors duration-short cursor-pointer",
-      "relative overflow-hidden select-none outline-none",
-      "focus-visible:ring-2 focus-visible:ring-primary",
-      size === "sm" && "min-h-8 gap-2 py-1.5 text-label-medium",
-      size === "lg" && "min-h-12 py-3 text-body-large",
+      'relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2',
+      'text-body-medium text-left transition-colors duration-short cursor-pointer',
+      'relative overflow-hidden select-none outline-none',
+      'focus-visible:ring-2 focus-visible:ring-primary',
+      size === 'sm' && 'min-h-8 gap-2 py-1.5 text-label-medium',
+      size === 'lg' && 'min-h-12 py-3 text-body-large',
       isActive
-        ? "bg-secondary-container text-on-secondary-container font-medium"
-      : "text-on-surface-variant hover:bg-state-hover hover:text-on-surface",
-      variant === "outline" && "border border-outline-variant",
-      props.disabled && "opacity-38 cursor-not-allowed pointer-events-none",
-      className
+        ? 'bg-secondary-container text-on-secondary-container font-medium'
+        : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
+      variant === 'outline' && 'border border-outline-variant',
+      props.disabled && 'opacity-38 cursor-not-allowed pointer-events-none',
+      className,
     );
 
     if (asChild && isValidElement(children)) {
@@ -444,11 +400,9 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
         {children}
       </button>
     );
-  }
+  },
 );
-SidebarMenuButton.displayName = "SidebarMenuButton";
-
-// ─── PROPS-BASED SIDEBAR NAV ITEM ─────────────────────────────────────────────
+SidebarMenuButton.displayName = 'SidebarMenuButton';
 
 export interface SidebarNavItemProps {
   id?: string;
@@ -515,7 +469,7 @@ export function SidebarNavItem({
   const commonProps = {
     onClick: handleItemClick,
     className: itemClasses,
-    "aria-current": isActive ? ("page" as const) : undefined,
+    'aria-current': isActive ? ('page' as const) : undefined,
   };
 
   if (asChild && children) {
@@ -543,57 +497,49 @@ export function SidebarNavItem({
   );
 }
 
-export interface SidebarTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children?: React.ReactNode;
 }
 
-export const SidebarTrigger = forwardRef<
-  HTMLButtonElement,
-  SidebarTriggerProps
->(({ children, className, onClick, ...props }, ref) => {
-  const { usesOverlayDrawer, toggleMobile, toggleExpanded } = useSidebar();
+export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>(
+  ({ children, className, onClick, ...props }, ref) => {
+    const { usesOverlayDrawer, toggleMobile, toggleExpanded } = useSidebar();
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (usesOverlayDrawer) {
-      toggleMobile();
-    } else {
-      toggleExpanded();
-    }
-    onClick?.(e);
-  };
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (usesOverlayDrawer) {
+        toggleMobile();
+      } else {
+        toggleExpanded();
+      }
+      onClick?.(e);
+    };
 
-  return (
-    <button
-      ref={ref}
-      onClick={handleClick}
-      className={cn(
-        "inline-flex items-center justify-center",
-        "w-10 h-10 rounded-full",
-        "text-on-surface-variant hover:bg-state-hover",
-        "transition-colors duration-short",
-        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-        className
-      )}
-      aria-label="Toggle sidebar"
-      {...props}
-    >
-      {children || <span className="material-symbols-outlined">menu</span>}
-    </button>
-  );
-});
-SidebarTrigger.displayName = "SidebarTrigger";
+    return (
+      <button
+        ref={ref}
+        onClick={handleClick}
+        className={cn(
+          'inline-flex items-center justify-center',
+          'h-10 w-10 rounded-full',
+          'text-on-surface-variant hover:bg-state-hover',
+          'duration-short transition-colors',
+          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+          className,
+        )}
+        aria-label="Toggle sidebar"
+        {...props}
+      >
+        {children || <span className="material-symbols-outlined">menu</span>}
+      </button>
+    );
+  },
+);
+SidebarTrigger.displayName = 'SidebarTrigger';
 
 export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const {
-    isDrawerVisible,
-    expanded,
-    mobileOpen,
-    usesOverlayDrawer,
-    setMobileOpen,
-  } = useSidebar();
+  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, setMobileOpen } = useSidebar();
 
   const isVisible = mobileOpen || (isDrawerVisible && !expanded);
 
@@ -602,10 +548,10 @@ export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
   return (
     <div
       className={cn(
-        "fixed inset-0 bg-scrim-soft transition-opacity duration-medium ease-standard",
-        usesOverlayDrawer ? "z-55" : "z-20",
-        "opacity-100",
-        className
+        'bg-scrim-soft duration-medium ease-standard fixed inset-0 transition-opacity',
+        usesOverlayDrawer ? 'z-55' : 'z-20',
+        'opacity-100',
+        className,
       )}
       onClick={() => {
         if (mobileOpen) {
@@ -625,30 +571,20 @@ export interface SidebarInsetProps extends React.HTMLAttributes<HTMLElement> {
 export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
   ({ children, className, style, ...props }, ref) => {
     const { railWidth, drawerWidth, expanded, usesOverlayDrawer } = useSidebar();
-
-    // Calculate desktop margin:
-    // - SidebarRail already sits in the flex layout and consumes its own width
-    // - Only reserve inline space for the pinned drawer on desktop
-    // - Hover-only drawer remains overlay and should not shift content
     const desktopMargin = expanded ? drawerWidth : 0;
 
     return (
       <main
         ref={ref}
         className={cn(
-          "flex-1 flex flex-col",
-          "bg-surface",
-          "transition-[margin] duration-emphasized ease-emphasized",
-          // Responsive: top margin for mobile/tablet (TopAppBar), none for desktop
-          "mt-16 expanded:mt-0",
-          // Height and overflow for proper scrolling (enables sticky headers)
-          // Mobile: account for TopAppBar (64px = 4rem), Desktop: full screen
-          "h-[calc(100vh-4rem)] expanded:h-screen overflow-y-auto overflow-x-hidden",
-          className
+          'flex flex-1 flex-col',
+          'bg-surface',
+          'duration-emphasized ease-emphasized transition-[margin]',
+          'expanded:mt-0 mt-16',
+          'expanded:h-screen h-[calc(100vh-4rem)] overflow-x-hidden overflow-y-auto',
+          className,
         )}
         style={{
-          // Apply margin-left only on desktop (when not using overlay drawer)
-          // On mobile/tablet, margin is 0 (content uses full width)
           marginLeft: usesOverlayDrawer ? 0 : desktopMargin,
           ...style,
         }}
@@ -657,12 +593,11 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
         {children}
       </main>
     );
-  }
+  },
 );
-SidebarInset.displayName = "SidebarInset";
+SidebarInset.displayName = 'SidebarInset';
 
-export interface SidebarCollapsibleGroupProps
-  extends React.HTMLAttributes<HTMLDivElement> {
+export interface SidebarCollapsibleGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   id: string;
   label: string;
   icon?: React.ReactNode | string;
@@ -681,19 +616,14 @@ export function SidebarCollapsibleGroup({
   childIds = [],
   ...props
 }: SidebarCollapsibleGroupProps) {
-  const { isGroupExpanded, toggleGroup, setGroupExpanded, activeId, items } =
-    useSidebar();
+  const { isGroupExpanded, toggleGroup, setGroupExpanded, activeId, items } = useSidebar();
   const contentId = useId();
   const defaultAppliedRef = useRef(false);
   const resolvedChildIds =
-    childIds.length > 0
-      ? childIds
-      : collectDescendantIds(findNavigationItemById(items, id)?.items);
+    childIds.length > 0 ? childIds : collectDescendantIds(findNavigationItemById(items, id)?.items);
   const isSelfActive = activeId === id;
   const hasActiveChild =
-    resolvedChildIds.length > 0 &&
-    activeId !== null &&
-    resolvedChildIds.includes(activeId);
+    resolvedChildIds.length > 0 && activeId !== null && resolvedChildIds.includes(activeId);
 
   useEffect(() => {
     if (!defaultAppliedRef.current && defaultOpen) {
@@ -715,18 +645,18 @@ export function SidebarCollapsibleGroup({
   };
 
   return (
-    <div className={cn("flex flex-col", className)} {...props}>
+    <div className={cn('flex flex-col', className)} {...props}>
       <button
         onClick={handleToggle}
         className={cn(
-          "relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2",
-          "text-body-medium text-left transition-colors duration-short cursor-pointer select-none outline-none",
-          "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
+          'relative flex min-h-10 w-full items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2',
+          'text-body-medium duration-short cursor-pointer text-left transition-colors outline-none select-none',
+          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset',
           isSelfActive
-            ? "bg-secondary-container text-on-secondary-container font-medium"
+            ? 'bg-secondary-container text-on-secondary-container font-medium'
             : hasActiveChild
-              ? "text-primary font-semibold hover:bg-state-hover"
-            : "text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface"
+              ? 'text-primary hover:bg-state-hover font-semibold'
+              : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface font-medium',
         )}
         aria-expanded={isOpen}
         aria-controls={contentId}
@@ -740,8 +670,8 @@ export function SidebarCollapsibleGroup({
         <span className="flex-1 truncate text-left">{label}</span>
         <svg
           className={cn(
-            "size-icon-sm transition-transform duration-medium ease-emphasized shrink-0",
-            isOpen && "rotate-180"
+            'size-icon-sm duration-medium ease-emphasized shrink-0 transition-transform',
+            isOpen && 'rotate-180',
           )}
           viewBox="0 0 24 24"
           fill="none"
@@ -757,12 +687,12 @@ export function SidebarCollapsibleGroup({
         id={contentId}
         role="region"
         className={cn(
-          "grid transition-all duration-medium ease-emphasized",
-          isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          'duration-medium ease-emphasized grid transition-all',
+          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
         )}
         aria-hidden={!isOpen}
       >
-        <div className="mt-1 flex flex-col gap-0.5 pl-4 overflow-hidden">{children}</div>
+        <div className="mt-1 flex flex-col gap-0.5 overflow-hidden pl-4">{children}</div>
       </div>
     </div>
   );

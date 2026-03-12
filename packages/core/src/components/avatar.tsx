@@ -1,30 +1,30 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@ui/lib/utils";
-import { Surface } from "@ui/primitives/surface";
-import { Text } from "@ui/primitives/text";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@ui/lib/utils';
+import { Surface } from '@ui/primitives/surface';
+import { Text } from '@ui/primitives/text';
 
 const avatarVariants = cva(
-  "relative inline-flex items-center justify-center overflow-hidden rounded-full",
+  'relative inline-flex items-center justify-center overflow-hidden rounded-full',
   {
     variants: {
       size: {
-        sm: "w-8 h-8 text-label-small",
-        md: "w-10 h-10 text-body-small",
-        lg: "w-12 h-12 text-body-medium",
-        xl: "w-14 h-14 text-body-large",
+        sm: 'w-8 h-8 text-label-small',
+        md: 'w-10 h-10 text-body-small',
+        lg: 'w-12 h-12 text-body-medium',
+        xl: 'w-14 h-14 text-body-large',
       },
       variant: {
-        circular: "rounded-full",
-        rounded: "rounded-sm",
-        square: "rounded-none",
+        circular: 'rounded-full',
+        rounded: 'rounded-sm',
+        square: 'rounded-none',
       },
     },
     defaultVariants: {
-      size: "md",
-      variant: "circular",
+      size: 'md',
+      variant: 'circular',
     },
-  }
+  },
 );
 
 export type AvatarProps = VariantProps<typeof avatarVariants> & {
@@ -34,16 +34,9 @@ export type AvatarProps = VariantProps<typeof avatarVariants> & {
   className?: string | undefined;
 };
 
-export const Avatar: React.FC<AvatarProps> = ({
-  src,
-  alt,
-  fallback,
-  size,
-  variant,
-  className,
-}) => {
-  const fallbackChar = fallback?.charAt(0).toUpperCase() || "?";
-  const fallbackLabel = fallback || alt || "Avatar";
+export const Avatar: React.FC<AvatarProps> = ({ src, alt, fallback, size, variant, className }) => {
+  const fallbackChar = fallback?.charAt(0).toUpperCase() || '?';
+  const fallbackLabel = fallback || alt || 'Avatar';
 
   return (
     <Surface
@@ -53,11 +46,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       aria-label={src ? alt : fallbackLabel}
     >
       {src ? (
-        <img
-          src={src}
-          alt={alt || "Avatar"}
-          className="w-full h-full object-cover"
-        />
+        <img src={src} alt={alt || 'Avatar'} className="h-full w-full object-cover" />
       ) : (
         <Text variant="labelLarge" className="text-inherit" aria-hidden="true">
           {fallbackChar}
@@ -77,12 +66,12 @@ export const AvatarGroup: React.FC<{
   const remainingCount = childrenArray.length - max;
 
   return (
-    <div className={cn("flex -space-x-2", className)} role="group" aria-label="Avatar group">
+    <div className={cn('flex -space-x-2', className)} role="group" aria-label="Avatar group">
       {visibleChildren}
       {remainingCount > 0 && (
         <Surface
           tone="surfaceVariant"
-          className="w-10 h-10 rounded-full flex items-center justify-center border-2 border-surface"
+          className="border-surface flex h-10 w-10 items-center justify-center rounded-full border-2"
           role="img"
           aria-label={`${remainingCount} more`}
         >

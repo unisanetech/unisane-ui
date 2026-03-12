@@ -24,7 +24,7 @@ export type SkeletonProps = VariantProps<typeof skeletonVariants> & {
   height?: number | string;
   className?: string;
   style?: React.CSSProperties;
-  /** When children provided, skeleton inherits their dimensions (MUI pattern) */
+
   children?: React.ReactNode;
 };
 
@@ -36,7 +36,6 @@ export const Skeleton: React.FC<SkeletonProps> = ({
   style,
   children,
 }) => {
-  // If children provided, render them invisibly to get dimensions
   if (children) {
     return (
       <span

@@ -86,7 +86,11 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     const resolvedShowCloseButton = showCloseButton ?? Boolean(title || description || icon);
     const hasHeader = Boolean(title || description || icon || resolvedShowCloseButton);
     const hasBodyContent = children !== undefined && children !== null;
-    const describedBy = description ? descriptionId : hasBodyContent ? bodyDescriptionId : undefined;
+    const describedBy = description
+      ? descriptionId
+      : hasBodyContent
+        ? bodyDescriptionId
+        : undefined;
 
     const handleOpenChange = React.useCallback(
       (nextOpen: boolean) => {
@@ -193,7 +197,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           elevation={5}
           rounded="lg"
           className={cn(
-            'relative flex w-full max-w-110 flex-col overflow-hidden border border-outline-muted outline-none',
+            'border-outline-muted relative flex w-full max-w-110 flex-col overflow-hidden border outline-none',
             'expanded:max-w-150 animate-in fade-in zoom-in-95 duration-medium ease-emphasized',
             className,
           )}
@@ -220,7 +224,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="titleLarge"
                     as="div"
                     id={titleId}
-                    className="wrap-break-word text-on-surface leading-tight"
+                    className="text-on-surface leading-tight wrap-break-word"
                   >
                     {title}
                   </Text>
@@ -230,7 +234,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="bodySmall"
                     as="div"
                     id={descriptionId}
-                    className="wrap-break-word text-on-surface-variant leading-relaxed"
+                    className="text-on-surface-variant leading-relaxed wrap-break-word"
                   >
                     {description}
                   </Text>
@@ -255,7 +259,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
               <div
                 id={!description ? bodyDescriptionId : undefined}
                 className={cn(
-                  'px-5 pb-5 text-left text-on-surface',
+                  'text-on-surface px-5 pb-5 text-left',
                   hasHeader ? 'pt-4' : 'pt-5',
                   contentClassName,
                 )}
@@ -268,7 +272,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {actions ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest flex flex-col justify-end gap-2 border-t px-5 py-3 medium:flex-row',
+                'border-outline-muted bg-surface-container-lowest medium:flex-row flex flex-col justify-end gap-2 border-t px-5 py-3',
                 footerClassName,
               )}
             >

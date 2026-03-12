@@ -70,16 +70,22 @@ export const tableDoc: ComponentDoc = {
       {
         emphasis: "Default",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant overflow-hidden">
-            <table className="w-full text-[10px]">
-              <thead className="bg-surface-container-low border-b border-outline-variant">
-                <tr><th className="px-2 py-1 text-left">Col 1</th><th className="px-2 py-1 text-left">Col 2</th></tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-outline-variant"><td className="px-2 py-1">A</td><td className="px-2 py-1">B</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <Card variant="outlined" padding="none" className="w-64 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Col 1</TableHead>
+                  <TableHead>Col 2</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>A</TableCell>
+                  <TableCell>B</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         ),
         rationale:
           "Standard data display with clear column headers.",
@@ -88,17 +94,26 @@ export const tableDoc: ComponentDoc = {
       {
         emphasis: "Compact",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant overflow-hidden">
-            <table className="w-full text-[9px]">
-              <thead className="bg-surface-container-low border-b border-outline-variant">
-                <tr><th className="px-1 py-0.5 text-left">Col 1</th><th className="px-1 py-0.5 text-left">Col 2</th></tr>
-              </thead>
-              <tbody>
-                <tr className="border-b border-outline-variant"><td className="px-1 py-0.5">A</td><td className="px-1 py-0.5">B</td></tr>
-                <tr><td className="px-1 py-0.5">C</td><td className="px-1 py-0.5">D</td></tr>
-              </tbody>
-            </table>
-          </div>
+          <Card variant="outlined" padding="none" className="w-64 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Item</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>A</TableCell>
+                  <TableCell><Badge variant="tonal" color="success">Ready</Badge></TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>B</TableCell>
+                  <TableCell><Badge variant="tonal" color="secondary">Pending</Badge></TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         ),
         rationale:
           "Dense data with many rows visible.",
@@ -114,21 +129,74 @@ export const tableDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="w-32 bg-surface-container-low rounded-sm p-2 text-[10px] text-on-surface-variant font-medium">TableHeader</div>
+          <Card variant="outlined" padding="none" className="w-64 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Item</TableCell>
+                  <TableCell>Ready</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         ),
         title: "Header",
         subtitle: "Column labels",
       },
       {
         component: (
-          <div className="w-32 bg-surface rounded-sm p-2 text-[10px] text-on-surface border border-outline-variant">TableBody</div>
+          <Card variant="outlined" padding="none" className="w-64 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Product</TableHead>
+                  <TableHead className="text-right">Price</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Phone</TableCell>
+                  <TableCell className="text-right">$499</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Watch</TableCell>
+                  <TableCell className="text-right">$199</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         ),
         title: "Body",
         subtitle: "Data rows",
       },
       {
         component: (
-          <div className="w-32 bg-surface rounded-sm p-2 text-[10px] text-on-surface border border-outline-variant hover:bg-surface-container-low">TableRow</div>
+          <Card variant="outlined" padding="none" className="w-64 overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-12"><Checkbox aria-label="Select all rows" /></TableHead>
+                  <TableHead>Item</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell><Checkbox defaultChecked aria-label="Select item A" /></TableCell>
+                  <TableCell>Item A</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell><Checkbox aria-label="Select item B" /></TableCell>
+                  <TableCell>Item B</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </Card>
         ),
         title: "Row",
         subtitle: "Interactive row",

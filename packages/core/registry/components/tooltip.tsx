@@ -19,11 +19,16 @@ export const Tooltip: React.FC<TooltipProps> = ({
   side = 'top',
 }) => {
   const tooltipId = useId();
-  const trigger = isValidElement<{ 'aria-describedby'?: string }>(children) && children.type !== Fragment
-    ? cloneElement(children, {
-        'aria-describedby': [children.props['aria-describedby'], tooltipId].filter(Boolean).join(' '),
+  const trigger =
+    isValidElement<{ 'aria-describedby'?: string }>(children) && children.type !== Fragment ? (
+      cloneElement(children, {
+        'aria-describedby': [children.props['aria-describedby'], tooltipId]
+          .filter(Boolean)
+          .join(' '),
       })
-    : <span aria-describedby={tooltipId}>{children}</span>;
+    ) : (
+      <span aria-describedby={tooltipId}>{children}</span>
+    );
 
   return (
     <div className="group relative inline-flex">
@@ -33,7 +38,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
         id={tooltipId}
         role="tooltip"
         className={cn(
-          'duration-snappy ease-emphasized pointer-events-none absolute z-[var(--z-popover,2000)] scale-95 whitespace-nowrap opacity-0 transition-all group-hover:scale-100 group-hover:opacity-100 group-focus-within:scale-100 group-focus-within:opacity-100',
+          'duration-snappy ease-emphasized pointer-events-none absolute z-[var(--z-popover,2000)] scale-95 whitespace-nowrap opacity-0 transition-all group-focus-within:scale-100 group-focus-within:opacity-100 group-hover:scale-100 group-hover:opacity-100',
           side === 'top' && 'bottom-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2',
           side === 'bottom' && 'top-[calc(100%+(var(--unit)*2))] left-1/2 -translate-x-1/2',
           side === 'left' && 'top-1/2 right-[calc(100%+(var(--unit)*2))] -translate-y-1/2',

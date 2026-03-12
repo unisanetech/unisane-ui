@@ -134,14 +134,15 @@ export const carouselDoc: ComponentDoc = {
       {
         emphasis: "With Controls",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-4 h-4 rounded-full bg-surface absolute left-1 flex items-center justify-center">
-              <span className="text-[8px]">&lt;</span>
-            </div>
-            <div className="w-8 h-8 bg-primary-container rounded-sm" />
-            <div className="w-4 h-4 rounded-full bg-surface absolute right-1 flex items-center justify-center">
-              <span className="text-[8px]">&gt;</span>
-            </div>
+          <div className="h-24 w-44">
+            <Carousel showControls showIndicators={false}>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-primary-container" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-secondary-container" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         rationale: "When manual navigation is needed.",
@@ -150,8 +151,15 @@ export const carouselDoc: ComponentDoc = {
       {
         emphasis: "Auto-play",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-secondary-container rounded-sm animate-pulse" />
+          <div className="h-24 w-44">
+            <Carousel autoPlay interval={3000} showControls={false} showIndicators>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-secondary-container" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-tertiary-container" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         rationale: "For passive viewing experiences.",
@@ -160,8 +168,15 @@ export const carouselDoc: ComponentDoc = {
       {
         emphasis: "Minimal",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-tertiary-container rounded-sm" />
+          <div className="h-24 w-44">
+            <Carousel showControls={false} showIndicators={false}>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         rationale: "For clean, swipe-only interfaces.",
@@ -177,19 +192,18 @@ export const carouselDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-4 h-4 rounded-full bg-surface absolute left-1 shadow-sm flex items-center justify-center">
-              <span className="text-[8px] text-on-surface">&lt;</span>
-            </div>
-            <div className="w-8 h-8 bg-primary-container rounded-sm" />
-            <div className="w-4 h-4 rounded-full bg-surface absolute right-1 shadow-sm flex items-center justify-center">
-              <span className="text-[8px] text-on-surface">&gt;</span>
-            </div>
-            <div className="absolute bottom-1 flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
-              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
-            </div>
+          <div className="h-24 w-44">
+            <Carousel showControls showIndicators>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-primary-container" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-secondary-container" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-tertiary-container" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         title: "Full controls",
@@ -197,13 +211,15 @@ export const carouselDoc: ComponentDoc = {
       },
       {
         component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-secondary-container rounded-sm" />
-            <div className="absolute bottom-1 flex gap-1">
-              <div className="w-1.5 h-1.5 rounded-full bg-secondary" />
-              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
-              <div className="w-1.5 h-1.5 rounded-full bg-outline-subtle" />
-            </div>
+          <div className="h-24 w-44">
+            <Carousel showControls={false} showIndicators>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-secondary-container" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-primary-container" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         title: "Indicators only",
@@ -211,8 +227,15 @@ export const carouselDoc: ComponentDoc = {
       },
       {
         component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative flex items-center justify-center">
-            <div className="w-8 h-8 bg-tertiary-container rounded-sm" />
+          <div className="h-24 w-44">
+            <Carousel showControls={false} showIndicators={false}>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+              </CarouselSlide>
+              <CarouselSlide>
+                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+              </CarouselSlide>
+            </Carousel>
           </div>
         ),
         title: "Minimal",

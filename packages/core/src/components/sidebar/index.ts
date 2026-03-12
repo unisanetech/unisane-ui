@@ -1,5 +1,5 @@
-export { SidebarProvider, useSidebar } from "./sidebar-context";
-export type { SidebarState, SidebarProviderProps } from "./sidebar-context";
+export { SidebarProvider, useSidebar } from './sidebar-context';
+export type { SidebarState, SidebarProviderProps } from './sidebar-context';
 
 export {
   Sidebar,
@@ -19,7 +19,7 @@ export {
   SidebarBackdrop,
   SidebarInset,
   SidebarCollapsibleGroup,
-} from "./sidebar";
+} from './sidebar';
 
 export type {
   SidebarProps,
@@ -39,4 +39,4 @@ export type {
   SidebarBackdropProps,
   SidebarInsetProps,
   SidebarCollapsibleGroupProps,
-} from "./sidebar";
+} from './sidebar';

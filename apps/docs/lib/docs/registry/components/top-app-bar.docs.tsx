@@ -119,10 +119,13 @@ export const topAppBarDoc: ComponentDoc = {
       {
         emphasis: "Small",
         component: (
-          <div className="w-32 h-8 bg-surface border border-outline-variant rounded-sm flex items-center px-2 justify-between">
-            <span className="material-symbols-outlined text-[14px] text-on-surface">menu</span>
-            <span className="text-label-small text-primary">Title</span>
-            <span className="material-symbols-outlined text-[14px] text-on-surface-variant">more_vert</span>
+          <div className="w-64 overflow-hidden rounded-sm border border-outline-variant">
+            <TopAppBar
+              variant="small"
+              title="Title"
+              navigationIcon={<IconButton variant="standard" icon={<span className="material-symbols-outlined">menu</span>} aria-label="Menu" />}
+              actions={<IconButton variant="standard" icon={<span className="material-symbols-outlined">more_vert</span>} aria-label="More" />}
+            />
           </div>
         ),
         rationale: "Default variant for most screens.",
@@ -131,9 +134,13 @@ export const topAppBarDoc: ComponentDoc = {
       {
         emphasis: "Center",
         component: (
-          <div className="w-32 h-8 bg-surface border border-outline-variant rounded-sm flex items-center px-2">
-            <span className="material-symbols-outlined text-[14px] text-on-surface">arrow_back</span>
-            <span className="text-label-small text-primary flex-1 text-center">Title</span>
+          <div className="w-64 overflow-hidden rounded-sm border border-outline-variant">
+            <TopAppBar
+              variant="center"
+              title="Title"
+              navigationIcon={<IconButton variant="standard" icon={<span className="material-symbols-outlined">arrow_back</span>} aria-label="Back" />}
+              actions={<IconButton variant="standard" icon={<span className="material-symbols-outlined">share</span>} aria-label="Share" />}
+            />
           </div>
         ),
         rationale: "For focused, single-purpose screens.",
@@ -142,8 +149,12 @@ export const topAppBarDoc: ComponentDoc = {
       {
         emphasis: "Medium",
         component: (
-          <div className="w-32 h-12 bg-surface border border-outline-variant rounded-sm flex flex-col p-2 justify-end">
-            <span className="text-label-small text-on-surface">Title</span>
+          <div className="w-64 overflow-hidden rounded-sm border border-outline-variant">
+            <TopAppBar
+              variant="medium"
+              title="Section Title"
+              navigationIcon={<IconButton variant="standard" icon={<span className="material-symbols-outlined">menu</span>} aria-label="Menu" />}
+            />
           </div>
         ),
         rationale: "More prominent title display.",
@@ -152,8 +163,12 @@ export const topAppBarDoc: ComponentDoc = {
       {
         emphasis: "Large",
         component: (
-          <div className="w-32 h-16 bg-surface border border-outline-variant rounded-sm flex flex-col p-2 justify-end">
-            <span className="text-body-small text-on-surface">Large Title</span>
+          <div className="w-64 overflow-hidden rounded-sm border border-outline-variant">
+            <TopAppBar
+              variant="large"
+              title="Large Title"
+              navigationIcon={<IconButton variant="standard" icon={<span className="material-symbols-outlined">menu</span>} aria-label="Menu" />}
+            />
           </div>
         ),
         rationale: "Maximum title prominence.",

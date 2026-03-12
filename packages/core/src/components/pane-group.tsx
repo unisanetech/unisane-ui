@@ -1,5 +1,5 @@
-import React from "react";
-import { cn } from "@ui/lib/utils";
+import React from 'react';
+import { cn } from '@ui/lib/utils';
 
 export interface PaneGroupProps {
   sidebar: React.ReactNode;
@@ -15,13 +15,11 @@ export const PaneGroup: React.FC<PaneGroupProps> = ({
   className,
 }) => {
   return (
-    <div
-      className={cn("flex w-full h-full overflow-hidden bg-surface", className)}
-    >
+    <div className={cn('bg-surface flex h-full w-full overflow-hidden', className)}>
       <div
         className={cn(
-          "shrink-0 w-full medium:w-(--width-pane-list,var(--spacing-90)) h-full overflow-y-auto border-r border-outline-muted transition-transform duration-long ease-emphasized",
-          showDetail ? "hidden medium:block" : "block"
+          'medium:w-(--width-pane-list,var(--spacing-90)) border-outline-muted duration-long ease-emphasized h-full w-full shrink-0 overflow-y-auto border-r transition-transform',
+          showDetail ? 'medium:block hidden' : 'block',
         )}
       >
         {sidebar}
@@ -29,8 +27,8 @@ export const PaneGroup: React.FC<PaneGroupProps> = ({
 
       <div
         className={cn(
-          "flex-1 h-full overflow-y-auto bg-surface medium:bg-surface-container transition-opacity duration-long ease-standard",
-          !showDetail ? "hidden medium:block" : "block"
+          'bg-surface medium:bg-surface-container duration-long ease-standard h-full flex-1 overflow-y-auto transition-opacity',
+          !showDetail ? 'medium:block hidden' : 'block',
         )}
       >
         {detail}

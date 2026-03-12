@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState, useId } from "react";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/primitives/icon";
-import { Ripple } from "./ripple";
+import React, { useState, useId } from 'react';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
+import { Ripple } from './ripple';
 
 interface AccordionContextValue {
   expanded: string[];
@@ -13,14 +13,14 @@ interface AccordionContextValue {
 const AccordionContext = React.createContext<AccordionContextValue | null>(null);
 
 export interface AccordionProps {
-  type?: "single" | "multiple";
+  type?: 'single' | 'multiple';
   defaultValue?: string[];
   children: React.ReactNode;
   className?: string;
 }
 
 export const Accordion: React.FC<AccordionProps> = ({
-  type = "single",
+  type = 'single',
   defaultValue = [],
   children,
   className,
@@ -28,13 +28,13 @@ export const Accordion: React.FC<AccordionProps> = ({
   const [expanded, setExpanded] = useState<string[]>(defaultValue);
 
   const toggle = (value: string) => {
-    if (type === "single") {
+    if (type === 'single') {
       setExpanded((prev) => (prev.includes(value) ? [] : [value]));
       return;
     }
 
     setExpanded((prev) =>
-      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]
+      prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value],
     );
   };
 
@@ -42,8 +42,8 @@ export const Accordion: React.FC<AccordionProps> = ({
     <AccordionContext.Provider value={{ expanded, toggle }}>
       <div
         className={cn(
-          "flex flex-col border border-outline-subtle rounded-sm overflow-hidden bg-surface",
-          className
+          'border-outline-subtle bg-surface flex flex-col overflow-hidden rounded-sm border',
+          className,
         )}
       >
         {children}
@@ -58,11 +58,7 @@ export interface AccordionItemProps {
   className?: string;
 }
 
-export const AccordionItem: React.FC<AccordionItemProps> = ({
-  value,
-  children,
-  className,
-}) => {
+export const AccordionItem: React.FC<AccordionItemProps> = ({ value, children, className }) => {
   const context = React.useContext(AccordionContext);
   const isExpanded = context?.expanded.includes(value);
   const contentId = useId();
@@ -71,9 +67,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   return (
     <div
       className={cn(
-        "border-b border-outline-soft last:border-none",
-        isExpanded && "bg-surface-container-low",
-        className
+        'border-outline-soft border-b last:border-none',
+        isExpanded && 'bg-surface-container-low',
+        className,
       )}
     >
       {React.Children.map(children, (child) => {
@@ -109,33 +105,31 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   const context = React.useContext(AccordionContext);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" || e.key === " ") {
+    if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      context?.toggle(value);
+      context?.toggle(value!);
     }
   };
 
   return (
     <button
       id={triggerId}
-      onClick={() => context?.toggle(value)}
+      onClick={() => context?.toggle(value!)}
       onKeyDown={handleKeyDown}
       aria-expanded={isExpanded}
       aria-controls={contentId}
       className={cn(
-        "w-full h-12 px-4 flex items-center justify-between text-label-medium font-medium transition-all relative overflow-hidden group",
-        isExpanded ? "text-primary" : "text-on-surface hover:bg-state-hover"
+        'text-label-medium group relative flex h-12 w-full items-center justify-between overflow-hidden px-4 font-medium transition-all',
+        isExpanded ? 'text-primary' : 'text-on-surface hover:bg-state-hover',
       )}
     >
       <Ripple />
-      <span className="relative z-10 flex-1 text-left pt-0.5">
-        {children}
-      </span>
+      <span className="relative z-10 flex-1 pt-0.5 text-left">{children}</span>
       <Icon
         symbol="expand_more"
         className={cn(
-          "transition-transform duration-medium ease-emphasized relative z-10",
-          isExpanded && "rotate-180"
+          'duration-medium ease-emphasized relative z-10 transition-transform',
+          isExpanded && 'rotate-180',
         )}
       />
     </button>
@@ -161,11 +155,11 @@ export const AccordionContent: React.FC<AccordionContentProps> = ({
     aria-labelledby={triggerId}
     aria-hidden={!isExpanded}
     className={cn(
-      "overflow-hidden transition-all duration-medium ease-emphasized",
-      isExpanded ? "max-h-250 opacity-100" : "max-h-0 opacity-0"
+      'duration-medium ease-emphasized overflow-hidden transition-all',
+      isExpanded ? 'max-h-250 opacity-100' : 'max-h-0 opacity-0',
     )}
   >
-    <div className="px-4 pb-4 pt-1 text-on-surface-variant text-body-small font-medium leading-relaxed">
+    <div className="text-on-surface-variant text-body-small px-4 pt-1 pb-4 leading-relaxed font-medium">
       {children}
     </div>
   </div>

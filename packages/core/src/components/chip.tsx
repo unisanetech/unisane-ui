@@ -41,7 +41,10 @@ const chipVariants = cva(
   },
 );
 
-export type ChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children' | 'onClick' | 'onSelect'> &
+export type ChipProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'children' | 'onClick' | 'onSelect'
+> &
   VariantProps<typeof chipVariants> & {
     label: string;
     icon?: ReactNode;
@@ -101,7 +104,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
             {icon}
           </span>
         ) : null}
-        <span className="relative z-10 truncate leading-none pt-0.5">{label}</span>
+        <span className="relative z-10 truncate pt-0.5 leading-none">{label}</span>
       </>
     );
 
@@ -115,7 +118,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
           <Ripple disabled={disabled} />
           <div
             className={cn(
-              'pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed transition-opacity duration-medium',
+              'group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed duration-medium pointer-events-none absolute inset-0 opacity-0 transition-opacity',
               isSelectedFilter ? 'bg-on-primary-container' : 'bg-on-surface-variant',
             )}
           />
@@ -169,11 +172,13 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
         {...(props as HTMLAttributes<HTMLDivElement>)}
       >
         {renderStateLayer()}
-        <div className="pointer-events-none flex min-w-0 items-center gap-2">{renderChipBody()}</div>
+        <div className="pointer-events-none flex min-w-0 items-center gap-2">
+          {renderChipBody()}
+        </div>
         {onDelete && (
           <button
             type="button"
-            className="relative z-10 -mr-1 ml-1 rounded-sm p-0.5 transition-colors hover:bg-state-hover hover:text-on-surface focus-visible:ring-2 focus-visible:ring-primary"
+            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary relative z-10 -mr-1 ml-1 rounded-sm p-0.5 transition-colors focus-visible:ring-2"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();

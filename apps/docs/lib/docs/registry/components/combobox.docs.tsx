@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { Combobox } from "@unisane/ui";
+import { Combobox, Select } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ComboboxHeroVisual = () => (
@@ -107,9 +107,16 @@ export const comboboxDoc: ComponentDoc = {
       {
         emphasis: "Combobox",
         component: (
-          <div className="w-36 h-10 bg-surface-container-high rounded-sm px-3 flex items-center gap-2 border border-outline-variant">
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
-            <span className="text-body-small text-on-surface-variant">Search...</span>
+          <div className="w-52">
+            <Combobox
+              options={[
+                { value: "us", label: "United States" },
+                { value: "uk", label: "United Kingdom" },
+                { value: "ae", label: "United Arab Emirates" },
+              ]}
+              value="us"
+              placeholder="Search country..."
+            />
           </div>
         ),
         rationale: "When options list is long or filtering is helpful.",
@@ -118,9 +125,16 @@ export const comboboxDoc: ComponentDoc = {
       {
         emphasis: "Select",
         component: (
-          <div className="w-36 h-10 bg-surface-container-high rounded-sm px-3 flex items-center justify-between">
-            <span className="text-body-small text-on-surface">Option 1</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px]">expand_more</span>
+          <div className="w-52">
+            <Select
+              options={[
+                { value: "one", label: "Option 1" },
+                { value: "two", label: "Option 2" },
+                { value: "three", label: "Option 3" },
+              ]}
+              value="one"
+              placeholder="Choose option"
+            />
           </div>
         ),
         rationale: "When options list is short and well-known.",

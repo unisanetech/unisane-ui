@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { forwardRef, isValidElement, cloneElement } from "react";
-import { cn, Slot } from "@ui/lib/utils";
-import { Ripple } from "../ripple";
-import type { NavigationVariant } from "../../types/navigation";
+import React, { forwardRef, isValidElement, cloneElement } from 'react';
+import { cn, Slot } from '@ui/lib/utils';
+import { Ripple } from '../ripple';
+import type { NavigationVariant } from '../../types/navigation';
 
 export interface NavItemProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onClick'> {
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
       disabled = false,
       href,
       onClick,
-      variant = "default",
+      variant = 'default',
       compact = false,
       className,
       as,
@@ -41,45 +41,42 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
       linkElement,
       ...props
     },
-    ref
+    ref,
   ) => {
     const Component = as || (href ? 'a' : 'button');
 
     const baseClasses = cn(
-      "group relative flex items-center gap-3",
-      "w-full text-left",
-      "rounded-sm",
-      "transition-all duration-short ease-standard",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-      "overflow-hidden select-none",
-      variant === "compact" && "px-3 py-2 min-h-10",
-      variant === "default" && "px-4 py-2.5 min-h-12",
-      variant === "comfortable" && "px-5 py-3 min-h-14",
-      active && [
-        "bg-secondary-container text-on-secondary-container",
-        "font-semibold",
-      ],
+      'group relative flex items-center gap-3',
+      'w-full text-left',
+      'rounded-sm',
+      'transition-all duration-short ease-standard',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+      'overflow-hidden select-none',
+      variant === 'compact' && 'px-3 py-2 min-h-10',
+      variant === 'default' && 'px-4 py-2.5 min-h-12',
+      variant === 'comfortable' && 'px-5 py-3 min-h-14',
+      active && ['bg-secondary-container text-on-secondary-container', 'font-semibold'],
       !active && [
-        "text-on-surface-variant",
-        !disabled && "hover:bg-surface-variant hover:text-on-surface",
+        'text-on-surface-variant',
+        !disabled && 'hover:bg-surface-variant hover:text-on-surface',
       ],
-      disabled && "opacity-38 cursor-not-allowed pointer-events-none",
+      disabled && 'opacity-38 cursor-not-allowed pointer-events-none',
 
-      className
+      className,
     );
 
     const badgeElement = badge !== undefined && (
       <span
         className={cn(
-          "absolute top-1 right-1",
-          "min-w-4 h-4 px-1",
-          "flex items-center justify-center",
-          "bg-error text-on-error",
-          "text-label-small font-medium leading-none",
-          "rounded-full",
-          "pointer-events-none z-20",
-          "ring-1 ring-surface",
-          typeof badge === "number" && badge < 10 && "min-w-3 h-3 p-1"
+          'absolute top-1 right-1',
+          'h-4 min-w-4 px-1',
+          'flex items-center justify-center',
+          'bg-error text-on-error',
+          'text-label-small leading-none font-medium',
+          'rounded-full',
+          'pointer-events-none z-20',
+          'ring-surface ring-1',
+          typeof badge === 'number' && badge < 10 && 'h-3 min-w-3 p-1',
         )}
       >
         {badge}
@@ -90,10 +87,10 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
       <>
         <span
           className={cn(
-            "absolute inset-0 pointer-events-none bg-current opacity-0 transition-opacity duration-short",
-            "group-hover:opacity-hover",
-            "group-focus-visible:opacity-focus",
-            "group-active:opacity-pressed"
+            'duration-short pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity',
+            'group-hover:opacity-hover',
+            'group-focus-visible:opacity-focus',
+            'group-active:opacity-pressed',
           )}
         />
 
@@ -102,10 +99,10 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
         {icon && (
           <span
             className={cn(
-              "relative z-10 flex items-center justify-center shrink-0",
-              "w-6 h-6",
-              "transition-transform duration-short",
-              active && "scale-110"
+              'relative z-10 flex shrink-0 items-center justify-center',
+              'h-6 w-6',
+              'duration-short transition-transform',
+              active && 'scale-110',
             )}
           >
             {icon}
@@ -115,9 +112,9 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
         {!compact && (
           <span
             className={cn(
-              "relative z-10 flex-1 min-w-0",
-              "text-label-large leading-tight",
-              "truncate"
+              'relative z-10 min-w-0 flex-1',
+              'text-label-large leading-tight',
+              'truncate',
             )}
           >
             {children}
@@ -142,13 +139,12 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
       ...props,
     };
 
-    // asChild pattern: render user's Link component with merged props
     if (asChild && linkElement && isValidElement(linkElement)) {
       return (
         <Slot
           className={baseClasses}
           onClick={disabled ? undefined : onClick}
-          aria-current={active ? "page" : undefined}
+          aria-current={active ? 'page' : undefined}
           aria-disabled={disabled || undefined}
         >
           {cloneElement(linkElement as React.ReactElement, {}, content)}
@@ -157,7 +153,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
     }
 
     return <Component {...componentProps}>{content}</Component>;
-  }
+  },
 );
 
-NavItem.displayName = "NavItem";
+NavItem.displayName = 'NavItem';

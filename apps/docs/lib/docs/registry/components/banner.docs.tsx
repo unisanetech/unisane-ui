@@ -2,6 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { Banner } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const BannerHeroVisual = () => (
@@ -33,26 +34,25 @@ const BannerHeroVisual = () => (
 
 // ─── PLACEMENT VISUALS ────────────────────────────────────────────────────────
 const BannerDefaultVisual = () => (
-  <div className="w-72 mx-auto bg-surface rounded-sm overflow-hidden border border-outline-variant">
-    <div className="flex items-start gap-3 p-3 border-b border-outline-variant">
-      <span className="material-symbols-outlined text-primary text-[20px]">info</span>
-      <div className="flex-1 min-w-0">
-        <div className="text-body-small text-on-surface-variant">New features are now available.</div>
-      </div>
-      <span className="text-on-surface-variant text-[16px]">×</span>
-    </div>
+  <div className="w-72 mx-auto">
+    <Banner
+      open
+      onClose={() => {}}
+      message="New features are now available."
+      icon={<span className="material-symbols-outlined">info</span>}
+    />
   </div>
 );
 
 const BannerWarningVisual = () => (
-  <div className="w-72 mx-auto bg-warning-container rounded-sm overflow-hidden border border-outline-variant">
-    <div className="flex items-start gap-3 p-3">
-      <span className="material-symbols-outlined text-on-warning-container text-[20px]">warning</span>
-      <div className="flex-1 min-w-0">
-        <div className="text-body-small text-on-warning-container font-medium">Your session expires in 5 minutes.</div>
-      </div>
-      <span className="text-on-warning-container text-[16px]">×</span>
-    </div>
+  <div className="w-72 mx-auto">
+    <Banner
+      open
+      onClose={() => {}}
+      variant="warning"
+      message="Your session expires in 5 minutes."
+      icon={<span className="material-symbols-outlined">warning</span>}
+    />
   </div>
 );
 
@@ -87,9 +87,12 @@ export const bannerDoc: ComponentDoc = {
       {
         emphasis: "Default",
         component: (
-          <div className="w-40 bg-surface rounded-sm p-2 border border-outline-variant">
-            <div className="text-body-small text-on-surface-variant">Info message</div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            message="Info message"
+            icon={<span className="material-symbols-outlined">info</span>}
+          />
         ),
         rationale:
           "General information or announcements.",
@@ -98,9 +101,13 @@ export const bannerDoc: ComponentDoc = {
       {
         emphasis: "Warning",
         component: (
-          <div className="w-40 bg-warning-container rounded-sm p-2">
-            <div className="text-body-small text-on-warning-container">Warning message</div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            variant="warning"
+            message="Warning message"
+            icon={<span className="material-symbols-outlined">warning</span>}
+          />
         ),
         rationale:
           "Caution or attention needed.",
@@ -109,9 +116,13 @@ export const bannerDoc: ComponentDoc = {
       {
         emphasis: "Error",
         component: (
-          <div className="w-40 bg-error-container rounded-sm p-2">
-            <div className="text-body-small text-on-error-container">Error message</div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            variant="error"
+            message="Error message"
+            icon={<span className="material-symbols-outlined">error</span>}
+          />
         ),
         rationale:
           "Critical issues requiring action.",
@@ -127,31 +138,35 @@ export const bannerDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="w-36 bg-surface rounded-sm p-2 border border-outline-variant">
-            <div className="text-body-small text-on-surface-variant">Simple message</div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            message="Simple message"
+          />
         ),
         title: "Simple",
         subtitle: "Message only",
       },
       {
         component: (
-          <div className="w-36 bg-surface rounded-sm p-2 border border-outline-variant">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-primary text-[16px]">info</span>
-              <div className="text-body-small text-on-surface-variant">With icon</div>
-            </div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            message="With icon"
+            icon={<span className="material-symbols-outlined">info</span>}
+          />
         ),
         title: "With Icon",
         subtitle: "Visual indicator",
       },
       {
         component: (
-          <div className="w-36 bg-surface rounded-sm p-2 border border-outline-variant">
-            <div className="text-label-small text-on-surface font-medium">Title</div>
-            <div className="text-body-small text-on-surface-variant">Message</div>
-          </div>
+          <Banner
+            open
+            onClose={() => {}}
+            title="Title"
+            message="Message"
+          />
         ),
         title: "With Title",
         subtitle: "Title + message",

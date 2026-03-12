@@ -1,28 +1,28 @@
-import React, { forwardRef } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@ui/lib/utils";
-import { Text } from "@ui/primitives/text";
+import React, { forwardRef } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@ui/lib/utils';
+import { Text } from '@ui/primitives/text';
 
 const topAppBarVariants = cva(
-  "relative z-20 flex w-full items-center border-b border-outline-subtle bg-surface px-4 text-on-surface transition-all duration-medium ease-standard",
+  'relative z-20 flex w-full items-center border-b border-outline-subtle bg-surface px-4 text-on-surface transition-all duration-medium ease-standard',
   {
     variants: {
       variant: {
-        center: "h-16 justify-between",
-        small: "h-16 justify-between",
-        medium: "h-28 flex-col items-start justify-end pb-6",
-        large: "h-38 flex-col items-start justify-end pb-8",
+        center: 'h-16 justify-between',
+        small: 'h-16 justify-between',
+        medium: 'h-28 flex-col items-start justify-end pb-6',
+        large: 'h-38 flex-col items-start justify-end pb-8',
       },
       scrolled: {
-        true: "bg-surface-container shadow-2",
-        false: "",
+        true: 'bg-surface-container shadow-2',
+        false: '',
       },
     },
     defaultVariants: {
-      variant: "small",
+      variant: 'small',
       scrolled: false,
     },
-  }
+  },
 );
 
 export type TopAppBarProps = VariantProps<typeof topAppBarVariants> & {
@@ -30,7 +30,7 @@ export type TopAppBarProps = VariantProps<typeof topAppBarVariants> & {
   navigationIcon?: React.ReactNode;
   actions?: React.ReactNode;
   className?: string;
-} & Omit<React.HTMLAttributes<HTMLElement>, "children" | "title">;
+} & Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'title'>;
 
 export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
   (
@@ -41,14 +41,14 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
       navigationIcon,
       actions,
       className,
-      ["aria-label"]: ariaLabel,
+      ['aria-label']: ariaLabel,
       ...props
     },
-    ref
+    ref,
   ) => {
-    const isTall = variant === "medium" || variant === "large";
-    const isCenter = variant === "center";
-    const titleString = typeof title === "string" ? title : undefined;
+    const isTall = variant === 'medium' || variant === 'large';
+    const isCenter = variant === 'center';
+    const titleString = typeof title === 'string' ? title : undefined;
 
     return (
       <header
@@ -59,30 +59,22 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
       >
         <div
           className={cn(
-            "flex w-full items-center",
-            isTall ? "mb-auto h-16" : "h-full",
-            isCenter ? "relative justify-center" : "justify-between"
+            'flex w-full items-center',
+            isTall ? 'mb-auto h-16' : 'h-full',
+            isCenter ? 'relative justify-center' : 'justify-between',
           )}
         >
           {navigationIcon && (
-            <div
-              className={cn(
-                "text-on-surface mr-4 z-10",
-                isCenter ? "absolute left-0" : ""
-              )}
-            >
+            <div className={cn('text-on-surface z-10 mr-4', isCenter ? 'absolute left-0' : '')}>
               {navigationIcon}
             </div>
           )}
 
           {!isTall && (
             <div
-              className={cn(
-                "truncate",
-                isCenter ? "w-full px-12 text-center" : "flex-1 text-left"
-              )}
+              className={cn('truncate', isCenter ? 'w-full px-12 text-center' : 'flex-1 text-left')}
             >
-              <Text variant="titleLarge" className="truncate text-primary">
+              <Text variant="titleLarge" className="text-primary truncate">
                 {title}
               </Text>
             </div>
@@ -90,8 +82,8 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
 
           <div
             className={cn(
-              "z-10 flex items-center gap-2 text-on-surface-variant",
-              isCenter && "absolute right-0"
+              'text-on-surface-variant z-10 flex items-center gap-2',
+              isCenter && 'absolute right-0',
             )}
           >
             {actions}
@@ -101,12 +93,12 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
         {isTall && (
           <div
             className={cn(
-              "w-full px-4 transition-opacity duration-short",
-              scrolled ? "h-0 overflow-hidden opacity-0" : "opacity-100"
+              'duration-short w-full px-4 transition-opacity',
+              scrolled ? 'h-0 overflow-hidden opacity-0' : 'opacity-100',
             )}
           >
             <Text
-              variant={variant === "large" ? "headlineMedium" : "headlineSmall"}
+              variant={variant === 'large' ? 'headlineMedium' : 'headlineSmall'}
               className="truncate"
             >
               {title}
@@ -115,7 +107,7 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
         )}
       </header>
     );
-  }
+  },
 );
 
-TopAppBar.displayName = "TopAppBar";
+TopAppBar.displayName = 'TopAppBar';

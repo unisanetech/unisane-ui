@@ -1,27 +1,27 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { Surface } from "@/primitives/surface";
-import { Text } from "@/primitives/text";
-import { Button } from "./button";
-import { IconButton } from "./icon-button";
-import { Icon } from "@/primitives/icon";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { Surface } from '@/primitives/surface';
+import { Text } from '@/primitives/text';
+import { Button } from './button';
+import { IconButton } from './icon-button';
+import { Icon } from '@/primitives/icon';
 
 const bannerVariants = cva(
-  "relative w-full flex items-start gap-4 p-4 border-b border-outline-subtle transition-all duration-medium ease-standard",
+  'relative w-full flex items-start gap-4 p-4 border-b border-outline-subtle transition-all duration-medium ease-standard',
   {
     variants: {
       variant: {
-        default: "bg-surface text-on-surface",
-        info: "bg-surface text-on-surface",
-        warning: "bg-warning-container text-on-warning-container",
-        error: "bg-error-container text-on-error-container",
+        default: 'bg-surface text-on-surface',
+        info: 'bg-info-container text-on-info-container',
+        warning: 'bg-warning-container text-on-warning-container',
+        error: 'bg-error-container text-on-error-container',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
-  }
+  },
 );
 
 export type BannerProps = VariantProps<typeof bannerVariants> & {
@@ -45,44 +45,58 @@ export const Banner: React.FC<BannerProps> = ({
   message,
   actions,
   className,
-  variant = "default",
+  variant = 'default',
 }) => {
   if (!open) return null;
 
-  const role = variant === "error" ? "alert" : variant === "warning" ? "alert" : "status";
+  const role = variant === 'error' ? 'alert' : variant === 'warning' ? 'alert' : 'status';
+  const isDefaultVariant = variant === 'default';
 
   return (
     <Surface
       tone="surface"
       className={cn(bannerVariants({ variant, className }))}
       role={role}
-      aria-live={variant === "error" || variant === "warning" ? "assertive" : "polite"}
+      aria-live={variant === 'error' || variant === 'warning' ? 'assertive' : 'polite'}
     >
       {icon && (
-        <div className="size-icon-sm flex items-center justify-center text-primary mt-0.5 shrink-0">
+        <div
+          className={cn(
+            'size-icon-sm mt-0.5 flex shrink-0 items-center justify-center',
+            isDefaultVariant ? 'text-primary' : 'text-inherit',
+          )}
+        >
           {icon}
         </div>
       )}
 
-      <div className="flex-1 min-w-0">
+      <div className="min-w-0 flex-1">
         {title && (
-          <Text variant="titleSmall" className="text-on-surface mb-1">
+          <Text
+            variant="titleSmall"
+            className={cn('mb-1', isDefaultVariant ? 'text-on-surface' : 'text-inherit')}
+          >
             {title}
           </Text>
         )}
-        <div className="text-body-small text-on-surface-variant leading-relaxed">
+        <div
+          className={cn(
+            'text-body-small leading-relaxed',
+            isDefaultVariant ? 'text-on-surface-variant' : 'text-inherit opacity-90',
+          )}
+        >
           {message}
         </div>
 
         {actions && actions.length > 0 && (
-          <div className="flex gap-2 mt-4">
+          <div className="mt-4 flex gap-2">
             {actions.map((action, index) => (
               <Button
                 key={index}
                 variant="text"
                 size="sm"
                 onClick={action.onClick}
-                className="text-primary font-medium"
+                className={cn('font-medium', isDefaultVariant ? 'text-primary' : 'text-inherit')}
               >
                 {action.label}
               </Button>
@@ -94,7 +108,12 @@ export const Banner: React.FC<BannerProps> = ({
       <IconButton
         icon={<Icon symbol="close" size="sm" />}
         onClick={onClose}
-        className="text-on-surface-variant hover:bg-state-hover ml-2 shrink-0"
+        className={cn(
+          'hover:bg-state-hover ml-2 shrink-0',
+          isDefaultVariant
+            ? 'text-on-surface-variant'
+            : 'text-inherit opacity-80 hover:opacity-100',
+        )}
         aria-label="Close banner"
       />
     </Surface>

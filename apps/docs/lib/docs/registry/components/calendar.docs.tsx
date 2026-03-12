@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { Calendar } from "@unisane/ui";
+import { Calendar, DatePicker } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CalendarHeroVisual = () => (
@@ -87,12 +87,8 @@ export const calendarDoc: ComponentDoc = {
       {
         emphasis: "Calendar",
         component: (
-          <div className="w-24 h-20 bg-surface-container rounded-sm p-2">
-            <div className="grid grid-cols-7 gap-0.5">
-              {Array.from({ length: 21 }).map((_, i) => (
-                <div key={i} className={`w-2 h-2 rounded-full ${i === 10 ? "bg-primary" : "bg-outline-subtle"}`} />
-              ))}
-            </div>
+          <div className="w-48">
+            <Calendar selectedDate={new Date(2024, 11, 15)} />
           </div>
         ),
         rationale: "When users need to see the full month context.",
@@ -101,9 +97,8 @@ export const calendarDoc: ComponentDoc = {
       {
         emphasis: "Date Picker",
         component: (
-          <div className="w-32 h-10 bg-surface-container-high rounded-sm px-3 flex items-center justify-between">
-            <span className="text-body-small text-on-surface">Dec 15, 2024</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-[18px]">calendar_today</span>
+          <div className="w-48">
+            <DatePicker value={new Date(2024, 11, 15)} label="Date" />
           </div>
         ),
         rationale: "When space is limited or date entry is secondary.",

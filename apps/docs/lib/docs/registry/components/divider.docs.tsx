@@ -58,11 +58,11 @@ export const dividerDoc: ComponentDoc = {
       {
         emphasis: "Full bleed",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant overflow-hidden">
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 1</div>
-            <div className="h-px bg-outline-variant w-full" />
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 2</div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-52 overflow-hidden">
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 1</div>
+            <Divider variant="full-bleed" />
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 2</div>
+          </Card>
         ),
         rationale:
           "Edge-to-edge separation.",
@@ -71,11 +71,11 @@ export const dividerDoc: ComponentDoc = {
       {
         emphasis: "Inset",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant overflow-hidden">
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 1</div>
-            <div className="h-px bg-outline-variant ml-3" />
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 2</div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-52 overflow-hidden">
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 1</div>
+            <Divider variant="inset" />
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 2</div>
+          </Card>
         ),
         rationale:
           "Aligned with content inset.",
@@ -84,11 +84,11 @@ export const dividerDoc: ComponentDoc = {
       {
         emphasis: "Middle",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant overflow-hidden">
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 1</div>
-            <div className="h-px bg-outline-variant mx-3" />
-            <div className="px-3 py-2 text-[10px] text-on-surface">Item 2</div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-52 overflow-hidden">
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 1</div>
+            <Divider variant="middle" />
+            <div className="px-3 py-2 text-label-small text-on-surface">Item 2</div>
+          </Card>
         ),
         rationale:
           "Centered with margins on both sides.",
@@ -104,9 +104,8 @@ export const dividerDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="w-32 flex flex-col items-center gap-2">
-            <div className="w-full h-px bg-outline-variant" />
-            <span className="text-[10px] text-on-surface-variant">Horizontal</span>
+          <div className="w-32">
+            <Divider />
           </div>
         ),
         title: "Horizontal",
@@ -114,9 +113,8 @@ export const dividerDoc: ComponentDoc = {
       },
       {
         component: (
-          <div className="h-12 flex items-center gap-2">
-            <div className="h-full w-px bg-outline-variant" />
-            <span className="text-[10px] text-on-surface-variant">Vertical</span>
+          <div className="flex h-16 items-center justify-center">
+            <Divider orientation="vertical" />
           </div>
         ),
         title: "Vertical",

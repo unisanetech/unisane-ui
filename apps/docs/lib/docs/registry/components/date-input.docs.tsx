@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { DateInput } from "@unisane/ui";
+import { DateInput, DatePicker } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DateInputHeroVisual = () => (
@@ -171,12 +171,8 @@ export const dateInputDoc: ComponentDoc = {
       {
         emphasis: "Date Input",
         component: (
-          <div className="w-36 h-10 bg-surface border border-outline-variant rounded-sm px-3 flex items-center gap-0.5">
-            <span className="text-body-small text-on-surface">12</span>
-            <span className="text-on-surface-variant">/</span>
-            <span className="text-body-small text-on-surface">25</span>
-            <span className="text-on-surface-variant">/</span>
-            <span className="text-body-small text-on-surface">2024</span>
+          <div className="w-56">
+            <DateInput value={new Date(2024, 11, 25)} label="Date" />
           </div>
         ),
         rationale: "Fast keyboard-driven input without leaving the field.",
@@ -185,9 +181,8 @@ export const dateInputDoc: ComponentDoc = {
       {
         emphasis: "Date Picker",
         component: (
-          <div className="w-32 h-10 bg-surface border border-outline-variant rounded-sm px-3 flex items-center justify-between">
-            <span className="text-body-small text-on-surface">Dec 25</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-[16px]">calendar_today</span>
+          <div className="w-56">
+            <DatePicker value={new Date(2024, 11, 25)} label="Date" />
           </div>
         ),
         rationale: "Visual calendar selection for exploring dates.",

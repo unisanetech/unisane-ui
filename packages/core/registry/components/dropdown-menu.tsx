@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useId, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { cn, Slot } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
+import { Icon } from '@/primitives/icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '@/primitives/menu';
 
 export interface DropdownMenuProps {
@@ -75,7 +76,6 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
   const localRef = useRef<HTMLButtonElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Sync ref to parent triggerRef
   useEffect(() => {
     if (triggerRef) {
       const refToAssign = asChild ? wrapperRef.current : localRef.current;
@@ -113,7 +113,6 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
     'aria-controls': open ? menuId : undefined,
   };
 
-  // asChild pattern: merge props into the child element
   if (asChild && React.isValidElement(children)) {
     return (
       <div ref={wrapperRef} className="inline-flex">
@@ -141,29 +140,25 @@ export type Align = 'start' | 'center' | 'end';
 
 export interface DropdownMenuContentProps {
   children: React.ReactNode;
-  /** Alignment along the side axis */
+
   align?: Align;
-  /** Preferred side of the trigger to open the menu on */
+
   side?: Side;
-  /** Offset from the trigger element in pixels */
+
   sideOffset?: number;
-  /** Offset along the alignment axis in pixels */
+
   alignOffset?: number;
-  /** Whether to automatically flip/adjust placement when there's not enough space */
+
   avoidCollisions?: boolean;
-  /** Padding from viewport edges for collision detection */
+
   collisionPadding?: number | { top?: number; right?: number; bottom?: number; left?: number };
   className?: string;
-  /** Use portal to render dropdown at document body level (recommended for most cases) */
+
   portal?: boolean;
-  /** Close menu when a menu item is selected */
+
   closeOnSelect?: boolean;
 }
 
-/**
- * Calculates the optimal position for a floating element with collision detection.
- * Similar to Floating UI's flip and shift middleware.
- */
 function computePosition(
   triggerRect: DOMRect,
   menuRect: { width: number; height: number },
@@ -184,7 +179,6 @@ function computePosition(
     height: window.innerHeight,
   };
 
-  // Calculate available space on each side
   const space = {
     top: triggerRect.top - collisionPadding.top,
     bottom: viewport.height - triggerRect.bottom - collisionPadding.bottom,
@@ -192,7 +186,6 @@ function computePosition(
     right: viewport.width - triggerRect.right - collisionPadding.right,
   };
 
-  // Determine the best side (flip if necessary)
   let actualSide = side;
   if (avoidCollisions) {
     const sideSpace = {
@@ -209,9 +202,7 @@ function computePosition(
       right: menuWidth + sideOffset,
     };
 
-    // Check if preferred side has enough space, otherwise flip
     if (sideSpace[side] < neededSpace[side]) {
-      // Get opposite side
       const oppositeSide: Record<Side, Side> = {
         top: 'bottom',
         bottom: 'top',
@@ -220,11 +211,9 @@ function computePosition(
       };
       const opposite = oppositeSide[side];
 
-      // If opposite side has more space, flip to it
       if (sideSpace[opposite] > sideSpace[side]) {
         actualSide = opposite;
       } else {
-        // Try perpendicular sides if neither primary nor opposite fit well
         const perpendicularSides: Record<Side, [Side, Side]> = {
           top: ['left', 'right'],
           bottom: ['left', 'right'],
@@ -233,7 +222,6 @@ function computePosition(
         };
         const [perp1, perp2] = perpendicularSides[side];
 
-        // Choose perpendicular side with most space
         if (sideSpace[perp1] >= neededSpace[perp1] && sideSpace[perp1] > sideSpace[actualSide]) {
           actualSide = perp1;
         } else if (
@@ -246,7 +234,6 @@ function computePosition(
     }
   }
 
-  // Calculate base position based on actual side
   let top = 0;
   let left = 0;
 
@@ -262,11 +249,9 @@ function computePosition(
     left = triggerRect.right + sideOffset;
   }
 
-  // Calculate alignment position
   let actualAlign = align;
 
   if (isVertical) {
-    // For top/bottom: align along horizontal axis
     if (align === 'start') {
       left = triggerRect.left + alignOffset;
     } else if (align === 'center') {
@@ -275,7 +260,6 @@ function computePosition(
       left = triggerRect.right - menuWidth - alignOffset;
     }
 
-    // Shift horizontally if overflowing (like Floating UI's shift middleware)
     if (avoidCollisions) {
       const minLeft = collisionPadding.left;
       const maxLeft = viewport.width - menuWidth - collisionPadding.right;
@@ -289,7 +273,6 @@ function computePosition(
       }
     }
   } else {
-    // For left/right: align along vertical axis
     if (align === 'start') {
       top = triggerRect.top + alignOffset;
     } else if (align === 'center') {
@@ -298,7 +281,6 @@ function computePosition(
       top = triggerRect.bottom - menuHeight - alignOffset;
     }
 
-    // Shift vertically if overflowing
     if (avoidCollisions) {
       const minTop = collisionPadding.top;
       const maxTop = viewport.height - menuHeight - collisionPadding.bottom;
@@ -313,7 +295,6 @@ function computePosition(
     }
   }
 
-  // Add scroll offset for fixed positioning
   top += window.scrollY;
   left += window.scrollX;
 
@@ -337,7 +318,6 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [computedPlacement, setComputedPlacement] = useState({ side, align });
 
-  // Normalize collision padding
   const normalizedPadding = useMemo(() => {
     if (typeof collisionPadding === 'number') {
       return {
@@ -355,13 +335,12 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     };
   }, [collisionPadding]);
 
-  // Calculate position with collision detection
   useEffect(() => {
     if (!open || !triggerRef.current) return;
 
     const updatePosition = () => {
       const triggerRect = triggerRef.current!.getBoundingClientRect();
-      const menuWidth = ref.current?.offsetWidth || 200; // Estimate if not yet rendered
+      const menuWidth = ref.current?.offsetWidth || 200;
       const menuHeight = ref.current?.offsetHeight || 200;
 
       const result = computePosition(
@@ -381,10 +360,8 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       setComputedPlacement({ side: result.actualSide, align: result.actualAlign });
     };
 
-    // Initial calculation
     updatePosition();
 
-    // Recalculate on scroll/resize for fixed positioning
     if (portal) {
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
@@ -443,7 +420,6 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     setOpen(false);
   };
 
-  // Get positioning classes for non-portal mode (CSS-based positioning)
   const getPositionClasses = () => {
     if (portal) return 'fixed z-[var(--z-popover,2000)]';
 
@@ -519,8 +495,6 @@ export const DropdownMenuItem = MenuItem;
 export const DropdownMenuCheckboxItem = MenuCheckboxItem;
 export const DropdownMenuRadioItem = MenuRadioItem;
 export const DropdownMenuSeparator = MenuDivider;
-
-// ─── SUBMENU COMPONENTS ────────────────────────────────────────────────────────
 
 export interface DropdownMenuSubProps {
   children: React.ReactNode;
@@ -614,9 +588,8 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   className,
   disabled = false,
 }) => {
-  const { open, menuId, openSubmenu, closeSubmenu } = useDropdownMenuSubContext(
-    'DropdownMenuSubTrigger',
-  );
+  const { open, menuId, openSubmenu, closeSubmenu } =
+    useDropdownMenuSubContext('DropdownMenuSubTrigger');
   const handleMouseEnter = () => {
     if (disabled) return;
     openSubmenu?.();
@@ -629,7 +602,7 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   return (
     <MenuItem
       icon={icon}
-      trailingIcon={<span className="material-symbols-outlined text-[18px]">arrow_right</span>}
+      trailingIcon={<Icon symbol="chevron_right" size="sm" />}
       className={className}
       disabled={disabled}
       onMouseEnter={handleMouseEnter}
@@ -646,18 +619,14 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
 export interface DropdownMenuSubContentProps {
   children: React.ReactNode;
   className?: string;
-  /** Offset from the trigger element in pixels */
+
   sideOffset?: number;
-  /** Whether to automatically flip/adjust placement when there's not enough space */
+
   avoidCollisions?: boolean;
-  /** Padding from viewport edges for collision detection */
+
   collisionPadding?: number;
 }
 
-/**
- * Calculates the optimal position for a submenu with collision detection.
- * Handles both horizontal flip (left/right) and vertical shift.
- */
 function computeSubmenuPosition(
   triggerRect: DOMRect,
   menuRect: { width: number; height: number },
@@ -679,11 +648,9 @@ function computeSubmenuPosition(
     height: window.innerHeight,
   };
 
-  // Calculate available space on each side
   const spaceRight = viewport.width - triggerRect.right - collisionPadding;
   const spaceLeft = triggerRect.left - collisionPadding;
 
-  // Determine horizontal side (flip if necessary)
   let side: 'left' | 'right' = 'right';
   let left = triggerRect.right + sideOffset;
 
@@ -691,16 +658,13 @@ function computeSubmenuPosition(
     const neededWidth = menuWidth + sideOffset;
 
     if (spaceRight < neededWidth && spaceLeft > spaceRight) {
-      // Flip to left
       side = 'left';
       left = triggerRect.left - menuWidth - sideOffset;
     }
   }
 
-  // Calculate vertical position (align top of submenu with trigger)
   let top = triggerRect.top;
 
-  // Shift vertically if overflowing
   if (avoidCollisions) {
     const minTop = collisionPadding;
     const maxTop = viewport.height - menuHeight - collisionPadding;
@@ -711,9 +675,7 @@ function computeSubmenuPosition(
       top = maxTop;
     }
 
-    // Also check if submenu would overflow at the bottom
     if (top + menuHeight > viewport.height - collisionPadding) {
-      // Align bottom of submenu with bottom of trigger instead
       top = Math.max(collisionPadding, triggerRect.bottom - menuHeight);
     }
   }
@@ -728,13 +690,11 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
 }) => {
-  const { open, menuId, triggerRef, openSubmenu, closeSubmenu } = useDropdownMenuSubContext(
-    'DropdownMenuSubContent',
-  );
+  const { open, menuId, triggerRef, openSubmenu, closeSubmenu } =
+    useDropdownMenuSubContext('DropdownMenuSubContent');
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
 
-  // Calculate position with collision detection
   useEffect(() => {
     if (!open || !triggerRef.current) return;
 
@@ -752,10 +712,8 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       setPosition(result);
     };
 
-    // Initial calculation
     updatePosition();
 
-    // Recalculate on scroll/resize
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
 
@@ -785,10 +743,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       onMouseEnter={openSubmenu}
       onMouseLeave={closeSubmenu}
     >
-      <Menu
-        open={true}
-        className={cn('shadow-2 border-outline-muted min-w-40 border', className)}
-      >
+      <Menu open={true} className={cn('shadow-2 border-outline-muted min-w-40 border', className)}>
         {children}
       </Menu>
     </div>

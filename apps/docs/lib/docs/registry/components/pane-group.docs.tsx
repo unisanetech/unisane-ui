@@ -2,85 +2,111 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { ListDetailLayout, PaneGroup } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const PaneGroupHeroVisual = () => (
   <HeroBackground tone="surface">
-    {/* Mock App with Pane Group */}
-    <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
-      {/* Sidebar Pane */}
-      <div className="w-28 bg-surface border-r border-outline-variant p-3 space-y-2 shrink-0">
-        <div className="h-3 bg-outline-muted rounded-sm w-2/3 mb-3" />
-        <div className="h-7 bg-secondary-container rounded-sm" />
-        <div className="h-7 bg-surface-container-high rounded-sm" />
-        <div className="h-7 bg-surface-container-high rounded-sm" />
-        <div className="h-7 bg-surface-container-high rounded-sm" />
-      </div>
-      {/* Detail Pane */}
-      <div className="flex-1 bg-surface-container p-4">
-        <div className="h-4 bg-outline-muted rounded-sm w-1/2 mb-4" />
-        <div className="space-y-2">
-          <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
-          <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-3 bg-surface-container-high rounded-sm w-1/2" />
-        </div>
-      </div>
+    <div className="relative isolate h-56 w-80 overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+      <PaneGroup
+        isRoot
+        list={
+          <div className="space-y-2 p-3">
+            <div className="text-label-small text-on-surface-variant">Mailboxes</div>
+            <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
+              Inbox
+            </div>
+            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              Sent
+            </div>
+            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              Drafts
+            </div>
+          </div>
+        }
+        detail={
+          <div className="space-y-3 p-4">
+            <div className="text-title-small text-on-surface">Inbox</div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+              Welcome to your new workspace.
+            </div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+              Team update posted 2h ago.
+            </div>
+          </div>
+        }
+      />
     </div>
   </HeroBackground>
 );
 
 // ─── EXAMPLES ────────────────────────────────────────────────────────────────
 const BasicPaneGroupExample = () => (
-  <div className="h-full w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-    {/* Sidebar */}
-    <div className="w-36 border-r border-outline-variant p-3 space-y-2 shrink-0">
-      <div className="text-label-small text-on-surface-variant mb-2">Folders</div>
-      <div className="p-2 rounded-sm bg-secondary-container text-label-medium text-primary">Inbox</div>
-      <div className="p-2 rounded-sm text-label-medium text-on-surface-variant hover:bg-surface-container-high">Sent</div>
-      <div className="p-2 rounded-sm text-label-medium text-on-surface-variant hover:bg-surface-container-high">Drafts</div>
-      <div className="p-2 rounded-sm text-label-medium text-on-surface-variant hover:bg-surface-container-high">Trash</div>
-    </div>
-    {/* Detail */}
-    <div className="flex-1 p-4 bg-surface-container">
-      <div className="text-title-medium text-on-surface mb-3">Inbox</div>
-      <div className="space-y-2">
-        <div className="p-2 rounded-sm bg-surface border border-outline-variant">
-          <div className="text-body-small text-on-surface">Welcome to your inbox</div>
+  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <PaneGroup
+      isRoot
+      list={
+        <div className="space-y-2 p-3">
+          <div className="text-label-small text-on-surface-variant">Folders</div>
+          <div className="rounded-sm bg-secondary-container p-2 text-label-medium text-primary">
+            Inbox
+          </div>
+          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Sent</div>
+          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Drafts</div>
+          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Trash</div>
         </div>
-        <div className="p-2 rounded-sm bg-surface border border-outline-variant">
-          <div className="text-body-small text-on-surface">New message from Alice</div>
+      }
+      detail={
+        <div className="space-y-2 p-4">
+          <div className="text-title-medium text-on-surface">Inbox</div>
+          <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+            Welcome to your inbox
+          </div>
+          <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+            New message from Alice
+          </div>
         </div>
-      </div>
-    </div>
+      }
+    />
   </div>
 );
 
 const ResponsivePaneGroupExample = () => (
   <div className="w-full space-y-4">
-    {/* Desktop View */}
-    <div className="h-44 w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-      <div className="w-28 border-r border-outline-variant p-2 space-y-1 shrink-0">
-        <div className="text-label-small text-on-surface-variant mb-1">Desktop</div>
-        <div className="h-6 bg-secondary-container rounded-md" />
-        <div className="h-6 bg-surface-container-high rounded-md" />
-        <div className="h-6 bg-surface-container-high rounded-md" />
-      </div>
-      <div className="flex-1 p-3 bg-surface-container">
-        <div className="h-3 bg-outline-muted rounded-sm w-1/3 mb-2" />
-        <div className="h-2 bg-surface-container-high rounded-sm w-full mb-1" />
-        <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
-      </div>
+    <div className="relative isolate h-44 w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+      <PaneGroup
+        isRoot
+        list={
+          <div className="space-y-1 p-2">
+            <div className="text-label-small text-on-surface-variant">Desktop</div>
+            <div className="h-6 rounded-md bg-secondary-container" />
+            <div className="h-6 rounded-md bg-surface-container-high" />
+            <div className="h-6 rounded-md bg-surface-container-high" />
+          </div>
+        }
+        detail={
+          <div className="space-y-1 p-3">
+            <div className="h-3 w-1/3 rounded-sm bg-outline-muted" />
+            <div className="h-2 rounded-sm bg-surface-container-high" />
+            <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+          </div>
+        }
+      />
     </div>
-    {/* Mobile View */}
-    <div className="w-[220px] max-w-full h-36 bg-surface rounded-sm overflow-hidden border border-outline-variant">
-      <div className="p-2 space-y-1 h-full">
-        <div className="text-label-small text-on-surface-variant mb-1">Mobile (list)</div>
-        <div className="h-8 bg-secondary-container rounded-md" />
-        <div className="h-8 bg-surface-container-high rounded-md" />
-        <div className="h-8 bg-surface-container-high rounded-md" />
-      </div>
+    <div className="relative isolate h-36 w-56 max-w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+      <ListDetailLayout
+        isRoot
+        showDetailMobile={false}
+        list={
+          <div className="space-y-1 p-2">
+            <div className="text-label-small text-on-surface-variant">Mobile list</div>
+            <div className="h-8 rounded-md bg-secondary-container" />
+            <div className="h-8 rounded-md bg-surface-container-high" />
+            <div className="h-8 rounded-md bg-surface-container-high" />
+          </div>
+        }
+        detail={<div className="p-2 text-body-small text-on-surface-variant">Detail</div>}
+      />
     </div>
   </div>
 );
@@ -90,7 +116,7 @@ export const paneGroupDoc: ComponentDoc = {
   slug: "pane-group",
   name: "Pane Group",
   description:
-    "A simple two-pane layout component for sidebar/detail patterns. Automatically handles responsive behavior with mobile-first approach.",
+    "A simple two-pane layout component for list/detail patterns. Automatically handles responsive behavior with mobile-first approach.",
   category: "layout",
   status: "stable",
   icon: "view_sidebar",
@@ -116,14 +142,22 @@ export const paneGroupDoc: ComponentDoc = {
       {
         emphasis: "PaneGroup",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="w-10 border-r border-outline-variant p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-secondary-container" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="flex-1 p-1">
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-            </div>
+          <div className="relative isolate h-32 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <PaneGroup
+              isRoot
+              list={
+                <div className="space-y-2 p-2">
+                  <div className="h-6 rounded-sm bg-secondary-container" />
+                  <div className="h-6 rounded-sm bg-surface-container-high" />
+                </div>
+              }
+              detail={
+                <div className="space-y-2 p-3">
+                  <div className="h-2 rounded-sm bg-surface-container-high" />
+                  <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+                </div>
+              }
+            />
           </div>
         ),
         rationale: "Simple two-pane layout with basic responsive behavior.",
@@ -132,14 +166,22 @@ export const paneGroupDoc: ComponentDoc = {
       {
         emphasis: "ListDetailLayout",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="w-10 border-r border-outline-variant p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-secondary-container" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="flex-1 bg-surface-container-low p-1">
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-            </div>
+          <div className="relative isolate h-32 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <ListDetailLayout
+              isRoot
+              list={
+                <div className="space-y-2 p-2">
+                  <div className="h-6 rounded-sm bg-secondary-container" />
+                  <div className="h-6 rounded-sm bg-surface-container-high" />
+                </div>
+              }
+              detail={
+                <div className="space-y-2 p-3">
+                  <div className="h-2 rounded-sm bg-surface-container-high" />
+                  <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+                </div>
+              }
+            />
           </div>
         ),
         rationale: "Full-featured layout with back button and mobile transitions.",
@@ -151,7 +193,7 @@ export const paneGroupDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "PaneGroup works best as a content container within your app shell. It handles the sidebar/detail split automatically.",
+      "PaneGroup works best as a content container within your app shell. It handles the list/detail split automatically.",
     previewDefaults: {
       tone: "surfaceContainerLow",
       minHeight: "xl",
@@ -163,12 +205,12 @@ export const paneGroupDoc: ComponentDoc = {
       {
         title: "Basic two-pane layout",
         visual: <BasicPaneGroupExample />,
-        caption: "Sidebar with navigation and detail content area",
+        caption: "List pane with navigation and detail content area",
       },
       {
         title: "Responsive behavior",
         visual: <ResponsivePaneGroupExample />,
-        caption: "Shows list or detail based on screen size and showDetail prop",
+        caption: "Shows list or detail based on screen size and showDetailMobile prop",
       },
     ],
   },
@@ -176,10 +218,10 @@ export const paneGroupDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "sidebar",
+      name: "list",
       type: "ReactNode",
       required: true,
-      description: "Content for the sidebar/list pane.",
+      description: "Content for the list pane.",
     },
     {
       name: "detail",
@@ -188,10 +230,10 @@ export const paneGroupDoc: ComponentDoc = {
       description: "Content for the detail/main pane.",
     },
     {
-      name: "showDetail",
+      name: "showDetailMobile",
       type: "boolean",
       default: "false",
-      description: "On mobile, shows detail pane instead of sidebar when true.",
+      description: "On mobile, shows detail pane instead of list when true.",
     },
     {
       name: "className",
@@ -227,7 +269,7 @@ function SettingsPage() {
 
   return (
     <PaneGroup
-      sidebar={
+      list={
         <nav className="p-4 space-y-2">
           <h2 className="text-title-medium mb-4">Settings</h2>
           <button
@@ -260,7 +302,7 @@ function SettingsPage() {
           )}
         </div>
       }
-      showDetail={!!selectedSection}
+      showDetailMobile={!!selectedSection}
       className="h-screen"
     />
   );

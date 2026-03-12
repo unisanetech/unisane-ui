@@ -360,7 +360,7 @@
       "description": "DropdownMenu component",
       "files": ["components/dropdown-menu.tsx"],
       "dependencies": [],
-      "registryDependencies": ["menu"]
+      "registryDependencies": ["icon", "menu"]
     },
     "fab-menu": {
       "name": "FabMenu",

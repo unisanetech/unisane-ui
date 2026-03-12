@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState, useLayoutEffect, useCallback, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import React, { useState, useLayoutEffect, useCallback, useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 interface RippleProps {
   color?: string;
@@ -17,25 +17,20 @@ interface RippleEffect {
   id: number;
 }
 
-export const Ripple: React.FC<RippleProps> = ({
-  center = false,
-  disabled = false,
-  className,
-}) => {
+export const Ripple: React.FC<RippleProps> = ({ center = false, disabled = false, className }) => {
   const [ripples, setRipples] = useState<RippleEffect[]>([]);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  // Check for prefers-reduced-motion preference
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     setPrefersReducedMotion(mediaQuery.matches);
 
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches);
     };
 
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    mediaQuery.addEventListener('change', handleChange);
+    return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
   const addRipple = useCallback(
@@ -43,8 +38,7 @@ export const Ripple: React.FC<RippleProps> = ({
       if (disabled || prefersReducedMotion) return;
 
       const container = e.currentTarget.getBoundingClientRect();
-      const size =
-        container.width > container.height ? container.width : container.height;
+      const size = container.width > container.height ? container.width : container.height;
 
       const x = center ? container.width / 2 : e.clientX - container.left;
       const y = center ? container.height / 2 : e.clientY - container.top;
@@ -52,7 +46,7 @@ export const Ripple: React.FC<RippleProps> = ({
       const newRipple = { x, y, size, id: Date.now() };
       setRipples((prev) => [...prev, newRipple]);
     },
-    [disabled, center, prefersReducedMotion]
+    [disabled, center, prefersReducedMotion],
   );
 
   useLayoutEffect(() => {
@@ -66,16 +60,13 @@ export const Ripple: React.FC<RippleProps> = ({
 
   return (
     <div
-      className={cn(
-        "absolute inset-0 overflow-hidden rounded-[inherit] z-0",
-        className
-      )}
+      className={cn('absolute inset-0 z-0 overflow-hidden rounded-[inherit]', className)}
       onMouseDown={addRipple}
     >
       {ripples.map((ripple) => (
         <span
           key={ripple.id}
-          className="absolute rounded-full bg-current opacity-pressed animate-ripple pointer-events-none"
+          className="opacity-pressed animate-ripple pointer-events-none absolute rounded-full bg-current"
           style={{
             top: ripple.y,
             left: ripple.x,

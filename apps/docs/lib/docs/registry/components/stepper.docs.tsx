@@ -75,9 +75,14 @@ export const stepperDoc: ComponentDoc = {
       {
         emphasis: "Completed",
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center bg-primary text-on-primary">
-            <span className="material-symbols-outlined text-[18px]">check</span>
-          </div>
+          <Stepper
+            steps={[
+              { label: "Details" },
+              { label: "Payment" },
+              { label: "Confirm" },
+            ]}
+            activeStep={1}
+          />
         ),
         rationale:
           "Previous steps that have been finished.",
@@ -86,9 +91,14 @@ export const stepperDoc: ComponentDoc = {
       {
         emphasis: "Active",
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center bg-primary border-2 border-primary text-on-primary scale-110 text-label-small font-medium">
-            2
-          </div>
+          <Stepper
+            steps={[
+              { label: "Details" },
+              { label: "Payment" },
+              { label: "Confirm" },
+            ]}
+            activeStep={1}
+          />
         ),
         rationale:
           "The current step user is working on.",
@@ -97,9 +107,14 @@ export const stepperDoc: ComponentDoc = {
       {
         emphasis: "Pending",
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center bg-surface border-2 border-outline-variant text-on-surface-variant text-label-small font-medium">
-            3
-          </div>
+          <Stepper
+            steps={[
+              { label: "Details" },
+              { label: "Payment" },
+              { label: "Confirm" },
+            ]}
+            activeStep={0}
+          />
         ),
         rationale:
           "Future steps not yet reached.",
@@ -115,23 +130,29 @@ export const stepperDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">1</div>
-            <div className="w-8 h-0.5 bg-primary" />
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">2</div>
-            <div className="w-8 h-0.5 bg-outline-subtle" />
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center border border-outline-variant text-on-surface-variant text-[10px]">3</div>
-          </div>
+          <Stepper
+            steps={[
+              { label: "One" },
+              { label: "Two" },
+              { label: "Three" },
+            ]}
+            activeStep={1}
+          />
         ),
         title: "Horizontal",
         subtitle: "Default layout",
       },
       {
         component: (
-          <div className="flex flex-col items-center gap-1">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">1</div>
-            <div className="w-0.5 h-4 bg-primary" />
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">2</div>
+          <div className="w-24">
+            <Stepper
+              steps={[
+                { label: "One" },
+                { label: "Two" },
+                { label: "Three" },
+              ]}
+              activeStep={2}
+            />
           </div>
         ),
         title: "Vertical",

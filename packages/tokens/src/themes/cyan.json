@@ -1,0 +1,6 @@
+{
+  "$schema": "./theme-override.schema.json",
+  "name": "Cyan",
+  "primary": { "hue": 195, "chroma": 0.12 },
+  "description": "Cool, crisp, and balanced for modern product interfaces"
+}

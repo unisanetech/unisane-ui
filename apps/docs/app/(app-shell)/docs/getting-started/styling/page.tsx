@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { DocLayout, DocSection } from "@/features/docs-page";
-import { Card, Typography, Button } from "@unisane/ui";
+import { DocLayout, DocSection } from '@/features/docs-page';
+import { Card, Typography, Button } from '@unisane/ui';
 
 const TOC_ITEMS = [
-  { id: "tailwind-classes", label: "Tailwind Classes" },
-  { id: "design-tokens", label: "Design Tokens" },
-  { id: "component-variants", label: "Component Variants" },
-  { id: "responsive-design", label: "Responsive Design" },
-  { id: "dark-mode", label: "Dark Mode" },
+  { id: 'tailwind-classes', label: 'Tailwind Classes' },
+  { id: 'design-tokens', label: 'Design Tokens' },
+  { id: 'component-variants', label: 'Component Variants' },
+  { id: 'responsive-design', label: 'Responsive Design' },
+  { id: 'dark-mode', label: 'Dark Mode' },
 ];
 
 export default function StylingPage() {
@@ -25,7 +25,7 @@ export default function StylingPage() {
         description="Every component accepts a className prop, allowing you to add Tailwind CSS classes for customization."
       >
         <div className="space-y-8">
-          <div className="grid grid-cols-1 @xl:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 @xl:grid-cols-2">
             <CodeBlock
               title="Adding custom styles"
               code={`import { Button, Card } from "@unisane/ui";
@@ -46,22 +46,28 @@ export default function StylingPage() {
 </Button>`}
             />
             <PreviewCard>
-              <div className="space-y-4 w-full max-w-sm">
-                <Button className="px-8" variant="filled">Wide Button</Button>
+              <div className="w-full max-w-sm space-y-4">
+                <Button className="px-8" variant="filled">
+                  Wide Button
+                </Button>
                 <Card className="bg-primary-container p-4">
                   <Typography variant="bodyMedium" className="text-on-primary-container">
                     Custom background card
                   </Typography>
                 </Card>
-                <Button className="w-full" variant="outlined">Responsive Button</Button>
+                <Button className="w-full" variant="outlined">
+                  Responsive Button
+                </Button>
               </div>
             </PreviewCard>
           </div>
 
           <InfoCard icon="info" variant="info">
             Tailwind classes you add will be merged intelligently with component defaults using
-            <code className="mx-1 px-1.5 py-0.5 bg-surface-container rounded text-body-small">tailwind-merge</code>.
-            Conflicting classes will be resolved in favor of your custom classes.
+            <code className="bg-surface-container text-body-small mx-1 rounded px-1.5 py-0.5">
+              tailwind-merge
+            </code>
+            . Conflicting classes will be resolved in favor of your custom classes.
           </InfoCard>
         </div>
       </DocSection>
@@ -73,26 +79,56 @@ export default function StylingPage() {
         description="Unisane UI uses semantic color tokens that automatically adapt to light and dark modes."
       >
         <div className="space-y-8">
-          <Typography variant="titleMedium" className="mb-4">Surface Colors</Typography>
-          <div className="grid grid-cols-2 @md:grid-cols-4 gap-3">
+          <Typography variant="titleMedium" className="mb-4">
+            Surface Colors
+          </Typography>
+          <div className="grid grid-cols-2 gap-3 @md:grid-cols-4">
             <TokenSwatch name="surface" className="bg-surface" textClass="text-on-surface" />
-            <TokenSwatch name="surface-container" className="bg-surface-container" textClass="text-on-surface" />
-            <TokenSwatch name="surface-container-high" className="bg-surface-container-high" textClass="text-on-surface" />
-            <TokenSwatch name="surface-container-highest" className="bg-surface-container-highest" textClass="text-on-surface" />
+            <TokenSwatch
+              name="surface-container"
+              className="bg-surface-container"
+              textClass="text-on-surface"
+            />
+            <TokenSwatch
+              name="surface-container-high"
+              className="bg-surface-container-high"
+              textClass="text-on-surface"
+            />
+            <TokenSwatch
+              name="surface-container-highest"
+              className="bg-surface-container-highest"
+              textClass="text-on-surface"
+            />
           </div>
 
-          <Typography variant="titleMedium" className="mb-4">Primary Colors</Typography>
-          <div className="grid grid-cols-2 @md:grid-cols-4 gap-3">
+          <Typography variant="titleMedium" className="mb-4">
+            Primary Colors
+          </Typography>
+          <div className="grid grid-cols-2 gap-3 @md:grid-cols-4">
             <TokenSwatch name="primary" className="bg-primary" textClass="text-on-primary" />
-            <TokenSwatch name="primary-container" className="bg-primary-container" textClass="text-on-primary-container" />
+            <TokenSwatch
+              name="primary-container"
+              className="bg-primary-container"
+              textClass="text-on-primary-container"
+            />
             <TokenSwatch name="secondary" className="bg-secondary" textClass="text-on-secondary" />
-            <TokenSwatch name="secondary-container" className="bg-secondary-container" textClass="text-on-secondary-container" />
+            <TokenSwatch
+              name="secondary-container"
+              className="bg-secondary-container"
+              textClass="text-on-secondary-container"
+            />
           </div>
 
-          <Typography variant="titleMedium" className="mb-4">Semantic Colors</Typography>
-          <div className="grid grid-cols-2 @md:grid-cols-4 gap-3">
+          <Typography variant="titleMedium" className="mb-4">
+            Semantic Colors
+          </Typography>
+          <div className="grid grid-cols-2 gap-3 @md:grid-cols-4">
             <TokenSwatch name="error" className="bg-error" textClass="text-on-error" />
-            <TokenSwatch name="error-container" className="bg-error-container" textClass="text-on-error-container" />
+            <TokenSwatch
+              name="error-container"
+              className="bg-error-container"
+              textClass="text-on-error-container"
+            />
             <TokenSwatch name="success" className="bg-success" textClass="text-on-success" />
             <TokenSwatch name="warning" className="bg-warning" textClass="text-on-warning" />
           </div>
@@ -110,6 +146,22 @@ export default function StylingPage() {
 // Border colors
 <div className="border border-outline">...</div>
 <div className="border border-outline-variant">...</div>`}
+          />
+
+          <Typography variant="titleMedium" className="mb-4">
+            Layout Tokens
+          </Typography>
+          <CodeBlock
+            title="Overriding layout tokens"
+            code={`/* Global override */
+:root {
+  --layout-navigation-drawer: 20rem;
+  --layout-command-list-max-height: 22rem;
+}
+
+/* Per-instance override without global CSS */
+<NavigationDrawer className="[--layout-navigation-drawer:18rem]" />
+<CommandList className="[--layout-command-list-max-height:18rem]" />`}
           />
         </div>
       </DocSection>
@@ -152,18 +204,24 @@ export default function StylingPage() {
           />
 
           <Typography variant="titleMedium">Card Variants</Typography>
-          <div className="grid grid-cols-1 @md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 @md:grid-cols-3">
             <Card variant="elevated" className="p-4">
               <Typography variant="titleSmall">Elevated</Typography>
-              <Typography variant="bodySmall" className="text-on-surface-variant">With shadow</Typography>
+              <Typography variant="bodySmall" className="text-on-surface-variant">
+                With shadow
+              </Typography>
             </Card>
             <Card variant="filled" className="p-4">
               <Typography variant="titleSmall">Filled</Typography>
-              <Typography variant="bodySmall" className="text-on-surface-variant">Background color</Typography>
+              <Typography variant="bodySmall" className="text-on-surface-variant">
+                Background color
+              </Typography>
             </Card>
             <Card variant="outlined" className="p-4">
               <Typography variant="titleSmall">Outlined</Typography>
-              <Typography variant="bodySmall" className="text-on-surface-variant">With border</Typography>
+              <Typography variant="bodySmall" className="text-on-surface-variant">
+                With border
+              </Typography>
             </Card>
           </div>
         </div>
@@ -179,37 +237,37 @@ export default function StylingPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-outline-variant">
-                  <th className="py-3 pr-4 text-label-large text-on-surface">Prefix</th>
-                  <th className="py-3 pr-4 text-label-large text-on-surface">Min Width</th>
-                  <th className="py-3 text-label-large text-on-surface">CSS</th>
+                <tr className="border-outline-variant border-b">
+                  <th className="text-label-large text-on-surface py-3 pr-4">Prefix</th>
+                  <th className="text-label-large text-on-surface py-3 pr-4">Min Width</th>
+                  <th className="text-label-large text-on-surface py-3">CSS</th>
                 </tr>
               </thead>
               <tbody className="text-body-medium text-on-surface-variant">
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">sm:</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">sm:</td>
                   <td className="py-3 pr-4">640px</td>
-                  <td className="py-3 font-mono text-body-small">@media (min-width: 640px)</td>
+                  <td className="text-body-small py-3 font-mono">@media (min-width: 640px)</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">md:</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">md:</td>
                   <td className="py-3 pr-4">768px</td>
-                  <td className="py-3 font-mono text-body-small">@media (min-width: 768px)</td>
+                  <td className="text-body-small py-3 font-mono">@media (min-width: 768px)</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">lg:</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">lg:</td>
                   <td className="py-3 pr-4">1024px</td>
-                  <td className="py-3 font-mono text-body-small">@media (min-width: 1024px)</td>
+                  <td className="text-body-small py-3 font-mono">@media (min-width: 1024px)</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">xl:</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">xl:</td>
                   <td className="py-3 pr-4">1280px</td>
-                  <td className="py-3 font-mono text-body-small">@media (min-width: 1280px)</td>
+                  <td className="text-body-small py-3 font-mono">@media (min-width: 1280px)</td>
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-mono text-primary">2xl:</td>
+                  <td className="text-primary py-3 pr-4 font-mono">2xl:</td>
                   <td className="py-3 pr-4">1536px</td>
-                  <td className="py-3 font-mono text-body-small">@media (min-width: 1536px)</td>
+                  <td className="text-body-small py-3 font-mono">@media (min-width: 1536px)</td>
                 </tr>
               </tbody>
             </table>
@@ -245,8 +303,8 @@ export default function StylingPage() {
       >
         <div className="space-y-8">
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-            All color tokens automatically adjust when dark mode is active. You don&apos;t need to add any
-            dark: prefixes — the theme system handles everything.
+            All color tokens automatically adjust when dark mode is active. You don&apos;t need to
+            add any dark: prefixes — the theme system handles everything.
           </Typography>
 
           <CodeBlock
@@ -257,7 +315,7 @@ export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <ThemeProvider defaultMode="system">
+        <ThemeProvider>
           {children}
         </ThemeProvider>
       </body>
@@ -266,9 +324,9 @@ export default function RootLayout({ children }) {
 }`}
           />
 
-          <div className="grid grid-cols-1 @md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 @md:grid-cols-2">
             <Card variant="outlined" className="p-6">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="mb-4 flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary">light_mode</span>
                 <Typography variant="titleMedium">Light Mode</Typography>
               </div>
@@ -277,7 +335,7 @@ export default function RootLayout({ children }) {
               </Typography>
             </Card>
             <Card variant="outlined" className="p-6">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="mb-4 flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary">dark_mode</span>
                 <Typography variant="titleMedium">Dark Mode</Typography>
               </div>
@@ -288,10 +346,10 @@ export default function RootLayout({ children }) {
           </div>
 
           <InfoCard icon="lightbulb" variant="tip">
-            Learn more about creating custom themes in the{" "}
+            Learn more about creating custom themes in the{' '}
             <a href="/docs/getting-started/theming" className="text-primary hover:underline">
               Building Themes
-            </a>{" "}
+            </a>{' '}
             guide.
           </InfoCard>
         </div>
@@ -304,15 +362,15 @@ export default function RootLayout({ children }) {
 
 function CodeBlock({ title, code }: { title: string; code: string }) {
   return (
-    <div className="rounded-lg overflow-hidden border border-outline-variant">
-      <div className="px-4 py-2 bg-surface-container border-b border-outline-variant">
+    <div className="border-outline-variant overflow-hidden rounded-lg border">
+      <div className="bg-surface-container border-outline-variant border-b px-4 py-2">
         <Typography variant="labelMedium" className="text-on-surface-variant font-mono">
           {title}
         </Typography>
       </div>
       <div className="bg-surface-container-low">
-        <pre className="p-4 overflow-x-auto">
-          <code className="text-body-small font-mono text-on-surface">{code}</code>
+        <pre className="overflow-x-auto p-4">
+          <code className="text-body-small text-on-surface font-mono">{code}</code>
         </pre>
       </div>
     </div>
@@ -321,22 +379,30 @@ function CodeBlock({ title, code }: { title: string; code: string }) {
 
 function PreviewCard({ children }: { children: React.ReactNode }) {
   return (
-    <div className="rounded-lg overflow-hidden border border-outline-variant">
-      <div className="px-4 py-2 bg-surface-container border-b border-outline-variant">
+    <div className="border-outline-variant overflow-hidden rounded-lg border">
+      <div className="bg-surface-container border-outline-variant border-b px-4 py-2">
         <Typography variant="labelMedium" className="text-on-surface-variant">
           Preview
         </Typography>
       </div>
-      <div className="p-6 bg-surface-container-low flex items-center justify-center">
+      <div className="bg-surface-container-low flex items-center justify-center p-6">
         {children}
       </div>
     </div>
   );
 }
 
-function TokenSwatch({ name, className, textClass }: { name: string; className: string; textClass: string }) {
+function TokenSwatch({
+  name,
+  className,
+  textClass,
+}: {
+  name: string;
+  className: string;
+  textClass: string;
+}) {
   return (
-    <div className={`${className} rounded-lg p-4 flex flex-col justify-end min-h-24`}>
+    <div className={`${className} flex min-h-24 flex-col justify-end rounded-lg p-4`}>
       <Typography variant="labelSmall" className={textClass}>
         {name}
       </Typography>
@@ -344,15 +410,23 @@ function TokenSwatch({ name, className, textClass }: { name: string; className: 
   );
 }
 
-function InfoCard({ icon, variant, children }: { icon: string; variant: "info" | "tip"; children: React.ReactNode }) {
+function InfoCard({
+  icon,
+  variant,
+  children,
+}: {
+  icon: string;
+  variant: 'info' | 'tip';
+  children: React.ReactNode;
+}) {
   const styles = {
-    info: "bg-primary-container border-primary",
-    tip: "bg-tertiary-container border-tertiary",
+    info: 'bg-primary-container border-primary',
+    tip: 'bg-tertiary-container border-tertiary',
   };
-  const iconColor = variant === "info" ? "text-primary" : "text-tertiary";
+  const iconColor = variant === 'info' ? 'text-primary' : 'text-tertiary';
 
   return (
-    <div className={`p-4 rounded-lg border ${styles[variant]}`}>
+    <div className={`rounded-lg border p-4 ${styles[variant]}`}>
       <div className="flex gap-3">
         <span className={`material-symbols-outlined ${iconColor} shrink-0`}>{icon}</span>
         <Typography variant="bodySmall" className="text-on-surface-variant">

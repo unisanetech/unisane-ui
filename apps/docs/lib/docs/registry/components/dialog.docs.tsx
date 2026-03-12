@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { Button, Dialog, IconButton } from "@unisane/ui";
+import { Button, Dialog } from "@unisane/ui";
 import { useState } from "react";
 
 // ─── INTERACTIVE EXAMPLE ─────────────────────────────────────────────────────
@@ -36,45 +36,85 @@ const DialogInteractiveExample = () => {
 };
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
+interface DialogSurfacePreviewProps {
+  title: string;
+  description: string;
+  icon: string;
+  iconTone?: "error" | "primary" | "secondary";
+  primaryAction: string;
+  secondaryAction?: string;
+  compact?: boolean;
+  showBody?: boolean;
+}
+
+const DialogSurfacePreview = ({
+  title,
+  description,
+  icon,
+  iconTone = "primary",
+  primaryAction,
+  secondaryAction = "Cancel",
+  compact = false,
+  showBody = true,
+}: DialogSurfacePreviewProps) => (
+  <div className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-outline-variant bg-surface shadow-lg">
+    <div
+      className={`border-outline-variant bg-surface-container-lowest flex items-start border-b ${
+        compact ? "gap-2 px-3 py-2.5" : "gap-3 px-5 py-4"
+      }`}
+    >
+      <div
+        className={`flex shrink-0 items-center justify-center rounded-md border border-outline-variant ${
+          compact ? "h-8 w-8" : "h-10 w-10"
+        } ${
+          iconTone === "error"
+            ? "bg-error-container text-on-error-container"
+            : iconTone === "secondary"
+              ? "bg-secondary-container text-on-secondary-container"
+              : "bg-primary-container text-on-primary-container"
+        }`}
+      >
+        <span className={`material-symbols-outlined ${compact ? "text-[18px]" : ""}`}>
+          {icon}
+        </span>
+      </div>
+      <div className="min-w-0 space-y-1">
+        <div className={compact ? "text-title-small text-on-surface" : "text-title-medium text-on-surface"}>
+          {title}
+        </div>
+        <div className={compact ? "truncate text-label-small text-on-surface-variant" : "text-body-small text-on-surface-variant"}>
+          {description}
+        </div>
+      </div>
+    </div>
+    {showBody ? (
+      <div className={`min-h-0 flex-1 ${compact ? "px-3 py-2" : "px-5 py-4"}`}>
+        <div className="h-2 rounded-sm bg-surface-container-high" />
+        <div className="mt-2 h-2 w-4/5 rounded-sm bg-surface-container-high" />
+        <div className="mt-2 h-2 w-3/5 rounded-sm bg-surface-container-high" />
+      </div>
+    ) : null}
+    <div className={`border-outline-variant bg-surface-container-lowest flex justify-end gap-2 border-t ${compact ? "px-3 py-2" : "px-5 py-3"}`}>
+      <Button variant="text" size="sm">{secondaryAction}</Button>
+      <Button variant="filled" size="sm">{primaryAction}</Button>
+    </div>
+  </div>
+);
+
 const DialogHeroVisual = () => (
   <HeroBackground tone="tertiary">
-    {/* Background App (dimmed) */}
-    <div className="absolute inset-8 bg-surface-container rounded-lg" />
-
-    {/* Dialog Mock */}
-    <div className="bg-surface w-84 rounded-[28px] shadow-xl overflow-hidden border border-outline-variant">
-      {/* Header */}
-      <div className="px-6 pt-6 pb-5 border-b border-outline-variant bg-surface-container-lowest flex items-start justify-between gap-4">
-        <div className="flex items-start gap-4">
-          <div className="h-12 w-12 rounded-xl border border-outline-variant bg-surface-container-low text-primary flex items-center justify-center">
-            <span className="material-symbols-outlined">delete</span>
-          </div>
-          <div className="space-y-1.5">
-            <span className="text-title-large text-on-surface block leading-tight">Delete file?</span>
-            <span className="text-body-small text-on-surface-variant block leading-relaxed">
-              This removes the file permanently from your workspace.
-            </span>
-          </div>
+    <div className="relative isolate h-56 w-84 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+      <div className="bg-scrim absolute inset-0" />
+      <div className="relative z-10 flex h-full items-center justify-center p-4">
+        <div className="w-full max-w-[19rem]">
+          <DialogSurfacePreview
+            title="Delete file?"
+            description="This action cannot be undone."
+            icon="delete"
+            iconTone="error"
+            primaryAction="Delete"
+          />
         </div>
-        <IconButton
-          variant="standard"
-          size="sm"
-          aria-label="Close dialog"
-          className="bg-surface-container-low text-on-surface-variant"
-        >
-          <span className="material-symbols-outlined text-[20px]">close</span>
-        </IconButton>
-      </div>
-      {/* Content */}
-      <div className="px-6 pt-5 pb-6">
-        <p className="text-body-medium text-on-surface">
-          Review the consequences carefully before you continue. Restoring the file later will not be possible.
-        </p>
-      </div>
-      {/* Actions */}
-      <div className="flex justify-end gap-2 px-6 py-4 border-t border-outline-variant bg-surface-container-lowest">
-        <Button variant="text" size="sm">Cancel</Button>
-        <Button variant="filled" size="sm">Delete</Button>
       </div>
     </div>
   </HeroBackground>
@@ -82,68 +122,95 @@ const DialogHeroVisual = () => (
 
 // ─── PLACEMENT VISUALS ─────────────────────────────────────────────────────────
 const DialogPlacementBasic = () => (
-  <div className="relative w-80 h-44 rounded-xl overflow-hidden mx-auto bg-surface-container-high">
-    {/* Scrim overlay */}
-    <div className="absolute inset-0 bg-scrim" />
-    {/* Dialog */}
-    <div className="absolute inset-4 rounded-[24px] shadow-lg px-5 pt-5 pb-4 flex flex-col bg-surface border border-outline-variant">
-      <div className="text-title-medium text-on-surface mb-1.5">Dialog Title</div>
-      <div className="text-body-small text-on-surface-variant flex-1 leading-relaxed">
-        Dialog content goes here...
-      </div>
-      <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-outline-variant">
-        <Button variant="text" size="sm">Cancel</Button>
-        <Button variant="filled" size="sm">Confirm</Button>
+  <div className="relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-high">
+    <div className="bg-scrim absolute inset-0" />
+    <div className="relative z-10 flex h-full items-center justify-center p-3">
+      <div className="w-full max-w-[18rem]">
+        <DialogSurfacePreview
+          title="Publish changes?"
+          description="Your updates will be visible to all workspace members."
+          icon="publish"
+          iconTone="primary"
+          primaryAction="Publish"
+        />
       </div>
     </div>
   </div>
 );
 
 const DialogPlacementWithIcon = () => (
-  <div className="relative w-80 h-48 rounded-xl overflow-hidden mx-auto bg-surface-container-high">
-    {/* Scrim overlay */}
-    <div className="absolute inset-0 bg-scrim" />
-    {/* Dialog */}
-    <div className="absolute inset-4 rounded-[24px] shadow-lg overflow-hidden flex flex-col bg-surface border border-outline-variant">
-      <div className="px-5 pt-5 pb-4 border-b border-outline-variant flex items-start gap-3">
-        <div className="h-10 w-10 rounded-lg bg-surface-container-low text-error flex items-center justify-center">
-          <span className="material-symbols-outlined">warning</span>
-        </div>
-        <div className="space-y-1">
-          <span className="text-title-medium text-on-surface block">Warning</span>
-          <span className="text-body-small text-on-surface-variant block">This action changes live workspace data.</span>
-        </div>
-      </div>
-      <div className="px-5 pt-4 pb-5 text-body-small text-on-surface flex-1">
-        Are you sure you want to proceed?
-      </div>
-      <div className="flex justify-end gap-2 px-5 py-4 border-t border-outline-variant bg-surface-container-lowest">
-        <Button variant="text" size="sm">Cancel</Button>
-        <Button variant="filled" size="sm">Continue</Button>
+  <div className="relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-high">
+    <div className="bg-scrim absolute inset-0" />
+    <div className="relative z-10 flex h-full items-center justify-center p-3">
+      <div className="w-full max-w-[18rem]">
+        <DialogSurfacePreview
+          title="Warning"
+          description="This action updates live workspace data."
+          icon="warning"
+          iconTone="error"
+          primaryAction="Continue"
+        />
       </div>
     </div>
   </div>
 );
 
 // ─── CHOOSING VISUALS ─────────────────────────────────────────────────────────
-const AlertDialogVisual = () => (
-  <div className="bg-surface p-3 rounded-lg border border-outline-variant text-center w-32">
-    <span className="material-symbols-outlined text-error text-[24px]">warning</span>
-    <div className="text-label-small mt-1">Alert</div>
+const AlertDialogPreview = () => (
+  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+    <div className="bg-scrim absolute inset-0" />
+    <div className="relative z-10 flex h-full items-center justify-center p-2">
+      <div className="w-full max-w-[15rem]">
+        <DialogSurfacePreview
+          title="Delete file?"
+          description="This action cannot be undone."
+          icon="warning"
+          iconTone="error"
+          primaryAction="Delete"
+          compact
+          showBody={false}
+        />
+      </div>
+    </div>
   </div>
 );
 
-const ConfirmDialogVisual = () => (
-  <div className="bg-surface p-3 rounded-lg border border-outline-variant text-center w-32">
-    <span className="material-symbols-outlined text-primary text-[24px]">help</span>
-    <div className="text-label-small mt-1">Confirm</div>
+const ConfirmDialogPreview = () => (
+  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+    <div className="bg-scrim absolute inset-0" />
+    <div className="relative z-10 flex h-full items-center justify-center p-2">
+      <div className="w-full max-w-[15rem]">
+        <DialogSurfacePreview
+          title="Save changes?"
+          description="You have unsaved edits. Save before leaving?"
+          icon="save"
+          iconTone="primary"
+          primaryAction="Save"
+          secondaryAction="Discard"
+          compact
+          showBody={false}
+        />
+      </div>
+    </div>
   </div>
 );
 
-const FormDialogVisual = () => (
-  <div className="bg-surface p-3 rounded-lg border border-outline-variant text-center w-32">
-    <span className="material-symbols-outlined text-secondary text-[24px]">edit_note</span>
-    <div className="text-label-small mt-1">Form</div>
+const FormDialogPreview = () => (
+  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+    <div className="bg-scrim absolute inset-0" />
+    <div className="relative z-10 flex h-full items-center justify-center p-2">
+      <div className="w-full max-w-[15rem]">
+        <DialogSurfacePreview
+          title="New project"
+          description="Add core details before creating the project."
+          icon="folder_open"
+          iconTone="secondary"
+          primaryAction="Create"
+          compact
+          showBody={false}
+        />
+      </div>
+    </div>
   </div>
 );
 
@@ -168,7 +235,7 @@ export const dialogDoc: ComponentDoc = {
   examples: [
     {
       id: "basic",
-  title: "Basic Dialog",
+      title: "Basic Dialog",
       description: "Click the button to open an interactive dialog.",
       component: <DialogInteractiveExample />,
       code: `const [open, setOpen] = useState(false);
@@ -204,21 +271,21 @@ export const dialogDoc: ComponentDoc = {
     rows: [
       {
         emphasis: "Alert Dialog",
-        component: <AlertDialogVisual />,
+        component: <AlertDialogPreview />,
         rationale:
           "Requires immediate attention and acknowledgment. User must respond before continuing.",
         examples: "Delete confirmation, Error messages, Permission requests",
       },
       {
         emphasis: "Confirmation Dialog",
-        component: <ConfirmDialogVisual />,
+        component: <ConfirmDialogPreview />,
         rationale:
           "Asks user to confirm an action. Provides cancel and confirm options.",
         examples: "Save changes, Discard draft, Log out",
       },
       {
         emphasis: "Form Dialog",
-        component: <FormDialogVisual />,
+        component: <FormDialogPreview />,
         rationale:
           "Collects user input in a focused context. Use when input is required before proceeding.",
         examples: "Create item, Edit details, Add comment",

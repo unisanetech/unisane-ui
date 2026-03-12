@@ -1,20 +1,20 @@
-import React, { isValidElement, cloneElement } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, focusRing, Slot } from "@/lib/utils";
-import { Ripple } from "./ripple";
+import React, { isValidElement, cloneElement } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, focusRing, Slot } from '@/lib/utils';
+import { Ripple } from './ripple';
 
 const navigationBarVariants = cva(
-  "absolute bottom-0 left-0 right-0 h-20 bg-surface-container border-t border-outline-variant flex items-center justify-around px-4 pb-4 z-30",
+  'absolute bottom-0 left-0 right-0 h-20 bg-surface-container border-t border-outline-variant flex items-center justify-around px-4 pb-4 z-30',
   {
     variants: {
       variant: {
-        default: "",
+        default: '',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
-  }
+  },
 );
 
 export interface NavigationBarProps extends VariantProps<typeof navigationBarVariants> {
@@ -22,16 +22,8 @@ export interface NavigationBarProps extends VariantProps<typeof navigationBarVar
   className?: string;
 }
 
-const NavigationBarRoot: React.FC<NavigationBarProps> = ({
-  variant,
-  children,
-  className,
-}) => {
-  return (
-    <nav className={cn(navigationBarVariants({ variant, className }))}>
-      {children}
-    </nav>
-  );
+const NavigationBarRoot: React.FC<NavigationBarProps> = ({ variant, children, className }) => {
+  return <nav className={cn(navigationBarVariants({ variant, className }))}>{children}</nav>;
 };
 
 export interface NavigationBarItemProps {
@@ -56,26 +48,30 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
   children,
 }) => {
   const itemClasses = cn(
-    "relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 group select-none focus-visible:outline-none",
+    'relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 group select-none focus-visible:outline-none',
     focusRing,
-    className
+    className,
   );
 
   const innerContent = (
     <>
-      <div className="relative h-8 w-16 mb-1">
+      <div className="relative mb-1 h-8 w-16">
         <div
           className={cn(
-            "absolute inset-0 rounded-sm transition-all duration-medium ease-standard overflow-hidden",
-            active ? "bg-secondary-container scale-x-100 opacity-100" : "bg-transparent scale-x-50 opacity-0 group-hover:bg-state-hover"
+            'duration-medium ease-standard absolute inset-0 overflow-hidden rounded-sm transition-all',
+            active
+              ? 'bg-secondary-container scale-x-100 opacity-100'
+              : 'group-hover:bg-state-hover scale-x-50 bg-transparent opacity-0',
           )}
         >
           <Ripple center />
         </div>
         <div
           className={cn(
-            "relative h-full w-full flex items-center justify-center z-10 transition-colors",
-            active ? "text-on-secondary-container" : "text-on-surface-variant group-hover:text-on-surface"
+            'relative z-10 flex h-full w-full items-center justify-center transition-colors',
+            active
+              ? 'text-on-secondary-container'
+              : 'text-on-surface-variant group-hover:text-on-surface',
           )}
         >
           {icon}
@@ -83,8 +79,8 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
       </div>
       <span
         className={cn(
-          "text-label-medium transition-colors font-medium",
-          active ? "text-on-surface" : "text-on-surface-variant group-hover:text-on-surface"
+          'text-label-medium font-medium transition-colors',
+          active ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface',
         )}
       >
         {label}
@@ -92,7 +88,6 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
     </>
   );
 
-  // asChild pattern: render user's Link component
   if (asChild && children && isValidElement(children)) {
     return (
       <Slot className={itemClasses} aria-pressed={active}>
@@ -103,19 +98,14 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
 
   if (href) {
     return (
-      <a href={href} className={itemClasses} aria-current={active ? "page" : undefined}>
+      <a href={href} className={itemClasses} aria-current={active ? 'page' : undefined}>
         {innerContent}
       </a>
     );
   }
 
   return (
-    <button
-      type="button"
-      className={itemClasses}
-      onClick={onClick}
-      aria-pressed={active}
-    >
+    <button type="button" className={itemClasses} onClick={onClick} aria-pressed={active}>
       {innerContent}
     </button>
   );

@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { Card } from "@unisane/ui";
+import { Card, Tabs, TabsContent, TabsList, TabsTrigger } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const TabsHeroVisual = () => (
@@ -85,15 +85,13 @@ export const tabsDoc: ComponentDoc = {
       {
         emphasis: "Primary",
         component: (
-          <div className="flex bg-surface rounded-sm overflow-hidden">
-            <div className="px-4 py-2 relative">
-              <span className="text-label-medium text-primary">Tab 1</span>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-            </div>
-            <div className="px-4 py-2">
-              <span className="text-label-medium text-on-surface-variant">Tab 2</span>
-            </div>
-          </div>
+          <Tabs defaultValue="tab1">
+            <TabsList>
+              <TabsTrigger value="tab1">Tab 1</TabsTrigger>
+              <TabsTrigger value="tab2">Tab 2</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tab1" />
+          </Tabs>
         ),
         rationale:
           "Default tabs for main content sections. Underline indicates selection.",
@@ -102,14 +100,13 @@ export const tabsDoc: ComponentDoc = {
       {
         emphasis: "Secondary",
         component: (
-          <div className="flex bg-surface-container rounded-full p-1">
-            <div className="px-4 py-2 bg-surface rounded-full shadow-sm">
-              <span className="text-label-medium text-on-surface">Tab 1</span>
-            </div>
-            <div className="px-4 py-2">
-              <span className="text-label-medium text-on-surface-variant">Tab 2</span>
-            </div>
-          </div>
+          <Tabs defaultValue="filters">
+            <TabsList>
+              <TabsTrigger value="filters">Filters</TabsTrigger>
+              <TabsTrigger value="sort">Sort</TabsTrigger>
+            </TabsList>
+            <TabsContent value="filters" />
+          </Tabs>
         ),
         rationale:
           "Pill-style tabs for filtering or secondary navigation.",
@@ -118,17 +115,17 @@ export const tabsDoc: ComponentDoc = {
       {
         emphasis: "With Icons",
         component: (
-          <div className="flex bg-surface rounded-sm overflow-hidden">
-            <div className="px-4 py-2 flex items-center gap-2 relative">
-              <span className="material-symbols-outlined text-primary text-[18px]">home</span>
-              <span className="text-label-medium text-primary">Home</span>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-            </div>
-            <div className="px-4 py-2 flex items-center gap-2">
-              <span className="material-symbols-outlined text-on-surface-variant text-[18px]">settings</span>
-              <span className="text-label-medium text-on-surface-variant">Settings</span>
-            </div>
-          </div>
+          <Tabs defaultValue="home">
+            <TabsList>
+              <TabsTrigger value="home" icon={<span className="material-symbols-outlined">home</span>}>
+                Home
+              </TabsTrigger>
+              <TabsTrigger value="settings" icon={<span className="material-symbols-outlined">settings</span>}>
+                Settings
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="home" />
+          </Tabs>
         ),
         rationale:
           "Icons add visual context and help users scan options quickly.",
@@ -137,15 +134,13 @@ export const tabsDoc: ComponentDoc = {
       {
         emphasis: "Icon Only",
         component: (
-          <div className="flex bg-surface rounded-sm overflow-hidden">
-            <div className="px-4 py-2 relative">
-              <span className="material-symbols-outlined text-primary">grid_view</span>
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
-            </div>
-            <div className="px-4 py-2">
-              <span className="material-symbols-outlined text-on-surface-variant">list</span>
-            </div>
-          </div>
+          <Tabs defaultValue="grid">
+            <TabsList>
+              <TabsTrigger value="grid" icon={<span className="material-symbols-outlined">grid_view</span>} />
+              <TabsTrigger value="list" icon={<span className="material-symbols-outlined">list</span>} />
+            </TabsList>
+            <TabsContent value="grid" />
+          </Tabs>
         ),
         rationale:
           "Compact tabs for space-constrained UIs or obvious meanings.",

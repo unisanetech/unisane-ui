@@ -1,4 +1,5 @@
 {
+  "$schema": "./theme-override.schema.json",
   "name": "Green",
   "primary": { "hue": 145, "chroma": 0.14 },
   "description": "Growth, nature, success"

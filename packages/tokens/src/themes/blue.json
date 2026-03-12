@@ -1,4 +1,5 @@
 {
+  "$schema": "./theme-override.schema.json",
   "name": "Blue",
   "primary": { "hue": 230, "chroma": 0.15 },
   "description": "Truer blue (less cyan) tuned for white-first surfaces"

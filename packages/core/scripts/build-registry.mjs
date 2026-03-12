@@ -4,7 +4,7 @@
  * Unisane UI Registry Builder
  *
  * This script builds the component registry for the CLI tool.
- * It copies components from packages/ui/src to registry/ and:
+ * It copies components from packages/core/src to registry/ and:
  * - Rewrites @ui/* imports to @/* (shadcn convention)
  * - Generates registry.json with component metadata
  * - Detects inter-component dependencies automatically

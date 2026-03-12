@@ -1,23 +1,21 @@
-"use client";
+'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useCallback,
-  useState,
-  useEffect,
-} from "react";
-import { createPortal } from "react-dom";
-import { cva } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/primitives/icon";
-import { Button } from "./button";
-import { Ripple } from "./ripple";
+import React, { createContext, useContext, useCallback, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { cva } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
+import { Button } from './button';
+import { Ripple } from './ripple';
 
-// ─── TYPES ───────────────────────────────────────────────────────────────────
-
-export type ToastVariant = "default" | "success" | "error" | "warning" | "info";
-export type ToastPosition = "bottom-right" | "bottom-left" | "bottom-center" | "top-right" | "top-left" | "top-center";
+export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
+export type ToastPosition =
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'top-right'
+  | 'top-left'
+  | 'top-center';
 
 export interface ToastAction {
   label: string;
@@ -45,36 +43,35 @@ export interface ToastOptions {
   dismissible?: boolean | undefined;
 }
 
-// ─── STYLING ─────────────────────────────────────────────────────────────────
-
 const toastVariants = cva(
-  "pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-md shadow-4 min-w-72 max-w-100 border transition-all duration-medium ease-emphasized",
+  'pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-md shadow-4 min-w-72 max-w-100 border transition-all duration-medium ease-emphasized',
   {
     variants: {
       variant: {
-        default: "bg-inverse-surface text-inverse-on-surface border-transparent",
-        success: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-primary",
-        error: "bg-error-container text-on-error-container border-error [&_.toast-icon]:text-on-error-container",
-        warning: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-tertiary",
-        info: "bg-surface text-on-surface border-outline-subtle [&_.toast-icon]:text-secondary",
+        default: 'bg-inverse-surface text-inverse-on-surface border-transparent',
+        success:
+          'bg-success-container text-on-success-container border-success [&_.toast-icon]:text-on-success-container',
+        error:
+          'bg-error-container text-on-error-container border-error [&_.toast-icon]:text-on-error-container',
+        warning:
+          'bg-warning-container text-on-warning-container border-warning [&_.toast-icon]:text-on-warning-container',
+        info: 'bg-info-container text-on-info-container border-info [&_.toast-icon]:text-on-info-container',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
-  }
+  },
 );
 
 const positionClasses: Record<ToastPosition, string> = {
-  "bottom-right": "bottom-6 right-6 items-end",
-  "bottom-left": "bottom-6 left-6 items-start",
-  "bottom-center": "bottom-6 left-1/2 -translate-x-1/2 items-center",
-  "top-right": "top-6 right-6 items-end",
-  "top-left": "top-6 left-6 items-start",
-  "top-center": "top-6 left-1/2 -translate-x-1/2 items-center",
+  'bottom-right': 'bottom-6 right-6 items-end',
+  'bottom-left': 'bottom-6 left-6 items-start',
+  'bottom-center': 'bottom-6 left-1/2 -translate-x-1/2 items-center',
+  'top-right': 'top-6 right-6 items-end',
+  'top-left': 'top-6 left-6 items-start',
+  'top-center': 'top-6 left-1/2 -translate-x-1/2 items-center',
 };
-
-// ─── DEFAULT ICONS ───────────────────────────────────────────────────────────
 
 const defaultIcons: Record<ToastVariant, React.ReactNode> = {
   default: null,
@@ -83,8 +80,6 @@ const defaultIcons: Record<ToastVariant, React.ReactNode> = {
   warning: <Icon symbol="warning" size="sm" />,
   info: <Icon symbol="info" size="sm" />,
 };
-
-// ─── CONTEXT ─────────────────────────────────────────────────────────────────
 
 interface ToastContextValue {
   toasts: Toast[];
@@ -95,17 +90,13 @@ interface ToastContextValue {
 
 const ToastContext = createContext<ToastContextValue | null>(null);
 
-// ─── HOOK ────────────────────────────────────────────────────────────────────
-
 export function useToast() {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error("useToast must be used within a ToastProvider");
+    throw new Error('useToast must be used within a ToastProvider');
   }
   return context;
 }
-
-// ─── TOAST ITEM ──────────────────────────────────────────────────────────────
 
 interface ToastItemProps {
   toast: Toast;
@@ -117,7 +108,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
     id,
     message,
     description,
-    variant = "default",
+    variant = 'default',
     icon,
     action,
     duration = 5000,
@@ -135,35 +126,46 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
   }, [id, duration, onDismiss]);
 
   const displayIcon = icon ?? defaultIcons[variant];
-  const isInverse = variant === "default";
+  const isInverse = variant === 'default';
+  const isAlert = variant === 'error' || variant === 'warning';
 
   return (
     <div
       className={cn(
         toastVariants({ variant }),
-        "animate-in slide-in-from-right-full fade-in duration-medium"
+        'animate-in slide-in-from-right-full fade-in duration-medium',
       )}
-      role="status"
-      aria-live="polite"
+      role={isAlert ? 'alert' : 'status'}
+      aria-live={isAlert ? 'assertive' : 'polite'}
     >
       {displayIcon && (
-        <div className="toast-icon size-icon-sm flex items-center justify-center shrink-0">
+        <div className="toast-icon size-icon-sm flex shrink-0 items-center justify-center">
           {displayIcon}
         </div>
       )}
 
-      <div className="flex-1 min-w-0">
-        <p className={cn("text-body-medium font-medium leading-tight", isInverse ? "text-inverse-on-surface" : "text-on-surface")}>
+      <div className="min-w-0 flex-1">
+        <p
+          className={cn(
+            'text-body-medium leading-tight font-medium',
+            isInverse ? 'text-inverse-on-surface' : 'text-inherit',
+          )}
+        >
           {message}
         </p>
         {description && (
-          <p className={cn("text-body-small mt-1 leading-snug", isInverse ? "text-inverse-on-surface opacity-70" : "text-on-surface-variant")}>
+          <p
+            className={cn(
+              'text-body-small mt-1 leading-snug',
+              isInverse ? 'text-inverse-on-surface opacity-70' : 'text-inherit opacity-80',
+            )}
+          >
             {description}
           </p>
         )}
       </div>
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex shrink-0 items-center gap-2">
         {action && (
           <Button
             variant="text"
@@ -173,8 +175,10 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
               onDismiss(id);
             }}
             className={cn(
-              "h-8 px-3 font-medium",
-              isInverse ? "text-inverse-primary hover:bg-state-focus" : ""
+              'h-8 px-3 font-medium',
+              isInverse
+                ? 'text-inverse-primary hover:bg-state-focus'
+                : 'hover:bg-state-hover text-inherit',
             )}
           >
             {action.label}
@@ -185,10 +189,10 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
           <button
             onClick={() => onDismiss(id)}
             className={cn(
-              "group p-1 rounded-icon-button transition-colors relative overflow-hidden",
+              'group rounded-icon-button relative overflow-hidden p-1 transition-colors',
               isInverse
-                ? "text-inverse-on-surface opacity-50 hover:opacity-100"
-                : "text-on-surface-variant hover:text-on-surface"
+                ? 'text-inverse-on-surface opacity-50 hover:opacity-100'
+                : 'text-inherit opacity-70 hover:opacity-100',
             )}
             aria-label="Dismiss"
           >
@@ -212,14 +216,12 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
   );
 }
 
-// ─── TOASTER ─────────────────────────────────────────────────────────────────
-
 export interface ToasterProps {
   position?: ToastPosition;
   maxToasts?: number;
 }
 
-function ToasterPortal({ position = "bottom-right", maxToasts = 5 }: ToasterProps) {
+function ToasterPortal({ position = 'bottom-right', maxToasts = 5 }: ToasterProps) {
   const { toasts, dismiss } = useToast();
   const [mounted, setMounted] = useState(false);
 
@@ -230,24 +232,22 @@ function ToasterPortal({ position = "bottom-right", maxToasts = 5 }: ToasterProp
   if (!mounted) return null;
 
   const visibleToasts = toasts.slice(-maxToasts);
-  const isTop = position.startsWith("top");
+  const isTop = position.startsWith('top');
 
   return createPortal(
     <div
       className={cn(
-        "fixed z-5000 flex flex-col gap-2 pointer-events-none",
-        positionClasses[position]
+        'pointer-events-none fixed z-5000 flex flex-col gap-2',
+        positionClasses[position],
       )}
     >
       {(isTop ? visibleToasts.reverse() : visibleToasts).map((toast) => (
         <ToastItem key={toast.id} toast={toast} onDismiss={dismiss} />
       ))}
     </div>,
-    document.body
+    document.body,
   );
 }
-
-// ─── PROVIDER ────────────────────────────────────────────────────────────────
 
 export interface ToastProviderProps {
   children: React.ReactNode;
@@ -257,7 +257,7 @@ export interface ToastProviderProps {
 
 export function ToastProvider({
   children,
-  position = "bottom-right",
+  position = 'bottom-right',
   maxToasts = 5,
 }: ToastProviderProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -302,26 +302,19 @@ export function ToastProvider({
   );
 }
 
-// ─── CONVENIENCE METHODS ─────────────────────────────────────────────────────
-
-// These are created as a standalone toast API for cases where context isn't available
-// They require a toast host (<Toaster /> or <ToastProvider />) to be mounted somewhere in the app
-
 let toastFn: ((options: ToastOptions) => string) | null = null;
 let dismissFn: ((id: string) => void) | null = null;
 let dismissAllFn: (() => void) | null = null;
-let activeToastHost:
-  | {
-      toastFunc: (options: ToastOptions) => string;
-      dismissFunc: (id: string) => void;
-      dismissAllFunc: () => void;
-    }
-  | null = null;
+let activeToastHost: {
+  toastFunc: (options: ToastOptions) => string;
+  dismissFunc: (id: string) => void;
+  dismissAllFunc: () => void;
+} | null = null;
 
 export function setToastFunctions(
   toastFunc: (options: ToastOptions) => string,
   dismissFunc: (id: string) => void,
-  dismissAllFunc: () => void
+  dismissAllFunc: () => void,
 ) {
   toastFn = toastFunc;
   dismissFn = dismissFunc;
@@ -331,22 +324,22 @@ export function setToastFunctions(
 export const toast = {
   show: (options: ToastOptions) => {
     if (!toastFn) {
-      console.warn("Toast: no host mounted. Mount <Toaster /> or <ToastProvider>.");
-      return "";
+      console.warn('Toast: no host mounted. Mount <Toaster /> or <ToastProvider>.');
+      return '';
     }
     return toastFn(options);
   },
-  success: (message: string, options?: Omit<ToastOptions, "message" | "variant">) => {
-    return toast.show({ message, variant: "success", ...options });
+  success: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
+    return toast.show({ message, variant: 'success', ...options });
   },
-  error: (message: string, options?: Omit<ToastOptions, "message" | "variant">) => {
-    return toast.show({ message, variant: "error", ...options });
+  error: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
+    return toast.show({ message, variant: 'error', ...options });
   },
-  warning: (message: string, options?: Omit<ToastOptions, "message" | "variant">) => {
-    return toast.show({ message, variant: "warning", ...options });
+  warning: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
+    return toast.show({ message, variant: 'warning', ...options });
   },
-  info: (message: string, options?: Omit<ToastOptions, "message" | "variant">) => {
-    return toast.show({ message, variant: "info", ...options });
+  info: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
+    return toast.show({ message, variant: 'info', ...options });
   },
   dismiss: (id: string) => {
     dismissFn?.(id);
@@ -356,9 +349,7 @@ export const toast = {
   },
 };
 
-// ─── TOASTER STANDALONE (with auto-registration) ─────────────────────────────
-
-export function Toaster({ position = "bottom-right", maxToasts = 5 }: ToasterProps) {
+export function Toaster({ position = 'bottom-right', maxToasts = 5 }: ToasterProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   const toastFnInternal = useCallback((options: ToastOptions): string => {
@@ -402,19 +393,19 @@ export function Toaster({ position = "bottom-right", maxToasts = 5 }: ToasterPro
   if (!mounted) return null;
 
   const visibleToasts = toasts.slice(-maxToasts);
-  const isTop = position.startsWith("top");
+  const isTop = position.startsWith('top');
 
   return createPortal(
     <div
       className={cn(
-        "fixed z-5000 flex flex-col gap-2 pointer-events-none",
-        positionClasses[position]
+        'pointer-events-none fixed z-5000 flex flex-col gap-2',
+        positionClasses[position],
       )}
     >
       {(isTop ? visibleToasts.reverse() : visibleToasts).map((t) => (
         <ToastItem key={t.id} toast={t} onDismiss={dismissInternal} />
       ))}
     </div>,
-    document.body
+    document.body,
   );
 }

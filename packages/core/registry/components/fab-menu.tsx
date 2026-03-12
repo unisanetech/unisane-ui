@@ -20,7 +20,7 @@ export interface FabMenuProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
-  "aria-label"?: string;
+  'aria-label'?: string;
 }
 
 export const FabMenu: React.FC<FabMenuProps> = ({
@@ -31,7 +31,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
   open,
   defaultOpen = false,
   onOpenChange,
-  "aria-label": ariaLabel = "Actions menu",
+  'aria-label': ariaLabel = 'Actions menu',
 }) => {
   const [openState, setOpenState] = useControllableState<boolean>({
     value: open,
@@ -43,50 +43,50 @@ export const FabMenu: React.FC<FabMenuProps> = ({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
         setOpenState(false);
       }
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         event.preventDefault();
         setOpenState(false);
       }
     };
 
     if (isOpen) {
-      document.addEventListener("click", handleClickOutside);
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('click', handleClickOutside);
+      document.addEventListener('keydown', handleKeyDown);
     }
     return () => {
-      document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, setOpenState]);
 
   return (
     <div
       ref={containerRef}
-      className={cn("relative flex flex-col items-end gap-4 z-50", className)}
+      className={cn('relative z-50 flex flex-col items-end gap-4', className)}
     >
       <div
         className={cn(
-          "flex flex-col items-end gap-3 transition-all duration-medium ease-emphasized",
+          'duration-medium ease-emphasized flex flex-col items-end gap-3 transition-all',
           isOpen
-            ? "opacity-100 translate-y-0 visible"
-            : "opacity-0 translate-y-10 invisible pointer-events-none"
+            ? 'visible translate-y-0 opacity-100'
+            : 'pointer-events-none invisible translate-y-10 opacity-0',
         )}
         role="menu"
         aria-label={ariaLabel}
         aria-hidden={!isOpen}
       >
         {actions.map((action, index) => (
-          <div key={index} className="flex items-center gap-3 group" role="none">
-            <span className="bg-inverse-surface text-inverse-on-surface text-label-small font-medium py-1 px-2 rounded-sm shadow-1 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap" aria-hidden="true">
+          <div key={index} className="group flex items-center gap-3" role="none">
+            <span
+              className="bg-inverse-surface text-inverse-on-surface text-label-small shadow-1 rounded-sm px-2 py-1 font-medium whitespace-nowrap opacity-0 transition-opacity group-hover:opacity-100"
+              aria-hidden="true"
+            >
               {action.label}
             </span>
             <Fab
@@ -107,15 +107,15 @@ export const FabMenu: React.FC<FabMenuProps> = ({
       </div>
 
       <Fab
-        variant={isOpen ? "tertiary" : "primary"}
+        variant={isOpen ? 'tertiary' : 'primary'}
         size="md"
         className={cn(
-          "transition-transform duration-emphasized",
-          isOpen ? "rotate-90" : "rotate-0"
+          'duration-emphasized transition-transform',
+          isOpen ? 'rotate-90' : 'rotate-0',
         )}
         onClick={() => setOpenState(!isOpen)}
         icon={isOpen ? activeIcon : mainIcon}
-        aria-label={isOpen ? "Close menu" : ariaLabel}
+        aria-label={isOpen ? 'Close menu' : ariaLabel}
         aria-expanded={isOpen}
         aria-haspopup="menu"
       />

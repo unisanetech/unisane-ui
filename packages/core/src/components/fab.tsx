@@ -17,10 +17,14 @@ const fabVariants = cva(
   {
     variants: {
       variant: {
-        primary: 'bg-primary-container text-on-primary-container shadow-3 hover:shadow-4',
-        surface: 'bg-surface text-primary border border-outline-subtle shadow-1 hover:shadow-2',
-        secondary: 'bg-secondary-container text-on-secondary-container shadow-3 hover:shadow-4',
-        tertiary: 'bg-tertiary-container text-on-tertiary-container shadow-3 hover:shadow-4',
+        primary: 'bg-primary-container text-on-primary-container',
+        surface: 'bg-surface text-primary border border-outline-subtle',
+        secondary: 'bg-secondary-container text-on-secondary-container',
+        tertiary: 'bg-tertiary-container text-on-tertiary-container',
+      },
+      elevation: {
+        raised: '',
+        flat: 'shadow-none hover:shadow-none [box-shadow:none] hover:[box-shadow:none]',
       },
       size: {
         sm: 'h-10 w-10',
@@ -29,8 +33,31 @@ const fabVariants = cva(
         extended: 'h-14 w-auto min-w-20 px-6',
       },
     },
+    compoundVariants: [
+      {
+        variant: 'surface',
+        elevation: 'raised',
+        className: 'shadow-1 hover:shadow-2',
+      },
+      {
+        variant: 'primary',
+        elevation: 'raised',
+        className: 'shadow-3 hover:shadow-4',
+      },
+      {
+        variant: 'secondary',
+        elevation: 'raised',
+        className: 'shadow-3 hover:shadow-4',
+      },
+      {
+        variant: 'tertiary',
+        elevation: 'raised',
+        className: 'shadow-3 hover:shadow-4',
+      },
+    ],
     defaultVariants: {
       variant: 'primary',
+      elevation: 'raised',
       size: 'md',
     },
   },
@@ -48,6 +75,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
   (
     {
       variant,
+      elevation,
       size,
       className,
       icon,
@@ -63,7 +91,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
   ) => {
     const isDisabled = disabled || loading;
     const canRenderAsChild = asChild && isValidElement(children);
-    const finalSize = label && (size === 'md' || size === undefined) ? 'extended' : size ?? 'md';
+    const finalSize = label && (size === 'md' || size === undefined) ? 'extended' : (size ?? 'md');
     const iconSizeClasses = {
       sm: 'size-icon-sm',
       md: 'size-icon-md',
@@ -74,7 +102,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
       <>
         <span className="duration-medium ease-emphasized group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity" />
         <Ripple disabled={isDisabled} />
-        <div className="relative z-10 flex items-center justify-center gap-3 pointer-events-none">
+        <div className="pointer-events-none relative z-10 flex items-center justify-center gap-3">
           {loading ? (
             <svg
               className={cn('animate-spin', iconSizeClasses[finalSize])}
@@ -109,7 +137,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
                 </span>
               ) : null}
               {labelContent ? (
-                <span className="text-label-large font-medium leading-none">{labelContent}</span>
+                <span className="text-label-large leading-none font-medium">{labelContent}</span>
               ) : null}
               {extraContent}
             </>
@@ -132,13 +160,13 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
           props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
           childProps.onClick,
         ),
-        tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
+        tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
       };
 
       return (
         <Slot
           ref={ref as Ref<HTMLElement>}
-          className={cn(fabVariants({ variant, size: finalSize }), className)}
+          className={cn(fabVariants({ variant, elevation, size: finalSize }), className)}
           aria-busy={loading || undefined}
           aria-disabled={isDisabled || undefined}
           data-disabled={isDisabled ? 'true' : undefined}
@@ -156,7 +184,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(fabVariants({ variant, size: finalSize }), className)}
+        className={cn(fabVariants({ variant, elevation, size: finalSize }), className)}
         disabled={isDisabled}
         aria-busy={loading || undefined}
         data-disabled={isDisabled ? 'true' : undefined}

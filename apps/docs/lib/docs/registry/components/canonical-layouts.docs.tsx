@@ -2,138 +2,120 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import { FeedLayout, ListDetailLayout, SupportingPaneLayout } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CanonicalLayoutsHeroVisual = () => (
   <HeroBackground tone="surface">
-    {/* Mock App with List-Detail Layout */}
-    <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
-      {/* List Pane */}
-      <div className="w-28 bg-surface border-r border-outline-variant p-3 space-y-2">
-        <div className="h-3 bg-primary-container rounded-sm w-full" />
-        <div className="h-8 bg-secondary-container rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-primary-container" />
-          <div className="h-2 bg-primary-container rounded-sm flex-1" />
-        </div>
-        <div className="h-8 bg-surface-container-high rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-outline-muted" />
-          <div className="h-2 bg-outline-muted rounded-sm flex-1" />
-        </div>
-        <div className="h-8 bg-surface-container-high rounded-sm flex items-center gap-2 px-2">
-          <div className="w-4 h-4 rounded-full bg-outline-muted" />
-          <div className="h-2 bg-outline-muted rounded-sm flex-1" />
-        </div>
-      </div>
-      {/* Detail Pane */}
-      <div className="flex-1 bg-surface-container-low p-4">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-primary-container" />
-          <div className="flex-1 space-y-1">
-            <div className="h-3 bg-outline-muted rounded-sm w-3/4" />
-            <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
+    <div className="relative isolate h-56 w-80 overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+      <ListDetailLayout
+        isRoot
+        list={
+          <div className="space-y-2 p-3">
+            <div className="text-label-small text-on-surface-variant">Conversations</div>
+            <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
+              Design review
+            </div>
+            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              Product sync
+            </div>
+            <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              Engineering
+            </div>
           </div>
-        </div>
-        <div className="space-y-2">
-          <div className="h-2 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-2 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
-        </div>
-      </div>
+        }
+        detail={
+          <div className="space-y-3 p-4">
+            <div className="text-title-small text-on-surface">Design review</div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+              Updated canonical layout blocks are ready for QA.
+            </div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+              Ship preview refinements before release.
+            </div>
+          </div>
+        }
+      />
     </div>
   </HeroBackground>
 );
 
 // ─── EXAMPLES ────────────────────────────────────────────────────────────────
+const LayoutListPane = () => (
+  <div className="space-y-2 p-3">
+    <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">Alice</div>
+    <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">Bob</div>
+    <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">Carol</div>
+  </div>
+);
+
+const LayoutDetailPane = () => (
+  <div className="space-y-2 p-3">
+    <div className="text-title-small text-on-surface">Conversation</div>
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+    <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+    <div className="h-2 w-5/6 rounded-sm bg-surface-container-high" />
+  </div>
+);
+
+const SupportingMainPane = () => (
+  <div className="space-y-2 p-4">
+    <div className="text-title-small text-on-surface">Editor</div>
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+    <div className="h-2 w-2/3 rounded-sm bg-surface-container-high" />
+  </div>
+);
+
+const SupportingPaneContent = () => (
+  <div className="space-y-2 p-4">
+    <div className="text-label-small text-primary">Properties</div>
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+    <div className="h-2 rounded-sm bg-surface-container-high" />
+  </div>
+);
+
+const FeedCards = () => (
+  <>
+    <div className="rounded-sm border border-outline-variant bg-surface p-3">
+      <div className="mb-2 h-10 rounded-sm bg-surface-container-high" />
+      <div className="h-2 w-4/5 rounded-sm bg-outline-muted" />
+    </div>
+    <div className="rounded-sm border border-outline-variant bg-surface p-3">
+      <div className="mb-2 h-10 rounded-sm bg-surface-container-high" />
+      <div className="h-2 w-3/4 rounded-sm bg-outline-muted" />
+    </div>
+    <div className="rounded-sm border border-outline-variant bg-surface p-3">
+      <div className="mb-2 h-10 rounded-sm bg-surface-container-high" />
+      <div className="h-2 w-2/3 rounded-sm bg-outline-muted" />
+    </div>
+  </>
+);
+
 const ListDetailExample = () => (
-  <div className="h-full w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-    {/* List Side */}
-    <div className="w-40 border-r border-outline-variant p-3 space-y-2 shrink-0">
-      <div className="text-label-small text-on-surface-variant mb-2">Messages</div>
-      <div className="p-2 rounded-sm bg-secondary-container">
-        <div className="text-label-medium text-primary">Alice</div>
-        <div className="text-body-small text-on-surface-variant truncate">Hey, how are you?</div>
-      </div>
-      <div className="p-2 rounded-sm hover:bg-surface-container-high">
-        <div className="text-label-medium text-on-surface">Bob</div>
-        <div className="text-body-small text-on-surface-variant truncate">Meeting at 3pm</div>
-      </div>
-    </div>
-    {/* Detail Side */}
-    <div className="flex-1 p-4 bg-surface-container-low">
-      <div className="flex items-center gap-3 pb-3 border-b border-outline-variant mb-3">
-        <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary text-label-medium">A</div>
-        <div>
-          <div className="text-title-small text-on-surface">Alice</div>
-          <div className="text-body-small text-on-surface-variant">Online</div>
-        </div>
-      </div>
-      <div className="space-y-2">
-        <div className="bg-surface-container rounded-sm p-2 max-w-[80%] text-body-small text-on-surface">
-          Hey, how are you?
-        </div>
-      </div>
-    </div>
+  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <ListDetailLayout isRoot list={<LayoutListPane />} detail={<LayoutDetailPane />} />
   </div>
 );
 
 const SupportingPaneExample = () => (
-  <div className="h-full w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-    {/* Main Content */}
-    <div className="flex-1 p-4">
-      <div className="text-title-medium text-on-surface mb-3">Document Editor</div>
-      <div className="space-y-2">
-        <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-        <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-        <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
-        <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-        <div className="h-3 bg-surface-container-high rounded-sm w-1/2" />
-      </div>
-    </div>
-    {/* Supporting Pane */}
-    <div className="w-36 border-l border-outline-variant bg-surface-container-low p-3 shrink-0">
-      <div className="text-label-small text-primary mb-3">Properties</div>
-      <div className="space-y-3">
-        <div>
-          <div className="text-body-small text-on-surface-variant">Author</div>
-          <div className="text-body-small text-on-surface">John Doe</div>
-        </div>
-        <div>
-          <div className="text-body-small text-on-surface-variant">Modified</div>
-          <div className="text-body-small text-on-surface">Today</div>
-        </div>
-        <div>
-          <div className="text-body-small text-on-surface-variant">Size</div>
-          <div className="text-body-small text-on-surface">2.4 KB</div>
-        </div>
-      </div>
-    </div>
+  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <SupportingPaneLayout
+      open
+      title="Properties"
+      main={<SupportingMainPane />}
+      supporting={<SupportingPaneContent />}
+      isRoot
+    />
   </div>
 );
 
 const FeedLayoutExample = () => (
-  <div className="h-full w-full bg-surface-container-low rounded-sm overflow-hidden border border-outline-variant p-4">
-    <div className="grid grid-cols-2 gap-3 h-full">
-      <div className="bg-surface rounded-sm p-3 border border-outline-variant">
-        <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
-      </div>
-      <div className="bg-surface rounded-sm p-3 border border-outline-variant">
-        <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
-      </div>
-      <div className="bg-surface rounded-sm p-3 border border-outline-variant">
-        <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
-      </div>
-      <div className="bg-surface rounded-sm p-3 border border-outline-variant">
-        <div className="h-16 bg-surface-container-high rounded-sm mb-2" />
-        <div className="h-2 bg-outline-muted rounded-sm w-3/4 mb-1" />
-        <div className="h-2 bg-outline-muted rounded-sm w-1/2" />
-      </div>
-    </div>
+  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <FeedLayout isRoot>
+      <FeedCards />
+    </FeedLayout>
   </div>
 );
 
@@ -168,16 +150,8 @@ export const canonicalLayoutsDoc: ComponentDoc = {
       {
         emphasis: "List-Detail",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="w-10 border-r border-outline-variant p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-secondary-container" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="flex-1 p-1">
-              <div className="h-2 bg-surface-container-high rounded-sm mb-1" />
-              <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
-            </div>
+          <div className="relative isolate h-32 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <ListDetailLayout isRoot list={<LayoutListPane />} detail={<LayoutDetailPane />} />
           </div>
         ),
         rationale: "List on one side, detail view on the other.",
@@ -186,17 +160,14 @@ export const canonicalLayoutsDoc: ComponentDoc = {
       {
         emphasis: "Supporting Pane",
         component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="flex-1 p-1 space-y-1">
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-              <div className="h-2 bg-surface-container-high rounded-sm w-3/4" />
-            </div>
-            <div className="w-8 border-l border-outline-variant bg-surface-container-low p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-primary-container" />
-              <div className="h-1 rounded-sm bg-surface-container-high" />
-              <div className="h-1 rounded-sm bg-surface-container-high" />
-            </div>
+          <div className="relative isolate h-32 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <SupportingPaneLayout
+              open
+              title="Properties"
+              main={<SupportingMainPane />}
+              supporting={<SupportingPaneContent />}
+              isRoot
+            />
           </div>
         ),
         rationale: "Main content with collapsible side panel.",
@@ -205,13 +176,10 @@ export const canonicalLayoutsDoc: ComponentDoc = {
       {
         emphasis: "Feed",
         component: (
-          <div className="w-32 h-16 bg-surface-container-low rounded-sm p-1">
-            <div className="grid grid-cols-2 gap-1 h-full">
-              <div className="bg-surface rounded-sm" />
-              <div className="bg-surface rounded-sm" />
-              <div className="bg-surface rounded-sm" />
-              <div className="bg-surface rounded-sm" />
-            </div>
+          <div className="relative isolate h-32 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <FeedLayout isRoot>
+              <FeedCards />
+            </FeedLayout>
           </div>
         ),
         rationale: "Grid of cards that reflows responsively.",

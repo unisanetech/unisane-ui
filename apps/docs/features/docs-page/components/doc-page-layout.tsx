@@ -79,9 +79,9 @@ export function DocLayout({
           <Surface
             tone="surfaceContainerLow"
             rounded="sm"
-            className={`order-1 @3xl:order-2 ${heroMinHeightClass} ${heroOverflowClass} min-w-0`}
+            className={`order-1 @3xl:order-2 flex items-stretch ${heroMinHeightClass} ${heroOverflowClass} min-w-0`}
           >
-            {heroContent}
+            <div className="flex w-full flex-1 items-stretch">{heroContent}</div>
           </Surface>
         )}
       </header>

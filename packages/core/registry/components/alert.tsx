@@ -1,25 +1,22 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/primitives/icon";
-import { Typography } from "./typography";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
+import { Typography } from './typography';
 
-const alertVariants = cva(
-  "relative w-full rounded-sm p-4 flex items-start gap-3 border-l-4",
-  {
-    variants: {
-      variant: {
-        info: "bg-secondary-container border-secondary text-on-secondary-container",
-        error: "bg-error-container border-error text-on-error-container",
-        warning: "bg-tertiary-container border-tertiary text-on-tertiary-container",
-        success: "bg-primary-container border-primary text-on-primary-container",
-      },
+const alertVariants = cva('relative w-full rounded-sm p-4 flex items-start gap-3 border-l-4', {
+  variants: {
+    variant: {
+      info: 'bg-info-container border-info text-on-info-container',
+      error: 'bg-error-container border-error text-on-error-container',
+      warning: 'bg-warning-container border-warning text-on-warning-container',
+      success: 'bg-success-container border-success text-on-success-container',
     },
-    defaultVariants: {
-      variant: "info",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: 'info',
+  },
+});
 
 export type AlertProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof alertVariants> & {
@@ -36,34 +33,33 @@ export const Alert: React.FC<AlertProps> = ({
   ...props
 }) => {
   const defaultIcons: Record<string, string> = {
-    info: "info",
-    error: "error",
-    warning: "warning",
-    success: "check_circle",
+    info: 'info',
+    error: 'error',
+    warning: 'warning',
+    success: 'check_circle',
   };
 
   const iconNode =
-    typeof icon === "string" || !icon ? (
-      <Icon symbol={(icon as string) || defaultIcons[variant || "info"]} size="sm" className="opacity-80" />
+    typeof icon === 'string' || !icon ? (
+      <Icon
+        symbol={(icon as string) || defaultIcons[variant || 'info']}
+        size="sm"
+        className="opacity-80"
+      />
     ) : (
       icon
     );
 
   return (
     <div className={cn(alertVariants({ variant, className }))} role="alert" {...props}>
-      <div className="shrink-0 size-icon-sm flex items-center justify-center">{iconNode}</div>
-      <div className="flex-1 flex flex-col gap-1">
+      <div className="size-icon-sm flex shrink-0 items-center justify-center">{iconNode}</div>
+      <div className="flex flex-1 flex-col gap-1">
         {title && (
-          <Typography
-            variant="labelMedium"
-            className="text-inherit"
-          >
+          <Typography variant="labelMedium" className="text-inherit">
             {title}
           </Typography>
         )}
-        <div className="text-body-small opacity-90 leading-snug">
-          {children}
-        </div>
+        <div className="text-body-small leading-snug opacity-90">{children}</div>
       </div>
     </div>
   );

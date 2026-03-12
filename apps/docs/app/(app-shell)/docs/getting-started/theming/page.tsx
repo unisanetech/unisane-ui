@@ -45,14 +45,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          defaultConfig={{
-            theme: "system",
-            colorTheme: "blue",
-            radius: "standard",
-            density: "standard",
-          }}
-        >
+        <ThemeProvider>
           {children}
         </ThemeProvider>
       </body>
@@ -130,16 +123,26 @@ function ThemeToggle() {
 
           <CodeBlock
             title="Setting a color theme"
-            code={`import { ThemeProvider } from "@unisane/ui";
+            code={`import { useTheme } from "@unisane/ui";
 
-// Via defaultConfig
-<ThemeProvider defaultConfig={{ colorTheme: "purple" }}>
-  {children}
-</ThemeProvider>
+function ThemeColorPicker() {
+  const { setColorTheme } = useTheme();
+  
+  return (
+    <>
+      <button onClick={() => setColorTheme("purple")}>
+        Purple
+      </button>
+      <button onClick={() => setColorTheme("green")}>
+        Green
+      </button>
+    </>
+  );
+}
 
-// Or programmatically
-const { setColorTheme } = useTheme();
-setColorTheme("green");`}
+// You can also set defaults on first render
+// by applying HTML attributes such as:
+// <html data-color-theme="blue" data-theme-mode="system">`}
           />
         </div>
       </DocSection>

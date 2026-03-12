@@ -101,12 +101,12 @@ export const navigationBarDoc: ComponentDoc = {
       {
         emphasis: "3 items",
         component: (
-          <div className="w-32 h-10 bg-surface-container rounded-sm flex items-center justify-around px-2">
-            {["home", "search", "person"].map((icon, i) => (
-              <div key={icon} className="flex flex-col items-center">
-                <span className={`material-symbols-outlined text-[14px] ${i === 0 ? "text-primary" : "text-on-surface-variant"}`}>{icon}</span>
-              </div>
-            ))}
+          <div className="relative h-20 w-48 overflow-hidden rounded-sm border border-outline-variant">
+            <NavigationBar className="absolute inset-x-0 bottom-0">
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
+            </NavigationBar>
           </div>
         ),
         rationale: "Minimal navigation for focused apps.",
@@ -115,12 +115,14 @@ export const navigationBarDoc: ComponentDoc = {
       {
         emphasis: "4-5 items",
         component: (
-          <div className="w-32 h-10 bg-surface-container rounded-sm flex items-center justify-around px-1">
-            {["home", "search", "add_box", "notifications", "person"].map((icon, i) => (
-              <div key={icon} className="flex flex-col items-center">
-                <span className={`material-symbols-outlined text-[12px] ${i === 0 ? "text-primary" : "text-on-surface-variant"}`}>{icon}</span>
-              </div>
-            ))}
+          <div className="relative h-20 w-56 overflow-hidden rounded-sm border border-outline-variant">
+            <NavigationBar className="absolute inset-x-0 bottom-0">
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">add_box</span>} label="Create" />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">notifications</span>} label="Alerts" />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
+            </NavigationBar>
           </div>
         ),
         rationale: "Standard navigation for most apps.",

@@ -53,7 +53,7 @@ export const breadcrumbDoc: ComponentDoc = {
       {
         emphasis: "Link",
         component: (
-          <span className="text-label-medium font-medium text-on-surface-variant hover:text-primary transition-colors cursor-pointer">Products</span>
+          <BreadcrumbLink href="/products">Products</BreadcrumbLink>
         ),
         rationale:
           "Clickable ancestor pages in the hierarchy.",
@@ -62,7 +62,7 @@ export const breadcrumbDoc: ComponentDoc = {
       {
         emphasis: "Current",
         component: (
-          <span className="text-label-medium font-medium text-on-surface">Current Page</span>
+          <BreadcrumbPage>Current Page</BreadcrumbPage>
         ),
         rationale:
           "The current page (not clickable).",
@@ -71,12 +71,12 @@ export const breadcrumbDoc: ComponentDoc = {
       {
         emphasis: "Ellipsis",
         component: (
-          <div className="flex items-center gap-1">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant hover:bg-state-hover cursor-pointer">
-              <span className="text-[12px]">•••</span>
-            </div>
-            <span className="material-symbols-outlined text-[12px] text-outline">chevron_right</span>
-          </div>
+          <Breadcrumb>
+            <BreadcrumbEllipsis />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Item</BreadcrumbPage>
+            </BreadcrumbItem>
+          </Breadcrumb>
         ),
         rationale:
           "Collapses middle items in long paths.",
@@ -92,24 +92,31 @@ export const breadcrumbDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="flex items-center gap-2">
-            <span className="text-label-small text-on-surface-variant">Home</span>
-            <span className="material-symbols-outlined text-[12px] text-outline">chevron_right</span>
-            <span className="text-label-small text-on-surface">Page</span>
-          </div>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbSeparator />
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </Breadcrumb>
         ),
         title: "Simple",
         subtitle: "Two levels",
       },
       {
         component: (
-          <div className="flex items-center gap-2">
-            <span className="text-label-small text-on-surface-variant">Home</span>
-            <span className="material-symbols-outlined text-[12px] text-outline">chevron_right</span>
-            <span className="text-[10px] text-on-surface-variant">•••</span>
-            <span className="material-symbols-outlined text-[12px] text-outline">chevron_right</span>
-            <span className="text-label-small text-on-surface">Page</span>
-          </div>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+              <BreadcrumbSeparator />
+            </BreadcrumbItem>
+            <BreadcrumbEllipsis />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Page</BreadcrumbPage>
+            </BreadcrumbItem>
+          </Breadcrumb>
         ),
         title: "Collapsed",
         subtitle: "With ellipsis",

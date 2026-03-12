@@ -20,9 +20,7 @@ export const ListSubheader: React.FC<{
   children: React.ReactNode;
   className?: string;
 }> = ({ children, className }) => (
-  <div
-    className={cn('text-label-medium text-on-surface-variant px-4 py-2 font-medium', className)}
-  >
+  <div className={cn('text-label-medium text-on-surface-variant px-4 py-2 font-medium', className)}>
     {children}
   </div>
 );
@@ -77,10 +75,9 @@ export const ListItem: React.FC<ListItemProps> = ({
   const isInteractive = (!!onClick || !!href || asChild) && !disabled;
   const itemClasses = cn(
     listItemVariants({ active, disabled, className }),
-    isInteractive && focusRing
+    isInteractive && focusRing,
   );
 
-  // Build content for headline-based items
   const headlineContent = headline ? (
     <>
       {isInteractive && <Ripple />}
@@ -125,7 +122,6 @@ export const ListItem: React.FC<ListItemProps> = ({
     </>
   );
 
-  // asChild pattern: render user's Link component
   if (asChild && children && isValidElement(children)) {
     return (
       <div role="listitem">
@@ -162,11 +158,7 @@ export const ListItem: React.FC<ListItemProps> = ({
   }
 
   return (
-    <div
-      className={itemClasses}
-      role="listitem"
-      {...props}
-    >
+    <div className={itemClasses} role="listitem" {...props}>
       {headlineContent}
     </div>
   );

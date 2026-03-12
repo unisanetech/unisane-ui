@@ -13,7 +13,7 @@
    Color themes, schemes, and contrast levels are provided by
    @unisane/tokens/unisane.css. See ThemeProvider for usage:
 
-   - data-color-theme: blue, purple, pink, red, orange, yellow, green, cyan, black
+   - data-color-theme: blue, purple, pink, red, orange, yellow, green, cyan, neutral, black
    - data-scheme: tonal (default), neutral, monochrome
    - data-contrast: standard (default), medium, high
    - class="dark" for dark mode

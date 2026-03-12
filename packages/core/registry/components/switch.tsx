@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import { type InputHTMLAttributes, useId, forwardRef } from "react";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/primitives/icon";
+import { type InputHTMLAttributes, useId, forwardRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
 
-interface SwitchProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   disabled?: boolean;
   icons?: boolean;
@@ -13,17 +12,7 @@ interface SwitchProps
 }
 
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  (
-    {
-      label,
-      disabled = false,
-      icons = false,
-      className = "",
-      id: providedId,
-      ...props
-    },
-    ref
-  ) => {
+  ({ label, disabled = false, icons = false, className = '', id: providedId, ...props }, ref) => {
     const generatedId = useId();
     const id = providedId || generatedId;
 
@@ -31,16 +20,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
       <label
         htmlFor={id}
         className={cn(
-          "inline-flex items-center gap-3 cursor-pointer select-none group relative min-h-8",
-          disabled && "opacity-38 cursor-not-allowed pointer-events-none",
-          className
+          'group relative inline-flex min-h-8 cursor-pointer items-center gap-3 select-none',
+          disabled && 'pointer-events-none cursor-not-allowed opacity-38',
+          className,
         )}
       >
-        {/* Track container - uses calc with --unit for density scaling */}
-        {/* Base: 52x32px at standard density (13 units x 8 units) */}
-        <div
-          className="relative shrink-0 group/switch h-[calc(var(--unit)*8)] w-[calc(var(--unit)*13)]"
-        >
+        <div className="group/switch relative h-[calc(var(--unit)*8)] w-[calc(var(--unit)*13)] shrink-0">
           <input
             ref={ref}
             type="checkbox"
@@ -51,55 +36,47 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             {...props}
           />
 
-          {/* Track background */}
           <div
             className={cn(
-              "absolute inset-0 rounded-full transition-colors duration-medium ease-standard border-2",
-              "border-outline bg-surface-container-highest",
-              "peer-checked:bg-primary peer-checked:border-primary",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-focus-ring"
+              'duration-medium ease-standard absolute inset-0 rounded-full border-2 transition-colors',
+              'border-outline bg-surface-container-highest',
+              'peer-checked:bg-primary peer-checked:border-primary',
+              'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2',
             )}
           />
 
-          {/* Thumb - uses size-icon for density scaling */}
           <div
             className={cn(
-              "absolute top-1/2 -translate-y-1/2 rounded-full transition-all duration-emphasized ease-emphasized flex items-center justify-center z-10",
-              // Background colors
-              "bg-outline group-hover:bg-on-surface-variant peer-checked:bg-on-primary",
-              // Size: with icons always size-icon-md (24px), without icons size-icon-xs (16px) → size-icon-md (24px)
+              'duration-emphasized ease-emphasized absolute top-1/2 z-10 flex -translate-y-1/2 items-center justify-center rounded-full transition-all',
+              'bg-outline group-hover:bg-on-surface-variant peer-checked:bg-on-primary',
               icons
-                ? "size-icon-md left-[var(--unit)] peer-checked:left-[calc(var(--unit)*13-var(--icon-md)-var(--unit))]"
-                : "size-icon-xs left-[calc(var(--unit)*2)] peer-checked:size-icon-md peer-checked:left-[calc(var(--unit)*13-var(--icon-md)-var(--unit))]"
+                ? 'size-icon-md left-[var(--unit)] peer-checked:left-[calc(var(--unit)*13-var(--icon-md)-var(--unit))]'
+                : 'size-icon-xs peer-checked:size-icon-md left-[calc(var(--unit)*2)] peer-checked:left-[calc(var(--unit)*13-var(--icon-md)-var(--unit))]',
             )}
           />
 
-          {/* Icons (rendered separately to use peer selectors) */}
           {icons && (
             <>
-              {/* Close icon - shown when unchecked */}
               <Icon
                 symbol="close"
                 size="xs"
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-[calc(var(--unit)+var(--icon-md)/2)] text-surface-container-highest z-20 transition-opacity duration-snappy ease-standard opacity-100 peer-checked:opacity-0"
+                className="text-surface-container-highest duration-snappy ease-standard absolute top-1/2 left-[calc(var(--unit)+var(--icon-md)/2)] z-20 -translate-x-1/2 -translate-y-1/2 opacity-100 transition-opacity peer-checked:opacity-0"
               />
-              {/* Check icon - shown when checked */}
+
               <Icon
                 symbol="check"
                 size="xs"
-                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 left-[calc(var(--unit)*13-var(--icon-md)/2-var(--unit))] text-primary z-20 transition-opacity duration-snappy ease-standard opacity-0 peer-checked:opacity-100"
+                className="text-primary duration-snappy ease-standard absolute top-1/2 left-[calc(var(--unit)*13-var(--icon-md)/2-var(--unit))] z-20 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity peer-checked:opacity-100"
               />
             </>
           )}
         </div>
         {label && (
-          <span className="text-body-medium font-medium text-on-surface leading-none">
-            {label}
-          </span>
+          <span className="text-body-medium text-on-surface leading-none font-medium">{label}</span>
         )}
       </label>
     );
-  }
+  },
 );
 
-Switch.displayName = "Switch";
+Switch.displayName = 'Switch';

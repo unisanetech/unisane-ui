@@ -55,7 +55,7 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
   return (
     <nav
       className={cn(
-        'flex h-full w-24 shrink-0 flex-col items-center gap-1 border-r border-outline-variant bg-surface-container py-3 text-on-surface z-50 transition-all duration-medium ease-standard',
+        'border-outline-variant bg-surface-container text-on-surface duration-medium ease-standard z-50 flex h-full w-24 shrink-0 flex-col items-center gap-1 border-r py-3 transition-all',
         className,
       )}
       aria-label="Sidebar Navigation"
@@ -140,7 +140,9 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
         })}
       </div>
 
-      {footer && <div className="mt-auto mb-4 flex w-full flex-col items-center gap-4 pt-2">{footer}</div>}
+      {footer && (
+        <div className="mt-auto mb-4 flex w-full flex-col items-center gap-4 pt-2">{footer}</div>
+      )}
     </nav>
   );
 };

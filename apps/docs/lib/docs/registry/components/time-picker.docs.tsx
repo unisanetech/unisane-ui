@@ -48,6 +48,34 @@ const TimePickerExample = () => {
   );
 };
 
+const TimePickerDialPreview = () => {
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState("09:30");
+
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>
+        Open dial
+      </Button>
+      <TimePicker open={open} onOpenChange={setOpen} value={time} onValueChange={setTime} />
+    </>
+  );
+};
+
+const TimePickerKeyboardPreview = () => {
+  const [open, setOpen] = useState(false);
+  const [time, setTime] = useState("13:45");
+
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>
+        Open input
+      </Button>
+      <TimePicker open={open} onOpenChange={setOpen} value={time} onValueChange={setTime} />
+    </>
+  );
+};
+
 export const timePickerDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
   slug: "time-picker",
@@ -82,24 +110,13 @@ export const timePickerDoc: ComponentDoc = {
     rows: [
       {
         emphasis: "Clock dial",
-        component: (
-          <div className="w-16 h-16 rounded-full bg-surface-container-highest relative">
-            <div className="absolute top-1/2 left-1/2 w-1 h-1 -translate-x-1/2 -translate-y-1/2 bg-primary rounded-full" />
-            <div className="absolute top-1/2 left-1/2 h-6 w-0.5 bg-primary origin-bottom -translate-x-1/2 -translate-y-full rotate-45" />
-          </div>
-        ),
+        component: <TimePickerDialPreview />,
         rationale: "Visual, intuitive time selection.",
         examples: "Mobile apps, Touch interfaces",
       },
       {
         emphasis: "Keyboard input",
-        component: (
-          <div className="flex gap-1">
-            <div className="w-10 h-8 bg-surface-container-high rounded border border-outline-variant flex items-center justify-center text-body-small">09</div>
-            <span className="text-body-medium">:</span>
-            <div className="w-10 h-8 bg-surface-container-high rounded border border-outline-variant flex items-center justify-center text-body-small">30</div>
-          </div>
-        ),
+        component: <TimePickerKeyboardPreview />,
         rationale: "Precise, quick time entry.",
         examples: "Desktop apps, Power users",
       },

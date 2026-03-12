@@ -2,129 +2,208 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
+import {
+  NavigationDrawer,
+  NavigationDrawerHeadline,
+  NavigationDrawerItem,
+  NavigationRail,
+  Sidebar,
+  SidebarBackdrop,
+  SidebarContent,
+  SidebarDrawer,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarNavItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarRailItem,
+} from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SidebarHeroVisual = () => (
   <HeroBackground tone="surface">
-    {/* Mock App with Sidebar */}
-    <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
-      {/* Rail */}
-      <div className="w-14 bg-surface-container border-r border-outline-variant py-3 flex flex-col items-center gap-2 shrink-0">
-        <div className="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center">
-          <span className="material-symbols-outlined text-primary text-[18px]">home</span>
-        </div>
-        <div className="w-8 h-8 rounded-lg hover:bg-surface-container-high flex items-center justify-center">
-          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">inbox</span>
-        </div>
-        <div className="w-8 h-8 rounded-lg hover:bg-surface-container-high flex items-center justify-center">
-          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">settings</span>
-        </div>
-      </div>
-      {/* Drawer */}
-      <div className="w-44 bg-surface-container border-r border-outline-variant p-3 shrink-0">
-        <div className="text-title-small text-on-surface mb-4">Dashboard</div>
-        <div className="space-y-1">
-          <div className="p-2 rounded-sm bg-secondary-container text-label-medium text-primary">Overview</div>
-          <div className="p-2 rounded-sm text-label-medium text-on-surface-variant">Analytics</div>
-          <div className="p-2 rounded-sm text-label-medium text-on-surface-variant">Reports</div>
-        </div>
-      </div>
-      {/* Main Content */}
-      <div className="flex-1 p-4 bg-surface-container-lowest">
-        <div className="h-3 bg-outline-soft rounded-sm w-1/3 mb-3" />
-        <div className="grid grid-cols-2 gap-2">
-          <div className="h-16 bg-surface-container rounded-sm" />
-          <div className="h-16 bg-surface-container rounded-sm" />
-        </div>
-      </div>
+    <div className="relative isolate h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+      <SidebarProvider
+        forceViewport="desktop"
+        defaultExpanded
+        railWidth={72}
+        drawerWidth={168}
+        items={[
+          { id: "home", label: "Home", icon: "home" },
+          { id: "inbox", label: "Inbox", icon: "inbox" },
+          { id: "settings", label: "Settings", icon: "settings" },
+        ]}
+        defaultActiveId="home"
+      >
+        <Sidebar className="relative h-full w-full">
+          <SidebarRail>
+            <SidebarRailItem id="home" label="Home" icon="home" />
+            <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
+            <SidebarRailItem id="settings" label="Settings" icon="settings" />
+          </SidebarRail>
+          <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
+            <SidebarHeader>
+              <div className="text-label-medium text-on-surface">Dashboard</div>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                <SidebarNavItem id="home" label="Overview" icon="home" />
+                <SidebarNavItem id="inbox" label="Messages" icon="inbox" />
+                <SidebarNavItem id="settings" label="Settings" icon="settings" />
+              </SidebarMenu>
+            </SidebarContent>
+          </SidebarDrawer>
+          <SidebarBackdrop />
+          <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
+            <div className="space-y-2 p-4">
+              <div className="text-title-small text-on-surface">Overview</div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+                Revenue report updated.
+              </div>
+              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+                Pending approvals: 3
+              </div>
+            </div>
+          </SidebarInset>
+        </Sidebar>
+      </SidebarProvider>
     </div>
   </HeroBackground>
 );
 
 // ─── EXAMPLES ────────────────────────────────────────────────────────────────
 const RailOnlyExample = () => (
-  <div className="h-full w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-    {/* Rail */}
-    <div className="w-16 bg-surface-container py-4 flex flex-col items-center gap-1 shrink-0">
-      <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl bg-secondary-container flex items-center justify-center">
-          <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>home</span>
-        </div>
-        <span className="text-[11px] text-primary font-bold">Home</span>
-      </div>
-      <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
-        </div>
-        <span className="text-[11px] text-on-surface-variant">Search</span>
-      </div>
-      <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover relative">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">notifications</span>
-          <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-error text-on-error text-[10px] rounded-full flex items-center justify-center">3</span>
-        </div>
-        <span className="text-[11px] text-on-surface-variant">Alerts</span>
-      </div>
-    </div>
-    {/* Content */}
-    <div className="flex-1 p-4 bg-surface-container-lowest">
+  <div className="relative isolate flex h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <NavigationRail
+      items={[
+        { value: "home", label: "Home", icon: "home", activeIcon: "home" },
+        { value: "search", label: "Search", icon: "search", activeIcon: "search" },
+        { value: "alerts", label: "Alerts", icon: "notifications", activeIcon: "notifications", badge: "3" },
+      ]}
+      value="home"
+    />
+    <div className="flex-1 space-y-2 bg-surface-container-lowest p-4">
       <div className="h-4 bg-outline-soft rounded-sm w-1/2 mb-4" />
-      <div className="space-y-2">
-        <div className="h-3 bg-surface-container-high rounded-sm w-full" />
-        <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
-      </div>
+      <div className="h-3 bg-surface-container-high rounded-sm w-full" />
+      <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
     </div>
   </div>
 );
 
 const ExpandedSidebarExample = () => (
-  <div className="h-full w-full bg-surface rounded-sm overflow-hidden border border-outline-variant flex">
-    {/* Rail */}
-    <div className="w-16 bg-surface-container border-r border-outline-variant py-4 flex flex-col items-center gap-1 shrink-0">
-      <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl bg-secondary-container flex items-center justify-center">
-          <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>folder</span>
-        </div>
-        <span className="text-[11px] text-primary font-bold">Files</span>
-      </div>
-      <div className="flex flex-col items-center gap-1 w-full px-2">
-        <div className="w-12 h-7 rounded-xl flex items-center justify-center hover:bg-state-hover">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">star</span>
-        </div>
-        <span className="text-[11px] text-on-surface-variant">Starred</span>
-      </div>
-    </div>
-    {/* Drawer */}
-    <div className="w-48 bg-surface-container p-3 shrink-0">
-      <div className="text-label-small text-on-surface-variant mb-3 px-2">FILES</div>
-      <div className="space-y-1">
-        <div className="flex items-center gap-3 p-2 rounded-xl bg-secondary-container">
-          <span className="material-symbols-outlined text-primary text-[20px]" style={{ fontVariationSettings: "'FILL' 1" }}>folder</span>
-          <span className="text-body-medium text-primary font-semibold">Documents</span>
-        </div>
-        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-state-hover">
-          <span className="material-symbols-outlined text-[20px]">folder</span>
-          <span className="text-body-medium">Images</span>
-        </div>
-        <div className="flex items-center gap-3 p-2 rounded-xl text-on-surface-variant hover:bg-state-hover">
-          <span className="material-symbols-outlined text-[20px]">folder</span>
-          <span className="text-body-medium">Downloads</span>
-        </div>
-      </div>
-    </div>
-    {/* Content */}
-    <div className="flex-1 p-4 bg-surface-container-lowest border-l border-outline-variant">
-      <div className="text-title-medium text-on-surface mb-3">Documents</div>
-      <div className="space-y-2">
-        <div className="flex items-center gap-2 p-2 rounded-sm bg-surface border border-outline-variant">
-          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">description</span>
-          <span className="text-body-small text-on-surface">Report.pdf</span>
-        </div>
-        <div className="flex items-center gap-2 p-2 rounded-sm bg-surface border border-outline-variant">
-          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">description</span>
-          <span className="text-body-small text-on-surface">Notes.txt</span>
-        </div>
-      </div>
+  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <SidebarProvider
+      forceViewport="desktop"
+      defaultExpanded
+      railWidth={72}
+      drawerWidth={168}
+      items={[
+        { id: "files", label: "Files", icon: "folder" },
+        { id: "starred", label: "Starred", icon: "star" },
+        { id: "shared", label: "Shared", icon: "group" },
+      ]}
+      defaultActiveId="files"
+    >
+      <Sidebar className="relative h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="files" label="Files" icon="folder" />
+          <SidebarRailItem id="starred" label="Starred" icon="star" />
+          <SidebarRailItem id="shared" label="Shared" icon="group" />
+        </SidebarRail>
+        <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface">Library</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              <SidebarNavItem id="files" label="Documents" icon="description" />
+              <SidebarNavItem id="starred" label="Images" icon="image" />
+            <SidebarNavItem id="shared" label="Downloads" icon="download" />
+          </SidebarMenu>
+        </SidebarContent>
+        </SidebarDrawer>
+        <SidebarBackdrop />
+        <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
+          <div className="space-y-2 p-4">
+            <div className="text-title-medium text-on-surface">Documents</div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+              Report.pdf
+            </div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+              Notes.txt
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </div>
+);
+
+const SidebarSystemPreview = () => (
+  <div className="relative isolate h-40 w-72 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <SidebarProvider
+      forceViewport="desktop"
+      defaultExpanded
+      railWidth={64}
+      drawerWidth={156}
+      items={[
+        { id: "home", label: "Home", icon: "home" },
+        { id: "inbox", label: "Inbox", icon: "inbox" },
+      ]}
+      defaultActiveId="home"
+    >
+      <Sidebar className="relative h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="home" label="Home" icon="home" />
+          <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
+        </SidebarRail>
+        <SidebarDrawer className="!absolute !top-0 !h-full !shadow-none">
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface">Workspace</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              <SidebarNavItem id="home" label="Home" icon="home" />
+              <SidebarNavItem id="inbox" label="Inbox" icon="inbox" />
+            </SidebarMenu>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarBackdrop />
+        <SidebarInset className="!mt-0 !h-full !overflow-hidden !bg-surface-container-lowest">
+          <div className="space-y-2 p-3">
+            <div className="h-2 rounded-sm bg-surface-container-high" />
+            <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </div>
+);
+
+const SidebarRailPreview = () => (
+  <div className="relative isolate h-40 w-28 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <NavigationRail
+      items={[
+        { value: "home", label: "Home", icon: "home", activeIcon: "home" },
+        { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox" },
+      ]}
+      value="home"
+    />
+  </div>
+);
+
+const SidebarMobileDrawerPreview = () => (
+  <div className="relative isolate h-40 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+    <NavigationDrawer open modal className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none">
+      <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
+      <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
+      <NavigationDrawerItem icon="inbox">Inbox</NavigationDrawerItem>
+      <NavigationDrawerItem icon="settings">Settings</NavigationDrawerItem>
+    </NavigationDrawer>
+    <div className="ml-44 space-y-2 p-3">
+      <div className="h-2 rounded-sm bg-surface-container-high" />
+      <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
     </div>
   </div>
 );
@@ -165,6 +244,9 @@ export const sidebarDoc: ComponentDoc = {
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <SidebarHeroVisual />,
+  heroPreview: {
+    minHeight: "xl",
+  },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
@@ -179,53 +261,19 @@ export const sidebarDoc: ComponentDoc = {
     rows: [
       {
         emphasis: "Rail + Drawer",
-        component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="w-6 border-r border-outline-variant py-1 flex flex-col items-center gap-1">
-              <div className="w-4 h-2 rounded-sm bg-secondary-container" />
-              <div className="w-4 h-2 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="w-12 border-r border-outline-variant p-1 space-y-1">
-              <div className="h-2 rounded-sm bg-secondary-container" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="flex-1 p-1 bg-surface-container-lowest">
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-            </div>
-          </div>
-        ),
+        component: <SidebarSystemPreview />,
         rationale: "App-shell navigation that coordinates rail, drawer, and content layout together.",
         examples: "Admin dashboards, Complex apps",
       },
       {
         emphasis: "Rail Only",
-        component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm flex overflow-hidden">
-            <div className="w-8 border-r border-outline-variant py-1 flex flex-col items-center gap-1">
-              <div className="w-5 h-3 rounded-md bg-secondary-container" />
-              <div className="w-5 h-3 rounded-md bg-surface-container-high" />
-              <div className="w-5 h-3 rounded-md bg-surface-container-high" />
-            </div>
-            <div className="flex-1 p-1 bg-surface-container-lowest">
-              <div className="h-2 bg-surface-container-high rounded-sm" />
-            </div>
-          </div>
-        ),
+        component: <SidebarRailPreview />,
         rationale: "Use NavigationRail instead when you only need a standalone compact nav surface.",
         examples: "Simple apps, Limited nav items",
       },
       {
         emphasis: "Mobile Drawer",
-        component: (
-          <div className="w-32 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute inset-0 bg-scrim-soft" />
-            <div className="absolute left-0 top-0 bottom-0 w-16 bg-surface-container shadow-3 p-1 space-y-1 z-10">
-              <div className="h-2 rounded-sm bg-secondary-container" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-            </div>
-          </div>
-        ),
+        component: <SidebarMobileDrawerPreview />,
         rationale: "Use NavigationDrawer instead when you only need a standalone drawer surface.",
         examples: "Mobile views, Tablet compact",
       },

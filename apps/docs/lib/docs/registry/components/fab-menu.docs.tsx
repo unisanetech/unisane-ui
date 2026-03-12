@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { FabMenu } from "@unisane/ui";
+import { Fab, FabMenu } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const FabMenuHeroVisual = () => (
@@ -102,9 +102,10 @@ export const fabMenuDoc: ComponentDoc = {
       {
         emphasis: "FAB",
         component: (
-          <div className="w-14 h-14 rounded-lg bg-primary-container flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-primary-container">add</span>
-          </div>
+          <Fab
+            icon={<span className="material-symbols-outlined">add</span>}
+            aria-label="Create"
+          />
         ),
         rationale: "Single primary action.",
         examples: "Create new, Compose, Add item",
@@ -112,13 +113,22 @@ export const fabMenuDoc: ComponentDoc = {
       {
         emphasis: "FAB Menu",
         component: (
-          <div className="flex flex-col items-end gap-2">
-            <div className="w-10 h-10 rounded-xl bg-secondary-container flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-secondary-container text-[18px]">edit</span>
-            </div>
-            <div className="w-14 h-14 rounded-lg bg-primary-container flex items-center justify-center">
-              <span className="material-symbols-outlined text-on-primary-container">add</span>
-            </div>
+          <div className="h-36 w-36">
+            <FabMenu
+              defaultOpen
+              actions={[
+                {
+                  label: "Edit",
+                  icon: <span className="material-symbols-outlined">edit</span>,
+                  onClick: () => {},
+                },
+                {
+                  label: "Share",
+                  icon: <span className="material-symbols-outlined">share</span>,
+                  onClick: () => {},
+                },
+              ]}
+            />
           </div>
         ),
         rationale: "Multiple related actions.",

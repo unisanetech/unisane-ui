@@ -6,7 +6,7 @@
   "primary": {
     "hue": 230,
     "chroma": 0.15,
-    "comment": "Core blue (230°) tuned to avoid cyan/teal drift on white-first surfaces"
+    "comment": "Core blue (230°) tuned to avoid cyan drift on white-first surfaces"
   },
 
   "secondary": {

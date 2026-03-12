@@ -61,7 +61,7 @@ export const HeroBackground: React.FC<HeroBackgroundProps> = ({
 }) => {
   return (
     <div
-      className={`relative w-full h-full flex ${paddingClasses[padding]} ${overflowClasses[overflow]} ${toneClasses[tone]} ${alignClasses[align]} ${justifyClasses[justify]} ${className}`.trim()}
+      className={`relative flex h-full min-h-[inherit] w-full self-stretch ${paddingClasses[padding]} ${overflowClasses[overflow]} ${toneClasses[tone]} ${alignClasses[align]} ${justifyClasses[justify]} ${className}`.trim()}
     >
       {children}
     </div>

@@ -1,21 +1,21 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, focusRing } from "@/lib/utils";
-import { Surface } from "@/primitives/surface";
-import { Ripple } from "./ripple";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, focusRing } from '@/lib/utils';
+import { Surface } from '@/primitives/surface';
+import { Ripple } from './ripple';
 
 const bottomAppBarVariants = cva(
-  "fixed bottom-0 left-0 right-0 h-20 flex items-center justify-between px-4 z-20",
+  'fixed bottom-0 left-0 right-0 h-20 flex items-center justify-between px-4 z-20',
   {
     variants: {
       variant: {
-        default: "",
+        default: '',
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: 'default',
     },
-  }
+  },
 );
 
 export type BottomAppBarProps = VariantProps<typeof bottomAppBarVariants> & {
@@ -24,11 +24,7 @@ export type BottomAppBarProps = VariantProps<typeof bottomAppBarVariants> & {
   className?: string;
 };
 
-export const BottomAppBar: React.FC<BottomAppBarProps> = ({
-  children,
-  fab,
-  className,
-}) => {
+export const BottomAppBar: React.FC<BottomAppBarProps> = ({ children, fab, className }) => {
   return (
     <Surface
       tone="surface"
@@ -37,57 +33,53 @@ export const BottomAppBar: React.FC<BottomAppBarProps> = ({
       role="toolbar"
       aria-label="Bottom navigation"
     >
-      <div className="flex items-center gap-2 flex-1">{children}</div>
+      <div className="flex flex-1 items-center gap-2">{children}</div>
 
-      {fab && (
-        <div className="absolute left-1/2 -translate-x-1/2 -top-8">{fab}</div>
-      )}
+      {fab && <div className="absolute -top-8 left-1/2 -translate-x-1/2">{fab}</div>}
     </Surface>
   );
 };
 
 const bottomAppBarActionVariants = cva(
-  "relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-icon-button select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38",
+  'relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-icon-button select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38',
   {
     variants: {
       active: {
-        true: "text-primary",
-        false: "text-on-surface-variant hover:text-primary",
+        true: 'text-primary',
+        false: 'text-on-surface-variant hover:text-primary',
       },
     },
     defaultVariants: {
       active: false,
     },
-  }
+  },
 );
 
-export type BottomAppBarActionProps = VariantProps<
-  typeof bottomAppBarActionVariants
-> & {
+export type BottomAppBarActionProps = VariantProps<typeof bottomAppBarActionVariants> & {
   icon: React.ReactNode;
   label: string;
   active?: boolean;
   className?: string;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children">;
+} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>;
 
 export const BottomAppBarAction: React.FC<BottomAppBarActionProps> = ({
   icon,
   label,
   active,
   className,
-  type = "button",
+  type = 'button',
   ...props
 }) => {
   return (
     <button
       type={type}
       className={cn(bottomAppBarActionVariants({ active, className }), focusRing)}
-      aria-label={props["aria-label"] ?? label}
+      aria-label={props['aria-label'] ?? label}
       aria-pressed={active}
       {...props}
     >
       <Ripple />
-      <div className="size-icon-sm flex items-center justify-center relative z-10">{icon}</div>
+      <div className="size-icon-sm relative z-10 flex items-center justify-center">{icon}</div>
     </button>
   );
 };

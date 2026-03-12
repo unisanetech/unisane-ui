@@ -1,9 +1,9 @@
-import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, focusRing } from "@/lib/utils";
-import { Icon } from "@/primitives/icon";
-import { Text } from "@/primitives/text";
-import { Ripple } from "./ripple";
+import React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, focusRing } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
+import { Text } from '@/primitives/text';
+import { Ripple } from './ripple';
 
 interface Step {
   label: string;
@@ -17,18 +17,15 @@ export interface StepperProps {
   className?: string;
 }
 
-export const Stepper: React.FC<StepperProps> = ({
-  steps,
-  activeStep = 0,
-  children,
-  className,
-}) => {
+export const Stepper: React.FC<StepperProps> = ({ steps, activeStep = 0, children, className }) => {
   if (!steps || steps.length === 0) {
-    return <div className={cn("flex items-center justify-between w-full", className)}>{children}</div>;
+    return (
+      <div className={cn('flex w-full items-center justify-between', className)}>{children}</div>
+    );
   }
 
   return (
-    <div className={cn("w-full flex items-start gap-0", className)}>
+    <div className={cn('flex w-full items-start gap-0', className)}>
       {steps.map((step, index) => {
         const isCompleted = index < activeStep;
         const isActive = index === activeStep;
@@ -37,45 +34,41 @@ export const Stepper: React.FC<StepperProps> = ({
         return (
           <div
             key={`${step.label}-${index}`}
-            className={cn("flex flex-col items-center relative", isLast ? "flex-none" : "flex-1")}
+            className={cn('relative flex flex-col items-center', isLast ? 'flex-none' : 'flex-1')}
           >
             {!isLast && (
               <div
                 className={cn(
-                  "absolute top-4 left-1/2 w-full h-0.5 transition-colors duration-medium z-0",
-                  isCompleted ? "bg-primary" : "bg-outline-subtle"
+                  'duration-medium absolute top-4 left-1/2 z-0 h-0.5 w-full transition-colors',
+                  isCompleted ? 'bg-primary' : 'bg-outline-subtle',
                 )}
               />
             )}
 
             <div
               className={cn(
-                "w-8 h-8 rounded-sm flex items-center justify-center text-label-small font-medium border-2 z-10 transition-all duration-emphasized",
-                isActive && "bg-primary border-primary text-on-primary scale-110",
-                isCompleted && "bg-primary border-primary text-on-primary",
+                'text-label-small duration-emphasized z-10 flex h-8 w-8 items-center justify-center rounded-sm border-2 font-medium transition-all',
+                isActive && 'bg-primary border-primary text-on-primary scale-110',
+                isCompleted && 'bg-primary border-primary text-on-primary',
                 !isActive &&
                   !isCompleted &&
-                  "bg-surface border-outline-variant text-on-surface-variant"
+                  'bg-surface border-outline-variant text-on-surface-variant',
               )}
             >
-              {isCompleted ? (
-                <Icon symbol="check" size={18} strokeWidth={4} />
-              ) : (
-                index + 1
-              )}
+              {isCompleted ? <Icon symbol="check" size={18} strokeWidth={4} /> : index + 1}
             </div>
 
-            <div className="mt-4 text-center px-2 max-w-30">
+            <div className="mt-4 max-w-30 px-2 text-center">
               <span
                 className={cn(
-                  "block text-label-small font-medium transition-colors",
-                  isActive ? "text-on-surface" : "text-on-surface-variant"
+                  'text-label-small block font-medium transition-colors',
+                  isActive ? 'text-on-surface' : 'text-on-surface-variant',
                 )}
               >
                 {step.label}
               </span>
               {step.description && (
-                <span className="hidden @md:block text-label-small font-medium text-on-surface-variant mt-1 leading-none">
+                <span className="text-label-small text-on-surface-variant mt-1 hidden leading-none font-medium @md:block">
                   {step.description}
                 </span>
               )}
@@ -88,28 +81,28 @@ export const Stepper: React.FC<StepperProps> = ({
 };
 
 const stepVariants = cva(
-  "relative flex items-center gap-3 cursor-pointer select-none overflow-hidden rounded-sm",
+  'relative flex items-center gap-3 cursor-pointer select-none overflow-hidden rounded-sm',
   {
     variants: {
       orientation: {
-        horizontal: "flex-row",
-        vertical: "flex-col",
+        horizontal: 'flex-row',
+        vertical: 'flex-col',
       },
       active: {
-        true: "",
-        false: "",
+        true: '',
+        false: '',
       },
       completed: {
-        true: "",
-        false: "",
+        true: '',
+        false: '',
       },
     },
     defaultVariants: {
-      orientation: "horizontal",
+      orientation: 'horizontal',
       active: false,
       completed: false,
     },
-  }
+  },
 );
 
 export type StepProps = VariantProps<typeof stepVariants> & {
@@ -135,20 +128,18 @@ export const Step: React.FC<StepProps> = ({
       <Ripple />
       <div
         className={cn(
-          "w-8 h-8 rounded-sm flex items-center justify-center transition-colors duration-medium ease-standard",
+          'duration-medium ease-standard flex h-8 w-8 items-center justify-center rounded-sm transition-colors',
           active
-            ? "bg-primary text-on-primary"
+            ? 'bg-primary text-on-primary'
             : completed
-              ? "bg-primary-container text-on-primary-container"
-              : "bg-surface-variant text-on-surface-variant"
+              ? 'bg-primary-container text-on-primary-container'
+              : 'bg-surface-variant text-on-surface-variant',
         )}
       >
-        <Text variant="labelLarge">{completed ? "✓" : stepNumber}</Text>
+        <Text variant="labelLarge">{completed ? '✓' : stepNumber}</Text>
       </div>
 
-      <div className={cn("flex-1", orientation === "vertical" && "ml-0 mt-2")}>
-        {children}
-      </div>
+      <div className={cn('flex-1', orientation === 'vertical' && 'mt-2 ml-0')}>{children}</div>
     </>
   );
 
@@ -158,7 +149,7 @@ export const Step: React.FC<StepProps> = ({
         type="button"
         className={cn(stepVariants({ orientation, active, completed, className }), focusRing)}
         onClick={onClick}
-        aria-current={active ? "step" : undefined}
+        aria-current={active ? 'step' : undefined}
       >
         {content}
       </button>
@@ -168,7 +159,7 @@ export const Step: React.FC<StepProps> = ({
   return (
     <div
       className={cn(stepVariants({ orientation, active, completed, className }))}
-      aria-current={active ? "step" : undefined}
+      aria-current={active ? 'step' : undefined}
     >
       {content}
     </div>
@@ -193,10 +184,7 @@ export type StepDescriptionProps = {
   className?: string;
 };
 
-export const StepDescription: React.FC<StepDescriptionProps> = ({
-  children,
-  className,
-}) => {
+export const StepDescription: React.FC<StepDescriptionProps> = ({ children, className }) => {
   return (
     <div className={className}>
       <Text variant="bodyMedium" className="text-on-surface-variant">

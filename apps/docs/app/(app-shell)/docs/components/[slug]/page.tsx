@@ -59,6 +59,23 @@ export default function ComponentPage({ params }: ComponentPageProps) {
       : component.importPath
         ? `import { ${component.name} } from "${component.importPath}"`
         : null;
+  const exampleHero = component.examples?.[0];
+  const choosingHero = component.choosing?.rows[0];
+  const hierarchyHero = component.hierarchy?.items[0];
+  const placementHero = component.placement?.examples[0];
+  const fallbackHeroContent =
+    exampleHero?.component ??
+    choosingHero?.component ??
+    hierarchyHero?.component ??
+    placementHero?.visual;
+  const heroContent =
+    component.heroVisual ?? fallbackHeroContent;
+  const fallbackHeroPreview = exampleHero
+    ? exampleHero.preview ?? component.examplesPreview
+    : !choosingHero && !hierarchyHero && placementHero
+      ? placementHero.preview ?? component.placement?.previewDefaults
+      : undefined;
+  const heroPreview = component.heroPreview ?? fallbackHeroPreview;
 
   // Build table of contents based on available sections
   // Order: Installation → Usage → Design guidance → API → Accessibility → Related
@@ -105,8 +122,8 @@ export default function ComponentPage({ params }: ComponentPageProps) {
       title={component.name}
       description={component.description}
       toc={toc}
-      heroContent={component.heroVisual}
-      heroPreview={component.heroPreview}
+      heroContent={heroContent}
+      heroPreview={heroPreview}
       heroEyebrow={
         <>
           {categoryMeta ? (

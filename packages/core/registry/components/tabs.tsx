@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useId } from "react";
-import { cn } from "@/lib/utils";
-import { useControllableState } from "@/lib/use-controllable-state";
-import { Ripple } from "./ripple";
+import React, { createContext, useContext, useId } from 'react';
+import { cn } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
+import { Ripple } from './ripple';
 
 interface TabsContextValue {
   value: string;
@@ -30,19 +30,17 @@ export const Tabs: React.FC<TabsProps> = ({
   children,
   className,
 }) => {
-  const [currentValue = "", setCurrentValue] = useControllableState<string>({
+  const [currentValue = '', setCurrentValue] = useControllableState<string>({
     value,
-    defaultValue: defaultValue ?? "",
+    defaultValue: defaultValue ?? '',
     onChange: onValueChange,
   });
   const generatedBaseId = useId();
   const baseId = id ?? generatedBaseId;
 
   return (
-    <TabsContext.Provider
-      value={{ value: currentValue, onValueChange: setCurrentValue, baseId }}
-    >
-      <div className={cn("w-full flex flex-col", className)}>{children}</div>
+    <TabsContext.Provider value={{ value: currentValue, onValueChange: setCurrentValue, baseId }}>
+      <div className={cn('flex w-full flex-col', className)}>{children}</div>
     </TabsContext.Provider>
   );
 };
@@ -54,8 +52,8 @@ export const TabsList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
 }) => (
   <div
     className={cn(
-      "flex w-full border-b border-outline-variant bg-surface overflow-x-auto no-scrollbar",
-      className
+      'border-outline-variant bg-surface no-scrollbar flex w-full overflow-x-auto border-b',
+      className,
     )}
     role="tablist"
     {...props}
@@ -64,8 +62,7 @@ export const TabsList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   </div>
 );
 
-export interface TabsTriggerProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
   icon?: React.ReactNode;
 }
@@ -76,11 +73,11 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
   className,
   children,
   onClick,
-  type = "button",
+  type = 'button',
   ...props
 }) => {
   const context = useContext(TabsContext);
-  if (!context) throw new Error("TabsTrigger must be used within Tabs");
+  if (!context) throw new Error('TabsTrigger must be used within Tabs');
 
   const isSelected = context.value === value;
   const triggerId = `${context.baseId}-trigger-${value}`;
@@ -101,11 +98,11 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
         }
       }}
       className={cn(
-        "min-w-fit relative flex items-center justify-center py-4 px-6 min-h-12 gap-2 cursor-pointer group transition-all focus-visible:outline-none select-none shrink-0 overflow-hidden",
+        'group relative flex min-h-12 min-w-fit shrink-0 cursor-pointer items-center justify-center gap-2 overflow-hidden px-6 py-4 transition-all select-none focus-visible:outline-none',
         isSelected
-          ? "text-primary"
-          : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low",
-        className
+          ? 'text-primary'
+          : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low',
+        className,
       )}
       {...props}
     >
@@ -114,8 +111,8 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       {icon && (
         <span
           className={cn(
-            "transition-colors z-10 shrink-0 flex items-center justify-center size-icon-sm",
-            isSelected ? "text-primary" : "text-on-surface-variant"
+            'size-icon-sm z-10 flex shrink-0 items-center justify-center transition-colors',
+            isSelected ? 'text-primary' : 'text-on-surface-variant',
           )}
         >
           {icon}
@@ -123,25 +120,28 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       )}
       <span
         className={cn(
-          "text-label-medium z-10 whitespace-nowrap font-medium transition-all inline-flex items-center gap-2 leading-none",
-          isSelected ? "opacity-100" : "opacity-60"
+          'text-label-medium z-10 inline-flex items-center gap-2 leading-none font-medium whitespace-nowrap transition-all',
+          isSelected ? 'opacity-100' : 'opacity-60',
         )}
       >
         {children}
       </span>
 
       {isSelected && (
-        <div className="absolute bottom-0 w-full h-[calc(var(--unit)*0.75)] bg-primary animate-in zoom-in-x duration-medium ease-emphasized z-20 rounded-t-full" />
+        <div className="bg-primary animate-in zoom-in-x duration-medium ease-emphasized absolute bottom-0 z-20 h-[calc(var(--unit)*0.75)] w-full rounded-t-full" />
       )}
     </button>
   );
 };
 
-export const TabsContent: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { value: string }
-> = ({ value, className, children, ...props }) => {
+export const TabsContent: React.FC<React.HTMLAttributes<HTMLDivElement> & { value: string }> = ({
+  value,
+  className,
+  children,
+  ...props
+}) => {
   const context = useContext(TabsContext);
-  if (!context) throw new Error("TabsContent must be used within Tabs");
+  if (!context) throw new Error('TabsContent must be used within Tabs');
 
   const triggerId = `${context.baseId}-trigger-${value}`;
   const panelId = `${context.baseId}-panel-${value}`;
@@ -155,8 +155,8 @@ export const TabsContent: React.FC<
       aria-labelledby={triggerId}
       tabIndex={0}
       className={cn(
-        "mt-4 focus-visible:outline-none animate-in fade-in slide-in-from-bottom-1 duration-medium",
-        className
+        'animate-in fade-in slide-in-from-bottom-1 duration-medium mt-4 focus-visible:outline-none',
+        className,
       )}
       {...props}
     >

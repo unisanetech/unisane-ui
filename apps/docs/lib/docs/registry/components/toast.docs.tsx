@@ -136,44 +136,25 @@ export const toastDoc: ComponentDoc = {
     rows: [
       {
         emphasis: "Default",
-        component: (
-          <div className="bg-inverse-surface rounded-md px-3 py-2">
-            <span className="text-body-small text-inverse-on-surface">Message</span>
-          </div>
-        ),
+        component: <ToastDefaultExample />,
         rationale: "General informational messages.",
         examples: "Status updates, Confirmations",
       },
       {
         emphasis: "Success",
-        component: (
-          <div className="bg-surface rounded-md px-3 py-2 flex items-center gap-2 border border-outline-variant">
-            <span className="material-symbols-outlined text-primary text-[18px]">check_circle</span>
-            <span className="text-body-small text-on-surface">Success</span>
-          </div>
-        ),
+        component: <ToastSuccessExample />,
         rationale: "Positive outcomes and completed actions.",
         examples: "Save complete, Upload done",
       },
       {
         emphasis: "Error",
-        component: (
-          <div className="bg-error-container rounded-md px-3 py-2 flex items-center gap-2">
-            <span className="material-symbols-outlined text-on-error-container text-[18px]">error</span>
-            <span className="text-body-small text-on-error-container">Error</span>
-          </div>
-        ),
+        component: <ToastErrorExample />,
         rationale: "Failed operations or errors.",
         examples: "Save failed, Network error",
       },
       {
         emphasis: "Warning",
-        component: (
-          <div className="bg-surface rounded-md px-3 py-2 flex items-center gap-2 border border-outline-variant">
-            <span className="material-symbols-outlined text-tertiary text-[18px]">warning</span>
-            <span className="text-body-small text-on-surface">Warning</span>
-          </div>
-        ),
+        component: <ToastWarningExample />,
         rationale: "Cautionary messages or potential issues.",
         examples: "Session expiring, Unsaved changes",
       },

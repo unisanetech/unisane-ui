@@ -1,48 +1,48 @@
-"use client";
+'use client';
 
-import React, { useEffect } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
+import React, { useEffect } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
 
 const progressVariants = cva(
-  "relative w-full overflow-hidden rounded-sm bg-surface-container-highest",
+  'relative w-full overflow-hidden rounded-sm bg-surface-container-highest',
   {
     variants: {
       variant: {
-        linear: "h-1",
-        circular: "w-16 h-16",
+        linear: 'h-1',
+        circular: 'w-16 h-16',
       },
       indeterminate: {
-        true: "",
-        false: "",
+        true: '',
+        false: '',
       },
     },
     defaultVariants: {
-      variant: "linear",
+      variant: 'linear',
       indeterminate: false,
     },
-  }
+  },
 );
 
 export type ProgressProps = VariantProps<typeof progressVariants> & {
   value?: number;
-  variant?: "linear" | "circular";
+  variant?: 'linear' | 'circular';
   indeterminate?: boolean;
   className?: string;
 };
 
 export const Progress: React.FC<ProgressProps> = ({
   value = 0,
-  variant = "linear",
+  variant = 'linear',
   indeterminate = false,
   className,
 }) => {
   useEffect(() => {
-    if (typeof document === "undefined") return;
-    const styleId = "unisane-progress-indeterminate";
+    if (typeof document === 'undefined') return;
+    const styleId = 'unisane-progress-indeterminate';
     if (document.getElementById(styleId)) return;
 
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.id = styleId;
     style.textContent = `
       @keyframes indeterminate {
@@ -59,7 +59,7 @@ export const Progress: React.FC<ProgressProps> = ({
 
   const clampedValue = Math.max(0, Math.min(100, value));
 
-  if (variant === "circular") {
+  if (variant === 'circular') {
     const circumference = 2 * Math.PI * 30;
     const strokeDashoffset = indeterminate
       ? undefined
@@ -67,13 +67,13 @@ export const Progress: React.FC<ProgressProps> = ({
 
     return (
       <div
-        className={cn("relative w-16 h-16", className)}
+        className={cn('relative h-16 w-16', className)}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={indeterminate ? undefined : clampedValue}
       >
-        <svg className="w-full h-full" viewBox="0 0 64 64">
+        <svg className="h-full w-full" viewBox="0 0 64 64">
           <circle
             className="text-surface-container-highest"
             stroke="currentColor"
@@ -85,8 +85,8 @@ export const Progress: React.FC<ProgressProps> = ({
           />
           <circle
             className={cn(
-              "text-primary transition-all duration-emphasized",
-              indeterminate && "animate-spin"
+              'text-primary duration-emphasized transition-all',
+              indeterminate && 'animate-spin',
             )}
             stroke="currentColor"
             strokeWidth="4"
@@ -98,9 +98,9 @@ export const Progress: React.FC<ProgressProps> = ({
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
             style={{
-              transform: "rotate(-90deg)",
-              transformOrigin: "50% 50%",
-              animation: indeterminate ? "spin 1s linear infinite" : undefined,
+              transform: 'rotate(-90deg)',
+              transformOrigin: '50% 50%',
+              animation: indeterminate ? 'spin 1s linear infinite' : undefined,
             }}
           />
         </svg>
@@ -118,15 +118,15 @@ export const Progress: React.FC<ProgressProps> = ({
     >
       <div
         className={cn(
-          "h-full bg-primary transition-all duration-emphasized",
-          indeterminate && "animate-pulse"
+          'bg-primary duration-emphasized h-full transition-all',
+          indeterminate && 'animate-pulse',
         )}
         style={{
-          width: indeterminate ? "100%" : `${clampedValue}%`,
+          width: indeterminate ? '100%' : `${clampedValue}%`,
         }}
       >
         {indeterminate && (
-          <div className="h-full w-1/3 bg-primary animate-[indeterminate_1.5s_ease-in-out_infinite]" />
+          <div className="bg-primary h-full w-1/3 animate-[indeterminate_1.5s_ease-in-out_infinite]" />
         )}
       </div>
     </div>

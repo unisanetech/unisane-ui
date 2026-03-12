@@ -1,41 +1,36 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { Card } from "./card";
-import { Text } from "@/primitives/text";
-import { Icon } from "@/primitives/icon";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
+import { Card } from './card';
+import { Text } from '@/primitives/text';
+import { Icon } from '@/primitives/icon';
 
 export interface StatCardProps {
   label: string;
   value: React.ReactNode;
-  /** Material Symbol icon name */
+
   icon?: string;
   description?: string;
   trend?: {
     value: number;
-    direction: "up" | "down" | "neutral";
+    direction: 'up' | 'down' | 'neutral';
   };
   className?: string;
 }
 
-export function StatCard({
-  label,
-  value,
-  icon,
-  description,
-  trend,
-  className,
-}: StatCardProps) {
+export function StatCard({ label, value, icon, description, trend, className }: StatCardProps) {
   return (
-    <Card className={cn("p-4", className)}>
-      <div className="flex items-center gap-2 mb-1">
+    <Card className={cn('p-4', className)}>
+      <div className="mb-1 flex items-center gap-2">
         {icon && <Icon symbol={icon} size="sm" className="text-on-surface-variant" />}
-        <Text variant="labelSmall" color="onSurfaceVariant" className="uppercase tracking-wide">
+        <Text variant="labelSmall" color="onSurfaceVariant" className="tracking-wide uppercase">
           {label}
         </Text>
       </div>
-      <Text variant="headlineMedium" weight="semibold">{value}</Text>
+      <Text variant="headlineMedium" weight="semibold">
+        {value}
+      </Text>
       {description && (
         <Text variant="bodySmall" color="onSurfaceVariant" className="mt-1">
           {description}
@@ -45,14 +40,14 @@ export function StatCard({
         <Text
           variant="labelSmall"
           className={cn(
-            "mt-1 flex items-center gap-1",
-            trend.direction === "up" && "text-success",
-            trend.direction === "down" && "text-error",
-            trend.direction === "neutral" && "text-on-surface-variant"
+            'mt-1 flex items-center gap-1',
+            trend.direction === 'up' && 'text-success',
+            trend.direction === 'down' && 'text-error',
+            trend.direction === 'neutral' && 'text-on-surface-variant',
           )}
         >
-          {trend.direction === "up" && "↑"}
-          {trend.direction === "down" && "↓"}
+          {trend.direction === 'up' && '↑'}
+          {trend.direction === 'down' && '↓'}
           {trend.value}%
         </Text>
       )}
@@ -70,11 +65,11 @@ export function StatGrid({ children, columns = 4, className }: StatGridProps) {
   return (
     <div
       className={cn(
-        "grid gap-4",
-        columns === 2 && "grid-cols-2",
-        columns === 3 && "grid-cols-2 md:grid-cols-3",
-        columns === 4 && "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
-        className
+        'grid gap-4',
+        columns === 2 && 'grid-cols-2',
+        columns === 3 && 'grid-cols-2 md:grid-cols-3',
+        columns === 4 && 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+        className,
       )}
     >
       {children}

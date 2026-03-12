@@ -1,4 +1,5 @@
 {
+  "$schema": "./theme-override.schema.json",
   "name": "Red",
   "primary": { "hue": 15, "chroma": 0.16 },
   "description": "Bold, passionate, attention-grabbing"

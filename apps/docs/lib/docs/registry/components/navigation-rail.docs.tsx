@@ -3,39 +3,45 @@
 import { useState } from "react";
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { NavigationRail, Fab } from "@unisane/ui";
+import { NavigationRail, Fab, NavigationDrawer, NavigationDrawerHeadline, NavigationDrawerItem, NavigationBar } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const NavigationRailHeroVisual = () => (
   <HeroBackground tone="surface">
-    {/* Mock App with Rail */}
-    <div className="relative bg-surface w-80 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
-      {/* Navigation Rail */}
-      <div className="w-20 bg-surface-container border-r border-outline-variant flex flex-col items-center py-4 gap-6">
-        {/* FAB */}
-        <div className="w-14 h-14 rounded-lg bg-primary-container flex items-center justify-center mb-2">
-          <span className="material-symbols-outlined text-on-primary-container">edit</span>
-        </div>
-        {/* Nav Items */}
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-14 h-8 rounded-full bg-secondary-container flex items-center justify-center">
-            <span className="material-symbols-outlined text-primary text-[22px]">inbox</span>
+    <div className="relative isolate h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+      <div className="flex h-full w-full">
+        <NavigationRail
+          items={[
+            { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox", badge: 3 },
+            { value: "sent", label: "Sent", icon: "send", activeIcon: "send" },
+            { value: "drafts", label: "Drafts", icon: "drafts", activeIcon: "drafts" },
+          ]}
+          value="inbox"
+          className="h-full !w-20"
+          header={
+            <Fab
+              size="md"
+              variant="tertiary"
+              icon={<span className="material-symbols-outlined">edit</span>}
+              aria-label="Compose"
+            />
+          }
+        />
+        <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+          <div className="border-outline-variant border-b px-4 py-3">
+            <div className="text-title-small text-on-surface">Inbox</div>
+            <div className="text-body-small text-on-surface-variant">3 unread messages</div>
           </div>
-          <span className="text-label-medium text-primary">Inbox</span>
-        </div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-14 h-8 flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant text-[22px]">send</span>
+          <div className="space-y-3 p-4">
+            <div className="rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="mb-1 h-2 w-2/3 rounded-sm bg-surface-container-high" />
+              <div className="h-2 w-5/6 rounded-sm bg-surface-container-high" />
+            </div>
+            <div className="rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="mb-1 h-2 w-1/2 rounded-sm bg-surface-container-high" />
+              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+            </div>
           </div>
-          <span className="text-label-medium text-on-surface-variant">Sent</span>
-        </div>
-      </div>
-      {/* Main Content */}
-      <div className="flex-1 p-4">
-        <div className="space-y-3">
-          <div className="h-4 bg-surface-container-high rounded-sm w-full" />
-          <div className="h-4 bg-surface-container-high rounded-sm w-3/4" />
-          <div className="h-4 bg-surface-container-high rounded-sm w-1/2" />
         </div>
       </div>
     </div>
@@ -47,7 +53,7 @@ const NavigationRailBasicExample = () => {
   const [active, setActive] = useState("inbox");
 
   return (
-    <div className="h-full w-full flex bg-surface-container-low rounded-sm overflow-hidden">
+    <div className="relative isolate flex h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
       <NavigationRail
         items={[
           { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox", badge: 3 },
@@ -67,9 +73,17 @@ const NavigationRailBasicExample = () => {
         }
         className="h-full"
       />
-      <div className="flex-1 p-4">
-        <div className="text-body-medium text-on-surface-variant">
-          Selected: <span className="text-on-surface font-medium">{active}</span>
+      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+        <div className="border-outline-variant border-b px-4 py-3">
+          <div className="text-title-small text-on-surface">Mail workspace</div>
+          <div className="text-body-small text-on-surface-variant">
+            Selected: <span className="font-medium text-on-surface">{active}</span>
+          </div>
+        </div>
+        <div className="space-y-2 p-4">
+          <div className="h-3 rounded-sm bg-surface-container-high" />
+          <div className="h-3 w-3/4 rounded-sm bg-surface-container-high" />
+          <div className="h-3 w-1/2 rounded-sm bg-surface-container-high" />
         </div>
       </div>
     </div>
@@ -92,6 +106,9 @@ export const navigationRailDoc: ComponentDoc = {
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <NavigationRailHeroVisual />,
+  heroPreview: {
+    minHeight: "xl",
+  },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
@@ -107,10 +124,23 @@ export const navigationRailDoc: ComponentDoc = {
       {
         emphasis: "Navigation Rail",
         component: (
-          <div className="w-10 h-20 bg-surface-container rounded-sm flex flex-col items-center py-2 gap-2 border-r border-outline-variant">
-            <div className="w-6 h-4 rounded-full bg-secondary-container" />
-            <div className="w-6 h-4 rounded-full bg-surface-container-high" />
-            <div className="w-6 h-4 rounded-full bg-surface-container-high" />
+          <div className="relative isolate h-36 w-28 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <NavigationRail
+              items={[
+                { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox" },
+                { value: "sent", label: "Sent", icon: "send", activeIcon: "send" },
+              ]}
+              value="inbox"
+              header={
+                <Fab
+                  size="sm"
+                  variant="tertiary"
+                  icon={<span className="material-symbols-outlined">edit</span>}
+                  aria-label="Compose"
+                />
+              }
+              className="h-full !w-full !border-r-0"
+            />
           </div>
         ),
         rationale: "Compact standalone vertical navigation for larger screens.",
@@ -119,9 +149,20 @@ export const navigationRailDoc: ComponentDoc = {
       {
         emphasis: "Navigation Drawer",
         component: (
-          <div className="w-20 h-16 bg-surface-container rounded-sm p-2 border-r border-outline-variant">
-            <div className="h-3 rounded-sm bg-secondary-container mb-2" />
-            <div className="h-3 rounded-sm bg-surface-container-high" />
+          <div className="relative isolate h-36 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+            <NavigationDrawer
+              open
+              modal={false}
+              className="!absolute !inset-y-0 !left-0 !z-10 !h-full !w-44 !border-r !border-outline-variant !shadow-none"
+            >
+              <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
+              <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
+              <NavigationDrawerItem icon="inbox">Inbox</NavigationDrawerItem>
+            </NavigationDrawer>
+            <div className="ml-44 space-y-2 p-3">
+              <div className="h-2 rounded-sm bg-surface-container-high" />
+              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+            </div>
           </div>
         ),
         rationale: "Standalone drawer navigation with labels always visible.",
@@ -130,10 +171,16 @@ export const navigationRailDoc: ComponentDoc = {
       {
         emphasis: "Navigation Bar",
         component: (
-          <div className="w-32 h-8 bg-surface-container rounded-sm flex items-center justify-around px-2">
-            <div className="w-4 h-4 rounded-full bg-secondary-container" />
-            <div className="w-4 h-4 rounded-full bg-surface-container-high" />
-            <div className="w-4 h-4 rounded-full bg-surface-container-high" />
+          <div className="relative isolate h-24 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+            <div className="space-y-2 p-3">
+              <div className="h-2 rounded-sm bg-surface-container-high" />
+              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+            </div>
+            <NavigationBar className="absolute inset-x-0 bottom-0">
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
+              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
+            </NavigationBar>
           </div>
         ),
         rationale: "Bottom navigation for mobile screens.",

@@ -5,8 +5,6 @@ import React, {
   isValidElement,
   useCallback,
   useEffect,
-  useId,
-  useMemo as useReactMemo,
   useMemo,
   useRef,
   useState,
@@ -73,11 +71,6 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
   const resizeTrackRef = useRef<HTMLDivElement | null>(null);
   const resizeRafRef = useRef<number | null>(null);
   const pendingWidthRef = useRef<number | null>(null);
-  const rawPatternId = useId();
-  const dotPatternId = useReactMemo(
-    () => `block-preview-dot-${rawPatternId.replace(/[^a-zA-Z0-9_-]/g, '')}`,
-    [rawPatternId],
-  );
 
   const viewportOptions = previewShell?.viewportOptions ?? ['desktop', 'tablet', 'mobile'];
   const resizable = previewShell?.resizable ?? true;
@@ -236,7 +229,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className="border-outline-variant flex flex-col gap-3 border-b pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
+      <div className=" flex flex-col gap-3  pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
         <div className="flex items-center">
           <SegmentedButton
             options={[
@@ -260,32 +253,10 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
         <div
           ref={frameRef}
           className={cn(
-            'border-outline-muted bg-surface-container-low relative overflow-auto rounded-sm border',
+            'border-outline-variant bg-surface-container-low relative overflow-auto rounded-md border [background-size:12px_12px] [background-image:radial-gradient(circle,rgba(148,163,184,0.3)_1px,transparent_1px)] dark:[background-image:radial-gradient(circle,rgba(71,85,105,0.4)_1px,transparent_1px)]',
             canvasHeightClass[canvasHeight],
           )}
         >
-            <div className="text-outline-medium absolute inset-0 opacity-45">
-              <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <pattern
-                    id={dotPatternId}
-                    x="5"
-                    y="5"
-                    width="12"
-                    height="12"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <circle
-                      cx="2"
-                      cy="2"
-                      r="1"
-                      fill="currentColor"
-                    />
-                  </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill={`url(#${dotPatternId})`} />
-              </svg>
-            </div>
             <div className={cn('relative box-border flex h-full flex-col', canvasInsetClass[canvasInset])}>
               <div className="mb-2 hidden h-9 w-full overflow-hidden @2xl:flex">
                 {BREAKPOINTS.map((breakpoint, index) => {
@@ -328,7 +299,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                   className="relative flex h-full max-w-full items-stretch justify-center"
                   style={{ width: currentWidth }}
                 >
-                  <div className="border-outline-variant bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm border">
+                  <div className="bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm">
                     <div className="h-full w-full overflow-auto">{previewNode}</div>
                   </div>
 
@@ -344,7 +315,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                     >
                       <span
                         className={cn(
-                          'bg-outline-medium h-12 w-1.5 rounded-full transition-colors',
+                          'bg-secondary-container h-12 w-1.5 rounded-full transition-colors',
                           isDragging && 'bg-primary',
                         )}
                       />

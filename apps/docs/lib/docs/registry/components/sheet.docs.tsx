@@ -7,9 +7,9 @@ import { Sheet, Button } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SheetHeroVisual = () => (
-  <HeroBackground tone="tertiary">
+  <HeroBackground tone="tertiary" padding="none">
     {/* Mock App with Sheet */}
-    <div className="bg-surface w-84 h-56 rounded-sm shadow-xl overflow-hidden border border-outline-variant flex">
+    <div className="bg-surface border-outline-variant relative flex h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border shadow-xl">
       {/* Main Content */}
       <div className="flex-1 p-4">
         <div className="text-title-small text-on-surface mb-3">Dashboard</div>
@@ -20,7 +20,7 @@ const SheetHeroVisual = () => (
         </div>
       </div>
       {/* Sheet Panel */}
-      <div className="w-40 bg-surface border-l border-outline-variant shadow-4 rounded-l-[24px] overflow-hidden">
+      <div className="w-40 bg-surface border-l border-outline-variant shadow-4 rounded-l-lg overflow-hidden">
         <div className="px-4 pt-4 pb-3 border-b border-outline-variant bg-surface-container-lowest flex items-start justify-between gap-3">
           <div className="space-y-1">
             <span className="text-title-small text-on-surface block">Details</span>
@@ -100,62 +100,75 @@ const SheetWithFooterExample = () => {
   );
 };
 
-const SheetPlacementBasicVisual = () => (
-  <div className="relative h-full w-full overflow-hidden rounded-sm bg-surface-container-low">
-    <div className="absolute inset-0 bg-surface-container-lowest" />
-    <div className="absolute left-0 top-0 bottom-0 w-[42%] border-r border-outline-variant bg-surface-container-lowest p-4">
-      <div className="h-3 w-1/2 rounded-sm bg-outline-soft mb-4" />
-      <div className="space-y-3">
-        <div className="h-10 rounded-sm bg-surface-container" />
-        <div className="h-10 rounded-sm bg-surface-container" />
-        <div className="h-10 rounded-sm bg-surface-container" />
-      </div>
-    </div>
-    <div className="absolute inset-y-0 right-0 w-[min(360px,58%)] border-l border-outline-variant bg-surface flex flex-col">
-      <div className="px-5 py-4 border-b border-outline-variant bg-surface-container-lowest">
-        <div className="text-title-medium text-on-surface">Details</div>
-        <div className="mt-1 text-body-small text-on-surface-variant">
-          Review the selected record without leaving the page.
-        </div>
-      </div>
-      <div className="flex-1 px-5 py-4 space-y-3">
-        <div className="h-3 rounded-sm bg-surface-container-high w-full" />
-        <div className="h-3 rounded-sm bg-surface-container-high w-4/5" />
-        <div className="h-20 rounded-sm bg-surface-container w-full" />
-      </div>
-    </div>
-  </div>
-);
+const SheetSmallPreview = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>Open sm</Button>
+      <Sheet open={open} onOpenChange={setOpen} title="Small sheet" size="sm">
+        <div className="text-body-small text-on-surface-variant">Quick actions.</div>
+      </Sheet>
+    </>
+  );
+};
 
-const SheetPlacementFooterVisual = () => (
-  <div className="relative h-full w-full overflow-hidden rounded-sm bg-surface-container-low">
-    <div className="absolute inset-0 bg-surface-container-lowest" />
-    <div className="absolute left-0 top-0 bottom-0 w-[38%] border-r border-outline-variant bg-surface-container-lowest p-4">
-      <div className="h-3 w-2/3 rounded-sm bg-outline-soft mb-4" />
-      <div className="grid grid-cols-2 gap-3">
-        <div className="h-20 rounded-sm bg-surface-container" />
-        <div className="h-20 rounded-sm bg-surface-container" />
-      </div>
-    </div>
-    <div className="absolute inset-y-0 right-0 w-[min(400px,62%)] border-l border-outline-variant bg-surface flex flex-col">
-      <div className="px-5 py-4 border-b border-outline-variant bg-surface-container-lowest">
-        <div className="text-title-medium text-on-surface">Edit item</div>
-        <div className="mt-1 text-body-small text-on-surface-variant">
-          Update properties and confirm from the footer actions.
-        </div>
-      </div>
-      <div className="flex-1 px-5 py-4 space-y-3">
-        <div className="h-10 rounded-sm bg-surface-container w-full" />
-        <div className="h-10 rounded-sm bg-surface-container w-full" />
-        <div className="h-24 rounded-sm bg-surface-container w-full" />
-      </div>
-      <div className="px-5 py-3 border-t border-outline-variant bg-surface-container-lowest flex items-center justify-end gap-2">
-        <div className="h-10 w-20 rounded-full bg-surface-container-high" />
-        <div className="h-10 w-24 rounded-full bg-primary-container" />
-      </div>
-    </div>
-  </div>
-);
+const SheetMediumPreview = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>Open md</Button>
+      <Sheet open={open} onOpenChange={setOpen} title="Medium sheet" size="md">
+        <div className="text-body-small text-on-surface-variant">Default detail panel.</div>
+      </Sheet>
+    </>
+  );
+};
+
+const SheetLargePreview = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>Open lg</Button>
+      <Sheet open={open} onOpenChange={setOpen} title="Large sheet" size="lg">
+        <div className="text-body-small text-on-surface-variant">Complex form or rich content.</div>
+      </Sheet>
+    </>
+  );
+};
+
+const SheetBasicHierarchyPreview = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>Header + body</Button>
+      <Sheet open={open} onOpenChange={setOpen} title="Details" description="Inspect current item.">
+        <div className="text-body-small text-on-surface-variant">Body content.</div>
+      </Sheet>
+    </>
+  );
+};
+
+const SheetFooterHierarchyPreview = () => {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="outlined" size="sm" onClick={() => setOpen(true)}>With footer</Button>
+      <Sheet
+        open={open}
+        onOpenChange={setOpen}
+        title="Edit item"
+        footerRight={
+          <div className="flex gap-2">
+            <Button variant="text" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="filled" onClick={() => setOpen(false)}>Save</Button>
+          </div>
+        }
+      >
+        <div className="text-body-small text-on-surface-variant">Editable content.</div>
+      </Sheet>
+    </>
+  );
+};
 
 export const sheetDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
@@ -173,6 +186,9 @@ export const sheetDoc: ComponentDoc = {
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <SheetHeroVisual />,
+  heroPreview: {
+    minHeight: "xl",
+  },
 
   // ─── INTERACTIVE EXAMPLES ─────────────────────────────────────────────────
   examples: [
@@ -203,42 +219,21 @@ export const sheetDoc: ComponentDoc = {
     rows: [
       {
         emphasis: "Small (sm)",
-        component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 w-12 bg-surface shadow-2 p-1">
-              <div className="h-1 bg-surface-container-high rounded-full w-full mb-1" />
-              <div className="h-1 bg-surface-container-high rounded-full w-3/4" />
-            </div>
-          </div>
-        ),
+        component: <SheetSmallPreview />,
         rationale:
           "Minimal content like quick actions or simple forms.",
         examples: "Filters, Quick edit, Settings toggle",
       },
       {
         emphasis: "Medium (md)",
-        component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 w-16 bg-surface shadow-2 p-1">
-              <div className="h-1 bg-surface-container-high rounded-full w-full mb-1" />
-              <div className="h-1 bg-surface-container-high rounded-full w-3/4" />
-            </div>
-          </div>
-        ),
+        component: <SheetMediumPreview />,
         rationale:
           "Default size for most detail views and forms.",
         examples: "Item details, Edit forms, Preview panels",
       },
       {
         emphasis: "Large (lg)",
-        component: (
-          <div className="w-32 h-20 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 w-20 bg-surface shadow-2 p-1">
-              <div className="h-1 bg-surface-container-high rounded-full w-full mb-1" />
-              <div className="h-1 bg-surface-container-high rounded-full w-3/4" />
-            </div>
-          </div>
-        ),
+        component: <SheetLargePreview />,
         rationale:
           "Complex forms or rich content requiring more space.",
         examples: "Complex forms, Rich editors, Data tables",
@@ -252,26 +247,12 @@ export const sheetDoc: ComponentDoc = {
       "Sheets slide in from the edge and can include headers, content, and footers.",
     items: [
       {
-        component: (
-          <div className="w-24 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 w-10 bg-surface shadow-2 p-1">
-              <div className="h-1 bg-outline-weak rounded-full w-full mb-1" />
-            </div>
-          </div>
-        ),
+        component: <SheetBasicHierarchyPreview />,
         title: "Basic",
         subtitle: "Header and content",
       },
       {
-        component: (
-          <div className="w-24 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-0 top-0 bottom-0 w-10 bg-surface shadow-2 p-1 flex flex-col">
-              <div className="h-2 border-b border-outline-variant" />
-              <div className="flex-1" />
-              <div className="h-2 border-t border-outline-variant" />
-            </div>
-          </div>
-        ),
+        component: <SheetFooterHierarchyPreview />,
         title: "With Footer",
         subtitle: "Actions at bottom",
       },
@@ -292,12 +273,12 @@ export const sheetDoc: ComponentDoc = {
     examples: [
       {
         title: "Basic sheet",
-        visual: <SheetPlacementBasicVisual />,
+        visual: <SheetBasicExample />,
         caption: "A supporting sheet anchored to the right edge of the workspace.",
       },
       {
         title: "Sheet with footer",
-        visual: <SheetPlacementFooterVisual />,
+        visual: <SheetWithFooterExample />,
         caption: "A larger editing sheet with persistent footer actions.",
       },
     ],

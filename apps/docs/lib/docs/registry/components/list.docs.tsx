@@ -76,9 +76,11 @@ export const listDoc: ComponentDoc = {
       {
         emphasis: "One-line",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant">
-            <div className="px-3 py-2 text-body-small text-on-surface">Simple item</div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem headline="Simple item" />
+            </List>
+          </Card>
         ),
         rationale:
           "For simple text-only items.",
@@ -87,12 +89,11 @@ export const listDoc: ComponentDoc = {
       {
         emphasis: "Two-line",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant">
-            <div className="px-3 py-2">
-              <div className="text-body-small text-on-surface">Primary text</div>
-              <div className="text-label-small text-on-surface-variant">Secondary text</div>
-            </div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem headline="Primary text" supportingText="Secondary text" />
+            </List>
+          </Card>
         ),
         rationale:
           "For items with supporting text.",
@@ -101,12 +102,14 @@ export const listDoc: ComponentDoc = {
       {
         emphasis: "With icons",
         component: (
-          <div className="w-44 bg-surface rounded-sm border border-outline-variant">
-            <div className="flex items-center gap-3 px-3 py-2">
-              <span className="material-symbols-outlined text-[20px] text-on-surface-variant">person</span>
-              <div className="text-body-small text-on-surface">With leading icon</div>
-            </div>
-          </div>
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem
+                headline="With leading icon"
+                leadingIcon={<span className="material-symbols-outlined">person</span>}
+              />
+            </List>
+          </Card>
         ),
         rationale:
           "For visual identification.",
@@ -122,29 +125,39 @@ export const listDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <ListItem headline="Headline only" className="w-40 bg-surface border border-outline-variant rounded-sm" />
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem headline="Headline only" />
+            </List>
+          </Card>
         ),
         title: "Single line",
         subtitle: "Text only",
       },
       {
         component: (
-          <ListItem
-            headline="With support"
-            supportingText="Helper text"
-            className="w-40 bg-surface border border-outline-variant rounded-sm"
-          />
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem
+                headline="With support"
+                supportingText="Helper text"
+              />
+            </List>
+          </Card>
         ),
         title: "Two-line",
         subtitle: "With description",
       },
       {
         component: (
-          <ListItem
-            headline="With trailing"
-            trailingSupportingText="100+"
-            className="w-40 bg-surface border border-outline-variant rounded-sm"
-          />
+          <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
+            <List>
+              <ListItem
+                headline="With trailing"
+                trailingSupportingText="100+"
+              />
+            </List>
+          </Card>
         ),
         title: "With metadata",
         subtitle: "Trailing text",

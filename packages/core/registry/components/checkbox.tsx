@@ -1,11 +1,10 @@
-"use client";
+'use client';
 
-import { type InputHTMLAttributes, useId, forwardRef, useEffect, useRef } from "react";
-import { Ripple } from "./ripple";
-import { cn } from "@/lib/utils";
+import { type InputHTMLAttributes, useId, forwardRef, useEffect, useRef } from 'react';
+import { Ripple } from './ripple';
+import { cn } from '@/lib/utils';
 
-interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
+interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   disabled?: boolean;
   indeterminate?: boolean;
@@ -20,11 +19,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       disabled = false,
       indeterminate = false,
       error = false,
-      className = "",
+      className = '',
       id: providedId,
       ...props
     },
-    ref
+    ref,
   ) => {
     const generatedId = useId();
     const id = providedId || generatedId;
@@ -38,7 +37,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 
     const setInputRef = (node: HTMLInputElement | null) => {
       inputRef.current = node;
-      if (typeof ref === "function") {
+      if (typeof ref === 'function') {
         ref(node);
       } else if (ref) {
         ref.current = node;
@@ -49,60 +48,60 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <label
         htmlFor={id}
         className={cn(
-          "inline-flex items-center cursor-pointer select-none gap-3 group relative",
-          disabled && "opacity-38 cursor-not-allowed pointer-events-none",
-          className
+          'group relative inline-flex cursor-pointer items-center gap-3 select-none',
+          disabled && 'pointer-events-none cursor-not-allowed opacity-38',
+          className,
         )}
       >
-        {/* Touch target container - scales with density (w-10 = 10 units = 40px at standard) */}
-        <div className="relative flex items-center justify-center w-10 h-10">
-          {/* Hover state layer */}
+        {}
+        <div className="relative flex h-10 w-10 items-center justify-center">
+          {}
           <div
             className={cn(
-              "absolute inset-0 rounded-xs overflow-hidden transition-colors z-0",
-              "group-hover:bg-state-hover",
-              error && "group-hover:bg-state-error"
+              'absolute inset-0 z-0 overflow-hidden rounded-xs transition-colors',
+              'group-hover:bg-state-hover',
+              error && 'group-hover:bg-state-error',
             )}
           >
             <Ripple
               center
               disabled={disabled}
-              className={cn(error ? "text-error" : "text-primary")}
+              className={cn(error ? 'text-error' : 'text-primary')}
             />
           </div>
 
-          {/* Hidden input */}
+          {}
           <input
             ref={setInputRef}
             type="checkbox"
             id={id}
             disabled={disabled}
-            className="sr-only peer"
+            className="peer sr-only"
             {...props}
           />
 
-          {/* Checkbox box - sibling of input, receives peer-checked */}
+          {}
           <div
             className={cn(
-              "relative z-10 size-icon-sm rounded-xs border-2 flex items-center justify-center overflow-hidden bg-surface",
-              "transition-all duration-snappy ease-emphasized pointer-events-none",
-              !error && "border-outline group-hover:border-on-surface",
-              error && "border-error",
-              !error && "peer-checked:bg-primary peer-checked:border-primary",
-              error && "peer-checked:bg-error peer-checked:border-error",
-              !error && "peer-indeterminate:bg-primary peer-indeterminate:border-primary",
-              error && "peer-indeterminate:bg-error peer-indeterminate:border-error",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-primary peer-focus-visible:ring-offset-2"
+              'size-icon-sm bg-surface relative z-10 flex items-center justify-center overflow-hidden rounded-xs border-2',
+              'duration-snappy ease-emphasized pointer-events-none transition-all',
+              !error && 'border-outline group-hover:border-on-surface',
+              error && 'border-error',
+              !error && 'peer-checked:bg-primary peer-checked:border-primary',
+              error && 'peer-checked:bg-error peer-checked:border-error',
+              !error && 'peer-indeterminate:bg-primary peer-indeterminate:border-primary',
+              error && 'peer-indeterminate:bg-error peer-indeterminate:border-error',
+              'peer-focus-visible:ring-primary peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
             )}
           />
 
-          {/* Check icon - sibling of input, receives peer-checked */}
+          {}
           <svg
             className={cn(
-              "absolute z-20 size-icon-sm p-0.5 transition-all duration-snappy ease-emphasized pointer-events-none",
-              error ? "text-on-error" : "text-on-primary",
-              "opacity-0 scale-50",
-              !indeterminate && "peer-checked:opacity-100 peer-checked:scale-100"
+              'size-icon-sm duration-snappy ease-emphasized pointer-events-none absolute z-20 p-0.5 transition-all',
+              error ? 'text-on-error' : 'text-on-primary',
+              'scale-50 opacity-0',
+              !indeterminate && 'peer-checked:scale-100 peer-checked:opacity-100',
             )}
             viewBox="0 0 24 24"
             fill="none"
@@ -115,12 +114,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <polyline points="20 6 9 17 4 12" />
           </svg>
 
-          {/* Indeterminate icon - controlled by prop, not peer */}
+          {}
           <svg
             className={cn(
-              "absolute z-20 size-icon-sm p-0.5 transition-all duration-snappy ease-emphasized pointer-events-none",
-              error ? "text-on-error" : "text-on-primary",
-              indeterminate ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-50 rotate-90"
+              'size-icon-sm duration-snappy ease-emphasized pointer-events-none absolute z-20 p-0.5 transition-all',
+              error ? 'text-on-error' : 'text-on-primary',
+              indeterminate ? 'scale-100 rotate-0 opacity-100' : 'scale-50 rotate-90 opacity-0',
             )}
             viewBox="0 0 24 24"
             fill="none"
@@ -135,13 +134,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         </div>
 
         {label && (
-          <span className="text-body-medium font-medium text-on-surface leading-none">
-            {label}
-          </span>
+          <span className="text-body-medium text-on-surface leading-none font-medium">{label}</span>
         )}
       </label>
     );
-  }
+  },
 );
 
-Checkbox.displayName = "Checkbox";
+Checkbox.displayName = 'Checkbox';

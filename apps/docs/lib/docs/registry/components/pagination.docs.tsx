@@ -60,11 +60,7 @@ export const paginationDoc: ComponentDoc = {
       {
         emphasis: "Few pages",
         component: (
-          <div className="flex items-center gap-1">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">1</div>
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant text-[10px]">2</div>
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant text-[10px]">3</div>
-          </div>
+          <Pagination currentPage={1} totalPages={3} onPageChange={() => {}} />
         ),
         rationale:
           "Shows all pages when total is small.",
@@ -73,13 +69,7 @@ export const paginationDoc: ComponentDoc = {
       {
         emphasis: "Many pages",
         component: (
-          <div className="flex items-center gap-1">
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant text-[10px]">1</div>
-            <div className="text-[10px] text-on-surface-variant">...</div>
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center bg-primary text-on-primary text-[10px]">5</div>
-            <div className="text-[10px] text-on-surface-variant">...</div>
-            <div className="w-6 h-6 rounded-xs flex items-center justify-center text-on-surface-variant text-[10px]">10</div>
-          </div>
+          <Pagination currentPage={5} totalPages={12} onPageChange={() => {}} />
         ),
         rationale:
           "Ellipsis collapses distant pages.",
@@ -95,25 +85,21 @@ export const paginationDoc: ComponentDoc = {
     items: [
       {
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center text-on-surface-variant border border-outline-variant">
-            <span className="material-symbols-outlined text-[16px]">chevron_left</span>
-          </div>
+          <Pagination currentPage={2} totalPages={5} onPageChange={() => {}} />
         ),
         title: "Previous",
         subtitle: "Navigate back",
       },
       {
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center bg-primary text-on-primary text-body-small">3</div>
+          <Pagination currentPage={3} totalPages={5} onPageChange={() => {}} />
         ),
         title: "Current",
         subtitle: "Active page",
       },
       {
         component: (
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center text-on-surface-variant border border-outline-variant">
-            <span className="material-symbols-outlined text-[16px]">chevron_right</span>
-          </div>
+          <Pagination currentPage={4} totalPages={5} onPageChange={() => {}} />
         ),
         title: "Next",
         subtitle: "Navigate forward",

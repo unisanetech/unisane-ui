@@ -1,26 +1,26 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/lib/utils";
-import { useControllableState } from "@/lib/use-controllable-state";
-import { Text } from "@/primitives/text";
-import { Ripple } from "./ripple";
+import React, { useState } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils';
+import { useControllableState } from '@/lib/use-controllable-state';
+import { Text } from '@/primitives/text';
+import { Ripple } from './ripple';
 
-const ratingVariants = cva("flex items-center gap-1", {
+const ratingVariants = cva('flex items-center gap-1', {
   variants: {
     size: {
-      sm: "text-label-medium",
-      md: "text-body-medium",
-      lg: "text-body-large",
+      sm: 'text-label-medium',
+      md: 'text-body-medium',
+      lg: 'text-body-large',
     },
     disabled: {
-      true: "opacity-38 cursor-not-allowed",
-      false: "cursor-pointer",
+      true: 'opacity-38 cursor-not-allowed',
+      false: 'cursor-pointer',
     },
   },
   defaultVariants: {
-    size: "md",
+    size: 'md',
     disabled: false,
   },
 });
@@ -45,7 +45,7 @@ export const Rating: React.FC<RatingProps> = ({
   showValue = false,
   className,
   disabled = false,
-  size = "md",
+  size = 'md',
 }) => {
   const [hoverValue, setHoverValue] = useState<number | null>(null);
   const [currentValue, setCurrentValue] = useControllableState<number>({
@@ -73,11 +73,11 @@ export const Rating: React.FC<RatingProps> = ({
 
   const getStarFill = (starIndex: number) => {
     if (allowHalf) {
-      if (displayValue >= starIndex + 1) return "full";
-      if (displayValue >= starIndex + 0.5) return "half";
-      return "empty";
+      if (displayValue >= starIndex + 1) return 'full';
+      if (displayValue >= starIndex + 0.5) return 'half';
+      return 'empty';
     }
-    return displayValue >= starIndex + 1 ? "full" : "empty";
+    return displayValue >= starIndex + 1 ? 'full' : 'empty';
   };
 
   return (
@@ -93,7 +93,7 @@ export const Rating: React.FC<RatingProps> = ({
         return (
           <button
             key={index}
-            className="relative p-1 rounded-icon-button hover:bg-state-hover transition-colors overflow-hidden"
+            className="rounded-icon-button hover:bg-state-hover relative overflow-hidden p-1 transition-colors"
             onClick={() => handleStarClick(index + 1)}
             onMouseEnter={() => handleStarMouseEnter(index + 1)}
             onMouseLeave={handleStarMouseLeave}
@@ -108,13 +108,13 @@ export const Rating: React.FC<RatingProps> = ({
               height="20"
               viewBox="0 0 24 24"
               className={cn(
-                "size-icon-sm relative z-10",
-                fill === "full" && "text-primary",
-                fill === "half" && "text-primary",
-                fill === "empty" && "text-outline"
+                'size-icon-sm relative z-10',
+                fill === 'full' && 'text-primary',
+                fill === 'half' && 'text-primary',
+                fill === 'empty' && 'text-outline',
               )}
             >
-              {fill === "half" ? (
+              {fill === 'half' ? (
                 <defs>
                   <linearGradient id={`half-gradient-${index}`}>
                     <stop offset="50%" stopColor="currentColor" />
@@ -130,7 +130,7 @@ export const Rating: React.FC<RatingProps> = ({
               ) : (
                 <path
                   d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                  fill={fill === "full" ? "currentColor" : "none"}
+                  fill={fill === 'full' ? 'currentColor' : 'none'}
                   stroke="currentColor"
                   strokeWidth="1"
                 />
@@ -141,7 +141,7 @@ export const Rating: React.FC<RatingProps> = ({
       })}
 
       {showValue && (
-        <Text variant="bodyMedium" className="ml-2 text-on-surface-variant">
+        <Text variant="bodyMedium" className="text-on-surface-variant ml-2">
           {ratingValue.toFixed(allowHalf ? 1 : 0)} / {max}
         </Text>
       )}

@@ -54,7 +54,8 @@ const iconButtonVariants = cva(
 );
 
 export interface IconButtonProps
-  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>,
+  extends
+    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>,
     VariantProps<typeof iconButtonVariants> {
   'aria-label': string;
   icon?: ReactNode;
@@ -140,7 +141,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
           childProps.onClick,
         ),
-        tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
+        tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
       };
 
       return (
@@ -152,7 +153,11 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           aria-disabled={isDisabled || undefined}
           data-disabled={isDisabled ? 'true' : undefined}
         >
-          {cloneElement(childElement, forwardedChildProps, renderContent(childProps.children ?? icon))}
+          {cloneElement(
+            childElement,
+            forwardedChildProps,
+            renderContent(childProps.children ?? icon),
+          )}
         </Slot>
       );
     }

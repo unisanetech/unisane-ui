@@ -98,19 +98,15 @@ export const Popover: React.FC<PopoverProps> = ({
           aria-modal="true"
           className={cn(
             'bg-surface shadow-2 animate-in fade-in zoom-in-95 duration-short ease-standard border-outline-variant absolute z-[var(--z-popover,2000)] min-w-40 rounded-sm border py-1',
-            // Vertical positioning (top/bottom)
-            side === 'bottom' && 'top-[calc(100%+8px)]',
-            side === 'top' && 'bottom-[calc(100%+8px)]',
-            // Horizontal positioning (left/right) - only set the horizontal offset, not vertical
-            side === 'left' && 'right-[calc(100%+8px)]',
-            side === 'right' && 'left-[calc(100%+8px)]',
-            // Alignment for vertical sides (top/bottom)
+            side === 'bottom' && 'top-[calc(100%+var(--spacing-2))]',
+            side === 'top' && 'bottom-[calc(100%+var(--spacing-2))]',
+            side === 'left' && 'right-[calc(100%+var(--spacing-2))]',
+            side === 'right' && 'left-[calc(100%+var(--spacing-2))]',
             (side === 'top' || side === 'bottom') &&
               align === 'center' &&
               'left-1/2 -translate-x-1/2',
             (side === 'top' || side === 'bottom') && align === 'start' && 'left-0',
             (side === 'top' || side === 'bottom') && align === 'end' && 'right-0',
-            // Alignment for horizontal sides (left/right)
             (side === 'left' || side === 'right') &&
               align === 'center' &&
               'top-1/2 -translate-y-1/2',

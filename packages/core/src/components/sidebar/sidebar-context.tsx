@@ -1,14 +1,7 @@
-"use client";
+'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useEffect,
-  useRef,
-} from "react";
-import type { NavigationItem } from "../../types/navigation";
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react';
+import type { NavigationItem } from '../../types/navigation';
 
 export interface SidebarState {
   activeId: string | null;
@@ -31,7 +24,7 @@ export interface SidebarState {
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
-  /** Whether the drawer should render as an overlay (mobile/tablet) vs inline (desktop) */
+
   usesOverlayDrawer: boolean;
   railWidth: number;
   drawerWidth: number;
@@ -57,7 +50,7 @@ export interface SidebarProviderProps {
   railWidth?: number;
   drawerWidth?: number;
   mobileDrawerWidth?: number;
-  forceViewport?: "mobile" | "tablet" | "desktop";
+  forceViewport?: 'mobile' | 'tablet' | 'desktop';
   onActiveChange?: (id: string | null) => void;
   onExpandedChange?: (expanded: boolean) => void;
 }
@@ -68,7 +61,7 @@ function parseStoredString(raw: string | null): string | null {
   if (!raw) return null;
   try {
     const parsed: unknown = JSON.parse(raw);
-    return typeof parsed === "string" ? parsed : null;
+    return typeof parsed === 'string' ? parsed : null;
   } catch {
     return null;
   }
@@ -78,7 +71,7 @@ function parseStoredBoolean(raw: string | null): boolean | null {
   if (!raw) return null;
   try {
     const parsed: unknown = JSON.parse(raw);
-    return typeof parsed === "boolean" ? parsed : null;
+    return typeof parsed === 'boolean' ? parsed : null;
   } catch {
     return null;
   }
@@ -89,7 +82,7 @@ function parseStoredStringArray(raw: string | null): string[] | null {
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!Array.isArray(parsed)) return null;
-    if (!parsed.every((value): value is string => typeof value === "string")) {
+    if (!parsed.every((value): value is string => typeof value === 'string')) {
       return null;
     }
     return parsed;
@@ -101,7 +94,7 @@ function parseStoredStringArray(raw: string | null): string[] | null {
 export function useSidebar(): SidebarState {
   const context = useContext(SidebarContext);
   if (!context) {
-    throw new Error("useSidebar must be used within a SidebarProvider");
+    throw new Error('useSidebar must be used within a SidebarProvider');
   }
   return context;
 }
@@ -113,7 +106,7 @@ export function SidebarProvider({
   defaultExpanded = false,
   defaultMobileOpen = false,
   persist = false,
-  storageKey = "unisane-sidebar",
+  storageKey = 'unisane-sidebar',
   hoverDelay = 150,
   exitDelay = 300,
   railWidth = 96,
@@ -131,7 +124,6 @@ export function SidebarProvider({
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
 
-  // Load persisted state from localStorage after mount (avoids SSR mismatch)
   useEffect(() => {
     if (!persist) return;
 
@@ -155,12 +147,9 @@ export function SidebarProvider({
     }
   }, [persist, storageKey]);
 
-  // Default to mobile state to avoid hydration mismatch flash.
-  // CSS media queries handle the actual responsive visibility,
-  // and JS state updates after mount for behavior logic.
-  const [isMobile, setIsMobile] = useState(forceViewport === "mobile" || !forceViewport);
-  const [isTablet, setIsTablet] = useState(forceViewport === "tablet");
-  const [isDesktop, setIsDesktop] = useState(forceViewport === "desktop");
+  const [isMobile, setIsMobile] = useState(forceViewport === 'mobile' || !forceViewport);
+  const [isTablet, setIsTablet] = useState(forceViewport === 'tablet');
+  const [isDesktop, setIsDesktop] = useState(forceViewport === 'desktop');
 
   const entryTimeoutRef = useRef<number | null>(null);
   const exitTimeoutRef = useRef<number | null>(null);
@@ -182,22 +171,22 @@ export function SidebarProvider({
 
   useEffect(() => {
     if (forceViewport) {
-      setIsMobile(forceViewport === "mobile");
-      setIsTablet(forceViewport === "tablet");
-      setIsDesktop(forceViewport === "desktop");
+      setIsMobile(forceViewport === 'mobile');
+      setIsTablet(forceViewport === 'tablet');
+      setIsDesktop(forceViewport === 'desktop');
       return;
     }
 
     const updateBreakpoint = () => {
       const width = window.innerWidth;
-      // M3 breakpoints: compact (<600), medium (600-840), expanded (840+)
+
       setIsMobile(width < 600);
       setIsTablet(width >= 600 && width < 840);
       setIsDesktop(width >= 840);
     };
     updateBreakpoint();
-    window.addEventListener("resize", updateBreakpoint);
-    return () => window.removeEventListener("resize", updateBreakpoint);
+    window.addEventListener('resize', updateBreakpoint);
+    return () => window.removeEventListener('resize', updateBreakpoint);
   }, [forceViewport]);
 
   useEffect(() => {
@@ -205,7 +194,7 @@ export function SidebarProvider({
   }, [defaultMobileOpen, forceViewport]);
 
   useEffect(() => {
-    if (!persist || typeof window === "undefined") return;
+    if (!persist || typeof window === 'undefined') return;
     try {
       localStorage.setItem(`${storageKey}-active`, JSON.stringify(activeId));
     } catch {
@@ -214,7 +203,7 @@ export function SidebarProvider({
   }, [activeId, persist, storageKey]);
 
   useEffect(() => {
-    if (!persist || typeof window === "undefined") return;
+    if (!persist || typeof window === 'undefined') return;
     try {
       localStorage.setItem(`${storageKey}-expanded`, JSON.stringify(expanded));
     } catch {
@@ -223,7 +212,7 @@ export function SidebarProvider({
   }, [expanded, persist, storageKey]);
 
   useEffect(() => {
-    if (!persist || typeof window === "undefined") return;
+    if (!persist || typeof window === 'undefined') return;
     try {
       localStorage.setItem(`${storageKey}-groups`, JSON.stringify(Array.from(expandedGroups)));
     } catch {
@@ -243,7 +232,7 @@ export function SidebarProvider({
       setActiveIdState(id);
       onActiveChange?.(id);
     },
-    [onActiveChange]
+    [onActiveChange],
   );
 
   const setExpanded = useCallback(
@@ -251,7 +240,7 @@ export function SidebarProvider({
       setExpandedState(value);
       onExpandedChange?.(value);
     },
-    [onExpandedChange]
+    [onExpandedChange],
   );
 
   const toggleExpanded = useCallback(() => {
@@ -303,7 +292,7 @@ export function SidebarProvider({
         }
       }
     },
-    [items, activeId, expanded, hoveredId, setActiveId, setExpanded]
+    [items, activeId, expanded, hoveredId, setActiveId, setExpanded],
   );
 
   const handleHover = useCallback(
@@ -324,7 +313,7 @@ export function SidebarProvider({
         setHoveredId(id);
       }, hoverDelay);
     },
-    [isMobile, hoverDelay]
+    [isMobile, hoverDelay],
   );
 
   const handleRailLeave = useCallback(() => {
@@ -367,7 +356,7 @@ export function SidebarProvider({
       if (!activeId) return false;
       return childIds.includes(activeId);
     },
-    [activeId]
+    [activeId],
   );
 
   const setGroupExpanded = useCallback((groupId: string, isExpanded: boolean) => {
@@ -413,7 +402,7 @@ export function SidebarProvider({
       if (childIds && activeId && childIds.includes(activeId)) return true;
       return false;
     },
-    [expandedGroups, collapsedGroups, activeId]
+    [expandedGroups, collapsedGroups, activeId],
   );
 
   const activeItem = items.find((i) => i.id === activeId);
@@ -433,14 +422,10 @@ export function SidebarProvider({
 
   const effectiveItem = items.find((i) => i.id === lastContentId) || null;
   const isDrawerVisible = expanded || (!!hoveredId && hoverHasChildren);
-  // Whether drawer should render as overlay (mobile/tablet) vs inline (desktop)
+
   const usesOverlayDrawer = isMobile || isTablet;
-  // Content margin: desktop gets rail + optional drawer, tablet/mobile get none (use top app bar)
-  const contentMargin = usesOverlayDrawer
-    ? 0
-    : expanded
-      ? railWidth + drawerWidth
-      : railWidth;
+
+  const contentMargin = usesOverlayDrawer ? 0 : expanded ? railWidth + drawerWidth : railWidth;
 
   const value: SidebarState = {
     activeId,
@@ -475,9 +460,5 @@ export function SidebarProvider({
     isGroupExpanded,
   };
 
-  // Always render children to avoid layout shift during hydration.
-  // The sidebar will use default values until localStorage is read.
-  return (
-    <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>
-  );
+  return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>;
 }

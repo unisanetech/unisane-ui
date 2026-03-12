@@ -95,11 +95,13 @@ export const scrollAreaDoc: ComponentDoc = {
       {
         emphasis: "Vertical",
         component: (
-          <div className="w-20 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-1 top-1 bottom-1 w-1 bg-outline-muted rounded-full">
-              <div className="w-full h-1/3 bg-outline-strong rounded-full" />
+          <ScrollArea className="h-20 w-40 rounded-sm border border-outline-variant bg-surface">
+            <div className="space-y-2 p-2">
+              <div className="h-6 rounded-sm bg-surface-container-high" />
+              <div className="h-6 rounded-sm bg-surface-container-high" />
+              <div className="h-6 rounded-sm bg-surface-container-high" />
             </div>
-          </div>
+          </ScrollArea>
         ),
         rationale: "Default for lists and long content.",
         examples: "Lists, Chat messages, Feeds",
@@ -107,11 +109,13 @@ export const scrollAreaDoc: ComponentDoc = {
       {
         emphasis: "Horizontal",
         component: (
-          <div className="w-20 h-12 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute left-1 right-1 bottom-1 h-1 bg-outline-muted rounded-full">
-              <div className="h-full w-1/3 bg-outline-strong rounded-full" />
+          <ScrollArea orientation="horizontal" className="h-20 w-40 rounded-sm border border-outline-variant bg-surface">
+            <div className="flex gap-2 p-2">
+              <div className="h-12 w-20 shrink-0 rounded-sm bg-surface-container-high" />
+              <div className="h-12 w-20 shrink-0 rounded-sm bg-surface-container-high" />
+              <div className="h-12 w-20 shrink-0 rounded-sm bg-surface-container-high" />
             </div>
-          </div>
+          </ScrollArea>
         ),
         rationale: "For horizontally scrolling content.",
         examples: "Carousels, Tabs overflow, Chip groups",
@@ -119,14 +123,9 @@ export const scrollAreaDoc: ComponentDoc = {
       {
         emphasis: "Both",
         component: (
-          <div className="w-20 h-16 bg-surface-container rounded-sm relative overflow-hidden">
-            <div className="absolute right-1 top-1 bottom-3 w-1 bg-outline-muted rounded-full">
-              <div className="w-full h-1/3 bg-outline-strong rounded-full" />
-            </div>
-            <div className="absolute left-1 right-3 bottom-1 h-1 bg-outline-muted rounded-full">
-              <div className="h-full w-1/3 bg-outline-strong rounded-full" />
-            </div>
-          </div>
+          <ScrollArea orientation="both" className="h-20 w-40 rounded-sm border border-outline-variant bg-surface">
+            <div className="h-28 w-56 rounded-sm bg-surface-container-high p-2" />
+          </ScrollArea>
         ),
         rationale: "For 2D scrollable content.",
         examples: "Code blocks, Large tables, Canvases",

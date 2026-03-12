@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, Button, IconButton } from "@unisane/ui";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, DropdownMenuCheckboxItem, Button, IconButton } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DropdownMenuHeroVisual = () => (
@@ -85,9 +85,15 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Action Item",
         component: (
-          <div className="w-36 bg-surface rounded-sm shadow-2 py-1 border border-outline-variant">
-            <div className="px-3 py-2 text-body-small text-on-surface hover:bg-state-hover">Edit</div>
-          </div>
+          <DropdownMenu open>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outlined" size="sm">Actions</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+              <DropdownMenuItem>Duplicate</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ),
         rationale:
           "Standard menu items that perform actions.",
@@ -96,12 +102,15 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Checkbox Item",
         component: (
-          <div className="w-36 bg-surface rounded-sm shadow-2 py-1 border border-outline-variant">
-            <div className="px-3 py-2 text-body-small text-on-surface flex items-center gap-2">
-              <span className="material-symbols-outlined text-[16px] text-primary">check_box</span>
-              Show Grid
-            </div>
-          </div>
+          <DropdownMenu open>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outlined" size="sm">View</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuCheckboxItem checked>Show Grid</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Compact Mode</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ),
         rationale:
           "Toggle options on/off.",
@@ -110,11 +119,16 @@ export const dropdownMenuDoc: ComponentDoc = {
       {
         emphasis: "Separator",
         component: (
-          <div className="w-36 bg-surface rounded-sm shadow-2 py-1 border border-outline-variant">
-            <div className="px-3 py-1 text-body-small text-on-surface">Action 1</div>
-            <div className="h-px bg-outline-muted my-1" />
-            <div className="px-3 py-1 text-body-small text-error">Delete</div>
-          </div>
+          <DropdownMenu open>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outlined" size="sm">File</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Rename</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         ),
         rationale:
           "Group related items visually.",

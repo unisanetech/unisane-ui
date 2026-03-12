@@ -1,51 +1,49 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, focusRing } from "@ui/lib/utils";
-import { Ripple } from "./ripple";
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, focusRing } from '@ui/lib/utils';
+import { Ripple } from './ripple';
 
 const cardVariants = cva(
-  "rounded-sm overflow-hidden flex flex-col transition-all duration-medium ease-emphasized relative group isolate",
+  'rounded-sm overflow-hidden flex flex-col transition-all duration-medium ease-emphasized relative group isolate',
   {
     variants: {
       variant: {
-        elevated:
-          "bg-surface shadow-1 border border-outline-weak",
-        filled: "bg-surface-container border-none shadow-0",
-        outlined: "bg-surface border border-outline-variant shadow-0",
-        low: "bg-surface-container-low border-none shadow-0",
-        high: "bg-surface-container-high border-none shadow-1",
+        elevated: 'bg-surface shadow-1 border border-outline-weak',
+        filled: 'bg-surface-container border-none shadow-0',
+        outlined: 'bg-surface border border-outline-variant shadow-0',
+        low: 'bg-surface-container-low border-none shadow-0',
+        high: 'bg-surface-container-high border-none shadow-1',
       },
       interactive: {
-        true: "cursor-pointer appearance-none text-left",
-        false: "",
+        true: 'cursor-pointer appearance-none text-left',
+        false: '',
       },
       padding: {
-        none: "p-0",
-        sm: "p-4",
-        md: "p-6",
-        lg: "p-8",
+        none: 'p-0',
+        sm: 'p-4',
+        md: 'p-6',
+        lg: 'p-8',
       },
     },
     compoundVariants: [
       {
-        variant: "outlined",
+        variant: 'outlined',
         interactive: true,
-        className: "hover:border-primary",
+        className: 'hover:border-primary',
       },
     ],
     defaultVariants: {
-      variant: "filled",
-      padding: "none",
+      variant: 'filled',
+      padding: 'none',
       interactive: false,
     },
-  }
+  },
 );
 
 export interface CardProps
-  extends React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof cardVariants> {
+  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof cardVariants> {
   interactive?: boolean;
 }
 
@@ -55,20 +53,18 @@ const CardRoot = React.forwardRef<HTMLElement, CardProps>(
     const cardClasses = cn(
       cardVariants({ variant, padding, interactive: hasInteractiveStyles }),
       onClick && focusRing,
-      className
+      className,
     );
     const cardContent = (
       <>
         {hasInteractiveStyles && (
           <>
-            <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-8 transition-opacity bg-primary z-0" />
+            <div className="bg-primary pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity group-hover:opacity-8" />
             <Ripple />
           </>
         )}
-        <div className="relative z-10 flex flex-col h-full pointer-events-none text-left">
-          <div className="pointer-events-auto h-full flex flex-col">
-            {children}
-          </div>
+        <div className="pointer-events-none relative z-10 flex h-full flex-col text-left">
+          <div className="pointer-events-auto flex h-full flex-col">{children}</div>
         </div>
       </>
     );
@@ -88,96 +84,76 @@ const CardRoot = React.forwardRef<HTMLElement, CardProps>(
     }
 
     return (
-      <div
-        ref={ref as React.Ref<HTMLDivElement>}
-        className={cardClasses}
-        {...props}
-      >
+      <div ref={ref as React.Ref<HTMLDivElement>} className={cardClasses} {...props}>
         {cardContent}
       </div>
     );
-  }
+  },
 );
-CardRoot.displayName = "Card";
+CardRoot.displayName = 'Card';
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("px-6 pt-6 pb-4 flex flex-col gap-1 relative z-10", className)}
-    {...props}
-  />
-));
-CardHeader.displayName = "CardHeader";
+const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('relative z-10 flex flex-col gap-1 px-6 pt-6 pb-4', className)}
+      {...props}
+    />
+  ),
+);
+CardHeader.displayName = 'CardHeader';
 
-const CardContent = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "px-6 py-4 text-on-surface-variant relative z-10 text-body-medium font-medium leading-relaxed",
-      className
-    )}
-    {...props}
-  />
-));
-CardContent.displayName = "CardContent";
+const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn(
+        'text-on-surface-variant text-body-medium relative z-10 px-6 py-4 leading-relaxed font-medium',
+        className,
+      )}
+      {...props}
+    />
+  ),
+);
+CardContent.displayName = 'CardContent';
 
-const CardFooter = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("px-6 pt-4 pb-6 mt-auto flex items-center gap-3 relative z-10", className)}
-    {...props}
-  />
-));
-CardFooter.displayName = "CardFooter";
+const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('relative z-10 mt-auto flex items-center gap-3 px-6 pt-4 pb-6', className)}
+      {...props}
+    />
+  ),
+);
+CardFooter.displayName = 'CardFooter';
 
-const CardMedia = React.forwardRef<
-  HTMLImageElement,
-  React.ImgHTMLAttributes<HTMLImageElement>
->(({ className, alt, ...props }, ref) => (
-  <img
-    ref={ref}
-    className={cn("w-full object-cover relative z-10", className)}
-    alt={alt || ""}
-    {...props}
-  />
-));
-CardMedia.displayName = "CardMedia";
+const CardMedia = React.forwardRef<HTMLImageElement, React.ImgHTMLAttributes<HTMLImageElement>>(
+  ({ className, alt, ...props }, ref) => (
+    <img
+      ref={ref}
+      className={cn('relative z-10 w-full object-cover', className)}
+      alt={alt || ''}
+      {...props}
+    />
+  ),
+);
+CardMedia.displayName = 'CardMedia';
 
-const CardTitle = React.forwardRef<
-  HTMLHeadingElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h3
-    ref={ref}
-    className={cn(
-      "text-title-large leading-none",
-      className
-    )}
-    {...props}
-  />
-));
-CardTitle.displayName = "CardTitle";
+const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+  ({ className, ...props }, ref) => (
+    <h3 ref={ref} className={cn('text-title-large leading-none', className)} {...props} />
+  ),
+);
+CardTitle.displayName = 'CardTitle';
 
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
-  <p
-    ref={ref}
-    className={cn("text-body-small text-on-surface-variant", className)}
-    {...props}
-  />
+  <p ref={ref} className={cn('text-body-small text-on-surface-variant', className)} {...props} />
 ));
-CardDescription.displayName = "CardDescription";
+CardDescription.displayName = 'CardDescription';
 
 export const Card = Object.assign(CardRoot, {
   Header: CardHeader,

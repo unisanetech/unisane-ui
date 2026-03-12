@@ -30,7 +30,7 @@ function parseTimeParts(value: string): { hours: number; minutes: number; period
   return {
     hours: normalizedHours % 12 || 12,
     minutes: normalizedMinutes,
-    period: (normalizedHours >= 12 ? 'PM' : 'AM'),
+    period: normalizedHours >= 12 ? 'PM' : 'AM',
   };
 }
 
@@ -94,7 +94,6 @@ export const TimePicker: React.FC<TimePickerProps> = ({
     return minutes * 6;
   };
 
-  // Calculate value from mouse/touch position
   const getValueFromPosition = useCallback(
     (clientX: number, clientY: number) => {
       if (!dialRef.current) return null;
@@ -106,17 +105,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
       const x = clientX - centerX;
       const y = clientY - centerY;
 
-      // Calculate angle in degrees (0 = top, clockwise)
       let angle = Math.atan2(x, -y) * (180 / Math.PI);
       if (angle < 0) angle += 360;
 
       if (dialMode === 'hour') {
-        // Hours: 30 degrees per hour, snap to nearest hour
         let hour = Math.round(angle / 30);
         if (hour === 0) hour = 12;
         return hour;
       } else {
-        // Minutes: 6 degrees per minute, snap to nearest minute
         let minute = Math.round(angle / 6);
         if (minute === 60) minute = 0;
         return minute;
@@ -159,7 +155,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   const handleMouseUp = useCallback(() => {
     if (isDragging) {
       setIsDragging(false);
-      // Auto-advance to minutes after selecting hour
+
       if (dialMode === 'hour') {
         setDialMode('minute');
       }
@@ -192,14 +188,13 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   const handleTouchEnd = useCallback(() => {
     if (isDragging) {
       setIsDragging(false);
-      // Auto-advance to minutes after selecting hour
+
       if (dialMode === 'hour') {
         setDialMode('minute');
       }
     }
   }, [isDragging, dialMode]);
 
-  // Handle clicking on a specific number
   const handleNumberClick = useCallback(
     (value: number) => {
       if (dialMode === 'hour') {
@@ -343,7 +338,9 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               <div
                 className={cn(
                   'bg-primary pointer-events-none absolute top-1/2 left-1/2 z-10 h-25 w-0.5 origin-bottom',
-                  isDragging ? 'transition-none' : 'duration-long ease-standard transition-transform',
+                  isDragging
+                    ? 'transition-none'
+                    : 'duration-long ease-standard transition-transform',
                 )}
                 style={{
                   transform: `translate(-50%, -100%) rotate(${getRotation()}deg)`,
@@ -355,8 +352,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               </div>
 
               {dialMode === 'hour'
-                ? // Hour numbers (1-12)
-                  [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((num) => {
+                ? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((num) => {
                     const angle = num * 30 - 90;
                     const rad = angle * (Math.PI / 180);
                     const x = 50 + 42 * Math.cos(rad);
@@ -383,8 +379,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                       </div>
                     );
                   })
-                : // Minute numbers (00, 05, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55)
-                  [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((num) => {
+                : [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((num) => {
                     const angle = num * 6 - 90;
                     const rad = angle * (Math.PI / 180);
                     const x = 50 + 42 * Math.cos(rad);

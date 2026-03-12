@@ -214,8 +214,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       footer ??
       (footerLeft || footerRight ? (
         <div className="medium:flex-row flex flex-col items-start justify-between gap-4">
-          <div className="w-full min-w-0 flex-1 medium:w-auto">{footerLeft}</div>
-          <div className="flex w-full shrink-0 items-center justify-end gap-2 medium:w-auto">
+          <div className="medium:w-auto w-full min-w-0 flex-1">{footerLeft}</div>
+          <div className="medium:w-auto flex w-full shrink-0 items-center justify-end gap-2">
             {footerRight}
           </div>
         </div>
@@ -224,8 +224,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     return createPortal(
       <div
         className={cn(
-          'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden p-3 medium:p-4',
-          isBottom ? 'items-end justify-center' : 'items-stretch justify-end',
+          'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
+          isBottom ? 'items-end justify-center p-0' : 'items-stretch justify-end p-0',
         )}
         role="presentation"
       >
@@ -254,8 +254,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
             }
           }}
           className={cn(
-            'bg-surface shadow-5 relative flex w-full max-h-full transform-gpu flex-col overflow-hidden border border-outline-muted',
-            isBottom ? 'rounded-2xl' : 'h-full rounded-2xl',
+            'bg-surface shadow-5 border-outline-muted relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
+            isBottom ? 'rounded-t-lg rounded-b-none border-b-0' : 'h-full rounded-l-lg rounded-r-none border-r-0',
             isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
             isBottom
               ? isVisible
@@ -300,7 +300,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="titleLarge"
                     id={titleId}
-                    className="wrap-break-word text-on-surface leading-tight"
+                    className="text-on-surface leading-tight wrap-break-word"
                   >
                     {title}
                   </Text>
@@ -310,7 +310,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="bodySmall"
                     id={descriptionId}
-                    className="wrap-break-word text-on-surface-variant leading-relaxed"
+                    className="text-on-surface-variant leading-relaxed wrap-break-word"
                   >
                     {description}
                   </Text>
@@ -333,7 +333,11 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           <div className="no-scrollbar relative z-10 flex-1 overflow-y-auto">
             <div
               id={!description ? bodyDescriptionId : undefined}
-              className={cn('px-5 pb-5 text-on-surface', hasHeader ? 'pt-4' : 'pt-5', contentClassName)}
+              className={cn(
+                'text-on-surface px-5 pb-5',
+                hasHeader ? 'pt-4' : 'pt-5',
+                contentClassName,
+              )}
             >
               {children}
             </div>

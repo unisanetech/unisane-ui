@@ -82,6 +82,12 @@ function normalizeForComparison(content, isRegistry = false) {
   return normalized.trim();
 }
 
+function stripComments(content) {
+  return content
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+
 /**
  * Get hash of normalized content for quick comparison
  */
@@ -318,6 +324,7 @@ async function checkCommonIssues() {
 
       try {
         const content = await fs.readFile(filePath, 'utf-8');
+        const codeOnlyContent = stripComments(content);
 
         // Check for missing displayName
         if (content.includes('forwardRef') && !content.includes('.displayName')) {
@@ -326,7 +333,7 @@ async function checkCommonIssues() {
         }
 
         // Check for hardcoded pixel values (potential design token issues)
-        const hardcodedPx = content.match(/[^-]\d+px/g);
+        const hardcodedPx = codeOnlyContent.match(/(^|[^-\w])\d+px\b/g);
         if (hardcodedPx && hardcodedPx.length > 3) {
           warn(`Multiple hardcoded px values in ${folder}/${file}: consider using design tokens`);
         }

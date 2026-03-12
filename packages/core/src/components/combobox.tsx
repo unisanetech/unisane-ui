@@ -370,9 +370,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     aria-disabled={option.disabled}
                   >
                     <Ripple disabled={option.disabled} />
-                    <span className="relative z-10 flex-1 truncate font-medium">{option.label}</span>
+                    <span className="relative z-10 flex-1 truncate font-medium">
+                      {option.label}
+                    </span>
                     {highlightSelected && selectedValue === option.value && (
-                      <Icon symbol="check" size="sm" className="relative z-10 text-primary" />
+                      <Icon symbol="check" size="sm" className="text-primary relative z-10" />
                     )}
                   </div>
                 ))

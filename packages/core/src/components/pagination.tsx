@@ -1,18 +1,18 @@
-import React, { isValidElement } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-import { cn, Slot } from "@ui/lib/utils";
-import { Text } from "@ui/primitives/text";
-import { IconButton } from "./icon-button";
-import { Ripple } from "./ripple";
+import React, { isValidElement } from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn, Slot } from '@ui/lib/utils';
+import { Text } from '@ui/primitives/text';
+import { IconButton } from './icon-button';
+import { Ripple } from './ripple';
 
-const paginationVariants = cva("flex items-center gap-2", {
+const paginationVariants = cva('flex items-center gap-2', {
   variants: {
     variant: {
-      default: "",
+      default: '',
     },
   },
   defaultVariants: {
-    variant: "default",
+    variant: 'default',
   },
 });
 
@@ -45,7 +45,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       pages.push(1);
 
       if (currentPage > 3) {
-        pages.push("...");
+        pages.push('...');
       }
 
       const start = Math.max(2, currentPage - 1);
@@ -56,7 +56,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       }
 
       if (currentPage < totalPages - 2) {
-        pages.push("...");
+        pages.push('...');
       }
 
       pages.push(totalPages);
@@ -70,27 +70,26 @@ export const Pagination: React.FC<PaginationProps> = ({
   const renderPageButton = (page: number) => {
     const isCurrent = page === currentPage;
     const buttonClasses = cn(
-      "relative w-12 h-12 rounded-sm flex items-center justify-center transition-colors overflow-hidden",
-      isCurrent
-        ? "bg-primary text-on-primary"
-        : "text-on-surface-variant hover:bg-state-hover"
+      'relative w-12 h-12 rounded-sm flex items-center justify-center transition-colors overflow-hidden',
+      isCurrent ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-state-hover',
     );
 
     const innerContent = (
       <>
         <Ripple />
-        <Text variant="bodyMedium" className="relative z-10">{page}</Text>
+        <Text variant="bodyMedium" className="relative z-10">
+          {page}
+        </Text>
       </>
     );
 
-    // renderLink pattern: render user's custom Link component
     if (renderLink) {
       const customLink = renderLink(page, innerContent);
       if (isValidElement(customLink)) {
         return (
           <Slot
             className={buttonClasses}
-            aria-current={isCurrent ? "page" : undefined}
+            aria-current={isCurrent ? 'page' : undefined}
             aria-label={`Page ${page}`}
           >
             {customLink}
@@ -99,7 +98,6 @@ export const Pagination: React.FC<PaginationProps> = ({
       }
     }
 
-    // getPageHref: render as anchor
     if (getPageHref) {
       return (
         <a
@@ -109,7 +107,7 @@ export const Pagination: React.FC<PaginationProps> = ({
             e.preventDefault();
             onPageChange(page);
           }}
-          aria-current={isCurrent ? "page" : undefined}
+          aria-current={isCurrent ? 'page' : undefined}
           aria-label={`Page ${page}`}
         >
           {innerContent}
@@ -122,7 +120,7 @@ export const Pagination: React.FC<PaginationProps> = ({
         type="button"
         className={buttonClasses}
         onClick={() => onPageChange(page)}
-        aria-current={isCurrent ? "page" : undefined}
+        aria-current={isCurrent ? 'page' : undefined}
         aria-label={`Page ${page}`}
       >
         {innerContent}
@@ -131,10 +129,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <nav
-      className={cn(paginationVariants({ className }))}
-      aria-label="Pagination"
-    >
+    <nav className={cn(paginationVariants({ className }))} aria-label="Pagination">
       <IconButton
         icon={
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -150,11 +145,8 @@ export const Pagination: React.FC<PaginationProps> = ({
       <div className="flex items-center gap-1">
         {pageNumbers.map((page, index) => (
           <React.Fragment key={index}>
-            {page === "..." ? (
-              <Text
-                variant="bodyMedium"
-                className="px-2 text-on-surface-variant"
-              >
+            {page === '...' ? (
+              <Text variant="bodyMedium" className="text-on-surface-variant px-2">
                 ...
               </Text>
             ) : (

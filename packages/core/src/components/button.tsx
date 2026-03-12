@@ -140,7 +140,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
           childProps.onClick,
         ),
-        tabIndex: isDisabled ? -1 : childProps.tabIndex ?? props.tabIndex,
+        tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
       };
 
       return (

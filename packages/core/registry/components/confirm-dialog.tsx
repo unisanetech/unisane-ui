@@ -1,105 +1,59 @@
-"use client";
+'use client';
 
-import React, { forwardRef } from "react";
-import { cn } from "@/lib/utils";
-import { Dialog } from "./dialog";
-import { Button } from "./button";
-import { Icon } from "./icon";
-
-// ─── TYPES ────────────────────────────────────────────────────────────────────
+import React, { forwardRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Dialog } from './dialog';
+import { Button } from './button';
+import { Icon } from './icon';
 
 export interface ConfirmDialogProps {
-  /** Whether the dialog is open */
   open: boolean;
-  /** Callback when dialog should close */
+
   onOpenChange: (open: boolean) => void;
-  /** Dialog title */
+
   title: string;
-  /** Description text explaining the action */
+
   description?: string;
-  /** Confirm button label (defaults to "Confirm") */
+
   confirmLabel?: string;
-  /** Cancel button label (defaults to "Cancel") */
+
   cancelLabel?: string;
-  /** Visual variant affecting confirm button and icon */
-  variant?: "default" | "danger" | "warning";
-  /** Callback when confirm is clicked */
+
+  variant?: 'default' | 'danger' | 'warning';
+
   onConfirm: () => void | Promise<void>;
-  /** Callback when cancel is clicked (defaults to closing dialog) */
+
   onCancel?: () => void;
-  /** Whether the confirm action is loading */
+
   loading?: boolean;
-  /** Whether the confirm button is disabled */
+
   disabled?: boolean;
-  /** Custom icon to display */
+
   icon?: React.ReactNode;
-  /** Additional content below description */
+
   children?: React.ReactNode;
-  /** Additional class for the dialog */
+
   className?: string;
 }
 
-// ─── VARIANT CONFIG ───────────────────────────────────────────────────────────
-
 const variantConfig = {
   default: {
-    icon: "help",
-    iconClass: "text-primary",
-    confirmClass: "",
+    icon: 'help',
+    iconClass: 'text-primary',
+    confirmClass: '',
   },
   danger: {
-    icon: "warning",
-    iconClass: "text-error",
-    confirmClass: "bg-error text-on-error",
+    icon: 'warning',
+    iconClass: 'text-error',
+    confirmClass: 'bg-error text-on-error',
   },
   warning: {
-    icon: "warning",
-    iconClass: "text-tertiary",
-    confirmClass: "bg-tertiary text-on-tertiary",
+    icon: 'warning',
+    iconClass: 'text-warning',
+    confirmClass: 'bg-warning text-on-warning',
   },
 } as const;
 
-// ─── COMPONENT ────────────────────────────────────────────────────────────────
-
-/**
- * ConfirmDialog - A standardized confirmation dialog for destructive or important actions.
- *
- * @example
- * ```tsx
- * // Basic usage
- * <ConfirmDialog
- *   open={isOpen}
- *   onOpenChange={setIsOpen}
- *   title="Delete item?"
- *   description="This action cannot be undone."
- *   variant="danger"
- *   onConfirm={handleDelete}
- * />
- *
- * // With loading state
- * <ConfirmDialog
- *   open={isOpen}
- *   onOpenChange={setIsOpen}
- *   title="Save changes?"
- *   onConfirm={handleSave}
- *   loading={isSaving}
- * />
- *
- * // With useActionDialog hook
- * const { getDialogProps, selectedRow, closeDialog } = useActionDialog<User>();
- *
- * <ConfirmDialog
- *   {...getDialogProps("delete")}
- *   title="Delete user?"
- *   description={`This will permanently delete ${selectedRow?.name}.`}
- *   variant="danger"
- *   onConfirm={async () => {
- *     await deleteUser(selectedRow.id);
- *     closeDialog();
- *   }}
- * />
- * ```
- */
 export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
   (
     {
@@ -107,9 +61,9 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
       onOpenChange,
       title,
       description,
-      confirmLabel = "Confirm",
-      cancelLabel = "Cancel",
-      variant = "default",
+      confirmLabel = 'Confirm',
+      cancelLabel = 'Cancel',
+      variant = 'default',
       onConfirm,
       onCancel,
       loading = false,
@@ -118,7 +72,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
       children,
       className,
     },
-    ref
+    ref,
   ) => {
     const config = variantConfig[variant];
 
@@ -145,12 +99,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
       await onConfirm();
     };
 
-    const dialogIcon = icon ?? (
-      <Icon
-        symbol={config.icon}
-        className={cn("text-[24px]", config.iconClass)}
-      />
-    );
+    const dialogIcon = icon ?? <Icon symbol={config.icon} size="md" className={config.iconClass} />;
 
     return (
       <Dialog
@@ -163,11 +112,7 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
         className={className}
         actions={
           <>
-            <Button
-              variant="text"
-              onClick={handleCancel}
-              disabled={loading}
-            >
+            <Button variant="text" onClick={handleCancel} disabled={loading}>
               {cancelLabel}
             </Button>
             <Button
@@ -185,9 +130,9 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
         {children}
       </Dialog>
     );
-  }
+  },
 );
 
-ConfirmDialog.displayName = "ConfirmDialog";
+ConfirmDialog.displayName = 'ConfirmDialog';
 
 export default ConfirmDialog;

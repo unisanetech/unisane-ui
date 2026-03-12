@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { BottomAppBar, BottomAppBarAction, Fab } from "@unisane/ui";
+import { BottomAppBar, BottomAppBarAction, Fab, NavigationBar } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const BottomAppBarHeroVisual = () => (
@@ -96,14 +96,14 @@ export const bottomAppBarDoc: ComponentDoc = {
       {
         emphasis: "Bottom App Bar",
         component: (
-          <div className="w-32 h-10 bg-surface-container rounded-sm flex items-center px-2 relative">
-            <div className="flex gap-2">
-              <span className="material-symbols-outlined text-[14px] text-on-surface-variant">menu</span>
-              <span className="material-symbols-outlined text-[14px] text-on-surface-variant">search</span>
-            </div>
-            <div className="absolute left-1/2 -translate-x-1/2 -top-2 w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center">
-              <span className="text-[10px]">+</span>
-            </div>
+          <div className="relative h-20 w-44 overflow-hidden rounded-sm border border-outline-variant">
+            <BottomAppBar
+              className="absolute inset-x-0 bottom-0"
+              fab={<Fab icon={<span className="material-symbols-outlined">add</span>} aria-label="Add" />}
+            >
+              <BottomAppBarAction icon={<span className="material-symbols-outlined">menu</span>} label="Menu" />
+              <BottomAppBarAction icon={<span className="material-symbols-outlined">search</span>} label="Search" />
+            </BottomAppBar>
           </div>
         ),
         rationale: "For contextual actions with a primary FAB.",
@@ -112,15 +112,18 @@ export const bottomAppBarDoc: ComponentDoc = {
       {
         emphasis: "Navigation Bar",
         component: (
-          <div className="w-32 h-10 bg-surface-container rounded-sm flex items-center justify-around px-2">
-            <div className="flex flex-col items-center">
-              <span className="material-symbols-outlined text-[14px] text-primary">home</span>
-              <span className="text-[8px] text-primary">Home</span>
-            </div>
-            <div className="flex flex-col items-center">
-              <span className="material-symbols-outlined text-[14px] text-on-surface-variant">search</span>
-              <span className="text-[8px] text-on-surface-variant">Search</span>
-            </div>
+          <div className="relative h-20 w-44 overflow-hidden rounded-sm border border-outline-variant">
+            <NavigationBar className="absolute inset-x-0 bottom-0">
+              <NavigationBar.Item
+                icon={<span className="material-symbols-outlined">home</span>}
+                label="Home"
+                active
+              />
+              <NavigationBar.Item
+                icon={<span className="material-symbols-outlined">search</span>}
+                label="Search"
+              />
+            </NavigationBar>
           </div>
         ),
         rationale: "For primary navigation between sections.",
