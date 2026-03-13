@@ -15,11 +15,14 @@ export interface RailItem {
   icon: React.ReactNode | string;
   activeIcon?: React.ReactNode | string;
   badge?: string | number;
+  tooltip?: string;
   disabled?: boolean;
   href?: string;
   asChild?: boolean;
   linkElement?: React.ReactNode;
 }
+
+export type NavigationRailLabelVisibility = 'always' | 'selected' | 'hidden';
 
 export interface NavigationRailProps {
   items: RailItem[];
@@ -32,6 +35,7 @@ export interface NavigationRailProps {
   footer?: React.ReactNode;
   className?: string;
   alignment?: 'start' | 'center' | 'end';
+  labelVisibility?: NavigationRailLabelVisibility;
 }
 
 export const NavigationRail: React.FC<NavigationRailProps> = ({
@@ -45,6 +49,7 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
   footer,
   className,
   alignment = 'start',
+  labelVisibility = 'always',
 }) => {
   const [currentValue, setCurrentValue] = useControllableState<string>({
     value,
@@ -72,12 +77,15 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
       >
         {items.map((item) => {
           const isActive = currentValue === item.value;
+          const showLabel = labelVisibility === 'always' || (labelVisibility === 'selected' && isActive);
+          const tooltipText = item.tooltip ?? (labelVisibility === 'hidden' ? item.label : undefined);
           const content = (
             <NavigationRailItemContent
               icon={item.icon}
               activeIcon={item.activeIcon}
               badge={item.badge}
               label={item.label}
+              showLabel={showLabel}
               active={isActive}
               disabled={item.disabled}
               ripple={<Ripple center disabled={item.disabled} />}
@@ -99,6 +107,8 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
             className: commonClasses,
             'aria-current': isActive ? ('page' as const) : undefined,
             'aria-disabled': item.disabled || undefined,
+            'aria-label': showLabel ? undefined : item.label,
+            title: tooltipText,
           };
 
           if (item.asChild && item.linkElement) {
@@ -133,6 +143,8 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
               disabled={item.disabled}
               className={commonClasses}
               aria-current={isActive ? 'page' : undefined}
+              aria-label={showLabel ? undefined : item.label}
+              title={tooltipText}
             >
               {content}
             </button>

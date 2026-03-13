@@ -163,22 +163,44 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
   const components = {};
 
   try {
-    const files = await fs.readdir(dir);
     const componentFiles = [];
     const allDeps = new Set();
 
-    for (const file of files) {
-      if (!file.endsWith('.tsx') && !file.endsWith('.ts')) continue;
+    const collectFiles = async (currentDir, relativePath = '') => {
+      const entries = await fs.readdir(currentDir, { withFileTypes: true });
 
-      const filePath = path.join(dir, file);
-      const stat = await fs.stat(filePath);
+      for (const entry of entries) {
+        const nextRelativePath = relativePath
+          ? `${relativePath}/${entry.name}`
+          : entry.name;
+        const entryPath = path.join(currentDir, entry.name);
 
-      if (stat.isFile()) {
-        componentFiles.push(`${parentFolder}/${subfolderName}/${file}`);
-        const deps = await detectDependencies(filePath);
-        deps.forEach((d) => allDeps.add(d));
+        if (entry.isDirectory()) {
+          await collectFiles(entryPath, nextRelativePath);
+          continue;
+        }
+
+        if (!entry.name.endsWith('.tsx') && !entry.name.endsWith('.ts')) {
+          continue;
+        }
+        if (
+          entry.name.endsWith('.test.ts') ||
+          entry.name.endsWith('.test.tsx') ||
+          entry.name.endsWith('.spec.ts') ||
+          entry.name.endsWith('.spec.tsx')
+        ) {
+          continue;
+        }
+
+        componentFiles.push(
+          `${parentFolder}/${subfolderName}/${nextRelativePath}`,
+        );
+        const deps = await detectDependencies(entryPath);
+        deps.forEach((dep) => allDeps.add(dep));
       }
-    }
+    };
+
+    await collectFiles(dir);
 
     if (componentFiles.length > 0) {
       const key = fileToKey(subfolderName);

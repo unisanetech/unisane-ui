@@ -10,15 +10,20 @@ import {
   NavigationRail,
   Sidebar,
   SidebarBackdrop,
+  SidebarCollapsibleGroup,
   SidebarContent,
   SidebarDrawer,
   SidebarHeader,
+  SidebarGroup,
+  SidebarGroupLabel,
   SidebarInset,
   SidebarMenu,
+  SidebarMenuItem,
   SidebarNavItem,
   SidebarProvider,
   SidebarRail,
   SidebarRailItem,
+  SidebarTrigger,
 } from "@unisane/ui";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
@@ -33,27 +38,54 @@ const SidebarHeroVisual = () => (
           railWidth={72}
           drawerWidth={168}
           items={[
-            { id: "home", label: "Home", icon: "home" },
-            { id: "inbox", label: "Inbox", icon: "inbox" },
-            { id: "settings", label: "Settings", icon: "settings" },
+            {
+              id: "ops",
+              label: "Operations",
+              icon: "monitoring",
+              items: [
+                { id: "ops-overview", label: "Overview" },
+                { id: "ops-alerts", label: "Alerts" },
+                { id: "ops-incidents", label: "Incidents" },
+              ],
+            },
+            {
+              id: "customers",
+              label: "Customers",
+              icon: "group",
+              items: [
+                { id: "accounts", label: "Accounts" },
+                { id: "support", label: "Support" },
+              ],
+            },
+            {
+              id: "platform",
+              label: "Platform",
+              icon: "settings",
+              items: [{ id: "deployments", label: "Deployments" }],
+            },
           ]}
-          defaultActiveId="home"
+          defaultActiveId="ops-incidents"
         >
           <Sidebar className="relative h-full w-full">
             <SidebarRail>
-              <SidebarRailItem id="home" label="Home" icon="home" />
-              <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
-              <SidebarRailItem id="settings" label="Settings" icon="settings" />
+              <SidebarRailItem id="ops" label="Operations" icon="monitoring" />
+              <SidebarRailItem id="customers" label="Customers" icon="group" />
+              <SidebarRailItem id="platform" label="Platform" icon="settings" />
             </SidebarRail>
             <SidebarDrawer className="shadow-none">
               <SidebarHeader>
-                <div className="text-label-medium text-on-surface">Dashboard</div>
+                <div className="text-label-medium text-on-surface">Ops console</div>
               </SidebarHeader>
               <SidebarContent>
                 <SidebarMenu>
-                  <SidebarNavItem id="home" label="Overview" icon="home" />
-                  <SidebarNavItem id="inbox" label="Messages" icon="inbox" />
-                  <SidebarNavItem id="settings" label="Settings" icon="settings" />
+                  <SidebarCollapsibleGroup id="ops" label="Operations" icon="monitoring" defaultOpen>
+                    <SidebarNavItem id="ops-overview" label="Overview" icon="dashboard" />
+                    <SidebarNavItem id="ops-alerts" label="Alerts" icon="notifications" />
+                    <SidebarNavItem id="ops-incidents" label="Incidents" icon="warning" />
+                  </SidebarCollapsibleGroup>
+                  <SidebarNavItem id="accounts" label="Accounts" icon="group" />
+                  <SidebarNavItem id="support" label="Support queue" icon="support_agent" />
+                  <SidebarNavItem id="deployments" label="Deployments" icon="rocket_launch" />
                 </SidebarMenu>
               </SidebarContent>
             </SidebarDrawer>
@@ -104,29 +136,52 @@ const ExpandedSidebarExample = () => (
       railWidth={72}
       drawerWidth={168}
       items={[
-        { id: "files", label: "Files", icon: "folder" },
-        { id: "starred", label: "Starred", icon: "star" },
-        { id: "shared", label: "Shared", icon: "group" },
+        {
+          id: "workspace",
+          label: "Workspace",
+          icon: "workspaces",
+          items: [
+            { id: "home", label: "Home" },
+            { id: "projects", label: "Projects" },
+            { id: "tasks", label: "Tasks" },
+          ],
+        },
+        {
+          id: "reports",
+          label: "Reports",
+          icon: "bar_chart",
+          items: [{ id: "insights", label: "Insights" }],
+        },
+        {
+          id: "admin",
+          label: "Admin",
+          icon: "admin_panel_settings",
+          items: [{ id: "members", label: "Members" }],
+        },
       ]}
-      defaultActiveId="files"
+      defaultActiveId="projects"
     >
       <Sidebar className="relative h-full w-full">
         <SidebarRail>
-          <SidebarRailItem id="files" label="Files" icon="folder" />
-          <SidebarRailItem id="starred" label="Starred" icon="star" />
-          <SidebarRailItem id="shared" label="Shared" icon="group" />
+          <SidebarRailItem id="workspace" label="Workspace" icon="workspaces" />
+          <SidebarRailItem id="reports" label="Reports" icon="bar_chart" />
+          <SidebarRailItem id="admin" label="Admin" icon="admin_panel_settings" />
         </SidebarRail>
         <SidebarDrawer className="shadow-none">
           <SidebarHeader>
-            <div className="text-label-medium text-on-surface">Library</div>
+            <div className="text-label-medium text-on-surface">Product suite</div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              <SidebarNavItem id="files" label="Documents" icon="description" />
-              <SidebarNavItem id="starred" label="Images" icon="image" />
-            <SidebarNavItem id="shared" label="Downloads" icon="download" />
-          </SidebarMenu>
-        </SidebarContent>
+              <SidebarCollapsibleGroup id="workspace" label="Workspace" icon="workspaces" defaultOpen>
+                <SidebarNavItem id="home" label="Home" icon="home" />
+                <SidebarNavItem id="projects" label="Projects" icon="folder" />
+                <SidebarNavItem id="tasks" label="Tasks" icon="checklist" />
+              </SidebarCollapsibleGroup>
+              <SidebarNavItem id="insights" label="Insights" icon="insights" />
+              <SidebarNavItem id="members" label="Members" icon="group" />
+            </SidebarMenu>
+          </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
         <SidebarInset className="overflow-hidden bg-surface-container-lowest">
@@ -154,15 +209,28 @@ const SidebarSystemPreview = () => (
       railWidth={64}
       drawerWidth={156}
       items={[
-        { id: "home", label: "Home", icon: "home" },
-        { id: "inbox", label: "Inbox", icon: "inbox" },
+        {
+          id: "workspace",
+          label: "Workspace",
+          icon: "workspaces",
+          items: [
+            { id: "overview", label: "Overview" },
+            { id: "tasks", label: "Tasks" },
+          ],
+        },
+        {
+          id: "admin",
+          label: "Admin",
+          icon: "admin_panel_settings",
+          items: [{ id: "members", label: "Members" }],
+        },
       ]}
-      defaultActiveId="home"
+      defaultActiveId="tasks"
     >
       <Sidebar className="relative h-full w-full">
         <SidebarRail>
-          <SidebarRailItem id="home" label="Home" icon="home" />
-          <SidebarRailItem id="inbox" label="Inbox" icon="inbox" />
+          <SidebarRailItem id="workspace" label="Workspace" icon="workspaces" />
+          <SidebarRailItem id="admin" label="Admin" icon="admin_panel_settings" />
         </SidebarRail>
         <SidebarDrawer className="shadow-none">
           <SidebarHeader>
@@ -170,8 +238,11 @@ const SidebarSystemPreview = () => (
           </SidebarHeader>
           <SidebarContent>
             <SidebarMenu>
-              <SidebarNavItem id="home" label="Home" icon="home" />
-              <SidebarNavItem id="inbox" label="Inbox" icon="inbox" />
+              <SidebarCollapsibleGroup id="workspace" label="Team space" icon="workspaces" defaultOpen>
+                <SidebarNavItem id="overview" label="Overview" icon="dashboard" />
+                <SidebarNavItem id="tasks" label="Tasks" icon="checklist" />
+              </SidebarCollapsibleGroup>
+              <SidebarNavItem id="members" label="Members" icon="group" />
             </SidebarMenu>
           </SidebarContent>
         </SidebarDrawer>
@@ -214,6 +285,487 @@ const SidebarMobileDrawerPreview = () => (
   </div>
 );
 
+const RecipeCanvas = ({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => (
+  <div
+    className={`relative isolate h-[290px] w-full overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl @2xl:h-[330px] ${className}`.trim()}
+  >
+    {children}
+  </div>
+);
+
+const AdminDashboardRecipe = () => (
+  <RecipeCanvas className="h-[310px] @2xl:h-[350px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="desktop"
+      mode="rail-drawer"
+      behavior="inset"
+      defaultExpanded
+      defaultActiveId="incidents"
+      items={[
+        {
+          id: "operations",
+          label: "Operations",
+          icon: "monitoring",
+          items: [
+            { id: "overview", label: "Overview" },
+            { id: "incidents", label: "Incidents" },
+            { id: "alerts", label: "Alerts" },
+            { id: "runbooks", label: "Runbooks" },
+          ],
+        },
+        {
+          id: "customers",
+          label: "Customers",
+          icon: "groups",
+          items: [
+            { id: "accounts", label: "Accounts" },
+            { id: "subscriptions", label: "Subscriptions" },
+            { id: "support-queue", label: "Support queue" },
+          ],
+        },
+        {
+          id: "platform",
+          label: "Platform",
+          icon: "dns",
+          items: [
+            { id: "deployments", label: "Deployments" },
+            { id: "audit-log", label: "Audit log" },
+          ],
+        },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="operations" label="Operations" icon="monitoring" />
+          <SidebarRailItem id="customers" label="Customers" icon="groups" />
+          <SidebarRailItem id="platform" label="Platform" icon="dns" />
+        </SidebarRail>
+        <SidebarDrawer>
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface-variant">Control center</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Operations</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="operations" label="Live operations" icon="monitoring" defaultOpen>
+                  <SidebarNavItem id="overview" label="Overview" icon="dashboard" />
+                  <SidebarNavItem id="incidents" label="Incidents" icon="warning" />
+                  <SidebarNavItem id="alerts" label="Alerts" icon="notifications" />
+                  <SidebarNavItem id="runbooks" label="Runbooks" icon="library_books" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Customer success</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="customers" label="Accounts" icon="groups">
+                  <SidebarNavItem id="accounts" label="Accounts" icon="group" />
+                  <SidebarNavItem id="subscriptions" label="Subscriptions" icon="payments" />
+                  <SidebarNavItem id="support-queue" label="Support queue" icon="support_agent" />
+                </SidebarCollapsibleGroup>
+                <SidebarNavItem id="deployments" label="Deployments" icon="rocket_launch" />
+                <SidebarNavItem id="audit-log" label="Audit log" icon="history" />
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="h-full p-3">
+            <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="text-label-medium text-on-surface">Main content area</div>
+              <div className="mt-2 space-y-2">
+                <div className="h-2 w-2/3 rounded-sm bg-surface-container-high" />
+                <div className="h-2 w-1/2 rounded-sm bg-surface-container-high" />
+                <div className="h-2 w-4/5 rounded-sm bg-surface-container-high" />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
+const MailSectionsRecipe = () => (
+  <RecipeCanvas className="h-[280px] @2xl:h-[320px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="desktop"
+      mode="drawer-only"
+      behavior="inset"
+      defaultExpanded
+      defaultActiveId="inbox-personal"
+      visualPreset="compact"
+      items={[
+        {
+          id: "mailboxes",
+          label: "Mailboxes",
+          items: [
+            { id: "inbox-personal", label: "Inbox" },
+            { id: "priority", label: "Priority" },
+            { id: "sent", label: "Sent" },
+            { id: "drafts", label: "Drafts" },
+          ],
+        },
+        {
+          id: "shared",
+          label: "Shared channels",
+          items: [
+            { id: "design-team", label: "Design team" },
+            { id: "engineering-team", label: "Engineering" },
+            { id: "support-team", label: "Support" },
+          ],
+        },
+        {
+          id: "automation",
+          label: "Automation",
+          items: [
+            { id: "rules", label: "Rules" },
+            { id: "templates", label: "Templates" },
+          ],
+        },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarDrawer>
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface-variant">Inbox workspace</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Mailboxes</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="mailboxes" label="Primary" icon="inbox" defaultOpen>
+                  <SidebarMenuItem><SidebarNavItem id="inbox-personal" label="Inbox" icon="mail" /></SidebarMenuItem>
+                  <SidebarMenuItem><SidebarNavItem id="priority" label="Priority" icon="priority_high" /></SidebarMenuItem>
+                  <SidebarMenuItem><SidebarNavItem id="sent" label="Sent" icon="send" /></SidebarMenuItem>
+                  <SidebarMenuItem><SidebarNavItem id="drafts" label="Drafts" icon="draft" /></SidebarMenuItem>
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Shared</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="shared" label="Team channels" icon="forum">
+                  <SidebarNavItem id="design-team" label="Design team" icon="palette" />
+                  <SidebarNavItem id="engineering-team" label="Engineering" icon="code" />
+                  <SidebarNavItem id="support-team" label="Support" icon="support_agent" />
+                </SidebarCollapsibleGroup>
+                <SidebarCollapsibleGroup id="automation" label="Automation" icon="bolt">
+                  <SidebarNavItem id="rules" label="Rules" icon="rule" />
+                  <SidebarNavItem id="templates" label="Templates" icon="description" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="h-full p-3">
+            <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="text-label-medium text-on-surface">Conversation pane</div>
+              <div className="mt-2 space-y-2">
+                <div className="h-8 rounded-sm bg-surface-container-high" />
+                <div className="h-8 rounded-sm bg-surface-container-high" />
+                <div className="h-8 rounded-sm bg-surface-container-high" />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
+const SettingsRecipe = () => (
+  <RecipeCanvas className="h-[270px] @2xl:h-[300px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="desktop"
+      mode="rail-only"
+      defaultActiveId="authentication"
+      items={[
+        { id: "account", label: "Account", icon: "person" },
+        { id: "authentication", label: "Authentication", icon: "shield_lock" },
+        { id: "access", label: "Access", icon: "manage_accounts" },
+        { id: "audit", label: "Audit", icon: "history" },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="account" label="Account" icon="person" labelVisibility="hidden" tooltip="Account" />
+          <SidebarRailItem id="authentication" label="Authentication" icon="shield_lock" labelVisibility="hidden" tooltip="Authentication" />
+          <SidebarRailItem id="access" label="Access" icon="manage_accounts" labelVisibility="hidden" tooltip="Access control" />
+          <SidebarRailItem id="audit" label="Audit" icon="history" labelVisibility="hidden" tooltip="Audit log" />
+        </SidebarRail>
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="h-full p-3">
+            <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="text-label-medium text-on-surface">Settings panel content</div>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <div className="h-12 rounded-sm bg-surface-container-high" />
+                <div className="h-12 rounded-sm bg-surface-container-high" />
+                <div className="h-12 rounded-sm bg-surface-container-high" />
+                <div className="h-12 rounded-sm bg-surface-container-high" />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
+const ProjectWorkspaceRecipe = () => (
+  <RecipeCanvas className="h-[300px] @2xl:h-[340px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="desktop"
+      mode="rail-drawer"
+      behavior="inset"
+      defaultExpanded
+      defaultActiveId="board"
+      items={[
+        {
+          id: "projects",
+          label: "Projects",
+          icon: "folder",
+          items: [
+            { id: "board", label: "Board" },
+            { id: "timeline", label: "Timeline" },
+            { id: "backlog", label: "Backlog" },
+          ],
+        },
+        {
+          id: "release",
+          label: "Release",
+          icon: "rocket_launch",
+          items: [
+            { id: "roadmap", label: "Roadmap" },
+            { id: "milestones", label: "Milestones" },
+          ],
+        },
+        {
+          id: "resources",
+          label: "Resources",
+          icon: "book_2",
+          items: [
+            { id: "docs", label: "Docs" },
+            { id: "api", label: "API specs" },
+          ],
+        },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="projects" label="Projects" icon="folder" />
+          <SidebarRailItem id="release" label="Release" icon="rocket_launch" />
+          <SidebarRailItem id="resources" label="Resources" icon="book_2" />
+        </SidebarRail>
+        <SidebarDrawer>
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface-variant">Workspace</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Delivery</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="projects" label="Project alpha" icon="folder" defaultOpen>
+                  <SidebarNavItem id="board" label="Board" />
+                  <SidebarNavItem id="timeline" label="Timeline" />
+                  <SidebarNavItem id="backlog" label="Backlog" />
+                </SidebarCollapsibleGroup>
+                <SidebarCollapsibleGroup id="release" label="Release planning" icon="rocket_launch">
+                  <SidebarNavItem id="roadmap" label="Roadmap" />
+                  <SidebarNavItem id="milestones" label="Milestones" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Reference</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="resources" label="Resources" icon="book_2">
+                  <SidebarNavItem id="docs" label="Docs" />
+                  <SidebarNavItem id="api" label="API specs" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="h-full p-3">
+            <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="text-label-medium text-on-surface">Workspace content</div>
+              <div className="mt-2 grid grid-cols-3 gap-2">
+                <div className="h-24 rounded-sm bg-surface-container-high" />
+                <div className="h-24 rounded-sm bg-surface-container-high" />
+                <div className="h-24 rounded-sm bg-surface-container-high" />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
+const CompactTabletRecipe = () => (
+  <RecipeCanvas className="h-[280px] @2xl:h-[320px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="tablet"
+      mode="rail-drawer"
+      behavior="adaptive"
+      defaultMobileOpen
+      defaultActiveId="mentions"
+      triggerVisibility="mobile"
+      items={[
+        {
+          id: "workspace",
+          label: "Workspace",
+          icon: "inbox",
+          items: [
+            { id: "mentions", label: "Mentions" },
+            { id: "tasks", label: "My tasks" },
+          ],
+        },
+        {
+          id: "planning",
+          label: "Planning",
+          icon: "calendar_month",
+          items: [
+            { id: "calendar", label: "Calendar" },
+            { id: "milestones", label: "Milestones" },
+          ],
+        },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarRail>
+          <SidebarRailItem id="workspace" label="Workspace" icon="inbox" />
+          <SidebarRailItem id="planning" label="Planning" icon="calendar_month" />
+        </SidebarRail>
+        <SidebarDrawer>
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface-variant">Tablet nav</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarMenu>
+              <SidebarCollapsibleGroup id="workspace" label="Workspace" icon="inbox" defaultOpen>
+                <SidebarNavItem id="mentions" label="Mentions" icon="alternate_email" />
+                <SidebarNavItem id="tasks" label="My tasks" icon="checklist" />
+              </SidebarCollapsibleGroup>
+              <SidebarCollapsibleGroup id="planning" label="Planning" icon="calendar_month">
+                <SidebarNavItem id="calendar" label="Calendar" icon="event" />
+                <SidebarNavItem id="milestones" label="Milestones" icon="flag" />
+              </SidebarCollapsibleGroup>
+            </SidebarMenu>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarBackdrop />
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="flex items-center gap-2 border-b border-outline-variant px-3 py-2">
+            <SidebarTrigger visibility="mobile" />
+            <div className="text-label-large text-on-surface">Mentions</div>
+          </div>
+          <div className="space-y-2 p-3">
+            <div className="rounded-sm border border-outline-variant bg-surface p-2">
+              <div className="text-label-medium text-on-surface">Tablet content area</div>
+            </div>
+            <div className="h-10 rounded-sm bg-surface-container-high" />
+            <div className="h-10 rounded-sm bg-surface-container-high" />
+            <div className="h-10 rounded-sm bg-surface-container-high" />
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
+const RightContextRecipe = () => (
+  <RecipeCanvas className="h-[290px] @2xl:h-[330px]">
+    <SidebarProvider
+      containerMode="contained"
+      forceViewport="desktop"
+      side="right"
+      mode="drawer-only"
+      behavior="inset"
+      defaultExpanded
+      visualPreset="elevated"
+      defaultActiveId="timeline"
+      items={[
+        {
+          id: "issue",
+          label: "Issue details",
+          icon: "bug_report",
+          items: [
+            { id: "timeline", label: "Timeline" },
+            { id: "activity", label: "Activity" },
+            { id: "files", label: "Attachments" },
+          ],
+        },
+        {
+          id: "people",
+          label: "People",
+          icon: "group",
+          items: [
+            { id: "assignees", label: "Assignees" },
+            { id: "watchers", label: "Watchers" },
+          ],
+        },
+      ]}
+    >
+      <Sidebar className="h-full w-full">
+        <SidebarDrawer>
+          <SidebarHeader>
+            <div className="text-label-medium text-on-surface-variant">Context</div>
+          </SidebarHeader>
+          <SidebarContent>
+            <SidebarGroup>
+              <SidebarGroupLabel>Issue</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="issue" label="Issue details" icon="bug_report" defaultOpen>
+                  <SidebarNavItem id="timeline" label="Timeline" icon="schedule" />
+                  <SidebarNavItem id="activity" label="Activity" icon="history" />
+                  <SidebarNavItem id="files" label="Attachments" icon="attach_file" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+            <SidebarGroup>
+              <SidebarGroupLabel>Collaboration</SidebarGroupLabel>
+              <SidebarMenu>
+                <SidebarCollapsibleGroup id="people" label="Participants" icon="group">
+                  <SidebarNavItem id="assignees" label="Assignees" icon="person" />
+                  <SidebarNavItem id="watchers" label="Watchers" icon="visibility" />
+                </SidebarCollapsibleGroup>
+              </SidebarMenu>
+            </SidebarGroup>
+          </SidebarContent>
+        </SidebarDrawer>
+        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+          <div className="h-full p-3">
+            <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
+              <div className="text-label-medium text-on-surface">Context target pane</div>
+              <div className="mt-2 space-y-2">
+                <div className="h-2 w-2/3 rounded-sm bg-surface-container-high" />
+                <div className="h-2 w-1/2 rounded-sm bg-surface-container-high" />
+                <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+              </div>
+            </div>
+          </div>
+        </SidebarInset>
+      </Sidebar>
+    </SidebarProvider>
+  </RecipeCanvas>
+);
+
 export const sidebarDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
   slug: "sidebar",
@@ -253,6 +805,51 @@ export const sidebarDoc: ComponentDoc = {
   heroPreview: {
     minHeight: "xl",
   },
+  examplesPreview: {
+    tone: "surfaceContainerLow",
+    minHeight: "xl",
+    padding: "none",
+    align: "start",
+    justify: "start",
+  },
+  examples: [
+    {
+      id: "admin-dashboard-sidebar",
+      title: "Admin dashboard sidebar",
+      description: "Rail + drawer with inset content for dense operational dashboards.",
+      component: <AdminDashboardRecipe />,
+    },
+    {
+      id: "mail-sections-sidebar",
+      title: "Mail sidebar with sections",
+      description: "Drawer-only pattern for mailbox-heavy navigation.",
+      component: <MailSectionsRecipe />,
+    },
+    {
+      id: "settings-sidebar",
+      title: "Settings sidebar",
+      description: "Rail-only pattern when compact settings navigation is enough.",
+      component: <SettingsRecipe />,
+    },
+    {
+      id: "project-workspace-sidebar",
+      title: "Project workspace sidebar",
+      description: "Nested groups using collapsible items from the canonical sidebar APIs.",
+      component: <ProjectWorkspaceRecipe />,
+    },
+    {
+      id: "compact-tablet-sidebar",
+      title: "Compact tablet sidebar",
+      description: "Adaptive overlay behavior with explicit mobile trigger visibility.",
+      component: <CompactTabletRecipe />,
+    },
+    {
+      id: "right-context-sidebar",
+      title: "Right-side contextual sidebar",
+      description: "Right-anchored contextual panel using the same provider contract.",
+      component: <RightContextRecipe />,
+    },
+  ],
   docsLayout: {
     hideChoosing: true,
     hidePlacement: true,
@@ -296,7 +893,7 @@ export const sidebarDoc: ComponentDoc = {
       "Sidebar adapts to screen size automatically. Rail shows on expanded screens, overlay drawer on mobile/tablet.",
     previewDefaults: {
       tone: "surfaceContainerLow",
-      minHeight: "2xl",
+      minHeight: "xl",
       padding: "none",
       align: "start",
       justify: "start",
@@ -369,9 +966,9 @@ export const sidebarDoc: ComponentDoc = {
     },
     {
       name: "behavior",
-      type: '"adaptive" | "overlay" | "inset"',
+      type: '"overlay" | "inset" | "adaptive"',
       default: '"adaptive"',
-      description: "Controls when drawer overlays content versus pushing layout.",
+      description: "Canonical behaviors are overlay and inset. adaptive is a compatibility alias that maps by viewport.",
     },
     {
       name: "containerMode",
@@ -384,6 +981,17 @@ export const sidebarDoc: ComponentDoc = {
       type: '"auto" | "always" | "desktop" | "mobile" | "hidden"',
       default: '"auto"',
       description: "Default visibility policy for SidebarTrigger.",
+    },
+    {
+      name: "visualPreset",
+      type: '"default" | "compact" | "elevated" | "minimal"',
+      default: '"default"',
+      description: "Applies token-driven sidebar styling presets without custom CSS.",
+    },
+    {
+      name: "tokens",
+      type: "Partial<SidebarVisualTokens>",
+      description: "Optional CSS-token overrides for rail/drawer colors, radius, shadow, and motion.",
     },
     {
       name: "persist",
@@ -458,6 +1066,9 @@ export const sidebarDoc: ComponentDoc = {
       props: [
         { name: "children", type: "ReactNode", required: true, description: "App content." },
         { name: "items", type: "NavigationItem[]", description: "Navigation items for state management." },
+        { name: "behavior", type: '"overlay" | "inset" | "adaptive"', description: "Selects overlay/inset behavior. adaptive maps by viewport." },
+        { name: "containerMode", type: '"viewport" | "contained"', description: "Use contained in embedded canvases/previews." },
+        { name: "visualPreset", type: '"default" | "compact" | "elevated" | "minimal"', description: "Applies token-driven style preset." },
       ],
     },
     {
@@ -595,7 +1206,7 @@ function AppLayout({ children }) {
   const activeId = navItems.find(item => item.href === pathname)?.id || null;
 
   return (
-    <SidebarProvider defaultActiveId={activeId} persist>
+    <SidebarProvider defaultActiveId={activeId} persist behavior="adaptive" visualPreset="default">
       <Sidebar>
         <SidebarRail>
           {navItems.map((item) => (

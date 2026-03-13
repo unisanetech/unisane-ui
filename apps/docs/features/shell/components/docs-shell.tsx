@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   SidebarProvider,
+  Sidebar,
   useSidebar,
   SidebarRail,
   SidebarRailItem,
@@ -88,138 +89,140 @@ function DocsShellContent({
         }
       />
 
-      <SidebarRail>
-        <div className="flex w-full flex-col items-center pt-3 pb-2">
-          <IconButton
-            variant="standard"
-            aria-label={expanded ? "Close menu" : "Open menu"}
-            onClick={toggleExpanded}
-            className="h-10 w-14"
-          >
-            <span className="material-symbols-outlined">
-              {expanded ? "menu_open" : "menu"}
-            </span>
-          </IconButton>
-        </div>
-
-        <div className="flex w-full flex-1 flex-col items-center gap-3 pt-2">
-          {DOCS_NAVIGATION.map((item) => (
-            <SidebarRailItem
-              key={item.id}
-              id={item.id}
-              label={item.label}
-              icon={item.icon || "circle"}
-              childIds={item.items?.map((child) => child.id) || []}
-              asChild
+      <Sidebar className="h-full w-full">
+        <SidebarRail>
+          <div className="flex w-full flex-col items-center pt-3 pb-2">
+            <IconButton
+              variant="standard"
+              aria-label={expanded ? "Close menu" : "Open menu"}
+              onClick={toggleExpanded}
+              className="h-10 w-14"
             >
-              <Link href={item.href || "#"} />
-            </SidebarRailItem>
-          ))}
-        </div>
+              <span className="material-symbols-outlined">
+                {expanded ? "menu_open" : "menu"}
+              </span>
+            </IconButton>
+          </div>
 
-        <div className="flex flex-col items-center gap-3 pb-4">
-          <ThemeSettings />
-        </div>
-      </SidebarRail>
+          <div className="flex w-full flex-1 flex-col items-center gap-3 pt-2">
+            {DOCS_NAVIGATION.map((item) => (
+              <SidebarRailItem
+                key={item.id}
+                id={item.id}
+                label={item.label}
+                icon={item.icon || "circle"}
+                childIds={item.items?.map((child) => child.id) || []}
+                asChild
+              >
+                <Link href={item.href || "#"} />
+              </SidebarRailItem>
+            ))}
+          </div>
 
-      <SidebarDrawer>
-        {mobileOpen ? (
-          <SidebarContent className="pt-20 pb-24">
-            <SidebarGroupLabel>Unisane UI</SidebarGroupLabel>
-            <SidebarMenu>
-              {DOCS_NAVIGATION.map((category) => {
-                const hasChildren = category.items && category.items.length > 0;
-                const isActiveCategory = activeId === category.id;
+          <div className="flex flex-col items-center gap-3 pb-4">
+            <ThemeSettings />
+          </div>
+        </SidebarRail>
 
-                if (hasChildren) {
+        <SidebarDrawer>
+          {mobileOpen ? (
+            <SidebarContent className="pt-20 pb-24">
+              <SidebarGroupLabel>Unisane UI</SidebarGroupLabel>
+              <SidebarMenu>
+                {DOCS_NAVIGATION.map((category) => {
+                  const hasChildren = category.items && category.items.length > 0;
+                  const isActiveCategory = activeId === category.id;
+
+                  if (hasChildren) {
+                    return (
+                      <SidebarCollapsibleGroup
+                        key={category.id}
+                        id={category.id}
+                        label={category.label}
+                        icon={category.icon}
+                        childIds={category.items?.map((child) => child.id) || []}
+                        defaultOpen={isActiveCategory}
+                      >
+                        <SidebarMenu>
+                          {category.items?.map((item) => (
+                            <SidebarNavItem
+                              key={item.id}
+                              id={item.id}
+                              label={item.label}
+                              asChild
+                            >
+                              <Link href={item.href || "#"} />
+                            </SidebarNavItem>
+                          ))}
+                        </SidebarMenu>
+                      </SidebarCollapsibleGroup>
+                    );
+                  }
+
                   return (
-                    <SidebarCollapsibleGroup
+                    <SidebarNavItem
                       key={category.id}
                       id={category.id}
-                      label={category.label}
                       icon={category.icon}
-                      childIds={category.items?.map((child) => child.id) || []}
-                      defaultOpen={isActiveCategory}
+                      label={category.label}
+                      asChild
                     >
-                      <SidebarMenu>
-                        {category.items?.map((item) => (
-                          <SidebarNavItem
-                            key={item.id}
-                            id={item.id}
-                            label={item.label}
-                            asChild
-                          >
-                            <Link href={item.href || "#"} />
-                          </SidebarNavItem>
-                        ))}
-                      </SidebarMenu>
-                    </SidebarCollapsibleGroup>
+                      <Link href={category.href || "#"} />
+                    </SidebarNavItem>
                   );
-                }
-
-                return (
+                })}
+              </SidebarMenu>
+            </SidebarContent>
+          ) : effectiveItem && effectiveItem.items && effectiveItem.items.length > 0 ? (
+            <SidebarContent
+              className="animate-content-enter pt-4 pb-20"
+              key={effectiveItem.id}
+            >
+              <SidebarGroupLabel>{effectiveItem.label}</SidebarGroupLabel>
+              <SidebarMenu>
+                {effectiveItem.items.map((item) => (
                   <SidebarNavItem
-                    key={category.id}
-                    id={category.id}
-                    icon={category.icon}
-                    label={category.label}
+                    key={item.id}
+                    id={item.id}
+                    icon={item.icon}
+                    label={item.label}
                     asChild
                   >
-                    <Link href={category.href || "#"} />
+                    <Link href={item.href || "#"} />
                   </SidebarNavItem>
-                );
-              })}
-            </SidebarMenu>
-          </SidebarContent>
-        ) : effectiveItem && effectiveItem.items && effectiveItem.items.length > 0 ? (
-          <SidebarContent
-            className="animate-content-enter pt-4 pb-20"
-            key={effectiveItem.id}
-          >
-            <SidebarGroupLabel>{effectiveItem.label}</SidebarGroupLabel>
-            <SidebarMenu>
-              {effectiveItem.items.map((item) => (
-                <SidebarNavItem
-                  key={item.id}
-                  id={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  asChild
-                >
-                  <Link href={item.href || "#"} />
-                </SidebarNavItem>
-              ))}
-            </SidebarMenu>
-          </SidebarContent>
-        ) : (
-          <SidebarContent className="animate-content-enter pt-4">
-            <p className="px-4 text-body-medium text-on-surface-variant">
-              Select a category to view items.
-            </p>
-          </SidebarContent>
-        )}
-      </SidebarDrawer>
-
-      <SidebarInset>
-        {showHeader ? <AppHeader /> : null}
-
-        <div
-          className={cn(
-            "flex-1 @container",
-            contentWidth === "constrained" && "container mx-auto max-w-[1600px]",
-            contentWidth === "fluid" && "w-full",
-            contentInset === "normal" &&
-              (contentWidth === "constrained"
-                ? "px-4 py-4 medium:px-6 expanded:px-12 expanded:py-6"
-                : "px-4 py-4 medium:px-6 expanded:px-8 expanded:py-6"),
-            contentInset === "none" && "p-0"
+                ))}
+              </SidebarMenu>
+            </SidebarContent>
+          ) : (
+            <SidebarContent className="animate-content-enter pt-4">
+              <p className="px-4 text-body-medium text-on-surface-variant">
+                Select a category to view items.
+              </p>
+            </SidebarContent>
           )}
-        >
-          {children}
-        </div>
-      </SidebarInset>
+        </SidebarDrawer>
 
-      <SidebarBackdrop />
+        <SidebarInset>
+          {showHeader ? <AppHeader /> : null}
+
+          <div
+            className={cn(
+              "flex-1 @container",
+              contentWidth === "constrained" && "container mx-auto max-w-[1600px]",
+              contentWidth === "fluid" && "w-full",
+              contentInset === "normal" &&
+                (contentWidth === "constrained"
+                  ? "px-4 py-4 medium:px-6 expanded:px-12 expanded:py-6"
+                  : "px-4 py-4 medium:px-6 expanded:px-8 expanded:py-6"),
+              contentInset === "none" && "p-0"
+            )}
+          >
+            {children}
+          </div>
+        </SidebarInset>
+
+        <SidebarBackdrop />
+      </Sidebar>
     </div>
   );
 }

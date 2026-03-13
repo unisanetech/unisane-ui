@@ -534,9 +534,32 @@
       "name": "Sidebar",
       "type": "components:ui",
       "description": "Sidebar component",
-      "files": ["components/sidebar/index.ts", "components/sidebar/sidebar-context.tsx", "components/sidebar/sidebar.tsx"],
+      "files": [
+        "components/sidebar/components/sidebar-drawer.tsx",
+        "components/sidebar/components/sidebar-inset.tsx",
+        "components/sidebar/components/sidebar-items.tsx",
+        "components/sidebar/components/sidebar-navigation-utils.ts",
+        "components/sidebar/components/sidebar-rail.tsx",
+        "components/sidebar/components/sidebar-shell.tsx",
+        "components/sidebar/context/sidebar-provider.tsx",
+        "components/sidebar/index.ts",
+        "components/sidebar/model/sidebar.state.ts",
+        "components/sidebar/model/sidebar.types.ts",
+        "components/sidebar/sidebar-context.tsx",
+        "components/sidebar/sidebar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["sidebar-context"]
+      "registryDependencies": [
+        "sidebar-navigation-utils",
+        "context/sidebar-provider",
+        "model/sidebar.types",
+        "sidebar.types",
+        "components/sidebar-shell",
+        "components/sidebar-inset",
+        "components/sidebar-rail",
+        "components/sidebar-drawer",
+        "components/sidebar-items"
+      ]
     },
     "skeleton": {
       "name": "Skeleton",

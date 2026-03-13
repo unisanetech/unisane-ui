@@ -45,6 +45,7 @@ interface NavigationRailItemContentProps {
   activeIcon?: React.ReactNode | string;
   badge?: string | number;
   label: string;
+  showLabel?: boolean;
   active: boolean;
   disabled?: boolean;
   ripple?: React.ReactNode;
@@ -55,6 +56,7 @@ export function NavigationRailItemContent({
   activeIcon,
   badge,
   label,
+  showLabel = true,
   active,
   disabled,
   ripple,
@@ -94,17 +96,19 @@ export function NavigationRailItemContent({
         )}
       </div>
 
-      <span
-        className={cn(
-          "max-w-full px-0.5 text-center text-label-small transition-colors duration-short",
-          active
-            ? "font-bold text-on-secondary-container"
-            : "font-medium text-on-surface-variant group-hover:text-on-surface",
-          disabled && "group-hover:text-on-surface-variant",
-        )}
-      >
-        {label}
-      </span>
+      {showLabel ? (
+        <span
+          className={cn(
+            "max-w-full px-0.5 text-center text-label-small transition-colors duration-short",
+            active
+              ? "font-bold text-on-secondary-container"
+              : "font-medium text-on-surface-variant group-hover:text-on-surface",
+            disabled && "group-hover:text-on-surface-variant",
+          )}
+        >
+          {label}
+        </span>
+      ) : null}
     </>
   );
 }

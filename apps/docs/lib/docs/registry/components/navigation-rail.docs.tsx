@@ -90,6 +90,38 @@ const NavigationRailBasicExample = () => {
   );
 };
 
+const NavigationRailIconOnlyExample = () => {
+  const [active, setActive] = useState("dashboard");
+
+  return (
+    <div className="relative isolate flex h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+      <NavigationRail
+        items={[
+          { value: "dashboard", label: "Dashboard", icon: "dashboard", activeIcon: "dashboard", tooltip: "Dashboard" },
+          { value: "analytics", label: "Analytics", icon: "insights", activeIcon: "insights", tooltip: "Analytics" },
+          { value: "customers", label: "Customers", icon: "group", activeIcon: "group", tooltip: "Customers" },
+          { value: "settings", label: "Settings", icon: "settings", activeIcon: "settings", tooltip: "Settings" },
+        ]}
+        value={active}
+        onValueChange={setActive}
+        labelVisibility="hidden"
+        className="h-full"
+      />
+      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+        <div className="border-outline-variant border-b px-4 py-3">
+          <div className="text-title-small text-on-surface">Icon-only rail</div>
+          <div className="text-body-small text-on-surface-variant">Hover icons to see tooltips.</div>
+        </div>
+        <div className="space-y-2 p-4">
+          <div className="h-3 rounded-sm bg-surface-container-high" />
+          <div className="h-3 w-3/4 rounded-sm bg-surface-container-high" />
+          <div className="h-3 w-1/2 rounded-sm bg-surface-container-high" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const navigationRailDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
   slug: "navigation-rail",
@@ -213,6 +245,11 @@ export const navigationRailDoc: ComponentDoc = {
         visual: <NavigationRailBasicExample />,
         caption: "Click items to navigate",
       },
+      {
+        title: "Icon-only with tooltip",
+        visual: <NavigationRailIconOnlyExample />,
+        caption: "Use labelVisibility='hidden' and per-item tooltip for compact rails.",
+      },
     ],
   },
 
@@ -254,6 +291,12 @@ export const navigationRailDoc: ComponentDoc = {
       type: '"start" | "center" | "end"',
       default: '"start"',
       description: "Vertical alignment of items.",
+    },
+    {
+      name: "labelVisibility",
+      type: '"always" | "selected" | "hidden"',
+      default: '"always"',
+      description: "Controls rail label display for all items.",
     },
     {
       name: "onItemHover",
