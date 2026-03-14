@@ -59,7 +59,7 @@ const DialogSurfacePreview = ({
 }: DialogSurfacePreviewProps) => (
   <div className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-outline-variant bg-surface shadow-lg">
     <div
-      className={`border-outline-variant bg-surface-container-lowest flex items-start border-b ${
+      className={`border-outline-variant bg-surface-container-low flex items-start border-b ${
         compact ? "gap-2 px-3 py-2.5" : "gap-3 px-5 py-4"
       }`}
     >
@@ -94,7 +94,7 @@ const DialogSurfacePreview = ({
         <div className="mt-2 h-2 w-3/5 rounded-sm bg-surface-container-high" />
       </div>
     ) : null}
-    <div className={`border-outline-variant bg-surface-container-lowest flex justify-end gap-2 border-t ${compact ? "px-3 py-2" : "px-5 py-3"}`}>
+    <div className={`border-outline-variant bg-surface-container-low flex justify-end gap-2 border-t ${compact ? "px-3 py-2" : "px-5 py-3"}`}>
       <Button variant="text" size="sm">{secondaryAction}</Button>
       <Button variant="filled" size="sm">{primaryAction}</Button>
     </div>

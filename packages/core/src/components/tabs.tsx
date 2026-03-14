@@ -49,18 +49,62 @@ export const TabsList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,
   children,
   ...props
-}) => (
-  <div
-    className={cn(
-      'border-outline-variant bg-surface no-scrollbar flex w-full overflow-x-auto border-b',
-      className,
-    )}
-    role="tablist"
-    {...props}
-  >
-    {children}
-  </div>
-);
+}) => {
+  const context = useContext(TabsContext);
+  if (!context) throw new Error('TabsList must be used within Tabs');
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const target = event.target as HTMLElement | null;
+    if (!target || target.getAttribute('role') !== 'tab') return;
+
+    const keys = ['ArrowRight', 'ArrowLeft', 'Home', 'End'];
+    if (!keys.includes(event.key)) return;
+
+    const tabs = Array.from(
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
+    ).filter((tab) => !tab.disabled);
+
+    if (tabs.length === 0) return;
+
+    const currentIndex = tabs.indexOf(target as HTMLButtonElement);
+    if (currentIndex === -1) return;
+
+    event.preventDefault();
+
+    let nextIndex = currentIndex;
+    if (event.key === 'ArrowRight') {
+      nextIndex = (currentIndex + 1) % tabs.length;
+    } else if (event.key === 'ArrowLeft') {
+      nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+    } else if (event.key === 'Home') {
+      nextIndex = 0;
+    } else if (event.key === 'End') {
+      nextIndex = tabs.length - 1;
+    }
+
+    const nextTab = tabs[nextIndex];
+    if (!nextTab) return;
+    const nextValue = nextTab.dataset.value;
+    if (!nextValue) return;
+
+    nextTab.focus();
+    context.onValueChange(nextValue);
+  };
+
+  return (
+    <div
+      className={cn(
+        'border-outline-variant bg-surface no-scrollbar flex w-full overflow-x-auto border-b',
+        className,
+      )}
+      role="tablist"
+      onKeyDown={handleKeyDown}
+      {...props}
+    >
+      {children}
+    </div>
+  );
+};
 
 export interface TabsTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   value: string;
@@ -87,6 +131,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
     <button
       type={type}
       id={triggerId}
+      data-value={value}
       role="tab"
       aria-selected={isSelected}
       aria-controls={panelId}

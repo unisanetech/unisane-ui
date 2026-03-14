@@ -120,6 +120,7 @@ Buttons and icon buttons should align to the same height rhythm unless the compo
 
 - shared field sizing
 - shared label/helper/error behavior where relevant
+- `Input` stays a low-level primitive and should not reintroduce floating-label or helper-text orchestration
 - native wrappers keep native `onChange`
 - custom widgets prefer `onValueChange`
 

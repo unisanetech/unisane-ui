@@ -28,7 +28,7 @@
    4. CONTRAST - Accessibility level (via data attribute):
       <html data-contrast="standard">  // Default
       <html data-contrast="medium">    // Boosted readability
-      <html data-contrast="high">      // WCAG AAA compliant
+      <html data-contrast="high">      // Maximum contrast preset
 
    5. DARK MODE:
       <html class="dark">              // Manual dark mode
@@ -56,16 +56,22 @@
 
 :root {
   /* Derived hues (auto-calculated) */
-  --hue-secondary: var(--hue);
+  --hue-secondary: calc(var(--hue) + 12);
   --hue-tertiary: calc(var(--hue) + 60);
   --hue-neutral: var(--hue);
   --hue-error: 25;
+  --hue-success: 145;
+  --hue-warning: 85;
+  --hue-info: 245;
 
   /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * 0.7);
+  --chroma-secondary: calc(var(--chroma) * 0.4);
   --chroma-tertiary: calc(var(--chroma) * 0.7);
   --chroma-neutral: 0.012;
   --chroma-error: 0.18;
+  --chroma-success: 0.18;
+  --chroma-warning: 0.16;
+  --chroma-info: 0.16;
 
   /* Neutral variant chroma (1.5x neutral) */
   --chroma-neutral-variant: calc(var(--chroma-neutral) * 1.5);
@@ -76,6 +82,7 @@
   --ref-primary-0: #000000;
   --ref-primary-4: oklch(0.1 calc(var(--chroma) * 0.5) var(--hue));
   --ref-primary-6: oklch(0.13 calc(var(--chroma) * 0.6) var(--hue));
+  --ref-primary-8: oklch(0.17 calc(var(--chroma) * 0.65) var(--hue));
   --ref-primary-10: oklch(0.22 calc(var(--chroma) * 0.7) var(--hue));
   --ref-primary-12: oklch(0.25 calc(var(--chroma) * 0.75) var(--hue));
   --ref-primary-17: oklch(0.3 calc(var(--chroma) * 0.8) var(--hue));
@@ -100,6 +107,7 @@
   --ref-secondary-0: #000000;
   --ref-secondary-4: oklch(0.1 calc(var(--chroma-secondary) * 0.5) var(--hue-secondary));
   --ref-secondary-6: oklch(0.13 calc(var(--chroma-secondary) * 0.6) var(--hue-secondary));
+  --ref-secondary-8: oklch(0.17 calc(var(--chroma-secondary) * 0.65) var(--hue-secondary));
   --ref-secondary-10: oklch(0.22 calc(var(--chroma-secondary) * 0.7) var(--hue-secondary));
   --ref-secondary-12: oklch(0.25 calc(var(--chroma-secondary) * 0.75) var(--hue-secondary));
   --ref-secondary-17: oklch(0.3 calc(var(--chroma-secondary) * 0.8) var(--hue-secondary));
@@ -124,6 +132,7 @@
   --ref-tertiary-0: #000000;
   --ref-tertiary-4: oklch(0.1 calc(var(--chroma-tertiary) * 0.5) var(--hue-tertiary));
   --ref-tertiary-6: oklch(0.13 calc(var(--chroma-tertiary) * 0.6) var(--hue-tertiary));
+  --ref-tertiary-8: oklch(0.17 calc(var(--chroma-tertiary) * 0.65) var(--hue-tertiary));
   --ref-tertiary-10: oklch(0.22 calc(var(--chroma-tertiary) * 0.7) var(--hue-tertiary));
   --ref-tertiary-12: oklch(0.25 calc(var(--chroma-tertiary) * 0.75) var(--hue-tertiary));
   --ref-tertiary-17: oklch(0.3 calc(var(--chroma-tertiary) * 0.8) var(--hue-tertiary));
@@ -148,6 +157,7 @@
   --ref-neutral-0: #000000;
   --ref-neutral-4: oklch(0.1 calc(var(--chroma-neutral) * 0.5) var(--hue-neutral));
   --ref-neutral-6: oklch(0.13 calc(var(--chroma-neutral) * 0.6) var(--hue-neutral));
+  --ref-neutral-8: oklch(0.17 calc(var(--chroma-neutral) * 0.65) var(--hue-neutral));
   --ref-neutral-10: oklch(0.22 calc(var(--chroma-neutral) * 0.7) var(--hue-neutral));
   --ref-neutral-12: oklch(0.25 calc(var(--chroma-neutral) * 0.75) var(--hue-neutral));
   --ref-neutral-17: oklch(0.3 calc(var(--chroma-neutral) * 0.8) var(--hue-neutral));
@@ -172,6 +182,9 @@
   --ref-neutral-variant-0: #000000;
   --ref-neutral-variant-4: oklch(0.1 calc(var(--chroma-neutral-variant) * 0.5) var(--hue-neutral));
   --ref-neutral-variant-6: oklch(0.13 calc(var(--chroma-neutral-variant) * 0.6) var(--hue-neutral));
+  --ref-neutral-variant-8: oklch(
+    0.17 calc(var(--chroma-neutral-variant) * 0.65) var(--hue-neutral)
+  );
   --ref-neutral-variant-10: oklch(
     0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral)
   );
@@ -226,6 +239,7 @@
   --ref-error-0: #000000;
   --ref-error-4: oklch(0.1 calc(var(--chroma-error) * 0.5) var(--hue-error));
   --ref-error-6: oklch(0.13 calc(var(--chroma-error) * 0.6) var(--hue-error));
+  --ref-error-8: oklch(0.17 calc(var(--chroma-error) * 0.65) var(--hue-error));
   --ref-error-10: oklch(0.22 calc(var(--chroma-error) * 0.7) var(--hue-error));
   --ref-error-12: oklch(0.25 calc(var(--chroma-error) * 0.75) var(--hue-error));
   --ref-error-17: oklch(0.3 calc(var(--chroma-error) * 0.8) var(--hue-error));
@@ -245,6 +259,81 @@
   --ref-error-96: oklch(0.978 calc(var(--chroma-error) * 0.22) var(--hue-error));
   --ref-error-99: oklch(0.995 calc(var(--chroma-error) * 0.15) var(--hue-error));
   --ref-error-100: #ffffff;
+
+  /* success */
+  --ref-success-0: #000000;
+  --ref-success-4: oklch(0.1 calc(var(--chroma-success) * 0.5) var(--hue-success));
+  --ref-success-6: oklch(0.13 calc(var(--chroma-success) * 0.6) var(--hue-success));
+  --ref-success-8: oklch(0.17 calc(var(--chroma-success) * 0.65) var(--hue-success));
+  --ref-success-10: oklch(0.22 calc(var(--chroma-success) * 0.7) var(--hue-success));
+  --ref-success-12: oklch(0.25 calc(var(--chroma-success) * 0.75) var(--hue-success));
+  --ref-success-17: oklch(0.3 calc(var(--chroma-success) * 0.8) var(--hue-success));
+  --ref-success-20: oklch(0.33 calc(var(--chroma-success) * 0.85) var(--hue-success));
+  --ref-success-22: oklch(0.36 calc(var(--chroma-success) * 0.87) var(--hue-success));
+  --ref-success-24: oklch(0.38 calc(var(--chroma-success) * 0.88) var(--hue-success));
+  --ref-success-30: oklch(0.44 calc(var(--chroma-success) * 0.95) var(--hue-success));
+  --ref-success-40: oklch(0.55 calc(var(--chroma-success) * 1) var(--hue-success));
+  --ref-success-50: oklch(0.65 calc(var(--chroma-success) * 1) var(--hue-success));
+  --ref-success-60: oklch(0.74 calc(var(--chroma-success) * 0.9) var(--hue-success));
+  --ref-success-70: oklch(0.82 calc(var(--chroma-success) * 0.75) var(--hue-success));
+  --ref-success-80: oklch(0.88 calc(var(--chroma-success) * 0.55) var(--hue-success));
+  --ref-success-90: oklch(0.94 calc(var(--chroma-success) * 0.35) var(--hue-success));
+  --ref-success-92: oklch(0.955 calc(var(--chroma-success) * 0.3) var(--hue-success));
+  --ref-success-94: oklch(0.965 calc(var(--chroma-success) * 0.27) var(--hue-success));
+  --ref-success-95: oklch(0.97 calc(var(--chroma-success) * 0.25) var(--hue-success));
+  --ref-success-96: oklch(0.978 calc(var(--chroma-success) * 0.22) var(--hue-success));
+  --ref-success-99: oklch(0.995 calc(var(--chroma-success) * 0.15) var(--hue-success));
+  --ref-success-100: #ffffff;
+
+  /* warning */
+  --ref-warning-0: #000000;
+  --ref-warning-4: oklch(0.1 calc(var(--chroma-warning) * 0.5) var(--hue-warning));
+  --ref-warning-6: oklch(0.13 calc(var(--chroma-warning) * 0.6) var(--hue-warning));
+  --ref-warning-8: oklch(0.17 calc(var(--chroma-warning) * 0.65) var(--hue-warning));
+  --ref-warning-10: oklch(0.22 calc(var(--chroma-warning) * 0.7) var(--hue-warning));
+  --ref-warning-12: oklch(0.25 calc(var(--chroma-warning) * 0.75) var(--hue-warning));
+  --ref-warning-17: oklch(0.3 calc(var(--chroma-warning) * 0.8) var(--hue-warning));
+  --ref-warning-20: oklch(0.33 calc(var(--chroma-warning) * 0.85) var(--hue-warning));
+  --ref-warning-22: oklch(0.36 calc(var(--chroma-warning) * 0.87) var(--hue-warning));
+  --ref-warning-24: oklch(0.38 calc(var(--chroma-warning) * 0.88) var(--hue-warning));
+  --ref-warning-30: oklch(0.44 calc(var(--chroma-warning) * 0.95) var(--hue-warning));
+  --ref-warning-40: oklch(0.55 calc(var(--chroma-warning) * 1) var(--hue-warning));
+  --ref-warning-50: oklch(0.65 calc(var(--chroma-warning) * 1) var(--hue-warning));
+  --ref-warning-60: oklch(0.74 calc(var(--chroma-warning) * 0.9) var(--hue-warning));
+  --ref-warning-70: oklch(0.82 calc(var(--chroma-warning) * 0.75) var(--hue-warning));
+  --ref-warning-80: oklch(0.88 calc(var(--chroma-warning) * 0.55) var(--hue-warning));
+  --ref-warning-90: oklch(0.94 calc(var(--chroma-warning) * 0.35) var(--hue-warning));
+  --ref-warning-92: oklch(0.955 calc(var(--chroma-warning) * 0.3) var(--hue-warning));
+  --ref-warning-94: oklch(0.965 calc(var(--chroma-warning) * 0.27) var(--hue-warning));
+  --ref-warning-95: oklch(0.97 calc(var(--chroma-warning) * 0.25) var(--hue-warning));
+  --ref-warning-96: oklch(0.978 calc(var(--chroma-warning) * 0.22) var(--hue-warning));
+  --ref-warning-99: oklch(0.995 calc(var(--chroma-warning) * 0.15) var(--hue-warning));
+  --ref-warning-100: #ffffff;
+
+  /* info */
+  --ref-info-0: #000000;
+  --ref-info-4: oklch(0.1 calc(var(--chroma-info) * 0.5) var(--hue-info));
+  --ref-info-6: oklch(0.13 calc(var(--chroma-info) * 0.6) var(--hue-info));
+  --ref-info-8: oklch(0.17 calc(var(--chroma-info) * 0.65) var(--hue-info));
+  --ref-info-10: oklch(0.22 calc(var(--chroma-info) * 0.7) var(--hue-info));
+  --ref-info-12: oklch(0.25 calc(var(--chroma-info) * 0.75) var(--hue-info));
+  --ref-info-17: oklch(0.3 calc(var(--chroma-info) * 0.8) var(--hue-info));
+  --ref-info-20: oklch(0.33 calc(var(--chroma-info) * 0.85) var(--hue-info));
+  --ref-info-22: oklch(0.36 calc(var(--chroma-info) * 0.87) var(--hue-info));
+  --ref-info-24: oklch(0.38 calc(var(--chroma-info) * 0.88) var(--hue-info));
+  --ref-info-30: oklch(0.44 calc(var(--chroma-info) * 0.95) var(--hue-info));
+  --ref-info-40: oklch(0.55 calc(var(--chroma-info) * 1) var(--hue-info));
+  --ref-info-50: oklch(0.65 calc(var(--chroma-info) * 1) var(--hue-info));
+  --ref-info-60: oklch(0.74 calc(var(--chroma-info) * 0.9) var(--hue-info));
+  --ref-info-70: oklch(0.82 calc(var(--chroma-info) * 0.75) var(--hue-info));
+  --ref-info-80: oklch(0.88 calc(var(--chroma-info) * 0.55) var(--hue-info));
+  --ref-info-90: oklch(0.94 calc(var(--chroma-info) * 0.35) var(--hue-info));
+  --ref-info-92: oklch(0.955 calc(var(--chroma-info) * 0.3) var(--hue-info));
+  --ref-info-94: oklch(0.965 calc(var(--chroma-info) * 0.27) var(--hue-info));
+  --ref-info-95: oklch(0.97 calc(var(--chroma-info) * 0.25) var(--hue-info));
+  --ref-info-96: oklch(0.978 calc(var(--chroma-info) * 0.22) var(--hue-info));
+  --ref-info-99: oklch(0.995 calc(var(--chroma-info) * 0.15) var(--hue-info));
+  --ref-info-100: #ffffff;
 
   /* === SCALING KNOBS === */
   --scale-space: 1;
@@ -310,6 +399,22 @@
   --tone-error-container: var(--ref-error-90);
   --tone-on-error-container: var(--ref-error-10);
 
+  /* Status tone mapping */
+  --tone-success: var(--ref-success-40);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-90);
+  --tone-on-success-container: var(--ref-success-10);
+
+  --tone-warning: var(--ref-warning-40);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-90);
+  --tone-on-warning-container: var(--ref-warning-10);
+
+  --tone-info: var(--ref-info-40);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-90);
+  --tone-on-info-container: var(--ref-info-10);
+
   /* Inverse tone mapping */
   --tone-inverse-surface: var(--ref-neutral-20);
   --tone-inverse-on-surface: var(--ref-neutral-95);
@@ -351,20 +456,20 @@
   --color-error-container: var(--tone-error-container);
   --color-on-error-container: var(--tone-on-error-container);
 
-  --color-success: oklch(0.55 0.18 145);
-  --color-on-success: oklch(0.98 0 0);
-  --color-success-container: oklch(0.92 0.08 145);
-  --color-on-success-container: oklch(0.25 0.1 145);
+  --color-success: var(--tone-success);
+  --color-on-success: var(--tone-on-success);
+  --color-success-container: var(--tone-success-container);
+  --color-on-success-container: var(--tone-on-success-container);
 
-  --color-warning: oklch(0.62 0.16 85);
-  --color-on-warning: oklch(0.98 0 0);
-  --color-warning-container: oklch(0.92 0.08 85);
-  --color-on-warning-container: oklch(0.25 0.1 85);
+  --color-warning: var(--tone-warning);
+  --color-on-warning: var(--tone-on-warning);
+  --color-warning-container: var(--tone-warning-container);
+  --color-on-warning-container: var(--tone-on-warning-container);
 
-  --color-info: oklch(0.58 0.16 245);
-  --color-on-info: oklch(0.98 0 0);
-  --color-info-container: oklch(0.92 0.08 245);
-  --color-on-info-container: oklch(0.25 0.08 245);
+  --color-info: var(--tone-info);
+  --color-on-info: var(--tone-on-info);
+  --color-info-container: var(--tone-info-container);
+  --color-on-info-container: var(--tone-on-info-container);
 
   --color-inverse-surface: var(--tone-inverse-surface);
   --color-inverse-on-surface: var(--tone-inverse-on-surface);
@@ -593,7 +698,7 @@
 
     --tone-secondary: var(--ref-secondary-80);
     --tone-on-secondary: var(--ref-secondary-20);
-    --tone-secondary-container: var(--ref-secondary-30);
+    --tone-secondary-container: var(--ref-secondary-24);
     --tone-on-secondary-container: var(--ref-secondary-90);
 
     --tone-tertiary: var(--ref-tertiary-80);
@@ -601,17 +706,17 @@
     --tone-tertiary-container: var(--ref-tertiary-30);
     --tone-on-tertiary-container: var(--ref-tertiary-90);
 
-    --tone-surface: var(--ref-neutral-6);
+    --tone-surface: var(--ref-neutral-8);
     --tone-on-surface: var(--ref-neutral-90);
-    --tone-surface-container-lowest: var(--ref-neutral-4);
+    --tone-surface-container-lowest: var(--ref-neutral-8);
     --tone-surface-container-low: var(--ref-neutral-10);
-    --tone-surface-container: var(--ref-neutral-12);
-    --tone-surface-container-high: var(--ref-neutral-17);
-    --tone-surface-container-highest: var(--ref-neutral-22);
+    --tone-surface-container: var(--ref-neutral-17);
+    --tone-surface-container-high: var(--ref-neutral-22);
+    --tone-surface-container-highest: var(--ref-neutral-24);
     --tone-surface-variant: var(--ref-neutral-variant-30);
     --tone-on-surface-variant: var(--ref-neutral-variant-80);
 
-    --tone-background: var(--ref-neutral-6);
+    --tone-background: var(--ref-neutral-8);
     --tone-on-background: var(--ref-neutral-90);
     --tone-outline: var(--ref-neutral-variant-60);
     --tone-outline-variant: var(--ref-neutral-variant-24);
@@ -621,24 +726,24 @@
     --tone-error-container: var(--ref-error-30);
     --tone-on-error-container: var(--ref-error-90);
 
+    --tone-success: var(--ref-success-80);
+    --tone-on-success: var(--ref-success-20);
+    --tone-success-container: var(--ref-success-30);
+    --tone-on-success-container: var(--ref-success-90);
+
+    --tone-warning: var(--ref-warning-80);
+    --tone-on-warning: var(--ref-warning-20);
+    --tone-warning-container: var(--ref-warning-30);
+    --tone-on-warning-container: var(--ref-warning-90);
+
+    --tone-info: var(--ref-info-80);
+    --tone-on-info: var(--ref-info-20);
+    --tone-info-container: var(--ref-info-30);
+    --tone-on-info-container: var(--ref-info-90);
+
     --tone-inverse-surface: var(--ref-neutral-90);
     --tone-inverse-on-surface: var(--ref-neutral-20);
     --tone-inverse-primary: var(--ref-primary-40);
-
-    --color-success: oklch(0.8 0.18 145);
-    --color-on-success: oklch(0.2 0.1 145);
-    --color-success-container: oklch(0.3 0.1 145);
-    --color-on-success-container: oklch(0.9 0.1 145);
-
-    --color-warning: oklch(0.85 0.15 85);
-    --color-on-warning: oklch(0.2 0.1 85);
-    --color-warning-container: oklch(0.3 0.1 85);
-    --color-on-warning-container: oklch(0.9 0.1 85);
-
-    --color-info: oklch(0.8 0.18 245);
-    --color-on-info: oklch(0.2 0.1 245);
-    --color-info-container: oklch(0.3 0.1 245);
-    --color-on-info-container: oklch(0.9 0.1 245);
   }
 }
 
@@ -652,7 +757,7 @@
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
+  --tone-secondary-container: var(--ref-secondary-24);
   --tone-on-secondary-container: var(--ref-secondary-90);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -660,17 +765,17 @@
   --tone-tertiary-container: var(--ref-tertiary-30);
   --tone-on-tertiary-container: var(--ref-tertiary-90);
 
-  --tone-surface: var(--ref-neutral-6);
+  --tone-surface: var(--ref-neutral-8);
   --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-4);
+  --tone-surface-container-lowest: var(--ref-neutral-8);
   --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-12);
-  --tone-surface-container-high: var(--ref-neutral-17);
-  --tone-surface-container-highest: var(--ref-neutral-22);
+  --tone-surface-container: var(--ref-neutral-17);
+  --tone-surface-container-high: var(--ref-neutral-22);
+  --tone-surface-container-highest: var(--ref-neutral-24);
   --tone-surface-variant: var(--ref-neutral-variant-30);
   --tone-on-surface-variant: var(--ref-neutral-variant-80);
 
-  --tone-background: var(--ref-neutral-6);
+  --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-90);
   --tone-outline: var(--ref-neutral-variant-60);
   --tone-outline-variant: var(--ref-neutral-variant-24);
@@ -680,24 +785,24 @@
   --tone-error-container: var(--ref-error-30);
   --tone-on-error-container: var(--ref-error-90);
 
+  --tone-success: var(--ref-success-80);
+  --tone-on-success: var(--ref-success-20);
+  --tone-success-container: var(--ref-success-30);
+  --tone-on-success-container: var(--ref-success-90);
+
+  --tone-warning: var(--ref-warning-80);
+  --tone-on-warning: var(--ref-warning-20);
+  --tone-warning-container: var(--ref-warning-30);
+  --tone-on-warning-container: var(--ref-warning-90);
+
+  --tone-info: var(--ref-info-80);
+  --tone-on-info: var(--ref-info-20);
+  --tone-info-container: var(--ref-info-30);
+  --tone-on-info-container: var(--ref-info-90);
+
   --tone-inverse-surface: var(--ref-neutral-90);
   --tone-inverse-on-surface: var(--ref-neutral-20);
   --tone-inverse-primary: var(--ref-primary-40);
-
-  --color-success: oklch(0.8 0.18 145);
-  --color-on-success: oklch(0.2 0.1 145);
-  --color-success-container: oklch(0.3 0.1 145);
-  --color-on-success-container: oklch(0.9 0.1 145);
-
-  --color-warning: oklch(0.85 0.15 85);
-  --color-on-warning: oklch(0.2 0.1 85);
-  --color-warning-container: oklch(0.3 0.1 85);
-  --color-on-warning-container: oklch(0.9 0.1 85);
-
-  --color-info: oklch(0.8 0.18 245);
-  --color-on-info: oklch(0.2 0.1 245);
-  --color-info-container: oklch(0.3 0.1 245);
-  --color-on-info-container: oklch(0.9 0.1 245);
 }
 
 /* ============================================================
@@ -810,7 +915,7 @@
    Available levels:
    - standard (default) - M3 baseline contrast
    - medium             - Slightly boosted for better readability
-   - high               - Maximum contrast for accessibility (WCAG AAA)
+   - high               - Maximum contrast preset for accessibility
    ============================================================ */
 
 /* Medium contrast - boosted readability (darker primary: tone 30) */
@@ -822,6 +927,28 @@
 
   --tone-secondary: var(--ref-secondary-30);
   --tone-on-secondary: var(--ref-secondary-100);
+  --tone-secondary-container: var(--ref-secondary-95);
+  --tone-on-secondary-container: var(--ref-secondary-10);
+
+  --tone-tertiary: var(--ref-tertiary-30);
+  --tone-on-tertiary: var(--ref-tertiary-100);
+  --tone-tertiary-container: var(--ref-tertiary-95);
+  --tone-on-tertiary-container: var(--ref-tertiary-10);
+
+  --tone-success: var(--ref-success-30);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-95);
+  --tone-on-success-container: var(--ref-success-10);
+
+  --tone-warning: var(--ref-warning-30);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-95);
+  --tone-on-warning-container: var(--ref-warning-10);
+
+  --tone-info: var(--ref-info-30);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-95);
+  --tone-on-info-container: var(--ref-info-10);
 
   --tone-on-surface: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-50);
@@ -837,13 +964,35 @@
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-10);
+  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-on-secondary-container: var(--ref-secondary-95);
+
+  --tone-tertiary: var(--ref-tertiary-80);
+  --tone-on-tertiary: var(--ref-tertiary-10);
+  --tone-tertiary-container: var(--ref-tertiary-30);
+  --tone-on-tertiary-container: var(--ref-tertiary-95);
+
+  --tone-success: var(--ref-success-80);
+  --tone-on-success: var(--ref-success-10);
+  --tone-success-container: var(--ref-success-30);
+  --tone-on-success-container: var(--ref-success-95);
+
+  --tone-warning: var(--ref-warning-80);
+  --tone-on-warning: var(--ref-warning-10);
+  --tone-warning-container: var(--ref-warning-30);
+  --tone-on-warning-container: var(--ref-warning-95);
+
+  --tone-info: var(--ref-info-80);
+  --tone-on-info: var(--ref-info-10);
+  --tone-info-container: var(--ref-info-30);
+  --tone-on-info-container: var(--ref-info-95);
 
   --tone-on-surface: var(--ref-neutral-95);
   --tone-outline: var(--ref-neutral-variant-70);
   --tone-outline-variant: var(--ref-neutral-variant-30);
 }
 
-/* High contrast - boosted accessibility, WCAG AAA (darker primary: tone 20) */
+/* High contrast - boosted accessibility with stronger tone extremity */
 [data-contrast='high'] {
   --tone-primary: var(--ref-primary-20);
   --tone-on-primary: var(--ref-primary-100);
@@ -857,6 +1006,8 @@
 
   --tone-tertiary: var(--ref-tertiary-20);
   --tone-on-tertiary: var(--ref-tertiary-100);
+  --tone-tertiary-container: var(--ref-tertiary-95);
+  --tone-on-tertiary-container: var(--ref-tertiary-0);
 
   --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-0);
@@ -867,6 +1018,21 @@
 
   --tone-error: var(--ref-error-20);
   --tone-on-error: var(--ref-error-100);
+
+  --tone-success: var(--ref-success-20);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-95);
+  --tone-on-success-container: var(--ref-success-0);
+
+  --tone-warning: var(--ref-warning-20);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-95);
+  --tone-on-warning-container: var(--ref-warning-0);
+
+  --tone-info: var(--ref-info-20);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-95);
+  --tone-on-info-container: var(--ref-info-0);
 }
 
 .dark[data-contrast='high'],
@@ -883,16 +1049,33 @@
 
   --tone-tertiary: var(--ref-tertiary-95);
   --tone-on-tertiary: var(--ref-tertiary-0);
+  --tone-tertiary-container: var(--ref-tertiary-10);
+  --tone-on-tertiary-container: var(--ref-tertiary-100);
 
-  --tone-surface: var(--ref-neutral-0);
+  --tone-surface: var(--ref-neutral-8);
   --tone-on-surface: var(--ref-neutral-100);
-  --tone-background: var(--ref-neutral-0);
+  --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-100);
   --tone-outline: var(--ref-neutral-variant-80);
   --tone-outline-variant: var(--ref-neutral-variant-60);
 
   --tone-error: var(--ref-error-95);
   --tone-on-error: var(--ref-error-0);
+
+  --tone-success: var(--ref-success-95);
+  --tone-on-success: var(--ref-success-0);
+  --tone-success-container: var(--ref-success-10);
+  --tone-on-success-container: var(--ref-success-100);
+
+  --tone-warning: var(--ref-warning-95);
+  --tone-on-warning: var(--ref-warning-0);
+  --tone-warning-container: var(--ref-warning-10);
+  --tone-on-warning-container: var(--ref-warning-100);
+
+  --tone-info: var(--ref-info-95);
+  --tone-on-info: var(--ref-info-0);
+  --tone-info-container: var(--ref-info-10);
+  --tone-on-info-container: var(--ref-info-100);
 }
 
 /* ============================================================
@@ -1050,7 +1233,7 @@
    Maps CSS variables to Tailwind utilities
    ============================================================ */
 
-@theme {
+@theme inline {
   /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

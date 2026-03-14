@@ -86,7 +86,7 @@ export const buttonDoc: ComponentDoc = {
           </Button>
         ),
         rationale:
-          "The tonal button has a secondary color palette, making it less visually prominent than a regular, filled button. It can be used for final or unblocking actions.",
+          "The tonal button lowers emphasis through a softer container treatment. Use it for important supporting actions that should not compete with the filled button.",
         examples: "Next, Add, Reply",
       },
       {
@@ -120,17 +120,17 @@ export const buttonDoc: ComponentDoc = {
       "Button hierarchy helps users understand the importance of actions. The more important an action is, the more emphasis it should have.",
     items: [
       {
-        component: <Button variant="filled">Primary</Button>,
+        component: <Button variant="filled">Filled</Button>,
         title: "High emphasis",
         subtitle: "Filled button",
       },
       {
-        component: <Button variant="tonal">Secondary</Button>,
+        component: <Button variant="tonal">Tonal</Button>,
         title: "Medium emphasis",
         subtitle: "Tonal button",
       },
       {
-        component: <Button variant="text">Tertiary</Button>,
+        component: <Button variant="text">Text</Button>,
         title: "Low emphasis",
         subtitle: "Text button",
       },

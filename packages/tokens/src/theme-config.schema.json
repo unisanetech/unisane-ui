@@ -4,7 +4,7 @@
   "title": "Unisane Tokens Theme Config",
   "type": "object",
   "additionalProperties": false,
-  "required": ["name", "primary", "secondary", "tertiary", "neutral", "error"],
+  "required": ["name", "primary", "secondary", "tertiary", "neutral", "error", "success", "warning", "info"],
   "properties": {
     "$schema": { "type": "string" },
     "name": { "type": "string", "minLength": 1 },
@@ -52,6 +52,36 @@
       }
     },
     "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hue", "chroma"],
+      "properties": {
+        "hue": { "type": "number", "minimum": 0, "maximum": 360 },
+        "chroma": { "type": "number", "minimum": 0, "maximum": 1 },
+        "comment": { "type": "string" }
+      }
+    },
+    "success": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hue", "chroma"],
+      "properties": {
+        "hue": { "type": "number", "minimum": 0, "maximum": 360 },
+        "chroma": { "type": "number", "minimum": 0, "maximum": 1 },
+        "comment": { "type": "string" }
+      }
+    },
+    "warning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hue", "chroma"],
+      "properties": {
+        "hue": { "type": "number", "minimum": 0, "maximum": 360 },
+        "chroma": { "type": "number", "minimum": 0, "maximum": 1 },
+        "comment": { "type": "string" }
+      }
+    },
+    "info": {
       "type": "object",
       "additionalProperties": false,
       "required": ["hue", "chroma"],

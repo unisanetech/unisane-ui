@@ -1,50 +1,21 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback, useMemo } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
+import {
+  fieldContainerVariants,
+  getFieldAffixClasses,
+  getFieldHelperTextClasses,
+  getFieldLabelClasses,
+  type FieldShellVariant,
+} from '@/lib/field-shell';
+import { useFieldState } from '@/lib/use-field-state';
 
 // ─── SEGMENT-BASED DATE INPUT ────────────────────────────────────────────────
 // HeroUI-style segment-based date input with M3 styling
 // Each date unit (month, day, year) is an individually focusable and editable segment
-
-const dateInputVariants = cva('relative w-full', {
-  variants: {
-    variant: {
-      outlined: '',
-      filled: '',
-    },
-  },
-  defaultVariants: {
-    variant: 'outlined',
-  },
-});
-
-const inputContainerVariants = cva(
-  'relative flex w-full transition-all duration-snappy ease-emphasized group cursor-text',
-  {
-    variants: {
-      variant: {
-        outlined:
-          'rounded-sm border border-outline-variant bg-surface hover:border-outline focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring',
-        filled:
-          'rounded-t-sm rounded-b-none border-b border-outline-variant bg-surface-container-low hover:bg-surface-container focus-within:bg-surface',
-      },
-      error: {
-        true: 'border-error focus-within:border-error hover:border-error ring-focus-ring-error',
-      },
-      disabled: {
-        true: 'opacity-38 cursor-not-allowed pointer-events-none',
-      },
-    },
-    defaultVariants: {
-      variant: 'outlined',
-      error: false,
-    },
-  },
-);
 
 type DateSegment = 'month' | 'day' | 'year';
 
@@ -54,7 +25,8 @@ interface DateSegmentValue {
   year: number | null;
 }
 
-export type DateInputProps = VariantProps<typeof dateInputVariants> & {
+export type DateInputProps = {
+  variant?: FieldShellVariant;
   /** The selected date value */
   value?: Date;
   /** The default date value for uncontrolled usage */
@@ -424,9 +396,6 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       defaultValue,
       onChange: onValueChange,
     });
-    const generatedId = useId();
-    const inputId = id || `dateinput-${generatedId}`;
-    const helperId = `${inputId}-helper`;
     const containerRef = useRef<HTMLDivElement>(null);
     const monthRef = useRef<HTMLInputElement>(null);
     const dayRef = useRef<HTMLInputElement>(null);
@@ -444,6 +413,13 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       day: currentValue ? currentValue.getDate() : null,
       year: currentValue ? currentValue.getFullYear() : null,
     }));
+    const { fieldId: inputId, helperId, isFloating } = useFieldState({
+      id,
+      idPrefix: 'dateinput',
+      helperText,
+      active: focusedSegment !== null,
+      forceFloating: true,
+    });
 
     // Sync with external value
     useEffect(() => {
@@ -538,9 +514,6 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       }
     };
 
-    // For segment-based inputs, label is ALWAYS floated since placeholders are visible
-    const isFloating = true;
-
     // Combine refs
     const setRefs = useCallback(
       (node: HTMLDivElement | null) => {
@@ -555,11 +528,11 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
     );
 
     return (
-      <div className={cn(dateInputVariants({ variant }), className)} ref={setRefs}>
+      <div className={cn('relative w-full', className)} ref={setRefs}>
         <div className="relative inline-flex w-full flex-col">
           <div
             className={cn(
-              inputContainerVariants({ variant, error, disabled }),
+              fieldContainerVariants({ variant, error, disabled }),
               fieldSize.containerHeight,
               'items-center',
             )}
@@ -617,28 +590,14 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
               {/* Floating label */}
               <label
                 htmlFor={inputId}
-                className={cn(
-                  'duration-medium ease-emphasized pointer-events-none absolute origin-left truncate transition-all',
-                  fieldSize.labelLeft,
-                  !isFloating && [
-                    fieldSize.valueText,
-                    'text-on-surface-variant',
-                    'top-1/2 -translate-y-1/2',
-                  ],
-                  isFloating && [
-                    'text-label-small font-medium',
-                    variant === 'outlined' && [
-                      'top-0 -ml-1 -translate-y-1/2 px-1',
-                      labelBg || 'bg-surface',
-                    ],
-                    variant === 'filled' && fieldSize.filledFloatingLabel,
-                    error
-                      ? 'text-error'
-                      : focusedSegment !== null
-                        ? 'text-primary'
-                        : 'text-on-surface-variant',
-                  ],
-                )}
+                className={getFieldLabelClasses({
+                  size,
+                  variant,
+                  floating: isFloating,
+                  error,
+                  active: focusedSegment !== null,
+                  labelBg,
+                })}
               >
                 {label}
               </label>
@@ -647,11 +606,12 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
             {/* Trailing icon */}
             {trailingIcon && (
               <span
-                className={cn(
-                  'flex h-full shrink-0 items-center justify-center transition-colors',
-                  fieldSize.trailingPadding,
-                  error ? 'text-error' : 'text-on-surface-variant',
-                )}
+                className={getFieldAffixClasses({
+                  size,
+                  error,
+                  active: focusedSegment !== null,
+                  side: 'trailing',
+                })}
               >
                 <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
                   {trailingIcon}
@@ -664,12 +624,7 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
           {helperText && (
             <span
               id={helperId}
-              className={cn(
-                'text-label-small font-medium',
-                fieldSize.helperMarginTop,
-                fieldSize.helperPaddingX,
-                error ? 'text-error' : 'text-on-surface-variant',
-              )}
+              className={getFieldHelperTextClasses(size, error)}
             >
               {helperText}
             </span>

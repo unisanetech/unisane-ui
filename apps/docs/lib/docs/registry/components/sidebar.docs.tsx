@@ -90,7 +90,7 @@ const SidebarHeroVisual = () => (
               </SidebarContent>
             </SidebarDrawer>
             <SidebarBackdrop />
-            <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+            <SidebarInset className="overflow-hidden bg-surface-container-low">
               <div className="space-y-2 p-4">
                 <div className="text-title-small text-on-surface">Overview</div>
                 <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
@@ -119,7 +119,7 @@ const RailOnlyExample = () => (
       ]}
       value="home"
     />
-    <div className="flex-1 space-y-2 bg-surface-container-lowest p-4">
+    <div className="flex-1 space-y-2 bg-surface-container-low p-4">
       <div className="h-4 bg-outline-soft rounded-sm w-1/2 mb-4" />
       <div className="h-3 bg-surface-container-high rounded-sm w-full" />
       <div className="h-3 bg-surface-container-high rounded-sm w-3/4" />
@@ -184,7 +184,7 @@ const ExpandedSidebarExample = () => (
           </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="space-y-2 p-4">
             <div className="text-title-medium text-on-surface">Documents</div>
             <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
@@ -247,7 +247,7 @@ const SidebarSystemPreview = () => (
           </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="space-y-2 p-3">
             <div className="h-2 rounded-sm bg-surface-container-high" />
             <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
@@ -271,7 +271,7 @@ const SidebarRailPreview = () => (
 );
 
 const SidebarMobileDrawerPreview = () => (
-  <div className="relative isolate h-40 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+  <div className="relative isolate h-40 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
     <NavigationDrawer open modal className="absolute inset-y-0 left-0 h-full w-44 max-w-none">
       <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
       <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
@@ -377,7 +377,7 @@ const AdminDashboardRecipe = () => (
             </SidebarGroup>
           </SidebarContent>
         </SidebarDrawer>
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="h-full p-3">
             <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
               <div className="text-label-medium text-on-surface">Main content area</div>
@@ -467,7 +467,7 @@ const MailSectionsRecipe = () => (
             </SidebarGroup>
           </SidebarContent>
         </SidebarDrawer>
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="h-full p-3">
             <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
               <div className="text-label-medium text-on-surface">Conversation pane</div>
@@ -505,7 +505,7 @@ const SettingsRecipe = () => (
           <SidebarRailItem id="access" label="Access" icon="manage_accounts" labelVisibility="hidden" tooltip="Access control" />
           <SidebarRailItem id="audit" label="Audit" icon="history" labelVisibility="hidden" tooltip="Audit log" />
         </SidebarRail>
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="h-full p-3">
             <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
               <div className="text-label-medium text-on-surface">Settings panel content</div>
@@ -599,7 +599,7 @@ const ProjectWorkspaceRecipe = () => (
             </SidebarGroup>
           </SidebarContent>
         </SidebarDrawer>
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="h-full p-3">
             <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
               <div className="text-label-medium text-on-surface">Workspace content</div>
@@ -670,7 +670,7 @@ const CompactTabletRecipe = () => (
           </SidebarContent>
         </SidebarDrawer>
         <SidebarBackdrop />
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="flex items-center gap-2 border-b border-outline-variant px-3 py-2">
             <SidebarTrigger visibility="mobile" />
             <div className="text-label-large text-on-surface">Mentions</div>
@@ -749,7 +749,7 @@ const RightContextRecipe = () => (
             </SidebarGroup>
           </SidebarContent>
         </SidebarDrawer>
-        <SidebarInset className="overflow-hidden bg-surface-container-lowest">
+        <SidebarInset className="overflow-hidden bg-surface-container-low">
           <div className="h-full p-3">
             <div className="h-full rounded-sm border border-outline-variant bg-surface p-3">
               <div className="text-label-medium text-on-surface">Context target pane</div>
@@ -1042,6 +1042,13 @@ export const sidebarDoc: ComponentDoc = {
       description: "Top offset applied to SidebarInset while in overlay mode.",
     },
     {
+      name: "activeDescendantDrawerBehavior",
+      type: '"open" | "closed"',
+      default: '"open"',
+      description:
+        "Controls whether the drawer auto-expands when the active item is a descendant of a top-level rail item.",
+    },
+    {
       name: "onActiveIdChange",
       type: "(id: string | null) => void",
       description: "Callback when active item changes.",
@@ -1068,6 +1075,7 @@ export const sidebarDoc: ComponentDoc = {
         { name: "items", type: "NavigationItem[]", description: "Navigation items for state management." },
         { name: "behavior", type: '"overlay" | "inset" | "adaptive"', description: "Selects overlay/inset behavior. adaptive maps by viewport." },
         { name: "containerMode", type: '"viewport" | "contained"', description: "Use contained in embedded canvases/previews." },
+        { name: "activeDescendantDrawerBehavior", type: '"open" | "closed"', description: "Auto-open policy when the active route resolves to a child item." },
         { name: "visualPreset", type: '"default" | "compact" | "elevated" | "minimal"', description: "Applies token-driven style preset." },
       ],
     },

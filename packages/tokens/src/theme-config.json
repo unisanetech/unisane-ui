@@ -11,9 +11,9 @@
 
   "secondary": {
     "strategy": "analogous",
-    "hueShift": 0,
-    "chromaScale": 0.7,
-    "comment": "Moderately muted secondary for cleaner UI hierarchy"
+    "hueShift": 12,
+    "chromaScale": 0.4,
+    "comment": "Supporting accent with a slight analogous shift; light mode keeps enough presence while dark role mapping stays calmer"
   },
 
   "tertiary": {
@@ -33,5 +33,23 @@
     "hue": 25,
     "chroma": 0.18,
     "comment": "Red for errors - fixed across themes"
+  },
+
+  "success": {
+    "hue": 145,
+    "chroma": 0.18,
+    "comment": "Green success family generated through the same tonal ladder as primary/error"
+  },
+
+  "warning": {
+    "hue": 85,
+    "chroma": 0.16,
+    "comment": "Amber warning family generated through the same tonal ladder as primary/error"
+  },
+
+  "info": {
+    "hue": 245,
+    "chroma": 0.16,
+    "comment": "Blue info family generated through the same tonal ladder as primary/error"
   }
 }

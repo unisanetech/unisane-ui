@@ -8,7 +8,7 @@ import { UnisaneLogo, UnisaneWordmark } from "@/features/branding";
 export function AppHeader() {
   return (
     <header className="hidden w-full expanded:block">
-      <div className="container mx-auto flex h-20 max-w-[1600px] items-center justify-between gap-6 px-6 expanded:px-12">
+      <div className="container mx-auto flex h-20 max-w-[1600px] items-center justify-between gap-6 px-4 medium:px-6 expanded:px-12">
         <Link
           href="/"
           className="group flex shrink-0 cursor-pointer select-none items-center gap-2"

@@ -37,7 +37,7 @@ export const navigationPatternPage: PatternPageDoc = {
       title: 'Navigation blocks',
       description: 'Navigation building blocks for shell, header, and task flow entry points.',
       previewDefaults: {
-        tone: 'surfaceContainerLowest',
+        tone: 'surfaceContainerLow',
         minHeight: 'xl',
         padding: 'md',
       },

@@ -9,7 +9,7 @@ import {
 import { Ripple } from './ripple';
 
 const navigationDrawerVariants = cva(
-  'flex flex-col h-full bg-surface-container border-r border-outline-subtle transition-transform duration-emphasized ease-emphasized overflow-y-auto',
+  'flex flex-col h-full bg-surface-container-low border-r border-outline-subtle transition-transform duration-emphasized ease-emphasized overflow-y-auto',
   {
     variants: {
       modal: {

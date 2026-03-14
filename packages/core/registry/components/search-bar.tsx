@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useMemo, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
@@ -80,7 +82,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <div
       role="search"
       className={cn(
-        'group bg-surface-container border-outline-variant hover:bg-surface-container-high focus-within:bg-surface-container-high duration-medium ease-standard relative w-full cursor-text rounded-sm border transition-all',
+        'group bg-surface-container-low border-outline-variant hover:bg-surface-container focus-within:bg-surface-container duration-medium ease-standard relative w-full cursor-text rounded-sm border transition-all',
         fieldSize.containerHeight,
         className,
       )}

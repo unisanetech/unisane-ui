@@ -1,3 +1,5 @@
+'use client';
+
 import React, { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
@@ -255,7 +257,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           }}
           className={cn(
             'bg-surface shadow-5 border-outline-muted relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
-            isBottom ? 'rounded-t-lg rounded-b-none border-b-0' : 'h-full rounded-l-lg rounded-r-none border-r-0',
+            isBottom ? 'rounded-t-lg rounded-b-none border-b-0' : 'h-full rounded-none border-r-0',
             isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
             isBottom
               ? isVisible

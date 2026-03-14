@@ -1,24 +1,13 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback, useId, forwardRef } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Text } from '@/primitives/text';
 import { Icon } from '@/primitives/icon';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
+import { fieldContainerVariants, getFieldAffixClasses } from '@/lib/field-shell';
 import { Ripple } from './ripple';
-
-const comboboxVariants = cva('relative w-full', {
-  variants: {
-    variant: {
-      default: '',
-    },
-  },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
 
 export type ComboboxOption = {
   value: string;
@@ -26,7 +15,7 @@ export type ComboboxOption = {
   disabled?: boolean;
 };
 
-export type ComboboxProps = VariantProps<typeof comboboxVariants> & {
+export type ComboboxProps = {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -229,7 +218,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     );
 
     return (
-      <div className={cn(comboboxVariants({ className }))} ref={setRefs}>
+      <div className={cn('relative w-full', className)} ref={setRefs}>
         {label && (
           <Text
             as="label"
@@ -246,11 +235,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
         <div
           className={cn(
-            'border-outline-variant bg-surface relative w-full rounded-sm border transition-all',
+            fieldContainerVariants({ variant: 'outlined', disabled }),
+            'relative w-full transition-all',
             fieldSize.containerHeight,
             isOpen && 'border-primary! ring-focus-ring ring-1',
-            !isOpen && 'hover:border-outline',
-            disabled && 'cursor-not-allowed opacity-38',
             !searchable && 'cursor-pointer',
           )}
           onClick={() => {
@@ -272,57 +260,65 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
           <div
             className={cn(
-              'flex h-full items-center',
+              'flex h-full min-w-0 items-center',
               fieldSize.horizontalPadding,
               size === 'lg' ? 'gap-3' : 'gap-2',
             )}
           >
-            {searchable ? (
-              <input
-                ref={inputRef}
-                id={inputId}
-                type="text"
-                value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
-                onChange={(event) => handleInputChange(event.target.value)}
-                onKeyDown={handleKeyDown}
-                onFocus={() => {
-                  if (!disabled) {
-                    setOpenState(true);
-                    setIsSearching(true);
-                    setSearchValue('');
-                    onSearchChange?.('');
+            <div className="min-w-0 flex-1">
+              {searchable ? (
+                <input
+                  ref={inputRef}
+                  id={inputId}
+                  type="text"
+                  value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
+                  onChange={(event) => handleInputChange(event.target.value)}
+                  onKeyDown={handleKeyDown}
+                  onFocus={() => {
+                    if (!disabled) {
+                      setOpenState(true);
+                      setIsSearching(true);
+                      setSearchValue('');
+                      onSearchChange?.('');
+                    }
+                  }}
+                  onBlur={handleBlur}
+                  placeholder={placeholder}
+                  disabled={disabled}
+                  className={cn(
+                    'text-on-surface placeholder:text-on-surface-variant block w-full cursor-text bg-transparent outline-none',
+                    fieldSize.valueText,
+                  )}
+                  role="combobox"
+                  aria-expanded={isOpen}
+                  aria-haspopup="listbox"
+                  aria-controls={listboxId}
+                  aria-activedescendant={
+                    activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined
                   }
-                }}
-                onBlur={handleBlur}
-                placeholder={placeholder}
-                disabled={disabled}
-                className={cn(
-                  'text-on-surface placeholder:text-on-surface-variant flex-1 cursor-text bg-transparent outline-none',
-                  fieldSize.valueText,
-                )}
-                role="combobox"
-                aria-expanded={isOpen}
-                aria-haspopup="listbox"
-                aria-controls={listboxId}
-                aria-activedescendant={
-                  activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined
-                }
-                aria-autocomplete="list"
-              />
-            ) : (
-              <span
-                className={cn(fieldSize.valueText, !selectedOption && 'text-on-surface-variant')}
-              >
-                {selectedOption ? selectedOption.label : placeholder}
-              </span>
-            )}
+                  aria-autocomplete="list"
+                />
+              ) : (
+                <span
+                  className={cn(
+                    'block truncate',
+                    fieldSize.valueText,
+                    !selectedOption && 'text-on-surface-variant',
+                  )}
+                >
+                  {selectedOption ? selectedOption.label : placeholder}
+                </span>
+              )}
+            </div>
 
-            <Icon
-              symbol="arrow_drop_down"
-              size="sm"
+            <span
               className={cn(
-                'text-on-surface-variant duration-short ease-standard cursor-pointer transition-transform',
-                isOpen && 'rotate-180',
+                getFieldAffixClasses({
+                  size,
+                  active: isOpen,
+                  side: 'trailing',
+                }),
+                'ml-auto cursor-pointer',
               )}
               aria-hidden="true"
               onClick={() => {
@@ -334,7 +330,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   }
                 }
               }}
-            />
+            >
+              <Icon
+                symbol="arrow_drop_down"
+                size="sm"
+                className={cn(
+                  'duration-short ease-standard transition-transform',
+                  isOpen && 'rotate-180',
+                )}
+              />
+            </span>
           </div>
         </div>
 

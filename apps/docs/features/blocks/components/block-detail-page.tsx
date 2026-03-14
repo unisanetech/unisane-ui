@@ -13,7 +13,7 @@ export function BlockDetailPage({ slug }: { slug: string }) {
   }
 
   return (
-    <div className="animate-slide-up w-full pb-12 @3xl:pb-20">
+    <div className="w-full pb-12 @3xl:pb-20">
       <div className="mb-4 flex flex-col gap-4 @2xl:mb-6 @4xl:flex-row @4xl:items-start @4xl:justify-between">
         <div className="space-y-2">
           <Typography variant="headlineMedium" component="h1">

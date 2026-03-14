@@ -27,7 +27,7 @@ export const BLOCK_REGISTRY: DocsBlock[] = [
       },
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'none',
       justify: 'start',
@@ -151,7 +151,7 @@ export function AppShellBlock() {
       },
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'none',
       justify: 'start',
@@ -192,7 +192,7 @@ export function SupportingPaneBlock() {
       viewportOptions: ['desktop', 'tablet', 'mobile'],
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'none',
       justify: 'start',
@@ -204,7 +204,7 @@ export function AuthSplitBlock() {
   return (
     <Surface tone="surface" rounded="sm" className="overflow-hidden border border-outline-soft">
       <div className="grid @3xl:grid-cols-[minmax(0,1.1fr)_420px]">
-        <Surface tone="secondaryContainer" className="p-8">
+        <Surface tone="primaryContainer" className="p-8">
           <Typography variant="displaySmall">Welcome back.</Typography>
         </Surface>
         <div className="p-8">
@@ -233,7 +233,7 @@ export function AuthSplitBlock() {
       viewportOptions: ['mobile', 'tablet', 'desktop'],
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'md',
       justify: 'center',
@@ -270,7 +270,7 @@ export function AuthCenteredBlock() {
       viewportOptions: ['desktop', 'tablet'],
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'none',
       justify: 'start',
@@ -319,7 +319,7 @@ export function ReviewQueueBlock() {
       viewportOptions: ['desktop', 'tablet', 'mobile'],
     },
     previewConfig: {
-      tone: 'surfaceContainerLowest',
+      tone: 'surfaceContainerLow',
       minHeight: 'screen',
       padding: 'none',
       justify: 'start',

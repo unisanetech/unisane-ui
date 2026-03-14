@@ -141,7 +141,7 @@ export const chipDoc: ComponentDoc = {
       {
         title: "Tag input",
         visual: (
-          <div className="flex flex-wrap gap-2 p-3 border border-outline-variant rounded-sm min-h-12 w-full max-w-xs bg-surface-container-lowest">
+          <div className="flex flex-wrap gap-2 p-3 border border-outline-variant rounded-sm min-h-12 w-full max-w-xs bg-surface-container-low">
             <Chip variant="input" label="alice@mail.com" onDelete={() => {}} />
             <Chip variant="input" label="bob@mail.com" onDelete={() => {}} />
           </div>

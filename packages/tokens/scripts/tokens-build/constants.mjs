@@ -2,6 +2,7 @@ export const TONAL_LIGHTNESS = {
   0: 0.0,
   4: 0.10,
   6: 0.13,
+  8: 0.17,
   10: 0.22,
   12: 0.25,
   17: 0.30,
@@ -27,6 +28,7 @@ export const CHROMA_SCALE = {
   0: 0,
   4: 0.5,
   6: 0.6,
+  8: 0.65,
   10: 0.7,
   12: 0.75,
   17: 0.8,
@@ -51,8 +53,11 @@ export const CHROMA_SCALE = {
 export const DEFAULT_THEME_CONFIG = {
   name: "Blue",
   primary: { hue: 210, chroma: 0.16 },
-  secondary: { strategy: "analogous", hueShift: 0, chromaScale: 0.7 },
+  secondary: { strategy: "analogous", hueShift: 12, chromaScale: 0.4 },
   tertiary: { strategy: "complementary", hueShift: 60, chromaScale: 0.7 },
   neutral: { tintFromPrimary: 0.012 },
   error: { hue: 25, chroma: 0.18 },
+  success: { hue: 145, chroma: 0.18 },
+  warning: { hue: 85, chroma: 0.16 },
+  info: { hue: 245, chroma: 0.16 },
 };

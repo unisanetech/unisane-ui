@@ -92,13 +92,25 @@ export const DOCS_NAVIGATION: NavigationItem[] = [
   },
 ];
 
-export function getActiveCategoryId(pathname: string): string {
+export function getActiveNavigationId(pathname: string): string {
   if (pathname === '/') return 'home';
-  if (pathname.startsWith('/docs/getting-started')) return 'getting-started';
-  if (pathname.startsWith('/docs/foundations')) return 'foundations';
-  if (pathname.startsWith('/docs/components')) return 'components';
+  if (pathname === '/docs/getting-started') return 'getting-started';
+  if (pathname.startsWith('/docs/getting-started/')) {
+    return pathname.split('/').filter(Boolean).at(-1) ?? 'getting-started';
+  }
+  if (pathname === '/docs/foundations') return 'foundations';
+  if (pathname.startsWith('/docs/foundations/')) {
+    return pathname.split('/').filter(Boolean).at(-1) ?? 'foundations';
+  }
+  if (pathname === '/docs/components') return 'components-overview';
+  if (pathname.startsWith('/docs/components/')) {
+    return pathname.split('/').filter(Boolean).at(-1) ?? 'components';
+  }
   if (pathname.startsWith('/datatable')) return 'datatable';
-  if (pathname.startsWith('/docs/blocks')) return 'blocks';
+  if (pathname === '/docs/blocks') return 'blocks';
+  if (pathname.startsWith('/docs/blocks/')) {
+    return pathname.split('/').filter(Boolean).at(-1) ?? 'blocks';
+  }
   return 'home';
 }
 

@@ -42,6 +42,7 @@ const ComboboxBasicExample = () => {
     <div className="w-full max-w-xs">
       <Combobox
         label="Framework"
+        size="lg"
         placeholder="Search frameworks..."
         options={options}
         value={value}
@@ -63,6 +64,7 @@ const ComboboxNonSearchableExample = () => {
     <div className="w-full max-w-xs">
       <Combobox
         label="Size"
+        size="lg"
         options={options}
         value={value}
         onValueChange={setValue}
@@ -282,6 +284,7 @@ function CountrySelector() {
   return (
     <Combobox
       label="Country"
+      size="lg"
       placeholder="Search countries..."
       options={countries}
       value={country}

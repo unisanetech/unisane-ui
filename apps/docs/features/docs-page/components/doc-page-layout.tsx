@@ -43,7 +43,7 @@ export function DocLayout({
     heroPreview?.overflow === "visible" ? "overflow-visible" : "overflow-hidden";
 
   return (
-    <div className="animate-slide-up w-full pb-14 @3xl:pb-24 overflow-x-clip">
+    <div className="w-full pb-14 @3xl:pb-24 overflow-x-clip">
       <header
         className={
           heroContent

@@ -4,7 +4,7 @@ import { cn, focusRing, Slot } from '@ui/lib/utils';
 import { Ripple } from './ripple';
 
 const navigationBarVariants = cva(
-  'absolute bottom-0 left-0 right-0 h-20 bg-surface-container border-t border-outline-variant flex items-center justify-around px-4 pb-4 z-30',
+  'absolute bottom-0 left-0 right-0 h-20 bg-surface-container-low border-t border-outline-variant flex items-center justify-around px-4 pb-4 z-30',
   {
     variants: {
       variant: {
@@ -58,7 +58,7 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
       <div className="relative mb-1 h-8 w-16">
         <div
           className={cn(
-            'duration-medium ease-standard absolute inset-0 overflow-hidden rounded-sm transition-all',
+            'duration-medium ease-standard absolute inset-0 overflow-hidden rounded-button transition-all',
             active
               ? 'bg-secondary-container scale-x-100 opacity-100'
               : 'group-hover:bg-state-hover scale-x-50 bg-transparent opacity-0',

@@ -111,7 +111,7 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
     };
 
     const buttonClasses = cn(
-      'relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2',
+      'relative flex w-full min-h-10 items-center justify-start gap-3 overflow-hidden rounded-button px-4 py-2',
       'text-body-medium cursor-pointer text-left transition-colors duration-short',
       'select-none outline-none focus-visible:ring-2 focus-visible:ring-primary',
       size === 'sm' && 'min-h-8 gap-2 py-1.5 text-label-medium',
@@ -297,7 +297,7 @@ export function SidebarCollapsibleGroup({
       <button
         onClick={() => toggleGroup(id)}
         className={cn(
-          'relative flex min-h-10 w-full items-center justify-start gap-3 overflow-hidden rounded-sm px-4 py-2',
+          'relative flex min-h-10 w-full items-center justify-start gap-3 overflow-hidden rounded-button px-4 py-2',
           'text-body-medium duration-short cursor-pointer text-left transition-colors outline-none select-none',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset',
           isSelfActive

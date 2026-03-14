@@ -21,7 +21,7 @@ const SheetHeroVisual = () => (
       </div>
       {/* Sheet Panel */}
       <div className="w-40 bg-surface border-l border-outline-variant shadow-4 rounded-l-lg overflow-hidden">
-        <div className="px-4 pt-4 pb-3 border-b border-outline-variant bg-surface-container-lowest flex items-start justify-between gap-3">
+        <div className="px-4 pt-4 pb-3 border-b border-outline-variant bg-surface-container-low flex items-start justify-between gap-3">
           <div className="space-y-1">
             <span className="text-title-small text-on-surface block">Details</span>
             <span className="text-body-small text-on-surface-variant block">Inspect the selected record.</span>

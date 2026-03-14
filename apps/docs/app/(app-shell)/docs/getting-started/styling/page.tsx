@@ -187,9 +187,9 @@ export default function StylingPage() {
             code={`import { Button, Card } from "@unisane/ui";
 
 // Button variants
-<Button variant="filled">Primary action</Button>
-<Button variant="tonal">Secondary action</Button>
-<Button variant="outlined">Tertiary action</Button>
+<Button variant="filled">Filled action</Button>
+<Button variant="tonal">Tonal action</Button>
+<Button variant="outlined">Outlined action</Button>
 <Button variant="text">Low emphasis</Button>
 
 // Card variants

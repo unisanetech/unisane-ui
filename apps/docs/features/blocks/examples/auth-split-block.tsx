@@ -10,22 +10,22 @@ export function AuthSplitBlock() {
       className="border-outline-variant grid h-full w-full overflow-hidden border @3xl:grid-cols-[minmax(0,1.1fr)_420px]"
     >
       <Surface
-        tone="secondaryContainer"
+        tone="primaryContainer"
         className="flex min-h-[420px] flex-col justify-between p-8"
       >
         <div className="space-y-4">
-          <Typography variant="labelLarge" className="text-on-secondary-container">
+          <Typography variant="labelLarge" className="text-on-primary-container">
             Team portal
           </Typography>
           <Typography
             variant="displaySmall"
-            className="text-on-secondary-container max-w-[9ch] leading-[0.92]"
+            className="text-on-primary-container max-w-[9ch] leading-[0.92]"
           >
             Welcome back.
           </Typography>
           <Typography
             variant="bodyLarge"
-            className="text-on-secondary-container max-w-[28ch] leading-relaxed"
+            className="text-on-primary-container max-w-[28ch] leading-relaxed"
           >
             Review approvals, manage handoffs, and coordinate cross-functional work from one
             workspace.

@@ -64,7 +64,7 @@ export const dataPatternPage: PatternPageDoc = {
       title: 'Data blocks',
       description: 'Reusable data-heavy blocks for queues, review flows, and compact dashboards.',
       previewDefaults: {
-        tone: 'surfaceContainerLowest',
+        tone: 'surfaceContainerLow',
         minHeight: 'xl',
         padding: 'md',
       },

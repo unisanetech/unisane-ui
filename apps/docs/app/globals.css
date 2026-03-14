@@ -1,23 +1,19 @@
-/* Tailwind v4 + Unisane UI */
+/* Import package runtime/token CSS first, then compile docs-local Tailwind utilities after it. */
+@import '@unisane/ui/styles.css';
 @import 'tailwindcss';
-@import '@unisane/tokens/unisane.css';
 
 /* Source paths for Tailwind class scanning */
 @source "../**/*.{ts,tsx,mdx}";
-@source "../../../packages/core/src/**/*.{ts,tsx}";
 @source "../../../packages/data-table/src/**/*.{ts,tsx}";
 
-/* ============================================================
-   APP-SPECIFIC STYLES
+/* Re-register app-local custom variants for the docs Tailwind build.
+   The package CSS already defines these for its own compiled output, but
+   docs-local classes still need them in this compilation context. */
+@custom-variant dark (&:is(.dark *));
+@custom-variant expanded (@media (min-width: 840px));
+@custom-variant medium (@media (min-width: 600px));
 
-   Color themes, schemes, and contrast levels are provided by
-   @unisane/tokens/unisane.css. See ThemeProvider for usage:
-
-   - data-color-theme: blue, purple, pink, red, orange, yellow, green, cyan, neutral, black
-   - data-scheme: tonal (default), neutral, monochrome
-   - data-contrast: standard (default), medium, high
-   - class="dark" for dark mode
-   ============================================================ */
+/* App-specific styles only. Shared token and runtime utility ownership lives in @unisane/ui/styles.css. */
 
 /* ============================================================
    BASE STYLES
@@ -29,70 +25,6 @@
   body {
     overflow-x: hidden;
     max-width: 100vw;
-  }
-}
-
-/* ============================================================
-   ANIMATIONS
-   ============================================================ */
-
-/* Ripple animation for touch feedback */
-@keyframes ripple {
-  from {
-    opacity: 0.35;
-    transform: scale(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(2);
-  }
-}
-
-/* Stagger animation for list items */
-@keyframes stagger-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Content enter animation for drawer content transitions */
-@keyframes content-enter {
-  from {
-    opacity: 0;
-    transform: translateX(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* ============================================================
-   UTILITY CLASSES
-   ============================================================ */
-
-@layer utilities {
-  /* Z-index utilities for layering system */
-  .z-modal {
-    z-index: var(--z-modal, 3000);
-  }
-
-  /* Animation utilities */
-  .animate-ripple {
-    animation: ripple 600ms ease-out;
-  }
-
-  .animate-stagger {
-    animation: stagger-in 300ms ease-out;
-  }
-
-  .animate-content-enter {
-    animation: content-enter 200ms ease-out;
   }
 }
 

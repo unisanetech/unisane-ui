@@ -9,11 +9,19 @@ import {
   isValidElement,
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot, composeAsChildClickHandler } from '@ui/lib/utils';
+import { cn, Slot } from '@ui/lib/utils';
 import { Ripple } from './ripple';
+import {
+  ActionSpinner,
+  ActionStateLayer,
+  actionInteractiveClass,
+  getActionAsChildAttributes,
+  getActionDisabledState,
+  getActionStateAttributes,
+} from '@ui/lib/action-control';
 
 const fabVariants = cva(
-  'relative inline-flex shrink-0 items-center justify-center gap-2 overflow-hidden rounded-fab transition-all duration-medium ease-emphasized group cursor-pointer select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none z-30',
+  `relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-fab transition-all duration-medium ease-emphasized z-30 ${actionInteractiveClass}`,
   {
     variants: {
       variant: {
@@ -89,7 +97,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
     },
     ref,
   ) => {
-    const isDisabled = disabled || loading;
+    const isDisabled = getActionDisabledState(disabled, loading);
     const canRenderAsChild = asChild && isValidElement(children);
     const finalSize = label && (size === 'md' || size === undefined) ? 'extended' : (size ?? 'md');
     const iconSizeClasses = {
@@ -100,30 +108,11 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
     } as const;
     const renderContent = (labelContent: ReactNode, extraContent?: ReactNode) => (
       <>
-        <span className="duration-medium ease-emphasized group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity" />
+        <ActionStateLayer className="duration-medium ease-emphasized" />
         <Ripple disabled={isDisabled} />
         <div className="pointer-events-none relative z-10 flex items-center justify-center gap-3">
           {loading ? (
-            <svg
-              className={cn('animate-spin', iconSizeClasses[finalSize])}
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
+            <ActionSpinner className={iconSizeClasses[finalSize]} />
           ) : (
             <>
               {icon ? (
@@ -153,23 +142,20 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
         onClick?: (event: MouseEvent<HTMLElement>) => void;
         tabIndex?: number;
       };
-      const forwardedChildProps: Record<string, unknown> = {
-        ...props,
-        onClick: composeAsChildClickHandler(
-          isDisabled,
-          props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
-          childProps.onClick,
-        ),
-        tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
-      };
+      const forwardedChildProps = getActionAsChildAttributes(
+        isDisabled,
+        loading,
+        props as Record<string, unknown> & {
+          onClick?: ((event: MouseEvent<HTMLElement>) => void) | undefined;
+          tabIndex?: number | undefined;
+        },
+        childProps,
+      );
 
       return (
         <Slot
           ref={ref as Ref<HTMLElement>}
           className={cn(fabVariants({ variant, elevation, size: finalSize }), className)}
-          aria-busy={loading || undefined}
-          aria-disabled={isDisabled || undefined}
-          data-disabled={isDisabled ? 'true' : undefined}
         >
           {cloneElement(
             childElement,
@@ -186,8 +172,7 @@ export const Fab = forwardRef<HTMLButtonElement, FabProps>(
         type={type}
         className={cn(fabVariants({ variant, elevation, size: finalSize }), className)}
         disabled={isDisabled}
-        aria-busy={loading || undefined}
-        data-disabled={isDisabled ? 'true' : undefined}
+        {...getActionStateAttributes(isDisabled, loading)}
         {...props}
       >
         {renderContent(label, children)}

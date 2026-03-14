@@ -117,6 +117,10 @@ function validateErrorSection(value, filePath, path) {
   assertOptionalString(value.comment, filePath, `${path}.comment`);
 }
 
+function validateStatusSection(value, filePath, path) {
+  validateErrorSection(value, filePath, path);
+}
+
 function validateSchemaReference(value, expected, filePath, path = "$schema") {
   if ("$schema" in value && value.$schema !== expected) {
     fail(filePath, path, `must equal "${expected}" when present`);
@@ -127,11 +131,28 @@ export function validateThemeConfig(value, filePath) {
   assertObject(value, filePath, "$");
   assertNoExtraKeys(
     value,
-    ["$schema", "name", "description", "primary", "secondary", "tertiary", "neutral", "error"],
+    [
+      "$schema",
+      "name",
+      "description",
+      "primary",
+      "secondary",
+      "tertiary",
+      "neutral",
+      "error",
+      "success",
+      "warning",
+      "info",
+    ],
     filePath,
     "$",
   );
-  assertRequiredKeys(value, ["name", "primary", "secondary", "tertiary", "neutral", "error"], filePath, "$");
+  assertRequiredKeys(
+    value,
+    ["name", "primary", "secondary", "tertiary", "neutral", "error", "success", "warning", "info"],
+    filePath,
+    "$",
+  );
 
   validateSchemaReference(value, "./theme-config.schema.json", filePath);
   assertString(value.name, filePath, "$.name", { minLength: 1 });
@@ -145,6 +166,9 @@ export function validateThemeConfig(value, filePath) {
   validateSecondaryOrTertiarySection(value.tertiary, filePath, "$.tertiary");
   validateNeutralSection(value.neutral, filePath, "$.neutral");
   validateErrorSection(value.error, filePath, "$.error");
+  validateStatusSection(value.success, filePath, "$.success");
+  validateStatusSection(value.warning, filePath, "$.warning");
+  validateStatusSection(value.info, filePath, "$.info");
 }
 
 export function validateThemeOverride(value, filePath) {

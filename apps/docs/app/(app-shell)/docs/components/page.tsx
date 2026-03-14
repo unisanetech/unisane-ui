@@ -5,7 +5,7 @@ import {
 
 export default function ComponentsPage() {
   return (
-    <div className="animate-slide-up w-full pb-16 @3xl:pb-24">
+    <div className="w-full pb-16 @3xl:pb-24">
       <ComponentCatalogHeader />
       <ComponentCatalog />
     </div>

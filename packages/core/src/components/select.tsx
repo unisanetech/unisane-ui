@@ -6,6 +6,8 @@ import { cn } from '@ui/lib/utils';
 import { Icon } from '@ui/primitives/icon';
 import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
 import { useControllableState } from '@ui/lib/use-controllable-state';
+import { fieldContainerVariants, getFieldLabelClasses } from '@ui/lib/field-shell';
+import { useFieldState } from '@ui/lib/use-field-state';
 
 export interface SelectOption {
   value: string;
@@ -94,6 +96,12 @@ export const Select: React.FC<SelectProps> = ({
   const selectedIndex = options.findIndex((option) => option.value === selectedValue);
   const selectedLabel = options[selectedIndex]?.label;
   const displayLabel = selectedLabel || (!label ? placeholder : '');
+  const { isFloating } = useFieldState({
+    id: triggerId,
+    idPrefix: 'select',
+    active: isOpen,
+    hasValue: Boolean(selectedValue),
+  });
 
   const updateDropdownPosition = useCallback(() => {
     if (!triggerRef.current) return;
@@ -241,7 +249,6 @@ export const Select: React.FC<SelectProps> = ({
     }
   };
 
-  const isFloating = Boolean(selectedValue) || isOpen;
   const activeDescendantId =
     highlightedIndex >= 0 ? `${listboxId}-option-${highlightedIndex}` : undefined;
   const optionClass = cn(
@@ -327,16 +334,13 @@ export const Select: React.FC<SelectProps> = ({
         className={cn(
           'group relative flex w-full cursor-pointer items-center transition-colors select-none',
           fieldSize.containerHeight,
-          variant === 'outlined'
-            ? 'border-outline-variant bg-surface rounded-sm border'
-            : 'border-outline bg-surface-container-low rounded-t-sm border-b',
+          fieldContainerVariants({ variant, error, disabled: false }),
+          'cursor-pointer',
+          'focus-within:ring-0',
           !disabled &&
             !isOpen &&
-            (variant === 'outlined'
-              ? 'hover:border-outline'
-              : 'hover:bg-surface-container hover:border-outline'),
+            (variant === 'outlined' ? undefined : 'hover:border-outline'),
           isOpen && (variant === 'outlined' ? 'border-primary! border-2' : 'bg-surface'),
-          error && 'border-error',
           disabled && 'cursor-not-allowed opacity-38',
         )}
         disabled={disabled}
@@ -358,12 +362,16 @@ export const Select: React.FC<SelectProps> = ({
           />
         )}
 
-        <div className={cn('relative flex h-full w-full items-center', fieldSize.horizontalPadding)}>
+        <div className="relative flex h-full w-full min-w-0 items-center">
           <span
             className={cn(
-              'text-on-surface w-full truncate font-medium',
+              'text-on-surface pointer-events-none absolute left-0 min-w-0 truncate font-medium text-left',
+              'right-[calc(var(--unit)*9)]',
+              fieldSize.horizontalPadding,
               fieldSize.valueText,
-              variant === 'filled' && fieldSize.filledInputPadding,
+              variant === 'filled' && label
+                ? cn('inset-y-0', fieldSize.filledInputPadding)
+                : 'top-1/2 h-auto -translate-y-1/2',
             )}
           >
             {displayLabel}
@@ -374,21 +382,16 @@ export const Select: React.FC<SelectProps> = ({
               htmlFor={triggerId}
               id={labelId}
               className={cn(
-                'duration-snappy ease-emphasized pointer-events-none absolute max-w-[calc(100%-calc(var(--unit)*12))] origin-left truncate transition-all',
-                fieldSize.labelLeft,
-                !isFloating && [
-                  fieldSize.selectRestingLabelText,
-                  'text-on-surface-variant top-1/2 -translate-y-1/2',
-                ],
-                isFloating && [
-                  'text-label-small font-medium',
-                  variant === 'outlined' && [
-                    'bg-surface top-0 -ml-1 -translate-y-1/2 px-1',
-                    labelClassName ? labelClassName : 'bg-surface',
-                  ],
-                  variant === 'filled' && fieldSize.filledFloatingLabel,
-                  error ? 'text-error' : isOpen ? 'text-primary' : 'text-on-surface-variant',
-                ],
+                'max-w-[calc(100%-calc(var(--unit)*12))]',
+                getFieldLabelClasses({
+                  size,
+                  variant,
+                  floating: isFloating,
+                  error,
+                  active: isOpen,
+                  labelClassName,
+                  restingTextClassName: fieldSize.selectRestingLabelText,
+                }),
               )}
             >
               {label}

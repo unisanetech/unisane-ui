@@ -3,6 +3,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '../context/sidebar-provider';
+import { getSidebarVisualTheme } from './sidebar-visuals';
 
 export interface SidebarInsetProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode;
@@ -10,6 +11,7 @@ export interface SidebarInsetProps extends React.HTMLAttributes<HTMLElement> {
 
 export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
   ({ children, className, style, ...props }, ref) => {
+    const sidebar = useSidebar();
     const {
       side,
       drawerWidth,
@@ -18,7 +20,8 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
       drawerEnabled,
       containerMode,
       mobileInsetOffset,
-    } = useSidebar();
+    } = sidebar;
+    const visuals = getSidebarVisualTheme(sidebar);
 
     const desktopMargin = !drawerEnabled || usesOverlayDrawer || !expanded ? 0 : drawerWidth;
     const topOffset = containerMode === 'contained' ? 0 : usesOverlayDrawer ? mobileInsetOffset : 0;
@@ -28,7 +31,7 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
         ref={ref}
         className={cn(
           'flex min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto',
-          'bg-[var(--sidebar-inset-bg,var(--color-surface))]',
+          visuals.insetBackgroundClass,
           'duration-emphasized ease-emphasized transition-[margin,height,margin-top] motion-reduce:transition-none',
           className,
         )}
@@ -38,8 +41,8 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
           marginLeft: side === 'left' ? desktopMargin : 0,
           marginRight: side === 'right' ? desktopMargin : 0,
           ['--sidebar-margin' as string]: `${desktopMargin}px`,
-          transitionDuration: 'var(--sidebar-motion-duration, var(--duration-emphasized))',
-          transitionTimingFunction: 'var(--sidebar-motion-easing, var(--ease-emphasized))',
+          ...visuals.insetStyle,
+          ...visuals.motionStyle,
           ...style,
         }}
         {...props}

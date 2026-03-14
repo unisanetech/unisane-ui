@@ -5,7 +5,7 @@ export function generateTailwindTheme() {
    Maps CSS variables to Tailwind utilities
    ============================================================ */
 
-@theme {
+@theme inline {
   /* Breakpoints */
   --breakpoint-sm: 640px;
   --breakpoint-md: 768px;

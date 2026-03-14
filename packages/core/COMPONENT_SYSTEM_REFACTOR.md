@@ -6,6 +6,7 @@ Canonical docs now live in:
 
 - `DESIGN_SYSTEM.md`
 - `COMPONENT_AUTHORING.md`
+- `IMPLEMENTATION_CHECKLIST.md`
 
 ## Final Outcome
 
@@ -26,3 +27,9 @@ Canonical docs now live in:
 - theming axes are applied globally, not reinvented locally
 - sizing is predictable across related families
 - docs and examples match the actual runtime API
+
+## Active Follow-Up
+
+The refactor record above is historical. Ongoing implementation follow-up now lives in:
+
+- `IMPLEMENTATION_CHECKLIST.md`

@@ -2,6 +2,22 @@
   "$schema": "./registry-schema.json",
   "version": "0.4.0",
   "components": {
+    "action-control": {
+      "name": "ActionControl",
+      "type": "lib:util",
+      "description": "ActionControl utility",
+      "files": ["lib/action-control.tsx"],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    "field-shell": {
+      "name": "FieldShell",
+      "type": "lib:util",
+      "description": "FieldShell utility",
+      "files": ["lib/field-shell.ts"],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "field-size": {
       "name": "FieldSize",
       "type": "lib:util",
@@ -23,6 +39,14 @@
       "type": "lib:util",
       "description": "UseControllableState utility",
       "files": ["lib/use-controllable-state.ts"],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    "use-field-state": {
+      "name": "UseFieldState",
+      "type": "lib:util",
+      "description": "UseFieldState utility",
+      "files": ["lib/use-field-state.ts"],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -541,6 +565,7 @@
         "components/sidebar/components/sidebar-navigation-utils.ts",
         "components/sidebar/components/sidebar-rail.tsx",
         "components/sidebar/components/sidebar-shell.tsx",
+        "components/sidebar/components/sidebar-visuals.ts",
         "components/sidebar/context/sidebar-provider.tsx",
         "components/sidebar/index.ts",
         "components/sidebar/model/sidebar.state.ts",
@@ -550,6 +575,7 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "sidebar-visuals",
         "sidebar-navigation-utils",
         "context/sidebar-provider",
         "model/sidebar.types",

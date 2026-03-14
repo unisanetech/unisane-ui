@@ -3,12 +3,19 @@ import { CHROMA_SCALE, TONAL_LIGHTNESS } from "../../constants.mjs";
 export function generateCoreTokensSection(config) {
   const primaryHue = config.primary.hue;
   const primaryChroma = config.primary.chroma;
-  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.7;
+  const secondaryHueShift = config.secondary?.hueShift ?? 12;
+  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.4;
   const tertiaryHueShift = config.tertiary?.hueShift ?? 60;
   const tertiaryChromaScale = config.tertiary?.chromaScale ?? 0.7;
   const neutralTint = config.neutral?.tintFromPrimary ?? 0.012;
   const errorHue = config.error?.hue ?? 25;
   const errorChroma = config.error?.chroma ?? 0.18;
+  const successHue = config.success?.hue ?? 145;
+  const successChroma = config.success?.chroma ?? 0.18;
+  const warningHue = config.warning?.hue ?? 85;
+  const warningChroma = config.warning?.chroma ?? 0.16;
+  const infoHue = config.info?.hue ?? 245;
+  const infoChroma = config.info?.chroma ?? 0.16;
 
   let css = `/* ============================================================
    Unisane UI Design Tokens
@@ -40,7 +47,7 @@ export function generateCoreTokensSection(config) {
    4. CONTRAST - Accessibility level (via data attribute):
       <html data-contrast="standard">  // Default
       <html data-contrast="medium">    // Boosted readability
-      <html data-contrast="high">      // WCAG AAA compliant
+      <html data-contrast="high">      // Maximum contrast preset
 
    5. DARK MODE:
       <html class="dark">              // Manual dark mode
@@ -69,16 +76,22 @@ export function generateCoreTokensSection(config) {
 :root {
 
   /* Derived hues (auto-calculated) */
-  --hue-secondary: var(--hue);
+  --hue-secondary: calc(var(--hue) + ${secondaryHueShift});
   --hue-tertiary: calc(var(--hue) + ${tertiaryHueShift});
   --hue-neutral: var(--hue);
   --hue-error: ${errorHue};
+  --hue-success: ${successHue};
+  --hue-warning: ${warningHue};
+  --hue-info: ${infoHue};
 
   /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * ${secondaryChromaScale});
+  --chroma-secondary: calc(var(--chroma) * ${config.secondary?.chromaScale ?? 0.4});
   --chroma-tertiary: calc(var(--chroma) * ${tertiaryChromaScale});
   --chroma-neutral: ${neutralTint};
   --chroma-error: ${errorChroma};
+  --chroma-success: ${successChroma};
+  --chroma-warning: ${warningChroma};
+  --chroma-info: ${infoChroma};
 `;
 
   // Generate OKLCH-based reference tokens
@@ -90,6 +103,9 @@ export function generateCoreTokensSection(config) {
     { name: 'neutral', hueVar: '--hue-neutral', chromaVar: '--chroma-neutral' },
     { name: 'neutral-variant', hueVar: '--hue-neutral', chromaVar: '--chroma-neutral-variant' },
     { name: 'error', hueVar: '--hue-error', chromaVar: '--chroma-error' },
+    { name: 'success', hueVar: '--hue-success', chromaVar: '--chroma-success' },
+    { name: 'warning', hueVar: '--hue-warning', chromaVar: '--chroma-warning' },
+    { name: 'info', hueVar: '--hue-info', chromaVar: '--chroma-info' },
   ];
 
   css += `
@@ -183,6 +199,22 @@ export function generateCoreTokensSection(config) {
   --tone-error-container: var(--ref-error-90);
   --tone-on-error-container: var(--ref-error-10);
 
+  /* Status tone mapping */
+  --tone-success: var(--ref-success-40);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-90);
+  --tone-on-success-container: var(--ref-success-10);
+
+  --tone-warning: var(--ref-warning-40);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-90);
+  --tone-on-warning-container: var(--ref-warning-10);
+
+  --tone-info: var(--ref-info-40);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-90);
+  --tone-on-info-container: var(--ref-info-10);
+
   /* Inverse tone mapping */
   --tone-inverse-surface: var(--ref-neutral-20);
   --tone-inverse-on-surface: var(--ref-neutral-95);
@@ -224,20 +256,20 @@ export function generateCoreTokensSection(config) {
   --color-error-container: var(--tone-error-container);
   --color-on-error-container: var(--tone-on-error-container);
 
-  --color-success: oklch(0.55 0.18 145);
-  --color-on-success: oklch(0.98 0 0);
-  --color-success-container: oklch(0.92 0.08 145);
-  --color-on-success-container: oklch(0.25 0.1 145);
+  --color-success: var(--tone-success);
+  --color-on-success: var(--tone-on-success);
+  --color-success-container: var(--tone-success-container);
+  --color-on-success-container: var(--tone-on-success-container);
 
-  --color-warning: oklch(0.62 0.16 85);
-  --color-on-warning: oklch(0.98 0 0);
-  --color-warning-container: oklch(0.92 0.08 85);
-  --color-on-warning-container: oklch(0.25 0.1 85);
+  --color-warning: var(--tone-warning);
+  --color-on-warning: var(--tone-on-warning);
+  --color-warning-container: var(--tone-warning-container);
+  --color-on-warning-container: var(--tone-on-warning-container);
 
-  --color-info: oklch(0.58 0.16 245);
-  --color-on-info: oklch(0.98 0 0);
-  --color-info-container: oklch(0.92 0.08 245);
-  --color-on-info-container: oklch(0.25 0.08 245);
+  --color-info: var(--tone-info);
+  --color-on-info: var(--tone-on-info);
+  --color-info-container: var(--tone-info-container);
+  --color-on-info-container: var(--tone-on-info-container);
 
   --color-inverse-surface: var(--tone-inverse-surface);
   --color-inverse-on-surface: var(--tone-inverse-on-surface);

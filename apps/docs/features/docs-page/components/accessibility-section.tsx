@@ -64,7 +64,7 @@ export function AccessibilityInfo({
             </Typography>
           </div>
           <Surface
-            tone="surfaceContainerLowest"
+            tone="surfaceContainerLow"
             rounded="sm"
             className="overflow-x-auto"
           >

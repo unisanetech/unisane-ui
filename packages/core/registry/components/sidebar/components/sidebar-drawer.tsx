@@ -3,6 +3,7 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useSidebar } from '../context/sidebar-provider';
+import { getSidebarVisualTheme } from './sidebar-visuals';
 
 function getFocusableElements(root: HTMLElement | null): HTMLElement[] {
   if (!root) {
@@ -22,6 +23,7 @@ export interface SidebarDrawerProps extends React.HTMLAttributes<HTMLElement> {
 
 export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
   ({ children, className, style, ...props }, ref) => {
+    const sidebar = useSidebar();
     const {
       isDrawerVisible,
       expanded,
@@ -37,7 +39,8 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
       side,
       containerMode,
       close,
-    } = useSidebar();
+    } = sidebar;
+    const visuals = getSidebarVisualTheme(sidebar);
 
     const drawerRef = useRef<HTMLElement | null>(null);
     const previousActiveElementRef = useRef<HTMLElement | null>(null);
@@ -124,15 +127,19 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
           }
         }}
         className={cn(
-          isContained ? 'absolute top-0 bottom-0 flex flex-col' : 'fixed top-0 flex flex-col',
-          isContained ? 'h-full' : usesOverlayDrawer ? 'h-dvh' : 'h-screen',
+          usesOverlayDrawer
+            ? isContained
+              ? 'absolute top-0 bottom-0 flex flex-col'
+              : 'fixed top-0 flex flex-col'
+            : 'absolute top-0 bottom-0 flex flex-col',
+          usesOverlayDrawer ? (isContained ? 'h-full' : 'h-dvh') : 'h-full',
           'overflow-hidden',
-          'text-[var(--sidebar-drawer-fg,var(--color-on-surface))]',
-          'bg-[var(--sidebar-drawer-bg,var(--color-surface-container))]',
+          visuals.drawerForegroundClass,
+          visuals.drawerBackgroundClass,
           'duration-emphasized ease-emphasized transition-transform motion-reduce:transition-none',
           usesOverlayDrawer && 'z-60 max-w-[85vw]',
           !usesOverlayDrawer && 'z-30',
-          isOverlay && isOpen && 'rounded-[var(--sidebar-drawer-radius,var(--radius-none))]',
+          isOverlay && isOpen && visuals.drawerRadiusClass,
           side === 'left'
             ? isOpen
               ? 'translate-x-0'
@@ -147,10 +154,16 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
             ? `var(--sidebar-mobile-drawer-width, ${mobileDrawerWidth}px)`
             : `var(--sidebar-drawer-width, ${drawerWidth}px)`,
           [side]: usesOverlayDrawer ? 0 : baseOffset,
-          boxShadow: isOverlay && isOpen ? 'var(--sidebar-drawer-shadow, var(--shadow-3))' : undefined,
-          borderColor: 'var(--sidebar-border-color, var(--color-outline-variant))',
-          transitionDuration: 'var(--sidebar-motion-duration, var(--duration-emphasized))',
-          transitionTimingFunction: 'var(--sidebar-motion-easing, var(--ease-emphasized))',
+          ...(isOverlay && isOpen
+            ? {
+                boxShadow: visuals.drawerStyle.boxShadow,
+                borderRadius: visuals.drawerStyle.borderRadius,
+              }
+            : null),
+          backgroundColor: visuals.drawerStyle.backgroundColor,
+          color: visuals.drawerStyle.color,
+          borderColor: visuals.drawerStyle.borderColor,
+          ...visuals.motionStyle,
           ...style,
         }}
         onMouseEnter={!usesOverlayDrawer ? handleDrawerEnter : undefined}

@@ -33,7 +33,7 @@ export function NavigationIcon({
 
 export function getNavigationRailItemClasses(disabled?: boolean, className?: string) {
   return cn(
-    "group relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-sm py-1 outline-none select-none",
+    "group relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none",
     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
     disabled && "pointer-events-none cursor-not-allowed opacity-38",
     className,
@@ -66,7 +66,7 @@ export function NavigationRailItemContent({
       <div className="relative flex items-center justify-center">
         <div
           className={cn(
-            "relative flex h-8 w-14 items-center justify-center overflow-hidden rounded-full transition-all duration-medium ease-emphasized",
+            "relative flex h-8 w-14 items-center justify-center overflow-hidden rounded-button transition-all duration-medium ease-emphasized",
             active
               ? "bg-secondary-container text-on-secondary-container"
               : "bg-transparent text-on-surface-variant hover:bg-state-hover",
@@ -121,7 +121,7 @@ export function getNavigationDrawerItemClasses(args: {
   const { active, disabled, className } = args;
 
   return cn(
-    "group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-sm px-4 py-2",
+    "group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2",
     "text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none",
     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
     active

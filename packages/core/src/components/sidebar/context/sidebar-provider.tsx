@@ -5,6 +5,7 @@ import type {
   SidebarBreakpoints,
   SidebarProviderProps,
   SidebarState,
+  SidebarViewport,
 } from '../model/sidebar.types';
 import {
   DEFAULT_SIDEBAR_BREAKPOINTS,
@@ -19,6 +20,54 @@ import {
 } from '../model/sidebar.state';
 
 const SidebarContext = createContext<SidebarState | null>(null);
+
+function shouldOpenForActiveDescendant(
+  items: SidebarProviderProps['items'],
+  activeId: string | null,
+  behavior: SidebarProviderProps['activeDescendantDrawerBehavior'],
+) {
+  if (behavior !== 'open' || !activeId) {
+    return false;
+  }
+
+  const topLevelItem = findTopLevelContainerById(items ?? [], activeId);
+  return Boolean(topLevelItem?.items?.length) && topLevelItem?.id !== activeId;
+}
+
+function getViewportFlagsForValue(
+  viewport: SidebarViewport,
+  breakpoints: SidebarBreakpoints,
+) {
+  if (viewport === 'mobile') {
+    return computeViewportFlags(breakpoints.mobile - 1, breakpoints);
+  }
+
+  if (viewport === 'tablet') {
+    return computeViewportFlags(breakpoints.mobile, breakpoints);
+  }
+
+  return computeViewportFlags(breakpoints.desktop, breakpoints);
+}
+
+function getInitialViewportFlags(
+  forceViewport: SidebarProviderProps['forceViewport'],
+  initialViewport: SidebarProviderProps['initialViewport'],
+  breakpoints: SidebarBreakpoints,
+) {
+  if (forceViewport) {
+    return getViewportFlagsForValue(forceViewport, breakpoints);
+  }
+
+  if (initialViewport) {
+    return getViewportFlagsForValue(initialViewport, breakpoints);
+  }
+
+  if (typeof window !== 'undefined') {
+    return computeViewportFlags(window.innerWidth, breakpoints);
+  }
+
+  return computeViewportFlags(breakpoints.desktop, breakpoints);
+}
 
 export function useSidebar(): SidebarState {
   const context = useContext(SidebarContext);
@@ -51,8 +100,10 @@ export function SidebarProvider({
   breakpoints,
   mobileInsetOffset = 64,
   triggerVisibility = 'auto',
+  activeDescendantDrawerBehavior = 'open',
   visualPreset = 'default',
   tokens,
+  initialViewport,
   forceViewport,
   onActiveIdChange,
   onActiveChange,
@@ -60,7 +111,11 @@ export function SidebarProvider({
   onMobileOpenChange,
 }: SidebarProviderProps) {
   const [activeIdState, setActiveIdState] = useState<string | null>(defaultActiveId);
-  const [expandedState, setExpandedState] = useState<boolean>(defaultExpanded);
+  const [expandedState, setExpandedState] = useState<boolean>(
+    () =>
+      defaultExpanded ||
+      shouldOpenForActiveDescendant(items, defaultActiveId, activeDescendantDrawerBehavior),
+  );
   const [mobileOpenState, setMobileOpenState] = useState(defaultMobileOpen);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [lastContentId, setLastContentId] = useState<string | null>(defaultActiveId);
@@ -81,10 +136,15 @@ export function SidebarProvider({
   const activeId = isActiveControlled ? controlledActiveId ?? null : activeIdState;
   const expanded = isExpandedControlled ? !!controlledExpanded : expandedState;
   const mobileOpen = isMobileOpenControlled ? !!controlledMobileOpen : mobileOpenState;
+  const initialViewportState = getInitialViewportFlags(
+    forceViewport,
+    initialViewport,
+    resolvedBreakpoints,
+  );
 
-  const [isMobile, setIsMobile] = useState(forceViewport === 'mobile' || !forceViewport);
-  const [isTablet, setIsTablet] = useState(forceViewport === 'tablet');
-  const [isDesktop, setIsDesktop] = useState(forceViewport === 'desktop');
+  const [isMobile, setIsMobile] = useState(initialViewportState.isMobile);
+  const [isTablet, setIsTablet] = useState(initialViewportState.isTablet);
+  const [isDesktop, setIsDesktop] = useState(initialViewportState.isDesktop);
 
   const entryTimeoutRef = useRef<number | null>(null);
   const exitTimeoutRef = useRef<number | null>(null);
@@ -178,13 +238,26 @@ export function SidebarProvider({
       if (defaultActiveId) {
         setActiveIdState(defaultActiveId);
         setLastContentId(defaultActiveId);
-        const item = findTopLevelContainerById(items, defaultActiveId);
-        if (item?.items && item.items.length > 0 && !isExpandedControlled) {
-          setExpandedState(true);
+        if (!isExpandedControlled) {
+          setExpandedState(
+            defaultExpanded ||
+              shouldOpenForActiveDescendant(
+                items,
+                defaultActiveId,
+                activeDescendantDrawerBehavior,
+              ),
+          );
         }
       }
     }
-  }, [defaultActiveId, isActiveControlled, isExpandedControlled, items]);
+  }, [
+    activeDescendantDrawerBehavior,
+    defaultActiveId,
+    defaultExpanded,
+    isActiveControlled,
+    isExpandedControlled,
+    items,
+  ]);
 
   useEffect(() => {
     if (!isMobileOpenControlled) {
@@ -238,6 +311,30 @@ export function SidebarProvider({
     hoveredHasChildren: !!hoveredId && hoverHasChildren,
     drawerWidth,
   });
+
+  useEffect(() => {
+    if (!derived.drawerEnabled || isExpandedControlled) {
+      return;
+    }
+
+    if (activeDescendantDrawerBehavior !== 'open') {
+      return;
+    }
+
+    if (!activeId) {
+      return;
+    }
+
+    if (shouldOpenForActiveDescendant(items, activeId, activeDescendantDrawerBehavior)) {
+      setExpandedState(true);
+    }
+  }, [
+    activeDescendantDrawerBehavior,
+    activeId,
+    derived.drawerEnabled,
+    isExpandedControlled,
+    items,
+  ]);
 
   const setActiveId = useCallback(
     (id: string | null) => {
@@ -317,7 +414,10 @@ export function SidebarProvider({
         if (!derived.drawerEnabled) return;
 
         if (hasChildren) {
-          setExpanded(!expanded);
+          setLastContentId(id);
+          if (expanded) {
+            setExpanded(false);
+          }
         } else {
           setExpanded(false);
         }
@@ -332,14 +432,6 @@ export function SidebarProvider({
 
       if (hasChildren) {
         setLastContentId(id);
-
-        if (wasDrawerVisible) {
-          if (!expanded) {
-            setExpanded(true);
-          }
-        } else {
-          setExpanded(true);
-        }
       } else {
         setExpanded(false);
       }

@@ -59,6 +59,11 @@ export const colorsFoundationPage: FoundationPageDoc = {
             In practice, the most important decision is choosing the correct role, not the exact
             shade. The theme system handles the actual tone mapping.
           </Typography>
+          <Typography variant="bodyLarge" className="text-on-surface-variant leading-relaxed">
+            Secondary and tertiary roles are supporting accents, not guaranteed alternate brand hues.
+            In Material-style tonal systems, secondary can stay close to the primary hue family while
+            reducing chroma and emphasis.
+          </Typography>
         </div>
       ),
     },
@@ -85,7 +90,7 @@ export const colorsFoundationPage: FoundationPageDoc = {
         },
         {
           title: 'Secondary / tertiary containers',
-          description: 'Supportive and decorative emphasis that still stays in-system.',
+          description: 'Supportive emphasis and visual variety that stay related to the main theme instead of competing with it.',
           icon: 'auto_awesome',
         },
         {

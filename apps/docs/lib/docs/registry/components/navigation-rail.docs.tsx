@@ -27,7 +27,7 @@ const NavigationRailHeroVisual = () => (
             />
           }
         />
-        <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+        <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
           <div className="border-outline-variant border-b px-4 py-3">
             <div className="text-title-small text-on-surface">Inbox</div>
             <div className="text-body-small text-on-surface-variant">3 unread messages</div>
@@ -73,7 +73,7 @@ const NavigationRailBasicExample = () => {
         }
         className="h-full"
       />
-      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
         <div className="border-outline-variant border-b px-4 py-3">
           <div className="text-title-small text-on-surface">Mail workspace</div>
           <div className="text-body-small text-on-surface-variant">
@@ -107,7 +107,7 @@ const NavigationRailIconOnlyExample = () => {
         labelVisibility="hidden"
         className="h-full"
       />
-      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-lowest">
+      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
         <div className="border-outline-variant border-b px-4 py-3">
           <div className="text-title-small text-on-surface">Icon-only rail</div>
           <div className="text-body-small text-on-surface-variant">Hover icons to see tooltips.</div>
@@ -210,7 +210,7 @@ export const navigationRailDoc: ComponentDoc = {
       {
         emphasis: "Navigation Bar",
         component: (
-          <div className="relative isolate h-24 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+          <div className="relative isolate h-24 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
             <div className="space-y-2 p-3">
               <div className="h-2 rounded-sm bg-surface-container-high" />
               <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />

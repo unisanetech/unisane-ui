@@ -110,7 +110,7 @@ export function generateColorThemesAndAxesSection() {
    Available levels:
    - standard (default) - M3 baseline contrast
    - medium             - Slightly boosted for better readability
-   - high               - Maximum contrast for accessibility (WCAG AAA)
+   - high               - Maximum contrast preset for accessibility
    ============================================================ */
 
 /* Medium contrast - boosted readability (darker primary: tone 30) */
@@ -122,6 +122,28 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-secondary: var(--ref-secondary-30);
   --tone-on-secondary: var(--ref-secondary-100);
+  --tone-secondary-container: var(--ref-secondary-95);
+  --tone-on-secondary-container: var(--ref-secondary-10);
+
+  --tone-tertiary: var(--ref-tertiary-30);
+  --tone-on-tertiary: var(--ref-tertiary-100);
+  --tone-tertiary-container: var(--ref-tertiary-95);
+  --tone-on-tertiary-container: var(--ref-tertiary-10);
+
+  --tone-success: var(--ref-success-30);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-95);
+  --tone-on-success-container: var(--ref-success-10);
+
+  --tone-warning: var(--ref-warning-30);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-95);
+  --tone-on-warning-container: var(--ref-warning-10);
+
+  --tone-info: var(--ref-info-30);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-95);
+  --tone-on-info-container: var(--ref-info-10);
 
   --tone-on-surface: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-50);
@@ -137,13 +159,35 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-10);
+  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-on-secondary-container: var(--ref-secondary-95);
+
+  --tone-tertiary: var(--ref-tertiary-80);
+  --tone-on-tertiary: var(--ref-tertiary-10);
+  --tone-tertiary-container: var(--ref-tertiary-30);
+  --tone-on-tertiary-container: var(--ref-tertiary-95);
+
+  --tone-success: var(--ref-success-80);
+  --tone-on-success: var(--ref-success-10);
+  --tone-success-container: var(--ref-success-30);
+  --tone-on-success-container: var(--ref-success-95);
+
+  --tone-warning: var(--ref-warning-80);
+  --tone-on-warning: var(--ref-warning-10);
+  --tone-warning-container: var(--ref-warning-30);
+  --tone-on-warning-container: var(--ref-warning-95);
+
+  --tone-info: var(--ref-info-80);
+  --tone-on-info: var(--ref-info-10);
+  --tone-info-container: var(--ref-info-30);
+  --tone-on-info-container: var(--ref-info-95);
 
   --tone-on-surface: var(--ref-neutral-95);
   --tone-outline: var(--ref-neutral-variant-70);
   --tone-outline-variant: var(--ref-neutral-variant-30);
 }
 
-/* High contrast - boosted accessibility, WCAG AAA (darker primary: tone 20) */
+/* High contrast - boosted accessibility with stronger tone extremity */
 [data-contrast="high"] {
   --tone-primary: var(--ref-primary-20);
   --tone-on-primary: var(--ref-primary-100);
@@ -157,6 +201,8 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-tertiary: var(--ref-tertiary-20);
   --tone-on-tertiary: var(--ref-tertiary-100);
+  --tone-tertiary-container: var(--ref-tertiary-95);
+  --tone-on-tertiary-container: var(--ref-tertiary-0);
 
   --tone-surface: var(--ref-neutral-100);
   --tone-on-surface: var(--ref-neutral-0);
@@ -167,6 +213,21 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-error: var(--ref-error-20);
   --tone-on-error: var(--ref-error-100);
+
+  --tone-success: var(--ref-success-20);
+  --tone-on-success: var(--ref-success-100);
+  --tone-success-container: var(--ref-success-95);
+  --tone-on-success-container: var(--ref-success-0);
+
+  --tone-warning: var(--ref-warning-20);
+  --tone-on-warning: var(--ref-warning-100);
+  --tone-warning-container: var(--ref-warning-95);
+  --tone-on-warning-container: var(--ref-warning-0);
+
+  --tone-info: var(--ref-info-20);
+  --tone-on-info: var(--ref-info-100);
+  --tone-info-container: var(--ref-info-95);
+  --tone-on-info-container: var(--ref-info-0);
 }
 
 .dark[data-contrast="high"],
@@ -183,16 +244,33 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-tertiary: var(--ref-tertiary-95);
   --tone-on-tertiary: var(--ref-tertiary-0);
+  --tone-tertiary-container: var(--ref-tertiary-10);
+  --tone-on-tertiary-container: var(--ref-tertiary-100);
 
-  --tone-surface: var(--ref-neutral-0);
+  --tone-surface: var(--ref-neutral-8);
   --tone-on-surface: var(--ref-neutral-100);
-  --tone-background: var(--ref-neutral-0);
+  --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-100);
   --tone-outline: var(--ref-neutral-variant-80);
   --tone-outline-variant: var(--ref-neutral-variant-60);
 
   --tone-error: var(--ref-error-95);
   --tone-on-error: var(--ref-error-0);
+
+  --tone-success: var(--ref-success-95);
+  --tone-on-success: var(--ref-success-0);
+  --tone-success-container: var(--ref-success-10);
+  --tone-on-success-container: var(--ref-success-100);
+
+  --tone-warning: var(--ref-warning-95);
+  --tone-on-warning: var(--ref-warning-0);
+  --tone-warning-container: var(--ref-warning-10);
+  --tone-on-warning-container: var(--ref-warning-100);
+
+  --tone-info: var(--ref-info-95);
+  --tone-on-info: var(--ref-info-0);
+  --tone-info-container: var(--ref-info-10);
+  --tone-on-info-container: var(--ref-info-100);
 }
 
 /* ============================================================

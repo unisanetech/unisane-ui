@@ -9,7 +9,9 @@ export type {
   SidebarBehaviorInput,
   SidebarContainerMode,
   SidebarTriggerVisibility,
+  SidebarActiveDescendantDrawerBehavior,
   SidebarVisualPreset,
+  SidebarViewport,
   SidebarBreakpoints,
   SidebarVisualTokens,
 } from './model/sidebar.types';

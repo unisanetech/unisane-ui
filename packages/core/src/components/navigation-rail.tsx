@@ -60,7 +60,7 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
   return (
     <nav
       className={cn(
-        'border-outline-variant bg-surface-container text-on-surface duration-medium ease-standard z-50 flex h-full w-24 shrink-0 flex-col items-center gap-1 border-r py-3 transition-all',
+        'border-outline-variant bg-surface-container-low text-on-surface duration-medium ease-standard z-50 flex h-full w-24 shrink-0 flex-col items-center gap-1 border-r py-3 transition-all',
         className,
       )}
       aria-label="Sidebar Navigation"

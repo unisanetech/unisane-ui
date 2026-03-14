@@ -13,17 +13,6 @@ function buildSidebarCssVars(sidebar: ReturnType<typeof useSidebar>) {
     '--sidebar-mobile-drawer-width': `${sidebar.mobileDrawerWidth}px`,
   };
 
-  if (sidebar.tokens?.railBackground) vars['--sidebar-rail-bg'] = sidebar.tokens.railBackground;
-  if (sidebar.tokens?.railForeground) vars['--sidebar-rail-fg'] = sidebar.tokens.railForeground;
-  if (sidebar.tokens?.drawerBackground) vars['--sidebar-drawer-bg'] = sidebar.tokens.drawerBackground;
-  if (sidebar.tokens?.drawerForeground) vars['--sidebar-drawer-fg'] = sidebar.tokens.drawerForeground;
-  if (sidebar.tokens?.insetBackground) vars['--sidebar-inset-bg'] = sidebar.tokens.insetBackground;
-  if (sidebar.tokens?.borderColor) vars['--sidebar-border-color'] = sidebar.tokens.borderColor;
-  if (sidebar.tokens?.drawerRadius) vars['--sidebar-drawer-radius'] = sidebar.tokens.drawerRadius;
-  if (sidebar.tokens?.drawerShadow) vars['--sidebar-drawer-shadow'] = sidebar.tokens.drawerShadow;
-  if (sidebar.tokens?.motionDuration) vars['--sidebar-motion-duration'] = sidebar.tokens.motionDuration;
-  if (sidebar.tokens?.motionEasing) vars['--sidebar-motion-easing'] = sidebar.tokens.motionEasing;
-
   return vars;
 }
 
@@ -34,6 +23,7 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ children, className, style, ...props }, ref) => {
     const sidebar = useSidebar();
+    const shouldElevateStackingContext = sidebar.usesOverlayDrawer && sidebar.mobileOpen;
 
     return (
       <div
@@ -47,13 +37,13 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         }}
         className={cn(
           'unisane-sidebar relative isolate flex h-full',
+          shouldElevateStackingContext && 'z-[var(--z-drawer,1500)]',
           sidebar.side === 'right' && 'flex-row-reverse',
           className,
         )}
         data-sidebar-side={sidebar.side}
         data-sidebar-mode={sidebar.mode}
         data-sidebar-behavior={sidebar.behavior}
-        data-sidebar-preset={sidebar.visualPreset}
         style={{
           ...buildSidebarCssVars(sidebar),
           ...style,
@@ -108,7 +98,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         ref={ref}
         onClick={handleClick}
         className={cn(
-          'inline-flex h-10 w-10 items-center justify-center rounded-full',
+          'inline-flex h-10 w-10 items-center justify-center rounded-icon-button',
           'text-on-surface-variant hover:bg-state-hover',
           'duration-short transition-colors',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
@@ -151,7 +141,11 @@ export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
     <div
       className={cn(
         'bg-scrim-soft duration-medium ease-standard opacity-100 transition-opacity motion-reduce:transition-none',
-        containerMode === 'contained' ? 'absolute inset-0' : 'fixed inset-0',
+        usesOverlayDrawer
+          ? containerMode === 'contained'
+            ? 'absolute inset-0'
+            : 'fixed inset-0'
+          : 'absolute inset-0',
         usesOverlayDrawer ? 'z-55' : 'z-20',
         className,
       )}

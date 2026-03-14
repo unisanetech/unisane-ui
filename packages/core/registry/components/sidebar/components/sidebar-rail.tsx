@@ -8,6 +8,7 @@ import {
 } from '@/lib/navigation-visuals';
 import { useSidebar } from '../context/sidebar-provider';
 import { findNavigationItemById } from '../model/sidebar.state';
+import { getSidebarVisualTheme } from './sidebar-visuals';
 import { Ripple } from '../../ripple';
 import type { NavigationItem } from '../../../types/navigation';
 import { collectDescendantIds } from './sidebar-navigation-utils';
@@ -17,8 +18,10 @@ export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
-  ({ children, className, ...props }, ref) => {
-    const { handleRailLeave, isDrawerVisible, isRailVisible, side, railWidth } = useSidebar();
+  ({ children, className, style, ...props }, ref) => {
+    const sidebar = useSidebar();
+    const { handleRailLeave, isDrawerVisible, isRailVisible, side, railWidth } = sidebar;
+    const visuals = getSidebarVisualTheme(sidebar);
 
     if (!isRailVisible) {
       return null;
@@ -29,16 +32,21 @@ export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
         ref={ref}
         className={cn(
           'relative z-50 flex h-full shrink-0 flex-col items-center gap-1 py-3',
-          'text-[var(--sidebar-rail-fg,var(--color-on-surface))]',
-          'bg-[var(--sidebar-rail-bg,var(--color-surface-container))]',
+          visuals.railForegroundClass,
+          visuals.railBackgroundClass,
           'duration-medium ease-standard transition-all motion-reduce:transition-none',
           isDrawerVisible &&
             (side === 'left'
-              ? 'border-r border-[var(--sidebar-border-color,var(--color-outline-variant))]'
-              : 'border-l border-[var(--sidebar-border-color,var(--color-outline-variant))]'),
+              ? 'border-r'
+              : 'border-l'),
           className,
         )}
-        style={{ width: `var(--sidebar-rail-width, ${railWidth}px)` }}
+        style={{
+          width: `var(--sidebar-rail-width, ${railWidth}px)`,
+          borderColor: isDrawerVisible ? visuals.borderColor : undefined,
+          ...visuals.railStyle,
+          ...style,
+        }}
         onMouseLeave={handleRailLeave}
         aria-label="Sidebar Navigation"
         {...props}

@@ -21,7 +21,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
   return (
     <div className={cn("w-full", className)}>
       <Surface
-        tone="surfaceContainerLowest"
+        tone="surfaceContainerLow"
         rounded="sm"
         className="@2xl:hidden overflow-hidden"
       >
@@ -36,7 +36,7 @@ export function PropsTable({ props, className }: PropsTableProps) {
 
       {/* ─── Desktop: Table Layout ───────────────────────────────────────────── */}
       <Surface
-        tone="surfaceContainerLowest"
+        tone="surfaceContainerLow"
         rounded="sm"
         className="hidden @2xl:block overflow-x-auto"
       >

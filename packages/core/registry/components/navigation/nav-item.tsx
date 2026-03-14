@@ -48,7 +48,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
     const baseClasses = cn(
       'group relative flex items-center gap-3',
       'w-full text-left',
-      'rounded-sm',
+      'rounded-button',
       'transition-all duration-short ease-standard',
       'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
       'overflow-hidden select-none',

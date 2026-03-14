@@ -41,7 +41,7 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
   return (
     <div className={cn("w-full", className)}>
       <Surface
-        tone="surfaceContainerLowest"
+        tone="surfaceContainerLow"
         rounded="sm"
         className="@2xl:hidden overflow-visible"
       >
@@ -58,7 +58,7 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
 
       {/* ─── Desktop: Table Layout ───────────────────────────────────────────── */}
       <Surface
-        tone="surfaceContainerLowest"
+        tone="surfaceContainerLow"
         rounded="sm"
         className="hidden @2xl:block overflow-visible"
       >

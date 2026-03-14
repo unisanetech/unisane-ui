@@ -38,7 +38,7 @@ export const formsPatternPage: PatternPageDoc = {
       description:
         'Reusable form compositions built from the shared field family and action patterns.',
       previewDefaults: {
-        tone: 'surfaceContainerLowest',
+        tone: 'surfaceContainerLow',
         minHeight: 'lg',
         padding: 'md',
       },

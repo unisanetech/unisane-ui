@@ -43,7 +43,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
   const { name, description, props } = subComponent;
 
   return (
-    <Surface tone="surfaceContainerLowest" rounded="sm" className="overflow-hidden">
+    <Surface tone="surfaceContainerLow" rounded="sm" className="overflow-hidden">
       <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-1.5 @sm:gap-2 py-3 @sm:px-5 @sm:py-4 bg-surface-container-low">
         <code className="text-body-large font-semibold text-primary font-mono">
           {"<"}{name} {"/>"}
@@ -75,7 +75,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
           <div className="hidden @2xl:block">
             <table className="w-full text-body-small">
               <thead>
-                <tr className="border-b border-outline-variant bg-surface-container-lowest">
+                <tr className="border-b border-outline-variant bg-surface-container-low">
                   <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
                     Prop
                   </th>
@@ -141,7 +141,7 @@ function SubComponentPropCard({
   return (
     <div
       className={cn(
-        "py-3 @sm:px-5 @sm:py-4 bg-surface-container-lowest",
+        "py-3 @sm:px-5 @sm:py-4 bg-surface-container-low",
         !isLast && "border-b border-outline-variant"
       )}
     >

@@ -47,7 +47,7 @@ const NavigationDrawerHeroVisual = () => (
 // ─── EXAMPLES ────────────────────────────────────────────────────────────────
 const NavigationDrawerBasicExample = () => (
   <div className="bg-surface-container-low relative isolate h-full w-full overflow-hidden rounded-sm">
-    <div className="absolute inset-0 bg-surface-container-lowest" />
+    <div className="absolute inset-0 bg-surface-container-low" />
     <div className="absolute inset-y-0 left-0 w-[min(320px,100%)] border-r border-outline-variant" />
     <div className="absolute inset-y-0 right-0 w-[max(0px,calc(100%-min(320px,100%)))] p-4">
       <div className="space-y-2">
@@ -123,7 +123,7 @@ export const navigationDrawerDoc: ComponentDoc = {
       {
         emphasis: 'Standard',
         component: (
-          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
             <div className="absolute inset-y-0 right-0 w-8 bg-surface-container-low" />
             <NavigationDrawer open modal={false} className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none !border-r-0">
               <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
@@ -138,7 +138,7 @@ export const navigationDrawerDoc: ComponentDoc = {
       {
         emphasis: 'Modal',
         component: (
-          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-lowest">
+          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
             <div className="bg-scrim/35 absolute inset-0" />
             <NavigationDrawer open modal className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none">
               <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>

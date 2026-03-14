@@ -17,7 +17,7 @@ export function generateDarkModeSection() {
 
     --tone-secondary: var(--ref-secondary-80);
     --tone-on-secondary: var(--ref-secondary-20);
-    --tone-secondary-container: var(--ref-secondary-30);
+    --tone-secondary-container: var(--ref-secondary-24);
     --tone-on-secondary-container: var(--ref-secondary-90);
 
     --tone-tertiary: var(--ref-tertiary-80);
@@ -25,17 +25,17 @@ export function generateDarkModeSection() {
     --tone-tertiary-container: var(--ref-tertiary-30);
     --tone-on-tertiary-container: var(--ref-tertiary-90);
 
-    --tone-surface: var(--ref-neutral-6);
+    --tone-surface: var(--ref-neutral-8);
     --tone-on-surface: var(--ref-neutral-90);
-    --tone-surface-container-lowest: var(--ref-neutral-4);
+    --tone-surface-container-lowest: var(--ref-neutral-8);
     --tone-surface-container-low: var(--ref-neutral-10);
-    --tone-surface-container: var(--ref-neutral-12);
-    --tone-surface-container-high: var(--ref-neutral-17);
-    --tone-surface-container-highest: var(--ref-neutral-22);
+    --tone-surface-container: var(--ref-neutral-17);
+    --tone-surface-container-high: var(--ref-neutral-22);
+    --tone-surface-container-highest: var(--ref-neutral-24);
     --tone-surface-variant: var(--ref-neutral-variant-30);
     --tone-on-surface-variant: var(--ref-neutral-variant-80);
 
-    --tone-background: var(--ref-neutral-6);
+    --tone-background: var(--ref-neutral-8);
     --tone-on-background: var(--ref-neutral-90);
     --tone-outline: var(--ref-neutral-variant-60);
     --tone-outline-variant: var(--ref-neutral-variant-24);
@@ -45,24 +45,24 @@ export function generateDarkModeSection() {
     --tone-error-container: var(--ref-error-30);
     --tone-on-error-container: var(--ref-error-90);
 
+    --tone-success: var(--ref-success-80);
+    --tone-on-success: var(--ref-success-20);
+    --tone-success-container: var(--ref-success-30);
+    --tone-on-success-container: var(--ref-success-90);
+
+    --tone-warning: var(--ref-warning-80);
+    --tone-on-warning: var(--ref-warning-20);
+    --tone-warning-container: var(--ref-warning-30);
+    --tone-on-warning-container: var(--ref-warning-90);
+
+    --tone-info: var(--ref-info-80);
+    --tone-on-info: var(--ref-info-20);
+    --tone-info-container: var(--ref-info-30);
+    --tone-on-info-container: var(--ref-info-90);
+
     --tone-inverse-surface: var(--ref-neutral-90);
     --tone-inverse-on-surface: var(--ref-neutral-20);
     --tone-inverse-primary: var(--ref-primary-40);
-
-    --color-success: oklch(0.8 0.18 145);
-    --color-on-success: oklch(0.2 0.1 145);
-    --color-success-container: oklch(0.3 0.1 145);
-    --color-on-success-container: oklch(0.9 0.1 145);
-
-    --color-warning: oklch(0.85 0.15 85);
-    --color-on-warning: oklch(0.2 0.1 85);
-    --color-warning-container: oklch(0.3 0.1 85);
-    --color-on-warning-container: oklch(0.9 0.1 85);
-
-    --color-info: oklch(0.8 0.18 245);
-    --color-on-info: oklch(0.2 0.1 245);
-    --color-info-container: oklch(0.3 0.1 245);
-    --color-on-info-container: oklch(0.9 0.1 245);
   }
 }
 
@@ -76,7 +76,7 @@ export function generateDarkModeSection() {
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
+  --tone-secondary-container: var(--ref-secondary-24);
   --tone-on-secondary-container: var(--ref-secondary-90);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -84,17 +84,17 @@ export function generateDarkModeSection() {
   --tone-tertiary-container: var(--ref-tertiary-30);
   --tone-on-tertiary-container: var(--ref-tertiary-90);
 
-  --tone-surface: var(--ref-neutral-6);
+  --tone-surface: var(--ref-neutral-8);
   --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-4);
+  --tone-surface-container-lowest: var(--ref-neutral-8);
   --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-12);
-  --tone-surface-container-high: var(--ref-neutral-17);
-  --tone-surface-container-highest: var(--ref-neutral-22);
+  --tone-surface-container: var(--ref-neutral-17);
+  --tone-surface-container-high: var(--ref-neutral-22);
+  --tone-surface-container-highest: var(--ref-neutral-24);
   --tone-surface-variant: var(--ref-neutral-variant-30);
   --tone-on-surface-variant: var(--ref-neutral-variant-80);
 
-  --tone-background: var(--ref-neutral-6);
+  --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-90);
   --tone-outline: var(--ref-neutral-variant-60);
   --tone-outline-variant: var(--ref-neutral-variant-24);
@@ -104,24 +104,24 @@ export function generateDarkModeSection() {
   --tone-error-container: var(--ref-error-30);
   --tone-on-error-container: var(--ref-error-90);
 
+  --tone-success: var(--ref-success-80);
+  --tone-on-success: var(--ref-success-20);
+  --tone-success-container: var(--ref-success-30);
+  --tone-on-success-container: var(--ref-success-90);
+
+  --tone-warning: var(--ref-warning-80);
+  --tone-on-warning: var(--ref-warning-20);
+  --tone-warning-container: var(--ref-warning-30);
+  --tone-on-warning-container: var(--ref-warning-90);
+
+  --tone-info: var(--ref-info-80);
+  --tone-on-info: var(--ref-info-20);
+  --tone-info-container: var(--ref-info-30);
+  --tone-on-info-container: var(--ref-info-90);
+
   --tone-inverse-surface: var(--ref-neutral-90);
   --tone-inverse-on-surface: var(--ref-neutral-20);
   --tone-inverse-primary: var(--ref-primary-40);
-
-  --color-success: oklch(0.8 0.18 145);
-  --color-on-success: oklch(0.2 0.1 145);
-  --color-success-container: oklch(0.3 0.1 145);
-  --color-on-success-container: oklch(0.9 0.1 145);
-
-  --color-warning: oklch(0.85 0.15 85);
-  --color-on-warning: oklch(0.2 0.1 85);
-  --color-warning-container: oklch(0.3 0.1 85);
-  --color-on-warning-container: oklch(0.9 0.1 85);
-
-  --color-info: oklch(0.8 0.18 245);
-  --color-on-info: oklch(0.2 0.1 245);
-  --color-info-container: oklch(0.3 0.1 245);
-  --color-on-info-container: oklch(0.9 0.1 245);
 }
 `;
 }

@@ -37,7 +37,7 @@ export const layoutsPatternPage: PatternPageDoc = {
       title: 'Layout blocks',
       description: 'Use real layout compositions as reusable starting points for product screens.',
       previewDefaults: {
-        tone: 'surfaceContainerLowest',
+        tone: 'surfaceContainerLow',
         minHeight: 'xl',
         padding: 'md',
       },

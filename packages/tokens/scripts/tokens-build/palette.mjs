@@ -54,8 +54,8 @@ export function generatePalettes(config) {
   const primaryHue = config.primary.hue;
   const primaryChroma = config.primary.chroma;
 
-  const secondaryChroma = primaryChroma * (config.secondary?.chromaScale ?? 0.7);
-  const secondaryHue = primaryHue + (config.secondary?.hueShift ?? 0);
+  const secondaryChroma = primaryChroma * (config.secondary?.chromaScale ?? 0.4);
+  const secondaryHue = primaryHue + (config.secondary?.hueShift ?? 12);
 
   const tertiaryHue = (primaryHue + (config.tertiary?.hueShift ?? 60)) % 360;
   const tertiaryChroma = primaryChroma * (config.tertiary?.chromaScale ?? 0.7);

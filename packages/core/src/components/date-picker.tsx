@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useLayoutEffect, useId, useCallback } from 'react';
+import React, { useState, useRef, useLayoutEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@ui/lib/utils';
 import { type FieldSize } from '@ui/lib/field-size';
 import { useControllableState } from '@ui/lib/use-controllable-state';
+import { type FieldShellVariant } from '@ui/lib/field-shell';
 import { Calendar } from './calendar';
 import { DateInput } from './date-input';
 
@@ -15,19 +15,8 @@ import { DateInput } from './date-input';
 // - Calendar popover for visual date selection
 // - Full keyboard navigation support
 
-const datePickerVariants = cva('relative w-full', {
-  variants: {
-    variant: {
-      outlined: '',
-      filled: '',
-    },
-  },
-  defaultVariants: {
-    variant: 'outlined',
-  },
-});
-
-export type DatePickerProps = VariantProps<typeof datePickerVariants> & {
+export type DatePickerProps = {
+  variant?: FieldShellVariant;
   /** The selected date value */
   value?: Date;
   /** The default date value for uncontrolled usage */
@@ -210,7 +199,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   ) : undefined;
 
   return (
-    <div className={cn(datePickerVariants({ variant, className }))} ref={containerRef}>
+    <div className={cn('relative w-full', className)} ref={containerRef}>
       <DateInput
         value={selectedValue}
         onValueChange={setSelectedValue}
@@ -218,7 +207,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         disabled={disabled}
         error={error}
         helperText={helperText}
-        variant={variant}
+        variant={variant ?? 'outlined'}
         locale={locale}
         format={format}
         min={min}

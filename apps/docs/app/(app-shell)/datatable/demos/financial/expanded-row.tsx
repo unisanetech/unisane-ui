@@ -12,7 +12,7 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
   const isPositive = row.amount >= 0;
 
   return (
-    <div className="p-4 bg-surface-container-lowest rounded-lg">
+    <div className="p-4 bg-surface-container-low rounded-lg">
       <Typography variant="titleSmall" className="mb-3 text-on-surface">
         Transaction Details
       </Typography>

@@ -71,44 +71,6 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
-
-  .unisane-sidebar {
-    --sidebar-rail-width: 96px;
-    --sidebar-drawer-width: 220px;
-    --sidebar-mobile-drawer-width: 280px;
-    --sidebar-rail-bg: var(--color-surface-container);
-    --sidebar-rail-fg: var(--color-on-surface);
-    --sidebar-drawer-bg: var(--color-surface-container);
-    --sidebar-drawer-fg: var(--color-on-surface);
-    --sidebar-inset-bg: var(--color-surface);
-    --sidebar-border-color: var(--color-outline);
-    --sidebar-drawer-radius: var(--radius-none);
-    --sidebar-drawer-shadow: var(--shadow-3);
-    --sidebar-motion-duration: var(--duration-emphasized);
-    --sidebar-motion-easing: var(--ease-emphasized);
-  }
-
-  .unisane-sidebar[data-sidebar-preset='compact'] {
-    --sidebar-rail-width: 80px;
-    --sidebar-drawer-width: 196px;
-    --sidebar-mobile-drawer-width: 264px;
-    --sidebar-drawer-radius: var(--radius-sm);
-  }
-
-  .unisane-sidebar[data-sidebar-preset='elevated'] {
-    --sidebar-rail-bg: var(--color-surface-container-low);
-    --sidebar-drawer-bg: var(--color-surface-container-low);
-    --sidebar-drawer-radius: var(--radius-md);
-    --sidebar-drawer-shadow: var(--shadow-4);
-  }
-
-  .unisane-sidebar[data-sidebar-preset='minimal'] {
-    --sidebar-rail-bg: var(--color-surface);
-    --sidebar-drawer-bg: var(--color-surface);
-    --sidebar-border-color: var(--color-outline-soft);
-    --sidebar-drawer-radius: var(--radius-none);
-    --sidebar-drawer-shadow: var(--shadow-0);
-  }
 }
 
 @layer utilities {

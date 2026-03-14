@@ -9,6 +9,8 @@ export type SidebarBehaviorInput = SidebarBehavior | SidebarLegacyBehavior;
 export type SidebarContainerMode = 'viewport' | 'contained';
 export type SidebarTriggerVisibility = 'auto' | 'always' | 'desktop' | 'mobile' | 'hidden';
 export type SidebarVisualPreset = 'default' | 'compact' | 'elevated' | 'minimal';
+export type SidebarActiveDescendantDrawerBehavior = 'open' | 'closed';
+export type SidebarViewport = 'mobile' | 'tablet' | 'desktop';
 
 export interface SidebarBreakpoints {
   mobile: number;
@@ -98,9 +100,11 @@ export interface SidebarProviderProps {
   breakpoints?: Partial<SidebarBreakpoints>;
   mobileInsetOffset?: number;
   triggerVisibility?: SidebarTriggerVisibility;
+  activeDescendantDrawerBehavior?: SidebarActiveDescendantDrawerBehavior;
   visualPreset?: SidebarVisualPreset;
   tokens?: Partial<SidebarVisualTokens>;
-  forceViewport?: 'mobile' | 'tablet' | 'desktop';
+  initialViewport?: SidebarViewport;
+  forceViewport?: SidebarViewport;
   onActiveIdChange?: (id: string | null) => void;
   onActiveChange?: (id: string | null) => void;
   onExpandedChange?: (expanded: boolean) => void;

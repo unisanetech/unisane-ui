@@ -12,10 +12,18 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
-import { cn, Slot, composeAsChildClickHandler } from '@ui/lib/utils';
+import { cn, Slot } from '@ui/lib/utils';
+import {
+  ActionSpinner,
+  ActionStateLayer,
+  actionInteractiveClass,
+  getActionDisabledState,
+  getActionStateAttributes,
+  getActionAsChildAttributes,
+} from '@ui/lib/action-control';
 
 const buttonVariants = cva(
-  'relative inline-flex items-center justify-center gap-2 rounded-button font-medium transition-all duration-short ease-standard overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-38 disabled:cursor-not-allowed data-[disabled=true]:opacity-38 data-[disabled=true]:cursor-not-allowed data-[disabled=true]:pointer-events-none group whitespace-nowrap leading-none select-none',
+  `relative inline-flex items-center justify-center gap-2 rounded-button whitespace-nowrap font-medium leading-none transition-all duration-short ease-standard ${actionInteractiveClass}`,
   {
     variants: {
       variant: {
@@ -68,35 +76,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref,
   ) => {
     const iconSizeClass = 'size-icon-sm';
-    const isDisabled = disabled || loading;
+    const isDisabled = getActionDisabledState(disabled, loading);
     const canRenderAsChild = asChild && isValidElement(children);
     const buttonClasses = cn(buttonVariants({ variant, size }), className);
 
     const renderContent = (content: ReactNode) => (
       <>
-        <span className="duration-snappy group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity" />
+        <ActionStateLayer className="duration-snappy" />
         <Ripple disabled={isDisabled} />
         {loading && (
-          <svg
-            className={`animate-spin ${iconSizeClass} relative z-10`}
-            viewBox="0 0 24 24"
-            fill="none"
-            aria-hidden="true"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            />
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-            />
-          </svg>
+          <ActionSpinner className={`${iconSizeClass} relative z-10`} />
         )}
 
         {!loading && icon && (
@@ -133,23 +122,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         onClick?: (event: MouseEvent<HTMLElement>) => void;
         tabIndex?: number;
       };
-      const forwardedChildProps: Record<string, unknown> = {
-        ...props,
-        onClick: composeAsChildClickHandler(
-          isDisabled,
-          props.onClick as ((event: MouseEvent<HTMLElement>) => void) | undefined,
-          childProps.onClick,
-        ),
-        tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
-      };
+      const forwardedChildProps = getActionAsChildAttributes(
+        isDisabled,
+        loading,
+        props as Record<string, unknown> & {
+          onClick?: ((event: MouseEvent<HTMLElement>) => void) | undefined;
+          tabIndex?: number | undefined;
+        },
+        childProps,
+      );
 
       return (
         <Slot
           ref={ref as Ref<HTMLElement>}
           className={buttonClasses}
-          aria-busy={loading || undefined}
-          aria-disabled={isDisabled || undefined}
-          data-disabled={isDisabled ? 'true' : undefined}
         >
           {cloneElement(childElement, forwardedChildProps, renderContent(childProps.children))}
         </Slot>
@@ -162,8 +148,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         type={type}
         className={buttonClasses}
         disabled={isDisabled}
-        aria-busy={loading || undefined}
-        data-disabled={isDisabled ? 'true' : undefined}
+        {...getActionStateAttributes(isDisabled, loading)}
         {...props}
       >
         {renderContent(children)}

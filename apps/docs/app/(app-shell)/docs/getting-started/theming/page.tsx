@@ -457,9 +457,9 @@ function DensityDemo() {
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex gap-3">
-          <Button variant="filled">Primary</Button>
-          <Button variant="tonal">Secondary</Button>
-          <Button variant="outlined">Tertiary</Button>
+          <Button variant="filled">Filled</Button>
+          <Button variant="tonal">Tonal</Button>
+          <Button variant="outlined">Outlined</Button>
         </div>
         <Typography variant="bodySmall" className="text-on-surface-variant">
           Current density: <span className="text-primary font-medium">{density}</span>
