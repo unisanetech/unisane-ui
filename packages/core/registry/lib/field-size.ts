@@ -6,6 +6,8 @@ type FieldSizeStyles = {
   chevronOffset: string;
   containerHeight: string;
   externalLabelText: string;
+  filledDisplayPadding: string;
+  filledDisplayFloatingLabel: string;
   filledFloatingLabel: string;
   filledInputPadding: string;
   filledTextareaPadding: string;
@@ -33,6 +35,8 @@ type FieldSizeStyles = {
   segmentWidth: string;
   segmentYearWidth: string;
   selectRestingLabelText: string;
+  textareaMinHeight: string;
+  textareaPaddingY: string;
   trailingPadding: string;
   valueText: string;
 };
@@ -44,6 +48,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     chevronOffset: 'right-2.5',
     containerHeight: 'h-8',
     externalLabelText: 'text-label-medium',
+    filledDisplayPadding: 'pt-3 pb-0.5',
+    filledDisplayFloatingLabel: 'top-0.5 translate-y-0',
     filledFloatingLabel: 'top-0.5 translate-y-0',
     filledInputPadding: 'pt-3.5 pb-0',
     filledTextareaPadding: 'pt-5 pb-1.5',
@@ -71,6 +77,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     segmentWidth: 'w-6',
     segmentYearWidth: 'w-10',
     selectRestingLabelText: 'text-label-medium',
+    textareaMinHeight: 'min-h-16',
+    textareaPaddingY: 'py-2.5',
     trailingPadding: 'pr-3',
     valueText: 'text-label-medium',
   },
@@ -80,6 +88,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     chevronOffset: 'right-3',
     containerHeight: 'h-10',
     externalLabelText: 'text-label-medium',
+    filledDisplayPadding: 'pt-4 pb-1',
+    filledDisplayFloatingLabel: 'top-0.5 translate-y-0',
     filledFloatingLabel: 'top-1 translate-y-0',
     filledInputPadding: 'pt-5 pb-0.5',
     filledTextareaPadding: 'pt-6 pb-2',
@@ -107,6 +117,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     segmentWidth: 'w-7',
     segmentYearWidth: 'w-12',
     selectRestingLabelText: 'text-body-medium',
+    textareaMinHeight: 'min-h-20',
+    textareaPaddingY: 'py-3',
     trailingPadding: 'pr-4',
     valueText: 'text-body-large',
   },
@@ -116,6 +128,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     chevronOffset: 'right-4',
     containerHeight: 'h-12',
     externalLabelText: 'text-label-large',
+    filledDisplayPadding: 'pt-5 pb-1',
+    filledDisplayFloatingLabel: 'top-1 translate-y-0',
     filledFloatingLabel: 'top-1.5 translate-y-0',
     filledInputPadding: 'pt-6 pb-1',
     filledTextareaPadding: 'pt-7 pb-3',
@@ -143,6 +157,8 @@ const FIELD_SIZE_STYLES: Record<FieldSize, FieldSizeStyles> = {
     segmentWidth: 'w-8',
     segmentYearWidth: 'w-14',
     selectRestingLabelText: 'text-body-large',
+    textareaMinHeight: 'min-h-24',
+    textareaPaddingY: 'py-4',
     trailingPadding: 'pr-5',
     valueText: 'text-body-large',
   },

@@ -121,8 +121,13 @@ test("density, radius, and elevation axes expose the expected scaling variables"
   assertBlockHasVar(mergedCss, '[data-radius="soft"]', "--scale-radius-theme", "1.25");
 
   assertBlockHasVar(mergedCss, '[data-elevation="flat"]', "--shadow-opacity", "0");
-  assertBlockHasVar(mergedCss, '[data-elevation="subtle"]', "--shadow-opacity", "0.5");
-  assertBlockHasVar(mergedCss, '[data-elevation="pronounced"]', "--shadow-opacity", "1.5");
+  assertBlockHasVar(mergedCss, '[data-elevation="subtle"]', "--shadow-opacity", "0.25");
+  assertBlockHasVar(mergedCss, '[data-elevation="standard"]', "--shadow-opacity", "0.5");
+  assertBlockHasVar(mergedCss, '[data-elevation="pronounced"]', "--shadow-opacity", "1");
+  assert.match(mergedCss, /--size-action-md:\s*calc\(40px \* var\(--scale-space\)\);/);
+  assert.match(mergedCss, /--size-fab-md:\s*calc\(56px \* var\(--scale-space\)\);/);
+  assert.match(mergedCss, /--size-avatar-md:\s*calc\(40px \* var\(--scale-space\)\);/);
+  assert.match(mergedCss, /--size-pagination-button:\s*calc\(48px \* var\(--scale-space\)\);/);
 });
 
 test("dark mode remaps tone layers for both media-query and class-driven activation", () => {
@@ -163,7 +168,7 @@ test("theme config validation rejects unknown keys", () => {
         {
           name: "Invalid",
           primary: { hue: 230, chroma: 0.15 },
-          secondary: { strategy: "analogous", hueShift: 12, chromaScale: 0.4 },
+          secondary: { strategy: "analogous", hueShift: 12, chromaScale: 0.45 },
           tertiary: { strategy: "complementary", hueShift: 60, chromaScale: 0.7 },
           neutral: { tintFromPrimary: 0.012 },
           error: { hue: 25, chroma: 0.18 },

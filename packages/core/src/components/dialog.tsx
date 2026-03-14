@@ -272,7 +272,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {actions ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest medium:flex-row flex flex-col justify-end gap-2 border-t px-5 py-3',
+                'border-outline-muted bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
                 footerClassName,
               )}
             >

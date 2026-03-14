@@ -14,7 +14,7 @@ const topAppBarVariants = cva(
         large: 'h-38 flex-col items-start justify-end pb-8',
       },
       scrolled: {
-        true: 'bg-surface-container shadow-2',
+        true: 'bg-surface-container shadow-1',
         false: '',
       },
     },

@@ -4,7 +4,7 @@ export function generateCoreTokensSection(config) {
   const primaryHue = config.primary.hue;
   const primaryChroma = config.primary.chroma;
   const secondaryHueShift = config.secondary?.hueShift ?? 12;
-  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.4;
+  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.45;
   const tertiaryHueShift = config.tertiary?.hueShift ?? 60;
   const tertiaryChromaScale = config.tertiary?.chromaScale ?? 0.7;
   const neutralTint = config.neutral?.tintFromPrimary ?? 0.012;
@@ -85,7 +85,7 @@ export function generateCoreTokensSection(config) {
   --hue-info: ${infoHue};
 
   /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * ${config.secondary?.chromaScale ?? 0.4});
+  --chroma-secondary: calc(var(--chroma) * ${config.secondary?.chromaScale ?? 0.45});
   --chroma-tertiary: calc(var(--chroma) * ${tertiaryChromaScale});
   --chroma-neutral: ${neutralTint};
   --chroma-error: ${errorChroma};
@@ -379,6 +379,31 @@ export function generateCoreTokensSection(config) {
   --icon-md: calc(24px * var(--scale-space));
   --icon-lg: calc(32px * var(--scale-space));
   --icon-xl: calc(48px * var(--scale-space));
+
+  /* === COMPONENT SIZES === */
+  --size-action-sm: calc(32px * var(--scale-space));
+  --size-action-md: calc(40px * var(--scale-space));
+  --size-action-lg: calc(48px * var(--scale-space));
+  --space-action-padding-x-sm: calc(16px * var(--scale-space));
+  --space-action-padding-x-md: calc(24px * var(--scale-space));
+  --space-action-padding-x-lg: calc(32px * var(--scale-space));
+
+  --size-icon-button-sm: var(--size-action-sm);
+  --size-icon-button-md: var(--size-action-md);
+  --size-icon-button-lg: var(--size-action-lg);
+
+  --size-fab-sm: calc(40px * var(--scale-space));
+  --size-fab-md: calc(56px * var(--scale-space));
+  --size-fab-lg: calc(96px * var(--scale-space));
+  --size-fab-extended-min: calc(80px * var(--scale-space));
+  --space-fab-extended-x: calc(24px * var(--scale-space));
+
+  --size-avatar-sm: calc(32px * var(--scale-space));
+  --size-avatar-md: calc(40px * var(--scale-space));
+  --size-avatar-lg: calc(48px * var(--scale-space));
+  --size-avatar-xl: calc(56px * var(--scale-space));
+
+  --size-pagination-button: calc(48px * var(--scale-space));
 
   /* === LAYOUT === */
   --layout-margin: calc(16px * var(--scale-space));

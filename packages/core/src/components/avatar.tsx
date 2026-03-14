@@ -1,6 +1,7 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@ui/lib/utils';
+import { avatarSizeClasses } from '@ui/lib/action-size';
 import { Surface } from '@ui/primitives/surface';
 import { Text } from '@ui/primitives/text';
 
@@ -9,10 +10,10 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        sm: 'w-8 h-8 text-label-small',
-        md: 'w-10 h-10 text-body-small',
-        lg: 'w-12 h-12 text-body-medium',
-        xl: 'w-14 h-14 text-body-large',
+        sm: avatarSizeClasses.sm,
+        md: avatarSizeClasses.md,
+        lg: avatarSizeClasses.lg,
+        xl: avatarSizeClasses.xl,
       },
       variant: {
         circular: 'rounded-full',
@@ -71,7 +72,7 @@ export const AvatarGroup: React.FC<{
       {remainingCount > 0 && (
         <Surface
           tone="surfaceVariant"
-          className="border-surface flex h-10 w-10 items-center justify-center rounded-full border-2"
+          className="border-surface flex h-[var(--size-avatar-md)] w-[var(--size-avatar-md)] items-center justify-center rounded-full border-2"
           role="img"
           aria-label={`${remainingCount} more`}
         >

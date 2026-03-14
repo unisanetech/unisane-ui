@@ -67,7 +67,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
       <SegmentedButtonSizeContext.Provider value={size}>
         <div
           className={cn(
-            'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-sm border',
+            'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-button border',
             sizeStyles.containerHeight,
             className,
           )}
@@ -163,7 +163,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
     <SegmentedButtonSizeContext.Provider value={size}>
       <div
         className={cn(
-          'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-sm border',
+          'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-button border',
           sizeStyles.containerHeight,
           className,
         )}

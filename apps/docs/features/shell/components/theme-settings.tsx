@@ -75,7 +75,7 @@ function AppearanceToggle({
           type="button"
           onClick={() => onChange(opt.value)}
           className={`
-            flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-md text-label-large font-medium transition-all duration-short
+            flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-button text-label-large font-medium transition-all duration-short
             ${value === opt.value
               ? "bg-surface shadow-1 text-on-surface"
               : "text-on-surface-variant hover:text-on-surface"
@@ -107,7 +107,7 @@ function ColorSwatch({
       type="button"
       onClick={onClick}
       title={label}
-      className="w-10 h-10 rounded-full transition-all duration-short flex items-center justify-center hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+      className="w-10 h-10 rounded-icon-button transition-all duration-short flex items-center justify-center hover:scale-105 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
       style={{ backgroundColor: color }}
       aria-label={label}
       aria-pressed={selected}
@@ -136,7 +136,7 @@ function DensityButton({
       type="button"
       onClick={onClick}
       className={`
-        flex-1 py-3 px-4 rounded-lg text-label-large font-medium transition-all duration-short
+        flex-1 py-3 px-4 rounded-button text-label-large font-medium transition-all duration-short
         ${selected
           ? "bg-primary-container text-on-primary-container ring-2 ring-primary"
           : "bg-surface-container text-on-surface hover:bg-surface-container-high"
@@ -163,7 +163,7 @@ function PillButton({
       type="button"
       onClick={onClick}
       className={`
-        flex-1 py-2 px-3 rounded-lg text-label-medium font-medium transition-all duration-short text-center
+        flex-1 py-2 px-3 rounded-button text-label-medium font-medium transition-all duration-short text-center
         ${selected
           ? "bg-primary-container text-on-primary-container"
           : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface"
@@ -232,7 +232,7 @@ export function ThemeSettings() {
   if (!mounted) {
     return (
       <span
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-state-hover transition-colors cursor-pointer"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-icon-button hover:bg-state-hover transition-colors cursor-pointer"
         aria-label="Theme settings"
       >
         <span className="material-symbols-outlined text-[24px]">tune</span>
@@ -377,7 +377,7 @@ export function ThemeSettings() {
     <Popover
       trigger={
         <span
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full hover:bg-state-hover transition-colors cursor-pointer"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-icon-button hover:bg-state-hover transition-colors cursor-pointer"
           aria-label="Theme settings"
         >
           <span className="material-symbols-outlined text-[24px]">tune</span>

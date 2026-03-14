@@ -111,7 +111,6 @@ export const selectDoc: ComponentDoc = {
           <Select
             label="Label"
             variant="filled"
-            size="lg"
             options={[
               { value: "option1", label: "Option 1" },
               { value: "option2", label: "Option 2" },
@@ -163,7 +162,6 @@ export const selectDoc: ComponentDoc = {
             <Select
               label="Theme"
               variant="filled"
-              size="lg"
               options={[
                 { value: "system", label: "System" },
                 { value: "light", label: "Light" },
@@ -174,7 +172,6 @@ export const selectDoc: ComponentDoc = {
             <Select
               label="Font size"
               variant="filled"
-              size="lg"
               options={[
                 { value: "small", label: "Small" },
                 { value: "medium", label: "Medium" },
@@ -320,7 +317,6 @@ function LanguageSelector() {
   return (
     <Select
       label="Language"
-      size="lg"
       options={languages}
       value={language}
       onValueChange={setLanguage}

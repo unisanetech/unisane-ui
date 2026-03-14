@@ -65,7 +65,7 @@
   --hue-info: 245;
 
   /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * 0.4);
+  --chroma-secondary: calc(var(--chroma) * 0.45);
   --chroma-tertiary: calc(var(--chroma) * 0.7);
   --chroma-neutral: 0.012;
   --chroma-error: 0.18;
@@ -661,6 +661,31 @@
   --icon-lg: calc(32px * var(--scale-space));
   --icon-xl: calc(48px * var(--scale-space));
 
+  /* === COMPONENT SIZES === */
+  --size-action-sm: calc(32px * var(--scale-space));
+  --size-action-md: calc(40px * var(--scale-space));
+  --size-action-lg: calc(48px * var(--scale-space));
+  --space-action-padding-x-sm: calc(16px * var(--scale-space));
+  --space-action-padding-x-md: calc(24px * var(--scale-space));
+  --space-action-padding-x-lg: calc(32px * var(--scale-space));
+
+  --size-icon-button-sm: var(--size-action-sm);
+  --size-icon-button-md: var(--size-action-md);
+  --size-icon-button-lg: var(--size-action-lg);
+
+  --size-fab-sm: calc(40px * var(--scale-space));
+  --size-fab-md: calc(56px * var(--scale-space));
+  --size-fab-lg: calc(96px * var(--scale-space));
+  --size-fab-extended-min: calc(80px * var(--scale-space));
+  --space-fab-extended-x: calc(24px * var(--scale-space));
+
+  --size-avatar-sm: calc(32px * var(--scale-space));
+  --size-avatar-md: calc(40px * var(--scale-space));
+  --size-avatar-lg: calc(48px * var(--scale-space));
+  --size-avatar-xl: calc(56px * var(--scale-space));
+
+  --size-pagination-button: calc(48px * var(--scale-space));
+
   /* === LAYOUT === */
   --layout-margin: calc(16px * var(--scale-space));
   --layout-gutter: calc(16px * var(--scale-space));
@@ -1150,9 +1175,9 @@
 
    Available levels:
    - flat        - No shadows (--shadow-opacity: 0)
-   - subtle      - Reduced shadows for minimal UI (--shadow-opacity: 0.5)
-   - standard    - Default M3 shadows (--shadow-opacity: 1)
-   - pronounced  - Stronger shadows for depth (--shadow-opacity: 1.5)
+   - subtle      - Reduced shadows for minimal UI (--shadow-opacity: 0.25)
+   - standard    - Default UI shadows (--shadow-opacity: 0.5)
+   - pronounced  - Stronger shadows for depth (--shadow-opacity: 1)
    ============================================================ */
 
 [data-elevation='flat'] {
@@ -1160,15 +1185,15 @@
 }
 
 [data-elevation='subtle'] {
-  --shadow-opacity: 0.5;
+  --shadow-opacity: 0.25;
 }
 
 [data-elevation='standard'] {
-  --shadow-opacity: 1;
+  --shadow-opacity: 0.5;
 }
 
 [data-elevation='pronounced'] {
-  --shadow-opacity: 1.5;
+  --shadow-opacity: 1;
 }
 
 /* ============================================================

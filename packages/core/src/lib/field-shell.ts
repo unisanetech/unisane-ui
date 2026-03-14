@@ -39,6 +39,7 @@ type FieldLabelClassOptions = {
   multiline?: boolean;
   labelBg?: string;
   labelClassName?: string;
+  floatingClassName?: string;
   restingTextClassName?: string;
 };
 
@@ -51,6 +52,7 @@ export function getFieldLabelClasses({
   multiline = false,
   labelBg,
   labelClassName,
+  floatingClassName,
   restingTextClassName,
 }: FieldLabelClassOptions) {
   const fieldSize = getFieldSizeStyles(size);
@@ -66,7 +68,7 @@ export function getFieldLabelClasses({
     floating && [
       'text-label-small font-medium',
       variant === 'outlined' && ['top-0 -translate-y-1/2 px-1 -ml-1', labelBg || 'bg-surface', labelClassName],
-      variant === 'filled' && fieldSize.filledFloatingLabel,
+      variant === 'filled' && [fieldSize.filledFloatingLabel, floatingClassName],
       error ? 'text-error' : active ? 'text-primary' : 'text-on-surface-variant',
     ],
   );

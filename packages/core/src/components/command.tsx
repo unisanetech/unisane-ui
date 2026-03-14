@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { Command as CommandPrimitive } from 'cmdk';
 import { cn } from '@ui/lib/utils';
+import { actionFrameSizeClasses } from '@ui/lib/action-size';
 import { Icon } from '@ui/primitives/icon';
 import { Dialog } from './dialog';
 
@@ -34,7 +35,7 @@ const CommandDialog = ({ children, open, defaultOpen, onOpenChange }: CommandDia
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
-      className="overflow-hidden p-0 shadow-lg"
+      className="overflow-hidden p-0 shadow-3"
     >
       <Command className="[&_[cmdk-group-heading]]:text-on-surface-variant [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5">
         {children}
@@ -48,14 +49,14 @@ const CommandInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   <div
-    className="border-outline-variant flex items-center border-b px-4"
+    className={cn('border-outline-variant flex items-center border-b', actionFrameSizeClasses.md)}
     data-cmdk-input-wrapper=""
   >
     <Icon symbol="search" size="sm" className="mr-2 shrink-0 opacity-50" />
     <CommandPrimitive.Input
       ref={ref}
       className={cn(
-        'text-body-medium placeholder:text-on-surface-variant flex h-10 w-full bg-transparent outline-none disabled:cursor-not-allowed disabled:opacity-50',
+        'text-body-medium placeholder:text-on-surface-variant flex h-full w-full bg-transparent outline-none disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
       {...props}
@@ -125,7 +126,7 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      'text-body-medium data-[selected=true]:bg-state-hover data-[selected=true]:text-on-surface relative flex h-10 cursor-default items-center rounded-sm px-3 outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50',
+      `text-body-medium data-[selected=true]:bg-state-hover data-[selected=true]:text-on-surface relative flex cursor-default items-center rounded-button outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 ${actionFrameSizeClasses.md}`,
       className,
     )}
     {...props}

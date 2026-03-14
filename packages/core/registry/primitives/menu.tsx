@@ -1,6 +1,7 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@/lib/utils';
+import { actionFrameSizeClasses } from '@/lib/action-size';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
@@ -70,7 +71,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       : children;
 
   const itemClasses = cn(
-    'relative w-full text-left px-4 h-10 flex items-center gap-3 cursor-pointer select-none overflow-hidden',
+    `relative w-full text-left ${actionFrameSizeClasses.md} flex items-center gap-3 cursor-pointer select-none overflow-hidden`,
     'text-on-surface transition-colors duration-short ease-standard',
     'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',

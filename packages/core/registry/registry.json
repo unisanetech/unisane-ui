@@ -10,6 +10,14 @@
       "dependencies": [],
       "registryDependencies": []
     },
+    "action-size": {
+      "name": "ActionSize",
+      "type": "lib:util",
+      "description": "ActionSize utility",
+      "files": ["lib/action-size.ts"],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "field-shell": {
       "name": "FieldShell",
       "type": "lib:util",

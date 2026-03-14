@@ -1,6 +1,7 @@
 import React, { isValidElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@/lib/utils';
+import { paginationButtonClass } from '@/lib/action-size';
 import { Text } from '@/primitives/text';
 import { IconButton } from './icon-button';
 import { Ripple } from './ripple';
@@ -70,7 +71,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   const renderPageButton = (page: number) => {
     const isCurrent = page === currentPage;
     const buttonClasses = cn(
-      'relative w-12 h-12 rounded-sm flex items-center justify-center transition-colors overflow-hidden',
+      paginationButtonClass,
       isCurrent ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-state-hover',
     );
 

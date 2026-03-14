@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@ui/lib/utils';
+import { fabSizeClasses } from '@ui/lib/action-size';
 import { Ripple } from './ripple';
 import {
   ActionSpinner,
@@ -35,10 +36,10 @@ const fabVariants = cva(
         flat: 'shadow-none hover:shadow-none [box-shadow:none] hover:[box-shadow:none]',
       },
       size: {
-        sm: 'h-10 w-10',
-        md: 'h-14 w-14',
-        lg: 'h-24 w-24',
-        extended: 'h-14 w-auto min-w-20 px-6',
+        sm: fabSizeClasses.sm,
+        md: fabSizeClasses.md,
+        lg: fabSizeClasses.lg,
+        extended: fabSizeClasses.extended,
       },
     },
     compoundVariants: [

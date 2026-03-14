@@ -34,7 +34,9 @@ interface WindowSizeProviderProps {
 }
 
 export function WindowSizeProvider({ children }: WindowSizeProviderProps) {
-  const [sizeClass, setSizeClass] = useState<WindowSizeClass>("compact");
+  const [sizeClass, setSizeClass] = useState<WindowSizeClass>(() =>
+    typeof window !== "undefined" ? getWindowSizeClass(window.innerWidth) : "compact"
+  );
   const [width, setWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 0
   );
@@ -45,16 +47,8 @@ export function WindowSizeProvider({ children }: WindowSizeProviderProps) {
       setWidth(newWidth);
       const sc = getWindowSizeClass(newWidth);
       setSizeClass(sc);
-      const isCompact = sc === "compact";
-      
-      const spaceScale = isCompact ? "0.85" : "1";
-      const typeScale = isCompact ? "0.9" : "1";
-      const radiusScale = isCompact ? "0.9" : "1";
 
       document.documentElement.setAttribute("data-wsc", sc);
-      document.documentElement.style.setProperty("--scale-space", spaceScale);
-      document.documentElement.style.setProperty("--scale-type", typeScale);
-      document.documentElement.style.setProperty("--scale-radius", radiusScale);
     }
 
     handleResize();

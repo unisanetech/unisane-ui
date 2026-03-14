@@ -11,6 +11,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
 import { cn, Slot } from '@/lib/utils';
+import { iconButtonSizeClasses } from '@/lib/action-size';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -31,9 +32,9 @@ const iconButtonVariants = cva(
         standard: 'bg-transparent text-on-surface-variant',
       },
       size: {
-        sm: 'w-8 h-8',
-        md: 'w-10 h-10',
-        lg: 'w-12 h-12',
+        sm: iconButtonSizeClasses.sm,
+        md: iconButtonSizeClasses.md,
+        lg: iconButtonSizeClasses.lg,
       },
       selected: {
         true: '',

@@ -345,9 +345,9 @@ export function generateColorThemesAndAxesSection() {
 
    Available levels:
    - flat        - No shadows (--shadow-opacity: 0)
-   - subtle      - Reduced shadows for minimal UI (--shadow-opacity: 0.5)
-   - standard    - Default M3 shadows (--shadow-opacity: 1)
-   - pronounced  - Stronger shadows for depth (--shadow-opacity: 1.5)
+   - subtle      - Reduced shadows for minimal UI (--shadow-opacity: 0.25)
+   - standard    - Default UI shadows (--shadow-opacity: 0.5)
+   - pronounced  - Stronger shadows for depth (--shadow-opacity: 1)
    ============================================================ */
 
 [data-elevation="flat"] {
@@ -355,15 +355,15 @@ export function generateColorThemesAndAxesSection() {
 }
 
 [data-elevation="subtle"] {
-  --shadow-opacity: 0.5;
+  --shadow-opacity: 0.25;
 }
 
 [data-elevation="standard"] {
-  --shadow-opacity: 1;
+  --shadow-opacity: 0.5;
 }
 
 [data-elevation="pronounced"] {
-  --shadow-opacity: 1.5;
+  --shadow-opacity: 1;
 }
 `;
 }

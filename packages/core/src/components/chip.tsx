@@ -13,7 +13,7 @@ import { cn } from '@ui/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const chipVariants = cva(
-  'relative inline-flex h-8 items-center gap-2 overflow-hidden rounded-sm border px-3 text-label-small font-medium leading-none transition-all group select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+  'relative inline-flex h-8 items-center gap-2 overflow-hidden rounded-button border px-3 text-label-small font-medium leading-none transition-all group select-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
   {
     variants: {
       variant: {
@@ -178,7 +178,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
         {onDelete && (
           <button
             type="button"
-            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary relative z-10 -mr-1 ml-1 rounded-sm p-0.5 transition-colors focus-visible:ring-2"
+            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary relative z-10 -mr-1 ml-1 rounded-icon-button p-0.5 transition-colors focus-visible:ring-2"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();

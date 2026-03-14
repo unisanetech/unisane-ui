@@ -12,7 +12,7 @@
   "secondary": {
     "strategy": "analogous",
     "hueShift": 12,
-    "chromaScale": 0.4,
+    "chromaScale": 0.45,
     "comment": "Supporting accent with a slight analogous shift; light mode keeps enough presence while dark role mapping stays calmer"
   },
 

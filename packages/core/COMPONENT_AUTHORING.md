@@ -87,6 +87,27 @@ Rule:
 - Do not use `/nn` alpha modifiers as the default border pattern for product surfaces.
 - `/nn` alpha remains acceptable for background and scrim treatments where transparency itself is the effect.
 
+### Style Ownership
+
+- `@unisane/tokens` owns:
+  - generated semantic CSS tokens
+  - Tailwind `@theme` exposure
+  - token-derived global utility contracts that are true token output
+- `@unisane/ui` owns:
+  - package runtime styles
+  - shared public utility classes used by components
+  - focus, ripple, animation, z-index, and shell/runtime helpers
+- app-level styles such as `apps/docs/app/globals.css` should:
+  - import package CSS first
+  - add app-local layout and route-specific behavior only
+  - not redefine package-public class names that already exist in `@unisane/ui/styles.css`
+
+Rule:
+
+- if a class is intended to be reusable by package consumers, it belongs in `@unisane/ui`
+- if a class exists only to support one app shell or docs route, it belongs in that app
+- `@unisane/tokens` should not accumulate component-runtime behavior
+
 ## Shared Size Contract
 
 Field-like controls use one shared scale:
@@ -120,9 +141,16 @@ Buttons and icon buttons should align to the same height rhythm unless the compo
 
 - shared field sizing
 - shared label/helper/error behavior where relevant
+- shared field foundation should cover:
+  - floating label orchestration
+  - helper/error text wiring
+  - icon/affix spacing
+  - input-backed vs display-trigger-backed filled field spacing where needed
 - `Input` stays a low-level primitive and should not reintroduce floating-label or helper-text orchestration
 - native wrappers keep native `onChange`
 - custom widgets prefer `onValueChange`
+- `SearchBar` stays outside the floating-field family when its search-specific contract remains simpler
+- composition-level controls such as `DatePicker` and `TimePicker` may delegate to shared field-family components without becoming field-shell implementations themselves
 
 ### Overlays And Menus
 
@@ -150,12 +178,20 @@ Buttons and icon buttons should align to the same height rhythm unless the compo
 - MUI-style `slots` and `slotProps` prop APIs
 - legacy supporting-pane prop names that were removed during the refactor
 - undocumented `duration-*` and `ease-*` utility aliases in component source
+- raw hard-coded colors in `src/**` (`#hex`, `rgb(a)`, `hsl(a)`, `oklch()`)
 
 Run:
 
 ```bash
 pnpm --dir unisane-ui --filter @unisane/ui lint
+pnpm --dir unisane-ui --filter @unisane/ui validate
+pnpm --dir unisane-ui check:quality
 ```
+
+Quality lane rule:
+
+- `pnpm --dir unisane-ui check:quality` is the canonical package-level release/confidence lane for `unisane-ui`
+- use it when a change crosses tokens, package runtime styles, docs ownership boundaries, or shared component behavior
 
 ## Done Means Done
 

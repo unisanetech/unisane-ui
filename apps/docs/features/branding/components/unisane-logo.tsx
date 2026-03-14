@@ -40,9 +40,12 @@ export const UnisaneLogo = forwardRef<SVGSVGElement, UnisaneLogoProps>(
         {!ariaHidden && <title>{title}</title>}
 
         <g shapeRendering="geometricPrecision">
-          <path d="M10 3.5H28L22.5 21.5H5L10 3.5Z" fill="var(--color-tertiary)" opacity="0.28" />
-          <path d="M6.5 7.5H24.5L19.2 24.2H2L6.5 7.5Z" fill="var(--color-secondary)" opacity="0.5" />
-          <path d="M3.5 11H20.5L15.8 28.5H0.5L3.5 11Z" fill="var(--color-primary)" opacity="0.94" />
+          <path
+            d="M10 3.5H28L22.5 21.5H5L10 3.5Z"
+            fill="color-mix(in oklab, var(--color-tertiary) 82%, var(--color-surface) 18%)"
+          />
+          <path d="M6.5 7.5H24.5L19.2 24.2H2L6.5 7.5Z" fill="var(--color-primary-container)" />
+          <path d="M3.5 11H20.5L15.8 28.5H0.5L3.5 11Z" fill="var(--color-primary)" />
         </g>
       </svg>
     );

@@ -13,6 +13,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
 import { cn, Slot } from '@ui/lib/utils';
+import { actionButtonSizeClasses } from '@ui/lib/action-size';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -35,9 +36,9 @@ const buttonVariants = cva(
         elevated: 'bg-surface-container-low text-primary shadow-1',
       },
       size: {
-        sm: 'h-8 px-4 text-label-medium',
-        md: 'h-10 px-6 text-label-large',
-        lg: 'h-12 px-8 text-label-large',
+        sm: actionButtonSizeClasses.sm,
+        md: actionButtonSizeClasses.md,
+        lg: actionButtonSizeClasses.lg,
       },
     },
     defaultVariants: {

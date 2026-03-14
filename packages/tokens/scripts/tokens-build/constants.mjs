@@ -53,7 +53,7 @@ export const CHROMA_SCALE = {
 export const DEFAULT_THEME_CONFIG = {
   name: "Blue",
   primary: { hue: 210, chroma: 0.16 },
-  secondary: { strategy: "analogous", hueShift: 12, chromaScale: 0.4 },
+  secondary: { strategy: "analogous", hueShift: 12, chromaScale: 0.45 },
   tertiary: { strategy: "complementary", hueShift: 60, chromaScale: 0.7 },
   neutral: { tintFromPrimary: 0.012 },
   error: { hue: 25, chroma: 0.18 },

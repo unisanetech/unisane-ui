@@ -363,19 +363,18 @@ export const Select: React.FC<SelectProps> = ({
         )}
 
         <div className="relative flex h-full w-full min-w-0 items-center">
-          <span
+          <div
             className={cn(
-              'text-on-surface pointer-events-none absolute left-0 min-w-0 truncate font-medium text-left',
-              'right-[calc(var(--unit)*9)]',
+              'pointer-events-none absolute inset-y-0 left-0 right-[calc(var(--unit)*9)] min-w-0 text-left text-on-surface',
               fieldSize.horizontalPadding,
-              fieldSize.valueText,
               variant === 'filled' && label
-                ? cn('inset-y-0', fieldSize.filledInputPadding)
-                : 'top-1/2 h-auto -translate-y-1/2',
+                ? cn('flex h-full w-full items-end', fieldSize.filledDisplayPadding)
+                : 'flex items-center',
+              !selectedLabel && !label && 'text-on-surface-variant',
             )}
           >
-            {displayLabel}
-          </span>
+            <span className={cn('block min-w-0 truncate', fieldSize.valueText)}>{displayLabel}</span>
+          </div>
 
           {label && (
             <label
@@ -389,8 +388,9 @@ export const Select: React.FC<SelectProps> = ({
                   floating: isFloating,
                   error,
                   active: isOpen,
+                  floatingClassName:
+                    variant === 'filled' ? fieldSize.filledDisplayFloatingLabel : undefined,
                   labelClassName,
-                  restingTextClassName: fieldSize.selectRestingLabelText,
                 }),
               )}
             >

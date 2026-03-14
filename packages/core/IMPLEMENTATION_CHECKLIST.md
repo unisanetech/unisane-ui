@@ -22,7 +22,7 @@ Keep implementation work aligned around two active improvement tracks:
 - [x] token package tests are green
 - [x] UI package contract/type/test gates are green
 - [x] package and docs runtime utilities are not duplicated without intent
-- [ ] field-family behavior is shared instead of reimplemented ad hoc
+- [x] field-family behavior is shared instead of reimplemented ad hoc where it reduces real duplication; intentional exceptions are documented
 - [x] status color tokens have an explicit system policy
 - [x] `ThemeProvider` has runtime behavior coverage
 - [x] high-traffic components have accessibility and interaction coverage
@@ -35,7 +35,7 @@ Keep implementation work aligned around two active improvement tracks:
 - [ ] keep `@unisane/tokens` limited to token CSS, Tailwind `@theme`, and token-derived utilities
 - [ ] keep `@unisane/ui` responsible for package runtime styles such as focus, ripple, sidebar variables, and shared component utilities
 - [x] remove duplicated public utility definitions from `apps/docs/app/globals.css` when the same utility already exists in `packages/core/src/styles.css`
-- [ ] document utility ownership so app-level styles extend package behavior instead of redefining the same public class names
+- [x] document utility ownership so app-level styles extend package behavior instead of redefining the same public class names
 
 Files to review:
 
@@ -52,7 +52,11 @@ Done means:
 - [x] extract shared field-state behavior from the existing field family
 - [x] keep `field-size.ts` as the shared sizing contract
 - [x] centralize floating-label, helper/error, icon-padding, and focus-state orchestration into one shared foundation
-- [ ] migrate `TextField`, `Input`, `Select`, `Combobox`, `DateInput`, `SearchBar`, `DatePicker`, and `TimePicker` onto that shared foundation where it reduces real duplication
+- [x] migrate `TextField`, `Select`, `Combobox`, and `DateInput` onto the shared field shell where it reduces real duplication
+- [x] keep `Input` as a primitive and document that it is intentionally not part of the floating-field family
+- [x] keep `SearchBar` outside the floating-field shell where its search-specific contract stays cleaner
+- [x] keep `DatePicker` and `TimePicker` as composition-level controls unless a real shared seam appears
+- [x] finish removing unjustified field-family drift across remaining display/input-trigger seams
 
 Files to review:
 
@@ -68,7 +72,7 @@ Files to review:
 
 Done means:
 
-- [ ] field-family components no longer each own separate floating-label and helper-text logic without justification
+- [x] field-family components no longer each own separate floating-label and helper-text logic without justification
 
 ### Phase 3: Finish Semantic Token Ownership
 
@@ -180,12 +184,12 @@ Priority components:
 
 For each component, cover:
 
-- [ ] keyboard behavior
-- [ ] focus-visible behavior
-- [ ] ARIA wiring
-- [ ] controlled and uncontrolled state contracts where applicable
-- [ ] disabled and loading semantics where applicable
-- [ ] escape and close behavior for overlays where applicable
+- [x] keyboard behavior
+- [x] focus-visible behavior where the component exposes keyboard-visible interaction states in testable DOM behavior
+- [x] ARIA wiring
+- [x] controlled and uncontrolled state contracts where applicable
+- [x] disabled and loading semantics where applicable
+- [x] escape and close behavior for overlays where applicable
 
 Done means:
 
@@ -212,19 +216,19 @@ Done means:
 
 ### Phase 5: Tighten Package Gates
 
-- [ ] keep token tests mandatory
-- [ ] keep UI contract check mandatory
-- [ ] keep UI package tests and typechecks mandatory
-- [ ] validate registry freshness and import rewriting
-- [ ] add a duplication check for package-public utility class names if drift keeps recurring
-- [ ] consider a grep-style guard against raw hard-coded colors in `packages/core/src`
+- [x] keep token tests mandatory
+- [x] keep UI contract check mandatory
+- [x] keep UI package tests and typechecks mandatory
+- [x] validate registry freshness and import rewriting
+- [x] add a duplication check for package-public utility class names if drift keeps recurring
+- [x] add a grep-style guard against raw hard-coded colors in `packages/core/src`
 
 Primary commands:
 
-- [ ] `pnpm --filter @unisane/tokens test`
-- [ ] `pnpm --filter @unisane/ui check:contract`
-- [ ] `pnpm --filter @unisane/ui test`
-- [ ] `pnpm --filter @unisane/ui check-types`
+- [x] `pnpm --filter @unisane/tokens test`
+- [x] `pnpm --filter @unisane/ui check:contract`
+- [x] `pnpm --filter @unisane/ui test`
+- [x] `pnpm --filter @unisane/ui check-types`
 - [ ] `pnpm -w architecture:check`
 - [ ] `pnpm -w typecheck`
 
@@ -234,10 +238,10 @@ Primary commands:
 - [x] remove package and docs runtime utility duplication
 - [x] add `ThemeProvider` behavior tests
 - [x] add token-axis matrix tests
-- [ ] extract shared field foundation
+- [x] extract shared field foundation
 - [x] add accessibility tests for the top-priority components
 - [x] finish status-token ownership policy
-- [ ] add visual regression coverage
+- [x] add visual regression coverage
 
 ## Working Notes
 

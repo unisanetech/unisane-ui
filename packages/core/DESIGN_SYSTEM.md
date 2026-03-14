@@ -27,6 +27,19 @@ System docs:
 @import '@unisane/tokens/unisane.css';
 ```
 
+### Ownership Boundary
+
+- `@unisane/tokens` is limited to:
+  - token generation
+  - semantic CSS variables
+  - Tailwind `@theme` mapping
+  - token-derived utilities that are part of the token contract
+- `@unisane/ui` is responsible for:
+  - runtime package styles in [`src/styles.css`](/Users/bhaskarbarma/Desktop/TOP/Unisane/unisane-ui/packages/core/src/styles.css)
+  - shared component utility classes
+  - focus, ripple, shell, and animation behavior
+- app stylesheets such as [`apps/docs/app/globals.css`](/Users/bhaskarbarma/Desktop/TOP/Unisane/unisane-ui/apps/docs/app/globals.css) should extend package behavior, not redefine package-public utilities
+
 ### Token Namespaces
 
 | Prefix           | Description                            | Example                  |
@@ -89,7 +102,7 @@ Light theme keeps `bg-surface` white. Dark theme keeps `bg-surface-container-low
 
 ### Unit-Based Spacing
 
-Base unit: `4px * --uni-sys-space-scale`
+Base unit: `4px * var(--scale-space)`
 
 ```css
 /* Usage: p-4u → 16px at standard, 14px at compact */
@@ -102,10 +115,12 @@ m-6u     /* 24px */
 
 | Preset        | Space Scale | Type Scale | Radius Scale |
 | ------------- | ----------- | ---------- | ------------ |
-| `dense`       | 0.75        | 0.85       | 0.75         |
-| `compact`     | 0.85        | 0.9        | 0.8          |
-| `standard`    | 1.0         | 1.0        | 0.85         |
+| `dense`       | 0.75        | 0.85       | 0.85         |
+| `compact`     | 0.875       | 0.9        | 0.9          |
+| `standard`    | 1.0         | 1.0        | 1.0          |
 | `comfortable` | 1.1         | 1.0        | 1.0          |
+
+Density is owned by the theme axis only. Runtime viewport state may drive responsive layout, but it must not overwrite `--scale-space`, `--scale-type`, or `--scale-radius`.
 
 ---
 
@@ -182,13 +197,13 @@ Use `data-radius` to switch corner softness without changing components:
 
 Field-like controls (`Input`, `TextField`, `Select`, `DateInput`, `Combobox`, `SearchBar`) use one shared size scale:
 
-| Size | Height | Usage                            |
-| ---- | ------ | -------------------------------- |
-| `sm` | `h-8`  | Dense forms, inline filters      |
-| `md` | `h-10` | Default field size               |
-| `lg` | `h-12` | Prominent inputs, larger layouts |
+| Size | Height token       | Usage                            |
+| ---- | ------------------ | -------------------------------- |
+| `sm` | `--size-action-sm` | Dense forms, inline filters      |
+| `md` | `--size-action-md` | Default field size               |
+| `lg` | `--size-action-lg` | Prominent inputs, larger layouts |
 
-Buttons and icon buttons follow the same height rhythm so forms and actions align cleanly.
+Buttons, icon buttons, FABs, avatars, and pagination controls should use the shared component-size tokens so density remains global instead of being reimplemented with fixed utility heights.
 
 ---
 
