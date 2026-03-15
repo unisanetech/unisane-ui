@@ -1,7 +1,15 @@
 import type { NavigationItem } from '@unisane/ui';
 import { getAllComponents } from '../registry/selectors';
 import { getAllFoundationPages } from '../content/foundations/selectors';
-import { getAllBlocks } from '../blocks/selectors';
+import {
+  BLOCK_CATEGORY_META,
+  BLOCK_SEGMENT_CATEGORY_ORDER,
+  BLOCK_SEGMENT_META,
+  BLOCK_SEGMENT_ORDER,
+  getBlockSegmentCategoryHref,
+  getBlockSegmentHref,
+} from '../blocks/block-taxonomy';
+import { getPrimaryCategoryBySlug, getPrimarySegmentBySlug } from '../blocks/selectors';
 
 export type { NavigationItem };
 
@@ -20,11 +28,19 @@ const foundationNavItems: NavigationItem[] = getAllFoundationPages().map((page) 
   href: `/docs/foundations/${page.slug}`,
 }));
 
-const blockNavItems: NavigationItem[] = getAllBlocks().map((block) => ({
-  id: block.slug,
-  label: block.title,
-  href: `/docs/blocks/${block.slug}`,
-}));
+const blockNavItems: NavigationItem[] = [
+  { id: 'blocks-overview', label: 'Overview', href: '/docs/blocks' },
+  ...BLOCK_SEGMENT_ORDER.map((segment) => ({
+    id: `blocks-${segment}`,
+    label: BLOCK_SEGMENT_META[segment].label,
+    href: getBlockSegmentHref(segment),
+    items: BLOCK_SEGMENT_CATEGORY_ORDER[segment].map((category) => ({
+      id: `blocks-${segment}-${category}`,
+      label: BLOCK_CATEGORY_META[category].label,
+      href: getBlockSegmentCategoryHref(segment, category),
+    })),
+  })),
+];
 
 export const DOCS_NAVIGATION: NavigationItem[] = [
   {
@@ -107,9 +123,30 @@ export function getActiveNavigationId(pathname: string): string {
     return pathname.split('/').filter(Boolean).at(-1) ?? 'components';
   }
   if (pathname.startsWith('/datatable')) return 'datatable';
-  if (pathname === '/docs/blocks') return 'blocks';
+  if (pathname === '/docs/blocks') return 'blocks-overview';
   if (pathname.startsWith('/docs/blocks/')) {
-    return pathname.split('/').filter(Boolean).at(-1) ?? 'blocks';
+    const parts = pathname.split('/').filter(Boolean);
+    const segment = parts.at(2);
+    const category = parts.at(3);
+    const slug = parts.at(-1);
+
+    if (!slug) return 'blocks-overview';
+    if (
+      segment &&
+      segment in BLOCK_SEGMENT_META &&
+      category &&
+      category in BLOCK_CATEGORY_META
+    ) {
+      return `blocks-${segment}-${category}`;
+    }
+    if (segment && segment in BLOCK_SEGMENT_META) {
+      return `blocks-${segment}`;
+    }
+    const primarySegment = getPrimarySegmentBySlug(slug);
+    const primaryCategory = getPrimaryCategoryBySlug(slug);
+    return primarySegment && primaryCategory
+      ? `blocks-${primarySegment}-${primaryCategory}`
+      : 'blocks-overview';
   }
   return 'home';
 }

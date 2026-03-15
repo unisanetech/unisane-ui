@@ -122,27 +122,13 @@ Recommended IA:
 
 ## Group Model
 
-Use broad groups at the top level so the page stays manageable as the library grows.
+Use broad segments at the top level so the page stays manageable as the library grows.
 
-Recommended groups:
+Recommended segments:
 
-- `saas`
-- `commerce`
 - `marketing`
+- `commerce`
 - `application`
-
-### SaaS group
-
-Use for product and workflow-oriented surfaces with a SaaS bias:
-
-- dashboards
-- settings
-- auth
-- forms
-- billing
-- onboarding
-- tables
-- workflows
 - navigation
 
 ### Marketing group
@@ -233,8 +219,8 @@ Example tags:
 - `landing-page`
 - `dashboard`
 - `admin`
-- `saas`
 - `commerce`
+- `application`
 - `mobile`
 - `desktop`
 - `with-sidebar`
@@ -279,9 +265,9 @@ Tag governance rules:
 Suggested tag families:
 
 - vertical
-  - `saas`
   - `commerce`
   - `marketing`
+  - `application`
 - context
   - `dashboard`
   - `settings`
@@ -313,19 +299,30 @@ Current fields:
 Recommended expanded model:
 
 ```ts
-type DocsBlockGroup = 'saas' | 'commerce' | 'marketing' | 'application';
+type DocsBlockSegment = 'marketing' | 'commerce' | 'application';
 
 type DocsBlockCategory =
+  | 'hero'
+  | 'header'
+  | 'footer'
+  | 'grids'
+  | 'pricing'
+  | 'cta'
+  | 'social-proof'
+  | 'product'
+  | 'catalog'
+  | 'cart'
+  | 'checkout'
+  | 'account'
   | 'layout'
   | 'navigation'
   | 'dashboard'
   | 'workflow'
   | 'forms'
   | 'auth'
-  | 'hero'
-  | 'header'
-  | 'footer'
-  | 'grids';
+  | 'onboarding'
+  | 'settings'
+  | 'billing';
 
 type DocsBlockComplexity = 'simple' | 'medium' | 'advanced';
 type DocsBlockAccess = 'free' | 'pro';
@@ -335,8 +332,10 @@ interface DocsBlockMeta {
   title: string;
   summary: string;
   description: string;
-  group: DocsBlockGroup;
-  category: DocsBlockCategory;
+  primarySegment: DocsBlockSegment;
+  primaryCategory: DocsBlockCategory;
+  categories: DocsBlockCategory[];
+  segments: DocsBlockSegment[];
   icon: string;
   tags: string[];
   useCases: string[];
@@ -841,11 +840,11 @@ Use for:
 
 ### 3. Group sections
 
-For each group:
+For each primary category:
 
 - heading
 - short one-line explanation
-- optional category chip row
+- "View all" link
 - responsive card grid
 
 ### 4. Filters
@@ -855,7 +854,7 @@ Keep v1 minimal.
 Recommended v1 filters:
 
 - search
-- group
+- segment
 - category
 - viewport support
 
@@ -908,14 +907,16 @@ Optional later:
 
 ## Routing Strategy
 
-Keep current route shape:
+Recommended route shape:
 
 - `/docs/blocks`
+- `/docs/blocks/[segment]`
+- `/docs/blocks/[segment]/[category]`
 - `/docs/blocks/[slug]`
 
-Do not change route ownership for this work.
+Use segments as the primary browse routes and segment/category pages as the canonical category routes.
 
-The registry and metadata can expand without changing the route model.
+Keep block detail pages stable at `/docs/blocks/[slug]`.
 
 ## Navigation Strategy
 
@@ -929,9 +930,10 @@ Inside the blocks page itself:
 Recommendation:
 
 - keep top-level nav as `Blocks`
-- do not add category-level left-nav entries yet
+- add segment-level left-nav entries under `Blocks`
+- nest category links under each segment entry
 
-That avoids sidebar bloat.
+This keeps the browse IA close to Tailwind Plus while still allowing blocks to appear in multiple categories.
 
 ## Initial v1 Scope
 
@@ -939,16 +941,27 @@ Do not try to launch with all possible block types.
 
 Recommended v1 categories:
 
+- `hero`
+- `header`
+- `footer`
+- `grids`
+- `pricing`
+- `cta`
+- `social-proof`
+- `product`
+- `catalog`
+- `cart`
+- `checkout`
+- `account`
 - `layout`
 - `navigation`
 - `dashboard`
 - `workflow`
 - `forms`
 - `auth`
-- `hero`
-- `header`
-- `footer`
-- `grids`
+- `onboarding`
+- `settings`
+- `billing`
 
 Recommended initial block roadmap:
 
@@ -993,7 +1006,7 @@ Build in this order:
 
 - expand `types.ts`
 - expand `block-meta.ts`
-- keep current routes stable
+- add `primaryCategory`, `categories`, and `segments`
 - seed existing blocks with the new metadata
 
 ### Phase 2: Registry adoption
@@ -1005,9 +1018,8 @@ Build in this order:
 ### Phase 3: Catalog IA
 
 - redesign `blocks-catalog.tsx`
-- add hero
-- add featured strip
-- add grouped sections
+- add category overview sections
+- add category routes
 - add basic search and filter controls
 
 ### Phase 4: Detail-page enrichment

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Button, Surface, Typography } from '@unisane/ui';
 import { getRegisteredBlockBySlug } from '@/lib/docs/blocks/block-registry';
+import { BLOCK_CATEGORY_META, getBlockSegmentCategoryHref } from '@/lib/docs/blocks/block-taxonomy';
 import { BlockPreviewShell } from './block-preview-shell';
 
 export function BlockDetailPage({ slug }: { slug: string }) {
@@ -11,6 +12,8 @@ export function BlockDetailPage({ slug }: { slug: string }) {
   if (!block) {
     return null;
   }
+
+  const categoryMeta = BLOCK_CATEGORY_META[block.primaryCategory];
 
   return (
     <div className="w-full pb-12 @3xl:pb-20">
@@ -29,7 +32,9 @@ export function BlockDetailPage({ slug }: { slug: string }) {
 
         <div className="flex flex-wrap items-center gap-3">
           <Button asChild variant="tonal" size="sm">
-            <Link href="/docs/blocks">Back to blocks</Link>
+            <Link href={getBlockSegmentCategoryHref(block.primarySegment, block.primaryCategory)}>
+              Back to {categoryMeta.label}
+            </Link>
           </Button>
           <Button asChild variant="text" size="sm">
             <Link href={block.usedComponents[0]?.href ?? '/docs/components'}>View components</Link>

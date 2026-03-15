@@ -1,7 +1,29 @@
 import type React from 'react';
 import type { PreviewStageConfig, ExampleDef } from '../registry/types';
 
-export type DocsBlockCategory = 'layout' | 'auth' | 'workflow';
+export type DocsBlockSegment = 'marketing' | 'commerce' | 'application';
+export type DocsBlockCategory =
+  | 'layout'
+  | 'navigation'
+  | 'dashboard'
+  | 'workflow'
+  | 'forms'
+  | 'auth'
+  | 'onboarding'
+  | 'settings'
+  | 'billing'
+  | 'hero'
+  | 'header'
+  | 'footer'
+  | 'grids'
+  | 'pricing'
+  | 'cta'
+  | 'social-proof'
+  | 'product'
+  | 'catalog'
+  | 'cart'
+  | 'checkout'
+  | 'account';
 export type DocsBlockViewport = 'desktop' | 'tablet' | 'mobile';
 export type DocsBlockCanvasHeight = 'md' | 'lg' | 'xl' | 'screen' | 'screen-tall' | 'screen-max';
 
@@ -19,7 +41,10 @@ export interface DocsBlockMeta {
   slug: string;
   title: string;
   description: string;
-  category: DocsBlockCategory;
+  primarySegment: DocsBlockSegment;
+  primaryCategory: DocsBlockCategory;
+  categories: DocsBlockCategory[];
+  segments: DocsBlockSegment[];
   icon: string;
 }
 
@@ -38,7 +63,10 @@ export interface DocsBlockListItem {
   slug: string;
   title: string;
   description: string;
-  category: DocsBlockCategory;
+  primarySegment: DocsBlockSegment;
+  primaryCategory: DocsBlockCategory;
+  categories: DocsBlockCategory[];
+  segments: DocsBlockSegment[];
   icon: string;
   preview: React.ReactNode;
   previewConfig?: PreviewStageConfig;

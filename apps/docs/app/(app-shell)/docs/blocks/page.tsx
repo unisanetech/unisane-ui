@@ -5,7 +5,7 @@ export default function BlocksPage() {
   return (
     <DocLayout
       title="Blocks"
-      description="Real app scaffolds built with Unisane UI components, with live preview and copyable code."
+      description="Production-ready blocks for marketing, commerce, and application surfaces."
     >
       <BlocksCatalog />
     </DocLayout>

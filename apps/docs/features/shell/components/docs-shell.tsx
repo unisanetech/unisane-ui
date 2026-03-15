@@ -27,6 +27,7 @@ import { UnisaneLogo, UnisaneWordmark } from "@/features/branding";
 import { DOCS_SIDEBAR_EXPANDED_COOKIE } from "../lib/sidebar-persistence";
 import { AppHeader } from "./app-header";
 import { ThemeSettings } from "./theme-settings";
+import type { NavigationItem } from "@/lib/docs/runtime/navigation";
 
 interface DocsShellProps {
   children: React.ReactNode;
@@ -35,6 +36,15 @@ interface DocsShellProps {
   contentInset?: "normal" | "none";
   initialViewport?: SidebarViewport;
   initialExpanded?: boolean;
+}
+
+function collectNavigationIds(items?: NavigationItem[]): string[] {
+  if (!items || items.length === 0) return [];
+
+  return items.flatMap((item) => [
+    item.id,
+    ...collectNavigationIds(item.items),
+  ]);
 }
 
 function DocsShellContent({
@@ -51,6 +61,32 @@ function DocsShellContent({
     expanded,
     toggleExpanded,
   } = useSidebar();
+
+  const renderNavigationTree = (items: NavigationItem[]) =>
+    items.map((item) => {
+      const hasChildren = !!item.items?.length;
+
+      if (hasChildren) {
+        return (
+          <SidebarCollapsibleGroup
+            key={item.id}
+            id={item.id}
+            label={item.label}
+            icon={item.icon}
+            childIds={collectNavigationIds(item.items)}
+            defaultOpen={activeId === item.id}
+          >
+            <SidebarMenu>{renderNavigationTree(item.items ?? [])}</SidebarMenu>
+          </SidebarCollapsibleGroup>
+        );
+      }
+
+      return (
+        <SidebarNavItem key={item.id} id={item.id} icon={item.icon} label={item.label} asChild>
+          <Link href={item.href || "#"} />
+        </SidebarNavItem>
+      );
+    });
 
   return (
     <div className="isolate flex h-screen w-full overflow-hidden bg-surface">
@@ -119,7 +155,7 @@ function DocsShellContent({
                 id={item.id}
                 label={item.label}
                 icon={item.icon || "circle"}
-                childIds={item.items?.map((child) => child.id) || []}
+                childIds={collectNavigationIds(item.items)}
                 asChild
               >
                 <Link href={item.href || "#"} />
@@ -137,48 +173,7 @@ function DocsShellContent({
             <SidebarContent className="pb-24">
               <SidebarGroupLabel>Unisane UI</SidebarGroupLabel>
               <SidebarMenu>
-                {DOCS_NAVIGATION.map((category) => {
-                  const hasChildren = category.items && category.items.length > 0;
-                  const isActiveCategory = activeId === category.id;
-
-                  if (hasChildren) {
-                    return (
-                      <SidebarCollapsibleGroup
-                        key={category.id}
-                        id={category.id}
-                        label={category.label}
-                        icon={category.icon}
-                        childIds={category.items?.map((child) => child.id) || []}
-                        defaultOpen={isActiveCategory}
-                      >
-                        <SidebarMenu>
-                          {category.items?.map((item) => (
-                            <SidebarNavItem
-                              key={item.id}
-                              id={item.id}
-                              label={item.label}
-                              asChild
-                            >
-                              <Link href={item.href || "#"} />
-                            </SidebarNavItem>
-                          ))}
-                        </SidebarMenu>
-                      </SidebarCollapsibleGroup>
-                    );
-                  }
-
-                  return (
-                    <SidebarNavItem
-                      key={category.id}
-                      id={category.id}
-                      icon={category.icon}
-                      label={category.label}
-                      asChild
-                    >
-                      <Link href={category.href || "#"} />
-                    </SidebarNavItem>
-                  );
-                })}
+                {renderNavigationTree(DOCS_NAVIGATION)}
               </SidebarMenu>
             </SidebarContent>
           ) : effectiveItem && effectiveItem.items && effectiveItem.items.length > 0 ? (
@@ -187,19 +182,7 @@ function DocsShellContent({
               key={effectiveItem.id}
             >
               <SidebarGroupLabel>{effectiveItem.label}</SidebarGroupLabel>
-              <SidebarMenu>
-                {effectiveItem.items.map((item) => (
-                  <SidebarNavItem
-                    key={item.id}
-                    id={item.id}
-                    icon={item.icon}
-                    label={item.label}
-                    asChild
-                  >
-                    <Link href={item.href || "#"} />
-                  </SidebarNavItem>
-                ))}
-              </SidebarMenu>
+              <SidebarMenu>{renderNavigationTree(effectiveItem.items)}</SidebarMenu>
             </SidebarContent>
           ) : (
             <SidebarContent className="animate-content-enter pt-4">
