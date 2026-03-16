@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -53,6 +53,7 @@ function DocsShellContent({
   contentWidth = "constrained",
   contentInset = "normal",
 }: DocsShellProps) {
+  const router = useRouter();
   const {
     activeId,
     effectiveItem,
@@ -75,6 +76,7 @@ function DocsShellContent({
             icon={item.icon}
             childIds={collectNavigationIds(item.items)}
             defaultOpen={activeId === item.id}
+            onTriggerClick={item.href ? () => router.push(item.href as string) : undefined}
           >
             <SidebarMenu>{renderNavigationTree(item.items ?? [])}</SidebarMenu>
           </SidebarCollapsibleGroup>

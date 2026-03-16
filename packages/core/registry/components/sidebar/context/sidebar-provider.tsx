@@ -406,8 +406,6 @@ export function SidebarProvider({
 
       const item = findTopLevelContainerById(items, id);
       const hasChildren = !!(item?.items && item.items.length > 0);
-      const wasDrawerVisible = expanded || !!hoveredId;
-
       setHoveredId(null);
 
       if (activeId === id) {
@@ -432,11 +430,25 @@ export function SidebarProvider({
 
       if (hasChildren) {
         setLastContentId(id);
+        if (derived.usesOverlayDrawer) {
+          setMobileOpen(true);
+        } else {
+          setExpanded(true);
+        }
       } else {
         setExpanded(false);
       }
     },
-    [activeId, derived.drawerEnabled, expanded, hoveredId, items, setActiveId, setExpanded],
+    [
+      activeId,
+      derived.drawerEnabled,
+      derived.usesOverlayDrawer,
+      expanded,
+      items,
+      setActiveId,
+      setExpanded,
+      setMobileOpen,
+    ],
   );
 
   const canHoverDrawer = derived.drawerEnabled && !derived.usesOverlayDrawer;

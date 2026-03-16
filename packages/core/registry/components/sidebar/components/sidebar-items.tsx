@@ -256,6 +256,7 @@ export interface SidebarCollapsibleGroupProps extends React.HTMLAttributes<HTMLD
   defaultOpen?: boolean;
   children: React.ReactNode;
   childIds?: string[];
+  onTriggerClick?: () => void;
 }
 
 export function SidebarCollapsibleGroup({
@@ -266,6 +267,7 @@ export function SidebarCollapsibleGroup({
   children,
   className,
   childIds = [],
+  onTriggerClick,
   ...props
 }: SidebarCollapsibleGroupProps) {
   const { isGroupExpanded, toggleGroup, setGroupExpanded, activeId, items } = useSidebar();
@@ -295,7 +297,10 @@ export function SidebarCollapsibleGroup({
   return (
     <div className={cn('flex flex-col', className)} {...props}>
       <button
-        onClick={() => toggleGroup(id)}
+        onClick={() => {
+          toggleGroup(id);
+          onTriggerClick?.();
+        }}
         className={cn(
           'relative flex min-h-10 w-full items-center justify-start gap-3 overflow-hidden rounded-button px-4 py-2',
           'text-body-medium duration-short cursor-pointer text-left transition-colors outline-none select-none',

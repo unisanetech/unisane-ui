@@ -16,6 +16,7 @@ export function ShellRouteLayout({
 }) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isBlocks = pathname.startsWith("/docs/blocks");
 
   return (
     <DocsShell
@@ -23,7 +24,7 @@ export function ShellRouteLayout({
       initialExpanded={initialExpanded}
       showHeader={!isHome}
       contentWidth={isHome ? "fluid" : "constrained"}
-      contentInset={isHome ? "none" : "normal"}
+      contentInset={isHome || isBlocks ? "none" : "normal"}
     >
       {children}
     </DocsShell>
