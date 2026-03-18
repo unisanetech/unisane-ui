@@ -4,7 +4,6 @@ export function generateCoreTokensSection(config) {
   const primaryHue = config.primary.hue;
   const primaryChroma = config.primary.chroma;
   const secondaryHueShift = config.secondary?.hueShift ?? 12;
-  const secondaryChromaScale = config.secondary?.chromaScale ?? 0.45;
   const tertiaryHueShift = config.tertiary?.hueShift ?? 60;
   const tertiaryChromaScale = config.tertiary?.chromaScale ?? 0.7;
   const neutralTint = config.neutral?.tintFromPrimary ?? 0.012;
@@ -73,7 +72,8 @@ export function generateCoreTokensSection(config) {
   }
 }
 
-:root {
+:root,
+[data-theme-scope] {
 
   /* Derived hues (auto-calculated) */
   --hue-secondary: calc(var(--hue) + ${secondaryHueShift});

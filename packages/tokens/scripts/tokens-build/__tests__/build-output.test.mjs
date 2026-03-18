@@ -133,6 +133,10 @@ test("density, radius, and elevation axes expose the expected scaling variables"
 test("dark mode remaps tone layers for both media-query and class-driven activation", () => {
   const { mergedCss } = generateBuildArtifacts("blue");
 
+  assertBlockHasVar(mergedCss, '[data-theme-scope="light"]', "--tone-surface", "var(--ref-neutral-100)");
+  assertBlockHasVar(mergedCss, '[data-theme-scope="light"]', "--tone-on-surface", "var(--ref-neutral-10)");
+  assertBlockHasVar(mergedCss, '[data-theme-scope="dark"]', "--tone-surface", "var(--ref-neutral-8)");
+  assertBlockHasVar(mergedCss, '[data-theme-scope="dark"]', "--tone-on-surface", "var(--ref-neutral-90)");
   assert.match(
     mergedCss,
     /@media \(prefers-color-scheme: dark\)\s*\{[\s\S]*?:root:not\(\.light\)\s*\{[\s\S]*?--tone-primary:\s*var\(--ref-primary-80\);/,

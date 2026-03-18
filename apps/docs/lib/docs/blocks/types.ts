@@ -37,6 +37,17 @@ export interface DocsBlockPreviewShellConfig {
   viewportWidths?: Partial<Record<DocsBlockViewport, number>>;
 }
 
+export interface DocsBlockCodeFile {
+  path: string;
+  language: string;
+  code: string;
+}
+
+export interface DocsBlockCodeExample {
+  files: DocsBlockCodeFile[];
+  entryFile?: string;
+}
+
 export interface DocsBlockMeta {
   slug: string;
   title: string;
@@ -53,6 +64,7 @@ export interface DocsBlock extends DocsBlockMeta {
   previewConfig?: PreviewStageConfig;
   previewShell?: DocsBlockPreviewShellConfig;
   code: string;
+  codeExample?: DocsBlockCodeExample;
   usedComponents: Array<{
     title: string;
     href: string;

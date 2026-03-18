@@ -109,6 +109,8 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
   const isDesktop = viewport === 'desktop';
   const isTablet = viewport === 'tablet';
   const isMobile = viewport === 'mobile';
+  const showInlineSearch = isDesktop;
+  const showCompactSearch = !isDesktop;
 
   return (
     <div className="border-outline-variant relative h-full w-full [transform:translateZ(0)] overflow-hidden rounded-sm border">
@@ -159,7 +161,7 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
             }
             actions={
               <>
-                <div className={cn('min-w-[16rem]', isMobile ? 'hidden' : 'block')}>
+                <div className={cn('min-w-[16rem]', showInlineSearch ? 'block' : 'hidden')}>
                   <SearchBar
                     placeholder="Search records"
                     className="pointer-events-none border-0"
@@ -170,7 +172,7 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
                   variant="standard"
                   size="sm"
                   aria-label="Search"
-                  className={cn('pointer-events-none', isMobile ? 'inline-flex' : 'hidden')}
+                  className={cn('pointer-events-none', showCompactSearch ? 'inline-flex' : 'hidden')}
                 >
                   <span className="material-symbols-outlined text-[18px]">search</span>
                 </IconButton>

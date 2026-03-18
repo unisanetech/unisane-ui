@@ -11,8 +11,9 @@ import React, {
 } from 'react';
 import type { DocsBlock, DocsBlockCanvasHeight, DocsBlockViewport } from '@/lib/docs/blocks/types';
 import { cn } from '@unisane/ui/lib/utils';
-import { SegmentedButton, Typography } from '@unisane/ui';
-import { CodeBlock } from '@/features/docs-page/components/code-block';
+import { SegmentedButton, SegmentedButtonItem, useTheme } from '@unisane/ui';
+import { BlockCodeExplorer } from './block-code-explorer';
+import { PreviewThemeScope } from './preview-theme-scope';
 
 interface BlockPreviewShellProps {
   block: DocsBlock;
@@ -20,9 +21,9 @@ interface BlockPreviewShellProps {
 }
 
 const DEFAULT_VIEWPORT_WIDTHS: Record<DocsBlockViewport, number> = {
-  desktop: 1440,
-  tablet: 920,
-  mobile: 420,
+  desktop: 1280,
+  tablet: 820,
+  mobile: 390,
 };
 
 const MIN_VIEWPORT_WIDTH: Record<DocsBlockViewport, number> = {
@@ -37,21 +38,33 @@ const VIEWPORT_LABELS: Record<DocsBlockViewport, string> = {
   mobile: 'Mobile',
 };
 
+const VIEWPORT_ICONS: Record<DocsBlockViewport, string> = {
+  desktop: 'desktop_windows',
+  tablet: 'tablet_mac',
+  mobile: 'phone_iphone',
+};
+
 const BREAKPOINTS = [
-  { key: 'mobile', minWidth: 0, label: 'Mobile', widthClass: 'w-[40rem]' },
   { key: 'sm', minWidth: 640, label: 'sm', widthClass: 'w-32' },
   { key: 'md', minWidth: 768, label: 'md', widthClass: 'w-40' },
   { key: 'lg', minWidth: 1024, label: 'lg', widthClass: 'w-40' },
   { key: 'xl', minWidth: 1280, label: 'xl', widthClass: 'w-40' },
 ] as const;
 
-function getViewportWidth(
+function getPresetViewportWidth(
+  viewport: DocsBlockViewport,
+  previewShell?: DocsBlock['previewShell'],
+) {
+  const configuredWidth = previewShell?.viewportWidths?.[viewport];
+  return configuredWidth ?? DEFAULT_VIEWPORT_WIDTHS[viewport];
+}
+
+function getClampedViewportWidth(
   viewport: DocsBlockViewport,
   containerWidth: number,
   previewShell?: DocsBlock['previewShell'],
 ) {
-  const configuredWidth = previewShell?.viewportWidths?.[viewport];
-  const targetWidth = configuredWidth ?? DEFAULT_VIEWPORT_WIDTHS[viewport];
+  const targetWidth = getPresetViewportWidth(viewport, previewShell);
   const horizontalBuffer = containerWidth >= 768 ? 64 : 24;
   const maxWidth = Math.max(MIN_VIEWPORT_WIDTH.mobile, containerWidth - horizontalBuffer);
 
@@ -59,13 +72,16 @@ function getViewportWidth(
 }
 
 export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) {
+  const { resolvedTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
+  const [previewTheme, setPreviewTheme] = useState<'light' | 'dark'>(resolvedTheme);
   const previewShell = block.previewShell;
   const canvasHeight = previewShell?.canvasHeight ?? 'screen';
   const defaultViewport = previewShell?.defaultViewport ?? 'desktop';
   const [containerWidth, setContainerWidth] = useState(0);
   const [resizeTrackWidth, setResizeTrackWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
+  const [selectedViewport, setSelectedViewport] = useState<DocsBlockViewport | null>(defaultViewport);
   const [isDragging, setIsDragging] = useState(false);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const resizeTrackRef = useRef<HTMLDivElement | null>(null);
@@ -89,14 +105,34 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
     'screen-tall': 'h-[calc(100svh-7rem)]',
     'screen-max': 'h-[calc(100svh-5.5rem)]',
   };
+  const codeExample = useMemo(
+    () =>
+      block.codeExample ?? {
+        entryFile: 'example.tsx',
+        files: [
+          {
+            path: 'example.tsx',
+            language: 'tsx',
+            code: block.code,
+          },
+        ],
+      },
+    [block.code, block.codeExample],
+  );
 
-  const currentWidth = viewportWidth ?? getViewportWidth(defaultViewport, containerWidth, previewShell);
-  const effectiveViewport: DocsBlockViewport = useMemo(() => {
+  const currentWidth =
+    viewportWidth ??
+    (selectedViewport
+      ? getPresetViewportWidth(selectedViewport, previewShell)
+      : getClampedViewportWidth(defaultViewport, containerWidth, previewShell));
+  const stageWidth = Math.max(currentWidth, resizeTrackWidth || 0);
+  const widthDerivedViewport: DocsBlockViewport = useMemo(() => {
     if (currentWidth >= MIN_VIEWPORT_WIDTH.desktop) return 'desktop';
     if (currentWidth >= MIN_VIEWPORT_WIDTH.tablet) return 'tablet';
     return 'mobile';
   }, [currentWidth]);
-  const activeBreakpoint = useMemo(() => {
+  const effectiveViewport = selectedViewport ?? widthDerivedViewport;
+  const activeBreakpoint = useMemo<(typeof BREAKPOINTS)[number]['key'] | null>(() => {
     for (let index = 0; index < BREAKPOINTS.length; index += 1) {
       const current = BREAKPOINTS[index];
       if (!current) continue;
@@ -106,7 +142,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
         : currentWidth >= current.minWidth;
       if (inRange) return current.key;
     }
-    return 'mobile';
+    return null;
   }, [currentWidth]);
 
   const getMaxViewportWidth = useCallback(() => {
@@ -149,11 +185,16 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
     const maxWidth = getMaxViewportWidth();
     setViewportWidth((previous) => {
       if (previous === null) {
-        return getViewportWidth(defaultViewport, containerWidth, previewShell);
+        return selectedViewport
+          ? getPresetViewportWidth(selectedViewport, previewShell)
+          : getClampedViewportWidth(defaultViewport, containerWidth, previewShell);
+      }
+      if (selectedViewport) {
+        return getPresetViewportWidth(selectedViewport, previewShell);
       }
       return Math.min(maxWidth, Math.max(MIN_VIEWPORT_WIDTH.mobile, previous));
     });
-  }, [containerWidth, defaultViewport, getMaxViewportWidth, previewShell]);
+  }, [containerWidth, defaultViewport, getMaxViewportWidth, previewShell, selectedViewport]);
 
   const startResize = useCallback(
     (event: React.PointerEvent<HTMLButtonElement>) => {
@@ -183,6 +224,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
       };
 
       const updateWidthFromPointer = (clientX: number) => {
+        setSelectedViewport(null);
         const nextWidth = startWidth + (clientX - startX);
         const clampedWidth = Math.max(minWidth, Math.min(maxWidth, nextWidth));
         scheduleWidthUpdate(clampedWidth);
@@ -217,6 +259,14 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
     [containerWidth, currentWidth, getMaxViewportWidth, resizable],
   );
 
+  const setViewportPreset = useCallback(
+    (viewport: DocsBlockViewport) => {
+      setSelectedViewport(viewport);
+      setViewportWidth(getPresetViewportWidth(viewport, previewShell));
+    },
+    [previewShell],
+  );
+
   const previewNode = useMemo(() => {
     if (!isValidElement(block.preview)) {
       return block.preview;
@@ -242,11 +292,40 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
           />
         </div>
 
-        {activeTab === 'preview' && viewportOptions.length > 0 && (
-          <Typography variant="labelMedium" className="text-on-surface-variant font-mono">
-            Drag to resize · {VIEWPORT_LABELS[effectiveViewport]}
-          </Typography>
-        )}
+        {activeTab === 'preview' ? (
+          <div className="flex flex-wrap items-center gap-3">
+            {viewportOptions.length > 0 ? (
+              <SegmentedButton size="sm" className="shrink-0" aria-label="Preview viewport">
+                {viewportOptions.map((viewport) => {
+                  const isSelected = effectiveViewport === viewport;
+
+                  return (
+                    <SegmentedButtonItem
+                      key={viewport}
+                      active={isSelected}
+                      onClick={() => setViewportPreset(viewport)}
+                      className="min-w-11"
+                      aria-label={VIEWPORT_LABELS[viewport]}
+                    >
+                      <span className="material-symbols-outlined text-icon-sm" aria-hidden="true">
+                        {VIEWPORT_ICONS[viewport]}
+                      </span>
+                    </SegmentedButtonItem>
+                  );
+                })}
+              </SegmentedButton>
+            ) : null}
+            <SegmentedButton
+              options={[
+                { value: 'light', label: 'Light' },
+                { value: 'dark', label: 'Dark' },
+              ]}
+              value={previewTheme}
+              onValueChange={(value) => setPreviewTheme(value as 'light' | 'dark')}
+              size="sm"
+            />
+          </div>
+        ) : null}
       </div>
 
       {activeTab === 'preview' ? (
@@ -257,9 +336,18 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
             canvasHeightClass[canvasHeight],
           )}
         >
-            <div className={cn('relative box-border flex h-full flex-col', canvasInsetClass[canvasInset])}>
-              <div className="mb-2 hidden h-9 w-full overflow-hidden @2xl:flex">
-                {BREAKPOINTS.map((breakpoint, index) => {
+          <div
+            className={cn('relative box-border flex h-full flex-col', canvasInsetClass[canvasInset])}
+            style={stageWidth > 0 ? { width: stageWidth } : undefined}
+          >
+            <div className="mb-2 hidden h-9 min-w-full overflow-hidden @2xl:flex">
+              <div className="border-outline-variant flex h-full min-w-[11rem] items-center justify-between border-l px-6 text-sm">
+                <span className="font-mono text-xs text-on-surface-variant">{VIEWPORT_LABELS[effectiveViewport]}</span>
+                <span className="ml-2 font-mono text-xs text-on-surface-variant opacity-80">
+                  {Math.round(currentWidth)}px
+                </span>
+              </div>
+              {BREAKPOINTS.map((breakpoint) => {
                   const isActive = activeBreakpoint === breakpoint.key;
                   return (
                     <div
@@ -267,7 +355,6 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                       className={cn(
                         'border-outline-variant relative flex h-full items-center justify-between border-l px-6 text-sm',
                         breakpoint.widthClass,
-                        index === 0 && 'border-l',
                       )}
                     >
                       <span
@@ -278,55 +365,55 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                       >
                         {breakpoint.label}
                       </span>
-                      <span
-                        className={cn(
-                          'ml-2 font-mono text-xs transition-opacity',
-                          isActive ? 'text-primary opacity-80' : 'pointer-events-none opacity-0',
-                        )}
-                      >
-                        {Math.round(currentWidth)}px
-                      </span>
                     </div>
                   );
                 })}
-                <div className="border-outline-variant flex h-full items-center border-l px-4">
-                  <span className="font-mono text-xs text-on-surface-variant">x1</span>
-                </div>
-              </div>
-
-              <div ref={resizeTrackRef} className="flex min-h-0 flex-1 items-start justify-start">
-                <div
-                  className="relative flex h-full max-w-full items-stretch justify-center"
-                  style={{ width: currentWidth }}
-                >
-                  <div className="bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm">
-                    <div className="h-full w-full overflow-auto">{previewNode}</div>
-                  </div>
-
-                  {resizable && containerWidth > 0 && (
-                    <button
-                      type="button"
-                      aria-label="Resize preview"
-                      onPointerDown={startResize}
-                      style={{ touchAction: 'none' }}
-                      className={cn(
-                        'absolute right-[-11px] top-0 hidden h-full w-6 cursor-ew-resize items-center justify-center bg-transparent @3xl:flex',
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          'bg-secondary-container h-12 w-1.5 rounded-full transition-colors',
-                          isDragging && 'bg-primary',
-                        )}
-                      />
-                    </button>
-                  )}
-                </div>
+              <div className="border-outline-variant flex h-full items-center border-l px-4">
+                <span className="font-mono text-xs text-on-surface-variant">x1</span>
               </div>
             </div>
+
+            <div ref={resizeTrackRef} className="flex min-h-0 min-w-full flex-1 items-start justify-center">
+              <div
+                className="relative flex h-full items-stretch justify-center"
+                style={{ width: currentWidth }}
+              >
+                <PreviewThemeScope
+                  theme={previewTheme}
+                  className="bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm"
+                >
+                  <div
+                    key={`${block.slug}-${effectiveViewport}`}
+                    className="h-full w-full overflow-auto"
+                  >
+                    {previewNode}
+                  </div>
+                </PreviewThemeScope>
+
+                {resizable && containerWidth > 0 && (
+                  <button
+                    type="button"
+                    aria-label="Resize preview"
+                    onPointerDown={startResize}
+                    style={{ touchAction: 'none' }}
+                    className={cn(
+                      'absolute right-[-11px] top-0 hidden h-full w-6 cursor-ew-resize items-center justify-center bg-transparent @3xl:flex',
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        'bg-secondary-container h-12 w-1.5 rounded-full transition-colors',
+                        isDragging && 'bg-primary',
+                      )}
+                    />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
-        <CodeBlock code={block.code} language="tsx" />
+        <BlockCodeExplorer codeExample={codeExample} className={canvasHeightClass[canvasHeight]} />
       )}
     </div>
   );

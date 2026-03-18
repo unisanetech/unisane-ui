@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button, Surface, Typography } from '@unisane/ui';
+import { Button, Typography } from '@unisane/ui';
 import type { DocsBlock } from '@/lib/docs/blocks/types';
 import { BlockPreviewShell } from './block-preview-shell';
 
@@ -18,65 +18,37 @@ export function BlockShowcaseSection({
   backLinkHref,
   backLinkLabel,
 }: BlockShowcaseSectionProps) {
+  const headingClassName =
+    headingAs === 'h1'
+      ? 'max-w-[10ch] text-[2.8rem] leading-[0.92] font-semibold tracking-tight @2xl:text-[4rem] @4xl:text-[4.6rem]'
+      : 'max-w-[14ch] text-[2rem] leading-[0.95] font-semibold tracking-tight @2xl:text-[2.6rem]';
+
   return (
     <div className="w-full pb-12 @3xl:pb-20">
-      <div className="mb-4 flex flex-col gap-4 @2xl:mb-6 @4xl:flex-row @4xl:items-start @4xl:justify-between">
-        <div className="space-y-2">
-          <Typography
-            variant={headingAs === 'h1' ? 'headlineMedium' : 'headlineSmall'}
-            component={headingAs}
-          >
+      <div className="mb-6 space-y-4 @2xl:mb-8 @2xl:space-y-5">
+        {backLinkHref && backLinkLabel ? (
+          <div className="flex items-center">
+            <Button asChild variant="tonal" size="sm">
+              <Link href={backLinkHref}>{backLinkLabel}</Link>
+            </Button>
+          </div>
+        ) : null}
+
+        <div className="space-y-3 @2xl:space-y-4">
+          <Typography component={headingAs} className={headingClassName}>
             {block.title}
           </Typography>
           <Typography
             variant="bodyLarge"
-            className="text-on-surface-variant leading-relaxed"
+            className="text-on-surface-variant max-w-[44rem] leading-relaxed @2xl:text-[1.125rem]"
           >
             {block.description}
           </Typography>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          {backLinkHref && backLinkLabel ? (
-            <Button asChild variant="tonal" size="sm">
-              <Link href={backLinkHref}>{backLinkLabel}</Link>
-            </Button>
-          ) : null}
-          <Button asChild variant="text" size="sm">
-            <Link href={block.usedComponents[0]?.href ?? '/docs/components'}>View components</Link>
-          </Button>
         </div>
       </div>
 
       <section className="mb-10 space-y-3 @2xl:mb-14">
         <BlockPreviewShell block={block} />
-      </section>
-
-      <section className="mb-12 @2xl:mb-16">
-        <div className="mb-5 space-y-2">
-          <Typography variant="headlineSmall" component="h3">
-            Used components
-          </Typography>
-          <Typography variant="bodyLarge" className="text-on-surface-variant leading-relaxed">
-            Core Unisane building blocks used in this scaffold.
-          </Typography>
-        </div>
-        <div className="grid grid-cols-1 gap-4 @2xl:grid-cols-3">
-          {block.usedComponents.map((item) => (
-            <Link key={item.href} href={item.href} className="group block">
-              <Surface
-                tone="surfaceContainerLow"
-                rounded="sm"
-                className="group-hover:bg-surface-container p-4 transition-colors"
-              >
-                <Typography variant="titleMedium">{item.title}</Typography>
-                <Typography variant="bodySmall" className="text-on-surface-variant mt-1">
-                  View component docs
-                </Typography>
-              </Surface>
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );
