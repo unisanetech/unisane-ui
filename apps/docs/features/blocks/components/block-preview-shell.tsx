@@ -81,7 +81,9 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
   const [containerWidth, setContainerWidth] = useState(0);
   const [resizeTrackWidth, setResizeTrackWidth] = useState(0);
   const [viewportWidth, setViewportWidth] = useState<number | null>(null);
-  const [selectedViewport, setSelectedViewport] = useState<DocsBlockViewport | null>(defaultViewport);
+  const [selectedViewport, setSelectedViewport] = useState<DocsBlockViewport | null>(
+    defaultViewport,
+  );
   const [isDragging, setIsDragging] = useState(false);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const resizeTrackRef = useRef<HTMLDivElement | null>(null);
@@ -93,17 +95,17 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
   const canvasInset = previewShell?.canvasInset ?? 'sm';
   const canvasInsetClass = {
     none: 'p-0',
-    sm: 'p-3',
-    md: 'p-4',
-    lg: 'p-5',
+    sm: 'p-0 medium:p-3',
+    md: 'p-0 medium:p-4',
+    lg: 'p-0 medium:p-5',
   } as const;
   const canvasHeightClass: Record<DocsBlockCanvasHeight, string> = {
-    md: 'h-[32rem]',
-    lg: 'h-[40rem]',
-    xl: 'h-[48rem]',
-    screen: 'h-[calc(100svh-10rem)]',
-    'screen-tall': 'h-[calc(100svh-7rem)]',
-    'screen-max': 'h-[calc(100svh-5.5rem)]',
+    md: 'h-[24rem] medium:h-[32rem]',
+    lg: 'h-[30rem] medium:h-[40rem]',
+    xl: 'h-[36rem] medium:h-[48rem]',
+    screen: 'h-[min(70svh,40rem)] medium:h-[calc(100svh-10rem)]',
+    'screen-tall': 'h-[min(78svh,48rem)] medium:h-[calc(100svh-7rem)]',
+    'screen-max': 'h-[min(82svh,52rem)] medium:h-[calc(100svh-5.5rem)]',
   };
   const codeExample = useMemo(
     () =>
@@ -125,7 +127,13 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
     (selectedViewport
       ? getPresetViewportWidth(selectedViewport, previewShell)
       : getClampedViewportWidth(defaultViewport, containerWidth, previewShell));
-  const stageWidth = Math.max(currentWidth, resizeTrackWidth || 0);
+  const availablePreviewWidth = resizeTrackWidth > 0 ? resizeTrackWidth : containerWidth;
+  const fitScale =
+    currentWidth > 0 && availablePreviewWidth > 0
+      ? Math.min(1, availablePreviewWidth / currentWidth)
+      : 1;
+  const scaledViewportWidth = Math.max(1, Math.round(currentWidth * fitScale));
+  const scaledViewportHeightPercent = fitScale === 1 ? 100 : 100 / fitScale;
   const widthDerivedViewport: DocsBlockViewport = useMemo(() => {
     if (currentWidth >= MIN_VIEWPORT_WIDTH.desktop) return 'desktop';
     if (currentWidth >= MIN_VIEWPORT_WIDTH.tablet) return 'tablet';
@@ -279,7 +287,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
 
   return (
     <div className={cn('space-y-4', className)}>
-      <div className=" flex flex-col gap-3  pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
+      <div className="flex flex-col gap-3 pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
         <div className="flex items-center">
           <SegmentedButton
             options={[
@@ -332,63 +340,76 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
         <div
           ref={frameRef}
           className={cn(
-            'border-outline-variant bg-surface-container-low relative overflow-auto rounded-md border [background-size:12px_12px] [background-image:radial-gradient(circle,rgba(148,163,184,0.3)_1px,transparent_1px)] dark:[background-image:radial-gradient(circle,rgba(71,85,105,0.4)_1px,transparent_1px)]',
+            'border-outline-variant bg-surface-container-low medium:border relative overflow-x-hidden overflow-y-auto rounded-md border-0 [background-image:radial-gradient(circle,rgba(148,163,184,0.3)_1px,transparent_1px)] [background-size:12px_12px] dark:[background-image:radial-gradient(circle,rgba(71,85,105,0.4)_1px,transparent_1px)]',
             canvasHeightClass[canvasHeight],
           )}
         >
           <div
-            className={cn('relative box-border flex h-full flex-col', canvasInsetClass[canvasInset])}
-            style={stageWidth > 0 ? { width: stageWidth } : undefined}
+            className={cn(
+              'relative box-border flex h-full flex-col',
+              canvasInsetClass[canvasInset],
+            )}
           >
             <div className="mb-2 hidden h-9 min-w-full overflow-hidden @2xl:flex">
               <div className="border-outline-variant flex h-full min-w-[11rem] items-center justify-between border-l px-6 text-sm">
-                <span className="font-mono text-xs text-on-surface-variant">{VIEWPORT_LABELS[effectiveViewport]}</span>
-                <span className="ml-2 font-mono text-xs text-on-surface-variant opacity-80">
+                <span className="text-on-surface-variant font-mono text-xs">
+                  {VIEWPORT_LABELS[effectiveViewport]}
+                </span>
+                <span className="text-on-surface-variant ml-2 font-mono text-xs opacity-80">
                   {Math.round(currentWidth)}px
                 </span>
               </div>
               {BREAKPOINTS.map((breakpoint) => {
-                  const isActive = activeBreakpoint === breakpoint.key;
-                  return (
-                    <div
-                      key={breakpoint.key}
+                const isActive = activeBreakpoint === breakpoint.key;
+                return (
+                  <div
+                    key={breakpoint.key}
+                    className={cn(
+                      'border-outline-variant relative flex h-full items-center justify-between border-l px-6 text-sm',
+                      breakpoint.widthClass,
+                    )}
+                  >
+                    <span
                       className={cn(
-                        'border-outline-variant relative flex h-full items-center justify-between border-l px-6 text-sm',
-                        breakpoint.widthClass,
+                        'font-mono text-xs transition-colors',
+                        isActive ? 'text-primary font-semibold' : 'text-on-surface-variant',
                       )}
                     >
-                      <span
-                        className={cn(
-                          'font-mono text-xs transition-colors',
-                          isActive ? 'text-primary font-semibold' : 'text-on-surface-variant',
-                        )}
-                      >
-                        {breakpoint.label}
-                      </span>
-                    </div>
-                  );
-                })}
+                      {breakpoint.label}
+                    </span>
+                  </div>
+                );
+              })}
               <div className="border-outline-variant flex h-full items-center border-l px-4">
-                <span className="font-mono text-xs text-on-surface-variant">x1</span>
+                <span className="text-on-surface-variant font-mono text-xs">x1</span>
               </div>
             </div>
 
-            <div ref={resizeTrackRef} className="flex min-h-0 min-w-full flex-1 items-start justify-center">
-              <div
-                className="relative flex h-full items-stretch justify-center"
-                style={{ width: currentWidth }}
-              >
-                <PreviewThemeScope
-                  theme={previewTheme}
-                  className="bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm"
+            <div
+              ref={resizeTrackRef}
+              className="flex min-h-0 min-w-full flex-1 items-start justify-center overflow-hidden"
+            >
+              <div className="relative h-full shrink-0" style={{ width: scaledViewportWidth }}>
+                <div
+                  className="h-full origin-top-left"
+                  style={{
+                    width: currentWidth,
+                    height: `${scaledViewportHeightPercent}%`,
+                    transform: fitScale === 1 ? undefined : `scale(${fitScale})`,
+                  }}
                 >
-                  <div
-                    key={`${block.slug}-${effectiveViewport}`}
-                    className="h-full w-full overflow-auto"
+                  <PreviewThemeScope
+                    theme={previewTheme}
+                    className="bg-surface h-full min-h-0 w-full overflow-hidden rounded-sm"
                   >
-                    {previewNode}
-                  </div>
-                </PreviewThemeScope>
+                    <div
+                      key={`${block.slug}-${effectiveViewport}`}
+                      className="h-full w-full overflow-auto"
+                    >
+                      {previewNode}
+                    </div>
+                  </PreviewThemeScope>
+                </div>
 
                 {resizable && containerWidth > 0 && (
                   <button
@@ -397,7 +418,7 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
                     onPointerDown={startResize}
                     style={{ touchAction: 'none' }}
                     className={cn(
-                      'absolute right-[-11px] top-0 hidden h-full w-6 cursor-ew-resize items-center justify-center bg-transparent @3xl:flex',
+                      'absolute top-0 right-[-11px] hidden h-full w-6 cursor-ew-resize items-center justify-center bg-transparent @3xl:flex',
                     )}
                   >
                     <span
