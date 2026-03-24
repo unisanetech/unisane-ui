@@ -18,7 +18,7 @@ export function HomeViewport({ children, className }: HomeViewportProps) {
   return (
     <div
       className={cn(
-        "mb-10 flex min-h-[calc(100svh-var(--unit)*2)] flex-col @3xl:mb-14 expanded:min-h-[calc(100svh-var(--unit)*4)]",
+        "flex min-h-[100vh] min-h-[100dvh] flex-col",
         className
       )}
     >
