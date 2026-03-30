@@ -5,7 +5,7 @@ import { actionFrameSizeClasses } from '@ui/lib/action-size';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
-  'min-w-50 bg-surface shadow-2 border border-outline-muted overflow-hidden',
+  'min-w-50 bg-surface shadow-2 border border-outline-variant overflow-hidden',
   {
     variants: {
       rounded: {
@@ -75,7 +75,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     'text-on-surface transition-colors duration-short ease-standard',
     'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
-    selected && 'bg-secondary-container text-on-secondary-container',
+    selected && 'bg-state-selected text-on-surface',
     className,
   );
 

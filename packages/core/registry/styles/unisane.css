@@ -69,10 +69,11 @@
   --chroma-secondary: calc(var(--chroma) * 0.45);
   --chroma-tertiary: calc(var(--chroma) * 0.7);
   --chroma-neutral: 0.012;
-  --chroma-error: 0.18;
-  --chroma-success: 0.18;
-  --chroma-warning: 0.16;
-  --chroma-info: 0.16;
+  --chroma-status-scale: 1;
+  --chroma-error: calc(0.18 * var(--chroma-status-scale));
+  --chroma-success: calc(0.18 * var(--chroma-status-scale));
+  --chroma-warning: calc(0.16 * var(--chroma-status-scale));
+  --chroma-info: calc(0.16 * var(--chroma-status-scale));
 
   /* Neutral variant chroma (1.5x neutral) */
   --chroma-neutral-variant: calc(var(--chroma-neutral) * 1.5);
@@ -388,11 +389,12 @@
   --tone-surface-variant: var(--ref-neutral-variant-90);
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
-  /* Background/outline tone mapping */
+  /* Background/outline tone mapping
+     Standard baseline tuned for softer product UI boundaries. */
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-90);
+  --tone-outline-variant: var(--ref-neutral-variant-70);
 
   /* Error tone mapping */
   --tone-error: var(--ref-error-40);
@@ -478,37 +480,35 @@
   --color-scrim: rgba(0, 0, 0, 0.32);
   --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);
 
-  /* Outline role aliases (replaces ad-hoc /nn opacity usage) */
+  /* Outline role aliases (replaces ad-hoc /nn opacity usage)
+     Roles are anchored to outline/outline-variant so they remain readable
+     across light/dark and contrast presets. */
   --color-outline-weak: color-mix(
     in oklab,
-    var(--color-outline-variant) 10%,
-    var(--color-surface) 90%
+    var(--color-outline-variant) 45%,
+    var(--color-surface) 55%
   );
   --color-outline-soft: color-mix(
-    in oklab,
-    var(--color-outline-variant) 15%,
-    var(--color-surface) 85%
-  );
-  --color-outline-muted: color-mix(
-    in oklab,
-    var(--color-outline-variant) 20%,
-    var(--color-surface) 80%
-  );
-  --color-outline-subtle: color-mix(
-    in oklab,
-    var(--color-outline-variant) 30%,
-    var(--color-surface) 70%
-  );
-  --color-outline-medium: color-mix(
-    in oklab,
-    var(--color-outline-variant) 40%,
-    var(--color-surface) 60%
-  );
-  --color-outline-strong: color-mix(
     in oklab,
     var(--color-outline-variant) 60%,
     var(--color-surface) 40%
   );
+  --color-outline-muted: color-mix(
+    in oklab,
+    var(--color-outline-variant) 75%,
+    var(--color-surface) 25%
+  );
+  --color-outline-subtle: color-mix(
+    in oklab,
+    var(--color-outline-variant) 85%,
+    var(--color-surface) 15%
+  );
+  --color-outline-medium: color-mix(
+    in oklab,
+    var(--color-outline) 45%,
+    var(--color-outline-variant) 55%
+  );
+  --color-outline-strong: var(--color-outline);
 
   /* Surface interaction state aliases */
   --color-state-hover: color-mix(in oklab, var(--color-on-surface) 8%, transparent);
@@ -745,7 +745,7 @@
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-90);
+  --tone-outline-variant: var(--ref-neutral-variant-70);
 
   --tone-error: var(--ref-error-40);
   --tone-on-error: var(--ref-error-100);
@@ -782,7 +782,7 @@
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-secondary-container: var(--ref-secondary-30);
   --tone-on-secondary-container: var(--ref-secondary-90);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -802,8 +802,8 @@
 
   --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-24);
+  --tone-outline: var(--ref-neutral-variant-50);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 
   --tone-error: var(--ref-error-80);
   --tone-on-error: var(--ref-error-20);
@@ -840,7 +840,7 @@
 
     --tone-secondary: var(--ref-secondary-80);
     --tone-on-secondary: var(--ref-secondary-20);
-    --tone-secondary-container: var(--ref-secondary-24);
+    --tone-secondary-container: var(--ref-secondary-30);
     --tone-on-secondary-container: var(--ref-secondary-90);
 
     --tone-tertiary: var(--ref-tertiary-80);
@@ -860,8 +860,8 @@
 
     --tone-background: var(--ref-neutral-8);
     --tone-on-background: var(--ref-neutral-90);
-    --tone-outline: var(--ref-neutral-variant-60);
-    --tone-outline-variant: var(--ref-neutral-variant-24);
+    --tone-outline: var(--ref-neutral-variant-50);
+    --tone-outline-variant: var(--ref-neutral-variant-40);
 
     --tone-error: var(--ref-error-80);
     --tone-on-error: var(--ref-error-20);
@@ -898,7 +898,7 @@
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-secondary-container: var(--ref-secondary-30);
   --tone-on-secondary-container: var(--ref-secondary-90);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -918,8 +918,8 @@
 
   --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-24);
+  --tone-outline: var(--ref-neutral-variant-50);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 
   --tone-error: var(--ref-error-80);
   --tone-on-error: var(--ref-error-20);
@@ -957,8 +957,8 @@
    - blue (default)  - Hue 230, professional blue
    - purple          - Hue 285, creative purple
    - pink            - Hue 340, playful pink
-   - red             - Hue 25, bold red/coral
-   - orange          - Hue 55, warm orange
+   - red             - Hue 15, bold red/coral
+   - orange          - Hue 45, warm orange
    - yellow          - Hue 85, bright yellow
    - green           - Hue 145, natural green
    - cyan            - Hue 195, cool cyan
@@ -966,58 +966,70 @@
    - black           - Zero saturation, monochrome
    ============================================================ */
 
-:root[data-color-theme='blue'] {
+:root[data-color-theme='blue'],
+[data-theme-scope][data-color-theme='blue'] {
   --hue: 230;
   --chroma: 0.15;
 }
 
-:root[data-color-theme='purple'] {
+:root[data-color-theme='purple'],
+[data-theme-scope][data-color-theme='purple'] {
   --hue: 285;
   --chroma: 0.14;
 }
 
-:root[data-color-theme='pink'] {
+:root[data-color-theme='pink'],
+[data-theme-scope][data-color-theme='pink'] {
   --hue: 340;
   --chroma: 0.15;
 }
 
-:root[data-color-theme='red'] {
-  --hue: 25;
+:root[data-color-theme='red'],
+[data-theme-scope][data-color-theme='red'] {
+  --hue: 15;
   --chroma: 0.16;
 }
 
-:root[data-color-theme='orange'] {
-  --hue: 55;
+:root[data-color-theme='orange'],
+[data-theme-scope][data-color-theme='orange'] {
+  --hue: 45;
   --chroma: 0.16;
 }
 
-:root[data-color-theme='yellow'] {
+:root[data-color-theme='yellow'],
+[data-theme-scope][data-color-theme='yellow'] {
   --hue: 85;
   --chroma: 0.14;
 }
 
-:root[data-color-theme='green'] {
+:root[data-color-theme='green'],
+[data-theme-scope][data-color-theme='green'] {
   --hue: 145;
   --chroma: 0.14;
 }
 
-:root[data-color-theme='cyan'] {
+:root[data-color-theme='cyan'],
+[data-theme-scope][data-color-theme='cyan'] {
   --hue: 195;
   --chroma: 0.12;
 }
 
 /* Neutral theme - soft accent for product UIs */
-:root[data-color-theme='neutral'] {
+:root[data-color-theme='neutral'],
+[data-theme-scope][data-color-theme='neutral'] {
   --hue: 230;
   --chroma: 0.06;
   --chroma-neutral: 0.008;
+  --chroma-status-scale: 0.75;
 }
 
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
-:root[data-color-theme='black'] {
+:root[data-color-theme='black'],
+[data-theme-scope][data-color-theme='black'] {
   --chroma: 0;
   --chroma-neutral: 0;
+  --chroma-status-scale: 0;
 }
 
 /* ============================================================
@@ -1037,6 +1049,7 @@
 [data-scheme='neutral'] {
   --chroma: 0.03;
   --chroma-neutral: 0.008;
+  --chroma-status-scale: 0.7;
 }
 
 /* Monochrome scheme - pure grayscale
@@ -1044,6 +1057,7 @@
 [data-scheme='monochrome'] {
   --chroma: 0;
   --chroma-neutral: 0;
+  --chroma-status-scale: 0;
 }
 
 /* ============================================================
@@ -1092,12 +1106,15 @@
   --tone-on-info-container: var(--ref-info-10);
 
   --tone-on-surface: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-80);
+  --tone-on-surface-variant: var(--ref-neutral-variant-24);
+  --tone-surface-variant: var(--ref-neutral-variant-92);
+  --tone-outline: var(--ref-neutral-variant-30);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 }
 
 .dark[data-contrast='medium'],
-[data-contrast='medium'].dark {
+[data-contrast='medium'].dark,
+[data-theme-scope='dark'][data-contrast='medium'] {
   --tone-primary: var(--ref-primary-80);
   --tone-on-primary: var(--ref-primary-10);
   --tone-primary-container: var(--ref-primary-30);
@@ -1105,7 +1122,7 @@
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-10);
-  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-secondary-container: var(--ref-secondary-30);
   --tone-on-secondary-container: var(--ref-secondary-95);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -1129,8 +1146,10 @@
   --tone-on-info-container: var(--ref-info-95);
 
   --tone-on-surface: var(--ref-neutral-95);
-  --tone-outline: var(--ref-neutral-variant-70);
-  --tone-outline-variant: var(--ref-neutral-variant-30);
+  --tone-on-surface-variant: var(--ref-neutral-variant-90);
+  --tone-surface-variant: var(--ref-neutral-variant-24);
+  --tone-outline: var(--ref-neutral-variant-60);
+  --tone-outline-variant: var(--ref-neutral-variant-50);
 }
 
 /* High contrast - boosted accessibility with stronger tone extremity */
@@ -1154,8 +1173,10 @@
   --tone-on-surface: var(--ref-neutral-0);
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-0);
+  --tone-on-surface-variant: var(--ref-neutral-variant-20);
+  --tone-surface-variant: var(--ref-neutral-variant-95);
   --tone-outline: var(--ref-neutral-variant-20);
-  --tone-outline-variant: var(--ref-neutral-variant-70);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 
   --tone-error: var(--ref-error-20);
   --tone-on-error: var(--ref-error-100);
@@ -1177,7 +1198,8 @@
 }
 
 .dark[data-contrast='high'],
-[data-contrast='high'].dark {
+[data-contrast='high'].dark,
+[data-theme-scope='dark'][data-contrast='high'] {
   --tone-primary: var(--ref-primary-95);
   --tone-on-primary: var(--ref-primary-0);
   --tone-primary-container: var(--ref-primary-10);
@@ -1197,6 +1219,8 @@
   --tone-on-surface: var(--ref-neutral-100);
   --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-100);
+  --tone-on-surface-variant: var(--ref-neutral-variant-95);
+  --tone-surface-variant: var(--ref-neutral-variant-20);
   --tone-outline: var(--ref-neutral-variant-80);
   --tone-outline-variant: var(--ref-neutral-variant-60);
 

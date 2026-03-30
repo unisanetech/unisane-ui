@@ -363,7 +363,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       'hover:bg-state-hover',
                       highlightSelected &&
                         selectedValue === option.value &&
-                        'bg-state-selected text-primary',
+                        'bg-state-selected text-on-surface',
                       activeIndex === index &&
                         (!highlightSelected || selectedValue !== option.value) &&
                         'bg-state-hover',

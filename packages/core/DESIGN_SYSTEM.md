@@ -88,13 +88,16 @@ Light theme keeps `bg-surface` white. Dark theme keeps `bg-surface-container-low
 
 - Use semantic tokens when the role is semantic: `bg-surface`, `bg-surface-container`, `text-on-surface`, `border-outline-variant`
 - Use semantic border tokens for structural chrome:
-  - `border-outline-variant` for default cards, tables, panels, and section dividers
+  - `border-outline-variant` for default component outlines (cards, inputs, dialogs, dropdowns, popovers, sheets)
+  - `border-outline-medium` for dense internal grid and divider lines (table rows/cells, compact menu/list separators)
+  - `border-outline-subtle` for low-emphasis layout seams (shell splits, nav scaffolding, app frame separators)
   - `border-outline` for stronger hover and emphasis borders
   - `border-primary`, `border-error`, and similar semantic colors only for selected or status states
 - Use `/nn` alpha modifiers when transparency is the treatment: `bg-scrim/30`, `hover:bg-on-surface/8`, `bg-surface/80`
 - Do not invent alpha-based classes to replace tokens that already exist semantically
 - Do not use `/nn` alpha border classes as the default site or component border pattern
 - Do not create new token variants only to express a simple alpha treatment
+- For selected rows/items in navigation and option lists, use `bg-state-selected text-on-surface` as the canonical selected treatment
 
 ---
 

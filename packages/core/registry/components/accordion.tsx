@@ -67,7 +67,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ value, children, c
   return (
     <div
       className={cn(
-        'border-outline-soft border-b last:border-none',
+        'border-outline-medium border-b last:border-none',
         isExpanded && 'bg-surface-container-low',
         className,
       )}

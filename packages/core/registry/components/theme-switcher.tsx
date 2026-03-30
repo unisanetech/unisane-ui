@@ -51,7 +51,7 @@ export const ThemeSwitcher = React.forwardRef<HTMLDivElement, ThemeSwitcherProps
               paddingClass,
               labelClass,
               theme === t.value
-                ? 'bg-secondary-container text-on-secondary-container'
+                ? 'bg-state-selected text-on-surface'
                 : 'text-on-surface-variant hover:bg-surface-container',
             )}
           >

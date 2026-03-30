@@ -117,7 +117,7 @@ export const SidebarMenuButton = forwardRef<HTMLButtonElement, SidebarMenuButton
       size === 'sm' && 'min-h-8 gap-2 py-1.5 text-label-medium',
       size === 'lg' && 'min-h-12 py-3 text-body-large',
       isActive
-        ? 'bg-secondary-container text-on-secondary-container font-medium'
+        ? 'bg-state-selected text-on-surface font-medium'
         : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
       variant === 'outline' && 'border border-outline-variant',
       props.disabled && 'opacity-38 cursor-not-allowed pointer-events-none',
@@ -306,7 +306,7 @@ export function SidebarCollapsibleGroup({
           'text-body-medium duration-short cursor-pointer text-left transition-colors outline-none select-none',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset',
           isSelfActive
-            ? 'bg-secondary-container text-on-secondary-container font-medium'
+            ? 'bg-state-selected text-on-surface font-medium'
             : hasActiveChild
               ? 'text-primary hover:bg-state-hover font-semibold'
               : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface font-medium',

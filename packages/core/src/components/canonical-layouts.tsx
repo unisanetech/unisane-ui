@@ -151,7 +151,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
       >
         {isOpen ? (
           <div className="flex h-full flex-col">
-            <header className="border-outline-weak flex shrink-0 items-center justify-between border-b px-6 py-4">
+            <header className="border-outline-subtle flex shrink-0 items-center justify-between border-b px-6 py-4">
               <div className="text-primary text-label-medium font-medium">{title}</div>
               <IconButton
                 onClick={handleClose}

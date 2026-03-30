@@ -64,6 +64,12 @@ export function generatePalettes(config) {
 
   const errorHue = config.error?.hue ?? 25;
   const errorChroma = config.error?.chroma ?? 0.18;
+  const successHue = config.success?.hue ?? 145;
+  const successChroma = config.success?.chroma ?? 0.18;
+  const warningHue = config.warning?.hue ?? 85;
+  const warningChroma = config.warning?.chroma ?? 0.16;
+  const infoHue = config.info?.hue ?? 245;
+  const infoChroma = config.info?.chroma ?? 0.16;
 
   return {
     primary: generateTonalPalette(primaryHue, primaryChroma),
@@ -72,5 +78,8 @@ export function generatePalettes(config) {
     neutral: generateNeutralPalette(primaryHue, neutralTint),
     "neutral-variant": generateNeutralPalette(primaryHue, neutralTint * 1.5),
     error: generateTonalPalette(errorHue, errorChroma),
+    success: generateTonalPalette(successHue, successChroma),
+    warning: generateTonalPalette(warningHue, warningChroma),
+    info: generateTonalPalette(infoHue, infoChroma),
   };
 }

@@ -256,7 +256,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
             }
           }}
           className={cn(
-            'bg-surface shadow-5 border-outline-muted relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
+            'bg-surface shadow-5 border-outline-variant relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
             isBottom ? 'rounded-t-lg rounded-b-none border-b-0' : 'h-full rounded-none border-r-0',
             isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
             isBottom
@@ -283,13 +283,13 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           {hasHeader ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
+                'border-outline-variant bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
                 headerClassName,
               )}
             >
               {icon ? (
                 <div
-                  className="bg-surface-container-low text-primary border-outline-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
+                  className="bg-surface-container-low text-primary border-outline-variant flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
                   aria-hidden="true"
                 >
                   {icon}
@@ -348,7 +348,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           {resolvedFooter ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest shrink-0 border-t px-5 py-3',
+                'border-outline-variant bg-surface-container-lowest shrink-0 border-t px-5 py-3',
                 footerClassName,
               )}
             >

@@ -14,7 +14,7 @@ const stateLayerVariants = cva(
         secondary:
           "bg-secondary group-hover:opacity-hover group-active:opacity-pressed",
         onSecondary:
-          "bg-on-secondary-container group-hover:opacity-hover group-active:opacity-pressed",
+          "bg-on-secondary group-hover:opacity-hover group-active:opacity-pressed",
         surface:
           "bg-on-surface group-hover:opacity-hover group-active:opacity-pressed",
         error:

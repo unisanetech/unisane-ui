@@ -11,8 +11,8 @@ export function generateColorThemesAndAxesSection() {
    - blue (default)  - Hue 230, professional blue
    - purple          - Hue 285, creative purple
    - pink            - Hue 340, playful pink
-   - red             - Hue 25, bold red/coral
-   - orange          - Hue 55, warm orange
+   - red             - Hue 15, bold red/coral
+   - orange          - Hue 45, warm orange
    - yellow          - Hue 85, bright yellow
    - green           - Hue 145, natural green
    - cyan            - Hue 195, cool cyan
@@ -20,58 +20,70 @@ export function generateColorThemesAndAxesSection() {
    - black           - Zero saturation, monochrome
    ============================================================ */
 
-:root[data-color-theme="blue"] {
+:root[data-color-theme="blue"],
+[data-theme-scope][data-color-theme="blue"] {
   --hue: 230;
   --chroma: 0.15;
 }
 
-:root[data-color-theme="purple"] {
+:root[data-color-theme="purple"],
+[data-theme-scope][data-color-theme="purple"] {
   --hue: 285;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="pink"] {
+:root[data-color-theme="pink"],
+[data-theme-scope][data-color-theme="pink"] {
   --hue: 340;
   --chroma: 0.15;
 }
 
-:root[data-color-theme="red"] {
-  --hue: 25;
+:root[data-color-theme="red"],
+[data-theme-scope][data-color-theme="red"] {
+  --hue: 15;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="orange"] {
-  --hue: 55;
+:root[data-color-theme="orange"],
+[data-theme-scope][data-color-theme="orange"] {
+  --hue: 45;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="yellow"] {
+:root[data-color-theme="yellow"],
+[data-theme-scope][data-color-theme="yellow"] {
   --hue: 85;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="green"] {
+:root[data-color-theme="green"],
+[data-theme-scope][data-color-theme="green"] {
   --hue: 145;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="cyan"] {
+:root[data-color-theme="cyan"],
+[data-theme-scope][data-color-theme="cyan"] {
   --hue: 195;
   --chroma: 0.12;
 }
 
 /* Neutral theme - soft accent for product UIs */
-:root[data-color-theme="neutral"] {
+:root[data-color-theme="neutral"],
+[data-theme-scope][data-color-theme="neutral"] {
   --hue: 230;
   --chroma: 0.06;
   --chroma-neutral: 0.008;
+  --chroma-status-scale: 0.75;
 }
 
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
-:root[data-color-theme="black"] {
+:root[data-color-theme="black"],
+[data-theme-scope][data-color-theme="black"] {
   --chroma: 0;
   --chroma-neutral: 0;
+  --chroma-status-scale: 0;
 }
 
 /* ============================================================
@@ -91,6 +103,7 @@ export function generateColorThemesAndAxesSection() {
 [data-scheme="neutral"] {
   --chroma: 0.03;
   --chroma-neutral: 0.008;
+  --chroma-status-scale: 0.7;
 }
 
 /* Monochrome scheme - pure grayscale
@@ -98,6 +111,7 @@ export function generateColorThemesAndAxesSection() {
 [data-scheme="monochrome"] {
   --chroma: 0;
   --chroma-neutral: 0;
+  --chroma-status-scale: 0;
 }
 
 /* ============================================================
@@ -146,12 +160,15 @@ export function generateColorThemesAndAxesSection() {
   --tone-on-info-container: var(--ref-info-10);
 
   --tone-on-surface: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-80);
+  --tone-on-surface-variant: var(--ref-neutral-variant-24);
+  --tone-surface-variant: var(--ref-neutral-variant-92);
+  --tone-outline: var(--ref-neutral-variant-30);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 }
 
 .dark[data-contrast="medium"],
-[data-contrast="medium"].dark {
+[data-contrast="medium"].dark,
+[data-theme-scope="dark"][data-contrast="medium"] {
   --tone-primary: var(--ref-primary-80);
   --tone-on-primary: var(--ref-primary-10);
   --tone-primary-container: var(--ref-primary-30);
@@ -159,7 +176,7 @@ export function generateColorThemesAndAxesSection() {
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-10);
-  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-secondary-container: var(--ref-secondary-30);
   --tone-on-secondary-container: var(--ref-secondary-95);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -183,8 +200,10 @@ export function generateColorThemesAndAxesSection() {
   --tone-on-info-container: var(--ref-info-95);
 
   --tone-on-surface: var(--ref-neutral-95);
-  --tone-outline: var(--ref-neutral-variant-70);
-  --tone-outline-variant: var(--ref-neutral-variant-30);
+  --tone-on-surface-variant: var(--ref-neutral-variant-90);
+  --tone-surface-variant: var(--ref-neutral-variant-24);
+  --tone-outline: var(--ref-neutral-variant-60);
+  --tone-outline-variant: var(--ref-neutral-variant-50);
 }
 
 /* High contrast - boosted accessibility with stronger tone extremity */
@@ -208,8 +227,10 @@ export function generateColorThemesAndAxesSection() {
   --tone-on-surface: var(--ref-neutral-0);
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-0);
+  --tone-on-surface-variant: var(--ref-neutral-variant-20);
+  --tone-surface-variant: var(--ref-neutral-variant-95);
   --tone-outline: var(--ref-neutral-variant-20);
-  --tone-outline-variant: var(--ref-neutral-variant-70);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 
   --tone-error: var(--ref-error-20);
   --tone-on-error: var(--ref-error-100);
@@ -231,7 +252,8 @@ export function generateColorThemesAndAxesSection() {
 }
 
 .dark[data-contrast="high"],
-[data-contrast="high"].dark {
+[data-contrast="high"].dark,
+[data-theme-scope="dark"][data-contrast="high"] {
   --tone-primary: var(--ref-primary-95);
   --tone-on-primary: var(--ref-primary-0);
   --tone-primary-container: var(--ref-primary-10);
@@ -251,6 +273,8 @@ export function generateColorThemesAndAxesSection() {
   --tone-on-surface: var(--ref-neutral-100);
   --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-100);
+  --tone-on-surface-variant: var(--ref-neutral-variant-95);
+  --tone-surface-variant: var(--ref-neutral-variant-20);
   --tone-outline: var(--ref-neutral-variant-80);
   --tone-outline-variant: var(--ref-neutral-variant-60);
 

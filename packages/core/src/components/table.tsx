@@ -38,7 +38,7 @@ export const TableRow: React.FC<React.HTMLAttributes<HTMLTableRowElement>> = ({
 }) => (
   <tr
     className={cn(
-      'border-outline-soft hover:bg-surface-container-low border-b transition-colors',
+      'border-outline-medium hover:bg-surface-container-low border-b transition-colors',
       className,
     )}
     {...props}

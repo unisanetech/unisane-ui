@@ -197,7 +197,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           elevation={5}
           rounded="lg"
           className={cn(
-            'border-outline-muted relative flex w-full max-w-110 flex-col overflow-hidden border outline-none',
+            'border-outline-variant relative flex w-full max-w-110 flex-col overflow-hidden border outline-none',
             'expanded:max-w-150 animate-in fade-in zoom-in-95 duration-medium ease-emphasized',
             className,
           )}
@@ -205,13 +205,13 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {hasHeader ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
+                'border-outline-variant bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
                 headerClassName,
               )}
             >
               {icon ? (
                 <div
-                  className="bg-surface-container-low text-primary border-outline-muted flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
+                  className="bg-surface-container-low text-primary border-outline-variant flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
                   aria-hidden="true"
                 >
                   {icon}
@@ -272,7 +272,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {actions ? (
             <div
               className={cn(
-                'border-outline-muted bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
+                'border-outline-variant bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
                 footerClassName,
               )}
             >

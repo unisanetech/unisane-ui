@@ -301,7 +301,7 @@ export const Select: React.FC<SelectProps> = ({
               className={cn(
                 optionClass,
                 'hover:bg-state-hover',
-                selectedValue === option.value && 'bg-state-selected text-primary',
+                selectedValue === option.value && 'bg-state-selected text-on-surface',
                 highlightedIndex === index && selectedValue !== option.value && 'bg-state-hover',
                 option.disabled && 'cursor-not-allowed opacity-38',
               )}

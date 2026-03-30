@@ -30,7 +30,7 @@ const listItemVariants = cva(
   {
     variants: {
       active: {
-        true: 'bg-state-selected text-primary',
+        true: 'bg-state-selected text-on-surface',
         false: 'text-on-surface hover:bg-state-hover',
       },
       disabled: {

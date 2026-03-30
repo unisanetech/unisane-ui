@@ -58,6 +58,12 @@ declare module "tailwindcss" {
 
           outline?: string;
           "outline-variant"?: string;
+          "outline-weak"?: string;
+          "outline-soft"?: string;
+          "outline-muted"?: string;
+          "outline-subtle"?: string;
+          "outline-medium"?: string;
+          "outline-strong"?: string;
 
           // Inverse colors
           "inverse-surface"?: string;

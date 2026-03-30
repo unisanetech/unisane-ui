@@ -88,10 +88,11 @@ export function generateCoreTokensSection(config) {
   --chroma-secondary: calc(var(--chroma) * ${config.secondary?.chromaScale ?? 0.45});
   --chroma-tertiary: calc(var(--chroma) * ${tertiaryChromaScale});
   --chroma-neutral: ${neutralTint};
-  --chroma-error: ${errorChroma};
-  --chroma-success: ${successChroma};
-  --chroma-warning: ${warningChroma};
-  --chroma-info: ${infoChroma};
+  --chroma-status-scale: 1;
+  --chroma-error: calc(${errorChroma} * var(--chroma-status-scale));
+  --chroma-success: calc(${successChroma} * var(--chroma-status-scale));
+  --chroma-warning: calc(${warningChroma} * var(--chroma-status-scale));
+  --chroma-info: calc(${infoChroma} * var(--chroma-status-scale));
 `;
 
   // Generate OKLCH-based reference tokens
@@ -187,11 +188,12 @@ export function generateCoreTokensSection(config) {
   --tone-surface-variant: var(--ref-neutral-variant-90);
   --tone-on-surface-variant: var(--ref-neutral-variant-30);
 
-  /* Background/outline tone mapping */
+  /* Background/outline tone mapping
+     Standard baseline tuned for softer product UI boundaries. */
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-90);
+  --tone-outline-variant: var(--ref-neutral-variant-70);
 
   /* Error tone mapping */
   --tone-error: var(--ref-error-40);
@@ -277,13 +279,15 @@ export function generateCoreTokensSection(config) {
   --color-scrim: rgba(0, 0, 0, 0.32);
   --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);
 
-  /* Outline role aliases (replaces ad-hoc /nn opacity usage) */
-  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 10%, var(--color-surface) 90%);
-  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 15%, var(--color-surface) 85%);
-  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 20%, var(--color-surface) 80%);
-  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 30%, var(--color-surface) 70%);
-  --color-outline-medium: color-mix(in oklab, var(--color-outline-variant) 40%, var(--color-surface) 60%);
-  --color-outline-strong: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
+  /* Outline role aliases (replaces ad-hoc /nn opacity usage)
+     Roles are anchored to outline/outline-variant so they remain readable
+     across light/dark and contrast presets. */
+  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
+  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
+  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 75%, var(--color-surface) 25%);
+  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 85%, var(--color-surface) 15%);
+  --color-outline-medium: color-mix(in oklab, var(--color-outline) 45%, var(--color-outline-variant) 55%);
+  --color-outline-strong: var(--color-outline);
 
   /* Surface interaction state aliases */
   --color-state-hover: color-mix(in oklab, var(--color-on-surface) 8%, transparent);

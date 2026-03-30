@@ -55,7 +55,7 @@ export const NavItem = forwardRef<HTMLElement, NavItemProps>(
       variant === 'compact' && 'px-3 py-2 min-h-10',
       variant === 'default' && 'px-4 py-2.5 min-h-12',
       variant === 'comfortable' && 'px-5 py-3 min-h-14',
-      active && ['bg-secondary-container text-on-secondary-container', 'font-semibold'],
+      active && ['bg-state-selected text-on-surface', 'font-semibold'],
       !active && [
         'text-on-surface-variant',
         !disabled && 'hover:bg-surface-variant hover:text-on-surface',

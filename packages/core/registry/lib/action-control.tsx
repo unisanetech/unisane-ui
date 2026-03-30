@@ -5,7 +5,7 @@ import {
 import { cn, composeAsChildClickHandler, focusRing } from '@/lib/utils';
 
 export const actionInteractiveClass = cn(
-  'group overflow-hidden select-none disabled:cursor-not-allowed disabled:opacity-38 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-38',
+  'group overflow-hidden select-none active:scale-[0.98] motion-reduce:active:scale-100 disabled:cursor-not-allowed disabled:opacity-38 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-38',
   focusRing,
 );
 

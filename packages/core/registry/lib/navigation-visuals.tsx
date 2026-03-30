@@ -68,7 +68,7 @@ export function NavigationRailItemContent({
           className={cn(
             "relative flex h-8 w-14 items-center justify-center overflow-hidden rounded-button transition-all duration-medium ease-emphasized",
             active
-              ? "bg-secondary-container text-on-secondary-container"
+              ? "bg-state-selected text-on-surface"
               : "bg-transparent text-on-surface-variant hover:bg-state-hover",
           )}
         >
@@ -101,7 +101,7 @@ export function NavigationRailItemContent({
           className={cn(
             "max-w-full px-0.5 text-center text-label-small transition-colors duration-short",
             active
-              ? "font-bold text-on-secondary-container"
+              ? "font-bold text-on-surface"
               : "font-medium text-on-surface-variant group-hover:text-on-surface",
             disabled && "group-hover:text-on-surface-variant",
           )}
@@ -125,7 +125,7 @@ export function getNavigationDrawerItemClasses(args: {
     "text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none",
     "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
     active
-      ? "bg-secondary-container text-on-secondary-container font-medium"
+      ? "bg-state-selected text-on-surface font-medium"
       : "text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface",
     disabled && "opacity-38 cursor-not-allowed pointer-events-none",
     className,

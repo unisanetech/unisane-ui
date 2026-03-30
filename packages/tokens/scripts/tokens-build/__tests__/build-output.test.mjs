@@ -47,7 +47,12 @@ test("cyan theme build output differs from blue and uses hue 195", () => {
   const { mergedCss: cyanCss } = generateBuildArtifacts("cyan");
 
   assert.notEqual(cyanCss, blueCss);
-  assert.match(cyanCss, /:root\[data-color-theme="cyan"\]\s*\{[\s\S]*?--hue:\s*195;/);
+  assertBlockHasVar(
+    cyanCss,
+    ':root[data-color-theme="cyan"],\n[data-theme-scope][data-color-theme="cyan"]',
+    "--hue",
+    "195",
+  );
 });
 
 test("merged CSS includes all required sections", () => {
@@ -62,14 +67,78 @@ test("merged CSS includes all required sections", () => {
 test("color theme presets expose the expected hue and chroma overrides", () => {
   const { mergedCss } = generateBuildArtifacts("blue");
 
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="blue"]', "--hue", "230");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="blue"]', "--chroma", "0.15");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="green"]', "--hue", "145");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="green"]', "--chroma", "0.14");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="neutral"]', "--chroma", "0.06");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="neutral"]', "--chroma-neutral", "0.008");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="black"]', "--chroma", "0");
-  assertBlockHasVar(mergedCss, ':root[data-color-theme="black"]', "--chroma-neutral", "0");
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="blue"],\n[data-theme-scope][data-color-theme="blue"]',
+    "--hue",
+    "230",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="blue"],\n[data-theme-scope][data-color-theme="blue"]',
+    "--chroma",
+    "0.15",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="green"],\n[data-theme-scope][data-color-theme="green"]',
+    "--hue",
+    "145",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="green"],\n[data-theme-scope][data-color-theme="green"]',
+    "--chroma",
+    "0.14",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="red"],\n[data-theme-scope][data-color-theme="red"]',
+    "--hue",
+    "15",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="orange"],\n[data-theme-scope][data-color-theme="orange"]',
+    "--hue",
+    "45",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="neutral"],\n[data-theme-scope][data-color-theme="neutral"]',
+    "--chroma",
+    "0.06",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="neutral"],\n[data-theme-scope][data-color-theme="neutral"]',
+    "--chroma-neutral",
+    "0.008",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="neutral"],\n[data-theme-scope][data-color-theme="neutral"]',
+    "--chroma-status-scale",
+    "0.75",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="black"],\n[data-theme-scope][data-color-theme="black"]',
+    "--chroma",
+    "0",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="black"],\n[data-theme-scope][data-color-theme="black"]',
+    "--chroma-neutral",
+    "0",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root[data-color-theme="black"],\n[data-theme-scope][data-color-theme="black"]',
+    "--chroma-status-scale",
+    "0",
+  );
 });
 
 test("scheme modifiers adjust chroma independently from tone mappings", () => {
@@ -77,8 +146,10 @@ test("scheme modifiers adjust chroma independently from tone mappings", () => {
 
   assertBlockHasVar(mergedCss, '[data-scheme="neutral"]', "--chroma", "0.03");
   assertBlockHasVar(mergedCss, '[data-scheme="neutral"]', "--chroma-neutral", "0.008");
+  assertBlockHasVar(mergedCss, '[data-scheme="neutral"]', "--chroma-status-scale", "0.7");
   assertBlockHasVar(mergedCss, '[data-scheme="monochrome"]', "--chroma", "0");
   assertBlockHasVar(mergedCss, '[data-scheme="monochrome"]', "--chroma-neutral", "0");
+  assertBlockHasVar(mergedCss, '[data-scheme="monochrome"]', "--chroma-status-scale", "0");
 });
 
 test("contrast modifiers remap semantic tones for light and dark contexts", () => {
@@ -91,23 +162,85 @@ test("contrast modifiers remap semantic tones for light and dark contexts", () =
   assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-success", "var(--ref-success-30)");
   assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-warning", "var(--ref-warning-30)");
   assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-info", "var(--ref-info-30)");
-  assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-outline", "var(--ref-neutral-variant-50)");
+  assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-on-surface-variant", "var(--ref-neutral-variant-24)");
+  assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-surface-variant", "var(--ref-neutral-variant-92)");
+  assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-outline", "var(--ref-neutral-variant-30)");
+  assertBlockHasVar(mergedCss, '[data-contrast="medium"]', "--tone-outline-variant", "var(--ref-neutral-variant-40)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-primary", "var(--ref-primary-20)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-tertiary-container", "var(--ref-tertiary-95)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-success", "var(--ref-success-20)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-warning", "var(--ref-warning-20)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-info", "var(--ref-info-20)");
   assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-on-surface", "var(--ref-neutral-0)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-primary", "var(--ref-primary-95)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark', "--tone-secondary-container", "var(--ref-secondary-24)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark', "--tone-tertiary", "var(--ref-tertiary-80)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark', "--tone-tertiary-container", "var(--ref-tertiary-30)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-success", "var(--ref-success-95)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-warning", "var(--ref-warning-95)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-info", "var(--ref-info-95)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-tertiary-container", "var(--ref-tertiary-10)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-surface", "var(--ref-neutral-8)");
-  assertBlockHasVar(mergedCss, '.dark[data-contrast="high"],\n[data-contrast="high"].dark', "--tone-on-surface", "var(--ref-neutral-100)");
+  assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-on-surface-variant", "var(--ref-neutral-variant-20)");
+  assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-surface-variant", "var(--ref-neutral-variant-95)");
+  assertBlockHasVar(mergedCss, '[data-contrast="high"]', "--tone-outline-variant", "var(--ref-neutral-variant-40)");
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-primary",
+    "var(--ref-primary-95)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark,\n[data-theme-scope="dark"][data-contrast="medium"]',
+    "--tone-secondary-container",
+    "var(--ref-secondary-30)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark,\n[data-theme-scope="dark"][data-contrast="medium"]',
+    "--tone-tertiary",
+    "var(--ref-tertiary-80)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark,\n[data-theme-scope="dark"][data-contrast="medium"]',
+    "--tone-tertiary-container",
+    "var(--ref-tertiary-30)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="medium"],\n[data-contrast="medium"].dark,\n[data-theme-scope="dark"][data-contrast="medium"]',
+    "--tone-outline-variant",
+    "var(--ref-neutral-variant-50)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-success",
+    "var(--ref-success-95)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-warning",
+    "var(--ref-warning-95)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-info",
+    "var(--ref-info-95)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-tertiary-container",
+    "var(--ref-tertiary-10)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-surface",
+    "var(--ref-neutral-8)",
+  );
+  assertBlockHasVar(
+    mergedCss,
+    '.dark[data-contrast="high"],\n[data-contrast="high"].dark,\n[data-theme-scope="dark"][data-contrast="high"]',
+    "--tone-on-surface",
+    "var(--ref-neutral-100)",
+  );
 });
 
 test("density, radius, and elevation axes expose the expected scaling variables", () => {
@@ -148,7 +281,8 @@ test("dark mode remaps tone layers for both media-query and class-driven activat
   assertBlockHasVar(mergedCss, ".dark", "--tone-surface-container-high", "var(--ref-neutral-22)");
   assertBlockHasVar(mergedCss, ".dark", "--tone-surface-container-highest", "var(--ref-neutral-24)");
   assertBlockHasVar(mergedCss, ".dark", "--tone-on-surface", "var(--ref-neutral-90)");
-  assertBlockHasVar(mergedCss, ".dark", "--tone-outline-variant", "var(--ref-neutral-variant-24)");
+  assertBlockHasVar(mergedCss, ".dark", "--tone-secondary-container", "var(--ref-secondary-30)");
+  assertBlockHasVar(mergedCss, ".dark", "--tone-outline-variant", "var(--ref-neutral-variant-40)");
   assertBlockHasVar(mergedCss, ".dark", "--tone-success", "var(--ref-success-80)");
   assertBlockHasVar(mergedCss, ".dark", "--tone-warning", "var(--ref-warning-80)");
   assertBlockHasVar(mergedCss, ".dark", "--tone-info", "var(--ref-info-80)");
@@ -160,6 +294,7 @@ test("status semantic colors are generated through reference palettes and tone m
   assert.match(mergedCss, /--ref-success-40:\s*oklch\(/);
   assert.match(mergedCss, /--ref-warning-40:\s*oklch\(/);
   assert.match(mergedCss, /--ref-info-40:\s*oklch\(/);
+  assert.match(mergedCss, /--chroma-status-scale:\s*1;/);
   assert.match(mergedCss, /--color-success:\s*var\(--tone-success\);/);
   assert.match(mergedCss, /--color-warning:\s*var\(--tone-warning\);/);
   assert.match(mergedCss, /--color-info:\s*var\(--tone-info\);/);

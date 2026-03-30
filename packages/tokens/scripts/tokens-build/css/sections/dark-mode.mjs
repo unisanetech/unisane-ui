@@ -28,7 +28,7 @@ function getLightToneMapping() {
   --tone-background: var(--ref-neutral-100);
   --tone-on-background: var(--ref-neutral-10);
   --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-90);
+  --tone-outline-variant: var(--ref-neutral-variant-70);
 
   --tone-error: var(--ref-error-40);
   --tone-on-error: var(--ref-error-100);
@@ -64,7 +64,7 @@ function getDarkToneMapping() {
 
   --tone-secondary: var(--ref-secondary-80);
   --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-24);
+  --tone-secondary-container: var(--ref-secondary-30);
   --tone-on-secondary-container: var(--ref-secondary-90);
 
   --tone-tertiary: var(--ref-tertiary-80);
@@ -84,8 +84,8 @@ function getDarkToneMapping() {
 
   --tone-background: var(--ref-neutral-8);
   --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-24);
+  --tone-outline: var(--ref-neutral-variant-50);
+  --tone-outline-variant: var(--ref-neutral-variant-40);
 
   --tone-error: var(--ref-error-80);
   --tone-on-error: var(--ref-error-20);

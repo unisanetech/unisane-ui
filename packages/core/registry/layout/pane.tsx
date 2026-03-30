@@ -9,9 +9,9 @@ const paneVariants = cva(
   {
     variants: {
       role: {
-        list: 'border-r border-outline-muted z-0',
+        list: 'border-r border-outline-subtle z-0',
         main: 'flex-1 z-0',
-        supporting: 'border-l border-outline-muted z-10 bg-surface-container-low',
+        supporting: 'border-l border-outline-subtle z-10 bg-surface-container-low',
       },
       isActive: {
         true: 'block',
