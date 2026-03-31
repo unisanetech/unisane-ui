@@ -1,6 +1,6 @@
 'use client';
 
-import { cn, Icon, Badge, Button } from '@unisane/ui';
+import { cn, Icon, Badge, Button, IconButton } from '@unisane/ui';
 import type { ToolbarAction } from './types';
 
 // ─── TOOLBAR DROPDOWN BUTTON (Facebook Ads Manager style) ─────────────────
@@ -34,8 +34,8 @@ export function ToolbarDropdownButton({
         // Touch-friendly: min 44px on small containers, standard 36px on larger
         'inline-flex h-11 min-h-[44px] items-center gap-2 px-3 transition-colors @md:h-9 @md:min-h-[36px]',
         'text-body-medium border-outline-variant rounded border font-medium',
-        'text-on-surface hover:bg-on-surface/5',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'text-on-surface hover:bg-state-hover',
+        'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',
         active && 'bg-primary-container text-on-primary-container border-primary-container',
         Component === 'div' && 'cursor-pointer',
@@ -97,15 +97,15 @@ export function ToolbarTextButton({
   badge?: number;
 }) {
   return (
-    <button
+    <Button
       onClick={onClick}
       disabled={disabled}
+      variant="outlined"
+      size="sm"
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        'inline-flex h-11 min-h-[44px] items-center gap-2 px-3 transition-colors @md:h-9 @md:min-h-[36px]',
-        'text-body-medium border-outline-variant rounded border font-medium',
-        'text-on-surface hover:bg-on-surface/5',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'h-11 min-h-[44px] items-center gap-2 px-3 text-body-medium font-medium transition-colors @md:h-9 @md:min-h-[36px]',
+        'text-on-surface hover:bg-state-hover',
         'disabled:pointer-events-none disabled:opacity-50',
         active && 'bg-primary-container text-on-primary-container border-primary-container',
       )}
@@ -136,7 +136,7 @@ export function ToolbarTextButton({
         </span>
       )}
       <span>{label}</span>
-    </button>
+    </Button>
   );
 }
 
@@ -164,7 +164,7 @@ export function SegmentedDropdownButton({
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 40px on larger
         'border-outline-variant bg-surface flex h-11 min-h-[44px] items-center border transition-colors @md:h-10 @md:min-h-[40px]',
-        'hover:bg-on-surface/5',
+        'hover:bg-state-hover',
         active && 'bg-primary-container border-primary-container',
         isFirst && 'rounded-l-lg',
         isLast && 'rounded-r-lg',
@@ -209,7 +209,7 @@ export function SegmentedDropdownButton({
       {/* Dropdown arrow section */}
       <div
         className={cn(
-          'border-outline-variant/50 flex h-full items-center justify-center border-l px-2',
+          'border-outline-variant flex h-full items-center justify-center border-l px-2',
           active ? 'text-on-primary-container' : 'text-on-surface-variant',
         )}
       >
@@ -240,14 +240,14 @@ export function SegmentedIconButton({
   isLast?: boolean;
 }) {
   return (
-    <button
+    <IconButton
       onClick={onClick}
       disabled={disabled}
+      variant="standard"
+      size="md"
       className={cn(
-        // Touch-friendly: min 44px on small containers, standard 40px on larger
-        'border-outline-variant bg-surface flex h-11 min-h-[44px] items-center justify-center border px-3 transition-colors @md:h-10 @md:min-h-[40px]',
-        'hover:bg-on-surface/5',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'border-outline-variant bg-surface border transition-colors',
+        'hover:bg-state-hover',
         'disabled:pointer-events-none disabled:opacity-50',
         active && 'bg-primary-container text-on-primary-container border-primary-container',
         !active && 'text-on-surface-variant',
@@ -256,10 +256,9 @@ export function SegmentedIconButton({
         !isFirst && '-ml-px',
       )}
       aria-label={label}
-      title={label}
     >
       <Icon symbol={icon} className="h-5 w-5" />
-    </button>
+    </IconButton>
   );
 }
 
@@ -278,7 +277,7 @@ export function ActionButton({ action }: { action: ToolbarAction }) {
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
         'text-body-medium h-11 min-h-[44px] gap-2 rounded font-medium @md:h-9 @md:min-h-[36px]',
-        isDanger && 'border-error text-error hover:bg-error/8',
+        isDanger && 'border-error text-error hover:bg-state-error',
         !isPrimary && !isDanger && 'border-outline-variant border',
       )}
     >
@@ -304,21 +303,20 @@ export function CompactIconButton({
   disabled?: boolean;
 }) {
   return (
-    <button
+    <IconButton
       onClick={onClick}
       disabled={disabled}
+      variant="standard"
+      size="md"
       className={cn(
-        // Touch-friendly: min 44px on small containers, standard 36px on larger
-        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors @md:h-9 @md:w-9',
-        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
         'disabled:pointer-events-none disabled:opacity-50',
         active && 'bg-primary-container text-on-primary-container',
       )}
       aria-label={label}
-      title={label}
     >
       <Icon symbol={icon} className="h-5 w-5" />
-    </button>
+    </IconButton>
   );
 }

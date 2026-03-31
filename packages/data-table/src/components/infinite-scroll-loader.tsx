@@ -1,7 +1,7 @@
 "use client";
 
 import React, { forwardRef } from "react";
-import { cn, Icon } from "@unisane/ui";
+import { cn, Icon, Button } from "@unisane/ui";
 import { useI18n } from "../i18n";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -93,17 +93,20 @@ export const InfiniteScrollLoader = forwardRef<
           {errorMessage ?? error.message ?? t("errorMessage")}
         </span>
         {onRetry && (
-          <button
+          <Button
             onClick={onRetry}
+            variant="tonal"
+            size="sm"
             className={cn(
-              "px-4 py-2 rounded-full text-label-large",
-              "bg-error-container text-on-error-container",
-              "hover:bg-error-container/80 transition-colors",
+              "h-auto rounded-full px-4 py-2 text-label-large",
+              "bg-error-container",
+              "text-on-error-container",
+              "hover:bg-state-error transition-colors",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
             )}
           >
             {t("retry")}
-          </button>
+          </Button>
         )}
       </div>
     );

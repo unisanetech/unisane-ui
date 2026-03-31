@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback, useId } from 'react';
-import { cn, Icon, Button } from '@unisane/ui';
+import { cn, Icon, Button, IconButton } from '@unisane/ui';
 import { useFiltering } from '../../context';
 import { useDebounce } from '../../hooks/utilities/use-debounce';
 import { useI18n } from '../../i18n';
@@ -124,23 +124,24 @@ export function SearchInput({
   return (
     <>
       {/* Small/Medium containers (< @3xl): Icon button that opens overlay */}
-      <button
+      <IconButton
+        variant="standard"
+        size="md"
+        aria-label={t('openSearch')}
         onClick={() => setIsOverlayOpen(true)}
         className={cn(
-          'relative flex h-11 w-11 items-center justify-center rounded-lg @3xl:hidden',
-          'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+          'relative @3xl:hidden',
+          'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
           'transition-colors',
           className,
         )}
-        aria-label={t('openSearch')}
       >
         <Icon symbol="search" className="h-5 w-5" />
         {/* Active search indicator */}
         {hasActiveSearch && (
           <span className="bg-primary absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
         )}
-      </button>
+      </IconButton>
 
       {/* Search overlay (takes full toolbar width) - visible when isOverlayOpen */}
       {isOverlayOpen && (
@@ -163,24 +164,28 @@ export function SearchInput({
             aria-label={t('searchPlaceholder')}
             className={cn(
               'h-full min-w-0 flex-1 border-none bg-transparent outline-none',
-              'text-body-medium text-on-surface placeholder:text-on-surface-variant/70',
+              'text-body-medium text-on-surface placeholder:text-on-surface-variant',
             )}
           />
           {localValue && (
-            <button
+            <Button
               onClick={handleClear}
-              className="text-label-medium text-primary hover:bg-primary-container/80 hover:text-on-primary-container focus-visible:ring-primary shrink-0 rounded px-2 py-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              variant="text"
+              size="sm"
+              className="shrink-0 text-primary"
             >
               {t('clear')}
-            </button>
+            </Button>
           )}
-          <button
+          <IconButton
+            variant="standard"
+            size="md"
             onClick={handleOverlayClose}
-            className="text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 focus-visible:ring-primary flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className="shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-state-hover transition-colors"
             aria-label={t('clearSearch')}
           >
             <Icon symbol="close" className="h-5 w-5" />
-          </button>
+          </IconButton>
         </div>
       )}
 
@@ -190,7 +195,7 @@ export function SearchInput({
         aria-label={t('searchPlaceholder')}
         className={cn(
           'bg-surface border-outline-variant relative hidden h-9 items-center rounded border @3xl:flex',
-          'focus-within:border-primary focus-within:ring-primary/20 focus-within:ring-1',
+          'focus-within:border-primary focus-within:ring-focus-ring focus-within:ring-1',
           'w-60 transition-all duration-200',
           className,
         )}
@@ -215,20 +220,19 @@ export function SearchInput({
           aria-label={t('searchPlaceholder')}
           className={cn(
             'text-body-medium h-full min-w-0 flex-1 bg-transparent pr-2',
-            'text-on-surface placeholder:text-on-surface-variant/70 outline-none',
+            'text-on-surface placeholder:text-on-surface-variant outline-none',
           )}
         />
         {localValue && (
-          <button
+          <IconButton
             onClick={handleClear}
-            className={cn(
-              'flex h-full w-8 shrink-0 items-center justify-center',
-              'hover:bg-on-surface/8 focus-visible:ring-primary rounded-r transition-colors focus-visible:ring-2 focus-visible:outline-none',
-            )}
+            variant="standard"
+            size="sm"
+            className="shrink-0 text-on-surface-variant hover:text-on-surface"
             aria-label={t('clearSearch')}
           >
             <Icon symbol="close" className="text-on-surface-variant h-4 w-4" />
-          </button>
+          </IconButton>
         )}
       </div>
     </>
@@ -325,16 +329,18 @@ export function MobileSearchOverlay({ isOpen, onClose, placeholder }: MobileSear
         />
         <div className="flex shrink-0 items-center gap-2">
           {localValue && (
-            <button
+            <Button
               onClick={handleClear}
-              className="text-label-medium text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8 focus-visible:ring-primary rounded px-2 py-1 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+              variant="text"
+              size="sm"
+              className="text-on-surface-variant hover:text-on-surface"
             >
               {t('clear')}
-            </button>
+            </Button>
           )}
-          <Button variant="text" size="sm" onClick={handleClose} className="h-10 w-10 p-0">
+          <IconButton variant="standard" size="md" onClick={handleClose} aria-label={t('clearSearch')}>
             <Icon symbol="close" className="h-5 w-5" />
-          </Button>
+          </IconButton>
         </div>
       </div>
     </div>

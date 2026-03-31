@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import {
   cn,
   Icon,
+  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -100,19 +101,18 @@ export function ExportDropdown({
   const trigger = segmented ? (
     <SegmentedDropdownButton icon={iconSymbol} isFirst={isFirst} isLast={isLast} />
   ) : compact ? (
-    <button
+    <IconButton
+      variant="standard"
+      size="md"
+      aria-label={t('export')}
       className={cn(
-        // Touch-friendly: 44px on mobile
-        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
         isExporting && 'animate-pulse',
       )}
-      aria-label={t('export')}
-      title={t('export')}
     >
       <Icon symbol={iconSymbol} className="h-5 w-5" />
-    </button>
+    </IconButton>
   ) : (
     <ToolbarDropdownButton label={t('export')} icon={iconSymbol} as="div" />
   );

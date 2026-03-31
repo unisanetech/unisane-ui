@@ -115,10 +115,11 @@ const injectDragImageStyles = (() => {
         align-items: center;
         gap: 8px;
         padding: 10px 14px;
-        background: var(--md-sys-color-surface-container-high, #e6e0e9);
-        color: var(--md-sys-color-on-surface, #1d1b20);
+        background: var(--color-surface-container-high, #e6e0e9);
+        color: var(--color-on-surface, #1d1b20);
+        border: 1px solid var(--color-outline-variant, #bcc6cb);
         border-radius: 12px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        box-shadow: var(--shadow-3, 0 4px 16px rgba(0, 0, 0, 0.2));
         font-family: inherit;
         font-size: 14px;
         font-weight: 500;

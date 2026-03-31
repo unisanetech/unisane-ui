@@ -8,7 +8,7 @@ import React, {
   type ReactNode,
   type CSSProperties,
 } from 'react';
-import { cn, Icon, Checkbox } from '@unisane/ui';
+import { cn, Icon, Checkbox, IconButton } from '@unisane/ui';
 import type {
   Column,
   PinPosition,
@@ -197,7 +197,7 @@ function DataTableRowInner<T extends { id: string }>({
 
   // Sticky cell background - includes drop target state
   const getStickyBgClass = () => {
-    if (isDropTarget) return 'bg-primary-container/28';
+    if (isDropTarget) return 'bg-state-selected';
     return bgClass;
   };
   const stickyBgClass = getStickyBgClass();
@@ -217,11 +217,11 @@ function DataTableRowInner<T extends { id: string }>({
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header
           'hover:z-[5]',
-          isFocused && 'ring-primary/55 ring-1 ring-inset',
+          isFocused && 'ring-focus-ring ring-1 ring-inset',
           // Drag state styling
           isDragging && 'scale-[0.98] opacity-50',
           // Drop target highlight
-          isDropTarget && 'bg-primary-container/28',
+          isDropTarget && 'bg-state-selected',
         )}
         style={style}
         data-index={dataIndex}
@@ -238,8 +238,8 @@ function DataTableRowInner<T extends { id: string }>({
               bgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-variant/50 border-b',
-              showColumnBorders && 'border-outline-variant/50 border-r',
+              !isLastRow && 'border-outline-variant border-b',
+              showColumnBorders && 'border-outline-variant border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.DRAG_HANDLE,
@@ -277,8 +277,8 @@ function DataTableRowInner<T extends { id: string }>({
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-variant/50 border-b',
-              showColumnBorders && 'border-outline-variant/50 border-r',
+              !isLastRow && 'border-outline-variant border-b',
+              showColumnBorders && 'border-outline-variant border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.CHECKBOX,
@@ -306,8 +306,8 @@ function DataTableRowInner<T extends { id: string }>({
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-variant/50 border-b',
-              showColumnBorders && 'border-outline-variant/50 border-r',
+              !isLastRow && 'border-outline-variant border-b',
+              showColumnBorders && 'border-outline-variant border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.EXPANDER,
@@ -318,13 +318,13 @@ function DataTableRowInner<T extends { id: string }>({
             }}
           >
             {canExpand && (
-              <button
+              <IconButton
                 onClick={() => onToggleExpand(row.id)}
+                variant="standard"
+                size="sm"
                 className={cn(
-                  // Touch-friendly: min 44px touch target with padding trick
-                  'text-on-surface-variant -m-1 rounded-full p-2 transition-all',
-                  'hover:bg-on-surface/8 hover:text-on-surface',
-                  'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+                  'text-on-surface-variant transition-all',
+                  'hover:bg-state-hover hover:text-on-surface',
                 )}
                 aria-expanded={isExpanded}
                 aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
@@ -333,7 +333,7 @@ function DataTableRowInner<T extends { id: string }>({
                   symbol={isExpanded ? 'expand_less' : 'expand_more'}
                   className="h-5 w-5 transition-transform"
                 />
-              </button>
+              </IconButton>
             )}
           </td>
         )}
@@ -491,7 +491,7 @@ function DataTableRowInner<T extends { id: string }>({
                 pinPosition ? stickyBgClass : bgClass,
                 !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
                 'transition-colors',
-                !isLastRow && 'border-outline-variant/50 border-b',
+                !isLastRow && 'border-outline-variant border-b',
                 col.align === 'center' && 'text-center',
                 col.align === 'end' && 'text-right',
                 col.align !== 'center' && col.align !== 'end' && 'text-left',
@@ -504,15 +504,15 @@ function DataTableRowInner<T extends { id: string }>({
                 showColumnBorders &&
                   !isLastColumn &&
                   !pinPosition &&
-                  'border-outline-variant/50 border-r',
+                  'border-outline-variant border-r',
                 showColumnBorders &&
                   pinPosition === 'left' &&
                   key === lastPinnedLeftKey &&
-                  'border-outline-variant/50 border-r',
+                  'border-outline-variant border-r',
                 showColumnBorders &&
                   pinPosition === 'right' &&
                   key === firstPinnedRightKey &&
-                  'border-outline-variant/50 border-l',
+                  'border-outline-variant border-l',
                 paddingClass,
                 isEditable && !isEditing && 'cursor-cell',
                 isEditing && 'relative z-[3] overflow-visible !p-0',
@@ -523,7 +523,7 @@ function DataTableRowInner<T extends { id: string }>({
                 cellSelectionCtx?.isSelected &&
                   'bg-secondary-container text-on-secondary-container',
                 cellSelectionCtx?.isActive &&
-                  'bg-primary-container text-on-primary-container ring-primary/60 ring-1 ring-inset',
+                  'bg-primary-container text-on-primary-container ring-focus-ring ring-1 ring-inset',
               )}
               style={{
                 left: pinPosition === 'left' ? meta?.left : undefined,
@@ -567,7 +567,7 @@ function DataTableRowInner<T extends { id: string }>({
           {/* Drag handle placeholder - scrolls with content */}
           {reorderableRows && (
             <td
-              className="bg-surface-container-lowest border-outline-variant/50 border-b"
+              className="bg-surface-container-lowest border-outline-variant border-b"
               style={{
                 width: COLUMN_WIDTHS.DRAG_HANDLE,
                 minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
@@ -578,8 +578,8 @@ function DataTableRowInner<T extends { id: string }>({
           {selectable && (
             <td
               className={cn(
-                'bg-surface-container-lowest border-outline-variant/50 left-0 isolate z-10 border-b @md:sticky',
-                showColumnBorders && 'border-outline-variant/50 border-r',
+                'bg-surface-container-lowest border-outline-variant left-0 isolate z-10 border-b @md:sticky',
+                showColumnBorders && 'border-outline-variant border-r',
               )}
               style={{
                 width: COLUMN_WIDTHS.CHECKBOX,
@@ -591,8 +591,8 @@ function DataTableRowInner<T extends { id: string }>({
           {enableExpansion && (
             <td
               className={cn(
-                'bg-surface-container-lowest border-outline-variant/50 isolate z-10 border-b @md:sticky',
-                showColumnBorders && 'border-outline-variant/50 border-r',
+                'bg-surface-container-lowest border-outline-variant isolate z-10 border-b @md:sticky',
+                showColumnBorders && 'border-outline-variant border-r',
               )}
               style={{
                 // Position after checkbox if selectable, otherwise at 0
@@ -603,7 +603,7 @@ function DataTableRowInner<T extends { id: string }>({
               }}
             />
           )}
-          <td colSpan={columns.length} className="border-outline-variant/50 border-b p-0">
+          <td colSpan={columns.length} className="border-outline-variant border-b p-0">
             <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
           </td>
         </tr>

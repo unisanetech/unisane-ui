@@ -126,8 +126,8 @@ export function ResizeHandle({
       onClick={(e) => e.stopPropagation()}
       className={cn(
         "absolute right-0 top-0 bottom-0 w-2 cursor-col-resize",
-        "hover:w-3 hover:bg-primary/20 active:bg-primary/40 transition-all",
-        "focus:outline-none focus:w-3 focus:bg-primary/30 focus-visible:ring-2 focus-visible:ring-primary",
+        "hover:w-3 hover:bg-state-hover active:bg-state-pressed transition-all",
+        "focus:outline-none focus:w-3 focus:bg-state-focus focus-visible:ring-2 focus-visible:ring-focus-ring",
         "z-10"
       )}
       title={t("resizeColumn")}

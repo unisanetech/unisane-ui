@@ -47,8 +47,8 @@ export const DragHandle = forwardRef<HTMLButtonElement, DragHandleProps>(
         className={cn(
           "inline-flex items-center justify-center rounded transition-colors",
           "text-outline-variant hover:text-on-surface-variant",
-          "hover:bg-on-surface/8 active:bg-on-surface/12",
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+          "hover:bg-state-hover active:bg-state-pressed",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-focus-ring",
           "cursor-grab active:cursor-grabbing",
           "touch-none select-none",
           // WCAG 2.5.5: min 44px touch target

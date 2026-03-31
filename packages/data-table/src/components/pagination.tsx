@@ -57,7 +57,7 @@ function PageSizeSelector({
         <select
           value={pageSize}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="text-body-medium text-on-surface focus-visible:ring-primary/40 min-h-[36px] min-w-[48px] cursor-pointer appearance-none rounded border-none bg-transparent px-1 pr-5 focus-visible:ring-2 focus-visible:outline-none"
+          className="text-body-medium text-on-surface focus-visible:ring-focus-ring min-h-[36px] min-w-[48px] cursor-pointer appearance-none rounded border-none bg-transparent px-1 pr-5 focus-visible:ring-2 focus-visible:outline-none"
         >
           {pageSizeOptions.map((size) => (
             <option key={size} value={size}>

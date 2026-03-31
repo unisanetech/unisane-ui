@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { cn, Icon } from "@unisane/ui";
+import { cn, Icon, IconButton } from "@unisane/ui";
 import { useI18n } from "../i18n";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -73,17 +73,17 @@ export function TreeExpander({
       style={{ paddingLeft: indent }}
     >
       {hasChildren ? (
-        <button
-          type="button"
+        <IconButton
+          variant="standard"
+          size="sm"
           onClick={(e) => {
             e.stopPropagation();
             onToggle();
           }}
           disabled={isLoading}
           className={cn(
-            "inline-flex items-center justify-center w-6 h-6 rounded-full",
-            "text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface",
-            "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
+            "text-on-surface-variant hover:bg-state-hover hover:text-on-surface",
+            "transition-colors",
             isLoading && "opacity-50 cursor-wait"
           )}
           aria-expanded={isExpanded}
@@ -100,7 +100,7 @@ export function TreeExpander({
               )}
             />
           )}
-        </button>
+        </IconButton>
       ) : showLeafIndicator ? (
         // Leaf indicator (dot or dash)
         <span className="inline-flex items-center justify-center w-6 h-6">

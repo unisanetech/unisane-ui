@@ -311,7 +311,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
       <div
         ref={scrollbarRef}
         className={cn(
-          "bg-surface border-t border-outline-variant/50",
+          "bg-surface border-t border-outline-variant",
           // Hide on mobile (< @md) - native scrollbar used for touch usability
           "hidden @md:block",
           // Sticky positioning when table bottom is below viewport
@@ -336,7 +336,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
         className={cn(
           "absolute top-0 bottom-0 transition-colors",
           hasOverflow && "cursor-pointer",
-          hasOverflow && (isDragging ? "bg-on-surface/10" : "bg-on-surface/5 hover:bg-on-surface/8")
+          hasOverflow && (isDragging ? "bg-outline-soft" : "bg-outline-subtle hover:bg-outline-soft")
         )}
         style={{
           left: pinnedLeftWidth,
@@ -349,9 +349,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
             ref={thumbRef}
             className={cn(
               "absolute top-0 bottom-0 transition-colors",
-              isDragging
-                ? "bg-primary"
-                : "bg-on-surface/40 hover:bg-on-surface/50"
+              isDragging ? "bg-primary" : "bg-outline-medium hover:bg-outline-strong"
             )}
             style={{
               width: thumbWidth,

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useCallback, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { cn, Icon } from "@unisane/ui";
+import { cn, Icon, DropdownMenuItem, DropdownMenuSeparator } from "@unisane/ui";
 import type {
   RowContextMenuItem,
   RowContextMenuItemOrSeparator,
@@ -237,9 +237,7 @@ export function RowContextMenu<T extends { id: string }>({
     <div
       ref={menuRef}
       className={cn(
-        "fixed z-50 min-w-48 py-1",
-        "bg-surface-container rounded-lg shadow-lg",
-        "border border-outline-variant/50",
+        "fixed z-50 min-w-50 overflow-hidden rounded-sm border border-outline-variant bg-surface py-2 shadow-2",
         "animate-in fade-in-0 zoom-in-95 duration-100"
       )}
       style={{
@@ -253,9 +251,8 @@ export function RowContextMenu<T extends { id: string }>({
         // Separator
         if (!isMenuItem(item)) {
           return (
-            <div
+            <DropdownMenuSeparator
               key={item.key ?? `separator-${index}`}
-              className="my-1 h-px bg-outline-variant/50"
               role="separator"
             />
           );
@@ -276,36 +273,17 @@ export function RowContextMenu<T extends { id: string }>({
           );
 
         return (
-          <button
+          <DropdownMenuItem
             key={item.key}
-            type="button"
-            role="menuitem"
             disabled={isDisabled}
+            icon={iconElement}
             onClick={(e) => handleItemClick(item, e)}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2 text-left",
-              "text-body-medium transition-colors duration-snappy",
-              "focus:outline-none focus-visible:bg-on-surface/8",
-              item.variant === "danger"
-                ? "text-error hover:bg-error/8 focus-visible:bg-error/8"
-                : "text-on-surface hover:bg-on-surface/8",
-              isDisabled && "opacity-50 cursor-not-allowed"
+              item.variant === "danger" && "text-error"
             )}
           >
-            {iconElement && (
-              <span
-                className={cn(
-                  "shrink-0",
-                  item.variant === "danger"
-                    ? "text-error"
-                    : "text-on-surface-variant"
-                )}
-              >
-                {iconElement}
-              </span>
-            )}
-            <span className="flex-1">{item.label}</span>
-          </button>
+            {item.label}
+          </DropdownMenuItem>
         );
       })}
     </div>,

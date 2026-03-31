@@ -159,7 +159,7 @@ export function GroupRow<T extends { id: string }>({
         group.depth === 0
           ? 'bg-surface-container-low hover:bg-surface-container'
           : 'bg-surface-container-lowest hover:bg-surface-container-low',
-        !isLastGroup && 'border-outline-variant/50 border-b',
+        !isLastGroup && 'border-outline-variant border-b',
       )}
       style={style}
       onClick={onToggle}

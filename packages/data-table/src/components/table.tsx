@@ -187,7 +187,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
       }
       className={cn(
         'text-label-large text-on-surface-variant font-medium whitespace-nowrap',
-        'bg-surface-container-low border-outline-variant/50 border-b',
+        'bg-surface-container-low border-outline-variant border-b',
         sortable && 'hover:bg-surface-container cursor-pointer select-none',
         align === 'start' && 'text-left',
         align === 'center' && 'text-center',
@@ -238,7 +238,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
       aria-selected={selected}
       className={cn(
         'text-body-medium text-on-surface overflow-hidden text-ellipsis whitespace-nowrap',
-        'bg-surface border-outline-variant/50 border-b',
+        'bg-surface border-outline-variant border-b',
         'group-hover:bg-surface-container-low transition-colors',
         align === 'start' && 'text-left',
         align === 'center' && 'text-center',

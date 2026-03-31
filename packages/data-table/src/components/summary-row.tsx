@@ -192,7 +192,7 @@ function SummaryCell<T extends object>({
   return (
     <td
       className={cn(
-        'bg-surface-container-low border-outline-variant/50 border-t-2',
+        'bg-surface-container-low border-outline-variant border-t-2',
         'text-on-surface whitespace-nowrap',
         paddingClass,
         column.align === 'center' && 'text-center',
@@ -201,9 +201,9 @@ function SummaryCell<T extends object>({
         // Pinned styling
         pinPosition ? 'sticky isolate z-10' : 'z-0',
         // Column borders
-        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-variant/50 border-r',
-        showColumnBorders && isLastPinnedLeft && 'border-outline-variant/50 border-r',
-        showColumnBorders && isFirstPinnedRight && 'border-outline-variant/50 border-l',
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-variant border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-variant border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-variant border-l',
       )}
       style={{
         width: meta?.width,
@@ -271,7 +271,7 @@ function SummaryRowInner<T extends { id: string }>({
       {reorderableRows && (
         <td
           className={cn(
-            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'bg-surface-container-low border-outline-variant border-t-2',
             'sticky left-0 isolate z-10',
           )}
           style={{
@@ -292,9 +292,9 @@ function SummaryRowInner<T extends { id: string }>({
       {selectable && (
         <td
           className={cn(
-            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'bg-surface-container-low border-outline-variant border-t-2',
             'sticky isolate z-10',
-            showColumnBorders && 'border-outline-variant/50 border-r',
+            showColumnBorders && 'border-outline-variant border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.CHECKBOX,
@@ -315,9 +315,9 @@ function SummaryRowInner<T extends { id: string }>({
       {enableExpansion && (
         <td
           className={cn(
-            'bg-surface-container-low border-outline-variant/50 border-t-2',
+            'bg-surface-container-low border-outline-variant border-t-2',
             'sticky isolate z-10',
-            showColumnBorders && 'border-outline-variant/50 border-r',
+            showColumnBorders && 'border-outline-variant border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.EXPANDER,
@@ -356,19 +356,19 @@ function SummaryRowInner<T extends { id: string }>({
             <td
               key={key}
               className={cn(
-                'bg-surface-container-low border-outline-variant/50 border-t-2',
+                'bg-surface-container-low border-outline-variant border-t-2',
                 paddingClass,
                 pinPosition ? 'sticky isolate z-10' : 'z-0',
                 showColumnBorders &&
                   !isLastColumn &&
                   !pinPosition &&
-                  'border-outline-variant/50 border-r',
+                  'border-outline-variant border-r',
                 showColumnBorders &&
                   key === lastPinnedLeftKey &&
-                  'border-outline-variant/50 border-r',
+                  'border-outline-variant border-r',
                 showColumnBorders &&
                   key === firstPinnedRightKey &&
-                  'border-outline-variant/50 border-l',
+                  'border-outline-variant border-l',
               )}
               style={{
                 width: meta?.width,

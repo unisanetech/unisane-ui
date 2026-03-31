@@ -3,6 +3,9 @@
 import {
   cn,
   Icon,
+  Button,
+  Chip,
+  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -56,25 +59,28 @@ export function SelectionBar({
 
     // Inline button for larger screens
     return (
-      <button
+      <Button
         key={idx}
         onClick={() => action.onClick(selectedIds)}
         disabled={isDisabled}
+        variant="text"
+        size="sm"
+        icon={
+          typeof action.icon === 'string' ? (
+            <Icon symbol={action.icon} className="text-[20px]" />
+          ) : action.icon ? (
+            <span>{action.icon}</span>
+          ) : undefined
+        }
         className={cn(
-          'inline-flex h-9 items-center gap-1.5 rounded px-3 transition-colors',
-          'disabled:pointer-events-none disabled:opacity-50',
+          'gap-1.5 px-2',
           isDanger
-            ? 'text-error hover:bg-error/8'
-            : 'text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface',
+            ? 'text-error hover:bg-state-error'
+            : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
         )}
       >
-        {typeof action.icon === 'string' ? (
-          <Icon symbol={action.icon} className="text-[20px]" />
-        ) : action.icon ? (
-          <span>{action.icon}</span>
-        ) : null}
         <span className="text-body-medium font-medium">{action.label}</span>
-      </button>
+      </Button>
     );
   };
 
@@ -86,13 +92,15 @@ export function SelectionBar({
           {t('selectedCount', { count: selectedCount })}
         </span>
         {onClearSelection && (
-          <button
+          <IconButton
             onClick={onClearSelection}
-            className="text-primary/70 hover:bg-primary-container/80 hover:text-on-primary-container focus-visible:ring-primary inline-flex h-6 w-6 items-center justify-center rounded transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            variant="standard"
+            size="sm"
+            className="text-primary hover:bg-state-hover hover:text-primary"
             aria-label={t('deselectAll')}
           >
             <Icon symbol="close" className="text-[18px]" />
-          </button>
+          </IconButton>
         )}
       </div>
 
@@ -103,16 +111,17 @@ export function SelectionBar({
           <div className="@md:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button
+                <IconButton
+                  variant="standard"
+                  size="md"
                   className={cn(
-                    'flex h-10 w-10 items-center justify-center rounded-lg transition-colors',
-                    'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-                    'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+                    'transition-colors',
+                    'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
                   )}
                   aria-label={t('actions')}
                 >
                   <Icon symbol="more_vert" className="h-5 w-5" />
-                </button>
+                </IconButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-48">
                 {bulkActions.map((action, idx) => renderActionButton(action, idx, false))}
@@ -164,7 +173,7 @@ export function TitleBar({
   return (
     <div className="flex min-w-0 flex-col gap-0.5 @md:flex-row @md:items-center @md:gap-3">
       {title && <h2 className="text-title-medium text-on-surface truncate font-medium">{title}</h2>}
-      {title && showInfo && <div className="bg-outline-variant/30 hidden h-6 w-px @md:block" />}
+      {title && showInfo && <div className="bg-outline-soft hidden h-6 w-px @md:block" />}
       {showInfo && (
         <span className="text-body-small text-on-surface-variant whitespace-nowrap">
           {hasRange
@@ -198,36 +207,31 @@ export function ActiveFiltersBar<T>() {
   };
 
   return (
-    <div className="bg-surface-container-low border-outline-variant/50 flex items-center gap-2 border-b px-3 py-2">
+    <div className="bg-surface-container-low border-outline-variant flex items-center gap-2 border-b px-3 py-2">
       <span className="text-label-small text-on-surface-variant">{t('filtersLabel')}:</span>
 
       {searchText && (
-        <button
-          onClick={() => setSearch('')}
-          className="bg-primary-container text-on-primary-container hover:bg-primary-container/80 text-label-small inline-flex items-center gap-1 rounded-full px-2 py-0.5 transition-colors"
-        >
-          {t('searchLabel')}: &quot;{searchText}&quot;
-          <Icon symbol="close" className="h-3 w-3" />
-        </button>
+        <Chip
+          variant="filter"
+          selected
+          label={`${t('searchLabel')}: "${searchText}"`}
+          onDelete={() => setSearch('')}
+        />
       )}
 
       {Object.entries(columnFilters).map(([key, value]) => (
-        <button
+        <Chip
           key={key}
-          onClick={() => removeFilter(key)}
-          className="bg-primary-container text-on-primary-container hover:bg-primary-container/80 text-label-small inline-flex items-center gap-1 rounded-full px-2 py-0.5 transition-colors"
-        >
-          {getColumnHeader(key)}: {String(value)}
-          <Icon symbol="close" className="h-3 w-3" />
-        </button>
+          variant="filter"
+          selected
+          label={`${getColumnHeader(key)}: ${String(value)}`}
+          onDelete={() => removeFilter(key)}
+        />
       ))}
 
-      <button
-        onClick={clearAllFilters}
-        className="text-label-small text-error ml-2 hover:underline"
-      >
+      <Button variant="text" size="sm" onClick={clearAllFilters} className="text-error">
         {t('clearAll')}
-      </button>
+      </Button>
     </div>
   );
 }
@@ -257,7 +261,7 @@ export function GroupingPillsBar<T>({ showEmpty = false }: GroupingPillsBarProps
   };
 
   return (
-    <div className="bg-surface-container-low border-outline-variant/50 flex items-center gap-2 border-b px-3 py-2">
+    <div className="bg-surface-container-low border-outline-variant flex items-center gap-2 border-b px-3 py-2">
       <div className="text-on-surface-variant flex items-center gap-1.5">
         <Icon symbol="account_tree" className="text-[16px]" />
         <span className="text-label-small font-medium">{t('groupedByLabel')}:</span>
@@ -271,7 +275,7 @@ export function GroupingPillsBar<T>({ showEmpty = false }: GroupingPillsBarProps
               {index > 0 && (
                 <Icon
                   symbol="chevron_right"
-                  className="text-on-surface-variant/50 mx-0.5 text-[16px]"
+                  className="text-on-surface-variant mx-0.5 text-[16px]"
                 />
               )}
               <GroupingPill
@@ -284,16 +288,13 @@ export function GroupingPillsBar<T>({ showEmpty = false }: GroupingPillsBarProps
 
           {/* Clear all grouping button */}
           {groupByArray.length > 1 && (
-            <button
-              onClick={() => setGroupBy(null)}
-              className="text-label-small text-error ml-2 hover:underline"
-            >
+            <Button variant="text" size="sm" onClick={() => setGroupBy(null)} className="text-error">
               {t('clearAll')}
-            </button>
+            </Button>
           )}
         </div>
       ) : (
-        <span className="text-label-small text-on-surface-variant/60 italic">{t('none')}</span>
+        <span className="text-label-small text-on-surface-variant italic">{t('none')}</span>
       )}
     </div>
   );
@@ -315,7 +316,7 @@ function GroupingPill({ label, level, onRemove }: GroupingPillProps) {
         'inline-flex items-center gap-1 rounded-full py-0.5 pr-1 pl-2',
         'text-label-small font-medium transition-colors',
         'bg-secondary-container text-on-secondary-container',
-        'hover:bg-secondary-container/80',
+        'hover:bg-secondary-container',
       )}
     >
       {/* Level indicator for multi-level grouping */}
@@ -326,7 +327,7 @@ function GroupingPill({ label, level, onRemove }: GroupingPillProps) {
           e.stopPropagation();
           onRemove();
         }}
-        className="hover:bg-on-secondary-container/10 inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors"
+        className="hover:bg-secondary-container inline-flex h-4 w-4 items-center justify-center rounded-full transition-colors"
         aria-label={t('removeGroupingLabel', { label })}
       >
         <Icon symbol="close" className="text-[12px]" />
@@ -366,7 +367,7 @@ export function FrozenColumnsIndicator({
         className={cn(
           'inline-flex items-center gap-1 rounded px-2 py-0.5',
           'text-label-small font-medium',
-          'bg-tertiary-container/50 text-on-tertiary-container',
+          'bg-tertiary-container text-on-tertiary-container',
         )}
       >
         <Icon symbol="push_pin" className="-rotate-45 text-[14px]" />
@@ -378,7 +379,7 @@ export function FrozenColumnsIndicator({
         {onUnfreezeAll && (
           <button
             onClick={onUnfreezeAll}
-            className="hover:bg-on-tertiary-container/10 ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded transition-colors"
+            className="hover:bg-tertiary-container ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded transition-colors"
             aria-label={t('unfreezeAll')}
           >
             <Icon symbol="close" className="text-[12px]" />

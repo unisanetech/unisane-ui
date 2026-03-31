@@ -4,6 +4,7 @@ import React, { useCallback } from "react";
 import {
   cn,
   Icon,
+  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -88,20 +89,16 @@ export function ActionsCell<T extends { id: string }>({
     >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button
-            type="button"
+          <IconButton
             disabled={disabled}
+            variant="standard"
+            size={size}
+            aria-label={t("actions")}
             className={cn(
-              "inline-flex items-center justify-center rounded-full transition-colors",
               "text-on-surface-variant hover:text-on-surface",
-              "hover:bg-on-surface/8 active:bg-on-surface/12",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-              size === "sm" && "w-7 h-7",
-              size === "md" && "w-8 h-8",
-              disabled && "opacity-50 cursor-not-allowed pointer-events-none",
+              "hover:bg-state-hover active:bg-state-pressed",
               className
             )}
-            aria-label={t("actions")}
           >
             <Icon
               symbol="more_vert"
@@ -110,7 +107,7 @@ export function ActionsCell<T extends { id: string }>({
                 size === "md" && "text-[20px]"
               )}
             />
-          </button>
+          </IconButton>
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align={align} className="min-w-44" portal>
@@ -183,7 +180,7 @@ function ActionMenuItem<T extends { id: string }>({
       disabled={disabled}
       className={cn(
         item.variant === "danger" &&
-          "text-error hover:bg-error/8 focus:bg-error/8 [&>span:first-child]:text-error"
+          "text-error hover:bg-state-error focus:bg-state-error [&>span:first-child]:text-error"
       )}
     >
       {item.label}

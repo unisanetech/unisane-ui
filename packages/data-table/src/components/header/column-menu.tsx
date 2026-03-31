@@ -4,6 +4,8 @@ import React, { useState, useCallback, useId } from 'react';
 import {
   cn,
   Icon,
+  Button,
+  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -75,15 +77,17 @@ export function ColumnMenu<T>({
     <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <button
+          <IconButton
+            variant="standard"
+            size="sm"
+            aria-label={t('actions')}
             className={cn(
-              'text-on-surface-variant inline-flex h-7 w-7 items-center justify-center rounded',
-              'hover:bg-on-surface/8 hover:text-on-surface transition-colors',
-              'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+              'text-on-surface-variant',
+              'hover:bg-state-hover hover:text-on-surface transition-colors',
             )}
           >
             <Icon symbol="more_vert" className="text-[18px]" />
-          </button>
+          </IconButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" portal className="min-w-48">
           {/* Filter options */}
@@ -318,37 +322,31 @@ function TextFilter<T>({
             className={cn(
               'text-body-medium w-full px-3 py-2',
               'bg-surface border-outline-variant rounded-sm border',
-              'focus:border-primary focus:ring-primary/20 focus:ring-1 focus:outline-none',
-              'placeholder:text-on-surface-variant/60',
+              'focus:border-primary focus:ring-focus-ring focus:ring-1 focus:outline-none',
+              'placeholder:text-on-surface-variant',
             )}
             autoFocus
           />
           <div className="flex gap-1">
-            <button
+            <Button
               type="button"
+              variant="filled"
+              size="sm"
               onClick={onSubmit}
               disabled={!filterInputValue.trim()}
-              className={cn(
-                'text-label-medium flex-1 rounded px-3 py-1.5',
-                'bg-primary text-on-primary',
-                'hover:bg-primary/90 transition-colors',
-                'disabled:cursor-not-allowed disabled:opacity-50',
-              )}
+              className="flex-1"
             >
               {t('apply')}
-            </button>
+            </Button>
             {hasActiveFilter && (
-              <button
+              <Button
                 type="button"
+                variant="tonal"
+                size="sm"
                 onClick={onClear}
-                className={cn(
-                  'text-label-medium rounded px-3 py-1.5',
-                  'bg-surface-container text-on-surface',
-                  'hover:bg-surface-container-high transition-colors',
-                )}
               >
                 {t('clear')}
-              </button>
+              </Button>
             )}
           </div>
         </div>

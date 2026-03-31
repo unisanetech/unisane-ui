@@ -4,6 +4,7 @@ import {
   cn,
   Icon,
   Button,
+  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -56,16 +57,15 @@ export function ColumnVisibilityDropdown<T>({
       isLast={isLast}
     />
   ) : compact ? (
-    <button
+    <IconButton
+      variant="standard"
+      size="md"
+      aria-label={t('columns')}
       className={cn(
-        // Touch-friendly: 44px on mobile
-        'relative flex h-11 w-11 items-center justify-center rounded-lg transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'relative transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
         hasHiddenColumns && 'bg-primary-container text-on-primary-container',
       )}
-      aria-label={t('columns')}
-      title={t('columns')}
     >
       <Icon symbol="view_column" className="h-5 w-5" />
       {hasHiddenColumns && hiddenColumns.size > 0 && (
@@ -73,7 +73,7 @@ export function ColumnVisibilityDropdown<T>({
           {hiddenColumns.size}
         </span>
       )}
-    </button>
+    </IconButton>
   ) : (
     <ToolbarDropdownButton
       label={t('columns')}
@@ -138,19 +138,18 @@ export function DensityDropdown({
       isLast={isLast}
     />
   ) : compact ? (
-    <button
+    <IconButton
+      variant="standard"
+      size="md"
+      aria-label={t('density')}
       className={cn(
-        // Touch-friendly: 44px on mobile
-        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+        'transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
         isActive && 'bg-primary-container text-on-primary-container',
       )}
-      aria-label={t('density')}
-      title={t('density')}
     >
       <Icon symbol={currentIcon} className="h-5 w-5" />
-    </button>
+    </IconButton>
   ) : (
     <ToolbarDropdownButton label={t('density')} icon={currentIcon} active={isActive} as="div" />
   );
@@ -188,24 +187,19 @@ export function MoreActionsDropdown({
   if (actions.length === 0) return null;
 
   const trigger = compact ? (
-    <button
-      className={cn(
-        // Touch-friendly: 44px on mobile
-        'flex h-11 w-11 items-center justify-center rounded-lg transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-on-surface/8',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
-      )}
+    <IconButton
+      variant="standard"
+      size="md"
       aria-label={t('moreActions')}
-      title={t('moreActions')}
+      className={cn(
+        'transition-colors',
+        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
+      )}
     >
       <Icon symbol="more_vert" className="h-5 w-5" />
-    </button>
+    </IconButton>
   ) : (
-    <Button
-      variant="outlined"
-      size="sm"
-      className="border-outline-variant h-9 gap-2 rounded border"
-    >
+    <Button variant="outlined" size="sm" className="gap-2">
       <span>{t('moreActions')}</span>
       <Icon symbol="arrow_drop_down" className="text-on-surface-variant h-5 w-5" />
     </Button>
@@ -243,12 +237,13 @@ export function LabeledDropdown({ dropdown }: { dropdown: ToolbarDropdown }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button
+        <Button
+          variant="outlined"
+          size="sm"
           className={cn(
-            'inline-flex h-9 items-center gap-2 rounded px-3',
+            'items-center gap-2',
             'text-body-medium font-medium',
-            'border-outline-variant bg-surface border',
-            'hover:bg-on-surface/5 focus-visible:ring-primary transition-colors focus-visible:ring-2 focus-visible:outline-none',
+            'hover:bg-state-hover focus-visible:ring-focus-ring transition-colors focus-visible:ring-2 focus-visible:outline-none',
           )}
         >
           {dropdown.icon && (
@@ -257,7 +252,7 @@ export function LabeledDropdown({ dropdown }: { dropdown: ToolbarDropdown }) {
           {dropdown.label && <span className="text-on-surface-variant">{dropdown.label}</span>}
           <span className="text-on-surface">{selectedLabel}</span>
           <Icon symbol="arrow_drop_down" className="text-on-surface-variant h-5 w-5" />
-        </button>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-44">
         {dropdown.options.map((option) => (

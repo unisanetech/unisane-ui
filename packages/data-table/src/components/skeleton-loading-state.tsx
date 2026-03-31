@@ -159,7 +159,7 @@ function SkeletonRow<T>({
           className={cn(
             cellPadding,
             'w-12',
-            showColumnBorders && 'border-outline-variant/50 border-r',
+            showColumnBorders && 'border-outline-variant border-r',
           )}
         >
           <Skeleton variant="rectangular" className="size-5 rounded-sm" />
@@ -172,7 +172,7 @@ function SkeletonRow<T>({
           className={cn(
             cellPadding,
             'w-12',
-            showColumnBorders && 'border-outline-variant/50 border-r',
+            showColumnBorders && 'border-outline-variant border-r',
           )}
         >
           <Skeleton variant="circular" className="size-5" />

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { cn, Icon } from '@unisane/ui';
+import { cn, Icon, IconButton } from '@unisane/ui';
 import type { SortDirection } from '../../types';
 
 type SortControlVariant = 'indicator' | 'action';
@@ -45,16 +45,16 @@ export function SortControl({
   }
 
   return (
-    <button
+    <IconButton
+      variant="standard"
+      size="sm"
       onClick={onClick}
+      aria-label={ariaLabel ?? 'Sort'}
       className={cn(
-        'relative inline-flex h-7 w-7 items-center justify-center rounded transition-colors',
         isSorted
-          ? 'text-primary hover:bg-primary-container/80 hover:text-on-primary-container'
-          : 'text-on-surface-variant hover:bg-on-surface/8 hover:text-on-surface',
-        'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+          ? 'text-primary hover:bg-state-hover hover:text-primary'
+          : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
       )}
-      aria-label={ariaLabel}
     >
       <Icon symbol={iconSymbol} className="text-[18px]" />
       {hasPriority && (
@@ -62,6 +62,6 @@ export function SortControl({
           {sortPriority}
         </span>
       )}
-    </button>
+    </IconButton>
   );
 }

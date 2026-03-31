@@ -185,7 +185,7 @@ function DataTableToolbarInner<T extends { id: string }>({
         <div
           className={cn(
             // z-10: Within table context, below sticky zone (z-20) and sidebar (z-30)
-            "relative flex items-center justify-between gap-2 @md:gap-3 px-2 @md:px-3 min-h-12 bg-surface border-b border-outline-variant/50 transition-shadow z-10",
+            "relative flex items-center justify-between gap-2 @md:gap-3 px-2 @md:px-3 min-h-12 bg-surface border-b border-outline-variant transition-shadow z-10",
             hasSelection && "shadow-1"
           )}
          
@@ -221,7 +221,7 @@ function DataTableToolbarInner<T extends { id: string }>({
                 {/* Frozen columns indicator - visible @lg+ */}
                 {hasFrozenColumns && (
                   <div className="hidden @lg:flex items-center gap-3">
-                    <div className="h-6 w-px bg-outline-variant/30" />
+                    <div className="h-6 w-px bg-outline-soft" />
                     <FrozenColumnsIndicator
                       frozenLeftCount={frozenLeftCount}
                       frozenRightCount={frozenRightCount}
@@ -233,7 +233,7 @@ function DataTableToolbarInner<T extends { id: string }>({
                 {/* Action buttons - visible @xl+ */}
                 {hasActions && (
                   <div className="hidden @xl:flex items-center gap-2">
-                    <div className="h-6 w-px bg-outline-variant/30" />
+                    <div className="h-6 w-px bg-outline-soft" />
                     {actions.map((action) => (
                       <ActionButton key={action.key} action={action} />
                     ))}
@@ -320,7 +320,7 @@ function DataTableToolbarInner<T extends { id: string }>({
 
             {/* Divider before secondary controls - visible @xl+ */}
             {(hasExport || hasPrint || onRefresh) && (
-              <div className="h-6 w-px bg-outline-variant/30 hidden @xl:block" />
+              <div className="h-6 w-px bg-outline-soft hidden @xl:block" />
             )}
 
             {/* SECONDARY ACTIONS - In overflow on small, inline with text on @xl+ */}
