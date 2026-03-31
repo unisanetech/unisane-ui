@@ -58,9 +58,7 @@ function normalizeForComparison(content, relativeFilePath, isRegistry = false) {
 }
 
 function stripComments(content) {
-  return content
-    .replace(/\/\*[\s\S]*?\*\//g, '')
-    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+  return content.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
 }
 
 /**
@@ -127,9 +125,7 @@ async function checkUnrewrittenImports() {
         const content = await fs.readFile(filePath, 'utf-8');
 
         const uiAliasMatches = content.match(/(?:from\s+|import\s+)(["'])@ui\/[^"']+\1/g);
-        const relativeMatches = content.match(
-          /(?:from\s+|import\s+)(["'])(\.\.?\/[^"']+)\1/g,
-        );
+        const relativeMatches = content.match(/(?:from\s+|import\s+)(["'])(\.\.?\/[^"']+)\1/g);
         const matches = [...(uiAliasMatches ?? []), ...(relativeMatches ?? [])];
 
         if (matches.length > 0) {
@@ -168,15 +164,8 @@ async function checkComponentDrift() {
     const regFiles = await getAllFiles(regFolderPath);
 
     // Check for files in src but not in registry (missing)
-    // Note: primitives/icon.tsx is intentionally not in registry as it's re-exported via components/icon.tsx
-    const knownReexports = ['primitives/icon.tsx'];
     for (const file of srcFiles) {
       if (!regFiles.includes(file)) {
-        const fullPath = `${folder}/${file}`;
-        if (knownReexports.includes(fullPath)) {
-          info(`Skipping ${fullPath} (re-exported via components)`);
-          continue;
-        }
         missingCount++;
         warn(`Missing in registry: ${folder}/${file}`);
       }
@@ -258,28 +247,6 @@ async function validateRegistryJson() {
 
     if (missingFiles === 0) {
       info(`✅ registry.json valid with ${Object.keys(registry.components).length} components`);
-    }
-
-    // Check for files in registry not listed in registry.json
-    const folders = ['components', 'primitives', 'layout', 'lib', 'hooks'];
-    const listedFiles = new Set();
-
-    for (const component of Object.values(registry.components)) {
-      for (const file of component.files || []) {
-        listedFiles.add(file);
-      }
-    }
-
-    for (const folder of folders) {
-      const folderPath = path.join(registryDir, folder);
-      const files = await getAllFiles(folderPath);
-
-      for (const file of files) {
-        const relativePath = `${folder}/${file}`;
-        if (!listedFiles.has(relativePath)) {
-          warn(`File not in registry.json: ${relativePath}`);
-        }
-      }
     }
   } catch (err) {
     error(`Could not read registry.json: ${err.message}`);

@@ -68,7 +68,7 @@ async function detectDependencies(filePath, relativeFilePath) {
     );
 
     return Array.from(deps);
-  } catch (error) {
+  } catch {
     return [];
   }
 }
@@ -96,7 +96,9 @@ async function scanDirectory(dir, folder) {
       const key = fileToKey(entry.name);
       const name = fileToName(entry.name);
       const relativeFilePath = `${folder}/${entry.name}`;
-      const registryDeps = await detectDependencies(entryPath, relativeFilePath);
+      const registryDeps = (await detectDependencies(entryPath, relativeFilePath)).filter(
+        (dependency) => dependency !== key,
+      );
 
       components[key] = {
         name,
@@ -126,9 +128,7 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
       const entries = await fs.readdir(currentDir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const nextRelativePath = relativePath
-          ? `${relativePath}/${entry.name}`
-          : entry.name;
+        const nextRelativePath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
         const entryPath = path.join(currentDir, entry.name);
 
         if (entry.isDirectory()) {
@@ -249,9 +249,7 @@ async function copySupportDirectory(folder) {
     const entries = await fs.readdir(currentSourceDir, { withFileTypes: true });
 
     for (const entry of entries) {
-      const nextRelativePath = relativePath
-        ? `${relativePath}/${entry.name}`
-        : entry.name;
+      const nextRelativePath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
       const sourcePath = path.join(currentSourceDir, entry.name);
       const targetPath = path.join(currentTargetDir, entry.name);
 
@@ -275,7 +273,9 @@ async function copySupportDirectory(folder) {
 
       await fs.mkdir(path.dirname(targetPath), { recursive: true });
       await fs.writeFile(targetPath, content);
-      console.log(`✅ Copied ${sourceRelativePath}${content !== originalContent ? ' (imports rewritten)' : ''}`);
+      console.log(
+        `✅ Copied ${sourceRelativePath}${content !== originalContent ? ' (imports rewritten)' : ''}`,
+      );
     }
   };
 
@@ -292,7 +292,7 @@ async function copySupportDirectory(folder) {
 }
 
 // Copy files to registry with import path rewriting
-async function copyToRegistry(componentMetadata) {
+async function copyToRegistry() {
   console.log('📦 Building registry...\n');
 
   // Create registry directories
@@ -305,30 +305,11 @@ async function copyToRegistry(componentMetadata) {
 
   let rewriteCount = 0;
 
-  // Copy all component files
-  for (const [, meta] of Object.entries(componentMetadata)) {
-    for (const file of meta.files) {
-      const srcPath = path.join(srcDir, file);
-      const destPath = path.join(registryDir, file);
-
-      try {
-        const originalContent = await fs.readFile(srcPath, 'utf-8');
-        const content = rewriteSourceImportsToRegistry(originalContent, file);
-
-        if (content !== originalContent) {
-          rewriteCount++;
-        }
-
-        const destDir = path.dirname(destPath);
-        await fs.mkdir(destDir, { recursive: true });
-        await fs.writeFile(destPath, content);
-        console.log(`✅ Copied ${file}${content !== originalContent ? ' (imports rewritten)' : ''}`);
-      } catch (error) {
-        console.warn(`⚠️  Could not copy ${file}: ${error.message}`);
-      }
-    }
-  }
-
+  rewriteCount += await copySupportDirectory('components');
+  rewriteCount += await copySupportDirectory('primitives');
+  rewriteCount += await copySupportDirectory('layout');
+  rewriteCount += await copySupportDirectory('lib');
+  rewriteCount += await copySupportDirectory('hooks');
   rewriteCount += await copySupportDirectory('types');
 
   console.log(`\n📝 Rewrote imports in ${rewriteCount} files\n`);
@@ -439,7 +420,7 @@ async function main() {
     console.log(`   - Lib: ${Object.keys(lib).length}`);
     console.log(`   - Hooks: ${Object.keys(hooks).length}\n`);
 
-    await copyToRegistry(componentMetadata);
+    await copyToRegistry();
     await copyStyles();
     await generateRegistry(componentMetadata);
     await generateSchema();

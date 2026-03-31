@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "registry",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["registry/*"],
+      "@/components/ui/*": ["registry/components/*"],
+      "@/primitives/*": ["registry/primitives/*"],
+      "@/layout/*": ["registry/layout/*"],
+      "@/hooks/*": ["registry/hooks/*"],
+      "@/lib/*": ["registry/lib/*"],
+      "@/types/*": ["registry/types/*"]
+    }
+  },
+  "include": ["registry/**/*"],
+  "exclude": ["dist", "build", "node_modules", "src"]
+}

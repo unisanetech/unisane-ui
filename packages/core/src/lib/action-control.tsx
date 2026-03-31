@@ -1,7 +1,4 @@
-import {
-  type MouseEvent,
-  type ReactNode,
-} from 'react';
+import { type MouseEvent } from 'react';
 import { cn, composeAsChildClickHandler, focusRing } from './utils';
 
 export const actionInteractiveClass = cn(
@@ -36,11 +33,7 @@ export function getActionAsChildAttributes(
     ...getActionStateAttributes(isDisabled, loading),
     'aria-disabled': isDisabled || undefined,
     ...props,
-    onClick: composeAsChildClickHandler(
-      isDisabled,
-      props.onClick,
-      childProps.onClick,
-    ),
+    onClick: composeAsChildClickHandler(isDisabled, props.onClick, childProps.onClick),
     tabIndex: isDisabled ? -1 : (childProps.tabIndex ?? props.tabIndex),
   };
 }
@@ -49,7 +42,7 @@ export function ActionStateLayer({ className }: { className?: string }) {
   return (
     <span
       className={cn(
-        'pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed',
+        'group-hover:opacity-hover group-focus-visible:opacity-focus group-active:opacity-pressed pointer-events-none absolute inset-0 bg-current opacity-0 transition-opacity',
         className,
       )}
     />
@@ -64,14 +57,7 @@ export function ActionSpinner({ className }: { className?: string }) {
       fill="none"
       aria-hidden="true"
     >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
       <path
         className="opacity-75"
         fill="currentColor"

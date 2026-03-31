@@ -120,7 +120,7 @@
       "description": "Icon component",
       "files": ["components/icon.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon"]
+      "registryDependencies": []
     },
     "input": {
       "name": "Input",

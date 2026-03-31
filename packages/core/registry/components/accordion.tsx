@@ -107,14 +107,14 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      context?.toggle(value);
+      context?.toggle(value!);
     }
   };
 
   return (
     <button
       id={triggerId}
-      onClick={() => context?.toggle(value)}
+      onClick={() => context?.toggle(value!)}
       onKeyDown={handleKeyDown}
       aria-expanded={isExpanded}
       aria-controls={contentId}

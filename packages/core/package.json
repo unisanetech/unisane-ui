@@ -61,12 +61,13 @@
     "check:contract": "node scripts/check-component-contract.mjs",
     "check:raw-colors": "node scripts/check-raw-colors.mjs",
     "check-types": "tsc --noEmit",
+    "check-types:registry": "tsc --noEmit -p tsconfig.registry.json",
     "test": "vitest run --config vitest.config.ts",
     "validate": "pnpm test && pnpm check-types && pnpm check:contract && pnpm check:raw-colors && pnpm validate:registry",
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
     "lint": "eslint src --max-warnings 0 && pnpm check:contract",
-    "validate:registry": "node scripts/validate-registry.mjs",
+    "validate:registry": "node scripts/validate-registry.mjs && pnpm check-types:registry",
     "check-types:no-build": "tsc --noEmit -p tsconfig.source-consumer.json"
   },
   "peerDependencies": {
