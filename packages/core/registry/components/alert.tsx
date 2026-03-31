@@ -2,7 +2,7 @@ import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
-import { Typography } from './typography';
+import { Typography } from '@/components/ui/typography';
 
 const alertVariants = cva('relative w-full rounded-sm p-4 flex items-start gap-3 border-l-4', {
   variants: {

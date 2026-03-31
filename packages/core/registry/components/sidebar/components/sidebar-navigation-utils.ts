@@ -1,4 +1,4 @@
-import type { NavigationItem } from '../../../types/navigation';
+import type { NavigationItem } from '@/types/navigation';
 
 export function collectDescendantIds(items?: NavigationItem[]): string[] {
   if (!items || items.length === 0) return [];

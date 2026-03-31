@@ -2,7 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import type {
   NavigationHoverState,
   UseNavigationHoverConfig,
-} from "../types/navigation";
+} from "@/types/navigation";
 
 export function useNavigationHover(
   config: UseNavigationHoverConfig

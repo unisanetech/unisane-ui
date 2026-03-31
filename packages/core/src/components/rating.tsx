@@ -2,9 +2,9 @@
 
 import React, { useState } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { Text } from '@ui/primitives/text';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
+import { Text } from '../primitives/text';
 import { Ripple } from './ripple';
 
 const ratingVariants = cva('flex items-center gap-1', {

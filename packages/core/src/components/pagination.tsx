@@ -1,8 +1,8 @@
 import React, { isValidElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '@ui/lib/utils';
-import { paginationButtonClass } from '@ui/lib/action-size';
-import { Text } from '@ui/primitives/text';
+import { cn, Slot } from '../lib/utils';
+import { paginationButtonClass } from '../lib/action-size';
+import { Text } from '../primitives/text';
 import { IconButton } from './icon-button';
 import { Ripple } from './ripple';
 

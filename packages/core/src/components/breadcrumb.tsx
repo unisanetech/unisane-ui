@@ -1,6 +1,6 @@
 import React, { isValidElement } from 'react';
-import { cn, Slot } from '@ui/lib/utils';
-import { Icon } from '@ui/primitives/icon';
+import { cn, Slot } from '../lib/utils';
+import { Icon } from '../primitives/icon';
 import { IconButton } from './icon-button';
 
 export const Breadcrumb: React.FC<{

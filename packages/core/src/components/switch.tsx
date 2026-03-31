@@ -1,7 +1,7 @@
 'use client';
 
 import { type InputHTMLAttributes, useId, forwardRef } from 'react';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../lib/utils';
 
 interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;

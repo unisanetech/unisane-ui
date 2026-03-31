@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { NavigationItem, ProcessedNavigationItems } from "../types/navigation";
+import type { NavigationItem, ProcessedNavigationItems } from "@/types/navigation";
 
 export function useNavigationItems(
   items: NavigationItem[]
@@ -27,7 +27,7 @@ export function useNavigationItems(
         if (!groupedItems.has(item.group)) {
           groupedItems.set(item.group, []);
         }
-        groupedItems.get(item.group)!.push(item);
+        groupedItems.get(item.group).push(item);
       }
     });
 

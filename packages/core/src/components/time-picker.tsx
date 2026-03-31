@@ -4,9 +4,9 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Dialog } from './dialog';
 import { Button } from './button';
 import { IconButton } from './icon-button';
-import { Icon } from '@ui/primitives/icon';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { Icon } from '../primitives/icon';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
 
 export interface TimePickerProps {
   open?: boolean;

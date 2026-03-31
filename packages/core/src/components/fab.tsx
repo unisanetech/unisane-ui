@@ -9,8 +9,8 @@ import {
   isValidElement,
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '@ui/lib/utils';
-import { fabSizeClasses } from '@ui/lib/action-size';
+import { cn, Slot } from '../lib/utils';
+import { fabSizeClasses } from '../lib/action-size';
 import { Ripple } from './ripple';
 import {
   ActionSpinner,
@@ -19,7 +19,7 @@ import {
   getActionAsChildAttributes,
   getActionDisabledState,
   getActionStateAttributes,
-} from '@ui/lib/action-control';
+} from '../lib/action-control';
 
 const fabVariants = cva(
   `relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 rounded-fab transition-all duration-medium ease-emphasized z-30 ${actionInteractiveClass}`,

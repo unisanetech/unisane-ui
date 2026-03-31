@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../lib/utils';
 import { IconButton } from './icon-button';
 import { Ripple } from './ripple';
 

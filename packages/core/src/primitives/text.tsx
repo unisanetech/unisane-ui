@@ -1,6 +1,6 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@ui/lib/utils";
+import { cn } from "../lib/utils";
 
 // Tailwind v4's --text-* system automatically applies font-size, line-height,
 // letter-spacing, and font-weight from the token suffixes

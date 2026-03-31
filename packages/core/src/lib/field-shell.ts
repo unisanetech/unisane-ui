@@ -1,8 +1,8 @@
 'use client';
 
 import { cva } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
-import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
+import { cn } from './utils';
+import { getFieldSizeStyles, type FieldSize } from './field-size';
 
 export type FieldShellVariant = 'outlined' | 'filled';
 

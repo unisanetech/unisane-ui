@@ -1,7 +1,7 @@
 'use client';
 
 import { type InputHTMLAttributes, useId, forwardRef, useEffect, useRef } from 'react';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 import { cn } from '@/lib/utils';
 
 interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {

@@ -2,9 +2,9 @@
 
 import * as React from 'react';
 import { Command as CommandPrimitive } from 'cmdk';
-import { cn } from '@ui/lib/utils';
-import { actionFrameSizeClasses } from '@ui/lib/action-size';
-import { Icon } from '@ui/primitives/icon';
+import { cn } from '../lib/utils';
+import { actionFrameSizeClasses } from '../lib/action-size';
+import { Icon } from '../primitives/icon';
 import { Dialog } from './dialog';
 
 const Command = React.forwardRef<

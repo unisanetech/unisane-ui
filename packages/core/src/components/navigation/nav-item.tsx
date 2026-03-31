@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef, isValidElement, cloneElement } from 'react';
-import { cn, Slot } from '@ui/lib/utils';
+import { cn, Slot } from '../../lib/utils';
 import { Ripple } from '../ripple';
 import type { NavigationVariant } from '../../types/navigation';
 

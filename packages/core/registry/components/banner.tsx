@@ -3,8 +3,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Surface } from '@/primitives/surface';
 import { Text } from '@/primitives/text';
-import { Button } from './button';
-import { IconButton } from './icon-button';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
 import { Icon } from '@/primitives/icon';
 
 const bannerVariants = cva(

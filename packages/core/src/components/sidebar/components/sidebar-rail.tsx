@@ -1,11 +1,11 @@
 'use client';
 
 import React, { cloneElement, forwardRef, isValidElement } from 'react';
-import { cn, Slot } from '@ui/lib/utils';
+import { cn, Slot } from '../../../lib/utils';
 import {
   NavigationRailItemContent,
   getNavigationRailItemClasses,
-} from '@ui/lib/navigation-visuals';
+} from '../../../lib/navigation-visuals';
 import { useSidebar } from '../context/sidebar-provider';
 import { findNavigationItemById } from '../model/sidebar.state';
 import { getSidebarVisualTheme } from './sidebar-visuals';

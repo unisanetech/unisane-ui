@@ -7,10 +7,10 @@ import {
   NavigationIcon,
   getNavigationDrawerItemClasses,
 } from '@/lib/navigation-visuals';
-import { useSidebar } from '../context/sidebar-provider';
-import { findNavigationItemById } from '../model/sidebar.state';
-import { Ripple } from '../../ripple';
-import { collectDescendantIds } from './sidebar-navigation-utils';
+import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
+import { findNavigationItemById } from '@/components/ui/sidebar/model/sidebar.state';
+import { Ripple } from '@/components/ui/ripple';
+import { collectDescendantIds } from '@/components/ui/sidebar/components/sidebar-navigation-utils';
 
 export interface SidebarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;

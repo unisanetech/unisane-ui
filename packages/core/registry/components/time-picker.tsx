@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Dialog } from './dialog';
-import { Button } from './button';
-import { IconButton } from './icon-button';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { IconButton } from '@/components/ui/icon-button';
 import { Icon } from '@/primitives/icon';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';

@@ -7,7 +7,7 @@ import { Icon } from '@/primitives/icon';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '@/lib/field-shell';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 export type ComboboxOption = {
   value: string;

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { Text } from '@/primitives/text';
 import { Surface } from '@/primitives/surface';
-import { IconButton } from './icon-button';
+import { IconButton } from '@/components/ui/icon-button';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 
 export interface DialogProps {

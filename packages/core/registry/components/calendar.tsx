@@ -5,8 +5,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Surface } from '@/primitives/surface';
 import { Text } from '@/primitives/text';
-import { IconButton } from './icon-button';
-import { Ripple } from './ripple';
+import { IconButton } from '@/components/ui/icon-button';
+import { Ripple } from '@/components/ui/ripple';
 
 const calendarVariants = cva('w-full max-w-sm rounded-sm overflow-hidden', {
   variants: {

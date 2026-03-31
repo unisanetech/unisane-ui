@@ -5,7 +5,7 @@ import { Command as CommandPrimitive } from 'cmdk';
 import { cn } from '@/lib/utils';
 import { actionFrameSizeClasses } from '@/lib/action-size';
 import { Icon } from '@/primitives/icon';
-import { Dialog } from './dialog';
+import { Dialog } from '@/components/ui/dialog';
 
 const Command = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive>,

@@ -3,8 +3,8 @@
 import React, { createContext, useContext, useCallback, useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { cva } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
-import { Icon } from '@ui/primitives/icon';
+import { cn } from '../lib/utils';
+import { Icon } from '../primitives/icon';
 import { Button } from './button';
 import { Ripple } from './ripple';
 

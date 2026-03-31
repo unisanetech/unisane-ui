@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../../../lib/utils';
 import { useSidebar } from '../context/sidebar-provider';
 import { getSidebarVisualTheme } from './sidebar-visuals';
 

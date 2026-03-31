@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback, useId, forwardRef } from 'react';
-import { cn } from '@ui/lib/utils';
-import { Text } from '@ui/primitives/text';
-import { Icon } from '@ui/primitives/icon';
-import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { fieldContainerVariants, getFieldAffixClasses } from '@ui/lib/field-shell';
+import { cn } from '../lib/utils';
+import { Text } from '../primitives/text';
+import { Icon } from '../primitives/icon';
+import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
+import { useControllableState } from '../lib/use-controllable-state';
+import { fieldContainerVariants, getFieldAffixClasses } from '../lib/field-shell';
 import { Ripple } from './ripple';
 
 export type ComboboxOption = {

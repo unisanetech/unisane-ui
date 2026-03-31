@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import type { NavigationVariant } from '../../types/navigation';
+import type { NavigationVariant } from '@/types/navigation';
 
 export interface NavGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: string;

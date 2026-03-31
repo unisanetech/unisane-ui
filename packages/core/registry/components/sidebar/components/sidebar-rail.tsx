@@ -6,12 +6,12 @@ import {
   NavigationRailItemContent,
   getNavigationRailItemClasses,
 } from '@/lib/navigation-visuals';
-import { useSidebar } from '../context/sidebar-provider';
-import { findNavigationItemById } from '../model/sidebar.state';
-import { getSidebarVisualTheme } from './sidebar-visuals';
-import { Ripple } from '../../ripple';
-import type { NavigationItem } from '../../../types/navigation';
-import { collectDescendantIds } from './sidebar-navigation-utils';
+import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
+import { findNavigationItemById } from '@/components/ui/sidebar/model/sidebar.state';
+import { getSidebarVisualTheme } from '@/components/ui/sidebar/components/sidebar-visuals';
+import { Ripple } from '@/components/ui/ripple';
+import type { NavigationItem } from '@/types/navigation';
+import { collectDescendantIds } from '@/components/ui/sidebar/components/sidebar-navigation-utils';
 
 export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;

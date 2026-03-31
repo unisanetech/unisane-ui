@@ -4,21 +4,21 @@ export {
   Sidebar,
   SidebarTrigger,
   SidebarBackdrop,
-} from './components/sidebar-shell';
+} from '@/components/ui/sidebar/components/sidebar-shell';
 
-export { SidebarInset } from './components/sidebar-inset';
+export { SidebarInset } from '@/components/ui/sidebar/components/sidebar-inset';
 
 export {
   SidebarRail,
   SidebarRailItem,
-} from './components/sidebar-rail';
+} from '@/components/ui/sidebar/components/sidebar-rail';
 
 export {
   SidebarDrawer,
   SidebarHeader,
   SidebarFooter,
   SidebarContent,
-} from './components/sidebar-drawer';
+} from '@/components/ui/sidebar/components/sidebar-drawer';
 
 export {
   SidebarGroup,
@@ -28,27 +28,27 @@ export {
   SidebarMenuButton,
   SidebarNavItem,
   SidebarCollapsibleGroup,
-} from './components/sidebar-items';
+} from '@/components/ui/sidebar/components/sidebar-items';
 
 export type {
   SidebarProps,
   SidebarTriggerProps,
   SidebarBackdropProps,
-} from './components/sidebar-shell';
+} from '@/components/ui/sidebar/components/sidebar-shell';
 
-export type { SidebarInsetProps } from './components/sidebar-inset';
+export type { SidebarInsetProps } from '@/components/ui/sidebar/components/sidebar-inset';
 
 export type {
   SidebarRailProps,
   SidebarRailItemProps,
-} from './components/sidebar-rail';
+} from '@/components/ui/sidebar/components/sidebar-rail';
 
 export type {
   SidebarDrawerProps,
   SidebarHeaderProps,
   SidebarFooterProps,
   SidebarContentProps,
-} from './components/sidebar-drawer';
+} from '@/components/ui/sidebar/components/sidebar-drawer';
 
 export type {
   SidebarGroupProps,
@@ -58,4 +58,4 @@ export type {
   SidebarMenuButtonProps,
   SidebarNavItemProps,
   SidebarCollapsibleGroupProps,
-} from './components/sidebar-items';
+} from '@/components/ui/sidebar/components/sidebar-items';

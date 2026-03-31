@@ -1,8 +1,8 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, focusRing } from '@ui/lib/utils';
-import { Icon } from '@ui/primitives/icon';
-import { Text } from '@ui/primitives/text';
+import { cn, focusRing } from '../lib/utils';
+import { Icon } from '../primitives/icon';
+import { Text } from '../primitives/text';
 import { Ripple } from './ripple';
 
 interface Step {

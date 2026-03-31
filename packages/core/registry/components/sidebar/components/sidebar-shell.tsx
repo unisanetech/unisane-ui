@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { useSidebar } from '../context/sidebar-provider';
-import type { SidebarTriggerVisibility } from '../model/sidebar.types';
-import { shouldRenderSidebarTrigger } from '../model/sidebar.state';
+import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
+import type { SidebarTriggerVisibility } from '@/components/ui/sidebar/model/sidebar.types';
+import { shouldRenderSidebarTrigger } from '@/components/ui/sidebar/model/sidebar.state';
 
 function buildSidebarCssVars(sidebar: ReturnType<typeof useSidebar>) {
   const vars: Record<string, string> = {

@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "baseUrl": ".",
+    "paths": {
+      "@unisane/ui": ["../core/src/index.ts"],
+      "@unisane/ui/*": ["../core/src/*"]
+    }
+  }
+}

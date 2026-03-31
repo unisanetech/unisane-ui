@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef } from 'react';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../../../lib/utils';
 import { useSidebar } from '../context/sidebar-provider';
 import type { SidebarTriggerVisibility } from '../model/sidebar.types';
 import { shouldRenderSidebarTrigger } from '../model/sidebar.state';

@@ -2,7 +2,7 @@ import {
   type MouseEvent,
   type ReactNode,
 } from 'react';
-import { cn, composeAsChildClickHandler, focusRing } from '@ui/lib/utils';
+import { cn, composeAsChildClickHandler, focusRing } from './utils';
 
 export const actionInteractiveClass = cn(
   'group overflow-hidden select-none active:scale-[0.98] motion-reduce:active:scale-100 disabled:cursor-not-allowed disabled:opacity-38 data-[disabled=true]:pointer-events-none data-[disabled=true]:cursor-not-allowed data-[disabled=true]:opacity-38',

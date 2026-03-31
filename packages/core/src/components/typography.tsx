@@ -1,6 +1,6 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../lib/utils';
 
 const typographyVariants = cva('text-on-surface', {
   variants: {

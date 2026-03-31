@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { useColorScheme, type Theme } from '../layout/theme-provider';
-import { cn } from '@ui/lib/utils';
-import { type FieldSize, getFieldSizeStyles } from '@ui/lib/field-size';
+import { cn } from '../lib/utils';
+import { type FieldSize, getFieldSizeStyles } from '../lib/field-size';
 
 export interface ThemeSwitcherProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: FieldSize;

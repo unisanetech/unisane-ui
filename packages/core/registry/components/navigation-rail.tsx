@@ -7,7 +7,7 @@ import {
   NavigationRailItemContent,
   getNavigationRailItemClasses,
 } from '@/lib/navigation-visuals';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 export interface RailItem {
   value: string;

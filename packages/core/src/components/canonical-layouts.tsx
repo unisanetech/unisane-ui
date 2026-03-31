@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
 import { IconButton } from './icon-button';
 import { Pane, PaneLayout } from '../layout/pane';
 

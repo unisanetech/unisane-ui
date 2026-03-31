@@ -2,8 +2,8 @@
 
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { useSidebar } from '../context/sidebar-provider';
-import { getSidebarVisualTheme } from './sidebar-visuals';
+import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
+import { getSidebarVisualTheme } from '@/components/ui/sidebar/components/sidebar-visuals';
 
 function getFocusableElements(root: HTMLElement | null): HTMLElement[] {
   if (!root) {

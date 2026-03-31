@@ -1,12 +1,12 @@
 'use client';
 
 import React, { cloneElement, isValidElement } from 'react';
-import { cn, Slot } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { cn, Slot } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
 import {
   NavigationRailItemContent,
   getNavigationRailItemClasses,
-} from '@ui/lib/navigation-visuals';
+} from '../lib/navigation-visuals';
 import { Ripple } from './ripple';
 
 export interface RailItem {

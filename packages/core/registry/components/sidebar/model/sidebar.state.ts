@@ -1,11 +1,11 @@
-import type { NavigationItem } from '../../../types/navigation';
+import type { NavigationItem } from '@/types/navigation';
 import type {
   SidebarBehavior,
   SidebarBehaviorInput,
   SidebarBreakpoints,
   SidebarMode,
   SidebarTriggerVisibility,
-} from './sidebar.types';
+} from '@/components/ui/sidebar/model/sidebar.types';
 
 export const DEFAULT_SIDEBAR_BREAKPOINTS: SidebarBreakpoints = {
   mobile: 600,

@@ -2,10 +2,10 @@
 
 import React, { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { useScrollLock } from '@ui/hooks/use-scroll-lock';
-import { Text } from '@ui/primitives/text';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
+import { useScrollLock } from '../hooks/use-scroll-lock';
+import { Text } from '../primitives/text';
 import { IconButton } from './icon-button';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';

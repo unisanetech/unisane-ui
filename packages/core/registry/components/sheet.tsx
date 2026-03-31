@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 import { Text } from '@/primitives/text';
-import { IconButton } from './icon-button';
+import { IconButton } from '@/components/ui/icon-button';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type SheetPlacement = 'right' | 'bottom';

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import type {
   NavigationState,
   UseNavigationStateConfig,
-} from "../types/navigation";
+} from "@/types/navigation";
 
 type PersistedNavigationState = {
   active?: string | null;

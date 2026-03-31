@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useId } from 'react';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
 import { Ripple } from './ripple';
 
 interface TabsContextValue {

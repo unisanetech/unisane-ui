@@ -42,7 +42,7 @@ export interface NavigationItem {
   external?: boolean;
 
   /** Custom metadata for rendering */
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
 }
 
 /**

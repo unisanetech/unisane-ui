@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useColorScheme, type Theme } from '../layout/theme-provider';
+import { useColorScheme, type Theme } from '@/layout/theme-provider';
 import { cn } from '@/lib/utils';
 import { type FieldSize, getFieldSizeStyles } from '@/lib/field-size';
 

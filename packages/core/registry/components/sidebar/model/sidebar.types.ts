@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { NavigationItem } from '../../../types/navigation';
+import type { NavigationItem } from '@/types/navigation';
 
 export type SidebarSide = 'left' | 'right';
 export type SidebarMode = 'rail-drawer' | 'drawer-only' | 'rail-only';

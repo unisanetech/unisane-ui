@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { Text } from '@/primitives/text';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 const ratingVariants = cva('flex items-center gap-1', {
   variants: {

@@ -2,8 +2,8 @@
 
 import React, { forwardRef, isValidElement, cloneElement } from 'react';
 import { cn, Slot } from '@/lib/utils';
-import { Ripple } from '../ripple';
-import type { NavigationVariant } from '../../types/navigation';
+import { Ripple } from '@/components/ui/ripple';
+import type { NavigationVariant } from '@/types/navigation';
 
 export interface NavItemProps extends Omit<React.HTMLAttributes<HTMLElement>, 'onClick'> {
   children: React.ReactNode;

@@ -1,16 +1,16 @@
-export { Nav } from './nav';
-export type { NavProps } from './nav';
+export { Nav } from '@/components/ui/navigation/nav';
+export type { NavProps } from '@/components/ui/navigation/nav';
 
-export { NavItem } from './nav-item';
-export type { NavItemProps } from './nav-item';
+export { NavItem } from '@/components/ui/navigation/nav-item';
+export type { NavItemProps } from '@/components/ui/navigation/nav-item';
 
-export { NavGroup } from './nav-group';
-export type { NavGroupProps } from './nav-group';
+export { NavGroup } from '@/components/ui/navigation/nav-group';
+export type { NavGroupProps } from '@/components/ui/navigation/nav-group';
 
-export { useNavigationState } from '../../hooks/use-navigation-state';
-export { useNavigationHover } from '../../hooks/use-navigation-hover';
-export { useNavigationItems } from '../../hooks/use-navigation-items';
-export { useNavigationBreakpoint } from '../../hooks/use-navigation-breakpoint';
+export { useNavigationState } from '@/hooks/use-navigation-state';
+export { useNavigationHover } from '@/hooks/use-navigation-hover';
+export { useNavigationItems } from '@/hooks/use-navigation-items';
+export { useNavigationBreakpoint } from '@/hooks/use-navigation-breakpoint';
 
 export type {
   NavigationItem,
@@ -27,4 +27,4 @@ export type {
   NavigationDrawerSide,
   NavigationBarVariant,
   NavigationScrollBehavior,
-} from '../../types/navigation';
+} from '@/types/navigation';

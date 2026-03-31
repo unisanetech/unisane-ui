@@ -2,10 +2,10 @@
 
 import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } from 'react';
 import { createPortal } from 'react-dom';
-import { cn, Slot } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { Icon } from '@ui/primitives/icon';
-import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '@ui/primitives/menu';
+import { cn, Slot } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
+import { Icon } from '../primitives/icon';
+import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '../primitives/menu';
 
 export interface DropdownMenuProps {
   children: React.ReactNode;

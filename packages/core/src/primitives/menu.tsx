@@ -1,7 +1,7 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '@ui/lib/utils';
-import { actionFrameSizeClasses } from '@ui/lib/action-size';
+import { cn, Slot } from '../lib/utils';
+import { actionFrameSizeClasses } from '../lib/action-size';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(

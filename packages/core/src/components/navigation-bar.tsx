@@ -1,6 +1,6 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, focusRing, Slot } from '@ui/lib/utils';
+import { cn, focusRing, Slot } from '../lib/utils';
 import { Ripple } from './ripple';
 
 const navigationBarVariants = cva(

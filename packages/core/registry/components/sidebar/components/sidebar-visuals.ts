@@ -1,4 +1,4 @@
-import type { SidebarState, SidebarVisualPreset } from '../model/sidebar.types';
+import type { SidebarState, SidebarVisualPreset } from '@/components/ui/sidebar/model/sidebar.types';
 
 type SidebarVisualTheme = {
   railBackgroundClass: string;

@@ -1,6 +1,6 @@
 'use client';
 
-export { SidebarProvider, useSidebar } from './context/sidebar-provider';
+export { SidebarProvider, useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
 
 export type {
   SidebarState,
@@ -15,4 +15,4 @@ export type {
   SidebarVisualPreset,
   SidebarBreakpoints,
   SidebarVisualTokens,
-} from './model/sidebar.types';
+} from '@/components/ui/sidebar/model/sidebar.types';

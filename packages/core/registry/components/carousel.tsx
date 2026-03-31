@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
-import { IconButton } from './icon-button';
-import { Ripple } from './ripple';
+import { IconButton } from '@/components/ui/icon-button';
+import { Ripple } from '@/components/ui/ripple';
 
 const carouselVariants = cva('relative w-full overflow-hidden', {
   variants: {

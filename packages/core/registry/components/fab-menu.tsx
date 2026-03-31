@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Fab } from './fab';
+import { Fab } from '@/components/ui/fab';
 import { Icon } from '@/primitives/icon';
 import { useControllableState } from '@/lib/use-controllable-state';
 

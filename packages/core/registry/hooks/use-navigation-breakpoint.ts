@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { NavigationBreakpoint } from "../types/navigation";
+import type { NavigationBreakpoint } from "@/types/navigation";
 
 /**
  * Navigation breakpoint detection hook.

@@ -5,7 +5,7 @@
  *
  * This script validates the registry to detect:
  * 1. Component drift (src/ and registry/ out of sync)
- * 2. Unrewritten @ui/* imports in registry files
+ * 2. Unrewritten internal imports in registry files
  * 3. Missing components in registry
  * 4. Orphaned files in registry not in src
  */
@@ -14,6 +14,9 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createHash } from 'crypto';
+import { loadThemeConfig } from '../../tokens/scripts/tokens-build/theme-config.mjs';
+import { generateMergedTokenCss } from '../../tokens/scripts/tokens-build/css-generators.mjs';
+import { rewriteSourceImportsToRegistry } from './registry-imports.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -44,42 +47,14 @@ function info(msg) {
 /**
  * Normalize content for comparison by stripping:
  * - Whitespace differences
- * - Import path differences (@ui/* vs @/*)
+ * - Import path differences between source and registry layout
  */
-function normalizeForComparison(content, isRegistry = false) {
-  let normalized = content;
-
-  // If it's a src file, rewrite @ui/* to @/* like the build script does
-  if (!isRegistry) {
-    normalized = normalized
-      .replace(
-        /from\s+(["'])@ui\/lib\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/lib/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/components\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/components/ui/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/primitives\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/primitives/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/layout\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/layout/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/hooks\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/hooks/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/${pathPart}${quote}`,
-      );
+function normalizeForComparison(content, relativeFilePath, isRegistry = false) {
+  if (isRegistry) {
+    return content.trim();
   }
 
-  // Normalize whitespace for comparison
-  return normalized.trim();
+  return rewriteSourceImportsToRegistry(content, relativeFilePath).trim();
 }
 
 function stripComments(content) {
@@ -93,6 +68,10 @@ function stripComments(content) {
  */
 function getContentHash(content) {
   return createHash('md5').update(content).digest('hex');
+}
+
+function normalizeTextContent(content) {
+  return content.replace(/\r\n/g, '\n').trim();
 }
 
 /**
@@ -129,12 +108,12 @@ async function getAllFiles(dir, basePath = '') {
 }
 
 /**
- * Check for unrewritten @ui/* imports in registry files
+ * Check for unrewritten internal imports in registry files
  */
 async function checkUnrewrittenImports() {
-  console.log('\n🔍 Checking for unrewritten @ui/* imports...\n');
+  console.log('\n🔍 Checking for unrewritten internal imports...\n');
 
-  const folders = ['components', 'primitives', 'layout', 'lib', 'hooks'];
+  const folders = ['components', 'primitives', 'layout', 'lib', 'hooks', 'types'];
   let unrewrittenCount = 0;
 
   for (const folder of folders) {
@@ -147,11 +126,13 @@ async function checkUnrewrittenImports() {
       try {
         const content = await fs.readFile(filePath, 'utf-8');
 
-        // Check for any remaining @ui/ imports
-        const uiImportRegex = /from\s+["']@ui\/[^"']+["']/g;
-        const matches = content.match(uiImportRegex);
+        const uiAliasMatches = content.match(/(?:from\s+|import\s+)(["'])@ui\/[^"']+\1/g);
+        const relativeMatches = content.match(
+          /(?:from\s+|import\s+)(["'])(\.\.?\/[^"']+)\1/g,
+        );
+        const matches = [...(uiAliasMatches ?? []), ...(relativeMatches ?? [])];
 
-        if (matches) {
+        if (matches.length > 0) {
           unrewrittenCount++;
           error(`Unrewritten imports in registry/${folder}/${file}: ${matches.join(', ')}`);
         }
@@ -174,7 +155,7 @@ async function checkUnrewrittenImports() {
 async function checkComponentDrift() {
   console.log('🔍 Checking for component drift (src/ vs registry/)...\n');
 
-  const folders = ['components', 'primitives', 'layout', 'lib', 'hooks'];
+  const folders = ['components', 'primitives', 'layout', 'lib', 'hooks', 'types'];
   let driftCount = 0;
   let missingCount = 0;
   let orphanedCount = 0;
@@ -220,8 +201,9 @@ async function checkComponentDrift() {
         const srcContent = await fs.readFile(srcPath, 'utf-8');
         const regContent = await fs.readFile(regPath, 'utf-8');
 
-        const srcNormalized = normalizeForComparison(srcContent, false);
-        const regNormalized = normalizeForComparison(regContent, true);
+        const sourceRelativePath = `${folder}/${file}`;
+        const srcNormalized = normalizeForComparison(srcContent, sourceRelativePath, false);
+        const regNormalized = normalizeForComparison(regContent, sourceRelativePath, true);
 
         const srcHash = getContentHash(srcNormalized);
         const regHash = getContentHash(regNormalized);
@@ -301,6 +283,32 @@ async function validateRegistryJson() {
     }
   } catch (err) {
     error(`Could not read registry.json: ${err.message}`);
+  }
+}
+
+/**
+ * Validate copied registry styles against the canonical token generator.
+ */
+async function validateRegistryStyles() {
+  console.log('🔍 Validating registry styles...\n');
+
+  const registryStylePath = path.join(registryDir, 'styles', 'unisane.css');
+
+  try {
+    const registryCss = await fs.readFile(registryStylePath, 'utf-8');
+    const expectedCss = generateMergedTokenCss(loadThemeConfig());
+
+    if (
+      getContentHash(normalizeTextContent(registryCss)) !==
+      getContentHash(normalizeTextContent(expectedCss))
+    ) {
+      error('Content drift detected: styles/unisane.css');
+      return;
+    }
+
+    info('✅ registry styles are in sync');
+  } catch (err) {
+    error(`Could not validate registry styles: ${err.message}`);
   }
 }
 
@@ -439,6 +447,7 @@ async function main() {
   await checkComponentDrift();
   await checkUnrewrittenImports();
   await validateRegistryJson();
+  await validateRegistryStyles();
   await checkCommonIssues();
 
   const passed = printSummary();

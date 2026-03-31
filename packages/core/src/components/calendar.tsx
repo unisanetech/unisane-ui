@@ -2,9 +2,9 @@
 
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
-import { Surface } from '@ui/primitives/surface';
-import { Text } from '@ui/primitives/text';
+import { cn } from '../lib/utils';
+import { Surface } from '../primitives/surface';
+import { Text } from '../primitives/text';
 import { IconButton } from './icon-button';
 import { Ripple } from './ripple';
 

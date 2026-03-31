@@ -11,7 +11,7 @@ import {
   cloneElement,
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 import { cn, Slot } from '@/lib/utils';
 import { actionButtonSizeClasses } from '@/lib/action-size';
 import {

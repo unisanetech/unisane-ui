@@ -2,12 +2,12 @@
 
 import React, { forwardRef, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { Text } from '@ui/primitives/text';
-import { Surface } from '@ui/primitives/surface';
+import { cn } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
+import { Text } from '../primitives/text';
+import { Surface } from '../primitives/surface';
 import { IconButton } from './icon-button';
-import { useScrollLock } from '@ui/hooks/use-scroll-lock';
+import { useScrollLock } from '../hooks/use-scroll-lock';
 
 export interface DialogProps {
   open?: boolean;

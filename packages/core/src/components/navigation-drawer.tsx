@@ -1,11 +1,11 @@
 import React, { forwardRef, cloneElement, isValidElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '@ui/lib/utils';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { cn, Slot } from '../lib/utils';
+import { useControllableState } from '../lib/use-controllable-state';
 import {
   NavigationDrawerItemContent,
   getNavigationDrawerItemClasses,
-} from '@ui/lib/navigation-visuals';
+} from '../lib/navigation-visuals';
 import { Ripple } from './ripple';
 
 const navigationDrawerVariants = cva(

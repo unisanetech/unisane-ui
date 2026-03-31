@@ -3,8 +3,8 @@
 import React, { useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { IconButton } from './icon-button';
-import { Pane, PaneLayout } from '../layout/pane';
+import { IconButton } from '@/components/ui/icon-button';
+import { Pane, PaneLayout } from '@/layout/pane';
 
 export interface ListDetailLayoutProps {
   list: React.ReactNode;

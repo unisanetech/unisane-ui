@@ -3,7 +3,7 @@
 import React, { useState, useId } from 'react';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 interface AccordionContextValue {
   expanded: string[];
@@ -107,14 +107,14 @@ export const AccordionTrigger: React.FC<AccordionTriggerProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      context?.toggle(value!);
+      context?.toggle(value);
     }
   };
 
   return (
     <button
       id={triggerId}
-      onClick={() => context?.toggle(value!)}
+      onClick={() => context?.toggle(value)}
       onKeyDown={handleKeyDown}
       aria-expanded={isExpanded}
       aria-controls={contentId}

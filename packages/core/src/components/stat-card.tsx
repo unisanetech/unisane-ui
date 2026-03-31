@@ -1,10 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../lib/utils';
 import { Card } from './card';
-import { Text } from '@ui/primitives/text';
-import { Icon } from '@ui/primitives/icon';
+import { Text } from '../primitives/text';
+import { Icon } from '../primitives/icon';
 
 export interface StatCardProps {
   label: string;

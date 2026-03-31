@@ -1,7 +1,7 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, focusRing } from '@ui/lib/utils';
-import { Surface } from '@ui/primitives/surface';
+import { cn, focusRing } from '../lib/utils';
+import { Surface } from '../primitives/surface';
 import { Ripple } from './ripple';
 
 const bottomAppBarVariants = cva(

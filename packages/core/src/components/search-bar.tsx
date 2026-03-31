@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useMemo, useRef, useState } from 'react';
-import { cn } from '@ui/lib/utils';
-import { Icon } from '@ui/primitives/icon';
-import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
+import { cn } from '../lib/utils';
+import { Icon } from '../primitives/icon';
+import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 
 export interface SearchBarProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   leadingIcon?: React.ReactNode;

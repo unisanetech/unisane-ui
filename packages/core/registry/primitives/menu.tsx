@@ -2,7 +2,7 @@ import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@/lib/utils';
 import { actionFrameSizeClasses } from '@/lib/action-size';
-import { Ripple } from '../components/ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 const menuVariants = cva(
   'min-w-50 bg-surface shadow-2 border border-outline-variant overflow-hidden',

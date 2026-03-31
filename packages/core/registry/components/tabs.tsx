@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useId } from 'react';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 interface TabsContextValue {
   value: string;

@@ -5,8 +5,8 @@ import { createPortal } from 'react-dom';
 import { cva } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
-import { Button } from './button';
-import { Ripple } from './ripple';
+import { Button } from '@/components/ui/button';
+import { Ripple } from '@/components/ui/ripple';
 
 export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
 export type ToastPosition =

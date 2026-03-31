@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 import { type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { type FieldShellVariant } from '@/lib/field-shell';
-import { Calendar } from './calendar';
-import { DateInput } from './date-input';
+import { Calendar } from '@/components/ui/calendar';
+import { DateInput } from '@/components/ui/date-input';
 
 // ─── M3 DOCKED DATE PICKER (HeroUI-STYLE SEGMENTS) ───────────────────────────
 // Combines HeroUI's segment-based input with Material Design 3 styling

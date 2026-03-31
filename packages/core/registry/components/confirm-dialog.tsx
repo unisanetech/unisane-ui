@@ -2,9 +2,9 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Dialog } from './dialog';
-import { Button } from './button';
-import { Icon } from './icon';
+import { Dialog } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
 
 export interface ConfirmDialogProps {
   open: boolean;

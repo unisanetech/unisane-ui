@@ -144,7 +144,7 @@
       "description": "Menu component",
       "files": ["primitives/menu.tsx"],
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["ripple"]
     },
     "state-layer": {
       "name": "StateLayer",
@@ -256,7 +256,7 @@
       "description": "Banner component",
       "files": ["components/banner.tsx"],
       "dependencies": [],
-      "registryDependencies": ["surface", "text", "icon", "button", "icon-button"]
+      "registryDependencies": ["surface", "text", "button", "icon-button", "icon"]
     },
     "bottom-app-bar": {
       "name": "BottomAppBar",
@@ -296,7 +296,7 @@
       "description": "CanonicalLayouts component",
       "files": ["components/canonical-layouts.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon-button"]
+      "registryDependencies": ["icon-button", "pane"]
     },
     "card": {
       "name": "Card",
@@ -328,7 +328,7 @@
       "description": "Chip component",
       "files": ["components/chip.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon", "ripple"]
+      "registryDependencies": ["ripple", "icon"]
     },
     "combobox": {
       "name": "Combobox",
@@ -400,7 +400,7 @@
       "description": "FabMenu component",
       "files": ["components/fab-menu.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon", "fab"]
+      "registryDependencies": ["fab", "icon"]
     },
     "fab": {
       "name": "Fab",
@@ -432,7 +432,7 @@
       "description": "Navigation component",
       "files": ["components/navigation/index.ts", "components/navigation/nav-group.tsx", "components/navigation/nav-item.tsx", "components/navigation/nav.tsx"],
       "dependencies": [],
-      "registryDependencies": ["nav", "nav-item", "nav-group"]
+      "registryDependencies": ["nav", "nav-item", "nav-group", "ripple"]
     },
     "navigation-bar": {
       "name": "NavigationBar",
@@ -583,16 +583,17 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "sidebar-provider",
         "sidebar-visuals",
+        "sidebar.state",
+        "ripple",
         "sidebar-navigation-utils",
-        "context/sidebar-provider",
-        "model/sidebar.types",
         "sidebar.types",
-        "components/sidebar-shell",
-        "components/sidebar-inset",
-        "components/sidebar-rail",
-        "components/sidebar-drawer",
-        "components/sidebar-items"
+        "sidebar-shell",
+        "sidebar-inset",
+        "sidebar-rail",
+        "sidebar-drawer",
+        "sidebar-items"
       ]
     },
     "skeleton": {
@@ -617,7 +618,7 @@
       "description": "StatCard component",
       "files": ["components/stat-card.tsx"],
       "dependencies": [],
-      "registryDependencies": ["text", "icon", "card"]
+      "registryDependencies": ["card", "text", "icon"]
     },
     "stepper": {
       "name": "Stepper",
@@ -665,7 +666,7 @@
       "description": "ThemeSwitcher component",
       "files": ["components/theme-switcher.tsx"],
       "dependencies": [],
-      "registryDependencies": []
+      "registryDependencies": ["theme-provider"]
     },
     "time-picker": {
       "name": "TimePicker",
@@ -673,7 +674,7 @@
       "description": "TimePicker component",
       "files": ["components/time-picker.tsx"],
       "dependencies": [],
-      "registryDependencies": ["icon", "dialog", "button", "icon-button"]
+      "registryDependencies": ["dialog", "button", "icon-button", "icon"]
     },
     "toast": {
       "name": "Toast",

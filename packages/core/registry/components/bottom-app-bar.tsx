@@ -2,7 +2,7 @@ import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing } from '@/lib/utils';
 import { Surface } from '@/primitives/surface';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 const bottomAppBarVariants = cva(
   'fixed bottom-0 left-0 right-0 h-20 flex items-center justify-between px-4 z-20',

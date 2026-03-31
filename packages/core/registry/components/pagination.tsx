@@ -3,8 +3,8 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@/lib/utils';
 import { paginationButtonClass } from '@/lib/action-size';
 import { Text } from '@/primitives/text';
-import { IconButton } from './icon-button';
-import { Ripple } from './ripple';
+import { IconButton } from '@/components/ui/icon-button';
+import { Ripple } from '@/components/ui/ripple';
 
 const paginationVariants = cva('flex items-center gap-2', {
   variants: {

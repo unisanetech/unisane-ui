@@ -10,8 +10,8 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
-import { cn, Slot } from '@ui/lib/utils';
-import { iconButtonSizeClasses } from '@ui/lib/action-size';
+import { cn, Slot } from '../lib/utils';
+import { iconButtonSizeClasses } from '../lib/action-size';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -19,7 +19,7 @@ import {
   getActionAsChildAttributes,
   getActionDisabledState,
   getActionStateAttributes,
-} from '@ui/lib/action-control';
+} from '../lib/action-control';
 
 const iconButtonVariants = cva(
   `relative inline-flex items-center justify-center rounded-icon-button transition-all duration-snappy ease-emphasized ${actionInteractiveClass}`,

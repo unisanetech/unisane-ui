@@ -7,7 +7,7 @@ import {
   type ReactNode,
   forwardRef,
 } from 'react';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 import { CloseIcon } from '@/primitives/icon';
 import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';

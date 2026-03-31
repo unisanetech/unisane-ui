@@ -1,7 +1,7 @@
 import React, { isValidElement } from 'react';
 import { cn, Slot } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
-import { IconButton } from './icon-button';
+import { IconButton } from '@/components/ui/icon-button';
 
 export const Breadcrumb: React.FC<{
   children: React.ReactNode;

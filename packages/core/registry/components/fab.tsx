@@ -11,7 +11,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '@/lib/utils';
 import { fabSizeClasses } from '@/lib/action-size';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 import {
   ActionSpinner,
   ActionStateLayer,

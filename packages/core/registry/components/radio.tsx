@@ -1,7 +1,7 @@
 'use client';
 
 import { type InputHTMLAttributes, useId, forwardRef } from 'react';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 import { cn } from '@/lib/utils';
 
 interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {

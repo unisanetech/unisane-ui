@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef, ElementType } from 'react';
-import { cn } from '@ui/lib/utils';
+import { cn } from '../../lib/utils';
 import type { NavigationVariant } from '../../types/navigation';
 
 export interface NavProps extends React.HTMLAttributes<HTMLElement> {

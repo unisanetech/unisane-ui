@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@ui/lib/utils';
-import { getFieldSizeStyles, type FieldSize } from '@ui/lib/field-size';
-import { useControllableState } from '@ui/lib/use-controllable-state';
+import { cn } from '../lib/utils';
+import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
+import { useControllableState } from '../lib/use-controllable-state';
 import { Ripple } from './ripple';
 
 export interface SegmentedButtonOption {

@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { cn } from "@ui/lib/utils";
+import { cn } from "../lib/utils";
 
 export interface IconProps extends React.HTMLAttributes<HTMLElement> {
   size?: number | "xs" | "sm" | "md" | "lg" | "xl";

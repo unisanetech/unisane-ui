@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { cn } from "@ui/lib/utils";
-import { getFieldSizeStyles, type FieldSize } from "@ui/lib/field-size";
+import { cn } from "../lib/utils";
+import { getFieldSizeStyles, type FieldSize } from "../lib/field-size";
 import {
   fieldContainerVariants,
   getFieldAffixClasses,
   getFieldHelperTextClasses,
   getFieldLabelClasses,
   type FieldShellVariant,
-} from "@ui/lib/field-shell";
-import { useFieldState } from "@ui/lib/use-field-state";
+} from "../lib/field-shell";
+import { useFieldState } from "../lib/use-field-state";
 
 export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> &
   Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &

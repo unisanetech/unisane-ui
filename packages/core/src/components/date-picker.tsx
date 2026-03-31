@@ -2,10 +2,10 @@
 
 import React, { useState, useRef, useLayoutEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
-import { cn } from '@ui/lib/utils';
-import { type FieldSize } from '@ui/lib/field-size';
-import { useControllableState } from '@ui/lib/use-controllable-state';
-import { type FieldShellVariant } from '@ui/lib/field-shell';
+import { cn } from '../lib/utils';
+import { type FieldSize } from '../lib/field-size';
+import { useControllableState } from '../lib/use-controllable-state';
+import { type FieldShellVariant } from '../lib/field-shell';
 import { Calendar } from './calendar';
 import { DateInput } from './date-input';
 

@@ -5,7 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 export interface SegmentedButtonOption {
   value: string;

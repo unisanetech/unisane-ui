@@ -6,7 +6,7 @@ import type {
   SidebarProviderProps,
   SidebarState,
   SidebarViewport,
-} from '../model/sidebar.types';
+} from '@/components/ui/sidebar/model/sidebar.types';
 import {
   DEFAULT_SIDEBAR_BREAKPOINTS,
   computeViewportFlags,
@@ -17,7 +17,7 @@ import {
   parseStoredStringArray,
   resolveSidebarBehavior,
   toggleGroupSet,
-} from '../model/sidebar.state';
+} from '@/components/ui/sidebar/model/sidebar.state';
 
 const SidebarContext = createContext<SidebarState | null>(null);
 

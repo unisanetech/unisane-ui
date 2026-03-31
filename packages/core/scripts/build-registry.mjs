@@ -5,7 +5,7 @@
  *
  * This script builds the component registry for the CLI tool.
  * It copies components from packages/core/src to registry/ and:
- * - Rewrites @ui/* imports to @/* (shadcn convention)
+ * - Rewrites internal source imports to @/* registry imports
  * - Generates registry.json with component metadata
  * - Detects inter-component dependencies automatically
  */
@@ -13,6 +13,9 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { loadThemeConfig } from '../../tokens/scripts/tokens-build/theme-config.mjs';
+import { generateMergedTokenCss } from '../../tokens/scripts/tokens-build/css-generators.mjs';
+import { rewriteSourceImportsToRegistry } from './registry-imports.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,67 +53,19 @@ function fileToName(filename) {
     .join('');
 }
 
-/**
- * Rewrite import paths from @ui/* to @/* (shadcn convention)
- * This ensures registry components work in end-user projects
- */
-function rewriteImports(content) {
-  // Rewrite @ui/lib/utils -> @/lib/utils
-  // Rewrite @ui/components/button -> @/components/ui/button
-  // Rewrite @ui/primitives/icon -> @/primitives/icon
-  // Rewrite @ui/layout/pane -> @/layout/pane
-
-  return (
-    content
-      // Handle all @ui/* imports - convert to @/*
-      .replace(
-        /from\s+(["'])@ui\/lib\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/lib/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/components\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/components/ui/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/primitives\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/primitives/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/layout\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/layout/${pathPart}${quote}`,
-      )
-      .replace(
-        /from\s+(["'])@ui\/hooks\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/hooks/${pathPart}${quote}`,
-      )
-      // Catch any remaining @ui/ patterns
-      .replace(
-        /from\s+(["'])@ui\/([^"']+)\1/g,
-        (_match, quote, pathPart) => `from ${quote}@/${pathPart}${quote}`,
-      )
-  );
-}
-
 // Auto-detect registry dependencies from imports
-async function detectDependencies(filePath) {
+async function detectDependencies(filePath, relativeFilePath) {
   try {
     const content = await fs.readFile(filePath, 'utf-8');
     const deps = new Set();
 
-    // Match imports from @ui/components, @ui/primitives, @ui/layout
-    const importRegex = /from\s+['"]@ui\/(components|primitives|layout)\/([^'"]+)['"]/g;
-    let match;
-    while ((match = importRegex.exec(content)) !== null) {
-      const depKey = fileToKey(match[2]);
-      deps.add(depKey);
-    }
-
-    // Match imports from same folder like "./ripple"
-    const relativeRegex = /from\s+['"]\.\/([^'"]+)['"]/g;
-    while ((match = relativeRegex.exec(content)) !== null) {
-      const depKey = fileToKey(match[1]);
-      deps.add(depKey);
-    }
+    rewriteSourceImportsToRegistry(content, relativeFilePath).replace(
+      /(?:from\s+|import\s+)(["'])@\/(components\/ui|primitives|layout)\/([^"']+)\1/g,
+      (_match, _quote, _folder, pathPart) => {
+        deps.add(fileToKey(path.posix.basename(pathPart)));
+        return _match;
+      },
+    );
 
     return Array.from(deps);
   } catch (error) {
@@ -140,13 +95,14 @@ async function scanDirectory(dir, folder) {
 
       const key = fileToKey(entry.name);
       const name = fileToName(entry.name);
-      const registryDeps = await detectDependencies(entryPath);
+      const relativeFilePath = `${folder}/${entry.name}`;
+      const registryDeps = await detectDependencies(entryPath, relativeFilePath);
 
       components[key] = {
         name,
         type: getComponentType(folder),
         description: `${name} component`,
-        files: [`${folder}/${entry.name}`],
+        files: [relativeFilePath],
         dependencies: [],
         registryDependencies: registryDeps,
       };
@@ -192,10 +148,9 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
           continue;
         }
 
-        componentFiles.push(
-          `${parentFolder}/${subfolderName}/${nextRelativePath}`,
-        );
-        const deps = await detectDependencies(entryPath);
+        const sourceRelativePath = `${parentFolder}/${subfolderName}/${nextRelativePath}`;
+        componentFiles.push(sourceRelativePath);
+        const deps = await detectDependencies(entryPath, sourceRelativePath);
         deps.forEach((dep) => allDeps.add(dep));
       }
     };
@@ -285,6 +240,57 @@ async function scanHooksDirectory(dir) {
   return hooks;
 }
 
+async function copySupportDirectory(folder) {
+  const sourceFolderPath = path.join(srcDir, folder);
+  const targetFolderPath = path.join(registryDir, folder);
+  let rewriteCount = 0;
+
+  const copyRecursive = async (currentSourceDir, currentTargetDir, relativePath = '') => {
+    const entries = await fs.readdir(currentSourceDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const nextRelativePath = relativePath
+        ? `${relativePath}/${entry.name}`
+        : entry.name;
+      const sourcePath = path.join(currentSourceDir, entry.name);
+      const targetPath = path.join(currentTargetDir, entry.name);
+
+      if (entry.isDirectory()) {
+        await fs.mkdir(targetPath, { recursive: true });
+        await copyRecursive(sourcePath, targetPath, nextRelativePath);
+        continue;
+      }
+
+      if (!entry.name.endsWith('.ts') && !entry.name.endsWith('.tsx')) {
+        continue;
+      }
+
+      const sourceRelativePath = `${folder}/${nextRelativePath}`;
+      const originalContent = await fs.readFile(sourcePath, 'utf-8');
+      const content = rewriteSourceImportsToRegistry(originalContent, sourceRelativePath);
+
+      if (content !== originalContent) {
+        rewriteCount++;
+      }
+
+      await fs.mkdir(path.dirname(targetPath), { recursive: true });
+      await fs.writeFile(targetPath, content);
+      console.log(`✅ Copied ${sourceRelativePath}${content !== originalContent ? ' (imports rewritten)' : ''}`);
+    }
+  };
+
+  try {
+    await fs.access(sourceFolderPath);
+  } catch {
+    return rewriteCount;
+  }
+
+  await fs.mkdir(targetFolderPath, { recursive: true });
+  await copyRecursive(sourceFolderPath, targetFolderPath);
+
+  return rewriteCount;
+}
+
 // Copy files to registry with import path rewriting
 async function copyToRegistry(componentMetadata) {
   console.log('📦 Building registry...\n');
@@ -295,6 +301,7 @@ async function copyToRegistry(componentMetadata) {
   await fs.mkdir(path.join(registryDir, 'layout'), { recursive: true });
   await fs.mkdir(path.join(registryDir, 'lib'), { recursive: true });
   await fs.mkdir(path.join(registryDir, 'hooks'), { recursive: true });
+  await fs.mkdir(path.join(registryDir, 'types'), { recursive: true });
 
   let rewriteCount = 0;
 
@@ -305,27 +312,24 @@ async function copyToRegistry(componentMetadata) {
       const destPath = path.join(registryDir, file);
 
       try {
-        let content = await fs.readFile(srcPath, 'utf-8');
+        const originalContent = await fs.readFile(srcPath, 'utf-8');
+        const content = rewriteSourceImportsToRegistry(originalContent, file);
 
-        // Check if content has @ui/ imports that need rewriting
-        const hasUiImports = content.includes('@ui/');
-
-        // Rewrite imports from @ui/* to @/*
-        content = rewriteImports(content);
-
-        if (hasUiImports) {
+        if (content !== originalContent) {
           rewriteCount++;
         }
 
         const destDir = path.dirname(destPath);
         await fs.mkdir(destDir, { recursive: true });
         await fs.writeFile(destPath, content);
-        console.log(`✅ Copied ${file}${hasUiImports ? ' (imports rewritten)' : ''}`);
+        console.log(`✅ Copied ${file}${content !== originalContent ? ' (imports rewritten)' : ''}`);
       } catch (error) {
         console.warn(`⚠️  Could not copy ${file}: ${error.message}`);
       }
     }
   }
+
+  rewriteCount += await copySupportDirectory('types');
 
   console.log(`\n📝 Rewrote imports in ${rewriteCount} files\n`);
 }
@@ -398,25 +402,12 @@ async function copyStyles() {
   const stylesDir = path.join(registryDir, 'styles');
   await fs.mkdir(stylesDir, { recursive: true });
 
-  // Copy CSS files from tokens package if available
-  const tokensDistDir = path.join(rootDir, '..', 'tokens', 'dist');
-
   try {
-    const files = ['unisane.css'];
-
-    for (const file of files) {
-      const srcPath = path.join(tokensDistDir, file);
-      const destPath = path.join(stylesDir, file);
-
-      try {
-        await fs.copyFile(srcPath, destPath);
-        console.log(`✅ Copied styles/${file}`);
-      } catch {
-        // File might not exist, skip silently
-      }
-    }
+    const css = generateMergedTokenCss(loadThemeConfig());
+    await fs.writeFile(path.join(stylesDir, 'unisane.css'), css);
+    console.log('✅ Generated styles/unisane.css');
   } catch (error) {
-    console.warn(`⚠️  Could not copy styles: ${error.message}`);
+    console.warn(`⚠️  Could not generate styles: ${error.message}`);
   }
 }
 
@@ -456,7 +447,7 @@ async function main() {
     console.log('🎉 Registry built successfully!');
     console.log(`📁 Location: ${registryDir}`);
     console.log(`📊 Total items: ${Object.keys(componentMetadata).length}`);
-    console.log('\n💡 All @ui/* imports have been rewritten to @/* for end-user compatibility.');
+    console.log('\n💡 All internal source imports have been rewritten to registry-safe @/* paths.');
   } catch (error) {
     console.error('❌ Failed to build registry:', error);
     process.exit(1);

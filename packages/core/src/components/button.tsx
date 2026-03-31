@@ -12,8 +12,8 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
-import { cn, Slot } from '@ui/lib/utils';
-import { actionButtonSizeClasses } from '@ui/lib/action-size';
+import { cn, Slot } from '../lib/utils';
+import { actionButtonSizeClasses } from '../lib/action-size';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -21,7 +21,7 @@ import {
   getActionDisabledState,
   getActionStateAttributes,
   getActionAsChildAttributes,
-} from '@ui/lib/action-control';
+} from '../lib/action-control';
 
 const buttonVariants = cva(
   `relative inline-flex items-center justify-center gap-2 rounded-button whitespace-nowrap font-medium leading-none transition-all duration-short ease-standard ${actionInteractiveClass}`,

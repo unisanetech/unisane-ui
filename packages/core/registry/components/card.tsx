@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing } from '@/lib/utils';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 const cardVariants = cva(
   'rounded-sm overflow-hidden flex flex-col transition-all duration-medium ease-emphasized relative group isolate',

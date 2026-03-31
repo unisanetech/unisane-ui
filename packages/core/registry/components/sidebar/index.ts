@@ -1,4 +1,4 @@
-export { SidebarProvider, useSidebar } from './context/sidebar-provider';
+export { SidebarProvider, useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
 export type {
   SidebarState,
   SidebarProviderProps,
@@ -14,7 +14,7 @@ export type {
   SidebarViewport,
   SidebarBreakpoints,
   SidebarVisualTokens,
-} from './model/sidebar.types';
+} from '@/components/ui/sidebar/model/sidebar.types';
 
 export {
   Sidebar,
@@ -34,7 +34,7 @@ export {
   SidebarBackdrop,
   SidebarInset,
   SidebarCollapsibleGroup,
-} from './sidebar';
+} from '@/components/ui/sidebar/sidebar';
 
 export type {
   SidebarProps,
@@ -54,4 +54,4 @@ export type {
   SidebarBackdropProps,
   SidebarInsetProps,
   SidebarCollapsibleGroupProps,
-} from './sidebar';
+} from '@/components/ui/sidebar/sidebar';

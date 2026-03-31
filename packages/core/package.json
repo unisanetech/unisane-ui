@@ -54,7 +54,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "pnpm build:registry && pnpm build:components && pnpm build:styles",
+    "build": "pnpm validate:registry && pnpm build:components && pnpm build:styles",
     "build:registry": "node scripts/build-registry.mjs",
     "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "build:components": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
@@ -66,7 +66,8 @@
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
     "lint": "eslint src --max-warnings 0 && pnpm check:contract",
-    "validate:registry": "node scripts/validate-registry.mjs"
+    "validate:registry": "node scripts/validate-registry.mjs",
+    "check-types:no-build": "tsc --noEmit -p tsconfig.source-consumer.json"
   },
   "peerDependencies": {
     "react": "^19",

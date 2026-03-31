@@ -6,7 +6,7 @@ import {
   NavigationDrawerItemContent,
   getNavigationDrawerItemClasses,
 } from '@/lib/navigation-visuals';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 const navigationDrawerVariants = cva(
   'flex flex-col h-full bg-surface-container-low border-r border-outline-subtle transition-transform duration-emphasized ease-emphasized overflow-y-auto',

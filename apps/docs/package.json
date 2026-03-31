@@ -10,7 +10,8 @@
     "lint": "eslint --max-warnings 0",
     "check-types": "next typegen && tsc --noEmit",
     "test:visual": "playwright test --config playwright.config.ts",
-    "test:visual:update": "playwright test --config playwright.config.ts --update-snapshots"
+    "test:visual:update": "playwright test --config playwright.config.ts --update-snapshots",
+    "check-types:no-build": "tsc --noEmit -p tsconfig.source-consumer.json"
   },
   "dependencies": {
     "@material-symbols/font-400": "^0.40.2",

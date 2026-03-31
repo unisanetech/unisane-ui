@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing } from '@/lib/utils';
 import { Icon } from '@/primitives/icon';
 import { Text } from '@/primitives/text';
-import { Ripple } from './ripple';
+import { Ripple } from '@/components/ui/ripple';
 
 interface Step {
   label: string;

@@ -1,8 +1,8 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing, Slot } from '@/lib/utils';
-import { Typography } from './typography';
-import { Ripple } from './ripple';
+import { Typography } from '@/components/ui/typography';
+import { Ripple } from '@/components/ui/ripple';
 
 export const List: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   className,

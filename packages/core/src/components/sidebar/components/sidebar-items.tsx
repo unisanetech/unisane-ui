@@ -1,12 +1,12 @@
 'use client';
 
 import React, { cloneElement, forwardRef, isValidElement, useEffect, useId, useRef } from 'react';
-import { cn, Slot } from '@ui/lib/utils';
+import { cn, Slot } from '../../../lib/utils';
 import {
   NavigationDrawerItemContent,
   NavigationIcon,
   getNavigationDrawerItemClasses,
-} from '@ui/lib/navigation-visuals';
+} from '../../../lib/navigation-visuals';
 import { useSidebar } from '../context/sidebar-provider';
 import { findNavigationItemById } from '../model/sidebar.state';
 import { Ripple } from '../../ripple';
