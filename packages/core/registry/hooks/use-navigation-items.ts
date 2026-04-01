@@ -1,7 +1,9 @@
-import { useMemo } from 'react';
-import type { NavigationItem, ProcessedNavigationItems } from '@/types/navigation';
+import { useMemo } from "react";
+import type { NavigationItem, ProcessedNavigationItems } from "@/types/navigation";
 
-export function useNavigationItems(items: NavigationItem[]): ProcessedNavigationItems {
+export function useNavigationItems(
+  items: NavigationItem[]
+): ProcessedNavigationItems {
   const processed = useMemo(() => {
     const flatItems: NavigationItem[] = [];
     const visitedIds = new Set<string>();
@@ -46,7 +48,10 @@ export function useNavigationItems(items: NavigationItem[]): ProcessedNavigation
     const buildAncestryChain = (targetId: string): string[] => {
       const chain: string[] = [];
 
-      const findInTree = (items: NavigationItem[], currentChain: string[]): boolean => {
+      const findInTree = (
+        items: NavigationItem[],
+        currentChain: string[]
+      ): boolean => {
         for (const item of items) {
           const newChain = [...currentChain, item.id];
 
