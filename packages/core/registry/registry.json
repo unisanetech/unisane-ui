@@ -6,7 +6,9 @@
       "name": "ActionControl",
       "type": "lib:util",
       "description": "ActionControl utility",
-      "files": ["lib/action-control.tsx"],
+      "files": [
+        "lib/action-control.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -14,7 +16,9 @@
       "name": "ActionSize",
       "type": "lib:util",
       "description": "ActionSize utility",
-      "files": ["lib/action-size.ts"],
+      "files": [
+        "lib/action-size.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -22,7 +26,9 @@
       "name": "FieldShell",
       "type": "lib:util",
       "description": "FieldShell utility",
-      "files": ["lib/field-shell.ts"],
+      "files": [
+        "lib/field-shell.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -30,7 +36,9 @@
       "name": "FieldSize",
       "type": "lib:util",
       "description": "FieldSize utility",
-      "files": ["lib/field-size.ts"],
+      "files": [
+        "lib/field-size.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -38,7 +46,9 @@
       "name": "NavigationVisuals",
       "type": "lib:util",
       "description": "NavigationVisuals utility",
-      "files": ["lib/navigation-visuals.tsx"],
+      "files": [
+        "lib/navigation-visuals.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -46,7 +56,9 @@
       "name": "UseControllableState",
       "type": "lib:util",
       "description": "UseControllableState utility",
-      "files": ["lib/use-controllable-state.ts"],
+      "files": [
+        "lib/use-controllable-state.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -54,7 +66,9 @@
       "name": "UseFieldState",
       "type": "lib:util",
       "description": "UseFieldState utility",
-      "files": ["lib/use-field-state.ts"],
+      "files": [
+        "lib/use-field-state.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -62,7 +76,9 @@
       "name": "Utils",
       "type": "lib:util",
       "description": "Utils utility",
-      "files": ["lib/utils.ts"],
+      "files": [
+        "lib/utils.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -70,7 +86,9 @@
       "name": "UseNavigationBreakpoint",
       "type": "hooks:ui",
       "description": "UseNavigationBreakpoint hook",
-      "files": ["hooks/use-navigation-breakpoint.ts"],
+      "files": [
+        "hooks/use-navigation-breakpoint.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -78,7 +96,9 @@
       "name": "UseNavigationHover",
       "type": "hooks:ui",
       "description": "UseNavigationHover hook",
-      "files": ["hooks/use-navigation-hover.ts"],
+      "files": [
+        "hooks/use-navigation-hover.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -86,7 +106,9 @@
       "name": "UseNavigationItems",
       "type": "hooks:ui",
       "description": "UseNavigationItems hook",
-      "files": ["hooks/use-navigation-items.ts"],
+      "files": [
+        "hooks/use-navigation-items.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -94,7 +116,9 @@
       "name": "UseNavigationState",
       "type": "hooks:ui",
       "description": "UseNavigationState hook",
-      "files": ["hooks/use-navigation-state.ts"],
+      "files": [
+        "hooks/use-navigation-state.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -102,7 +126,9 @@
       "name": "UseScrollLock",
       "type": "hooks:ui",
       "description": "UseScrollLock hook",
-      "files": ["hooks/use-scroll-lock.ts"],
+      "files": [
+        "hooks/use-scroll-lock.ts"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -110,7 +136,9 @@
       "name": "FocusRing",
       "type": "primitives:ui",
       "description": "FocusRing component",
-      "files": ["primitives/focus-ring.tsx"],
+      "files": [
+        "primitives/focus-ring.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -118,7 +146,9 @@
       "name": "Icon",
       "type": "components:ui",
       "description": "Icon component",
-      "files": ["components/icon.tsx"],
+      "files": [
+        "components/icon.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -126,7 +156,9 @@
       "name": "Input",
       "type": "primitives:ui",
       "description": "Input component",
-      "files": ["primitives/input.tsx"],
+      "files": [
+        "primitives/input.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -134,7 +166,9 @@
       "name": "Label",
       "type": "primitives:ui",
       "description": "Label component",
-      "files": ["primitives/label.tsx"],
+      "files": [
+        "primitives/label.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -142,15 +176,21 @@
       "name": "Menu",
       "type": "primitives:ui",
       "description": "Menu component",
-      "files": ["primitives/menu.tsx"],
+      "files": [
+        "primitives/menu.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "state-layer": {
       "name": "StateLayer",
       "type": "primitives:ui",
       "description": "StateLayer component",
-      "files": ["primitives/state-layer.tsx"],
+      "files": [
+        "primitives/state-layer.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -158,7 +198,9 @@
       "name": "Surface",
       "type": "primitives:ui",
       "description": "Surface component",
-      "files": ["primitives/surface.tsx"],
+      "files": [
+        "primitives/surface.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -166,7 +208,9 @@
       "name": "Text",
       "type": "primitives:ui",
       "description": "Text component",
-      "files": ["primitives/text.tsx"],
+      "files": [
+        "primitives/text.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -174,7 +218,9 @@
       "name": "Textarea",
       "type": "primitives:ui",
       "description": "Textarea component",
-      "files": ["primitives/textarea.tsx"],
+      "files": [
+        "primitives/textarea.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -182,7 +228,9 @@
       "name": "AppLayout",
       "type": "layout:ui",
       "description": "AppLayout component",
-      "files": ["layout/app-layout.tsx"],
+      "files": [
+        "layout/app-layout.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -190,7 +238,9 @@
       "name": "Container",
       "type": "layout:ui",
       "description": "Container component",
-      "files": ["layout/container.tsx"],
+      "files": [
+        "layout/container.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -198,7 +248,9 @@
       "name": "Pane",
       "type": "layout:ui",
       "description": "Pane component",
-      "files": ["layout/pane.tsx"],
+      "files": [
+        "layout/pane.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -206,7 +258,9 @@
       "name": "ThemeProvider",
       "type": "layout:ui",
       "description": "ThemeProvider component",
-      "files": ["layout/theme-provider.tsx"],
+      "files": [
+        "layout/theme-provider.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -214,7 +268,9 @@
       "name": "WindowSizeProvider",
       "type": "layout:ui",
       "description": "WindowSizeProvider component",
-      "files": ["layout/window-size-provider.tsx"],
+      "files": [
+        "layout/window-size-provider.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -222,31 +278,48 @@
       "name": "Accordion",
       "type": "components:ui",
       "description": "Accordion component",
-      "files": ["components/accordion.tsx"],
+      "files": [
+        "components/accordion.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "ripple"]
+      "registryDependencies": [
+        "icon",
+        "ripple"
+      ]
     },
     "alert": {
       "name": "Alert",
       "type": "components:ui",
       "description": "Alert component",
-      "files": ["components/alert.tsx"],
+      "files": [
+        "components/alert.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "typography"]
+      "registryDependencies": [
+        "icon",
+        "typography"
+      ]
     },
     "avatar": {
       "name": "Avatar",
       "type": "components:ui",
       "description": "Avatar component",
-      "files": ["components/avatar.tsx"],
+      "files": [
+        "components/avatar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["surface", "text"]
+      "registryDependencies": [
+        "surface",
+        "text"
+      ]
     },
     "badge": {
       "name": "Badge",
       "type": "components:ui",
       "description": "Badge component",
-      "files": ["components/badge.tsx"],
+      "files": [
+        "components/badge.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -254,111 +327,182 @@
       "name": "Banner",
       "type": "components:ui",
       "description": "Banner component",
-      "files": ["components/banner.tsx"],
+      "files": [
+        "components/banner.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["surface", "text", "button", "icon-button", "icon"]
+      "registryDependencies": [
+        "surface",
+        "text",
+        "button",
+        "icon-button",
+        "icon"
+      ]
     },
     "bottom-app-bar": {
       "name": "BottomAppBar",
       "type": "components:ui",
       "description": "BottomAppBar component",
-      "files": ["components/bottom-app-bar.tsx"],
+      "files": [
+        "components/bottom-app-bar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["surface", "ripple"]
+      "registryDependencies": [
+        "surface",
+        "ripple"
+      ]
     },
     "breadcrumb": {
       "name": "Breadcrumb",
       "type": "components:ui",
       "description": "Breadcrumb component",
-      "files": ["components/breadcrumb.tsx"],
+      "files": [
+        "components/breadcrumb.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "icon-button"]
+      "registryDependencies": [
+        "icon",
+        "icon-button"
+      ]
     },
     "button": {
       "name": "Button",
       "type": "components:ui",
       "description": "Button component",
-      "files": ["components/button.tsx"],
+      "files": [
+        "components/button.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "calendar": {
       "name": "Calendar",
       "type": "components:ui",
       "description": "Calendar component",
-      "files": ["components/calendar.tsx"],
+      "files": [
+        "components/calendar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["surface", "text", "icon-button", "ripple"]
+      "registryDependencies": [
+        "surface",
+        "text",
+        "icon-button",
+        "ripple"
+      ]
     },
     "canonical-layouts": {
       "name": "CanonicalLayouts",
       "type": "components:ui",
       "description": "CanonicalLayouts component",
-      "files": ["components/canonical-layouts.tsx"],
+      "files": [
+        "components/canonical-layouts.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon-button", "pane"]
+      "registryDependencies": [
+        "icon-button",
+        "pane"
+      ]
     },
     "card": {
       "name": "Card",
       "type": "components:ui",
       "description": "Card component",
-      "files": ["components/card.tsx"],
+      "files": [
+        "components/card.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "carousel": {
       "name": "Carousel",
       "type": "components:ui",
       "description": "Carousel component",
-      "files": ["components/carousel.tsx"],
+      "files": [
+        "components/carousel.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon-button", "ripple"]
+      "registryDependencies": [
+        "icon-button",
+        "ripple"
+      ]
     },
     "checkbox": {
       "name": "Checkbox",
       "type": "components:ui",
       "description": "Checkbox component",
-      "files": ["components/checkbox.tsx"],
+      "files": [
+        "components/checkbox.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "chip": {
       "name": "Chip",
       "type": "components:ui",
       "description": "Chip component",
-      "files": ["components/chip.tsx"],
+      "files": [
+        "components/chip.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple", "icon"]
+      "registryDependencies": [
+        "ripple",
+        "icon"
+      ]
     },
     "combobox": {
       "name": "Combobox",
       "type": "components:ui",
       "description": "Combobox component",
-      "files": ["components/combobox.tsx"],
+      "files": [
+        "components/combobox.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text", "icon", "ripple"]
+      "registryDependencies": [
+        "text",
+        "icon",
+        "ripple"
+      ]
     },
     "command": {
       "name": "Command",
       "type": "components:ui",
       "description": "Command component",
-      "files": ["components/command.tsx"],
+      "files": [
+        "components/command.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "dialog"]
+      "registryDependencies": [
+        "icon",
+        "dialog"
+      ]
     },
     "confirm-dialog": {
       "name": "ConfirmDialog",
       "type": "components:ui",
       "description": "ConfirmDialog component",
-      "files": ["components/confirm-dialog.tsx"],
+      "files": [
+        "components/confirm-dialog.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["dialog", "button", "icon"]
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "icon"
+      ]
     },
     "date-input": {
       "name": "DateInput",
       "type": "components:ui",
       "description": "DateInput component",
-      "files": ["components/date-input.tsx"],
+      "files": [
+        "components/date-input.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -366,23 +510,36 @@
       "name": "DatePicker",
       "type": "components:ui",
       "description": "DatePicker component",
-      "files": ["components/date-picker.tsx"],
+      "files": [
+        "components/date-picker.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["calendar", "date-input"]
+      "registryDependencies": [
+        "calendar",
+        "date-input"
+      ]
     },
     "dialog": {
       "name": "Dialog",
       "type": "components:ui",
       "description": "Dialog component",
-      "files": ["components/dialog.tsx"],
+      "files": [
+        "components/dialog.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text", "surface", "icon-button"]
+      "registryDependencies": [
+        "text",
+        "surface",
+        "icon-button"
+      ]
     },
     "divider": {
       "name": "Divider",
       "type": "components:ui",
       "description": "Divider component",
-      "files": ["components/divider.tsx"],
+      "files": [
+        "components/divider.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -390,87 +547,140 @@
       "name": "DropdownMenu",
       "type": "components:ui",
       "description": "DropdownMenu component",
-      "files": ["components/dropdown-menu.tsx"],
+      "files": [
+        "components/dropdown-menu.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "menu"]
+      "registryDependencies": [
+        "icon",
+        "menu"
+      ]
     },
     "fab-menu": {
       "name": "FabMenu",
       "type": "components:ui",
       "description": "FabMenu component",
-      "files": ["components/fab-menu.tsx"],
+      "files": [
+        "components/fab-menu.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["fab", "icon"]
+      "registryDependencies": [
+        "fab",
+        "icon"
+      ]
     },
     "fab": {
       "name": "Fab",
       "type": "components:ui",
       "description": "Fab component",
-      "files": ["components/fab.tsx"],
+      "files": [
+        "components/fab.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "icon-button": {
       "name": "IconButton",
       "type": "components:ui",
       "description": "IconButton component",
-      "files": ["components/icon-button.tsx"],
+      "files": [
+        "components/icon-button.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "list": {
       "name": "List",
       "type": "components:ui",
       "description": "List component",
-      "files": ["components/list.tsx"],
+      "files": [
+        "components/list.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["typography", "ripple"]
+      "registryDependencies": [
+        "typography",
+        "ripple"
+      ]
     },
     "navigation": {
       "name": "Navigation",
       "type": "components:ui",
       "description": "Navigation component",
-      "files": ["components/navigation/index.ts", "components/navigation/nav-group.tsx", "components/navigation/nav-item.tsx", "components/navigation/nav.tsx"],
+      "files": [
+        "components/navigation/index.ts",
+        "components/navigation/nav-group.tsx",
+        "components/navigation/nav-item.tsx",
+        "components/navigation/nav.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["nav", "nav-item", "nav-group", "ripple"]
+      "registryDependencies": [
+        "nav",
+        "nav-item",
+        "nav-group",
+        "ripple"
+      ]
     },
     "navigation-bar": {
       "name": "NavigationBar",
       "type": "components:ui",
       "description": "NavigationBar component",
-      "files": ["components/navigation-bar.tsx"],
+      "files": [
+        "components/navigation-bar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "navigation-drawer": {
       "name": "NavigationDrawer",
       "type": "components:ui",
       "description": "NavigationDrawer component",
-      "files": ["components/navigation-drawer.tsx"],
+      "files": [
+        "components/navigation-drawer.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "navigation-rail": {
       "name": "NavigationRail",
       "type": "components:ui",
       "description": "NavigationRail component",
-      "files": ["components/navigation-rail.tsx"],
+      "files": [
+        "components/navigation-rail.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "pagination": {
       "name": "Pagination",
       "type": "components:ui",
       "description": "Pagination component",
-      "files": ["components/pagination.tsx"],
+      "files": [
+        "components/pagination.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text", "icon-button", "ripple"]
+      "registryDependencies": [
+        "text",
+        "icon-button",
+        "ripple"
+      ]
     },
     "pane-group": {
       "name": "PaneGroup",
       "type": "components:ui",
       "description": "PaneGroup component",
-      "files": ["components/pane-group.tsx"],
+      "files": [
+        "components/pane-group.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -478,7 +688,9 @@
       "name": "Popover",
       "type": "components:ui",
       "description": "Popover component",
-      "files": ["components/popover.tsx"],
+      "files": [
+        "components/popover.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -486,7 +698,9 @@
       "name": "Progress",
       "type": "components:ui",
       "description": "Progress component",
-      "files": ["components/progress.tsx"],
+      "files": [
+        "components/progress.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -494,23 +708,34 @@
       "name": "Radio",
       "type": "components:ui",
       "description": "Radio component",
-      "files": ["components/radio.tsx"],
+      "files": [
+        "components/radio.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "rating": {
       "name": "Rating",
       "type": "components:ui",
       "description": "Rating component",
-      "files": ["components/rating.tsx"],
+      "files": [
+        "components/rating.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text", "ripple"]
+      "registryDependencies": [
+        "text",
+        "ripple"
+      ]
     },
     "ripple": {
       "name": "Ripple",
       "type": "components:ui",
       "description": "Ripple component",
-      "files": ["components/ripple.tsx"],
+      "files": [
+        "components/ripple.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -518,7 +743,9 @@
       "name": "ScrollArea",
       "type": "components:ui",
       "description": "ScrollArea component",
-      "files": ["components/scroll-area.tsx"],
+      "files": [
+        "components/scroll-area.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -526,41 +753,64 @@
       "name": "SearchBar",
       "type": "components:ui",
       "description": "SearchBar component",
-      "files": ["components/search-bar.tsx"],
+      "files": [
+        "components/search-bar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon"]
+      "registryDependencies": [
+        "icon"
+      ]
     },
     "segmented-button": {
       "name": "SegmentedButton",
       "type": "components:ui",
       "description": "SegmentedButton component",
-      "files": ["components/segmented-button.tsx"],
+      "files": [
+        "components/segmented-button.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "select": {
       "name": "Select",
       "type": "components:ui",
       "description": "Select component",
-      "files": ["components/select.tsx"],
+      "files": [
+        "components/select.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon"]
+      "registryDependencies": [
+        "icon"
+      ]
     },
     "selection-controls": {
       "name": "SelectionControls",
       "type": "components:ui",
       "description": "SelectionControls component",
-      "files": ["components/selection-controls.tsx"],
+      "files": [
+        "components/selection-controls.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["checkbox", "radio", "switch"]
+      "registryDependencies": [
+        "checkbox",
+        "radio",
+        "switch"
+      ]
     },
     "sheet": {
       "name": "Sheet",
       "type": "components:ui",
       "description": "Sheet component",
-      "files": ["components/sheet.tsx"],
+      "files": [
+        "components/sheet.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text", "icon-button"]
+      "registryDependencies": [
+        "text",
+        "icon-button"
+      ]
     },
     "sidebar": {
       "name": "Sidebar",
@@ -600,7 +850,9 @@
       "name": "Skeleton",
       "type": "components:ui",
       "description": "Skeleton component",
-      "files": ["components/skeleton.tsx"],
+      "files": [
+        "components/skeleton.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -608,7 +860,9 @@
       "name": "Slider",
       "type": "components:ui",
       "description": "Slider component",
-      "files": ["components/slider.tsx"],
+      "files": [
+        "components/slider.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -616,23 +870,37 @@
       "name": "StatCard",
       "type": "components:ui",
       "description": "StatCard component",
-      "files": ["components/stat-card.tsx"],
+      "files": [
+        "components/stat-card.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["card", "text", "icon"]
+      "registryDependencies": [
+        "card",
+        "text",
+        "icon"
+      ]
     },
     "stepper": {
       "name": "Stepper",
       "type": "components:ui",
       "description": "Stepper component",
-      "files": ["components/stepper.tsx"],
+      "files": [
+        "components/stepper.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "text", "ripple"]
+      "registryDependencies": [
+        "icon",
+        "text",
+        "ripple"
+      ]
     },
     "switch": {
       "name": "Switch",
       "type": "components:ui",
       "description": "Switch component",
-      "files": ["components/switch.tsx"],
+      "files": [
+        "components/switch.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -640,7 +908,9 @@
       "name": "Table",
       "type": "components:ui",
       "description": "Table component",
-      "files": ["components/table.tsx"],
+      "files": [
+        "components/table.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -648,15 +918,21 @@
       "name": "Tabs",
       "type": "components:ui",
       "description": "Tabs component",
-      "files": ["components/tabs.tsx"],
+      "files": [
+        "components/tabs.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["ripple"]
+      "registryDependencies": [
+        "ripple"
+      ]
     },
     "text-field": {
       "name": "TextField",
       "type": "components:ui",
       "description": "TextField component",
-      "files": ["components/text-field.tsx"],
+      "files": [
+        "components/text-field.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -664,31 +940,50 @@
       "name": "ThemeSwitcher",
       "type": "components:ui",
       "description": "ThemeSwitcher component",
-      "files": ["components/theme-switcher.tsx"],
+      "files": [
+        "components/theme-switcher.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["theme-provider"]
+      "registryDependencies": [
+        "theme-provider"
+      ]
     },
     "time-picker": {
       "name": "TimePicker",
       "type": "components:ui",
       "description": "TimePicker component",
-      "files": ["components/time-picker.tsx"],
+      "files": [
+        "components/time-picker.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["dialog", "button", "icon-button", "icon"]
+      "registryDependencies": [
+        "dialog",
+        "button",
+        "icon-button",
+        "icon"
+      ]
     },
     "toast": {
       "name": "Toast",
       "type": "components:ui",
       "description": "Toast component",
-      "files": ["components/toast.tsx"],
+      "files": [
+        "components/toast.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["icon", "button", "ripple"]
+      "registryDependencies": [
+        "icon",
+        "button",
+        "ripple"
+      ]
     },
     "tooltip": {
       "name": "Tooltip",
       "type": "components:ui",
       "description": "Tooltip component",
-      "files": ["components/tooltip.tsx"],
+      "files": [
+        "components/tooltip.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     },
@@ -696,15 +991,21 @@
       "name": "TopAppBar",
       "type": "components:ui",
       "description": "TopAppBar component",
-      "files": ["components/top-app-bar.tsx"],
+      "files": [
+        "components/top-app-bar.tsx"
+      ],
       "dependencies": [],
-      "registryDependencies": ["text"]
+      "registryDependencies": [
+        "text"
+      ]
     },
     "typography": {
       "name": "Typography",
       "type": "components:ui",
       "description": "Typography component",
-      "files": ["components/typography.tsx"],
+      "files": [
+        "components/typography.tsx"
+      ],
       "dependencies": [],
       "registryDependencies": []
     }

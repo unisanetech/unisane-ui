@@ -187,7 +187,7 @@ describe("SidebarProvider", () => {
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("does not auto-open the drawer when clicking items from the rail", async () => {
+  it("opens the drawer when clicking a rail item with children", async () => {
     const rendered = await render(
       <SidebarProvider items={ITEMS} defaultActiveId="home" persist={false}>
         <SidebarProbe />
@@ -203,7 +203,7 @@ describe("SidebarProvider", () => {
     });
 
     expect(getText(rendered.container, "active")).toBe("components");
-    expect(getText(rendered.container, "expanded")).toBe("false");
+    expect(getText(rendered.container, "expanded")).toBe("true");
     expect(getText(rendered.container, "effective")).toBe("components");
 
     await act(async () => {
