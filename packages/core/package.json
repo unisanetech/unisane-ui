@@ -67,8 +67,7 @@
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
     "lint": "eslint src --max-warnings 0 && pnpm check:contract",
-    "validate:registry": "node scripts/validate-registry.mjs && pnpm check-types:registry",
-    "check-types:no-build": "tsc --noEmit -p tsconfig.source-consumer.json"
+    "validate:registry": "node scripts/validate-registry.mjs && pnpm check-types:registry"
   },
   "peerDependencies": {
     "react": "^19",

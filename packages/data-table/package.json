@@ -66,13 +66,11 @@
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
     "check-types": "tsc --noEmit",
-    "check-types:source-deps": "tsc --noEmit -p tsconfig.source-consumer.json",
     "dev": "tsc --watch",
     "lint": "eslint src --ignore-pattern 'src/__tests__/**' --max-warnings 0",
     "test": "vitest run",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "check-types:no-build": "pnpm run check-types:source-deps"
+    "test:coverage": "vitest run --coverage"
   },
   "peerDependencies": {
     "@unisane/ui": "workspace:*",
