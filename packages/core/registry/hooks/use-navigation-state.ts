@@ -1,10 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import type {
-  NavigationState,
-  UseNavigationStateConfig,
-} from "@/types/navigation";
+import { useState, useEffect, useCallback } from 'react';
+import type { NavigationState, UseNavigationStateConfig } from '@/types/navigation';
 
 type PersistedNavigationState = {
   active?: string | null;
@@ -15,38 +12,36 @@ function parsePersistedNavigationState(raw: string | null): PersistedNavigationS
   if (!raw) return null;
   try {
     const parsed: unknown = JSON.parse(raw);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
       return null;
     }
     const record = parsed as Record<string, unknown>;
     const next: PersistedNavigationState = {};
-    if (record.active === null || typeof record.active === "string") {
+    if (record.active === null || typeof record.active === 'string') {
       next.active = record.active;
     }
-    if (typeof record.collapsed === "boolean") {
+    if (typeof record.collapsed === 'boolean') {
       next.collapsed = record.collapsed;
     }
     return next;
   } catch (error) {
-    console.warn("Failed to parse navigation state from localStorage:", error);
+    console.warn('Failed to parse navigation state from localStorage:', error);
     return null;
   }
 }
 
-export function useNavigationState(
-  config: UseNavigationStateConfig = {}
-): NavigationState {
+export function useNavigationState(config: UseNavigationStateConfig = {}): NavigationState {
   const {
     defaultActive = null,
     defaultCollapsed = false,
     persistState = false,
-    storageKey = "unisane-navigation",
+    storageKey = 'unisane-navigation',
     onActiveChange,
     onCollapsedChange,
   } = config;
 
   const getInitialState = useCallback(() => {
-    if (!persistState || typeof window === "undefined") {
+    if (!persistState || typeof window === 'undefined') {
       return {
         active: defaultActive,
         collapsed: defaultCollapsed,
@@ -62,7 +57,7 @@ export function useNavigationState(
         };
       }
     } catch (error) {
-      console.warn("Failed to read navigation state from localStorage:", error);
+      console.warn('Failed to read navigation state from localStorage:', error);
     }
 
     return {
@@ -71,24 +66,17 @@ export function useNavigationState(
     };
   }, [persistState, storageKey, defaultActive, defaultCollapsed]);
 
-  const [active, setActiveState] = useState<string | null>(
-    () => getInitialState().active
-  );
-  const [collapsed, setCollapsedState] = useState<boolean>(
-    () => getInitialState().collapsed
-  );
+  const [active, setActiveState] = useState<string | null>(() => getInitialState().active);
+  const [collapsed, setCollapsedState] = useState<boolean>(() => getInitialState().collapsed);
   const [open, setOpenState] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!persistState || typeof window === "undefined") return;
+    if (!persistState || typeof window === 'undefined') return;
 
     try {
-      localStorage.setItem(
-        storageKey,
-        JSON.stringify({ active, collapsed })
-      );
+      localStorage.setItem(storageKey, JSON.stringify({ active, collapsed }));
     } catch (error) {
-      console.warn("Failed to persist navigation state to localStorage:", error);
+      console.warn('Failed to persist navigation state to localStorage:', error);
     }
   }, [active, collapsed, persistState, storageKey]);
 
@@ -97,7 +85,7 @@ export function useNavigationState(
       setActiveState(id);
       onActiveChange?.(id);
     },
-    [onActiveChange]
+    [onActiveChange],
   );
 
   const setCollapsed = useCallback(
@@ -105,7 +93,7 @@ export function useNavigationState(
       setCollapsedState(value);
       onCollapsedChange?.(value);
     },
-    [onCollapsedChange]
+    [onCollapsedChange],
   );
 
   const setOpen = useCallback((value: boolean) => {

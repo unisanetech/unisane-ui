@@ -1,14 +1,9 @@
 'use client';
 
-import { useState, useRef, useCallback, useEffect } from "react";
-import type {
-  NavigationHoverState,
-  UseNavigationHoverConfig,
-} from "@/types/navigation";
+import { useState, useRef, useCallback, useEffect } from 'react';
+import type { NavigationHoverState, UseNavigationHoverConfig } from '@/types/navigation';
 
-export function useNavigationHover(
-  config: UseNavigationHoverConfig
-): NavigationHoverState {
+export function useNavigationHover(config: UseNavigationHoverConfig): NavigationHoverState {
   const {
     items,
     activeItem,
@@ -21,9 +16,7 @@ export function useNavigationHover(
   const [activeItemId, setActiveItemId] = useState<string | null>(activeItem);
   const [isDrawerLocked, setIsDrawerLocked] = useState<boolean>(false);
   const [hoveredItemId, setHoveredItemId] = useState<string | null>(null);
-  const [lastContentItemId, setLastContentItemId] = useState<string | null>(
-    activeItem
-  );
+  const [lastContentItemId, setLastContentItemId] = useState<string | null>(activeItem);
   const entryTimeoutRef = useRef<number | null>(null);
   const exitTimeoutRef = useRef<number | null>(null);
 
@@ -59,7 +52,7 @@ export function useNavigationHover(
       setHoveredItemId(null);
       onItemClick?.(id);
     },
-    [items, activeItemId, onItemClick]
+    [items, activeItemId, onItemClick],
   );
 
   const handleItemHover = useCallback(
@@ -80,7 +73,7 @@ export function useNavigationHover(
         setHoveredItemId(id);
       }, hoverDelay);
     },
-    [enabled, hoverDelay]
+    [enabled, hoverDelay],
   );
 
   const handleRailLeave = useCallback(() => {
@@ -119,13 +112,9 @@ export function useNavigationHover(
   }, [enabled, exitDelay]);
 
   const activeItemObject = items.find((i) => i.id === activeItemId);
-  const hoveredItemObject = hoveredItemId
-    ? items.find((i) => i.id === hoveredItemId)
-    : null;
+  const hoveredItemObject = hoveredItemId ? items.find((i) => i.id === hoveredItemId) : null;
 
-  const hoverHasChildren = !!(
-    hoveredItemObject?.items && hoveredItemObject.items.length > 0
-  );
+  const hoverHasChildren = !!(hoveredItemObject?.items && hoveredItemObject.items.length > 0);
 
   let targetItem = activeItemObject;
   if (hoveredItemObject && hoverHasChildren) {
@@ -133,8 +122,7 @@ export function useNavigationHover(
   }
 
   useEffect(() => {
-    const targetHasChildren =
-      targetItem?.items && targetItem.items.length > 0;
+    const targetHasChildren = targetItem?.items && targetItem.items.length > 0;
     if (targetHasChildren && targetItem) {
       setLastContentItemId(targetItem.id);
     }
@@ -142,8 +130,7 @@ export function useNavigationHover(
 
   const effectiveItem = items.find((i) => i.id === lastContentItemId) || null;
 
-  const isDrawerVisible =
-    isDrawerLocked || (!!hoveredItemId && hoverHasChildren);
+  const isDrawerVisible = isDrawerLocked || (!!hoveredItemId && hoverHasChildren);
 
   const isPushMode = isDrawerLocked;
 

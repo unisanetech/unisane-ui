@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from "react";
-import type { NavigationBreakpoint } from "@/types/navigation";
+import { useState, useEffect } from 'react';
+import type { NavigationBreakpoint } from '@/types/navigation';
 
 /**
  * Navigation breakpoint detection hook.
@@ -21,12 +21,12 @@ import type { NavigationBreakpoint } from "@/types/navigation";
  */
 export function useNavigationBreakpoint(): NavigationBreakpoint {
   const [breakpoint, setBreakpoint] = useState<NavigationBreakpoint>(() => {
-    if (typeof window === "undefined") {
+    if (typeof window === 'undefined') {
       return {
         isMobile: false,
         isTablet: false,
         isDesktop: true,
-        breakpoint: "desktop",
+        breakpoint: 'desktop',
       };
     }
 
@@ -36,7 +36,7 @@ export function useNavigationBreakpoint(): NavigationBreakpoint {
         isMobile: true,
         isTablet: false,
         isDesktop: false,
-        breakpoint: "mobile",
+        breakpoint: 'mobile',
       };
     }
     if (width < 1024) {
@@ -44,14 +44,14 @@ export function useNavigationBreakpoint(): NavigationBreakpoint {
         isMobile: false,
         isTablet: true,
         isDesktop: false,
-        breakpoint: "tablet",
+        breakpoint: 'tablet',
       };
     }
     return {
       isMobile: false,
       isTablet: false,
       isDesktop: true,
-      breakpoint: "desktop",
+      breakpoint: 'desktop',
     };
   });
 
@@ -64,27 +64,27 @@ export function useNavigationBreakpoint(): NavigationBreakpoint {
           isMobile: true,
           isTablet: false,
           isDesktop: false,
-          breakpoint: "mobile",
+          breakpoint: 'mobile',
         });
       } else if (width < 1024) {
         setBreakpoint({
           isMobile: false,
           isTablet: true,
           isDesktop: false,
-          breakpoint: "tablet",
+          breakpoint: 'tablet',
         });
       } else {
         setBreakpoint({
           isMobile: false,
           isTablet: false,
           isDesktop: true,
-          breakpoint: "desktop",
+          breakpoint: 'desktop',
         });
       }
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   return breakpoint;
