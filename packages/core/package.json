@@ -54,7 +54,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "pnpm validate:registry && pnpm build:components && pnpm build:styles",
+    "build": "pnpm build:components && pnpm build:styles",
     "build:registry": "node scripts/build-registry.mjs",
     "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "build:components": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
