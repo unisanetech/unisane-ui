@@ -7,7 +7,9 @@
   "supportedModes": [
     "full-platform"
   ],
-  "requiresPackages": [],
+  "requiresPackages": [
+    "@unisane/tokens"
+  ],
   "requiresTokens": [],
   "runtimeProfiles": [],
   "docs": [],
