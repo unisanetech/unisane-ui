@@ -1,27 +1,25 @@
-import { defineConfig } from "vitest/config";
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
+import { defineConfig } from 'vitest/config';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
+import { SHARED_VITEST_COVERAGE_THRESHOLDS } from '../scripts/_lib/vitest-coverage';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
-const TS_BASE = resolve(ROOT, "tsconfig.json");
+const TS_BASE = resolve(ROOT, 'tsconfig.json');
 
 export default defineConfig({
-  resolve: { conditions: ["node", "import"] },
+  resolve: { conditions: ['node', 'import'] },
   test: {
-    name: "unisane-ui",
+    name: 'unisane-ui',
     globals: true,
     // UI packages typically need 'happy-dom' or 'jsdom'
     passWithNoTests: true,
-    reporters: ["default"],
+    reporters: ['default'],
     coverage: {
-      provider: "v8",
-      reporter: ["text", "html", "lcov"],
-      exclude: [
-        "**/dist/**",
-        "**/node_modules/**",
-        "**/.turbo/**",
-      ],
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      thresholds: SHARED_VITEST_COVERAGE_THRESHOLDS,
+      exclude: ['**/dist/**', '**/node_modules/**', '**/.turbo/**'],
     },
-    exclude: ["**/dist/**", "**/node_modules/**", "**/.turbo/**"],
+    exclude: ['**/dist/**', '**/node_modules/**', '**/.turbo/**'],
   },
 });

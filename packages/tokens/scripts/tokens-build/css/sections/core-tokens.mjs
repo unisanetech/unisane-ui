@@ -74,7 +74,6 @@ export function generateCoreTokensSection(config) {
 
 :root,
 [data-theme-scope] {
-
   /* Derived hues (auto-calculated) */
   --hue-secondary: calc(var(--hue) + ${secondaryHueShift});
   --hue-tertiary: calc(var(--hue) + ${tertiaryHueShift});
@@ -126,7 +125,7 @@ export function generateCoreTokensSection(config) {
       if (tone === '0') {
         css += `  --ref-${name}-0: #000000;\n`;
       } else if (tone === '100') {
-        css += `  --ref-${name}-100: #FFFFFF;\n`;
+        css += `  --ref-${name}-100: #ffffff;\n`;
       } else {
         // Use calc() with CSS variable for runtime theming
         css += `  --ref-${name}-${tone}: oklch(${lightness} calc(var(${chromaVar}) * ${chromaMultiplier}) var(${hueVar}));\n`;

@@ -24,7 +24,7 @@ export function oklchToHex(l, c, h) {
   g = Math.round(Math.max(0, Math.min(1, gamma(g))) * 255);
   bl = Math.round(Math.max(0, Math.min(1, gamma(bl))) * 255);
 
-  return `#${r.toString(16).padStart(2, "0").toUpperCase()}${g.toString(16).padStart(2, "0").toUpperCase()}${bl.toString(16).padStart(2, "0").toUpperCase()}`;
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bl.toString(16).padStart(2, "0")}`;
 }
 
 export function generateTonalPalette(hue, baseChroma) {
