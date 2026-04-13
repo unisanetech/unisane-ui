@@ -184,25 +184,57 @@
   --ref-neutral-variant-0: #000000;
   --ref-neutral-variant-4: oklch(0.1 calc(var(--chroma-neutral-variant) * 0.5) var(--hue-neutral));
   --ref-neutral-variant-6: oklch(0.13 calc(var(--chroma-neutral-variant) * 0.6) var(--hue-neutral));
-  --ref-neutral-variant-8: oklch(0.17 calc(var(--chroma-neutral-variant) * 0.65) var(--hue-neutral));
-  --ref-neutral-variant-10: oklch(0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral));
-  --ref-neutral-variant-12: oklch(0.25 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
+  --ref-neutral-variant-8: oklch(
+    0.17 calc(var(--chroma-neutral-variant) * 0.65) var(--hue-neutral)
+  );
+  --ref-neutral-variant-10: oklch(
+    0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral)
+  );
+  --ref-neutral-variant-12: oklch(
+    0.25 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral)
+  );
   --ref-neutral-variant-17: oklch(0.3 calc(var(--chroma-neutral-variant) * 0.8) var(--hue-neutral));
-  --ref-neutral-variant-20: oklch(0.33 calc(var(--chroma-neutral-variant) * 0.85) var(--hue-neutral));
-  --ref-neutral-variant-22: oklch(0.36 calc(var(--chroma-neutral-variant) * 0.87) var(--hue-neutral));
-  --ref-neutral-variant-24: oklch(0.38 calc(var(--chroma-neutral-variant) * 0.88) var(--hue-neutral));
-  --ref-neutral-variant-30: oklch(0.44 calc(var(--chroma-neutral-variant) * 0.95) var(--hue-neutral));
+  --ref-neutral-variant-20: oklch(
+    0.33 calc(var(--chroma-neutral-variant) * 0.85) var(--hue-neutral)
+  );
+  --ref-neutral-variant-22: oklch(
+    0.36 calc(var(--chroma-neutral-variant) * 0.87) var(--hue-neutral)
+  );
+  --ref-neutral-variant-24: oklch(
+    0.38 calc(var(--chroma-neutral-variant) * 0.88) var(--hue-neutral)
+  );
+  --ref-neutral-variant-30: oklch(
+    0.44 calc(var(--chroma-neutral-variant) * 0.95) var(--hue-neutral)
+  );
   --ref-neutral-variant-40: oklch(0.55 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
   --ref-neutral-variant-50: oklch(0.65 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
-  --ref-neutral-variant-60: oklch(0.74 calc(var(--chroma-neutral-variant) * 0.9) var(--hue-neutral));
-  --ref-neutral-variant-70: oklch(0.82 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
-  --ref-neutral-variant-80: oklch(0.88 calc(var(--chroma-neutral-variant) * 0.55) var(--hue-neutral));
-  --ref-neutral-variant-90: oklch(0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral));
-  --ref-neutral-variant-92: oklch(0.955 calc(var(--chroma-neutral-variant) * 0.3) var(--hue-neutral));
-  --ref-neutral-variant-94: oklch(0.965 calc(var(--chroma-neutral-variant) * 0.27) var(--hue-neutral));
-  --ref-neutral-variant-95: oklch(0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral));
-  --ref-neutral-variant-96: oklch(0.978 calc(var(--chroma-neutral-variant) * 0.22) var(--hue-neutral));
-  --ref-neutral-variant-99: oklch(0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral));
+  --ref-neutral-variant-60: oklch(
+    0.74 calc(var(--chroma-neutral-variant) * 0.9) var(--hue-neutral)
+  );
+  --ref-neutral-variant-70: oklch(
+    0.82 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral)
+  );
+  --ref-neutral-variant-80: oklch(
+    0.88 calc(var(--chroma-neutral-variant) * 0.55) var(--hue-neutral)
+  );
+  --ref-neutral-variant-90: oklch(
+    0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral)
+  );
+  --ref-neutral-variant-92: oklch(
+    0.955 calc(var(--chroma-neutral-variant) * 0.3) var(--hue-neutral)
+  );
+  --ref-neutral-variant-94: oklch(
+    0.965 calc(var(--chroma-neutral-variant) * 0.27) var(--hue-neutral)
+  );
+  --ref-neutral-variant-95: oklch(
+    0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral)
+  );
+  --ref-neutral-variant-96: oklch(
+    0.978 calc(var(--chroma-neutral-variant) * 0.22) var(--hue-neutral)
+  );
+  --ref-neutral-variant-99: oklch(
+    0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral)
+  );
   --ref-neutral-variant-100: #ffffff;
 
   /* error */
@@ -305,13 +337,12 @@
   --ref-info-99: oklch(0.995 calc(var(--chroma-info) * 0.15) var(--hue-info));
   --ref-info-100: #ffffff;
 
-
   /* === SCALING KNOBS === */
   --scale-space: 1;
   --scale-type: 1;
   /* Radius uses combined multiplier: density-radius × theme-radius */
-  --scale-radius-density: 1;   /* Modified by data-density */
-  --scale-radius-theme: 1;     /* Modified by data-radius */
+  --scale-radius-density: 1; /* Modified by data-density */
+  --scale-radius-theme: 1; /* Modified by data-radius */
   --scale-radius: calc(var(--scale-radius-density) * var(--scale-radius-theme));
   --unit: calc(4px * var(--scale-space));
 
@@ -452,11 +483,31 @@
   /* Outline role aliases (replaces ad-hoc /nn opacity usage)
      Roles are anchored to outline/outline-variant so they remain readable
      across light/dark and contrast presets. */
-  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 30%, var(--color-surface) 70%);
-  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
-  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 52%, var(--color-surface) 48%);
-  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
-  --color-outline-medium: color-mix(in oklab, var(--color-outline) 45%, var(--color-outline-variant) 55%);
+  --color-outline-weak: color-mix(
+    in oklab,
+    var(--color-outline-variant) 30%,
+    var(--color-surface) 70%
+  );
+  --color-outline-soft: color-mix(
+    in oklab,
+    var(--color-outline-variant) 45%,
+    var(--color-surface) 55%
+  );
+  --color-outline-muted: color-mix(
+    in oklab,
+    var(--color-outline-variant) 52%,
+    var(--color-surface) 48%
+  );
+  --color-outline-subtle: color-mix(
+    in oklab,
+    var(--color-outline-variant) 60%,
+    var(--color-surface) 40%
+  );
+  --color-outline-medium: color-mix(
+    in oklab,
+    var(--color-outline) 45%,
+    var(--color-outline-variant) 55%
+  );
   --color-outline-strong: var(--color-outline);
 
   /* Surface interaction state aliases */
@@ -469,7 +520,8 @@
   --color-focus-ring-error: color-mix(in oklab, var(--color-error) 20%, transparent);
 
   /* Typography */
-  --font-sans: var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:
+    var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* === TYPOGRAPHY === */
   --type-display-large-font: var(--font-sans);
@@ -568,11 +620,21 @@
   /* Shadow opacity scale (controlled by data-elevation attribute) */
   --shadow-opacity: 1;
   --shadow-0: none;
-  --shadow-1: 0px 1px 3px 1px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 2px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-2: 0px 2px 6px 2px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 2px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-3: 0px 4px 8px 3px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 1px 3px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-4: 0px 6px 10px 4px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 2px 3px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
-  --shadow-5: 0px 8px 12px 6px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))), 0px 4px 4px 0px rgba(0, 0, 0, calc(0.30 * var(--shadow-opacity)));
+  --shadow-1:
+    0px 1px 3px 1px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 2px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-2:
+    0px 2px 6px 2px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 2px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-3:
+    0px 4px 8px 3px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 1px 3px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-4:
+    0px 6px 10px 4px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 2px 3px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
+  --shadow-5:
+    0px 8px 12px 6px rgba(0, 0, 0, calc(0.15 * var(--shadow-opacity))),
+    0px 4px 4px 0px rgba(0, 0, 0, calc(0.3 * var(--shadow-opacity)));
 
   /* === MOTION === */
   --duration-short: 100ms;
@@ -587,11 +649,11 @@
 
   /* === OPACITY === */
   --opacity-hover: 0.08;
-  --opacity-focus: 0.10;
-  --opacity-pressed: 0.10;
+  --opacity-focus: 0.1;
+  --opacity-pressed: 0.1;
   --opacity-dragged: 0.16;
   --opacity-disabled: 0.38;
-  --opacity-muted: 0.60;
+  --opacity-muted: 0.6;
 
   /* === ICON SIZES === */
   --icon-xs: calc(16px * var(--scale-space));
@@ -652,7 +714,7 @@
    ============================================================ */
 
 /* Local theme scope for isolated previews */
-[data-theme-scope="light"] {
+[data-theme-scope='light'] {
   color-scheme: light;
 
   --tone-primary: var(--ref-primary-40);
@@ -710,7 +772,7 @@
   --tone-inverse-primary: var(--ref-primary-80);
 }
 
-[data-theme-scope="dark"] {
+[data-theme-scope='dark'] {
   color-scheme: dark;
 
   --tone-primary: var(--ref-primary-80);
@@ -771,66 +833,64 @@
 /* System preference dark mode */
 @media (prefers-color-scheme: dark) {
   :root:not(.light) {
+    --tone-primary: var(--ref-primary-80);
+    --tone-on-primary: var(--ref-primary-20);
+    --tone-primary-container: var(--ref-primary-30);
+    --tone-on-primary-container: var(--ref-primary-90);
 
-  --tone-primary: var(--ref-primary-80);
-  --tone-on-primary: var(--ref-primary-20);
-  --tone-primary-container: var(--ref-primary-30);
-  --tone-on-primary-container: var(--ref-primary-90);
+    --tone-secondary: var(--ref-secondary-80);
+    --tone-on-secondary: var(--ref-secondary-20);
+    --tone-secondary-container: var(--ref-secondary-30);
+    --tone-on-secondary-container: var(--ref-secondary-90);
 
-  --tone-secondary: var(--ref-secondary-80);
-  --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
-  --tone-on-secondary-container: var(--ref-secondary-90);
+    --tone-tertiary: var(--ref-tertiary-80);
+    --tone-on-tertiary: var(--ref-tertiary-20);
+    --tone-tertiary-container: var(--ref-tertiary-30);
+    --tone-on-tertiary-container: var(--ref-tertiary-90);
 
-  --tone-tertiary: var(--ref-tertiary-80);
-  --tone-on-tertiary: var(--ref-tertiary-20);
-  --tone-tertiary-container: var(--ref-tertiary-30);
-  --tone-on-tertiary-container: var(--ref-tertiary-90);
+    --tone-surface: var(--ref-neutral-8);
+    --tone-on-surface: var(--ref-neutral-90);
+    --tone-surface-container-lowest: var(--ref-neutral-8);
+    --tone-surface-container-low: var(--ref-neutral-10);
+    --tone-surface-container: var(--ref-neutral-17);
+    --tone-surface-container-high: var(--ref-neutral-22);
+    --tone-surface-container-highest: var(--ref-neutral-24);
+    --tone-surface-variant: var(--ref-neutral-variant-30);
+    --tone-on-surface-variant: var(--ref-neutral-variant-80);
 
-  --tone-surface: var(--ref-neutral-8);
-  --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-8);
-  --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-17);
-  --tone-surface-container-high: var(--ref-neutral-22);
-  --tone-surface-container-highest: var(--ref-neutral-24);
-  --tone-surface-variant: var(--ref-neutral-variant-30);
-  --tone-on-surface-variant: var(--ref-neutral-variant-80);
+    --tone-background: var(--ref-neutral-8);
+    --tone-on-background: var(--ref-neutral-90);
+    --tone-outline: var(--ref-neutral-variant-50);
+    --tone-outline-variant: var(--ref-neutral-variant-40);
 
-  --tone-background: var(--ref-neutral-8);
-  --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
+    --tone-error: var(--ref-error-80);
+    --tone-on-error: var(--ref-error-20);
+    --tone-error-container: var(--ref-error-30);
+    --tone-on-error-container: var(--ref-error-90);
 
-  --tone-error: var(--ref-error-80);
-  --tone-on-error: var(--ref-error-20);
-  --tone-error-container: var(--ref-error-30);
-  --tone-on-error-container: var(--ref-error-90);
+    --tone-success: var(--ref-success-80);
+    --tone-on-success: var(--ref-success-20);
+    --tone-success-container: var(--ref-success-30);
+    --tone-on-success-container: var(--ref-success-90);
 
-  --tone-success: var(--ref-success-80);
-  --tone-on-success: var(--ref-success-20);
-  --tone-success-container: var(--ref-success-30);
-  --tone-on-success-container: var(--ref-success-90);
+    --tone-warning: var(--ref-warning-80);
+    --tone-on-warning: var(--ref-warning-20);
+    --tone-warning-container: var(--ref-warning-30);
+    --tone-on-warning-container: var(--ref-warning-90);
 
-  --tone-warning: var(--ref-warning-80);
-  --tone-on-warning: var(--ref-warning-20);
-  --tone-warning-container: var(--ref-warning-30);
-  --tone-on-warning-container: var(--ref-warning-90);
+    --tone-info: var(--ref-info-80);
+    --tone-on-info: var(--ref-info-20);
+    --tone-info-container: var(--ref-info-30);
+    --tone-on-info-container: var(--ref-info-90);
 
-  --tone-info: var(--ref-info-80);
-  --tone-on-info: var(--ref-info-20);
-  --tone-info-container: var(--ref-info-30);
-  --tone-on-info-container: var(--ref-info-90);
-
-  --tone-inverse-surface: var(--ref-neutral-90);
-  --tone-inverse-on-surface: var(--ref-neutral-20);
-  --tone-inverse-primary: var(--ref-primary-40);
+    --tone-inverse-surface: var(--ref-neutral-90);
+    --tone-inverse-on-surface: var(--ref-neutral-20);
+    --tone-inverse-primary: var(--ref-primary-40);
   }
 }
 
 /* Manual .dark class override */
 .dark {
-
   --tone-primary: var(--ref-primary-80);
   --tone-on-primary: var(--ref-primary-20);
   --tone-primary-container: var(--ref-primary-30);
@@ -906,57 +966,57 @@
    - black           - Zero saturation, monochrome
    ============================================================ */
 
-:root[data-color-theme="blue"],
-[data-theme-scope][data-color-theme="blue"] {
+:root[data-color-theme='blue'],
+[data-theme-scope][data-color-theme='blue'] {
   --hue: 230;
   --chroma: 0.15;
 }
 
-:root[data-color-theme="purple"],
-[data-theme-scope][data-color-theme="purple"] {
+:root[data-color-theme='purple'],
+[data-theme-scope][data-color-theme='purple'] {
   --hue: 285;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="pink"],
-[data-theme-scope][data-color-theme="pink"] {
+:root[data-color-theme='pink'],
+[data-theme-scope][data-color-theme='pink'] {
   --hue: 340;
   --chroma: 0.15;
 }
 
-:root[data-color-theme="red"],
-[data-theme-scope][data-color-theme="red"] {
+:root[data-color-theme='red'],
+[data-theme-scope][data-color-theme='red'] {
   --hue: 15;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="orange"],
-[data-theme-scope][data-color-theme="orange"] {
+:root[data-color-theme='orange'],
+[data-theme-scope][data-color-theme='orange'] {
   --hue: 45;
   --chroma: 0.16;
 }
 
-:root[data-color-theme="yellow"],
-[data-theme-scope][data-color-theme="yellow"] {
+:root[data-color-theme='yellow'],
+[data-theme-scope][data-color-theme='yellow'] {
   --hue: 85;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="green"],
-[data-theme-scope][data-color-theme="green"] {
+:root[data-color-theme='green'],
+[data-theme-scope][data-color-theme='green'] {
   --hue: 145;
   --chroma: 0.14;
 }
 
-:root[data-color-theme="cyan"],
-[data-theme-scope][data-color-theme="cyan"] {
+:root[data-color-theme='cyan'],
+[data-theme-scope][data-color-theme='cyan'] {
   --hue: 195;
   --chroma: 0.12;
 }
 
 /* Neutral theme - soft accent for product UIs */
-:root[data-color-theme="neutral"],
-[data-theme-scope][data-color-theme="neutral"] {
+:root[data-color-theme='neutral'],
+[data-theme-scope][data-color-theme='neutral'] {
   --hue: 230;
   --chroma: 0.06;
   --chroma-neutral: 0.008;
@@ -965,8 +1025,8 @@
 
 /* Black theme - zero saturation (same as monochrome but as a color theme)
    Only sets chroma to 0, tone mapping controlled by contrast level */
-:root[data-color-theme="black"],
-[data-theme-scope][data-color-theme="black"] {
+:root[data-color-theme='black'],
+[data-theme-scope][data-color-theme='black'] {
   --chroma: 0;
   --chroma-neutral: 0;
   --chroma-status-scale: 0;
@@ -986,7 +1046,7 @@
    ============================================================ */
 
 /* Neutral scheme - low saturation, subtle color hints */
-[data-scheme="neutral"] {
+[data-scheme='neutral'] {
   --chroma: 0.03;
   --chroma-neutral: 0.008;
   --chroma-status-scale: 0.7;
@@ -994,7 +1054,7 @@
 
 /* Monochrome scheme - pure grayscale
    Only sets chroma to 0, tone mapping unchanged (controlled by contrast) */
-[data-scheme="monochrome"] {
+[data-scheme='monochrome'] {
   --chroma: 0;
   --chroma-neutral: 0;
   --chroma-status-scale: 0;
@@ -1014,7 +1074,7 @@
    ============================================================ */
 
 /* Medium contrast - boosted readability (darker primary: tone 30) */
-[data-contrast="medium"] {
+[data-contrast='medium'] {
   --tone-primary: var(--ref-primary-30);
   --tone-on-primary: var(--ref-primary-100);
   --tone-primary-container: var(--ref-primary-95);
@@ -1052,9 +1112,9 @@
   --tone-outline-variant: var(--ref-neutral-variant-40);
 }
 
-.dark[data-contrast="medium"],
-[data-contrast="medium"].dark,
-[data-theme-scope="dark"][data-contrast="medium"] {
+.dark[data-contrast='medium'],
+[data-contrast='medium'].dark,
+[data-theme-scope='dark'][data-contrast='medium'] {
   --tone-primary: var(--ref-primary-80);
   --tone-on-primary: var(--ref-primary-10);
   --tone-primary-container: var(--ref-primary-30);
@@ -1093,7 +1153,7 @@
 }
 
 /* High contrast - boosted accessibility with stronger tone extremity */
-[data-contrast="high"] {
+[data-contrast='high'] {
   --tone-primary: var(--ref-primary-20);
   --tone-on-primary: var(--ref-primary-100);
   --tone-primary-container: var(--ref-primary-95);
@@ -1137,9 +1197,9 @@
   --tone-on-info-container: var(--ref-info-0);
 }
 
-.dark[data-contrast="high"],
-[data-contrast="high"].dark,
-[data-theme-scope="dark"][data-contrast="high"] {
+.dark[data-contrast='high'],
+[data-contrast='high'].dark,
+[data-theme-scope='dark'][data-contrast='high'] {
   --tone-primary: var(--ref-primary-95);
   --tone-on-primary: var(--ref-primary-0);
   --tone-primary-container: var(--ref-primary-10);
@@ -1188,22 +1248,22 @@
    Usage: <html data-density="compact">
    ============================================================ */
 
-[data-density="compact"] {
+[data-density='compact'] {
   --scale-space: 0.875;
   --scale-type: 0.9;
   --scale-radius-density: 0.9;
 }
 
-[data-density="dense"] {
+[data-density='dense'] {
   --scale-space: 0.75;
   --scale-type: 0.85;
   --scale-radius-density: 0.85;
 }
 
-[data-density="comfortable"] {
+[data-density='comfortable'] {
   --scale-space: 1.1;
-  --scale-type: 1.0;
-  --scale-radius-density: 1.0;
+  --scale-type: 1;
+  --scale-radius-density: 1;
 }
 
 /* ============================================================
@@ -1212,23 +1272,23 @@
    Values must match ThemeProvider RADIUS_PRESETS
    ============================================================ */
 
-[data-radius="none"] {
+[data-radius='none'] {
   --scale-radius-theme: 0;
 }
 
-[data-radius="minimal"] {
+[data-radius='minimal'] {
   --scale-radius-theme: 0.25;
 }
 
-[data-radius="sharp"] {
+[data-radius='sharp'] {
   --scale-radius-theme: 0.5;
 }
 
-[data-radius="standard"] {
-  --scale-radius-theme: 1.0;
+[data-radius='standard'] {
+  --scale-radius-theme: 1;
 }
 
-[data-radius="soft"] {
+[data-radius='soft'] {
   --scale-radius-theme: 1.25;
 }
 
@@ -1238,11 +1298,11 @@
    Applies to button-family controls (Button + IconButton), not FAB.
    ============================================================ */
 
-[data-action-shape="standard"] {
+[data-action-shape='standard'] {
   --radius-button-family: var(--radius-button-default);
 }
 
-[data-action-shape="full"] {
+[data-action-shape='full'] {
   --radius-button-family: var(--radius-button-full);
 }
 
@@ -1260,19 +1320,19 @@
    - pronounced  - Stronger shadows for depth (--shadow-opacity: 1)
    ============================================================ */
 
-[data-elevation="flat"] {
+[data-elevation='flat'] {
   --shadow-opacity: 0;
 }
 
-[data-elevation="subtle"] {
+[data-elevation='subtle'] {
   --shadow-opacity: 0.25;
 }
 
-[data-elevation="standard"] {
+[data-elevation='standard'] {
   --shadow-opacity: 0.5;
 }
 
-[data-elevation="pronounced"] {
+[data-elevation='pronounced'] {
   --shadow-opacity: 1;
 }
 
