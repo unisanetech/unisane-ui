@@ -237,7 +237,7 @@ export function RowContextMenu<T extends { id: string }>({
     <div
       ref={menuRef}
       className={cn(
-        "fixed z-50 min-w-50 overflow-hidden rounded-sm border border-outline-variant bg-surface py-2 shadow-2",
+        "fixed z-50 min-w-50 overflow-hidden rounded-sm border border-outline-soft bg-surface py-2 shadow-2",
         "animate-in fade-in-0 zoom-in-95 duration-100"
       )}
       style={{

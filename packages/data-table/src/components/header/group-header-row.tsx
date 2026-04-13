@@ -30,10 +30,10 @@ export function GroupHeaderRow<T>({
       {selectable && (
         <th
           className={cn(
-            'bg-surface border-outline-variant border-b',
+            'bg-surface border-outline-subtle border-b',
             // Sticky positioning with z-index for proper stacking (only on tablet+)
             'left-0 isolate z-30 @md:sticky',
-            showColumnBorders && 'border-outline-variant border-r',
+            showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.CHECKBOX,
@@ -48,10 +48,10 @@ export function GroupHeaderRow<T>({
       {enableExpansion && (
         <th
           className={cn(
-            'bg-surface border-outline-variant border-b',
+            'bg-surface border-outline-subtle border-b',
             // Sticky positioning with z-index for proper stacking (only on tablet+)
             'isolate z-30 @md:sticky',
-            showColumnBorders && 'border-outline-variant border-r',
+            showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
             width: COLUMN_WIDTHS.EXPANDER,
@@ -73,10 +73,10 @@ export function GroupHeaderRow<T>({
               key={`group-${idx}`}
               colSpan={def.children.length}
               className={cn(
-                'bg-surface border-outline-variant border-b',
+                'bg-surface border-outline-subtle border-b',
                 'text-label-medium text-on-surface-variant text-center align-middle font-semibold',
                 paddingClass,
-                showColumnBorders && !isLastGroup && 'border-outline-variant border-r',
+                showColumnBorders && !isLastGroup && 'border-outline-subtle border-r',
               )}
             >
               {def.header}
@@ -90,12 +90,12 @@ export function GroupHeaderRow<T>({
               key={String(def.key)}
               rowSpan={2}
               className={cn(
-                'bg-surface border-outline-variant border-b',
+                'bg-surface border-outline-subtle border-b',
                 'text-label-large text-on-surface-variant align-middle font-medium',
                 paddingClass,
                 def.align === 'center' && 'text-center',
                 def.align === 'end' && 'text-right',
-                showColumnBorders && !isLastColumn && 'border-outline-variant border-r',
+                showColumnBorders && !isLastColumn && 'border-outline-subtle border-r',
               )}
             >
               {def.header}

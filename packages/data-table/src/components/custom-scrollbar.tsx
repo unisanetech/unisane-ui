@@ -311,7 +311,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
       <div
         ref={scrollbarRef}
         className={cn(
-          "bg-surface border-t border-outline-variant",
+          "bg-surface border-t border-outline-subtle",
           // Hide on mobile (< @md) - native scrollbar used for touch usability
           "hidden @md:block",
           // Sticky positioning when table bottom is below viewport

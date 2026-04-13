@@ -118,7 +118,7 @@ export function HeaderCell<T>({
   return (
     <th
       className={cn(
-        'group bg-surface border-outline-variant border-b',
+        'group bg-surface border-outline-subtle border-b',
         'text-label-large text-on-surface-variant font-medium whitespace-nowrap',
         'duration-snappy transition-colors',
         // Relative positioning is needed for the resize handle (absolute positioned)
@@ -135,9 +135,9 @@ export function HeaderCell<T>({
         // Pinned columns use isolate to create proper stacking context
         pinPosition ? 'isolate z-20 @md:sticky' : 'z-0',
         // Column borders: show on non-pinned columns (except last), and on last pinned-left / first pinned-right
-        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-variant border-r',
-        showColumnBorders && isLastPinnedLeft && 'border-outline-variant border-r',
-        showColumnBorders && isFirstPinnedRight && 'border-outline-variant border-l',
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-subtle border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-subtle border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-subtle border-l',
         // Drag state styling
         isDragging && 'opacity-50',
         isDropTarget && 'bg-state-selected',

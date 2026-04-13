@@ -94,7 +94,7 @@ export const TabsList: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
   return (
     <div
       className={cn(
-        'border-outline-variant bg-surface no-scrollbar flex w-full overflow-x-auto border-b',
+        'border-outline-soft bg-surface no-scrollbar flex w-full overflow-x-auto border-b',
         className,
       )}
       role="tablist"

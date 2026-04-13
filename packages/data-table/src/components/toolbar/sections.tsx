@@ -207,7 +207,7 @@ export function ActiveFiltersBar<T>() {
   };
 
   return (
-    <div className="bg-surface-container-low border-outline-variant flex items-center gap-2 border-b px-3 py-2">
+    <div className="bg-surface-container-low border-outline-subtle flex items-center gap-2 border-b px-3 py-2">
       <span className="text-label-small text-on-surface-variant">{t('filtersLabel')}:</span>
 
       {searchText && (
@@ -261,7 +261,7 @@ export function GroupingPillsBar<T>({ showEmpty = false }: GroupingPillsBarProps
   };
 
   return (
-    <div className="bg-surface-container-low border-outline-variant flex items-center gap-2 border-b px-3 py-2">
+    <div className="bg-surface-container-low border-outline-subtle flex items-center gap-2 border-b px-3 py-2">
       <div className="text-on-surface-variant flex items-center gap-1.5">
         <Icon symbol="account_tree" className="text-[16px]" />
         <span className="text-label-small font-medium">{t('groupedByLabel')}:</span>

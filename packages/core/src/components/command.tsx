@@ -49,7 +49,7 @@ const CommandInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
   <div
-    className={cn('border-outline-variant flex items-center border-b', actionFrameSizeClasses.md)}
+    className={cn('border-outline-soft flex items-center border-b', actionFrameSizeClasses.md)}
     data-cmdk-input-wrapper=""
   >
     <Icon symbol="search" size="sm" className="mr-2 shrink-0 opacity-50" />
@@ -113,7 +113,7 @@ const CommandSeparator = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <CommandPrimitive.Separator
     ref={ref}
-    className={cn('bg-outline-variant -mx-1 h-px', className)}
+    className={cn('bg-outline-soft -mx-1 h-px', className)}
     {...props}
   />
 ));

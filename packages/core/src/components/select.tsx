@@ -268,7 +268,7 @@ export const Select: React.FC<SelectProps> = ({
     <div
       ref={dropdownRef}
       className={cn(
-        'bg-surface border-outline-variant shadow-2 z-50 overflow-y-auto rounded-sm border',
+        'bg-surface border-outline-soft shadow-2 z-50 overflow-y-auto rounded-sm border',
         portal
           ? 'fixed'
           : cn(

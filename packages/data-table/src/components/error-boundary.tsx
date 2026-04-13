@@ -30,7 +30,7 @@ export function DataTableErrorDisplay({
   const displayMessage = message ?? error.message ?? t("errorMessage");
 
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-surface rounded-lg border border-outline-variant">
+    <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-surface rounded-lg border border-outline-soft">
       <div className="w-12 h-12 rounded-full bg-error-container flex items-center justify-center mb-4">
         <Icon symbol="error" className="w-6 h-6 text-error" />
       </div>

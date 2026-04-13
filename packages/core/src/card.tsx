@@ -21,7 +21,7 @@ export function LinkCard({
   return (
     <a
       className={cn(
-        "group relative block rounded-md border border-outline-variant px-5 py-4",
+        "group relative block rounded-md border border-outline-soft px-5 py-4",
         "bg-surface-container transition-colors duration-short ease-standard",
         "hover:border-outline hover:bg-surface-container-high",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",

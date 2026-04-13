@@ -81,11 +81,20 @@ Rule:
 - Root app/page canvas uses `bg-surface`.
 - Nested surfaces use the `surface-container-*` ladder.
 - Use semantic border tokens for component and page chrome:
-  - `border-outline-variant` for default component outlines
+  - `border-outline-variant` for true outlined controls
+  - `border-outline-soft` for floating surfaces and quiet container shells
+  - `border-outline-subtle` for low-emphasis internal seams and layout chrome
   - `border-outline-medium` for dense internal separators (table/list/menu grid lines)
-  - `border-outline-subtle` for low-emphasis layout seams
   - `border-outline` for stronger hover or emphasis borders
   - semantic color borders like `border-primary` only for selected or status-driven states
+- Border strength ladder, quiet to strong:
+  - `outline-weak` for barely-there structure
+  - `outline-soft` for quiet outer frames
+  - `outline-muted` for passive affordances like scrollbars and drag handles
+  - `outline-subtle` for visible internal seams
+  - `outline-variant` for resting outlined controls
+  - `outline-medium` for dense separators
+  - `outline` / `outline-strong` for strong emphasis
 - Use `bg-state-selected text-on-surface` as the default selected-state treatment for nav/list/menu/select style item rows
 - Do not use `/nn` alpha modifiers as the default border pattern for product surfaces.
 - `/nn` alpha remains acceptable for background and scrim treatments where transparency itself is the effect.

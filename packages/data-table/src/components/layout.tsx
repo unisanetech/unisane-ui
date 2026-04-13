@@ -195,7 +195,7 @@ export const DataTableLayout = forwardRef<HTMLDivElement, DataTableLayoutProps>(
               ref.current = node;
             }
           }}
-          className={cn('bg-surface border-outline-variant @container relative', className)}
+          className={cn('bg-surface border-outline-soft @container relative', className)}
           {...props}
         >
           {children}

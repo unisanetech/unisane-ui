@@ -174,8 +174,8 @@ function DataTableHeaderInner<T extends { id: string }>({
         {reorderableRows && (
           <th
             className={cn(
-              'bg-surface border-outline-variant border-b',
-              showColumnBorders && 'border-outline-variant border-r',
+              'bg-surface border-outline-subtle border-b',
+              showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.DRAG_HANDLE,
@@ -191,10 +191,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && !hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-variant border-b',
+              'bg-surface border-outline-subtle border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'left-0 isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-variant border-r',
+              showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.CHECKBOX,
@@ -218,10 +218,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-variant border-b',
+              'bg-surface border-outline-subtle border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'left-0 isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-variant border-r',
+              showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.CHECKBOX,
@@ -245,10 +245,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {enableExpansion && !hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-variant border-b',
+              'bg-surface border-outline-subtle border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-variant border-r',
+              showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
               width: COLUMN_WIDTHS.EXPANDER,

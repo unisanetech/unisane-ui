@@ -52,7 +52,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, activeStep = 0, childre
                 isCompleted && 'bg-primary border-primary text-on-primary',
                 !isActive &&
                   !isCompleted &&
-                  'bg-surface border-outline-variant text-on-surface-variant',
+                  'bg-surface border-outline-subtle text-on-surface-variant',
               )}
             >
               {isCompleted ? <Icon symbol="check" size={18} strokeWidth={4} /> : index + 1}

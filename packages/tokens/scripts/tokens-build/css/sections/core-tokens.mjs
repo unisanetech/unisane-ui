@@ -281,10 +281,10 @@ export function generateCoreTokensSection(config) {
   /* Outline role aliases (replaces ad-hoc /nn opacity usage)
      Roles are anchored to outline/outline-variant so they remain readable
      across light/dark and contrast presets. */
-  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
-  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
-  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 75%, var(--color-surface) 25%);
-  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 85%, var(--color-surface) 15%);
+  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 30%, var(--color-surface) 70%);
+  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
+  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 52%, var(--color-surface) 48%);
+  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
   --color-outline-medium: color-mix(in oklab, var(--color-outline) 45%, var(--color-outline-variant) 55%);
   --color-outline-strong: var(--color-outline);
 

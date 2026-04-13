@@ -345,7 +345,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
         {isOpen && !disabled && (
           <div
-            className="bg-surface border-outline-variant shadow-2 absolute top-[calc(100%+var(--unit))] right-0 left-0 z-50 max-h-60 overflow-y-auto rounded-sm border"
+            className="bg-surface border-outline-soft shadow-2 absolute top-[calc(100%+var(--unit))] right-0 left-0 z-50 max-h-60 overflow-y-auto rounded-sm border"
             role="listbox"
             id={listboxId}
             aria-label={label || 'Options'}

@@ -15,7 +15,7 @@ export const Divider: React.FC<DividerProps> = ({
   return (
     <div
       className={cn(
-        'bg-outline-variant shrink-0',
+        'bg-outline-soft shrink-0',
         orientation === 'horizontal' && 'h-px w-full',
         orientation === 'vertical' && 'h-full w-px',
         variant === 'inset' && orientation === 'horizontal' && 'ml-16',

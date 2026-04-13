@@ -100,7 +100,7 @@ function SkeletonCell<T>({
     <td
       className={cn(
         cellPadding,
-        showColumnBorders && 'border-outline-variant border-r last:border-r-0',
+        showColumnBorders && 'border-outline-subtle border-r last:border-r-0',
         isPinned && 'bg-surface sticky z-10',
         pinPosition === 'left' && 'left-0',
         pinPosition === 'right' && 'right-0',
@@ -145,7 +145,7 @@ function SkeletonRow<T>({
   const cellPadding = DENSITY_STYLES[density];
 
   return (
-    <tr className="border-outline-variant border-b last:border-b-0" aria-hidden="true">
+    <tr className="border-outline-subtle border-b last:border-b-0" aria-hidden="true">
       {/* Drag handle column */}
       {reorderableRows && (
         <td className={cn(cellPadding, 'w-10')}>
@@ -159,7 +159,7 @@ function SkeletonRow<T>({
           className={cn(
             cellPadding,
             'w-12',
-            showColumnBorders && 'border-outline-variant border-r',
+            showColumnBorders && 'border-outline-subtle border-r',
           )}
         >
           <Skeleton variant="rectangular" className="size-5 rounded-sm" />
@@ -172,7 +172,7 @@ function SkeletonRow<T>({
           className={cn(
             cellPadding,
             'w-12',
-            showColumnBorders && 'border-outline-variant border-r',
+            showColumnBorders && 'border-outline-subtle border-r',
           )}
         >
           <Skeleton variant="circular" className="size-5" />

@@ -185,7 +185,7 @@ function DataTableToolbarInner<T extends { id: string }>({
         <div
           className={cn(
             // z-10: Within table context, below sticky zone (z-20) and sidebar (z-30)
-            "relative flex items-center justify-between gap-2 @md:gap-3 px-2 @md:px-3 min-h-12 bg-surface border-b border-outline-variant transition-shadow z-10",
+            "relative flex items-center justify-between gap-2 @md:gap-3 px-2 @md:px-3 min-h-12 bg-surface border-b border-outline-subtle transition-shadow z-10",
             hasSelection && "shadow-1"
           )}
          

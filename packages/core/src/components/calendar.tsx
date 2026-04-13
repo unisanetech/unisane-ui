@@ -219,7 +219,7 @@ export const Calendar: React.FC<CalendarProps> = ({
       role="application"
       aria-label={`Calendar, ${MONTH_NAMES[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`}
     >
-      <div className="border-outline-variant flex items-center justify-between border-b p-4">
+      <div className="border-outline-subtle flex items-center justify-between border-b p-4">
         <IconButton
           icon={
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">

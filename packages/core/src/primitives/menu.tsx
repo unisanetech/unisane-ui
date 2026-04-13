@@ -5,7 +5,7 @@ import { actionFrameSizeClasses } from '../lib/action-size';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
-  'min-w-50 bg-surface shadow-2 border border-outline-variant overflow-hidden',
+  'min-w-50 bg-surface shadow-2 border border-outline-soft overflow-hidden',
   {
     variants: {
       rounded: {

@@ -12,7 +12,7 @@ const cardVariants = cva(
       variant: {
         elevated: 'bg-surface shadow-1 border border-outline-subtle',
         filled: 'bg-surface-container border-none shadow-0',
-        outlined: 'bg-surface border border-outline-variant shadow-0',
+        outlined: 'bg-surface border border-outline-soft shadow-0',
         low: 'bg-surface-container-low border-none shadow-0',
         high: 'bg-surface-container-high border-none shadow-1',
       },

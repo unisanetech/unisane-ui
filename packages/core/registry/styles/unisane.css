@@ -56,7 +56,6 @@
 
 :root,
 [data-theme-scope] {
-
   /* Derived hues (auto-calculated) */
   --hue-secondary: calc(var(--hue) + 12);
   --hue-tertiary: calc(var(--hue) + 60);
@@ -104,7 +103,7 @@
   --ref-primary-95: oklch(0.97 calc(var(--chroma) * 0.25) var(--hue));
   --ref-primary-96: oklch(0.978 calc(var(--chroma) * 0.22) var(--hue));
   --ref-primary-99: oklch(0.995 calc(var(--chroma) * 0.15) var(--hue));
-  --ref-primary-100: #FFFFFF;
+  --ref-primary-100: #ffffff;
 
   /* secondary */
   --ref-secondary-0: #000000;
@@ -129,7 +128,7 @@
   --ref-secondary-95: oklch(0.97 calc(var(--chroma-secondary) * 0.25) var(--hue-secondary));
   --ref-secondary-96: oklch(0.978 calc(var(--chroma-secondary) * 0.22) var(--hue-secondary));
   --ref-secondary-99: oklch(0.995 calc(var(--chroma-secondary) * 0.15) var(--hue-secondary));
-  --ref-secondary-100: #FFFFFF;
+  --ref-secondary-100: #ffffff;
 
   /* tertiary */
   --ref-tertiary-0: #000000;
@@ -154,7 +153,7 @@
   --ref-tertiary-95: oklch(0.97 calc(var(--chroma-tertiary) * 0.25) var(--hue-tertiary));
   --ref-tertiary-96: oklch(0.978 calc(var(--chroma-tertiary) * 0.22) var(--hue-tertiary));
   --ref-tertiary-99: oklch(0.995 calc(var(--chroma-tertiary) * 0.15) var(--hue-tertiary));
-  --ref-tertiary-100: #FFFFFF;
+  --ref-tertiary-100: #ffffff;
 
   /* neutral */
   --ref-neutral-0: #000000;
@@ -179,7 +178,7 @@
   --ref-neutral-95: oklch(0.97 calc(var(--chroma-neutral) * 0.25) var(--hue-neutral));
   --ref-neutral-96: oklch(0.978 calc(var(--chroma-neutral) * 0.22) var(--hue-neutral));
   --ref-neutral-99: oklch(0.995 calc(var(--chroma-neutral) * 0.15) var(--hue-neutral));
-  --ref-neutral-100: #FFFFFF;
+  --ref-neutral-100: #ffffff;
 
   /* neutral-variant */
   --ref-neutral-variant-0: #000000;
@@ -204,7 +203,7 @@
   --ref-neutral-variant-95: oklch(0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral));
   --ref-neutral-variant-96: oklch(0.978 calc(var(--chroma-neutral-variant) * 0.22) var(--hue-neutral));
   --ref-neutral-variant-99: oklch(0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral));
-  --ref-neutral-variant-100: #FFFFFF;
+  --ref-neutral-variant-100: #ffffff;
 
   /* error */
   --ref-error-0: #000000;
@@ -229,7 +228,7 @@
   --ref-error-95: oklch(0.97 calc(var(--chroma-error) * 0.25) var(--hue-error));
   --ref-error-96: oklch(0.978 calc(var(--chroma-error) * 0.22) var(--hue-error));
   --ref-error-99: oklch(0.995 calc(var(--chroma-error) * 0.15) var(--hue-error));
-  --ref-error-100: #FFFFFF;
+  --ref-error-100: #ffffff;
 
   /* success */
   --ref-success-0: #000000;
@@ -254,7 +253,7 @@
   --ref-success-95: oklch(0.97 calc(var(--chroma-success) * 0.25) var(--hue-success));
   --ref-success-96: oklch(0.978 calc(var(--chroma-success) * 0.22) var(--hue-success));
   --ref-success-99: oklch(0.995 calc(var(--chroma-success) * 0.15) var(--hue-success));
-  --ref-success-100: #FFFFFF;
+  --ref-success-100: #ffffff;
 
   /* warning */
   --ref-warning-0: #000000;
@@ -279,7 +278,7 @@
   --ref-warning-95: oklch(0.97 calc(var(--chroma-warning) * 0.25) var(--hue-warning));
   --ref-warning-96: oklch(0.978 calc(var(--chroma-warning) * 0.22) var(--hue-warning));
   --ref-warning-99: oklch(0.995 calc(var(--chroma-warning) * 0.15) var(--hue-warning));
-  --ref-warning-100: #FFFFFF;
+  --ref-warning-100: #ffffff;
 
   /* info */
   --ref-info-0: #000000;
@@ -304,7 +303,7 @@
   --ref-info-95: oklch(0.97 calc(var(--chroma-info) * 0.25) var(--hue-info));
   --ref-info-96: oklch(0.978 calc(var(--chroma-info) * 0.22) var(--hue-info));
   --ref-info-99: oklch(0.995 calc(var(--chroma-info) * 0.15) var(--hue-info));
-  --ref-info-100: #FFFFFF;
+  --ref-info-100: #ffffff;
 
 
   /* === SCALING KNOBS === */
@@ -453,10 +452,10 @@
   /* Outline role aliases (replaces ad-hoc /nn opacity usage)
      Roles are anchored to outline/outline-variant so they remain readable
      across light/dark and contrast presets. */
-  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
-  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
-  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 75%, var(--color-surface) 25%);
-  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 85%, var(--color-surface) 15%);
+  --color-outline-weak: color-mix(in oklab, var(--color-outline-variant) 30%, var(--color-surface) 70%);
+  --color-outline-soft: color-mix(in oklab, var(--color-outline-variant) 45%, var(--color-surface) 55%);
+  --color-outline-muted: color-mix(in oklab, var(--color-outline-variant) 52%, var(--color-surface) 48%);
+  --color-outline-subtle: color-mix(in oklab, var(--color-outline-variant) 60%, var(--color-surface) 40%);
   --color-outline-medium: color-mix(in oklab, var(--color-outline) 45%, var(--color-outline-variant) 55%);
   --color-outline-strong: var(--color-outline);
 
