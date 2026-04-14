@@ -183,7 +183,7 @@ export function GroupRow<T extends { id: string }>({
                   count: group.rows.length,
                   label: group.groupLabel,
                 })}
-                className="[&>div]:h-8 [&>div]:w-8"
+                size="sm"
               />
             </div>
           )}

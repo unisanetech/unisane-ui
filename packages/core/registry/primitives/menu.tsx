@@ -136,9 +136,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 export type MenuDividerProps = React.HTMLAttributes<HTMLDivElement>;
 
 export const MenuDivider: React.FC<MenuDividerProps> = ({ className, ...props }) => {
-  return (
-    <div className={cn('bg-outline-medium my-1 h-px', className)} role="separator" {...props} />
-  );
+  return <div className={cn('bg-outline-soft my-1 h-px', className)} role="separator" {...props} />;
 };
 
 export interface MenuCheckboxItemProps extends Omit<MenuItemProps, 'selected'> {

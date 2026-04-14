@@ -27,7 +27,7 @@ const fabVariants = cva(
     variants: {
       variant: {
         primary: 'bg-primary-container text-on-primary-container',
-        surface: 'bg-surface text-primary border border-outline-subtle',
+        surface: 'bg-surface text-primary border border-outline-soft',
         secondary: 'bg-secondary-container text-on-secondary-container',
         tertiary: 'bg-tertiary-container text-on-tertiary-container',
       },

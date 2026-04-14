@@ -3,12 +3,14 @@
 import { type InputHTMLAttributes, useId, forwardRef, useEffect, useRef } from 'react';
 import { Ripple } from './ripple';
 import { cn } from '../lib/utils';
+import { type SelectionControlSize, selectionControlSizeClasses } from '../lib/selection-control-size';
 
-interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
   label?: string;
   disabled?: boolean;
   indeterminate?: boolean;
   error?: boolean;
+  size?: SelectionControlSize;
   className?: string;
 }
 
@@ -19,6 +21,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       disabled = false,
       indeterminate = false,
       error = false,
+      size = 'md',
       className = '',
       id: providedId,
       ...props
@@ -28,6 +31,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     const generatedId = useId();
     const id = providedId || generatedId;
     const inputRef = useRef<HTMLInputElement | null>(null);
+    const sizeClasses = selectionControlSizeClasses[size];
 
     useEffect(() => {
       if (inputRef.current) {
@@ -54,7 +58,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         )}
       >
         {}
-        <div className="relative flex h-10 w-10 items-center justify-center">
+        <div className={cn('relative flex items-center justify-center', sizeClasses.frame)}>
           {}
           <div
             className={cn(
@@ -83,7 +87,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           {}
           <div
             className={cn(
-              'size-icon-sm bg-surface relative z-10 flex items-center justify-center overflow-hidden rounded-xs border-2',
+              'bg-surface relative z-10 flex items-center justify-center overflow-hidden rounded-xs border-2',
+              sizeClasses.control,
               'duration-snappy ease-emphasized pointer-events-none transition-all',
               !error && 'border-outline group-hover:border-on-surface',
               error && 'border-error',
@@ -98,7 +103,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           {}
           <svg
             className={cn(
-              'size-icon-sm duration-snappy ease-emphasized pointer-events-none absolute z-20 p-0.5 transition-all',
+              'duration-snappy ease-emphasized pointer-events-none absolute z-20 transition-all',
+              sizeClasses.icon,
               error ? 'text-on-error' : 'text-on-primary',
               'scale-50 opacity-0',
               !indeterminate && 'peer-checked:scale-100 peer-checked:opacity-100',
@@ -117,7 +123,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           {}
           <svg
             className={cn(
-              'size-icon-sm duration-snappy ease-emphasized pointer-events-none absolute z-20 p-0.5 transition-all',
+              'duration-snappy ease-emphasized pointer-events-none absolute z-20 transition-all',
+              sizeClasses.icon,
               error ? 'text-on-error' : 'text-on-primary',
               indeterminate ? 'scale-100 rotate-0 opacity-100' : 'scale-50 rotate-90 opacity-0',
             )}

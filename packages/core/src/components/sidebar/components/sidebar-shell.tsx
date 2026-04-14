@@ -124,7 +124,6 @@ export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
     expanded,
     mobileOpen,
     usesOverlayDrawer,
-    containerMode,
     close,
     drawerEnabled,
   } = useSidebar();
@@ -141,12 +140,8 @@ export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
     <div
       className={cn(
         'bg-scrim-soft duration-medium ease-standard opacity-100 transition-opacity motion-reduce:transition-none',
-        usesOverlayDrawer
-          ? containerMode === 'contained'
-            ? 'absolute inset-0'
-            : 'fixed inset-0'
-          : 'absolute inset-0',
-        usesOverlayDrawer ? 'z-55' : 'z-20',
+        usesOverlayDrawer ? 'fixed inset-0' : 'absolute inset-0',
+        usesOverlayDrawer ? 'z-[1605]' : 'z-20',
         className,
       )}
       onClick={close}

@@ -225,6 +225,12 @@ export const popoverDoc: ComponentDoc = {
       type: "string",
       description: "Additional CSS classes for the popover content.",
     },
+    {
+      name: "portal",
+      type: "boolean",
+      default: '"true"',
+      description: "Render the popover into document.body for safer layering. Set false only when local inline containment is required.",
+    },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────

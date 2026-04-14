@@ -8,6 +8,7 @@ import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { fieldContainerVariants, getFieldLabelClasses } from '@/lib/field-shell';
 import { useFieldState } from '@/lib/use-field-state';
+import { getPortalLayerStyle } from '@/lib/portal-layer';
 
 export interface SelectOption {
   value: string;
@@ -62,7 +63,7 @@ export const Select: React.FC<SelectProps> = ({
   className,
   labelClassName,
   placeholder = 'Select an option',
-  portal = false,
+  portal = true,
 }) => {
   const fieldSize = getFieldSizeStyles(size);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -268,7 +269,7 @@ export const Select: React.FC<SelectProps> = ({
     <div
       ref={dropdownRef}
       className={cn(
-        'bg-surface border-outline-soft shadow-2 z-50 overflow-y-auto rounded-sm border',
+        'bg-surface border-outline-soft shadow-2 z-[var(--z-popover,2000)] overflow-y-auto rounded-sm border',
         portal
           ? 'fixed'
           : cn(
@@ -285,6 +286,7 @@ export const Select: React.FC<SelectProps> = ({
               left: dropdownPosition.left,
               width: dropdownPosition.width,
               maxHeight: dropdownPosition.maxHeight,
+              ...getPortalLayerStyle(triggerRef.current),
             }
           : { maxHeight: dropdownPosition.maxHeight }
       }

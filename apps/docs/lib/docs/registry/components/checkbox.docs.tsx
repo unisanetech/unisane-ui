@@ -191,6 +191,12 @@ export const checkboxDoc: ComponentDoc = {
       description: "If true, displays the checkbox in an error state.",
     },
     {
+      name: "size",
+      type: '"sm" | "md"',
+      default: '"md"',
+      description: "Controls the interactive frame size. Use sm for dense surfaces like tables.",
+    },
+    {
       name: "onChange",
       type: "(event: ChangeEvent) => void",
       description: "Callback fired when the checkbox value changes.",

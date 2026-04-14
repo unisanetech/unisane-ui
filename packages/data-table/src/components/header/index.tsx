@@ -208,7 +208,7 @@ function DataTableHeaderInner<T extends { id: string }>({
                 indeterminate={indeterminate}
                 onChange={(e) => onSelectAll(e.target.checked)}
                 aria-label={t('selectAll')}
-                className="[&>div]:h-8 [&>div]:w-8"
+                size="sm"
               />
             </div>
           </th>
@@ -235,7 +235,7 @@ function DataTableHeaderInner<T extends { id: string }>({
                 indeterminate={indeterminate}
                 onChange={(e) => onSelectAll(e.target.checked)}
                 aria-label={t('selectAll')}
-                className="[&>div]:h-8 [&>div]:w-8"
+                size="sm"
               />
             </div>
           </th>

@@ -197,6 +197,12 @@ export const radioDoc: ComponentDoc = {
       description: "If true, displays the radio in an error state.",
     },
     {
+      name: "size",
+      type: '"sm" | "md"',
+      default: '"md"',
+      description: "Controls the interactive frame size. Use sm for dense selection lists or tables.",
+    },
+    {
       name: "onChange",
       type: "(event: ChangeEvent) => void",
       description: "Callback fired when the selection changes.",

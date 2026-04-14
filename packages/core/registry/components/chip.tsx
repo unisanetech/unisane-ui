@@ -17,9 +17,9 @@ const chipVariants = cva(
   {
     variants: {
       variant: {
-        assist: 'bg-surface border-outline-variant text-on-surface',
-        filter: 'bg-surface border-outline-variant text-on-surface-variant',
-        input: 'bg-surface border-outline-variant text-on-surface',
+        assist: 'bg-surface border-outline-soft text-on-surface',
+        filter: 'bg-surface border-outline-soft text-on-surface-variant',
+        input: 'bg-surface border-outline-soft text-on-surface',
         suggestion: 'bg-surface border-outline-soft text-on-surface-variant',
       },
       selected: {

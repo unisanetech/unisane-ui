@@ -238,6 +238,12 @@ export const comboboxDoc: ComponentDoc = {
       description: "Disable the combobox.",
     },
     {
+      name: "portal",
+      type: "boolean",
+      default: "true",
+      description: "Render the listbox into document.body for safer layering in dialogs, sheets, and clipped shells.",
+    },
+    {
       name: "onSearchChange",
       type: "(query: string) => void",
       description: "Callback fired when the search query changes.",

@@ -298,7 +298,7 @@ export const dropdownMenuDoc: ComponentDoc = {
         { name: "children", type: "ReactNode", required: true, description: "Menu items." },
         { name: "align", type: '"start" | "center" | "end"', default: '"start"', description: "Alignment relative to trigger." },
         { name: "side", type: '"top" | "bottom" | "left" | "right"', default: '"bottom"', description: "Preferred side for the menu." },
-        { name: "portal", type: "boolean", default: "false", description: "Render the menu into document.body for safer layering." },
+        { name: "portal", type: "boolean", default: "true", description: "Render the menu into document.body for safer layering. Set false only when local inline containment is required." },
         { name: "closeOnSelect", type: "boolean", default: "false", description: "Close the menu after selecting a menu item." },
         { name: "className", type: "string", description: "Custom classes for padding, radius, etc." },
       ],

@@ -291,7 +291,7 @@ function DataTableRowInner<T extends { id: string }>({
                 checked={isSelected}
                 onChange={() => onSelect(row.id, !isSelected)}
                 aria-label={t('selectRowLabel', { id: row.id })}
-                className="[&>div]:h-8 [&>div]:w-8"
+                size="sm"
               />
             </div>
           </td>

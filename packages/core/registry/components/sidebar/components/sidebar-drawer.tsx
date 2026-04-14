@@ -37,7 +37,6 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
       railEnabled,
       drawerEnabled,
       side,
-      containerMode,
       close,
     } = sidebar;
     const visuals = getSidebarVisualTheme(sidebar);
@@ -48,8 +47,6 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
     const isOpen = usesOverlayDrawer ? mobileOpen : isDrawerVisible;
     const isOverlay = usesOverlayDrawer || !expanded;
     const baseOffset = railEnabled && !usesOverlayDrawer ? railWidth : 0;
-    const isContained = containerMode === 'contained';
-
     useEffect(() => {
       if (!drawerEnabled || !isOpen || !usesOverlayDrawer) {
         return;
@@ -128,16 +125,14 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
         }}
         className={cn(
           usesOverlayDrawer
-            ? isContained
-              ? 'absolute top-0 bottom-0 flex flex-col'
-              : 'fixed top-0 flex flex-col'
+            ? 'fixed top-0 bottom-0 flex flex-col'
             : 'absolute top-0 bottom-0 flex flex-col',
-          usesOverlayDrawer ? (isContained ? 'h-full' : 'h-dvh') : 'h-full',
+          usesOverlayDrawer ? 'h-dvh' : 'h-full',
           'overflow-hidden',
           visuals.drawerForegroundClass,
           visuals.drawerBackgroundClass,
           'duration-emphasized ease-emphasized transition-transform motion-reduce:transition-none',
-          usesOverlayDrawer && 'z-60 max-w-[85vw]',
+          usesOverlayDrawer && 'z-[1610] max-w-[85vw]',
           !usesOverlayDrawer && 'z-30',
           isOverlay && isOpen && visuals.drawerRadiusClass,
           side === 'left'

@@ -74,6 +74,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
   ) => {
     const dialogRef = useRef<HTMLDivElement>(null);
     const previousActiveElement = useRef<HTMLElement | null>(null);
+    const setIsOpenRef = useRef<(open: boolean) => void>(() => undefined);
     const titleId = useId();
     const descriptionId = useId();
     const bodyDescriptionId = useId();
@@ -92,12 +93,9 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         ? bodyDescriptionId
         : undefined;
 
-    const handleOpenChange = React.useCallback(
-      (nextOpen: boolean) => {
-        setIsOpen(nextOpen);
-      },
-      [setIsOpen],
-    );
+    useEffect(() => {
+      setIsOpenRef.current = setIsOpen;
+    }, [setIsOpen]);
 
     const setRefs = (node: HTMLDivElement | null) => {
       dialogRef.current = node;
@@ -125,7 +123,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
-          handleOpenChange(false);
+          setIsOpenRef.current(false);
           return;
         }
 
@@ -169,7 +167,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         document.removeEventListener('keydown', handleKeyDown);
         previousActiveElement.current?.focus();
       };
-    }, [handleOpenChange, isOpen]);
+    }, [isOpen]);
 
     if (!isOpen || typeof document === 'undefined') {
       return null;
@@ -182,7 +180,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       >
         <div
           className="bg-scrim animate-in fade-in duration-medium absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity"
-          onClick={() => handleOpenChange(false)}
+          onClick={() => setIsOpenRef.current(false)}
           aria-hidden="true"
         />
 
@@ -248,7 +246,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                   variant="standard"
                   size="md"
                   className="bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
-                  onClick={() => handleOpenChange(false)}
+                  onClick={() => setIsOpenRef.current(false)}
                 />
               ) : null}
             </div>

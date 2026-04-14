@@ -52,6 +52,26 @@
       "dependencies": [],
       "registryDependencies": []
     },
+    "portal-layer": {
+      "name": "PortalLayer",
+      "type": "lib:util",
+      "description": "PortalLayer utility",
+      "files": [
+        "lib/portal-layer.ts"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    "selection-control-size": {
+      "name": "SelectionControlSize",
+      "type": "lib:util",
+      "description": "SelectionControlSize utility",
+      "files": [
+        "lib/selection-control-size.ts"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "use-controllable-state": {
       "name": "UseControllableState",
       "type": "lib:util",

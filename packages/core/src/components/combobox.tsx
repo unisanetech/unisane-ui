@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useRef, useEffect, useCallback, useId, forwardRef } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
 import { Text } from '../primitives/text';
 import { Icon } from '../primitives/icon';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import { useControllableState } from '../lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '../lib/field-shell';
+import { getPortalLayerStyle } from '../lib/portal-layer';
 import { Ripple } from './ripple';
 
 export type ComboboxOption = {
@@ -30,6 +32,7 @@ export type ComboboxProps = {
   size?: FieldSize;
   disabled?: boolean;
   searchable?: boolean;
+  portal?: boolean;
   className?: string;
 };
 
@@ -50,6 +53,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       size = 'md',
       disabled = false,
       searchable = true,
+      portal = true,
       className,
     },
     ref,
@@ -59,10 +63,17 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const [activeIndex, setActiveIndex] = React.useState(-1);
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const blurTimeoutRef = useRef<number | null>(null);
     const fieldSize = getFieldSizeStyles(size);
     const listboxId = useId();
     const inputId = useId();
+    const [dropdownPosition, setDropdownPosition] = React.useState({
+      top: 0,
+      left: 0,
+      width: 0,
+      maxHeight: 240,
+    });
     const [selectedValue, setSelectedValue] = useControllableState<string>({
       value,
       defaultValue,
@@ -101,9 +112,70 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       option.label.toLowerCase().includes(searchValue.toLowerCase()),
     );
 
+    const updateDropdownPosition = useCallback(() => {
+      if (!comboboxRef.current || typeof window === 'undefined') return;
+
+      const rect = comboboxRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+      const edgePadding = 8;
+      const gap = 4;
+      const estimatedHeight = Math.min(
+        Math.max(1, filteredOptions.length) * fieldSize.optionHeightPx + 8,
+        240,
+      );
+      const measuredHeight = dropdownRef.current?.offsetHeight ?? estimatedHeight;
+      const spaceBelow = viewportHeight - rect.bottom - edgePadding;
+      const spaceAbove = rect.top - edgePadding;
+      const shouldOpenUp = spaceBelow < Math.min(measuredHeight, 180) && spaceAbove > spaceBelow;
+      const maxHeight = Math.max(
+        120,
+        Math.min(240, (shouldOpenUp ? spaceAbove : spaceBelow) - gap),
+      );
+      const width = Math.min(rect.width, viewportWidth - edgePadding * 2);
+      const left = Math.min(Math.max(rect.left, edgePadding), viewportWidth - width - edgePadding);
+      const top = shouldOpenUp
+        ? Math.max(edgePadding, rect.top - Math.min(measuredHeight, maxHeight) - gap)
+        : Math.min(rect.bottom + gap, viewportHeight - maxHeight - edgePadding);
+
+      setDropdownPosition({
+        top,
+        left,
+        width,
+        maxHeight,
+      });
+    }, [fieldSize.optionHeightPx, filteredOptions.length]);
+
+    React.useLayoutEffect(() => {
+      if (!portal || !isOpen) return;
+
+      updateDropdownPosition();
+      const raf = window.requestAnimationFrame(updateDropdownPosition);
+      window.addEventListener('scroll', updateDropdownPosition, true);
+      window.addEventListener('resize', updateDropdownPosition);
+
+      return () => {
+        window.cancelAnimationFrame(raf);
+        window.removeEventListener('scroll', updateDropdownPosition, true);
+        window.removeEventListener('resize', updateDropdownPosition);
+      };
+    }, [isOpen, portal, updateDropdownPosition]);
+
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
-        if (comboboxRef.current && !comboboxRef.current.contains(event.target as Node)) {
+        const target = event.target as Node;
+        const isOutsideCombobox = comboboxRef.current && !comboboxRef.current.contains(target);
+        const isOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(target);
+
+        if (portal) {
+          if (isOutsideCombobox && isOutsideDropdown) {
+            setOpenState(false);
+            setActiveIndex(-1);
+          }
+          return;
+        }
+
+        if (isOutsideCombobox) {
           setOpenState(false);
           setActiveIndex(-1);
         }
@@ -111,7 +183,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [setOpenState]);
+    }, [portal, setOpenState]);
 
     useEffect(() => {
       if (!isOpen) {
@@ -343,61 +415,87 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           </div>
         </div>
 
-        {isOpen && !disabled && (
-          <div
-            className="bg-surface border-outline-soft shadow-2 absolute top-[calc(100%+var(--unit))] right-0 left-0 z-50 max-h-60 overflow-y-auto rounded-sm border"
-            role="listbox"
-            id={listboxId}
-            aria-label={label || 'Options'}
-          >
-            <div className="py-1">
-              {filteredOptions.length > 0 ? (
-                filteredOptions.map((option, index) => (
-                  <div
-                    key={option.value}
-                    id={`${listboxId}-option-${index}`}
-                    className={cn(
-                      'relative flex cursor-pointer items-center gap-3 transition-colors',
-                      fieldSize.optionHeight,
-                      fieldSize.optionPaddingX,
-                      'hover:bg-state-hover',
-                      highlightSelected &&
-                        selectedValue === option.value &&
-                        'bg-state-selected text-on-surface',
-                      activeIndex === index &&
-                        (!highlightSelected || selectedValue !== option.value) &&
-                        'bg-state-hover',
-                      option.disabled && 'cursor-not-allowed opacity-38',
-                    )}
-                    onClick={() => handleSelect(option)}
-                    role="option"
-                    aria-selected={selectedValue === option.value}
-                    aria-disabled={option.disabled}
-                  >
-                    <Ripple disabled={option.disabled} />
-                    <span className="relative z-10 flex-1 truncate font-medium">
-                      {option.label}
-                    </span>
-                    {highlightSelected && selectedValue === option.value && (
-                      <Icon symbol="check" size="sm" className="text-primary relative z-10" />
-                    )}
-                  </div>
-                ))
-              ) : (
-                <div
-                  className={cn(
-                    'text-on-surface-variant font-medium',
-                    size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
-                    size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
-                    fieldSize.optionPaddingX,
+        {isOpen && !disabled &&
+          (() => {
+            const dropdown = (
+              <div
+                ref={dropdownRef}
+                className={cn(
+                  'bg-surface border-outline-soft shadow-2 z-[var(--z-popover,2000)] overflow-y-auto rounded-sm border',
+                  portal
+                    ? 'fixed'
+                    : 'absolute top-[calc(100%+var(--unit))] right-0 left-0',
+                )}
+                style={
+                  portal
+                    ? {
+                        top: dropdownPosition.top,
+                        left: dropdownPosition.left,
+                        width: dropdownPosition.width,
+                        maxHeight: dropdownPosition.maxHeight,
+                        ...getPortalLayerStyle(comboboxRef.current),
+                      }
+                    : undefined
+                }
+                role="listbox"
+                id={listboxId}
+                aria-label={label || 'Options'}
+              >
+                <div className="py-1">
+                  {filteredOptions.length > 0 ? (
+                    filteredOptions.map((option, index) => (
+                      <div
+                        key={option.value}
+                        id={`${listboxId}-option-${index}`}
+                        className={cn(
+                          'relative flex cursor-pointer items-center gap-3 transition-colors',
+                          fieldSize.optionHeight,
+                          fieldSize.optionPaddingX,
+                          'hover:bg-state-hover',
+                          highlightSelected &&
+                            selectedValue === option.value &&
+                            'bg-state-selected text-on-surface',
+                          activeIndex === index &&
+                            (!highlightSelected || selectedValue !== option.value) &&
+                            'bg-state-hover',
+                          option.disabled && 'cursor-not-allowed opacity-38',
+                        )}
+                        onClick={() => handleSelect(option)}
+                        role="option"
+                        aria-selected={selectedValue === option.value}
+                        aria-disabled={option.disabled}
+                      >
+                        <Ripple disabled={option.disabled} />
+                        <span className="relative z-10 flex-1 truncate font-medium">
+                          {option.label}
+                        </span>
+                        {highlightSelected && selectedValue === option.value && (
+                          <Icon symbol="check" size="sm" className="text-primary relative z-10" />
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div
+                      className={cn(
+                        'text-on-surface-variant font-medium',
+                        size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
+                        size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
+                        fieldSize.optionPaddingX,
+                      )}
+                    >
+                      No results found
+                    </div>
                   )}
-                >
-                  No results found
                 </div>
-              )}
-            </div>
-          </div>
-        )}
+              </div>
+            );
+
+            if (portal && typeof document !== 'undefined') {
+              return createPortal(dropdown, document.body);
+            }
+
+            return dropdown;
+          })()}
       </div>
     );
   },

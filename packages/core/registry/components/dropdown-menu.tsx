@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } f
 import { createPortal } from 'react-dom';
 import { cn, Slot } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
+import { getPortalLayerStyle } from '@/lib/portal-layer';
 import { Icon } from '@/primitives/icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '@/primitives/menu';
 
@@ -294,9 +295,6 @@ function computePosition(
     }
   }
 
-  top += window.scrollY;
-  left += window.scrollX;
-
   return { top, left, actualSide, actualAlign };
 }
 
@@ -309,7 +307,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
   className,
-  portal = false,
+  portal = true,
   closeOnSelect = false,
 }) => {
   const { open, setOpen, menuId, triggerRef } = useDropdownMenuContext('DropdownMenuContent');
@@ -466,9 +464,18 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       data-align={computedPlacement.align}
       className={cn(
         getPositionClasses(),
-        'animate-in fade-in-0 zoom-in-95 duration-snappy ease-emphasized',
+        'animate-in fade-in-0 zoom-in-95',
+        'duration-snappy ease-emphasized',
       )}
-      style={portal ? { top: position.top, left: position.left } : undefined}
+      style={
+        portal
+          ? {
+              top: position.top,
+              left: position.left,
+              ...getPortalLayerStyle(triggerRef.current),
+            }
+          : undefined
+      }
     >
       <Menu
         open={true}
@@ -738,7 +745,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
           : 'animate-in fade-in-0 slide-in-from-right-1',
         'duration-snappy ease-emphasized',
       )}
-      style={{ top: position.top, left: position.left }}
+      style={{ top: position.top, left: position.left, ...getPortalLayerStyle(triggerRef.current) }}
       onMouseEnter={openSubmenu}
       onMouseLeave={closeSubmenu}
     >

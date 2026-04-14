@@ -124,9 +124,11 @@ export function SidebarProvider({
   const [containerNode, setContainerNode] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
 
+  const mobileBreakpoint = breakpoints?.mobile ?? DEFAULT_SIDEBAR_BREAKPOINTS.mobile;
+  const desktopBreakpoint = breakpoints?.desktop ?? DEFAULT_SIDEBAR_BREAKPOINTS.desktop;
   const resolvedBreakpoints: SidebarBreakpoints = {
-    mobile: breakpoints?.mobile ?? DEFAULT_SIDEBAR_BREAKPOINTS.mobile,
-    desktop: breakpoints?.desktop ?? DEFAULT_SIDEBAR_BREAKPOINTS.desktop,
+    mobile: mobileBreakpoint,
+    desktop: desktopBreakpoint,
   };
 
   const isActiveControlled = controlledActiveId !== undefined;
@@ -184,7 +186,10 @@ export function SidebarProvider({
     const updateFlags = () => {
       const sourceWidth =
         containerMode === 'contained' && containerWidth !== null ? containerWidth : window.innerWidth;
-      const next = computeViewportFlags(sourceWidth, resolvedBreakpoints);
+      const next = computeViewportFlags(sourceWidth, {
+        mobile: mobileBreakpoint,
+        desktop: desktopBreakpoint,
+      });
       setIsMobile(next.isMobile);
       setIsTablet(next.isTablet);
       setIsDesktop(next.isDesktop);
@@ -192,7 +197,7 @@ export function SidebarProvider({
 
     updateFlags();
 
-    if (containerMode === 'contained') {
+    if (containerMode === 'contained' && containerWidth !== null) {
       return;
     }
 
@@ -201,9 +206,9 @@ export function SidebarProvider({
   }, [
     containerMode,
     containerWidth,
+    desktopBreakpoint,
     forceViewport,
-    resolvedBreakpoints.desktop,
-    resolvedBreakpoints.mobile,
+    mobileBreakpoint,
   ]);
 
   useEffect(() => {

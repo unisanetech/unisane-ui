@@ -6,6 +6,7 @@ import { cn } from '../lib/utils';
 import { type FieldSize } from '../lib/field-size';
 import { useControllableState } from '../lib/use-controllable-state';
 import { type FieldShellVariant } from '../lib/field-shell';
+import { getPortalLayerStyle } from '../lib/portal-layer';
 import { Calendar } from './calendar';
 import { DateInput } from './date-input';
 
@@ -145,7 +146,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({
   // Handle click outside to close
   useLayoutEffect(() => {
     if (!isOpen) return;
-
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (containerRef.current?.contains(target)) return;
@@ -233,6 +233,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
                 top: popoverPosition.top,
                 left: popoverPosition.left,
                 width: popoverPosition.width,
+                ...getPortalLayerStyle(containerRef.current),
               }}
             >
               <Calendar
