@@ -241,13 +241,13 @@ const DEFAULT_MAX_CONDITIONS = 10;
 
 let idCounter = 0;
 
-function generateId(prefix: string): string {
+function generateFilterId(prefix: string): string {
   return `${prefix}-${Date.now()}-${++idCounter}`;
 }
 
 function createEmptyGroup(operator: FilterLogicOperator = "and"): FilterGroup {
   return {
-    id: generateId("group"),
+    id: generateFilterId("group"),
     operator,
     conditions: [],
     groups: [],
@@ -626,7 +626,7 @@ export function useCompoundFilters<T extends { id: string }>({
     (groupId: string, condition: Omit<FilterCondition, "id">): string => {
       if (!enabled) return "";
 
-      const id = generateId("cond");
+      const id = generateFilterId("cond");
       const fullCondition: FilterCondition = { ...condition, id, enabled: true };
 
       updateFilter((prev) => {
@@ -864,7 +864,7 @@ export function useCompoundFilters<T extends { id: string }>({
         if (value == null || value === "") continue;
 
         newRoot.conditions.push({
-          id: generateId("cond"),
+          id: generateFilterId("cond"),
           columnKey: key,
           operator: Array.isArray(value) ? "in" : "equals",
           value,
