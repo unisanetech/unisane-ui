@@ -5,6 +5,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import { useControllableState } from '../lib/use-controllable-state';
+import { Icon, type IconProps } from '../primitives/icon';
 import { Ripple } from './ripple';
 
 export interface SegmentedButtonOption {
@@ -17,6 +18,40 @@ export interface SegmentedButtonOption {
 type SegmentedButtonValue = string | string[];
 
 const SegmentedButtonSizeContext = React.createContext<FieldSize>('md');
+const SegmentedButtonIconSizeContext = React.createContext<NonNullable<IconProps['size']>>(18);
+
+function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {
+  return React.isValidElement(node) && node.type === Icon;
+}
+
+function getDefaultIconSize(size: FieldSize): NonNullable<IconProps['size']> {
+  switch (size) {
+    case 'sm':
+      return 16;
+    case 'lg':
+      return 20;
+    case 'md':
+    default:
+      return 18;
+  }
+}
+
+function normalizeIconNode(
+  node: React.ReactNode,
+  size: NonNullable<IconProps['size']>,
+): React.ReactNode {
+  if (!isIconElement(node) || node.props.size !== undefined) {
+    return node;
+  }
+  return React.cloneElement(node, { size });
+}
+
+function normalizeIconChildren(
+  children: React.ReactNode,
+  size: NonNullable<IconProps['size']>,
+): React.ReactNode {
+  return React.Children.map(children, (child) => normalizeIconNode(child, size));
+}
 
 function getSegmentedButtonSizeStyles(size: FieldSize) {
   const fieldSize = getFieldSizeStyles(size);
@@ -41,6 +76,7 @@ export interface SegmentedButtonProps {
   multiSelect?: boolean;
   className?: string;
   size?: FieldSize;
+  iconSize?: NonNullable<IconProps['size']>;
   children?: React.ReactNode;
 }
 
@@ -52,9 +88,11 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
   multiSelect = false,
   className,
   size = 'md',
+  iconSize,
   children,
 }) => {
   const sizeStyles = getSegmentedButtonSizeStyles(size);
+  const resolvedIconSize = iconSize ?? getDefaultIconSize(size);
   const [currentValue, setCurrentValue] = useControllableState<SegmentedButtonValue>({
     value,
     defaultValue: multiSelect ? (defaultValue ?? []) : defaultValue,
@@ -65,16 +103,18 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
   if (!options) {
     return (
       <SegmentedButtonSizeContext.Provider value={size}>
-        <div
-          className={cn(
-            'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-button border',
-            sizeStyles.containerHeight,
-            className,
-          )}
-          role="group"
-        >
-          {children}
-        </div>
+        <SegmentedButtonIconSizeContext.Provider value={resolvedIconSize}>
+          <div
+            className={cn(
+              'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
+              sizeStyles.containerHeight,
+              className,
+            )}
+            role="group"
+          >
+            {children}
+          </div>
+        </SegmentedButtonIconSizeContext.Provider>
       </SegmentedButtonSizeContext.Provider>
     );
   }
@@ -161,79 +201,81 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
 
   return (
     <SegmentedButtonSizeContext.Provider value={size}>
-      <div
-        className={cn(
-          'border-outline-variant relative isolate inline-flex max-w-full overflow-hidden rounded-button border',
-          sizeStyles.containerHeight,
-          className,
-        )}
-        role={multiSelect ? 'group' : 'radiogroup'}
-        aria-multiselectable={multiSelect}
-      >
-        {options.map((option, index) => {
-          const selected = isSelected(option.value);
-          const isLast = index === options.length - 1;
+      <SegmentedButtonIconSizeContext.Provider value={resolvedIconSize}>
+        <div
+          className={cn(
+            'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
+            sizeStyles.containerHeight,
+            className,
+          )}
+          role={multiSelect ? 'group' : 'radiogroup'}
+          aria-multiselectable={multiSelect}
+        >
+          {options.map((option, index) => {
+            const selected = isSelected(option.value);
+            const isLast = index === options.length - 1;
 
-          return (
-            <button
-              key={option.value}
-              ref={(node) => {
-                buttonRefs.current[index] = node;
-              }}
-              type="button"
-              disabled={option.disabled}
-              onClick={() => handleSelect(option.value)}
-              onKeyDown={(event) => handleKeyDown(event, index)}
-              role={multiSelect ? 'checkbox' : 'radio'}
-              aria-checked={selected}
-              aria-disabled={option.disabled}
-              className={cn(
-                'focus-visible:outline-primary relative flex h-full min-w-fit flex-1 items-center justify-center leading-none font-medium whitespace-nowrap transition-all select-none focus-visible:z-10 focus-visible:outline-2',
-                sizeStyles.itemGap,
-                sizeStyles.itemPaddingX,
-                sizeStyles.itemText,
-                !isLast && 'border-outline-strong border-r',
-                option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
-                selected && !option.disabled
-                  ? 'bg-secondary-container text-on-secondary-container'
-                  : 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
-              )}
-            >
-              <Ripple disabled={option.disabled} />
-              <div
+            return (
+              <button
+                key={option.value}
+                ref={(node) => {
+                  buttonRefs.current[index] = node;
+                }}
+                type="button"
+                disabled={option.disabled}
+                onClick={() => handleSelect(option.value)}
+                onKeyDown={(event) => handleKeyDown(event, index)}
+                role={multiSelect ? 'checkbox' : 'radio'}
+                aria-checked={selected}
+                aria-disabled={option.disabled}
                 className={cn(
-                  'duration-medium ease-emphasized flex items-center justify-center overflow-hidden transition-all',
-                  selected ? `${sizeStyles.checkWidth} opacity-100` : 'w-0 opacity-0',
+                  'focus-visible:outline-primary relative flex h-full min-w-fit flex-1 items-center justify-center leading-none font-medium whitespace-nowrap transition-all select-none focus-visible:z-10 focus-visible:outline-2',
+                  sizeStyles.itemGap,
+                  sizeStyles.itemPaddingX,
+                  sizeStyles.itemText,
+                  !isLast && 'border-outline-strong border-r',
+                  option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
+                  selected && !option.disabled
+                    ? 'bg-secondary-container text-on-secondary-container'
+                    : 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
                 )}
               >
-                <svg
-                  width={sizeStyles.checkSize}
-                  height={sizeStyles.checkSize}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={sizeStyles.checkStrokeWidth}
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-
-              {option.icon && !selected && (
-                <span
+                <Ripple disabled={option.disabled} />
+                <div
                   className={cn(
-                    'relative z-10 flex items-center justify-center',
-                    sizeStyles.iconClass,
+                    'duration-medium ease-emphasized flex items-center justify-center overflow-hidden transition-all',
+                    selected ? `${sizeStyles.checkWidth} opacity-100` : 'w-0 opacity-0',
                   )}
                 >
-                  {option.icon}
-                </span>
-              )}
+                  <svg
+                    width={sizeStyles.checkSize}
+                    height={sizeStyles.checkSize}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={sizeStyles.checkStrokeWidth}
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
 
-              <span className="relative z-10 truncate leading-none">{option.label}</span>
-            </button>
-          );
-        })}
-      </div>
+                {option.icon && !selected && (
+                  <span
+                    className={cn(
+                      'relative z-10 flex items-center justify-center',
+                      sizeStyles.iconClass,
+                    )}
+                  >
+                    {normalizeIconNode(option.icon, resolvedIconSize)}
+                  </span>
+                )}
+
+                <span className="relative z-10 truncate leading-none">{option.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </SegmentedButtonIconSizeContext.Provider>
     </SegmentedButtonSizeContext.Provider>
   );
 };
@@ -271,6 +313,7 @@ export type SegmentedButtonItemProps = VariantProps<typeof segmentedButtonItemVa
   onClick?: () => void;
   className?: string;
   size?: FieldSize;
+  iconSize?: NonNullable<IconProps['size']>;
 };
 
 export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
@@ -280,9 +323,12 @@ export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
   onClick,
   className,
   size,
+  iconSize,
 }) => {
   const groupSize = React.useContext(SegmentedButtonSizeContext);
+  const groupIconSize = React.useContext(SegmentedButtonIconSizeContext);
   const resolvedSize = size ?? groupSize;
+  const resolvedIconSize = iconSize ?? groupIconSize;
 
   return (
     <button
@@ -297,7 +343,7 @@ export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
     >
       <Ripple disabled={disabled} />
       <span className="relative z-10 inline-flex items-center justify-center gap-1.5 leading-none">
-        {children}
+        {normalizeIconChildren(children, resolvedIconSize)}
       </span>
     </button>
   );

@@ -67,8 +67,12 @@ export interface SupportingPaneLayoutProps {
   isRoot?: boolean;
   mainRef?: React.RefObject<HTMLDivElement | null>;
   title?: string;
+  subtitle?: string;
+  headerContent?: React.ReactNode;
+  headerLayout?: 'stacked' | 'inline';
   mainScrollable?: boolean;
   supportingScrollable?: boolean;
+  showCloseButtonOnDesktop?: boolean;
 }
 
 export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
@@ -81,8 +85,12 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
   isRoot = false,
   mainRef,
   title = 'Audit Protocol',
+  subtitle,
+  headerContent,
+  headerLayout = 'stacked',
   mainScrollable = true,
   supportingScrollable = true,
+  showCloseButtonOnDesktop = false,
 }) => {
   const [resolvedOpen = false, setOpen] = useControllableState<boolean>({
     value: open,
@@ -151,20 +159,53 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
       >
         {isOpen ? (
           <div className="flex h-full flex-col">
-            <header className="border-outline-subtle flex shrink-0 items-center justify-between border-b px-6 py-4">
-              <div className="text-primary text-label-medium font-medium">{title}</div>
-              <IconButton
-                onClick={handleClose}
-                variant="standard"
-                icon={
-                  <span className="material-symbols-outlined text-(length:--size-icon-sm)">
-                    close
-                  </span>
-                }
-                aria-label="Close pane"
-                className="expanded:hidden"
-              />
-            </header>
+            {headerContent && headerLayout === 'inline' ? (
+              <header className="border-outline-subtle flex h-[var(--supporting-pane-header-height,3.5rem)] shrink-0 items-center justify-between gap-3 border-b px-[var(--supporting-pane-header-padding-x,0.75rem)]">
+                <div className="min-w-0 flex-1">{headerContent}</div>
+                <IconButton
+                  onClick={handleClose}
+                  variant="standard"
+                  icon={
+                    <span className="material-symbols-outlined text-(length:--size-icon-sm)">
+                      close
+                    </span>
+                  }
+                  aria-label="Close pane"
+                  className={cn(!showCloseButtonOnDesktop && 'expanded:hidden')}
+                />
+              </header>
+            ) : (
+              <header className="border-outline-subtle shrink-0 border-b">
+                <div className="flex h-[var(--supporting-pane-header-height,3.5rem)] items-center justify-between gap-3 px-[var(--supporting-pane-header-padding-x,0.75rem)]">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-on-surface text-title-small truncate font-medium">
+                      {title}
+                    </div>
+                    {subtitle ? (
+                      <div className="text-on-surface-variant text-label-small truncate">
+                        {subtitle}
+                      </div>
+                    ) : null}
+                  </div>
+                  <IconButton
+                    onClick={handleClose}
+                    variant="standard"
+                    icon={
+                      <span className="material-symbols-outlined text-(length:--size-icon-sm)">
+                        close
+                      </span>
+                    }
+                    aria-label="Close pane"
+                    className={cn(!showCloseButtonOnDesktop && 'expanded:hidden')}
+                  />
+                </div>
+                {headerContent ? (
+                  <div className="px-[var(--supporting-pane-header-padding-x,0.75rem)] pb-3">
+                    {headerContent}
+                  </div>
+                ) : null}
+              </header>
+            )}
             <div
               className={cn(
                 'min-h-0 flex-1',
