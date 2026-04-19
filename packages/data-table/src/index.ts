@@ -1,6 +1,6 @@
 // ─── MAIN COMPONENT ────────────────────────────────────────────────────────
-export { DataTable, type DataTableProps } from "./components/data-table";
-export { DataTableInner, type DataTableInnerProps } from "./components/data-table-inner";
+export { DataTable, type DataTableProps } from './components/data-table';
+export { DataTableInner, type DataTableInnerProps } from './components/data-table-inner';
 
 // ─── TYPES ─────────────────────────────────────────────────────────────────
 export type {
@@ -72,7 +72,7 @@ export type {
   DataTablePreset,
   SimpleColumn,
   SimpleBulkAction,
-} from "./types/index";
+} from './types/index';
 
 // ─── TYPE UTILITIES ─────────────────────────────────────────────────────────
 export {
@@ -83,7 +83,7 @@ export {
   getPresetConfig,
   defineColumns,
   defineBulkActions,
-} from "./types/index";
+} from './types/index';
 
 // ─── CONTEXT & HOOKS ───────────────────────────────────────────────────────
 export {
@@ -96,7 +96,7 @@ export {
   useColumns,
   useGrouping,
   useTableUI,
-} from "./context";
+} from './context';
 
 // ─── HOOKS ─────────────────────────────────────────────────────────────────
 export {
@@ -240,7 +240,7 @@ export {
   useResponsiveDensity,
   type UseResponsiveDensityOptions,
   type UseResponsiveDensityReturn,
-} from "./hooks";
+} from './hooks';
 
 // ─── COMPONENTS ────────────────────────────────────────────────────────────
 export {
@@ -253,7 +253,7 @@ export {
   TableHeaderCell,
   TableCell,
 
-  // Layout components for split-table architecture (sticky header + synced scroll)
+  // Layout components and legacy split-scroll helpers
   DataTableLayout,
   StickyZone,
   SyncedScrollContainer,
@@ -292,7 +292,7 @@ export {
 
   // Infinite Scroll
   InfiniteScrollLoader,
-} from "./components";
+} from './components';
 
 export type {
   DataTableFooterProps,
@@ -305,7 +305,7 @@ export type {
   CreateActionsColumnOptions,
   TreeExpanderProps,
   InfiniteScrollLoaderProps,
-} from "./components";
+} from './components';
 
 export {
   DataTableToolbar,
@@ -321,8 +321,8 @@ export {
   type PrintHandler,
   type GroupingPillsBarProps,
   type FrozenColumnsIndicatorProps,
-} from "./components/toolbar/index";
-export { DataTablePagination } from "./components/pagination";
+} from './components/toolbar/index';
+export { DataTablePagination } from './components/pagination';
 
 // ─── UTILITIES ─────────────────────────────────────────────────────────────
 export {
@@ -330,12 +330,8 @@ export {
   setNestedValue,
   getNestedValueSafe,
   type GetNestedValueOptions,
-} from "./utils/get-nested-value";
-export {
-  ensureRowIds,
-  validateRowIds,
-  findDuplicateRowIds,
-} from "./utils/ensure-row-ids";
+} from './utils/get-nested-value';
+export { ensureRowIds, validateRowIds, findDuplicateRowIds } from './utils/ensure-row-ids';
 
 // Export utilities - CSV, Excel, PDF, JSON
 export {
@@ -356,7 +352,7 @@ export {
   toPDFBlob,
   exportToJSON,
   toJSONString,
-} from "./utils/export";
+} from './utils/export';
 
 // Print utilities
 export {
@@ -367,7 +363,7 @@ export {
   printDataTable,
   printInline,
   usePrint,
-} from "./utils/print";
+} from './utils/print';
 
 // ─── CONSTANTS ─────────────────────────────────────────────────────────────
 export {
@@ -414,7 +410,7 @@ export {
   type ColumnAlignValue,
   CellSelectionMode,
   type CellSelectionModeValue,
-} from "./constants/index";
+} from './constants/index';
 
 // ─── I18N ───────────────────────────────────────────────────────────────────
 export {
@@ -435,7 +431,7 @@ export {
   type DataTableLocale,
   type PartialDataTableLocale,
   type I18nContextValue,
-} from "./i18n";
+} from './i18n';
 
 // ─── FEEDBACK ────────────────────────────────────────────────────────────────
 export {
@@ -449,7 +445,7 @@ export {
   type FeedbackParams,
   type FeedbackContextValue,
   type FeedbackProviderProps,
-} from "./feedback";
+} from './feedback';
 
 // ─── ERRORS ────────────────────────────────────────────────────────────────
 export {
@@ -545,4 +541,4 @@ export {
   isFatalError,
   shouldTriggerErrorBoundary,
   isRecoverableError,
-} from "./errors";
+} from './errors';

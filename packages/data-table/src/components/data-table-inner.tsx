@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useRef, useCallback, useEffect } from 'react';
+import React, { useMemo, useRef, useCallback, useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@unisane/ui';
 import type {
@@ -15,17 +15,11 @@ import { DataTableBody } from './body';
 import { DataTableFooter } from './footer';
 import { VirtualizedBody } from './virtualized-body';
 import { TableColgroup } from './colgroup';
+import { Table, TableContainer } from './table';
 import { CustomScrollbar } from './custom-scrollbar';
 import { StatusAnnouncer } from './status-announcer';
-import {
-  DataTableLayout,
-  StickyZone,
-  SyncedScrollContainer,
-  StickyHeaderScrollContainer,
-  HeaderTable,
-  BodyTable,
-} from './layout';
-import { DataTableToolbar } from './toolbar';
+import { DataTableLayout, StickyZone } from './layout';
+import { DataTableToolbar, type DataTableToolbarProps } from './toolbar';
 import { DataTablePagination } from './pagination';
 import type { CursorPagination } from '../types';
 import { useProcessedData } from '../hooks/data/use-processed-data';
@@ -39,6 +33,7 @@ import { useRowDrag } from '../hooks/ui/use-row-drag';
 import { useColumnLayout } from '../hooks/ui/use-column-layout';
 import { useAnnouncements } from '../hooks/ui/use-announcements';
 import {
+  useDataTableContext,
   useSelection,
   useSorting,
   useFiltering,
@@ -55,23 +50,22 @@ import { useI18n } from '../i18n';
 
 // ─── TOOLBAR PROPS ─────────────────────────────────────────────────────────
 
-export interface ToolbarProps {
-  title?: string;
-  searchable: boolean;
-  bulkActions: BulkAction[];
-  density: Density;
-  onDensityChange?: (density: Density) => void;
-  showColumnToggle: boolean;
-  showDensityToggle: boolean;
-  refreshing?: boolean;
-  onRefresh?: () => void | Promise<void>;
-}
+export type ToolbarProps<T extends { id: string }> = Omit<
+  DataTableToolbarProps<T>,
+  | 'selectedCount'
+  | 'selectedIds'
+  | 'onClearSelection'
+  | 'totalItems'
+  | 'frozenLeftCount'
+  | 'frozenRightCount'
+  | 'onUnfreezeAll'
+>;
 
 // ─── INNER PROPS ───────────────────────────────────────────────────────────
 
 export interface DataTableInnerProps<T extends { id: string }> {
   /** Toolbar configuration - when provided, toolbar renders inside StickyZone */
-  toolbarProps?: ToolbarProps;
+  toolbarProps?: ToolbarProps<T>;
   data: T[];
   isLoading?: boolean;
   /** Loading display variant */
@@ -193,6 +187,7 @@ export function DataTableInner<T extends { id: string }>({
     pinnedRightColumns,
     resetColumnPins,
   } = useColumns<T>();
+  const { getCallbacks } = useDataTableContext<T>();
   const { config, errorHub } = useTableUI();
   const {
     groupBy,
@@ -207,6 +202,7 @@ export function DataTableInner<T extends { id: string }>({
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const dataTableRootRef = useRef<HTMLDivElement>(null);
+  const [usesInternalVerticalScroll, setUsesInternalVerticalScroll] = useState(false);
 
   // Observe container for accurate responsive width detection
   useEffect(() => {
@@ -255,6 +251,7 @@ export function DataTableInner<T extends { id: string }>({
   const {
     virtualColumns,
     isVirtualized: isColumnVirtualized,
+    onScroll: handleColumnVirtualizerScroll,
     getScrollableContainerStyle,
   } = useVirtualizedColumns({
     columns: sortedVisibleColumns,
@@ -387,15 +384,48 @@ export function DataTableInner<T extends { id: string }>({
   const {
     containerRef: virtualContainerRef,
     virtualRows,
+    totalHeight,
     isVirtualized,
-    getInnerContainerStyle,
     getRowStyle,
+    measureElement,
   } = useVirtualizedRows({
     data: paginatedData,
     estimateRowHeight: rowHeight,
-    enabled: virtualize,
+    enabled: virtualize && usesInternalVerticalScroll,
     threshold: virtualizeThreshold,
   });
+
+  useEffect(() => {
+    virtualContainerRef.current = tableContainerRef.current;
+  }, [virtualContainerRef]);
+
+  useEffect(() => {
+    const container = tableContainerRef.current;
+    if (!container) return;
+
+    const updateVerticalScrollMode = () => {
+      setUsesInternalVerticalScroll(container.scrollHeight - container.clientHeight > 1);
+    };
+
+    updateVerticalScrollMode();
+
+    const observer = new ResizeObserver(updateVerticalScrollMode);
+    observer.observe(container);
+
+    const table = container.querySelector('table');
+    if (table instanceof HTMLElement) {
+      observer.observe(table);
+    }
+
+    return () => observer.disconnect();
+  }, [
+    totalTableWidth,
+    effectiveColumns.length,
+    paginatedData.length,
+    isLoading,
+    toolbarProps,
+    virtualize,
+  ]);
 
   // ─── SELECTION HELPERS ────────────────────────────────────────────────────
 
@@ -447,6 +477,44 @@ export function DataTableInner<T extends { id: string }>({
     },
     [selectedRows, selectAll],
   );
+
+  const updatePinnedShadowState = useCallback((scrollLeft: number) => {
+    const root = dataTableRootRef.current;
+    const container = tableContainerRef.current;
+    if (!root || !container) return;
+
+    const maxScrollLeft = Math.max(0, container.scrollWidth - container.clientWidth);
+    root.style.setProperty('--data-table-pin-shadow-left-alpha', scrollLeft > 0.5 ? '0.1' : '0');
+    root.style.setProperty(
+      '--data-table-pin-shadow-right-alpha',
+      maxScrollLeft - scrollLeft > 0.5 ? '0.1' : '0',
+    );
+  }, []);
+
+  useEffect(() => {
+    const container = tableContainerRef.current;
+    if (!container) return;
+
+    const syncPinnedShadows = () => updatePinnedShadowState(container.scrollLeft);
+    syncPinnedShadows();
+
+    const observer = new ResizeObserver(syncPinnedShadows);
+    observer.observe(container);
+
+    const table = container.querySelector('table');
+    if (table instanceof HTMLElement) {
+      observer.observe(table);
+    }
+
+    return () => observer.disconnect();
+  }, [
+    updatePinnedShadowState,
+    totalTableWidth,
+    pinnedLeftWidth,
+    pinnedRightWidth,
+    effectiveColumns.length,
+    paginatedData.length,
+  ]);
 
   // ─── KEYBOARD NAVIGATION ─────────────────────────────────────────────────
 
@@ -584,10 +652,36 @@ export function DataTableInner<T extends { id: string }>({
     onGroupBy: setGroupBy,
     onAddGroupBy: addGroupBy,
     reorderableRows: reorderableRows && !isGrouped,
+    sticky: config.stickyHeader,
+    stickyOffset: usesInternalVerticalScroll
+      ? '0px'
+      : `calc(${config.stickyOffset} + var(--data-table-header-offset, 0px))`,
   };
 
   // Extract keyboard props but override role for proper semantics
   const restKeyboardProps = keyboardProps;
+
+  const tableStyle = {
+    minWidth: totalTableWidth ? `${totalTableWidth}px` : undefined,
+    ...(isColumnVirtualized ? getScrollableContainerStyle() : undefined),
+  };
+
+  const handleTableScroll = useCallback(
+    (event: React.UIEvent<HTMLDivElement>) => {
+      const target = event.currentTarget;
+      updatePinnedShadowState(target.scrollLeft);
+      handleColumnVirtualizerScroll(event);
+      getCallbacks().onScroll?.({
+        scrollLeft: target.scrollLeft,
+        scrollTop: target.scrollTop,
+        scrollWidth: target.scrollWidth,
+        scrollHeight: target.scrollHeight,
+        clientWidth: target.clientWidth,
+        clientHeight: target.clientHeight,
+      });
+    },
+    [updatePinnedShadowState, handleColumnVirtualizerScroll, getCallbacks],
+  );
 
   return (
     <DataTableLayout>
@@ -600,193 +694,147 @@ export function DataTableInner<T extends { id: string }>({
           columnCount: effectiveColumns.length,
         })}
         aria-busy={isLoading}
-        className={cn('bg-surface isolate flex flex-col', className)}
+        className={cn('bg-surface isolate flex h-full min-h-0 flex-col', className)}
         style={style}
         onKeyDown={handleKeyDown}
       >
         {/* Screen reader status and announcements */}
         <StatusAnnouncer statusMessage={statusMessage} announcerRegionId={announcerRegionId} />
 
-        {/* Sticky zone containing toolbar + header - all stick together at top */}
-        <StickyZone>
-          {/* Toolbar - rendered inside StickyZone so it sticks with header */}
-          {toolbarProps && (
+        {toolbarProps && (
+          <StickyZone stickyOffset={config.stickyOffset}>
             <DataTableToolbar
-              title={toolbarProps.title}
-              searchable={toolbarProps.searchable}
+              {...toolbarProps}
               selectedCount={selectedRows.size}
               selectedIds={Array.from(selectedRows)}
-              bulkActions={toolbarProps.bulkActions}
               onClearSelection={deselectAll}
-              density={toolbarProps.density}
-              onDensityChange={toolbarProps.onDensityChange}
-              showColumnToggle={toolbarProps.showColumnToggle}
-              showDensityToggle={toolbarProps.showDensityToggle}
-              refreshing={toolbarProps.refreshing}
-              onRefresh={toolbarProps.onRefresh}
               totalItems={totalItems ?? processedData.length}
               frozenLeftCount={pinnedLeftColumns.length}
               frozenRightCount={pinnedRightColumns.length}
               onUnfreezeAll={resetColumnPins}
             />
-          )}
+          </StickyZone>
+        )}
 
-          {/* Sticky header - synced horizontal scroll with body */}
-          {/* Shadow is applied dynamically by StickyHeaderScrollContainer when header becomes stuck */}
-          <StickyHeaderScrollContainer className="bg-surface">
-            <HeaderTable
-              tableWidth={totalTableWidth}
-              style={isColumnVirtualized ? getScrollableContainerStyle() : undefined}
-            >
-              <TableColgroup
-                columns={effectiveColumns}
-                columnMeta={columnMeta}
-                selectable={effectiveSelectable}
-                enableExpansion={enableExpansion}
-                getEffectivePinPosition={getEffectivePinPosition}
-                reorderableRows={reorderableRows && !isGrouped}
-              />
-              <DataTableHeader {...headerProps} />
-            </HeaderTable>
-          </StickyHeaderScrollContainer>
-        </StickyZone>
-
-        {/* Scrollable body zone - synced horizontal scroll with header */}
-        <SyncedScrollContainer scrollId="body" ref={tableContainerRef}>
-          {isVirtualized ? (
-            <VirtualizedBody
-              virtualContainerRef={virtualContainerRef}
-              isLoading={isLoading}
-              isEmpty={paginatedData.length === 0}
-              emptyMessage={emptyMessage}
-              emptyIcon={emptyIcon}
-              getInnerContainerStyle={getInnerContainerStyle}
-              virtualRows={virtualRows}
+        <TableContainer ref={tableContainerRef} onScroll={handleTableScroll}>
+          <Table
+            aria-rowcount={totalItems ?? processedData.length}
+            aria-colcount={
+              effectiveColumns.length + (effectiveSelectable ? 1 : 0) + (enableExpansion ? 1 : 0)
+            }
+            aria-label={t('srTableDescription', {
+              rowCount: totalItems ?? processedData.length,
+              columnCount: effectiveColumns.length,
+            })}
+            style={tableStyle}
+          >
+            <TableColgroup
               columns={effectiveColumns}
-              columnDefinitions={config.columnDefinitions}
-              hasGroups={config.hasGroups}
               columnMeta={columnMeta}
-              getEffectivePinPosition={getEffectivePinPosition}
-              selectedRows={selectedRows}
-              expandedRows={expandedRows}
-              activeRowId={activeRowId}
-              focusedIndex={focusedIndex}
               selectable={effectiveSelectable}
-              showColumnBorders={effectiveColumnBorders}
-              zebra={effectiveZebra}
               enableExpansion={enableExpansion}
-              getRowCanExpand={getRowCanExpand}
-              renderExpandedRow={renderExpandedRow}
-              onSelect={handleSelectRow}
-              onToggleExpand={toggleExpand}
-              onRowClick={onRowClick}
-              onRowContextMenu={onRowContextMenu}
-              onRowHover={onRowHover}
-              density={density}
-              getRowStyle={getRowStyle}
-              inlineEditing={inlineEditing}
-              cellSelectionEnabled={cellSelectionEnabled}
-              getCellSelectionContext={effectiveGetCellSelectionContext}
-              onCellClick={effectiveOnCellClick}
-              onCellKeyDown={effectiveOnCellKeyDown}
-              sortState={sortState}
-              onSort={handleSort}
-              allSelected={allSelected}
-              indeterminate={isIndeterminate}
-              onSelectAll={handleSelectAll}
-              resizable={config.resizable}
-              pinnable={config.pinnable}
-              reorderable={reorderable}
-              onColumnPin={setColumnPin}
-              onColumnResize={setColumnWidth}
-              onColumnHide={hideColumn}
-              onColumnFilter={setFilter}
-              onColumnReorder={reorderColumn}
-              columnFilters={columnFilters}
-              tableWidth={totalTableWidth}
-              hideHeader={true}
+              getEffectivePinPosition={getEffectivePinPosition}
+              reorderableRows={reorderableRows && !isGrouped}
             />
-          ) : (
-            <BodyTable
-              tableWidth={totalTableWidth}
-              style={isColumnVirtualized ? getScrollableContainerStyle() : undefined}
-              aria-rowcount={totalItems ?? processedData.length}
-              aria-colcount={
-                effectiveColumns.length + (effectiveSelectable ? 1 : 0) + (enableExpansion ? 1 : 0)
-              }
-              aria-label={t('srTableDescription', {
-                rowCount: totalItems ?? processedData.length,
-                columnCount: effectiveColumns.length,
-              })}
-            >
-              <TableColgroup
-                columns={effectiveColumns}
-                columnMeta={columnMeta}
-                selectable={effectiveSelectable}
-                enableExpansion={enableExpansion}
-                getEffectivePinPosition={getEffectivePinPosition}
-                reorderableRows={reorderableRows && !isGrouped}
-              />
-              <DataTableBody
-                data={paginatedData}
+            <DataTableHeader {...headerProps} />
+            {isVirtualized ? (
+              <VirtualizedBody
+                totalHeight={totalHeight}
+                isLoading={isLoading}
+                isEmpty={paginatedData.length === 0}
+                emptyMessage={emptyMessage}
+                emptyIcon={emptyIcon}
+                virtualRows={virtualRows}
                 columns={effectiveColumns}
                 columnMeta={columnMeta}
                 getEffectivePinPosition={getEffectivePinPosition}
                 selectedRows={selectedRows}
                 expandedRows={expandedRows}
-                isLoading={isLoading}
-                loadingVariant={loadingVariant}
-                skeletonRowCount={skeletonRowCount}
+                activeRowId={activeRowId}
+                focusedIndex={focusedIndex}
                 selectable={effectiveSelectable}
                 showColumnBorders={effectiveColumnBorders}
                 zebra={effectiveZebra}
                 enableExpansion={enableExpansion}
-                density={density}
+                getRowCanExpand={getRowCanExpand}
+                renderExpandedRow={renderExpandedRow}
                 onSelect={handleSelectRow}
                 onToggleExpand={toggleExpand}
                 onRowClick={onRowClick}
                 onRowContextMenu={onRowContextMenu}
                 onRowHover={onRowHover}
-                renderExpandedRow={renderExpandedRow}
-                getRowCanExpand={getRowCanExpand}
-                activeRowId={activeRowId}
-                emptyMessage={emptyMessage}
-                emptyIcon={emptyIcon}
-                focusedIndex={focusedIndex}
+                density={density}
+                getRowStyle={getRowStyle}
+                measureElement={measureElement}
                 inlineEditing={inlineEditing}
-                isGrouped={isGrouped}
-                groupedRows={groupedRows}
-                onToggleGroupExpand={toggleGroupExpand}
-                renderGroupHeader={renderGroupHeader}
-                onSelectGroup={handleSelectGroup}
                 cellSelectionEnabled={cellSelectionEnabled}
                 getCellSelectionContext={effectiveGetCellSelectionContext}
                 onCellClick={effectiveOnCellClick}
                 onCellKeyDown={effectiveOnCellKeyDown}
-                reorderableRows={reorderableRows && !isGrouped}
-                getRowDragProps={getRowDragProps}
-                getDragHandleProps={getDragHandleProps}
-                isDraggingRow={isDraggingRow}
-                isDropTarget={isDropTarget}
-                getDropPosition={getDropPosition}
-                searchText={searchText}
               />
-              <DataTableFooter
-                data={processedData}
-                columns={effectiveColumns}
-                columnMeta={columnMeta}
-                getEffectivePinPosition={getEffectivePinPosition}
-                selectable={effectiveSelectable}
-                enableExpansion={enableExpansion}
-                showColumnBorders={effectiveColumnBorders}
-                density={density}
-                showSummary={config.showSummary}
-                summaryLabel={config.summaryLabel}
-                reorderableRows={reorderableRows && !isGrouped}
-              />
-            </BodyTable>
-          )}
-        </SyncedScrollContainer>
+            ) : (
+              <>
+                <DataTableBody
+                  data={paginatedData}
+                  columns={effectiveColumns}
+                  columnMeta={columnMeta}
+                  getEffectivePinPosition={getEffectivePinPosition}
+                  selectedRows={selectedRows}
+                  expandedRows={expandedRows}
+                  isLoading={isLoading}
+                  loadingVariant={loadingVariant}
+                  skeletonRowCount={skeletonRowCount}
+                  selectable={effectiveSelectable}
+                  showColumnBorders={effectiveColumnBorders}
+                  zebra={effectiveZebra}
+                  enableExpansion={enableExpansion}
+                  density={density}
+                  onSelect={handleSelectRow}
+                  onToggleExpand={toggleExpand}
+                  onRowClick={onRowClick}
+                  onRowContextMenu={onRowContextMenu}
+                  onRowHover={onRowHover}
+                  renderExpandedRow={renderExpandedRow}
+                  getRowCanExpand={getRowCanExpand}
+                  activeRowId={activeRowId}
+                  emptyMessage={emptyMessage}
+                  emptyIcon={emptyIcon}
+                  focusedIndex={focusedIndex}
+                  inlineEditing={inlineEditing}
+                  isGrouped={isGrouped}
+                  groupedRows={groupedRows}
+                  onToggleGroupExpand={toggleGroupExpand}
+                  renderGroupHeader={renderGroupHeader}
+                  onSelectGroup={handleSelectGroup}
+                  cellSelectionEnabled={cellSelectionEnabled}
+                  getCellSelectionContext={effectiveGetCellSelectionContext}
+                  onCellClick={effectiveOnCellClick}
+                  onCellKeyDown={effectiveOnCellKeyDown}
+                  reorderableRows={reorderableRows && !isGrouped}
+                  getRowDragProps={getRowDragProps}
+                  getDragHandleProps={getDragHandleProps}
+                  isDraggingRow={isDraggingRow}
+                  isDropTarget={isDropTarget}
+                  getDropPosition={getDropPosition}
+                  searchText={searchText}
+                />
+                <DataTableFooter
+                  data={processedData}
+                  columns={effectiveColumns}
+                  columnMeta={columnMeta}
+                  getEffectivePinPosition={getEffectivePinPosition}
+                  selectable={effectiveSelectable}
+                  enableExpansion={enableExpansion}
+                  showColumnBorders={effectiveColumnBorders}
+                  density={density}
+                  showSummary={config.showSummary}
+                  summaryLabel={config.summaryLabel}
+                  reorderableRows={reorderableRows && !isGrouped}
+                />
+              </>
+            )}
+          </Table>
+        </TableContainer>
 
         {/* Custom scrollbar that respects pinned columns */}
         <CustomScrollbar
@@ -795,6 +843,7 @@ export function DataTableInner<T extends { id: string }>({
           pinnedRightWidth={pinnedRightWidth}
           dependencies={[effectiveColumns, columnMeta, paginatedData.length]}
           dataTableRef={dataTableRootRef}
+          allowViewportSticky={!usesInternalVerticalScroll}
         />
 
         {/* Pagination controls - only render when pagination is enabled */}

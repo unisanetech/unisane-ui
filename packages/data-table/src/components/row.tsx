@@ -56,6 +56,8 @@ interface DataTableRowProps<T> {
   style?: CSSProperties;
   /** Virtualization: data-index for measurement */
   'data-index'?: number;
+  /** Virtualization: ref callback for dynamic row measurement */
+  rowRef?: (node: HTMLTableRowElement | null) => void;
   /** Keyboard navigation: whether this row is focused */
   isFocused?: boolean;
   /** Inline editing controller */
@@ -119,6 +121,7 @@ function DataTableRowInner<T extends { id: string }>({
   density = 'standard',
   style,
   'data-index': dataIndex,
+  rowRef,
   isFocused = false,
   inlineEditing,
   groupDepth = 0,
@@ -205,6 +208,7 @@ function DataTableRowInner<T extends { id: string }>({
   return (
     <>
       <tr
+        ref={rowRef}
         onClick={onRowClick ? handleRowClick : undefined}
         onContextMenu={onRowContextMenu ? handleContextMenu : undefined}
         onMouseEnter={onRowHover ? () => onRowHover(row) : undefined}

@@ -64,16 +64,18 @@ export const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(
   ({ children, className, style, ...props }, ref) => (
     <div
       ref={ref}
+      data-datatable-scroll="body"
       className={cn(
-        'bg-surface @container relative',
-        // Only horizontal scrolling - vertical is page scroll
-        // The table grows naturally with content
-        'overflow-x-auto',
-        // Show native scrollbar on mobile for touch discoverability, hide on tablet+ where custom scrollbar is used
-        '@md:[&::-webkit-scrollbar]:hidden',
+        'bg-surface @container relative min-h-0 flex-1',
+        // Horizontal scroll is always owned here.
+        // Vertical scroll activates automatically when the DataTable root is height-constrained.
+        'overflow-x-auto overflow-y-auto',
         className,
       )}
       style={{
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain',
+        touchAction: 'pan-x pan-y',
         ...style,
       }}
       {...props}

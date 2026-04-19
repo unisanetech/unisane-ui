@@ -34,26 +34,12 @@ export function useScrollSync() {
 }
 
 // ─── DATA TABLE LAYOUT ───────────────────────────────────────────────────────
-// Root container for split-table layout with synchronized horizontal scrolling.
+// Root container for the DataTable surface.
 //
-// Architecture:
-// ┌─────────────────────────────────────────────────────────────────────┐
-// │ DataTableLayout                                                      │
-// │ ┌─────────────────────────────────────────────────────────────────┐ │
-// │ │ StickyZone (sticky top-0)                                       │ │
-// │ │ ├── Toolbar (DataTableToolbar)                                  │ │
-// │ │ ├── ActiveFiltersBar                                            │ │
-// │ │ ├── GroupingPillsBar                                            │ │
-// │ │ └── ScrollableHeader (overflow-x-auto, synced)                  │ │
-// │ │     └── <table><thead>...</thead></table>                       │ │
-// │ └─────────────────────────────────────────────────────────────────┘ │
-// │ ┌─────────────────────────────────────────────────────────────────┐ │
-// │ │ ScrollableBody (overflow-x-auto, synced)                        │ │
-// │ │ └── <table><tbody>...</tbody><tfoot>...</tfoot></table>         │ │
-// │ └─────────────────────────────────────────────────────────────────┘ │
-// │ CustomScrollbar                                                      │
-// │ DataTablePagination                                                  │
-// └─────────────────────────────────────────────────────────────────────┘
+// Current internal rendering uses one horizontal scroll container and one real
+// table. This file still exports legacy split-scroll helpers for public
+// compatibility, so the scroll-sync context remains here until that surface is
+// intentionally removed in a package-level compatibility cut.
 
 interface DataTableLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -165,7 +151,7 @@ export const DataTableLayout = forwardRef<HTMLDivElement, DataTableLayoutProps>(
         <style
           dangerouslySetInnerHTML={{
             __html: `
-          /* Body scroll container: hide scrollbar on tablet+ (custom scrollbar used instead) */
+          /* Body scroll container: hide scrollbar on tablet+ (custom horizontal scrollbar used instead) */
           @media (min-width: 768px) {
             [data-datatable-scroll="body"] {
               scrollbar-width: none;
@@ -195,7 +181,10 @@ export const DataTableLayout = forwardRef<HTMLDivElement, DataTableLayoutProps>(
               ref.current = node;
             }
           }}
-          className={cn('bg-surface border-outline-soft @container relative', className)}
+          className={cn(
+            'bg-surface border-outline-soft @container relative flex h-full min-h-0 flex-col',
+            className,
+          )}
           {...props}
         >
           {children}

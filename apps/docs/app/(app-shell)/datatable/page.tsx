@@ -1,17 +1,13 @@
-"use client";
+'use client';
 
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo } from 'react';
 import {
   DataTableProvider,
   DataTableInner,
-  DataTableToolbar,
-  DataTableLayout,
-  StickyZone,
   useInlineEditingWithFeedback,
   useInlineEditingWithHistory,
   useSelection,
   useGrouping,
-  useColumns,
   useRowContextMenu,
   RowContextMenu,
   useCellSelection,
@@ -28,7 +24,7 @@ import {
   type ExportFormat,
   type RowContextMenuItemOrSeparator,
   type PrintHandler,
-} from "@unisane/data-table";
+} from '@unisane/data-table';
 import {
   Typography,
   Tabs,
@@ -42,7 +38,7 @@ import {
   Button,
   Tooltip,
   cn,
-} from "@unisane/ui";
+} from '@unisane/ui';
 
 // Components
 import {
@@ -52,7 +48,7 @@ import {
   FeatureCard,
   type LocaleKey,
   type LocaleOption,
-} from "./components";
+} from './components';
 
 // Users Demo
 import {
@@ -62,7 +58,7 @@ import {
   ExpandedRowContent,
   createUserActionsColumn,
   createUserActionItems,
-} from "./demos/users";
+} from './demos/users';
 
 // Products Demo
 import {
@@ -72,7 +68,7 @@ import {
   ProductExpandedRow,
   createProductActionsColumn,
   createProductActionItems,
-} from "./demos/products";
+} from './demos/products';
 
 // Inventory Demo
 import {
@@ -82,7 +78,7 @@ import {
   InventoryExpandedRow,
   createInventoryActionsColumn,
   createInventoryActionItems,
-} from "./demos/inventory";
+} from './demos/inventory';
 
 // Financial Demo
 import {
@@ -92,14 +88,16 @@ import {
   TransactionExpandedRow,
   createTransactionActionsColumn,
   createTransactionActionItems,
-} from "./demos/financial";
+} from './demos/financial';
 
 // ─── LOCALE OPTIONS ──────────────────────────────────────────────────────────
 
 const LOCALE_OPTIONS: Record<LocaleKey, LocaleOption> = {
-  en: { label: "English", locale: { locale: "en", strings: enStrings } },
-  hi: { label: "हिंदी", locale: { locale: "hi", strings: hiStrings } },
+  en: { label: 'English', locale: { locale: 'en', strings: enStrings } },
+  hi: { label: 'हिंदी', locale: { locale: 'hi', strings: hiStrings } },
 };
+
+const DEMO_TABLE_CLASS_NAME = 'h-[70vh] min-h-[560px]';
 
 // ─── USERS TABLE ─────────────────────────────────────────────────────────────
 
@@ -126,24 +124,13 @@ function UsersTable({
   density,
   onDensityChange,
 }: UsersTableProps) {
-  const { selectedRows, deselectAll } = useSelection();
+  const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
-  const {
-    isGrouped,
-    groupByArray,
-    expandedGroups,
-    expandAllGroups,
-    collapseAllGroups,
-  } = useGrouping();
-  const { pinnedLeftColumns, pinnedRightColumns, resetColumnPins } =
-    useColumns<User>();
-  const { menuState, handleRowContextMenu, closeMenu } =
-    useRowContextMenu<User>();
+  const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
+    useGrouping();
+  const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<User>();
 
-  const columnKeys = useMemo(
-    () => columns.map((col) => String(col.key)),
-    [columns]
-  );
+  const columnKeys = useMemo(() => columns.map((col) => String(col.key)), [columns]);
 
   const cellSelection = useCellSelection<User>({
     data,
@@ -155,23 +142,23 @@ function UsersTable({
     if (cellSelection.state.selectedCells.size === 0) return;
     const values = cellSelection.getSelectedValues((rowId, columnKey) => {
       const row = data.find((r) => r.id === rowId);
-      if (!row) return "";
-      return String(getNestedValue(row, columnKey) ?? "");
+      if (!row) return '';
+      return String(getNestedValue(row, columnKey) ?? '');
     });
-    const tsv = values.map((row) => row.join("\t")).join("\n");
+    const tsv = values.map((row) => row.join('\t')).join('\n');
     await navigator.clipboard.writeText(tsv);
   }, [cellSelection, data]);
 
   const handleCellKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
         event.preventDefault();
         handleCopySelectedCells();
         return;
       }
       cellSelection.handleCellKeyDown(event);
     },
-    [cellSelection, handleCopySelectedCells]
+    [cellSelection, handleCopySelectedCells],
   );
 
   const { print, printSelected, isPrinting } = usePrint<User>({
@@ -179,8 +166,8 @@ function UsersTable({
     columns,
     selectedIds: selectedRows,
     defaultOptions: {
-      title: "Users Report",
-      orientation: "landscape",
+      title: 'Users Report',
+      orientation: 'landscape',
       includeTimestamp: true,
     },
   });
@@ -188,46 +175,33 @@ function UsersTable({
   const printHandler: PrintHandler = useMemo(
     () => ({
       onPrint: () => print(),
-      onPrintSelected:
-        selectedRows.size > 0 ? () => printSelected() : undefined,
+      onPrintSelected: selectedRows.size > 0 ? () => printSelected() : undefined,
       isPrinting,
     }),
-    [print, printSelected, isPrinting, selectedRows.size]
+    [print, printSelected, isPrinting, selectedRows.size],
   );
 
   const inlineEditing = useInlineEditingWithFeedback<User>({
     data,
-    onCellChange: async (
-      rowId: string,
-      columnKey: string,
-      newValue: unknown
-    ) => {
+    onCellChange: async (rowId: string, columnKey: string, newValue: unknown) => {
       await new Promise((resolve) => setTimeout(resolve, 300));
       // Convert numeric column values from string to number
-      const numericColumns = ["salary"];
-      const processedValue = numericColumns.includes(columnKey)
-        ? Number(newValue)
-        : newValue;
+      const numericColumns = ['salary'];
+      const processedValue = numericColumns.includes(columnKey) ? Number(newValue) : newValue;
       setData((prev) =>
-        prev.map((row) =>
-          row.id === rowId ? { ...row, [columnKey]: processedValue } : row
-        )
+        prev.map((row) => (row.id === rowId ? { ...row, [columnKey]: processedValue } : row)),
       );
     },
     validateCell: (_rowId: string, columnKey: string, value: unknown) => {
-      if (columnKey === "salary") {
+      if (columnKey === 'salary') {
         const strValue = String(value).trim();
         const numValue = Number(strValue);
-        if (strValue === "" || isNaN(numValue) || numValue < 0) {
-          return "Salary must be a positive number";
+        if (strValue === '' || isNaN(numValue) || numValue < 0) {
+          return 'Salary must be a positive number';
         }
       }
-      if (
-        columnKey === "email" &&
-        typeof value === "string" &&
-        !value.includes("@")
-      ) {
-        return "Invalid email address";
+      if (columnKey === 'email' && typeof value === 'string' && !value.includes('@')) {
+        return 'Invalid email address';
       }
       return null;
     },
@@ -236,32 +210,30 @@ function UsersTable({
   const bulkActions: BulkAction[] = useMemo(
     () => [
       {
-        label: "Export",
-        icon: "download",
+        label: 'Export',
+        icon: 'download',
         onClick: (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
           exportData({
-            format: "csv",
+            format: 'csv',
             data: selected,
             columns,
-            filename: "selected-users",
+            filename: 'selected-users',
           });
         },
       },
       {
-        label: "Activate",
-        icon: "check_circle",
+        label: 'Activate',
+        icon: 'check_circle',
         onClick: (ids) =>
           setData((prev) =>
-            prev.map((row) =>
-              ids.includes(row.id) ? { ...row, status: "active" } : row
-            )
+            prev.map((row) => (ids.includes(row.id) ? { ...row, status: 'active' } : row)),
           ),
       },
       {
-        label: "Delete",
-        icon: "delete",
-        variant: "danger",
+        label: 'Delete',
+        icon: 'delete',
+        variant: 'danger',
         onClick: (ids) => {
           if (confirm(`Delete ${ids.length} users?`)) {
             setData((prev) => prev.filter((row) => !ids.includes(row.id)));
@@ -269,33 +241,29 @@ function UsersTable({
         },
       },
     ],
-    [columns, data, setData]
+    [columns, data, setData],
   );
 
   const contextMenuItems: RowContextMenuItemOrSeparator<User>[] = useMemo(
     () =>
       createUserActionItems(
         (user) => alert(`Editing ${user.name}`),
-        (user) => setData((prev) => prev.filter((r) => r.id !== user.id))
+        (user) => setData((prev) => prev.filter((r) => r.id !== user.id)),
       ),
-    [setData]
+    [setData],
   );
 
   const groupIds = useMemo(() => {
     if (!isGrouped || groupByArray.length === 0) return [];
     const allGroupIds = new Set<string>();
-    const buildGroupIds = (
-      rows: User[],
-      keys: string[],
-      parentId: string | null
-    ) => {
+    const buildGroupIds = (rows: User[], keys: string[], parentId: string | null) => {
       if (keys.length === 0 || rows.length === 0) return;
       const currentKey = keys[0]!;
       const remainingKeys = keys.slice(1);
       const groupMap = new Map<string, User[]>();
       for (const row of rows) {
         const value = row[currentKey as keyof User];
-        const valueKey = String(value ?? "__null__");
+        const valueKey = String(value ?? '__null__');
         if (!groupMap.has(valueKey)) groupMap.set(valueKey, []);
         groupMap.get(valueKey)!.push(row);
       }
@@ -325,70 +293,49 @@ function UsersTable({
         return newData;
       });
     },
-    [setData]
+    [setData],
   );
 
   return (
-    <DataTableLayout>
-      <StickyZone>
-        <DataTableToolbar
-          title="Users"
-          totalItems={data.length}
-          searchable
-          selectedCount={selectedRows.size}
-          selectedIds={selectedIds}
-          bulkActions={features.enableSelection ? bulkActions : []}
-          onClearSelection={deselectAll}
-          exportHandler={{
-            onExport: (format: ExportFormat) =>
-              exportData({ format, data, columns, filename: "all-users" }),
-            formats: ["csv", "excel", "pdf", "json"],
-          }}
-          printHandler={printHandler}
-          density={density}
-          onDensityChange={onDensityChange}
-          isGrouped={isGrouped}
-          allGroupsExpanded={allGroupsExpanded}
-          onToggleAllGroups={handleToggleAllGroups}
-          showGroupingPills={isGrouped}
-          frozenLeftCount={pinnedLeftColumns.length}
-          frozenRightCount={pinnedRightColumns.length}
-          onUnfreezeAll={resetColumnPins}
-        />
-      </StickyZone>
-
+    <>
       <DataTableInner
+        toolbarProps={{
+          title: 'Users',
+          searchable: true,
+          bulkActions: features.enableSelection ? bulkActions : [],
+          exportHandler: {
+            onExport: (format: ExportFormat) =>
+              exportData({ format, data, columns, filename: 'all-users' }),
+            formats: ['csv', 'excel', 'pdf', 'json'],
+          },
+          printHandler,
+          density,
+          onDensityChange,
+          isGrouped,
+          allGroupsExpanded,
+          onToggleAllGroups: handleToggleAllGroups,
+          showGroupingPills: isGrouped,
+        }}
         data={data}
         isLoading={false}
         bulkActions={features.enableSelection ? bulkActions : []}
         renderExpandedRow={
-          features.enableExpansion
-            ? (row) => <ExpandedRowContent row={row} />
-            : undefined
+          features.enableExpansion ? (row) => <ExpandedRowContent row={row} /> : undefined
         }
         getRowCanExpand={features.enableExpansion ? () => true : undefined}
-        onRowContextMenu={
-          features.enableContextMenu ? handleRowContextMenu : undefined
-        }
+        onRowContextMenu={features.enableContextMenu ? handleRowContextMenu : undefined}
         density={density}
         virtualize={false}
+        className={DEMO_TABLE_CLASS_NAME}
         emptyMessage="No users found"
         emptyIcon="person_off"
         inlineEditing={inlineEditing}
         cellSelectionEnabled={features.enableCellSelection}
         getCellSelectionContext={
-          features.enableCellSelection
-            ? cellSelection.getCellSelectionContext
-            : undefined
+          features.enableCellSelection ? cellSelection.getCellSelectionContext : undefined
         }
-        onCellClick={
-          features.enableCellSelection
-            ? cellSelection.handleCellClick
-            : undefined
-        }
-        onCellKeyDown={
-          features.enableCellSelection ? handleCellKeyDown : undefined
-        }
+        onCellClick={features.enableCellSelection ? cellSelection.handleCellClick : undefined}
+        onCellKeyDown={features.enableCellSelection ? handleCellKeyDown : undefined}
         reorderableRows={features.enableRowReorder}
         onRowReorder={handleRowReorder}
       />
@@ -401,7 +348,7 @@ function UsersTable({
           selectedIds={selectedIds}
         />
       )}
-    </DataTableLayout>
+    </>
   );
 }
 
@@ -430,24 +377,13 @@ function ProductsTable({
   density,
   onDensityChange,
 }: ProductsTableProps) {
-  const { selectedRows, deselectAll } = useSelection();
+  const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
-  const {
-    isGrouped,
-    groupByArray,
-    expandedGroups,
-    expandAllGroups,
-    collapseAllGroups,
-  } = useGrouping();
-  const { pinnedLeftColumns, pinnedRightColumns, resetColumnPins } =
-    useColumns<Product>();
-  const { menuState, handleRowContextMenu, closeMenu } =
-    useRowContextMenu<Product>();
+  const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
+    useGrouping();
+  const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<Product>();
 
-  const columnKeys = useMemo(
-    () => columns.map((col) => String(col.key)),
-    [columns]
-  );
+  const columnKeys = useMemo(() => columns.map((col) => String(col.key)), [columns]);
 
   const cellSelection = useCellSelection<Product>({
     data,
@@ -459,23 +395,23 @@ function ProductsTable({
     if (cellSelection.state.selectedCells.size === 0) return;
     const values = cellSelection.getSelectedValues((rowId, columnKey) => {
       const row = data.find((r) => r.id === rowId);
-      if (!row) return "";
-      return String(getNestedValue(row, columnKey) ?? "");
+      if (!row) return '';
+      return String(getNestedValue(row, columnKey) ?? '');
     });
-    const tsv = values.map((row) => row.join("\t")).join("\n");
+    const tsv = values.map((row) => row.join('\t')).join('\n');
     await navigator.clipboard.writeText(tsv);
   }, [cellSelection, data]);
 
   const handleCellKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
         event.preventDefault();
         handleCopySelectedCells();
         return;
       }
       cellSelection.handleCellKeyDown(event);
     },
-    [cellSelection, handleCopySelectedCells]
+    [cellSelection, handleCopySelectedCells],
   );
 
   const { print, printSelected, isPrinting } = usePrint<Product>({
@@ -483,8 +419,8 @@ function ProductsTable({
     columns,
     selectedIds: selectedRows,
     defaultOptions: {
-      title: "Products Report",
-      orientation: "landscape",
+      title: 'Products Report',
+      orientation: 'landscape',
       includeTimestamp: true,
     },
   });
@@ -492,45 +428,36 @@ function ProductsTable({
   const printHandler: PrintHandler = useMemo(
     () => ({
       onPrint: () => print(),
-      onPrintSelected:
-        selectedRows.size > 0 ? () => printSelected() : undefined,
+      onPrintSelected: selectedRows.size > 0 ? () => printSelected() : undefined,
       isPrinting,
     }),
-    [print, printSelected, isPrinting, selectedRows.size]
+    [print, printSelected, isPrinting, selectedRows.size],
   );
 
   const inlineEditing = useInlineEditingWithFeedback<Product>({
     data,
-    onCellChange: async (
-      rowId: string,
-      columnKey: string,
-      newValue: unknown
-    ) => {
+    onCellChange: async (rowId: string, columnKey: string, newValue: unknown) => {
       await new Promise((resolve) => setTimeout(resolve, 300));
       // Convert numeric column values from string to number
-      const numericColumns = ["price", "cost", "quantity", "weight"];
-      const processedValue = numericColumns.includes(columnKey)
-        ? Number(newValue)
-        : newValue;
+      const numericColumns = ['price', 'cost', 'quantity', 'weight'];
+      const processedValue = numericColumns.includes(columnKey) ? Number(newValue) : newValue;
       setData((prev) =>
-        prev.map((row) =>
-          row.id === rowId ? { ...row, [columnKey]: processedValue } : row
-        )
+        prev.map((row) => (row.id === rowId ? { ...row, [columnKey]: processedValue } : row)),
       );
     },
     validateCell: (_rowId: string, columnKey: string, value: unknown) => {
-      if (columnKey === "price") {
+      if (columnKey === 'price') {
         const strValue = String(value).trim();
         const numValue = Number(strValue);
-        if (strValue === "" || isNaN(numValue) || numValue < 0) {
-          return "Price must be a positive number";
+        if (strValue === '' || isNaN(numValue) || numValue < 0) {
+          return 'Price must be a positive number';
         }
       }
-      if (columnKey === "quantity") {
+      if (columnKey === 'quantity') {
         const strValue = String(value).trim();
         const numValue = Number(strValue);
-        if (strValue === "" || isNaN(numValue) || numValue < 0) {
-          return "Quantity must be a positive number";
+        if (strValue === '' || isNaN(numValue) || numValue < 0) {
+          return 'Quantity must be a positive number';
         }
       }
       return null;
@@ -540,42 +467,38 @@ function ProductsTable({
   const bulkActions: BulkAction[] = useMemo(
     () => [
       {
-        label: "Export",
-        icon: "download",
+        label: 'Export',
+        icon: 'download',
         onClick: (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
           exportData({
-            format: "csv",
+            format: 'csv',
             data: selected,
             columns,
-            filename: "selected-products",
+            filename: 'selected-products',
           });
         },
       },
       {
-        label: "Activate",
-        icon: "check_circle",
+        label: 'Activate',
+        icon: 'check_circle',
         onClick: (ids) =>
           setData((prev) =>
-            prev.map((row) =>
-              ids.includes(row.id) ? { ...row, status: "active" } : row
-            )
+            prev.map((row) => (ids.includes(row.id) ? { ...row, status: 'active' } : row)),
           ),
       },
       {
-        label: "Archive",
-        icon: "archive",
+        label: 'Archive',
+        icon: 'archive',
         onClick: (ids) =>
           setData((prev) =>
-            prev.map((row) =>
-              ids.includes(row.id) ? { ...row, status: "archived" } : row
-            )
+            prev.map((row) => (ids.includes(row.id) ? { ...row, status: 'archived' } : row)),
           ),
       },
       {
-        label: "Delete",
-        icon: "delete",
-        variant: "danger",
+        label: 'Delete',
+        icon: 'delete',
+        variant: 'danger',
         onClick: (ids) => {
           if (confirm(`Delete ${ids.length} products?`)) {
             setData((prev) => prev.filter((row) => !ids.includes(row.id)));
@@ -583,7 +506,7 @@ function ProductsTable({
         },
       },
     ],
-    [columns, data, setData]
+    [columns, data, setData],
   );
 
   const contextMenuItems: RowContextMenuItemOrSeparator<Product>[] = useMemo(
@@ -601,30 +524,24 @@ function ProductsTable({
         },
         (product) =>
           setData((prev) =>
-            prev.map((r) =>
-              r.id === product.id ? { ...r, status: "archived" } : r
-            )
+            prev.map((r) => (r.id === product.id ? { ...r, status: 'archived' } : r)),
           ),
-        (product) => setData((prev) => prev.filter((r) => r.id !== product.id))
+        (product) => setData((prev) => prev.filter((r) => r.id !== product.id)),
       ),
-    [setData]
+    [setData],
   );
 
   const groupIds = useMemo(() => {
     if (!isGrouped || groupByArray.length === 0) return [];
     const allGroupIds = new Set<string>();
-    const buildGroupIds = (
-      rows: Product[],
-      keys: string[],
-      parentId: string | null
-    ) => {
+    const buildGroupIds = (rows: Product[], keys: string[], parentId: string | null) => {
       if (keys.length === 0 || rows.length === 0) return;
       const currentKey = keys[0]!;
       const remainingKeys = keys.slice(1);
       const groupMap = new Map<string, Product[]>();
       for (const row of rows) {
         const value = row[currentKey as keyof Product];
-        const valueKey = String(value ?? "__null__");
+        const valueKey = String(value ?? '__null__');
         if (!groupMap.has(valueKey)) groupMap.set(valueKey, []);
         groupMap.get(valueKey)!.push(row);
       }
@@ -654,70 +571,49 @@ function ProductsTable({
         return newData;
       });
     },
-    [setData]
+    [setData],
   );
 
   return (
-    <DataTableLayout>
-      <StickyZone>
-        <DataTableToolbar
-          title="Products"
-          totalItems={data.length}
-          searchable
-          selectedCount={selectedRows.size}
-          selectedIds={selectedIds}
-          bulkActions={features.enableSelection ? bulkActions : []}
-          onClearSelection={deselectAll}
-          exportHandler={{
-            onExport: (format: ExportFormat) =>
-              exportData({ format, data, columns, filename: "all-products" }),
-            formats: ["csv", "excel", "pdf", "json"],
-          }}
-          printHandler={printHandler}
-          density={density}
-          onDensityChange={onDensityChange}
-          isGrouped={isGrouped}
-          allGroupsExpanded={allGroupsExpanded}
-          onToggleAllGroups={handleToggleAllGroups}
-          showGroupingPills={isGrouped}
-          frozenLeftCount={pinnedLeftColumns.length}
-          frozenRightCount={pinnedRightColumns.length}
-          onUnfreezeAll={resetColumnPins}
-        />
-      </StickyZone>
-
+    <>
       <DataTableInner
+        toolbarProps={{
+          title: 'Products',
+          searchable: true,
+          bulkActions: features.enableSelection ? bulkActions : [],
+          exportHandler: {
+            onExport: (format: ExportFormat) =>
+              exportData({ format, data, columns, filename: 'all-products' }),
+            formats: ['csv', 'excel', 'pdf', 'json'],
+          },
+          printHandler,
+          density,
+          onDensityChange,
+          isGrouped,
+          allGroupsExpanded,
+          onToggleAllGroups: handleToggleAllGroups,
+          showGroupingPills: isGrouped,
+        }}
         data={data}
         isLoading={false}
         bulkActions={features.enableSelection ? bulkActions : []}
         renderExpandedRow={
-          features.enableExpansion
-            ? (row) => <ProductExpandedRow row={row} />
-            : undefined
+          features.enableExpansion ? (row) => <ProductExpandedRow row={row} /> : undefined
         }
         getRowCanExpand={features.enableExpansion ? () => true : undefined}
-        onRowContextMenu={
-          features.enableContextMenu ? handleRowContextMenu : undefined
-        }
+        onRowContextMenu={features.enableContextMenu ? handleRowContextMenu : undefined}
         density={density}
         virtualize={false}
+        className={DEMO_TABLE_CLASS_NAME}
         emptyMessage="No products found"
         emptyIcon="inventory_2"
         inlineEditing={inlineEditing}
         cellSelectionEnabled={features.enableCellSelection}
         getCellSelectionContext={
-          features.enableCellSelection
-            ? cellSelection.getCellSelectionContext
-            : undefined
+          features.enableCellSelection ? cellSelection.getCellSelectionContext : undefined
         }
-        onCellClick={
-          features.enableCellSelection
-            ? cellSelection.handleCellClick
-            : undefined
-        }
-        onCellKeyDown={
-          features.enableCellSelection ? handleCellKeyDown : undefined
-        }
+        onCellClick={features.enableCellSelection ? cellSelection.handleCellClick : undefined}
+        onCellKeyDown={features.enableCellSelection ? handleCellKeyDown : undefined}
         reorderableRows={features.enableRowReorder}
         onRowReorder={handleRowReorder}
       />
@@ -730,7 +626,7 @@ function ProductsTable({
           selectedIds={selectedIds}
         />
       )}
-    </DataTableLayout>
+    </>
   );
 }
 
@@ -759,24 +655,13 @@ function InventoryTable({
   density,
   onDensityChange,
 }: InventoryTableProps) {
-  const { selectedRows, deselectAll } = useSelection();
+  const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
-  const {
-    isGrouped,
-    groupByArray,
-    expandedGroups,
-    expandAllGroups,
-    collapseAllGroups,
-  } = useGrouping();
-  const { pinnedLeftColumns, pinnedRightColumns, resetColumnPins } =
-    useColumns<InventoryItem>();
-  const { menuState, handleRowContextMenu, closeMenu } =
-    useRowContextMenu<InventoryItem>();
+  const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
+    useGrouping();
+  const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<InventoryItem>();
 
-  const columnKeys = useMemo(
-    () => columns.map((col) => String(col.key)),
-    [columns]
-  );
+  const columnKeys = useMemo(() => columns.map((col) => String(col.key)), [columns]);
 
   const cellSelection = useCellSelection<InventoryItem>({
     data,
@@ -788,23 +673,23 @@ function InventoryTable({
     if (cellSelection.state.selectedCells.size === 0) return;
     const values = cellSelection.getSelectedValues((rowId, columnKey) => {
       const row = data.find((r) => r.id === rowId);
-      if (!row) return "";
-      return String(getNestedValue(row, columnKey) ?? "");
+      if (!row) return '';
+      return String(getNestedValue(row, columnKey) ?? '');
     });
-    const tsv = values.map((row) => row.join("\t")).join("\n");
+    const tsv = values.map((row) => row.join('\t')).join('\n');
     await navigator.clipboard.writeText(tsv);
   }, [cellSelection, data]);
 
   const handleCellKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
         event.preventDefault();
         handleCopySelectedCells();
         return;
       }
       cellSelection.handleCellKeyDown(event);
     },
-    [cellSelection, handleCopySelectedCells]
+    [cellSelection, handleCopySelectedCells],
   );
 
   const { print, printSelected, isPrinting } = usePrint<InventoryItem>({
@@ -812,8 +697,8 @@ function InventoryTable({
     columns,
     selectedIds: selectedRows,
     defaultOptions: {
-      title: "Inventory Report",
-      orientation: "landscape",
+      title: 'Inventory Report',
+      orientation: 'landscape',
       includeTimestamp: true,
     },
   });
@@ -821,51 +706,42 @@ function InventoryTable({
   const printHandler: PrintHandler = useMemo(
     () => ({
       onPrint: () => print(),
-      onPrintSelected:
-        selectedRows.size > 0 ? () => printSelected() : undefined,
+      onPrintSelected: selectedRows.size > 0 ? () => printSelected() : undefined,
       isPrinting,
     }),
-    [print, printSelected, isPrinting, selectedRows.size]
+    [print, printSelected, isPrinting, selectedRows.size],
   );
 
   const inlineEditing = useInlineEditingWithFeedback<InventoryItem>({
     data,
-    onCellChange: async (
-      rowId: string,
-      columnKey: string,
-      newValue: unknown
-    ) => {
+    onCellChange: async (rowId: string, columnKey: string, newValue: unknown) => {
       await new Promise((resolve) => setTimeout(resolve, 300));
       // Convert numeric column values from string to number
       const numericColumns = [
-        "costPrice",
-        "sellingPrice",
-        "currentStock",
-        "reorderLevel",
-        "weight",
+        'costPrice',
+        'sellingPrice',
+        'currentStock',
+        'reorderLevel',
+        'weight',
       ];
-      const processedValue = numericColumns.includes(columnKey)
-        ? Number(newValue)
-        : newValue;
+      const processedValue = numericColumns.includes(columnKey) ? Number(newValue) : newValue;
       setData((prev) =>
-        prev.map((row) =>
-          row.id === rowId ? { ...row, [columnKey]: processedValue } : row
-        )
+        prev.map((row) => (row.id === rowId ? { ...row, [columnKey]: processedValue } : row)),
       );
     },
     validateCell: (_rowId: string, columnKey: string, value: unknown) => {
-      if (columnKey === "costPrice") {
+      if (columnKey === 'costPrice') {
         const strValue = String(value).trim();
         const numValue = Number(strValue);
-        if (strValue === "" || isNaN(numValue) || numValue < 0) {
-          return "Cost price must be a positive number";
+        if (strValue === '' || isNaN(numValue) || numValue < 0) {
+          return 'Cost price must be a positive number';
         }
       }
-      if (columnKey === "sellingPrice") {
+      if (columnKey === 'sellingPrice') {
         const strValue = String(value).trim();
         const numValue = Number(strValue);
-        if (strValue === "" || isNaN(numValue) || numValue < 0) {
-          return "Selling price must be a positive number";
+        if (strValue === '' || isNaN(numValue) || numValue < 0) {
+          return 'Selling price must be a positive number';
         }
       }
       return null;
@@ -875,40 +751,37 @@ function InventoryTable({
   const bulkActions: BulkAction[] = useMemo(
     () => [
       {
-        label: "Export",
-        icon: "download",
+        label: 'Export',
+        icon: 'download',
         onClick: (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
           exportData({
-            format: "csv",
+            format: 'csv',
             data: selected,
             columns,
-            filename: "selected-inventory",
+            filename: 'selected-inventory',
           });
         },
       },
       {
-        label: "Mark Low Stock",
-        icon: "warning",
+        label: 'Mark Low Stock',
+        icon: 'warning',
         onClick: (ids) =>
           setData((prev) =>
             prev.map((row) =>
-              ids.includes(row.id)
-                ? { ...row, status: "low_stock" as const }
-                : row
-            )
+              ids.includes(row.id) ? { ...row, status: 'low_stock' as const } : row,
+            ),
           ),
       },
       {
-        label: "Create PO",
-        icon: "add_shopping_cart",
-        onClick: (ids) =>
-          alert(`Creating purchase order for ${ids.length} items...`),
+        label: 'Create PO',
+        icon: 'add_shopping_cart',
+        onClick: (ids) => alert(`Creating purchase order for ${ids.length} items...`),
       },
       {
-        label: "Delete",
-        icon: "delete",
-        variant: "danger",
+        label: 'Delete',
+        icon: 'delete',
+        variant: 'danger',
         onClick: (ids) => {
           if (confirm(`Delete ${ids.length} inventory items?`)) {
             setData((prev) => prev.filter((row) => !ids.includes(row.id)));
@@ -916,37 +789,32 @@ function InventoryTable({
         },
       },
     ],
-    [data, setData, columns]
+    [data, setData, columns],
   );
 
-  const contextMenuItems: RowContextMenuItemOrSeparator<InventoryItem>[] =
-    useMemo(
-      () =>
-        createInventoryActionItems(
-          (item) => alert(`Editing ${item.name}`),
-          (item) => alert(`Creating restock order for ${item.name}`),
-          (item) => alert(`Adjusting stock for ${item.name}`),
-          (item) => alert(`Viewing history for ${item.name}`),
-          (item) => setData((prev) => prev.filter((r) => r.id !== item.id))
-        ),
-      [setData]
-    );
+  const contextMenuItems: RowContextMenuItemOrSeparator<InventoryItem>[] = useMemo(
+    () =>
+      createInventoryActionItems(
+        (item) => alert(`Editing ${item.name}`),
+        (item) => alert(`Creating restock order for ${item.name}`),
+        (item) => alert(`Adjusting stock for ${item.name}`),
+        (item) => alert(`Viewing history for ${item.name}`),
+        (item) => setData((prev) => prev.filter((r) => r.id !== item.id)),
+      ),
+    [setData],
+  );
 
   const groupIds = useMemo(() => {
     if (!isGrouped || groupByArray.length === 0) return [];
     const allGroupIds = new Set<string>();
-    const buildGroupIds = (
-      rows: InventoryItem[],
-      keys: string[],
-      parentId: string | null
-    ) => {
+    const buildGroupIds = (rows: InventoryItem[], keys: string[], parentId: string | null) => {
       if (keys.length === 0 || rows.length === 0) return;
       const currentKey = keys[0]!;
       const remainingKeys = keys.slice(1);
       const groupMap = new Map<string, InventoryItem[]>();
       for (const row of rows) {
         const value = row[currentKey as keyof InventoryItem];
-        const valueKey = String(value ?? "__null__");
+        const valueKey = String(value ?? '__null__');
         if (!groupMap.has(valueKey)) groupMap.set(valueKey, []);
         groupMap.get(valueKey)!.push(row);
       }
@@ -976,75 +844,54 @@ function InventoryTable({
         return newData;
       });
     },
-    [setData]
+    [setData],
   );
 
   return (
-    <DataTableLayout>
-      <StickyZone>
-        <DataTableToolbar
-          title="Inventory"
-          totalItems={data.length}
-          searchable
-          selectedCount={selectedRows.size}
-          selectedIds={selectedIds}
-          bulkActions={features.enableSelection ? bulkActions : []}
-          onClearSelection={deselectAll}
-          exportHandler={{
+    <>
+      <DataTableInner
+        toolbarProps={{
+          title: 'Inventory',
+          searchable: true,
+          bulkActions: features.enableSelection ? bulkActions : [],
+          exportHandler: {
             onExport: (format: ExportFormat) =>
               exportData({
                 format,
                 data,
                 columns,
-                filename: "inventory-export",
+                filename: 'inventory-export',
               }),
-            formats: ["csv", "excel", "pdf", "json"],
-          }}
-          printHandler={printHandler}
-          density={density}
-          onDensityChange={onDensityChange}
-          isGrouped={isGrouped}
-          allGroupsExpanded={allGroupsExpanded}
-          onToggleAllGroups={handleToggleAllGroups}
-          showGroupingPills={isGrouped}
-          frozenLeftCount={pinnedLeftColumns.length}
-          frozenRightCount={pinnedRightColumns.length}
-          onUnfreezeAll={resetColumnPins}
-        />
-      </StickyZone>
-
-      <DataTableInner
+            formats: ['csv', 'excel', 'pdf', 'json'],
+          },
+          printHandler,
+          density,
+          onDensityChange,
+          isGrouped,
+          allGroupsExpanded,
+          onToggleAllGroups: handleToggleAllGroups,
+          showGroupingPills: isGrouped,
+        }}
         data={data}
         isLoading={false}
         bulkActions={features.enableSelection ? bulkActions : []}
         renderExpandedRow={
-          features.enableExpansion
-            ? (row) => <InventoryExpandedRow row={row} />
-            : undefined
+          features.enableExpansion ? (row) => <InventoryExpandedRow row={row} /> : undefined
         }
         getRowCanExpand={features.enableExpansion ? () => true : undefined}
-        onRowContextMenu={
-          features.enableContextMenu ? handleRowContextMenu : undefined
-        }
+        onRowContextMenu={features.enableContextMenu ? handleRowContextMenu : undefined}
         density={density}
         virtualize={false}
+        className={DEMO_TABLE_CLASS_NAME}
         emptyMessage="No inventory items found"
         emptyIcon="inventory_2"
         inlineEditing={inlineEditing}
         cellSelectionEnabled={features.enableCellSelection}
         getCellSelectionContext={
-          features.enableCellSelection
-            ? cellSelection.getCellSelectionContext
-            : undefined
+          features.enableCellSelection ? cellSelection.getCellSelectionContext : undefined
         }
-        onCellClick={
-          features.enableCellSelection
-            ? cellSelection.handleCellClick
-            : undefined
-        }
-        onCellKeyDown={
-          features.enableCellSelection ? handleCellKeyDown : undefined
-        }
+        onCellClick={features.enableCellSelection ? cellSelection.handleCellClick : undefined}
+        onCellKeyDown={features.enableCellSelection ? handleCellKeyDown : undefined}
         reorderableRows={features.enableRowReorder}
         onRowReorder={handleRowReorder}
       />
@@ -1057,7 +904,7 @@ function InventoryTable({
           selectedIds={selectedIds}
         />
       )}
-    </DataTableLayout>
+    </>
   );
 }
 
@@ -1086,24 +933,13 @@ function FinancialTable({
   density,
   onDensityChange,
 }: FinancialTableProps) {
-  const { selectedRows, deselectAll } = useSelection();
+  const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
-  const {
-    isGrouped,
-    groupByArray,
-    expandedGroups,
-    expandAllGroups,
-    collapseAllGroups,
-  } = useGrouping();
-  const { pinnedLeftColumns, pinnedRightColumns, resetColumnPins } =
-    useColumns<Transaction>();
-  const { menuState, handleRowContextMenu, closeMenu } =
-    useRowContextMenu<Transaction>();
+  const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
+    useGrouping();
+  const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<Transaction>();
 
-  const columnKeys = useMemo(
-    () => columns.map((col) => String(col.key)),
-    [columns]
-  );
+  const columnKeys = useMemo(() => columns.map((col) => String(col.key)), [columns]);
 
   const cellSelection = useCellSelection<Transaction>({
     data,
@@ -1115,30 +951,27 @@ function FinancialTable({
     if (cellSelection.state.selectedCells.size === 0) return;
     const values = cellSelection.getSelectedValues((rowId, columnKey) => {
       const row = data.find((r) => r.id === rowId);
-      if (!row) return "";
-      return String(getNestedValue(row, columnKey) ?? "");
+      if (!row) return '';
+      return String(getNestedValue(row, columnKey) ?? '');
     });
-    const tsv = values.map((row) => row.join("\t")).join("\n");
+    const tsv = values.map((row) => row.join('\t')).join('\n');
     await navigator.clipboard.writeText(tsv);
   }, [cellSelection, data]);
 
   const handleCellKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       // Let undo/redo pass through to inlineEditing handler
-      if (
-        (event.ctrlKey || event.metaKey) &&
-        (event.key === "z" || event.key === "y")
-      ) {
+      if ((event.ctrlKey || event.metaKey) && (event.key === 'z' || event.key === 'y')) {
         return;
       }
-      if ((event.ctrlKey || event.metaKey) && event.key === "c") {
+      if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
         event.preventDefault();
         handleCopySelectedCells();
         return;
       }
       cellSelection.handleCellKeyDown(event);
     },
-    [cellSelection, handleCopySelectedCells]
+    [cellSelection, handleCopySelectedCells],
   );
 
   const { print, printSelected, isPrinting } = usePrint<Transaction>({
@@ -1146,8 +979,8 @@ function FinancialTable({
     columns,
     selectedIds: selectedRows,
     defaultOptions: {
-      title: "Financial Report",
-      orientation: "landscape",
+      title: 'Financial Report',
+      orientation: 'landscape',
       includeTimestamp: true,
     },
   });
@@ -1155,11 +988,10 @@ function FinancialTable({
   const printHandler: PrintHandler = useMemo(
     () => ({
       onPrint: () => print(),
-      onPrintSelected:
-        selectedRows.size > 0 ? () => printSelected() : undefined,
+      onPrintSelected: selectedRows.size > 0 ? () => printSelected() : undefined,
       isPrinting,
     }),
-    [print, printSelected, isPrinting, selectedRows.size]
+    [print, printSelected, isPrinting, selectedRows.size],
   );
 
   // ─── INLINE EDITING WITH UNDO/REDO ───────────────────────────────────────────
@@ -1168,29 +1000,21 @@ function FinancialTable({
     onCellChange: async (rowId, columnKey, newValue) => {
       await new Promise((resolve) => setTimeout(resolve, 200));
       // Convert numeric column values from string to number
-      const numericColumns = ["amount"];
-      const processedValue = numericColumns.includes(columnKey)
-        ? Number(newValue)
-        : newValue;
+      const numericColumns = ['amount'];
+      const processedValue = numericColumns.includes(columnKey) ? Number(newValue) : newValue;
       setData((prev) =>
-        prev.map((row) =>
-          row.id === rowId ? { ...row, [columnKey]: processedValue } : row
-        )
+        prev.map((row) => (row.id === rowId ? { ...row, [columnKey]: processedValue } : row)),
       );
     },
     validateCell: (_rowId, columnKey, value) => {
-      if (columnKey === "amount") {
+      if (columnKey === 'amount') {
         const strValue = String(value).trim();
-        if (strValue === "" || isNaN(Number(strValue))) {
-          return "Amount must be a valid number";
+        if (strValue === '' || isNaN(Number(strValue))) {
+          return 'Amount must be a valid number';
         }
       }
-      if (
-        columnKey === "description" &&
-        typeof value === "string" &&
-        value.length < 3
-      ) {
-        return "Description must be at least 3 characters";
+      if (columnKey === 'description' && typeof value === 'string' && value.length < 3) {
+        return 'Description must be at least 3 characters';
       }
       return null;
     },
@@ -1200,46 +1024,42 @@ function FinancialTable({
   const bulkActions: BulkAction[] = useMemo(
     () => [
       {
-        label: "Export",
-        icon: "download",
+        label: 'Export',
+        icon: 'download',
         onClick: (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
           exportData({
-            format: "csv",
+            format: 'csv',
             data: selected,
             columns,
-            filename: "selected-transactions",
+            filename: 'selected-transactions',
           });
         },
       },
       {
-        label: "Mark Completed",
-        icon: "check_circle",
+        label: 'Mark Completed',
+        icon: 'check_circle',
         onClick: (ids) =>
           setData((prev) =>
             prev.map((row) =>
-              ids.includes(row.id)
-                ? { ...row, status: "completed" as const }
-                : row
-            )
+              ids.includes(row.id) ? { ...row, status: 'completed' as const } : row,
+            ),
           ),
       },
       {
-        label: "Mark Refunded",
-        icon: "undo",
+        label: 'Mark Refunded',
+        icon: 'undo',
         onClick: (ids) =>
           setData((prev) =>
             prev.map((row) =>
-              ids.includes(row.id)
-                ? { ...row, status: "refunded" as const }
-                : row
-            )
+              ids.includes(row.id) ? { ...row, status: 'refunded' as const } : row,
+            ),
           ),
       },
       {
-        label: "Delete",
-        icon: "delete",
-        variant: "danger",
+        label: 'Delete',
+        icon: 'delete',
+        variant: 'danger',
         onClick: (ids) => {
           if (confirm(`Delete ${ids.length} transactions?`)) {
             setData((prev) => prev.filter((row) => !ids.includes(row.id)));
@@ -1247,48 +1067,41 @@ function FinancialTable({
         },
       },
     ],
-    [data, setData, columns]
+    [data, setData, columns],
   );
 
-  const contextMenuItems: RowContextMenuItemOrSeparator<Transaction>[] =
-    useMemo(
-      () =>
-        createTransactionActionItems(
-          (txn) => alert(`Viewing ${txn.reference}`),
-          (txn) => {
-            const newTxn = {
-              ...txn,
-              id: `txn-${Date.now()}`,
-              reference: `${txn.reference}-COPY`,
-            };
-            setData((prev) => [newTxn, ...prev]);
-          },
-          (txn) =>
-            setData((prev) =>
-              prev.map((r) =>
-                r.id === txn.id ? { ...r, status: "refunded" as const } : r
-              )
-            ),
-          (txn) => setData((prev) => prev.filter((r) => r.id !== txn.id))
-        ),
-      [setData]
-    );
+  const contextMenuItems: RowContextMenuItemOrSeparator<Transaction>[] = useMemo(
+    () =>
+      createTransactionActionItems(
+        (txn) => alert(`Viewing ${txn.reference}`),
+        (txn) => {
+          const newTxn = {
+            ...txn,
+            id: `txn-${Date.now()}`,
+            reference: `${txn.reference}-COPY`,
+          };
+          setData((prev) => [newTxn, ...prev]);
+        },
+        (txn) =>
+          setData((prev) =>
+            prev.map((r) => (r.id === txn.id ? { ...r, status: 'refunded' as const } : r)),
+          ),
+        (txn) => setData((prev) => prev.filter((r) => r.id !== txn.id)),
+      ),
+    [setData],
+  );
 
   const groupIds = useMemo(() => {
     if (!isGrouped || groupByArray.length === 0) return [];
     const allGroupIds = new Set<string>();
-    const buildGroupIds = (
-      rows: Transaction[],
-      keys: string[],
-      parentId: string | null
-    ) => {
+    const buildGroupIds = (rows: Transaction[], keys: string[], parentId: string | null) => {
       if (keys.length === 0 || rows.length === 0) return;
       const currentKey = keys[0]!;
       const remainingKeys = keys.slice(1);
       const groupMap = new Map<string, Transaction[]>();
       for (const row of rows) {
         const value = row[currentKey as keyof Transaction];
-        const valueKey = String(value ?? "__null__");
+        const valueKey = String(value ?? '__null__');
         if (!groupMap.has(valueKey)) groupMap.set(valueKey, []);
         groupMap.get(valueKey)!.push(row);
       }
@@ -1318,116 +1131,91 @@ function FinancialTable({
         return newData;
       });
     },
-    [setData]
+    [setData],
   );
 
   // Undo/Redo controls for toolbar left section
   const undoRedoContent = (
     <div className="flex items-center gap-1">
-      <Tooltip
-        label={`Undo${inlineEditing.undoCount > 0 ? ` (${inlineEditing.undoCount})` : ""}`}
-      >
+      <Tooltip label={`Undo${inlineEditing.undoCount > 0 ? ` (${inlineEditing.undoCount})` : ''}`}>
         <button
           type="button"
           onClick={() => inlineEditing.undo()}
           disabled={!inlineEditing.canUndo}
           className={cn(
-            "inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors",
-            "text-on-surface-variant hover:bg-state-hover active:bg-state-pressed",
-            "disabled:opacity-40 disabled:pointer-events-none"
+            'inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors',
+            'text-on-surface-variant hover:bg-state-hover active:bg-state-pressed',
+            'disabled:pointer-events-none disabled:opacity-40',
           )}
           aria-label="Undo"
         >
-          <Icon symbol="undo" className="w-5 h-5" />
+          <Icon symbol="undo" className="h-5 w-5" />
         </button>
       </Tooltip>
-      <Tooltip
-        label={`Redo${inlineEditing.redoCount > 0 ? ` (${inlineEditing.redoCount})` : ""}`}
-      >
+      <Tooltip label={`Redo${inlineEditing.redoCount > 0 ? ` (${inlineEditing.redoCount})` : ''}`}>
         <button
           type="button"
           onClick={() => inlineEditing.redo()}
           disabled={!inlineEditing.canRedo}
           className={cn(
-            "inline-flex items-center justify-center w-8 h-8 rounded-full transition-colors",
-            "text-on-surface-variant hover:bg-state-hover active:bg-state-pressed",
-            "disabled:opacity-40 disabled:pointer-events-none"
+            'inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors',
+            'text-on-surface-variant hover:bg-state-hover active:bg-state-pressed',
+            'disabled:pointer-events-none disabled:opacity-40',
           )}
           aria-label="Redo"
         >
-          <Icon symbol="redo" className="w-5 h-5" />
+          <Icon symbol="redo" className="h-5 w-5" />
         </button>
       </Tooltip>
     </div>
   );
 
   return (
-    <DataTableLayout>
-      <StickyZone>
-        <DataTableToolbar
-          title="Financial Transactions"
-          totalItems={data.length}
-          searchable
-          selectedCount={selectedRows.size}
-          selectedIds={selectedIds}
-          bulkActions={features.enableSelection ? bulkActions : []}
-          onClearSelection={deselectAll}
-          exportHandler={{
+    <>
+      <DataTableInner
+        toolbarProps={{
+          title: 'Financial Transactions',
+          searchable: true,
+          bulkActions: features.enableSelection ? bulkActions : [],
+          exportHandler: {
             onExport: (format: ExportFormat) =>
               exportData({
                 format,
                 data,
                 columns,
-                filename: "financial-transactions",
+                filename: 'financial-transactions',
               }),
-            formats: ["csv", "excel", "pdf", "json"],
-          }}
-          printHandler={printHandler}
-          density={density}
-          onDensityChange={onDensityChange}
-          isGrouped={isGrouped}
-          allGroupsExpanded={allGroupsExpanded}
-          onToggleAllGroups={handleToggleAllGroups}
-          showGroupingPills={isGrouped}
-          frozenLeftCount={pinnedLeftColumns.length}
-          frozenRightCount={pinnedRightColumns.length}
-          onUnfreezeAll={resetColumnPins}
-          leftContent={undoRedoContent}
-        />
-      </StickyZone>
-
-      <DataTableInner
+            formats: ['csv', 'excel', 'pdf', 'json'],
+          },
+          printHandler,
+          density,
+          onDensityChange,
+          isGrouped,
+          allGroupsExpanded,
+          onToggleAllGroups: handleToggleAllGroups,
+          showGroupingPills: isGrouped,
+          leftContent: undoRedoContent,
+        }}
         data={data}
         isLoading={false}
         bulkActions={features.enableSelection ? bulkActions : []}
         renderExpandedRow={
-          features.enableExpansion
-            ? (row) => <TransactionExpandedRow row={row} />
-            : undefined
+          features.enableExpansion ? (row) => <TransactionExpandedRow row={row} /> : undefined
         }
         getRowCanExpand={features.enableExpansion ? () => true : undefined}
-        onRowContextMenu={
-          features.enableContextMenu ? handleRowContextMenu : undefined
-        }
+        onRowContextMenu={features.enableContextMenu ? handleRowContextMenu : undefined}
         density={density}
         virtualize={false}
+        className={DEMO_TABLE_CLASS_NAME}
         emptyMessage="No transactions found"
         emptyIcon="receipt_long"
         inlineEditing={inlineEditing}
         cellSelectionEnabled={features.enableCellSelection}
         getCellSelectionContext={
-          features.enableCellSelection
-            ? cellSelection.getCellSelectionContext
-            : undefined
+          features.enableCellSelection ? cellSelection.getCellSelectionContext : undefined
         }
-        onCellClick={
-          features.enableCellSelection
-            ? cellSelection.handleCellClick
-            : undefined
-        }
-        onCellKeyDown={
-          features.enableCellSelection ? handleCellKeyDown : undefined
-        }
+        onCellClick={features.enableCellSelection ? cellSelection.handleCellClick : undefined}
+        onCellKeyDown={features.enableCellSelection ? handleCellKeyDown : undefined}
         reorderableRows={features.enableRowReorder}
         onRowReorder={handleRowReorder}
       />
@@ -1440,33 +1228,29 @@ function FinancialTable({
           selectedIds={selectedIds}
         />
       )}
-    </DataTableLayout>
+    </>
   );
 }
 
 // ─── MAIN DEMO PAGE ──────────────────────────────────────────────────────────
 
 export default function DataTableDemoPage() {
-  const [activeTab, setActiveTab] = useState<
-    "users" | "products" | "inventory" | "financial"
-  >("users");
+  const [activeTab, setActiveTab] = useState<'users' | 'products' | 'inventory' | 'financial'>(
+    'users',
+  );
 
   // Users data
   const [usersData, setUsersData] = useState<User[]>(() => generateUsers(150));
 
   // Products data
-  const [productsData, setProductsData] = useState<Product[]>(() =>
-    generateProducts(200)
-  );
+  const [productsData, setProductsData] = useState<Product[]>(() => generateProducts(200));
 
   // Inventory data
-  const [inventoryData, setInventoryData] = useState<InventoryItem[]>(() =>
-    generateInventory(300)
-  );
+  const [inventoryData, setInventoryData] = useState<InventoryItem[]>(() => generateInventory(300));
 
   // Financial data
   const [financialData, setFinancialData] = useState<Transaction[]>(() =>
-    generateTransactions(200)
+    generateTransactions(200),
   );
 
   // ─── Action Dialog State (Best Practice Pattern) ────────────────────────────
@@ -1475,17 +1259,17 @@ export default function DataTableDemoPage() {
   const productActions = useActionDialog<Product>();
 
   // Edit form state for users
-  const [editUserName, setEditUserName] = useState("");
-  const [editUserEmail, setEditUserEmail] = useState("");
+  const [editUserName, setEditUserName] = useState('');
+  const [editUserEmail, setEditUserEmail] = useState('');
 
   // Handlers for user actions
   const handleEditUser = useCallback(
     (user: User) => {
       setEditUserName(user.name);
       setEditUserEmail(user.email);
-      userActions.openDialog("edit", user);
+      userActions.openDialog('edit', user);
     },
-    [userActions]
+    [userActions],
   );
 
   const handleSaveUser = useCallback(() => {
@@ -1494,8 +1278,8 @@ export default function DataTableDemoPage() {
         prev.map((u) =>
           u.id === userActions.selectedRow!.id
             ? { ...u, name: editUserName, email: editUserEmail }
-            : u
-        )
+            : u,
+        ),
       );
       userActions.closeDialog();
     }
@@ -1503,9 +1287,7 @@ export default function DataTableDemoPage() {
 
   const handleDeleteUser = useCallback(() => {
     if (userActions.selectedRow) {
-      setUsersData((prev) =>
-        prev.filter((u) => u.id !== userActions.selectedRow!.id)
-      );
+      setUsersData((prev) => prev.filter((u) => u.id !== userActions.selectedRow!.id));
       userActions.closeDialog();
     }
   }, [userActions]);
@@ -1513,7 +1295,7 @@ export default function DataTableDemoPage() {
   // Create columns with actions for Users
   const usersColumnsWithActions = useMemo(() => {
     const actionsColumn = createUserActionsColumn(handleEditUser, (user) =>
-      userActions.openDialog("delete", user)
+      userActions.openDialog('delete', user),
     );
     return [...userColumns, actionsColumn];
   }, [handleEditUser, userActions]);
@@ -1521,7 +1303,7 @@ export default function DataTableDemoPage() {
   // Create columns with actions for Products
   const productsColumnsWithActions = useMemo(() => {
     const actionsColumn = createProductActionsColumn(
-      (product) => productActions.openDialog("edit", product),
+      (product) => productActions.openDialog('edit', product),
       (product) => {
         const newProduct = {
           ...product,
@@ -1533,11 +1315,9 @@ export default function DataTableDemoPage() {
       },
       (product) =>
         setProductsData((prev) =>
-          prev.map((r) =>
-            r.id === product.id ? { ...r, status: "archived" } : r
-          )
+          prev.map((r) => (r.id === product.id ? { ...r, status: 'archived' } : r)),
         ),
-      (product) => productActions.openDialog("delete", product)
+      (product) => productActions.openDialog('delete', product),
     );
     return [...productColumns, actionsColumn];
   }, [productActions]);
@@ -1549,7 +1329,7 @@ export default function DataTableDemoPage() {
       (item) => alert(`Creating restock order for ${item.name}`),
       (item) => alert(`Adjusting stock for ${item.name}`),
       (item) => alert(`Viewing history for ${item.name}`),
-      (item) => setInventoryData((prev) => prev.filter((r) => r.id !== item.id))
+      (item) => setInventoryData((prev) => prev.filter((r) => r.id !== item.id)),
     );
     return [...inventoryColumns, actionsColumn];
   }, []);
@@ -1568,11 +1348,9 @@ export default function DataTableDemoPage() {
       },
       (txn) =>
         setFinancialData((prev) =>
-          prev.map((r) =>
-            r.id === txn.id ? { ...r, status: "refunded" as const } : r
-          )
+          prev.map((r) => (r.id === txn.id ? { ...r, status: 'refunded' as const } : r)),
         ),
-      (txn) => setFinancialData((prev) => prev.filter((r) => r.id !== txn.id))
+      (txn) => setFinancialData((prev) => prev.filter((r) => r.id !== txn.id)),
     );
     return [...transactionColumns, actionsColumn];
   }, []);
@@ -1592,75 +1370,75 @@ export default function DataTableDemoPage() {
   const [enableCellSelection, setEnableCellSelection] = useState(true);
   const [enableRowReorder, setEnableRowReorder] = useState(true);
   const { density, setDensity } = useResponsiveDensity({
-    defaultDensity: "standard",
-    mobileDensity: "compact",
+    defaultDensity: 'standard',
+    mobileDensity: 'compact',
   });
-  const [localeKey, setLocaleKey] = useState<LocaleKey>("en");
+  const [localeKey, setLocaleKey] = useState<LocaleKey>('en');
 
   const features = useMemo(
     () => [
       {
-        label: "Selection",
+        label: 'Selection',
         checked: enableSelection,
         onChange: setEnableSelection,
       },
       {
-        label: "Expansion",
+        label: 'Expansion',
         checked: enableExpansion,
         onChange: setEnableExpansion,
       },
       {
-        label: "Zebra Stripes",
+        label: 'Zebra Stripes',
         checked: enableZebra,
         onChange: setEnableZebra,
       },
       {
-        label: "Column Borders",
+        label: 'Column Borders',
         checked: enableColumnBorders,
         onChange: setEnableColumnBorders,
       },
       {
-        label: "Resizable Columns",
+        label: 'Resizable Columns',
         checked: enableResizable,
         onChange: setEnableResizable,
       },
       {
-        label: "Pinnable Columns",
+        label: 'Pinnable Columns',
         checked: enablePinnable,
         onChange: setEnablePinnable,
       },
       {
-        label: "Multi-Sort",
+        label: 'Multi-Sort',
         checked: enableMultiSort,
         onChange: setEnableMultiSort,
       },
       {
-        label: "Column Reorder",
+        label: 'Column Reorder',
         checked: enableReorderable,
         onChange: setEnableReorderable,
       },
       {
-        label: "Row Grouping",
+        label: 'Row Grouping',
         checked: enableGrouping,
         onChange: setEnableGrouping,
       },
       {
-        label: "Summary Row",
+        label: 'Summary Row',
         checked: enableSummary,
         onChange: setEnableSummary,
       },
       {
-        label: "Context Menu",
+        label: 'Context Menu',
         checked: enableContextMenu,
         onChange: setEnableContextMenu,
       },
       {
-        label: "Cell Selection",
+        label: 'Cell Selection',
         checked: enableCellSelection,
         onChange: setEnableCellSelection,
       },
       {
-        label: "Row Reorder",
+        label: 'Row Reorder',
         checked: enableRowReorder,
         onChange: setEnableRowReorder,
       },
@@ -1679,7 +1457,7 @@ export default function DataTableDemoPage() {
       enableContextMenu,
       enableCellSelection,
       enableRowReorder,
-    ]
+    ],
   );
 
   const tableFeatures = {
@@ -1693,93 +1471,84 @@ export default function DataTableDemoPage() {
   // Stats for current tab
   const usersStats = useMemo(
     () => [
-      { title: "Total Users", value: usersData.length },
+      { title: 'Total Users', value: usersData.length },
       {
-        title: "Active Users",
-        value: usersData.filter((d) => d.status === "active").length,
+        title: 'Active Users',
+        value: usersData.filter((d) => d.status === 'active').length,
       },
       {
-        title: "Total Salary",
-        value: (
-          usersData.reduce((sum, d) => sum + d.salary, 0) / 1000000
-        ).toFixed(1),
-        prefix: "$",
-        suffix: "M",
+        title: 'Total Salary',
+        value: (usersData.reduce((sum, d) => sum + d.salary, 0) / 1000000).toFixed(1),
+        prefix: '$',
+        suffix: 'M',
       },
     ],
-    [usersData]
+    [usersData],
   );
 
   const productsStats = useMemo(
     () => [
-      { title: "Total Products", value: productsData.length },
+      { title: 'Total Products', value: productsData.length },
       {
-        title: "Active Products",
-        value: productsData.filter((d) => d.status === "active").length,
+        title: 'Active Products',
+        value: productsData.filter((d) => d.status === 'active').length,
       },
       {
-        title: "Total Inventory",
-        value: productsData
-          .reduce((sum, d) => sum + d.quantity, 0)
-          .toLocaleString(),
-        suffix: " units",
+        title: 'Total Inventory',
+        value: productsData.reduce((sum, d) => sum + d.quantity, 0).toLocaleString(),
+        suffix: ' units',
       },
     ],
-    [productsData]
+    [productsData],
   );
 
   const inventoryStats = useMemo(
     () => [
-      { title: "Total Items", value: inventoryData.length },
+      { title: 'Total Items', value: inventoryData.length },
       {
-        title: "Low Stock",
-        value: inventoryData.filter((d) => d.status === "low_stock").length,
+        title: 'Low Stock',
+        value: inventoryData.filter((d) => d.status === 'low_stock').length,
       },
       {
-        title: "Out of Stock",
-        value: inventoryData.filter((d) => d.status === "out_of_stock").length,
+        title: 'Out of Stock',
+        value: inventoryData.filter((d) => d.status === 'out_of_stock').length,
       },
       {
-        title: "Total Value",
+        title: 'Total Value',
         value: (
-          inventoryData.reduce(
-            (sum, d) => sum + d.currentStock * d.costPrice,
-            0
-          ) / 1000000
+          inventoryData.reduce((sum, d) => sum + d.currentStock * d.costPrice, 0) / 1000000
         ).toFixed(2),
-        prefix: "₹",
-        suffix: "M",
+        prefix: '₹',
+        suffix: 'M',
       },
     ],
-    [inventoryData]
+    [inventoryData],
   );
 
   const financialStats = useMemo(() => {
-    const revenue = financialData
-      .filter((t) => t.amount > 0)
-      .reduce((sum, t) => sum + t.amount, 0);
+    const revenue = financialData.filter((t) => t.amount > 0).reduce((sum, t) => sum + t.amount, 0);
     const expenses = financialData
       .filter((t) => t.amount < 0)
       .reduce((sum, t) => sum + Math.abs(t.amount), 0);
     return [
-      { title: "Transactions", value: financialData.length },
+      { title: 'Transactions', value: financialData.length },
       {
-        title: "Revenue",
+        title: 'Revenue',
         value: (revenue / 1000).toFixed(1),
-        prefix: "$",
-        suffix: "K",
+        prefix: '$',
+        suffix: 'K',
       },
       {
-        title: "Expenses",
+        title: 'Expenses',
         value: (expenses / 1000).toFixed(1),
-        prefix: "$",
-        suffix: "K",
+        prefix: '$',
+        suffix: 'K',
       },
       {
-        title: "Net",
+        title: 'Net',
         value: ((revenue - expenses) / 1000).toFixed(1),
-        prefix: "$",
-        suffix: "K",
+        prefix: '$',
+        suffix: 'K',
       },
     ];
   }, [financialData]);
@@ -1804,37 +1573,35 @@ export default function DataTableDemoPage() {
       <div className="pt-6">
         <Tabs
           value={activeTab}
-          onValueChange={(v) =>
-            setActiveTab(v as "users" | "products" | "inventory" | "financial")
-          }
+          onValueChange={(v) => setActiveTab(v as 'users' | 'products' | 'inventory' | 'financial')}
         >
           <TabsList className="mb-6">
             <TabsTrigger value="users" className="flex items-center gap-2">
-              <Icon symbol="group" className="w-5 h-5" />
+              <Icon symbol="group" className="h-5 w-5" />
               Users Management
             </TabsTrigger>
             <TabsTrigger value="products" className="flex items-center gap-2">
-              <Icon symbol="inventory_2" className="w-5 h-5" />
+              <Icon symbol="inventory_2" className="h-5 w-5" />
               Products Catalog
             </TabsTrigger>
             <TabsTrigger value="inventory" className="flex items-center gap-2">
-              <Icon symbol="warehouse" className="w-5 h-5" />
+              <Icon symbol="warehouse" className="h-5 w-5" />
               Inventory & Billing
             </TabsTrigger>
             <TabsTrigger value="financial" className="flex items-center gap-2">
-              <Icon symbol="account_balance" className="w-5 h-5" />
+              <Icon symbol="account_balance" className="h-5 w-5" />
               Financial (Undo/Redo)
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="users">
-            <div className="-mx-4 medium:-mx-6 expanded:-mx-12">
+            <div className="medium:-mx-6 expanded:-mx-12 -mx-4">
               <DataTableProvider
                 tableId="users-demo-table"
                 columns={usersColumnsWithActions}
                 mode="local"
                 paginationMode="offset"
-                variant={enableColumnBorders ? "grid" : "list"}
+                variant={enableColumnBorders ? 'grid' : 'list'}
                 rowSelectionEnabled={enableSelection}
                 showColumnDividers={enableColumnBorders}
                 zebra={enableZebra}
@@ -1863,13 +1630,13 @@ export default function DataTableDemoPage() {
           </TabsContent>
 
           <TabsContent value="products">
-            <div className="-mx-4 medium:-mx-6 expanded:-mx-12">
+            <div className="medium:-mx-6 expanded:-mx-12 -mx-4">
               <DataTableProvider
                 tableId="products-demo-table"
                 columns={productsColumnsWithActions}
                 mode="local"
                 paginationMode="offset"
-                variant={enableColumnBorders ? "grid" : "list"}
+                variant={enableColumnBorders ? 'grid' : 'list'}
                 rowSelectionEnabled={enableSelection}
                 showColumnDividers={enableColumnBorders}
                 zebra={enableZebra}
@@ -1898,13 +1665,13 @@ export default function DataTableDemoPage() {
           </TabsContent>
 
           <TabsContent value="inventory">
-            <div className="-mx-4 medium:-mx-6 expanded:-mx-12">
+            <div className="medium:-mx-6 expanded:-mx-12 -mx-4">
               <DataTableProvider
                 tableId="inventory-demo-table"
                 columns={inventoryColumnsWithActions}
                 mode="local"
                 paginationMode="offset"
-                variant={enableColumnBorders ? "grid" : "list"}
+                variant={enableColumnBorders ? 'grid' : 'list'}
                 rowSelectionEnabled={enableSelection}
                 showColumnDividers={enableColumnBorders}
                 zebra={enableZebra}
@@ -1933,13 +1700,13 @@ export default function DataTableDemoPage() {
           </TabsContent>
 
           <TabsContent value="financial">
-            <div className="-mx-4 medium:-mx-6 expanded:-mx-12">
+            <div className="medium:-mx-6 expanded:-mx-12 -mx-4">
               <DataTableProvider
                 tableId="financial-demo-table"
                 columns={financialColumnsWithActions}
                 mode="local"
                 paginationMode="offset"
-                variant={enableColumnBorders ? "grid" : "list"}
+                variant={enableColumnBorders ? 'grid' : 'list'}
                 rowSelectionEnabled={enableSelection}
                 showColumnDividers={enableColumnBorders}
                 zebra={enableZebra}
@@ -1974,7 +1741,7 @@ export default function DataTableDemoPage() {
             Features Demonstrated
           </Typography>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             <FeatureCard
               icon="search"
               title="Search & Filter"
@@ -2077,9 +1844,9 @@ export default function DataTableDemoPage() {
       {/* ─── Action Dialogs (Best Practice Pattern) ─────────────────────────── */}
       {/* Using ConfirmDialog for delete confirmations */}
       <ConfirmDialog
-        {...userActions.getDialogProps("delete")}
+        {...userActions.getDialogProps('delete')}
         title="Delete user?"
-        description={`This will permanently delete ${userActions.selectedRow?.name ?? "this user"}. This action cannot be undone.`}
+        description={`This will permanently delete ${userActions.selectedRow?.name ?? 'this user'}. This action cannot be undone.`}
         confirmLabel="Delete"
         variant="danger"
         onConfirm={handleDeleteUser}
@@ -2087,13 +1854,13 @@ export default function DataTableDemoPage() {
 
       {/* Using Sheet for edit forms */}
       <Sheet
-        open={userActions.isDialogOpen("edit")}
+        open={userActions.isDialogOpen('edit')}
         onOpenChange={(nextOpen) => {
           if (!nextOpen) {
             userActions.closeDialog();
           }
         }}
-        title={`Edit ${userActions.selectedRow?.name ?? "User"}`}
+        title={`Edit ${userActions.selectedRow?.name ?? 'User'}`}
         size="sm"
       >
         <div className="flex flex-col gap-4 p-4">
@@ -2108,7 +1875,7 @@ export default function DataTableDemoPage() {
             value={editUserEmail}
             onChange={(e) => setEditUserEmail(e.target.value)}
           />
-          <div className="flex gap-2 justify-end mt-4">
+          <div className="mt-4 flex justify-end gap-2">
             <Button variant="text" onClick={userActions.closeDialog}>
               Cancel
             </Button>
@@ -2121,16 +1888,14 @@ export default function DataTableDemoPage() {
 
       {/* Product delete confirmation */}
       <ConfirmDialog
-        {...productActions.getDialogProps("delete")}
+        {...productActions.getDialogProps('delete')}
         title="Delete product?"
-        description={`This will permanently delete ${productActions.selectedRow?.name ?? "this product"}. This action cannot be undone.`}
+        description={`This will permanently delete ${productActions.selectedRow?.name ?? 'this product'}. This action cannot be undone.`}
         confirmLabel="Delete"
         variant="danger"
         onConfirm={() => {
           if (productActions.selectedRow) {
-            setProductsData((prev) =>
-              prev.filter((p) => p.id !== productActions.selectedRow!.id)
-            );
+            setProductsData((prev) => prev.filter((p) => p.id !== productActions.selectedRow!.id));
             productActions.closeDialog();
           }
         }}

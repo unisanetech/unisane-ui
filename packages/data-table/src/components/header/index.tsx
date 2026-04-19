@@ -70,6 +70,10 @@ export interface DataTableHeaderProps<T> {
   onAddGroupBy?: (key: string) => void;
   /** Whether row drag-to-reorder is enabled */
   reorderableRows?: boolean;
+  /** Whether the header should stick while the page scrolls */
+  sticky?: boolean;
+  /** Top offset for sticky positioning */
+  stickyOffset?: string;
 }
 
 // ─── HEADER COMPONENT ───────────────────────────────────────────────────────
@@ -104,6 +108,8 @@ function DataTableHeaderInner<T extends { id: string }>({
   onGroupBy,
   onAddGroupBy,
   reorderableRows = false,
+  sticky = false,
+  stickyOffset = '0px',
 }: DataTableHeaderProps<T>) {
   const { t } = useI18n();
   const paddingClass = DENSITY_STYLES[density];
@@ -155,7 +161,10 @@ function DataTableHeaderInner<T extends { id: string }>({
   const firstPinnedRightKey = firstPinnedRight ? String(firstPinnedRight.key) : null;
 
   return (
-    <thead className="bg-surface">
+    <thead
+      className={cn('bg-surface', sticky && 'sticky z-30')}
+      style={sticky ? { top: stickyOffset } : undefined}
+    >
       {/* Group header row (only if groups exist) */}
       {hasGroups && columnDefinitions && (
         <GroupHeaderRow

@@ -3,7 +3,6 @@
 import React, { useId } from 'react';
 import { cn, Icon } from '@unisane/ui';
 import type { Column, SortDirection, PinPosition, ColumnMetaMap, FilterValue } from '../../types';
-import { COLUMN_WIDTHS } from '../../constants';
 import { ResizeHandle } from './resize-handle';
 import { ColumnMenu } from './column-menu';
 import { SortControl } from './sort-control';
@@ -95,6 +94,7 @@ export function HeaderCell<T>({
   onAddGroupBy,
   reorderableRows = false,
 }: HeaderCellProps<T>) {
+  void reorderableRows;
   const { t } = useI18n();
   const filterDescriptionId = useId();
   const hasFilterOptions = column.filterable !== false;
@@ -151,17 +151,6 @@ export function HeaderCell<T>({
             ? '4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-left-alpha, 0))'
             : pinPosition === 'right'
               ? '-4px 0 6px -2px rgb(0 0 0 / var(--data-table-pin-shadow-right-alpha, 0))'
-              : undefined,
-        // Counter-translate for pinned columns in sticky header (when using split-table layout)
-        // Left-pinned: Use max() to only start translating once scroll exceeds drag handle width
-        // Right-pinned: Always use full offset (no drag handle adjustment needed for right side)
-        transform:
-          pinPosition === 'left'
-            ? reorderableRows
-              ? `translateX(max(0px, calc(var(--header-scroll-offset, 0px) - ${COLUMN_WIDTHS.DRAG_HANDLE}px)))`
-              : 'translateX(var(--header-scroll-offset, 0px))'
-            : pinPosition === 'right'
-              ? 'translateX(var(--header-scroll-offset, 0px))'
               : undefined,
       }}
       scope="col"

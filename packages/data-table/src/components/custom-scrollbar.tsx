@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState, useCallback, useMemo } from "react";
-import { cn } from "@unisane/ui";
-import { useSafeRAF } from "../hooks/use-safe-raf";
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import { cn } from '@unisane/ui';
+import { useSafeRAF } from '../hooks/use-safe-raf';
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
@@ -24,6 +24,8 @@ export interface CustomScrollbarProps {
   className?: string;
   /** Ref to the DataTable root container for sticky positioning */
   dataTableRef?: React.RefObject<HTMLDivElement | null>;
+  /** When false, keep the scrollbar anchored to the table shell instead of the viewport */
+  allowViewportSticky?: boolean;
 }
 
 // ─── COMPONENT ───────────────────────────────────────────────────────────────
@@ -33,8 +35,9 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   pinnedLeftWidth,
   pinnedRightWidth,
   dependencies = [],
-  className = "",
+  className = '',
   dataTableRef,
+  allowViewportSticky = true,
 }) => {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const thumbRef = useRef<HTMLDivElement | null>(null);
@@ -45,8 +48,14 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   const [thumbLeft, setThumbLeft] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [hasOverflow, setHasOverflow] = useState(false);
+  const [trackInsets, setTrackInsets] = useState({
+    left: pinnedLeftWidth,
+    right: pinnedRightWidth,
+  });
   const [isSticky, setIsSticky] = useState(false);
-  const [stickyPosition, setStickyPosition] = useState<{ left: number; width: number } | null>(null);
+  const [stickyPosition, setStickyPosition] = useState<{ left: number; width: number } | null>(
+    null,
+  );
 
   // Drag refs
   const startXRef = useRef(0);
@@ -55,6 +64,74 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
 
   // Safe RAF for DOM operations
   const { requestFrame } = useSafeRAF();
+
+  const measureTrackInsets = useCallback(
+    (container: HTMLDivElement) => {
+      if (typeof window === 'undefined') {
+        return { left: pinnedLeftWidth, right: pinnedRightWidth };
+      }
+
+      const fallback = { left: pinnedLeftWidth, right: pinnedRightWidth };
+      const containerRect = container.getBoundingClientRect();
+      const table = container.querySelector('table');
+      if (!(table instanceof HTMLElement)) {
+        return fallback;
+      }
+
+      const headerCells = Array.from(table.querySelectorAll('thead tr:last-child > th'));
+      if (headerCells.length === 0) {
+        return fallback;
+      }
+
+      const leftStickyCells = headerCells.filter((cell) => {
+        const style = window.getComputedStyle(cell);
+        return style.position === 'sticky' && style.left !== 'auto';
+      });
+      const rightStickyCells = headerCells.filter((cell) => {
+        const style = window.getComputedStyle(cell);
+        return style.position === 'sticky' && style.right !== 'auto';
+      });
+
+      const clampInset = (value: number) =>
+        Math.max(0, Math.min(container.clientWidth, Math.round(value)));
+
+      const leftInset =
+        leftStickyCells.length > 0
+          ? clampInset(
+              Math.max(
+                ...leftStickyCells.map((cell) => {
+                  const rect = cell.getBoundingClientRect();
+                  return rect.right - containerRect.left;
+                }),
+              ),
+            )
+          : 0;
+      const rightInset =
+        rightStickyCells.length > 0
+          ? clampInset(
+              Math.max(
+                ...rightStickyCells.map((cell) => {
+                  const rect = cell.getBoundingClientRect();
+                  return containerRect.right - rect.left;
+                }),
+              ),
+            )
+          : 0;
+
+      if (leftInset + rightInset > container.clientWidth) {
+        return {
+          left: clampInset(fallback.left),
+          right: clampInset(fallback.right),
+        };
+      }
+
+      return {
+        left: Number.isFinite(leftInset) ? leftInset : fallback.left,
+        right: Number.isFinite(rightInset) ? rightInset : fallback.right,
+      };
+    },
+    [pinnedLeftWidth, pinnedRightWidth],
+  );
 
   useEffect(() => {
     thumbWidthRef.current = thumbWidth;
@@ -66,6 +143,8 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     const track = trackRef.current;
 
     if (!container) return;
+
+    setTrackInsets(measureTrackInsets(container));
 
     const { scrollWidth, clientWidth, scrollLeft } = container;
     const overflow = scrollWidth > clientWidth;
@@ -85,7 +164,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
 
     setThumbWidth(newThumbWidth);
     setThumbLeft(newThumbLeft);
-  }, [tableContainerRef]);
+  }, [tableContainerRef, measureTrackInsets]);
 
   // Setup listeners
   useEffect(() => {
@@ -95,15 +174,15 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     // Initial update after a frame to ensure DOM is ready
     requestFrame(updateScrollbar);
 
-    container.addEventListener("scroll", updateScrollbar);
-    window.addEventListener("resize", updateScrollbar);
+    container.addEventListener('scroll', updateScrollbar, { passive: true });
+    window.addEventListener('resize', updateScrollbar);
 
     const observer = new ResizeObserver(updateScrollbar);
     observer.observe(container);
 
     return () => {
-      container.removeEventListener("scroll", updateScrollbar);
-      window.removeEventListener("resize", updateScrollbar);
+      container.removeEventListener('scroll', updateScrollbar);
+      window.removeEventListener('resize', updateScrollbar);
       observer.disconnect();
     };
   }, [tableContainerRef, updateScrollbar, requestFrame]);
@@ -113,7 +192,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   const dependenciesKey = useMemo(() => JSON.stringify(dependencies), [dependencies]);
   useEffect(() => {
     requestFrame(updateScrollbar);
-  }, [pinnedLeftWidth, pinnedRightWidth, dependenciesKey, requestFrame]);
+  }, [pinnedLeftWidth, pinnedRightWidth, dependenciesKey, requestFrame, updateScrollbar]);
 
   // ─── STICKY POSITION LOGIC ────────────────────────────────────────────────────
   // Scrollbar sticks to viewport bottom until table bottom comes into view
@@ -121,7 +200,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   const updateStickyState = useCallback(() => {
     const dataTable = dataTableRef?.current;
 
-    if (!dataTable || !hasOverflow) {
+    if (!allowViewportSticky || !dataTable || !hasOverflow) {
       setIsSticky(false);
       setStickyPosition(null);
       return;
@@ -160,12 +239,16 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     } else {
       setStickyPosition(null);
     }
-  }, [dataTableRef, hasOverflow]);
+  }, [allowViewportSticky, dataTableRef, hasOverflow]);
 
   // Listen for scroll and resize to update sticky state
   // Consolidated: Use requestAnimationFrame to throttle updates and prevent excessive calls
   useEffect(() => {
-    if (!dataTableRef?.current) return;
+    if (!allowViewportSticky || !dataTableRef?.current) {
+      setIsSticky(false);
+      setStickyPosition(null);
+      return;
+    }
 
     let scheduled = false;
 
@@ -184,8 +267,8 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
 
     // Single scroll listener on window with capture to catch all scrolls
     // This handles both window scroll and parent container scrolls
-    window.addEventListener("scroll", throttledUpdate, { passive: true, capture: true });
-    window.addEventListener("resize", throttledUpdate, { passive: true });
+    window.addEventListener('scroll', throttledUpdate, { passive: true, capture: true });
+    window.addEventListener('resize', throttledUpdate, { passive: true });
 
     // ResizeObserver for DataTable size changes
     const resizeObserver = new ResizeObserver(throttledUpdate);
@@ -199,12 +282,12 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
 
     return () => {
       const scrollListenerOptions: EventListenerOptions = { capture: true };
-      window.removeEventListener("scroll", throttledUpdate, scrollListenerOptions);
-      window.removeEventListener("resize", throttledUpdate);
+      window.removeEventListener('scroll', throttledUpdate, scrollListenerOptions);
+      window.removeEventListener('resize', throttledUpdate);
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
     };
-  }, [dataTableRef, updateStickyState, requestFrame]);
+  }, [allowViewportSticky, dataTableRef, updateStickyState, requestFrame]);
 
   // Update sticky when hasOverflow changes
   useEffect(() => {
@@ -218,20 +301,23 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
   }, [hasOverflow, updateStickyState, requestFrame]);
 
   // Drag handlers
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const container = tableContainerRef.current;
-    if (!container) return;
+      const container = tableContainerRef.current;
+      if (!container) return;
 
-    setIsDragging(true);
-    startXRef.current = e.clientX;
-    startScrollLeftRef.current = container.scrollLeft;
+      setIsDragging(true);
+      startXRef.current = e.clientX;
+      startScrollLeftRef.current = container.scrollLeft;
 
-    document.body.style.userSelect = "none";
-    document.body.style.cursor = "grabbing";
-  }, [tableContainerRef]);
+      document.body.style.userSelect = 'none';
+      document.body.style.cursor = 'grabbing';
+    },
+    [tableContainerRef],
+  );
 
   useEffect(() => {
     if (!isDragging) return;
@@ -250,58 +336,64 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
       if (maxThumbLeft === 0 || maxScrollLeft === 0) return;
 
       const ratio = maxScrollLeft / maxThumbLeft;
-      const newScrollLeft = Math.max(0, Math.min(maxScrollLeft, startScrollLeftRef.current + deltaX * ratio));
+      const newScrollLeft = Math.max(
+        0,
+        Math.min(maxScrollLeft, startScrollLeftRef.current + deltaX * ratio),
+      );
 
       container.scrollLeft = newScrollLeft;
     };
 
     const handleMouseUp = () => {
       setIsDragging(false);
-      document.body.style.removeProperty("user-select");
-      document.body.style.removeProperty("cursor");
+      document.body.style.removeProperty('user-select');
+      document.body.style.removeProperty('cursor');
     };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, tableContainerRef]);
 
   // Track click handler
-  const handleTrackClick = useCallback((e: React.MouseEvent) => {
-    const container = tableContainerRef.current;
-    const track = trackRef.current;
-    const thumb = thumbRef.current;
-    if (!container || !track || !thumb) return;
+  const handleTrackClick = useCallback(
+    (e: React.MouseEvent) => {
+      const container = tableContainerRef.current;
+      const track = trackRef.current;
+      const thumb = thumbRef.current;
+      if (!container || !track || !thumb) return;
 
-    // Don't handle if clicking on thumb
-    if (e.target === thumb) return;
+      // Don't handle if clicking on thumb
+      if (e.target === thumb) return;
 
-    const trackRect = track.getBoundingClientRect();
-    const clickX = e.clientX - trackRect.left;
-    const trackWidth = track.clientWidth;
-    const currentThumbWidth = thumbWidthRef.current;
-    const maxThumbLeft = Math.max(0, trackWidth - currentThumbWidth);
-    const maxScrollLeft = Math.max(0, container.scrollWidth - container.clientWidth);
+      const trackRect = track.getBoundingClientRect();
+      const clickX = e.clientX - trackRect.left;
+      const trackWidth = track.clientWidth;
+      const currentThumbWidth = thumbWidthRef.current;
+      const maxThumbLeft = Math.max(0, trackWidth - currentThumbWidth);
+      const maxScrollLeft = Math.max(0, container.scrollWidth - container.clientWidth);
 
-    // Center the thumb on the click position
-    const targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - currentThumbWidth / 2));
+      // Center the thumb on the click position
+      const targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - currentThumbWidth / 2));
 
-    if (maxThumbLeft > 0) {
-      const newScrollLeft = (targetThumbLeft / maxThumbLeft) * maxScrollLeft;
-      container.scrollTo({ left: newScrollLeft, behavior: "smooth" });
-    }
-  }, [tableContainerRef]);
+      if (maxThumbLeft > 0) {
+        const newScrollLeft = (targetThumbLeft / maxThumbLeft) * maxScrollLeft;
+        container.scrollTo({ left: newScrollLeft, behavior: 'smooth' });
+      }
+    },
+    [tableContainerRef],
+  );
 
   // Render scrollbar container - hidden on mobile where native touch scrollbar is used
   // When sticky, the scrollbar is fixed to viewport bottom with same horizontal bounds as table
   return (
     <>
       {/* Placeholder to maintain layout space when scrollbar is fixed */}
-      {isSticky && (
+      {allowViewportSticky && isSticky && (
         <div
           className="hidden @md:block"
           style={{ height: `${SCROLLBAR_HEIGHT}px` }}
@@ -310,13 +402,14 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
       )}
       <div
         ref={scrollbarRef}
+        data-datatable-custom-scrollbar="true"
         className={cn(
-          "bg-surface border-t border-outline-subtle",
+          'bg-surface border-outline-subtle overflow-hidden border-t',
           // Hide on mobile (< @md) - native scrollbar used for touch usability
-          "hidden @md:block",
+          'hidden @md:block',
           // Sticky positioning when table bottom is below viewport
-          isSticky ? "fixed bottom-0 z-50" : "relative w-full",
-          className
+          isSticky ? 'fixed bottom-0 z-50' : 'relative w-full',
+          className,
         )}
         style={{
           height: `${SCROLLBAR_HEIGHT}px`,
@@ -329,40 +422,41 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
             : {}),
         }}
       >
-      {/* Track - only show contents when there's overflow */}
-      <div
-        ref={trackRef}
-        onClick={hasOverflow ? handleTrackClick : undefined}
-        className={cn(
-          "absolute top-0 bottom-0 transition-colors",
-          hasOverflow && "cursor-pointer",
-          hasOverflow && (isDragging ? "bg-outline-soft" : "bg-outline-subtle hover:bg-outline-soft")
-        )}
-        style={{
-          left: pinnedLeftWidth,
-          right: pinnedRightWidth,
-        }}
-      >
-        {/* Thumb - only render when there's overflow */}
-        {hasOverflow && thumbWidth > 0 && (
-          <div
-            ref={thumbRef}
-            className={cn(
-              "absolute top-0 bottom-0 transition-colors",
-              isDragging ? "bg-primary" : "bg-outline-medium hover:bg-outline-strong"
-            )}
-            style={{
-              width: thumbWidth,
-              transform: `translateX(${thumbLeft}px)`,
-              cursor: isDragging ? "grabbing" : "grab",
-            }}
-            onMouseDown={handleMouseDown}
-          />
-        )}
+        {/* Track - only show contents when there's overflow */}
+        <div
+          ref={trackRef}
+          onClick={hasOverflow ? handleTrackClick : undefined}
+          className={cn(
+            'absolute top-0 bottom-0 transition-colors',
+            hasOverflow && 'cursor-pointer',
+            hasOverflow &&
+              (isDragging ? 'bg-outline-soft' : 'bg-outline-subtle hover:bg-outline-soft'),
+          )}
+          style={{
+            left: trackInsets.left,
+            right: trackInsets.right,
+          }}
+        >
+          {/* Thumb - only render when there's overflow */}
+          {hasOverflow && thumbWidth > 0 && (
+            <div
+              ref={thumbRef}
+              className={cn(
+                'absolute top-0 bottom-0 transition-colors',
+                isDragging ? 'bg-primary' : 'bg-outline-medium hover:bg-outline-strong',
+              )}
+              style={{
+                width: thumbWidth,
+                transform: `translateX(${thumbLeft}px)`,
+                cursor: isDragging ? 'grabbing' : 'grab',
+              }}
+              onMouseDown={handleMouseDown}
+            />
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };
 
-CustomScrollbar.displayName = "CustomScrollbar";
+CustomScrollbar.displayName = 'CustomScrollbar';

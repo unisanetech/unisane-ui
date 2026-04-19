@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { useRef, useMemo, useCallback, useEffect } from "react";
+import { useVirtualizer } from '@tanstack/react-virtual';
+import { useRef, useMemo, useCallback, useEffect } from 'react';
 
 export interface UseVirtualizedRowsOptions<T> {
   /** Data rows */
@@ -26,7 +26,7 @@ export interface VirtualRow<T> {
 
 export interface UseVirtualizedRowsReturn<T> {
   /** Ref to attach to the scrollable container */
-  containerRef: React.RefObject<HTMLDivElement | null>;
+  containerRef: React.MutableRefObject<HTMLDivElement | null>;
   /** Virtualized rows to render */
   virtualRows: VirtualRow<T>[];
   /** Total height for the virtual list */
@@ -34,10 +34,7 @@ export interface UseVirtualizedRowsReturn<T> {
   /** Whether virtualization is active */
   isVirtualized: boolean;
   /** Scroll to a specific row index */
-  scrollToIndex: (
-    index: number,
-    options?: { align?: "start" | "center" | "end" }
-  ) => void;
+  scrollToIndex: (index: number, options?: { align?: 'start' | 'center' | 'end' }) => void;
   /** Get styles for the inner container that holds rows */
   getInnerContainerStyle: () => React.CSSProperties;
   /** Get styles for a virtual row */
@@ -99,7 +96,11 @@ export function useVirtualizedRows<T extends { id: string }>({
   // Reset scroll position when data set changes (e.g., pagination)
   // We detect this by checking if the first item ID changed
   useEffect(() => {
-    if (shouldVirtualize && prevDataFirstIdRef.current !== undefined && prevDataFirstIdRef.current !== dataFirstId) {
+    if (
+      shouldVirtualize &&
+      prevDataFirstIdRef.current !== undefined &&
+      prevDataFirstIdRef.current !== dataFirstId
+    ) {
       // Data changed (likely page change), scroll to top
       if (containerRef.current) {
         containerRef.current.scrollTop = 0;
@@ -139,7 +140,7 @@ export function useVirtualizedRows<T extends { id: string }>({
     : data.length * estimateRowHeight;
 
   const scrollToIndex = useCallback(
-    (index: number, options?: { align?: "start" | "center" | "end" }) => {
+    (index: number, options?: { align?: 'start' | 'center' | 'end' }) => {
       if (shouldVirtualize) {
         virtualizer.scrollToIndex(index, options);
       } else if (containerRef.current) {
@@ -147,30 +148,30 @@ export function useVirtualizedRows<T extends { id: string }>({
         containerRef.current.scrollTop = scrollTop;
       }
     },
-    [shouldVirtualize, virtualizer, estimateRowHeight]
+    [shouldVirtualize, virtualizer, estimateRowHeight],
   );
 
   const getInnerContainerStyle = useCallback(
     (): React.CSSProperties => ({
       height: totalHeight,
-      width: "100%",
-      position: "relative",
+      width: '100%',
+      position: 'relative',
     }),
-    [totalHeight]
+    [totalHeight],
   );
 
   const getRowStyle = useCallback(
     (virtualRow: VirtualRow<T>): React.CSSProperties =>
       shouldVirtualize
         ? {
-            position: "absolute",
+            position: 'absolute',
             top: 0,
             left: 0,
-            width: "100%",
+            width: '100%',
             transform: `translateY(${virtualRow.start}px)`,
           }
         : {},
-    [shouldVirtualize]
+    [shouldVirtualize],
   );
 
   const measureElement = useCallback(
@@ -179,7 +180,7 @@ export function useVirtualizedRows<T extends { id: string }>({
         virtualizer.measureElement(element);
       }
     },
-    [shouldVirtualize, virtualizer]
+    [shouldVirtualize, virtualizer],
   );
 
   return {

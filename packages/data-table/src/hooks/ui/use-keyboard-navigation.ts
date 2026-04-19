@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useState, useRef } from "react";
-import { DEFAULT_KEYBOARD_PAGE_SIZE } from "../../constants";
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { DEFAULT_KEYBOARD_PAGE_SIZE } from '../../constants';
 
 export interface UseKeyboardNavigationOptions {
   /** Total number of rows */
@@ -31,15 +31,18 @@ export interface UseKeyboardNavigationReturn {
   getContainerProps: () => {
     tabIndex: number;
     role: string;
-    "aria-activedescendant": string | undefined;
+    'aria-activedescendant': string | undefined;
     onKeyDown: (e: React.KeyboardEvent) => void;
     onFocus: () => void;
     onBlur: () => void;
   };
   /** Get props to spread on each row */
-  getRowProps: (index: number, rowId: string) => {
+  getRowProps: (
+    index: number,
+    rowId: string,
+  ) => {
     id: string;
-    "aria-selected": boolean;
+    'aria-selected': boolean;
     tabIndex: number;
   };
   /** Whether the table is currently focused */
@@ -83,7 +86,6 @@ export function useKeyboardNavigation({
   pageSize = DEFAULT_KEYBOARD_PAGE_SIZE,
   getRowId,
 }: UseKeyboardNavigationOptions): UseKeyboardNavigationReturn {
-  void containerRef;
   const [focusedIndex, setFocusedIndexState] = useState<number | null>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -93,13 +95,11 @@ export function useKeyboardNavigation({
   // Update focused index and notify parent
   const setFocusedIndex = useCallback(
     (index: number | null) => {
-      const clampedIndex = index !== null
-        ? Math.max(0, Math.min(index, rowCount - 1))
-        : null;
+      const clampedIndex = index !== null ? Math.max(0, Math.min(index, rowCount - 1)) : null;
       setFocusedIndexState(clampedIndex);
       onFocusChange?.(clampedIndex);
     },
-    [rowCount, onFocusChange]
+    [rowCount, onFocusChange],
   );
 
   // Reset focus when row count changes and focus is out of bounds
@@ -116,67 +116,88 @@ export function useKeyboardNavigation({
     }
   }, [rowCount, focusedIndex, onFocusChange]);
 
+  useEffect(() => {
+    if (!enabled || focusedIndex === null || !containerRef?.current) {
+      return;
+    }
+
+    const container = containerRef.current;
+    const rowId = getRowId ? getRowId(focusedIndex) : `row-${focusedIndex}`;
+    const row = document.getElementById(rowId);
+
+    if (!row || !container.contains(row)) {
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const rowRect = row.getBoundingClientRect();
+
+    if (rowRect.top < containerRect.top) {
+      container.scrollTop -= containerRect.top - rowRect.top;
+    } else if (rowRect.bottom > containerRect.bottom) {
+      container.scrollTop += rowRect.bottom - containerRect.bottom;
+    }
+  }, [enabled, focusedIndex, containerRef, getRowId]);
+
   // Handle keyboard events
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (!enabled || rowCount === 0) return;
 
       switch (e.key) {
-        case "ArrowDown":
+        case 'ArrowDown':
           e.preventDefault();
           setFocusedIndex(focusedIndex === null ? 0 : focusedIndex + 1);
           break;
 
-        case "ArrowUp":
+        case 'ArrowUp':
           e.preventDefault();
           setFocusedIndex(focusedIndex === null ? rowCount - 1 : focusedIndex - 1);
           break;
 
-        case "Home":
+        case 'Home':
           e.preventDefault();
           setFocusedIndex(0);
           break;
 
-        case "End":
+        case 'End':
           e.preventDefault();
           setFocusedIndex(rowCount - 1);
           break;
 
-        case "PageDown":
+        case 'PageDown':
           e.preventDefault();
           setFocusedIndex(
-            focusedIndex === null ? pageSize - 1 : Math.min(focusedIndex + pageSize, rowCount - 1)
+            focusedIndex === null ? pageSize - 1 : Math.min(focusedIndex + pageSize, rowCount - 1),
           );
           break;
 
-        case "PageUp":
+        case 'PageUp':
           e.preventDefault();
-          setFocusedIndex(
-            focusedIndex === null ? 0 : Math.max(focusedIndex - pageSize, 0)
-          );
+          setFocusedIndex(focusedIndex === null ? 0 : Math.max(focusedIndex - pageSize, 0));
           break;
 
-        case " ": // Space
+        case ' ': // Space
           e.preventDefault();
           if (focusedIndex !== null && onSelect) {
             onSelect(focusedIndex);
           }
           break;
 
-        case "Enter":
+        case 'Enter':
           e.preventDefault();
           if (focusedIndex !== null && onActivate) {
             onActivate(focusedIndex, e);
           }
           break;
 
-        case "Escape":
+        case 'Escape':
           e.preventDefault();
           setFocusedIndex(null);
           break;
       }
     },
-    [enabled, rowCount, focusedIndex, setFocusedIndex, onSelect, onActivate, pageSize]
+    [enabled, rowCount, focusedIndex, setFocusedIndex, onSelect, onActivate, pageSize],
   );
 
   // Handle focus/blur
@@ -192,14 +213,17 @@ export function useKeyboardNavigation({
   // Get container props
   const getContainerProps = useCallback(() => {
     // Use custom getRowId if provided, otherwise fall back to default format
-    const focusedRowId = focusedIndex !== null
-      ? (getRowId ? getRowId(focusedIndex) : `row-${focusedIndex}`)
-      : undefined;
+    const focusedRowId =
+      focusedIndex !== null
+        ? getRowId
+          ? getRowId(focusedIndex)
+          : `row-${focusedIndex}`
+        : undefined;
 
     return {
       tabIndex: enabled ? 0 : -1,
-      role: "grid" as const,
-      "aria-activedescendant": focusedRowId,
+      role: 'grid' as const,
+      'aria-activedescendant': focusedRowId,
       onKeyDown: handleKeyDown,
       onFocus: handleFocus,
       onBlur: handleBlur,
@@ -210,10 +234,10 @@ export function useKeyboardNavigation({
   const getRowProps = useCallback(
     (index: number, rowId: string) => ({
       id: `data-table-row-${rowId}`,
-      "aria-selected": focusedIndex === index,
+      'aria-selected': focusedIndex === index,
       tabIndex: -1, // Rows are not directly focusable, focus managed by container
     }),
-    [focusedIndex]
+    [focusedIndex],
   );
 
   return {
