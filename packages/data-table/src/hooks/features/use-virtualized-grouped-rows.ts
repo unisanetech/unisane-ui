@@ -3,6 +3,7 @@
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useRef, useMemo, useCallback, useEffect } from "react";
 import type { RowGroup } from "../../types";
+import { getInitialVirtualWindowSize } from "./virtualization-initial-window";
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
@@ -195,6 +196,10 @@ export function useVirtualizedGroupedRows<T extends { id: string }>({
     estimateSize,
     overscan,
     enabled: shouldVirtualize,
+    initialRect: {
+      width: 0,
+      height: Math.max(estimateGroupHeaderHeight, estimateRowHeight) * 10,
+    },
     getItemKey: (index) => {
       const item = flattenedItems[index];
       if (!item) return `item-${index}`;
@@ -220,40 +225,67 @@ export function useVirtualizedGroupedRows<T extends { id: string }>({
     prevDataIdentityRef.current = dataIdentity;
   }, [dataIdentity, shouldVirtualize, virtualizer]);
 
+  useEffect(() => {
+    if (!shouldVirtualize || !containerRef.current) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      virtualizer.measure();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [
+    shouldVirtualize,
+    virtualizer,
+    flattenedItems.length,
+    estimateGroupHeaderHeight,
+    estimateRowHeight,
+  ]);
+
   // Build virtual items array
-  const virtualItems = useMemo<VirtualGroupedRow<T>[]>(() => {
-    if (!shouldVirtualize) {
-      // Return all items when not virtualized
-      return flattenedItems.map((item, index) => ({
+  const virtualItems: VirtualGroupedRow<T>[] = !shouldVirtualize
+    ? flattenedItems.map((item, index) => ({
         index,
-        start: 0, // Not used when not virtualized
+        start: 0,
         size: item.type === "group" ? estimateGroupHeaderHeight : estimateRowHeight,
         key:
           item.type === "group"
             ? `group-${item.group.groupId}`
             : `row-${item.groupId}-${item.data.id}`,
         item,
-      }));
-    }
+      }))
+    : (() => {
+        const measuredVirtualItems = virtualizer.getVirtualItems();
+        if (measuredVirtualItems.length === 0) {
+          const initialWindowSize = getInitialVirtualWindowSize({
+            containerSize: containerRef.current?.clientHeight,
+            estimateSize: Math.max(estimateGroupHeaderHeight, estimateRowHeight),
+            overscan,
+          });
 
-    // Return only visible items from virtualizer
-    return virtualizer
-      .getVirtualItems()
-      .filter((vItem) => flattenedItems[vItem.index] !== undefined)
-      .map((vItem) => ({
-        index: vItem.index,
-        start: vItem.start,
-        size: vItem.size,
-        key: String(vItem.key),
-        item: flattenedItems[vItem.index]!,
-      }));
-  }, [
-    shouldVirtualize,
-    flattenedItems,
-    virtualizer,
-    estimateGroupHeaderHeight,
-    estimateRowHeight,
-  ]);
+          return flattenedItems.slice(0, initialWindowSize).map((item, index) => ({
+            index,
+            start: 0,
+            size: item.type === "group" ? estimateGroupHeaderHeight : estimateRowHeight,
+            key:
+              item.type === "group"
+                ? `group-${item.group.groupId}`
+                : `row-${item.groupId}-${item.data.id}`,
+            item,
+          }));
+        }
+
+        return measuredVirtualItems
+          .filter((vItem) => flattenedItems[vItem.index] !== undefined)
+          .map((vItem) => ({
+            index: vItem.index,
+            start: vItem.start,
+            size: vItem.size,
+            key: String(vItem.key),
+            item: flattenedItems[vItem.index]!,
+          }));
+      })();
 
   const totalHeight = shouldVirtualize
     ? virtualizer.getTotalSize()

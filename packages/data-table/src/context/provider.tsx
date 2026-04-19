@@ -6,11 +6,11 @@ import {
   useReducer,
   useEffect,
   useMemo,
-  useRef,
   useCallback,
   startTransition,
 } from "react";
 import type {
+  DataTableAction,
   DataTableContextValue,
   DataTableProviderProps,
   DataTableConfig,
@@ -36,8 +36,25 @@ import { createDesyncDetector } from "../utils/controlled-state-warnings";
 
 // ─── CONTEXT ────────────────────────────────────────────────────────────────
 
-// Context uses `unknown` as default type parameter - consumers use useDataTableContext<T>() to get typed access
-const DataTableContext = createContext<DataTableContextValue<unknown> | null>(null);
+interface DataTableRuntimeContextValue<T = unknown> {
+  dispatch: React.Dispatch<DataTableAction>;
+  config: DataTableConfig<T>;
+  errorHub: ErrorHub;
+  callbacks: DataTableCallbacks;
+  getCallbacks: () => DataTableCallbacks;
+  maxSortColumns: number;
+}
+
+type DataTableControlledContextValue = DataTableContextValue["controlled"];
+
+const DataTableRuntimeContext = createContext<DataTableRuntimeContextValue<unknown> | null>(null);
+const DataTableControlledContext = createContext<DataTableControlledContextValue | null>(null);
+const DataTableSelectionContext = createContext<SelectionSlice | null>(null);
+const DataTableSortContext = createContext<SortSlice | null>(null);
+const DataTableFilterContext = createContext<FilterSlice | null>(null);
+const DataTablePaginationContext = createContext<PaginationSlice | null>(null);
+const DataTableColumnContext = createContext<ColumnSlice | null>(null);
+const DataTableGroupingContext = createContext<GroupingSlice | null>(null);
 
 // ─── STORAGE KEYS ───────────────────────────────────────────────────────────
 
@@ -432,10 +449,6 @@ export function DataTableProvider<T extends { id: string }>({
     [externalSortState, controlledFilters, searchValue, externalPinState, externalColumnOrder, externalSelectedIds, externalGroupBy, sparseSelection]
   );
 
-  // ─── MEMOIZED STATE SLICES ─────────────────────────────────────────────────
-  // Each slice only updates when its specific state changes, preventing
-  // unnecessary re-renders in components that use specialized hooks.
-
   const selectionSlice = useMemo<SelectionSlice>(
     () => ({
       selectedRows: state.selectedRows,
@@ -484,88 +497,54 @@ export function DataTableProvider<T extends { id: string }>({
     [state.groupBy, state.expandedGroups]
   );
 
-  // Combine slices into a single object for the context
-  const stateSlices = useMemo<StateSlices>(
+  const callbacks = useMemo<DataTableCallbacks>(
     () => ({
-      selection: selectionSlice,
-      sort: sortSlice,
-      filter: filterSlice,
-      pagination: paginationSlice,
-      column: columnSlice,
-      grouping: groupingSlice,
+      onSortChange,
+      onFilterChange,
+      onSearchChange,
+      onColumnPinChange,
+      onColumnOrderChange,
+      onSelectionChange,
+      onGroupByChange,
+      onSelectAllFiltered,
+      onPaginationChange,
+      onColumnVisibilityChange,
+      onScroll,
+      onError,
     }),
-    [selectionSlice, sortSlice, filterSlice, paginationSlice, columnSlice, groupingSlice]
+    [
+      onSortChange,
+      onFilterChange,
+      onSearchChange,
+      onColumnPinChange,
+      onColumnOrderChange,
+      onSelectionChange,
+      onGroupByChange,
+      onSelectAllFiltered,
+      onPaginationChange,
+      onColumnVisibilityChange,
+      onScroll,
+      onError,
+    ]
   );
 
-  // Store callbacks in refs for stable references
-  // Updated synchronously during render (refs don't trigger re-renders)
-  const callbacksRef = useRef<DataTableCallbacks>({
-    onSortChange,
-    onFilterChange,
-    onSearchChange,
-    onColumnPinChange,
-    onColumnOrderChange,
-    onSelectionChange,
-    onGroupByChange,
-    onSelectAllFiltered,
-    onPaginationChange,
-    onColumnVisibilityChange,
-    onScroll,
-    onError,
-  });
+  const getCallbacks = useCallback(() => callbacks, [callbacks]);
 
-  // Update ref synchronously during render - safe because refs don't trigger re-renders
-  // This pattern ensures callbacks are always fresh without useEffect overhead
-  callbacksRef.current = {
-    onSortChange,
-    onFilterChange,
-    onSearchChange,
-    onColumnPinChange,
-    onColumnOrderChange,
-    onSelectionChange,
-    onGroupByChange,
-    onSelectAllFiltered,
-    onPaginationChange,
-    onColumnVisibilityChange,
-    onScroll,
-    onError,
-  };
-
-  // Stable callback getters that don't change reference
-  const getCallbacks = useCallback(() => callbacksRef.current, []);
-
-  const contextValue = useMemo<DataTableContextValue<T>>(
+  const runtimeValue = useMemo<DataTableRuntimeContextValue<T>>(
     () => ({
-      state,
-      stateSlices,
       dispatch,
       config,
       errorHub,
-      controlled,
       maxSortColumns,
-      // Include direct callback references for backward compatibility
-      onSortChange: callbacksRef.current.onSortChange,
-      onFilterChange: callbacksRef.current.onFilterChange,
-      onSearchChange: callbacksRef.current.onSearchChange,
-      onColumnPinChange: callbacksRef.current.onColumnPinChange,
-      onColumnOrderChange: callbacksRef.current.onColumnOrderChange,
-      onSelectionChange: callbacksRef.current.onSelectionChange,
-      onGroupByChange: callbacksRef.current.onGroupByChange,
-      onSelectAllFiltered: callbacksRef.current.onSelectAllFiltered,
-      onPaginationChange: callbacksRef.current.onPaginationChange,
-      onColumnVisibilityChange: callbacksRef.current.onColumnVisibilityChange,
-      onScroll: callbacksRef.current.onScroll,
-      onError: callbacksRef.current.onError,
-      // Getter for stable callback access
+      callbacks,
       getCallbacks,
     }),
     [
-      state,
-      stateSlices,
+      dispatch,
       config,
       errorHub,
-      controlled,
       maxSortColumns,
+      callbacks,
       getCallbacks,
     ]
   );
@@ -577,9 +556,25 @@ export function DataTableProvider<T extends { id: string }>({
   // 2. All T-dependent operations go through typed hooks (useColumns<T>, etc.)
   // 3. The context consumer (useDataTableContext<T>) restores the correct type
   const tableContent = (
-    <DataTableContext.Provider value={contextValue as DataTableContextValue<unknown>}>
-      {children}
-    </DataTableContext.Provider>
+    <DataTableRuntimeContext.Provider
+      value={runtimeValue as DataTableRuntimeContextValue<unknown>}
+    >
+      <DataTableControlledContext.Provider value={controlled}>
+        <DataTableSelectionContext.Provider value={selectionSlice}>
+          <DataTableSortContext.Provider value={sortSlice}>
+            <DataTableFilterContext.Provider value={filterSlice}>
+              <DataTablePaginationContext.Provider value={paginationSlice}>
+                <DataTableColumnContext.Provider value={columnSlice}>
+                  <DataTableGroupingContext.Provider value={groupingSlice}>
+                    {children}
+                  </DataTableGroupingContext.Provider>
+                </DataTableColumnContext.Provider>
+              </DataTablePaginationContext.Provider>
+            </DataTableFilterContext.Provider>
+          </DataTableSortContext.Provider>
+        </DataTableSelectionContext.Provider>
+      </DataTableControlledContext.Provider>
+    </DataTableRuntimeContext.Provider>
   );
 
   // Wrap with FeedbackProvider if feedback is enabled
@@ -602,12 +597,127 @@ export function DataTableProvider<T extends { id: string }>({
 
 // ─── BASE HOOK ──────────────────────────────────────────────────────────────
 
-export function useDataTableContext<T = unknown>(): DataTableContextValue<T> {
-  const context = useContext(DataTableContext);
-  if (!context) {
-    throw new Error("useDataTableContext must be used within a DataTableProvider");
+function useRequiredContext<Value>(
+  context: React.Context<Value | null>,
+  hookName: string
+): Value {
+  const value = useContext(context);
+  if (!value) {
+    throw new Error(`${hookName} must be used within a DataTableProvider`);
   }
-  return context as DataTableContextValue<T>;
+  return value;
+}
+
+export function useDataTableRuntime<T = unknown>(): DataTableRuntimeContextValue<T> {
+  return useRequiredContext(
+    DataTableRuntimeContext,
+    "useDataTableRuntime"
+  ) as DataTableRuntimeContextValue<T>;
+}
+
+export function useOptionalDataTableRuntime<T = unknown>():
+  | DataTableRuntimeContextValue<T>
+  | null {
+  const context = useContext(DataTableRuntimeContext);
+  return context as DataTableRuntimeContextValue<T> | null;
+}
+
+export function useDataTableControlledState(): DataTableControlledContextValue {
+  return useRequiredContext(
+    DataTableControlledContext,
+    "useDataTableControlledState"
+  );
+}
+
+export function useDataTableSelectionSlice(): SelectionSlice {
+  return useRequiredContext(
+    DataTableSelectionContext,
+    "useDataTableSelectionSlice"
+  );
+}
+
+export function useDataTableSortSlice(): SortSlice {
+  return useRequiredContext(DataTableSortContext, "useDataTableSortSlice");
+}
+
+export function useDataTableFilterSlice(): FilterSlice {
+  return useRequiredContext(DataTableFilterContext, "useDataTableFilterSlice");
+}
+
+export function useDataTablePaginationSlice(): PaginationSlice {
+  return useRequiredContext(
+    DataTablePaginationContext,
+    "useDataTablePaginationSlice"
+  );
+}
+
+export function useDataTableColumnSlice(): ColumnSlice {
+  return useRequiredContext(DataTableColumnContext, "useDataTableColumnSlice");
+}
+
+export function useDataTableGroupingSlice(): GroupingSlice {
+  return useRequiredContext(
+    DataTableGroupingContext,
+    "useDataTableGroupingSlice"
+  );
+}
+
+export function useDataTableContext<T = unknown>(): DataTableContextValue<T> {
+  const runtime = useDataTableRuntime<T>();
+  const controlled = useDataTableControlledState();
+  const selection = useDataTableSelectionSlice();
+  const sort = useDataTableSortSlice();
+  const filter = useDataTableFilterSlice();
+  const pagination = useDataTablePaginationSlice();
+  const column = useDataTableColumnSlice();
+  const grouping = useDataTableGroupingSlice();
+
+  const stateSlices: StateSlices = {
+    selection,
+    sort,
+    filter,
+    pagination,
+    column,
+    grouping,
+  };
+
+  const state = {
+    selectedRows: selection.selectedRows,
+    expandedRows: selection.expandedRows,
+    sortState: sort.sortState,
+    searchText: filter.searchText,
+    columnFilters: filter.columnFilters,
+    pagination: pagination.pagination,
+    hiddenColumns: column.hiddenColumns,
+    columnWidths: column.columnWidths,
+    columnPinState: column.columnPinState,
+    columnOrder: column.columnOrder,
+    groupBy: grouping.groupBy,
+    expandedGroups: grouping.expandedGroups,
+  };
+
+  return {
+    state,
+    stateSlices,
+    dispatch: runtime.dispatch,
+    config: runtime.config,
+    errorHub: runtime.errorHub,
+    controlled,
+    maxSortColumns: runtime.maxSortColumns,
+    onSortChange: runtime.callbacks.onSortChange,
+    onFilterChange: runtime.callbacks.onFilterChange,
+    onSearchChange: runtime.callbacks.onSearchChange,
+    onColumnPinChange: runtime.callbacks.onColumnPinChange,
+    onColumnOrderChange: runtime.callbacks.onColumnOrderChange,
+    onSelectionChange: runtime.callbacks.onSelectionChange,
+    onGroupByChange: runtime.callbacks.onGroupByChange,
+    onSelectAllFiltered: runtime.callbacks.onSelectAllFiltered,
+    onPaginationChange: runtime.callbacks.onPaginationChange,
+    onColumnVisibilityChange: runtime.callbacks.onColumnVisibilityChange,
+    onScroll: runtime.callbacks.onScroll,
+    onError: runtime.callbacks.onError,
+    getCallbacks: runtime.getCallbacks,
+  };
 }
 
 /**
@@ -615,8 +725,70 @@ export function useDataTableContext<T = unknown>(): DataTableContextValue<T> {
  * Useful for layout components that may be used outside a DataTableProvider.
  */
 export function useOptionalDataTableContext<T = unknown>(): DataTableContextValue<T> | null {
-  const context = useContext(DataTableContext);
-  return context as DataTableContextValue<T> | null;
+  const runtime = useContext(DataTableRuntimeContext);
+  const controlled = useContext(DataTableControlledContext);
+  const selection = useContext(DataTableSelectionContext);
+  const sort = useContext(DataTableSortContext);
+  const filter = useContext(DataTableFilterContext);
+  const pagination = useContext(DataTablePaginationContext);
+  const column = useContext(DataTableColumnContext);
+  const grouping = useContext(DataTableGroupingContext);
+
+  if (
+    !runtime ||
+    !controlled ||
+    !selection ||
+    !sort ||
+    !filter ||
+    !pagination ||
+    !column ||
+    !grouping
+  ) {
+    return null;
+  }
+
+  return {
+    state: {
+      selectedRows: selection.selectedRows,
+      expandedRows: selection.expandedRows,
+      sortState: sort.sortState,
+      searchText: filter.searchText,
+      columnFilters: filter.columnFilters,
+      pagination: pagination.pagination,
+      hiddenColumns: column.hiddenColumns,
+      columnWidths: column.columnWidths,
+      columnPinState: column.columnPinState,
+      columnOrder: column.columnOrder,
+      groupBy: grouping.groupBy,
+      expandedGroups: grouping.expandedGroups,
+    },
+    stateSlices: {
+      selection,
+      sort,
+      filter,
+      pagination,
+      column,
+      grouping,
+    },
+    dispatch: runtime.dispatch,
+    config: runtime.config as DataTableConfig<T>,
+    errorHub: runtime.errorHub,
+    controlled,
+    maxSortColumns: runtime.maxSortColumns,
+    onSortChange: runtime.callbacks.onSortChange,
+    onFilterChange: runtime.callbacks.onFilterChange,
+    onSearchChange: runtime.callbacks.onSearchChange,
+    onColumnPinChange: runtime.callbacks.onColumnPinChange,
+    onColumnOrderChange: runtime.callbacks.onColumnOrderChange,
+    onSelectionChange: runtime.callbacks.onSelectionChange,
+    onGroupByChange: runtime.callbacks.onGroupByChange,
+    onSelectAllFiltered: runtime.callbacks.onSelectAllFiltered,
+    onPaginationChange: runtime.callbacks.onPaginationChange,
+    onColumnVisibilityChange: runtime.callbacks.onColumnVisibilityChange,
+    onScroll: runtime.callbacks.onScroll,
+    onError: runtime.callbacks.onError,
+    getCallbacks: runtime.getCallbacks,
+  };
 }
 
 // ─── RE-EXPORT SPECIALIZED HOOKS ────────────────────────────────────────────

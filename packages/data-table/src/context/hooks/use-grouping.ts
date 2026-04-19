@@ -1,17 +1,22 @@
 "use client";
 
 import { useCallback, useMemo } from "react";
-import { useDataTableContext } from "../provider";
+import {
+  useDataTableControlledState,
+  useDataTableGroupingSlice,
+  useDataTableRuntime,
+} from "../provider";
 
 /**
  * Hook for grouping functionality
  */
 export function useGrouping() {
-  const { state, dispatch, config, controlled, onGroupByChange } =
-    useDataTableContext();
+  const { dispatch, config, callbacks } = useDataTableRuntime();
+  const controlled = useDataTableControlledState();
+  const { groupBy: internalGroupBy, expandedGroups } = useDataTableGroupingSlice();
+  const { onGroupByChange } = callbacks;
 
-  const groupBy = controlled.groupBy !== undefined ? controlled.groupBy : state.groupBy;
-  const expandedGroups = state.expandedGroups;
+  const groupBy = controlled.groupBy !== undefined ? controlled.groupBy : internalGroupBy;
 
   // Normalize groupBy to array for internal use
   const groupByArray = useMemo((): string[] => {
@@ -52,7 +57,7 @@ export function useGrouping() {
       } else {
         dispatch({ type: "ADD_GROUP_BY", key });
         // Notify with updated value
-        const current = state.groupBy;
+        const current = internalGroupBy;
         let newGroupBy: string | string[];
         if (current === null) {
           newGroupBy = key;
@@ -64,7 +69,7 @@ export function useGrouping() {
         onGroupByChange?.(newGroupBy);
       }
     },
-    [controlled.groupBy, onGroupByChange, dispatch, state.groupBy]
+    [controlled.groupBy, onGroupByChange, dispatch, internalGroupBy]
   );
 
   // Remove a column from multi-level grouping

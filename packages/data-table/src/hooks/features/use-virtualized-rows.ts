@@ -2,12 +2,15 @@
 
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useRef, useMemo, useCallback, useEffect } from 'react';
+import { getInitialVirtualWindowSize } from './virtualization-initial-window';
 
 export interface UseVirtualizedRowsOptions<T> {
   /** Data rows */
   data: T[];
   /** Estimated row height in pixels */
   estimateRowHeight?: number | undefined;
+  /** Optional per-item size estimator for mixed-height virtual items */
+  estimateSize?: ((item: T, index: number) => number) | undefined;
   /** Overscan count for smoother scrolling */
   overscan?: number | undefined;
   /** Whether virtualization is enabled */
@@ -34,7 +37,7 @@ export interface UseVirtualizedRowsReturn<T> {
   /** Whether virtualization is active */
   isVirtualized: boolean;
   /** Scroll to a specific row index */
-  scrollToIndex: (index: number, options?: { align?: 'start' | 'center' | 'end' }) => void;
+  scrollToIndex: (index: number, options?: { align?: 'auto' | 'start' | 'center' | 'end' }) => void;
   /** Get styles for the inner container that holds rows */
   getInnerContainerStyle: () => React.CSSProperties;
   /** Get styles for a virtual row */
@@ -72,6 +75,7 @@ export interface UseVirtualizedRowsReturn<T> {
 export function useVirtualizedRows<T extends { id: string }>({
   data,
   estimateRowHeight = 48,
+  estimateSize,
   overscan = 5,
   enabled = true,
   threshold = 50,
@@ -85,12 +89,39 @@ export function useVirtualizedRows<T extends { id: string }>({
   const prevDataFirstIdRef = useRef<string | undefined>(undefined);
   const dataFirstId = data[0]?.id;
 
+  const itemSizes = useMemo(
+    () => data.map((item, index) => estimateSize?.(item, index) ?? estimateRowHeight),
+    [data, estimateRowHeight, estimateSize],
+  );
+
+  const itemStarts = useMemo(() => {
+    const starts: number[] = [];
+    let offset = 0;
+
+    for (const size of itemSizes) {
+      starts.push(offset);
+      offset += size;
+    }
+
+    return starts;
+  }, [itemSizes]);
+
+  const fallbackTotalHeight = useMemo(
+    () => itemSizes.reduce((sum, size) => sum + size, 0),
+    [itemSizes],
+  );
+
   const virtualizer = useVirtualizer({
     count: data.length,
     getScrollElement: () => containerRef.current,
-    estimateSize: () => estimateRowHeight,
+    estimateSize: (index) => itemSizes[index] ?? estimateRowHeight,
     overscan,
     enabled: shouldVirtualize,
+    initialRect: {
+      width: 0,
+      height: estimateRowHeight * 10,
+    },
+    getItemKey: (index) => data[index]?.id ?? index,
   });
 
   // Reset scroll position when data set changes (e.g., pagination)
@@ -110,45 +141,69 @@ export function useVirtualizedRows<T extends { id: string }>({
     prevDataFirstIdRef.current = dataFirstId;
   }, [dataFirstId, shouldVirtualize, virtualizer]);
 
-  const virtualRows = useMemo<VirtualRow<T>[]>(() => {
-    if (!shouldVirtualize) {
-      // Return all rows when not virtualized
-      return data.map((item, index) => ({
-        index,
-        start: index * estimateRowHeight,
-        size: estimateRowHeight,
-        key: item.id,
-        data: item,
-      }));
+  useEffect(() => {
+    if (!shouldVirtualize || !containerRef.current) {
+      return;
     }
 
-    // Return only visible rows from virtualizer
-    return virtualizer
-      .getVirtualItems()
-      .filter((virtualItem) => data[virtualItem.index] !== undefined)
-      .map((virtualItem) => ({
-        index: virtualItem.index,
-        start: virtualItem.start,
-        size: virtualItem.size,
-        key: data[virtualItem.index]?.id ?? virtualItem.index,
-        data: data[virtualItem.index] as T,
-      }));
-  }, [shouldVirtualize, data, virtualizer, estimateRowHeight]);
+    const frame = requestAnimationFrame(() => {
+      virtualizer.measure();
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [shouldVirtualize, virtualizer, data.length, estimateRowHeight, estimateSize]);
+
+  const virtualRows: VirtualRow<T>[] = !shouldVirtualize
+    ? data.map((item, index) => ({
+        index,
+        start: itemStarts[index] ?? 0,
+        size: itemSizes[index] ?? estimateRowHeight,
+        key: item.id,
+        data: item,
+      }))
+    : (() => {
+        const measuredVirtualItems = virtualizer.getVirtualItems();
+        if (measuredVirtualItems.length === 0) {
+          const initialWindowSize = getInitialVirtualWindowSize({
+            containerSize: containerRef.current?.clientHeight,
+            estimateSize: estimateRowHeight,
+            overscan,
+          });
+
+          return data.slice(0, initialWindowSize).map((item, index) => ({
+            index,
+            start: itemStarts[index] ?? 0,
+            size: itemSizes[index] ?? estimateRowHeight,
+            key: item.id,
+            data: item,
+          }));
+        }
+
+        return measuredVirtualItems
+          .filter((virtualItem) => data[virtualItem.index] !== undefined)
+          .map((virtualItem) => ({
+            index: virtualItem.index,
+            start: virtualItem.start,
+            size: virtualItem.size,
+            key: data[virtualItem.index]?.id ?? virtualItem.index,
+            data: data[virtualItem.index] as T,
+          }));
+      })();
 
   const totalHeight = shouldVirtualize
     ? virtualizer.getTotalSize()
-    : data.length * estimateRowHeight;
+    : fallbackTotalHeight;
 
   const scrollToIndex = useCallback(
-    (index: number, options?: { align?: 'start' | 'center' | 'end' }) => {
+    (index: number, options?: { align?: 'auto' | 'start' | 'center' | 'end' }) => {
       if (shouldVirtualize) {
         virtualizer.scrollToIndex(index, options);
       } else if (containerRef.current) {
-        const scrollTop = index * estimateRowHeight;
+        const scrollTop = itemStarts[index] ?? 0;
         containerRef.current.scrollTop = scrollTop;
       }
     },
-    [shouldVirtualize, virtualizer, estimateRowHeight],
+    [shouldVirtualize, virtualizer, itemStarts],
   );
 
   const getInnerContainerStyle = useCallback(

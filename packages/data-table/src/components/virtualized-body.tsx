@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { ReactNode, CSSProperties } from 'react';
+import type { ReactNode } from 'react';
 import { Icon } from '@unisane/ui';
 import type {
   Column,
@@ -11,10 +11,14 @@ import type {
   RowActivationEvent,
   CellSelectionContext,
 } from '../types/index';
-import { DataTableRow } from './row';
+import { DataTableExpandedRow, DataTableRow } from './row';
 import type { VirtualRow } from '../hooks';
 import type { Density } from '../constants/index';
 import { useI18n } from '../i18n';
+
+export type VirtualizedBodyItem<T extends { id: string }> =
+  | { id: string; kind: 'row'; row: T; rowIndex: number }
+  | { id: string; kind: 'expanded'; row: T; rowIndex: number };
 
 interface VirtualizedBodyProps<T extends { id: string }> {
   isLoading: boolean;
@@ -22,7 +26,7 @@ interface VirtualizedBodyProps<T extends { id: string }> {
   emptyMessage?: string;
   emptyIcon?: string;
   totalHeight: number;
-  virtualRows: VirtualRow<T>[];
+  virtualRows: Array<VirtualRow<VirtualizedBodyItem<T>>>;
   columns: Column<T>[];
   columnMeta: ColumnMetaMap;
   getEffectivePinPosition: (col: Column<T>) => PinPosition;
@@ -42,7 +46,6 @@ interface VirtualizedBodyProps<T extends { id: string }> {
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
   onRowHover?: (row: T | null) => void;
   density?: Density;
-  getRowStyle: (vRow: VirtualRow<T>) => CSSProperties;
   measureElement?: (element: HTMLElement | null) => void;
   inlineEditing?: InlineEditingController<T>;
   cellSelectionEnabled?: boolean;
@@ -145,7 +148,6 @@ export function VirtualizedBody<T extends { id: string }>({
   onRowContextMenu,
   onRowHover,
   density = 'standard',
-  getRowStyle,
   measureElement,
   inlineEditing,
   cellSelectionEnabled = false,
@@ -154,6 +156,13 @@ export function VirtualizedBody<T extends { id: string }>({
   onCellKeyDown,
 }: VirtualizedBodyProps<T>) {
   const colSpan = columns.length + (selectable ? 1 : 0) + (enableExpansion ? 1 : 0);
+  const firstVirtualRow = virtualRows[0];
+  const lastVirtualRow = virtualRows[virtualRows.length - 1];
+  const topSpacerHeight = Math.max(0, firstVirtualRow?.start ?? 0);
+  const bottomSpacerHeight = Math.max(
+    0,
+    totalHeight - ((lastVirtualRow?.start ?? 0) + (lastVirtualRow?.size ?? 0)),
+  );
 
   if (isLoading) {
     return <LoadingState colSpan={colSpan} />;
@@ -164,45 +173,68 @@ export function VirtualizedBody<T extends { id: string }>({
   }
 
   return (
-    <tbody className="bg-surface relative">
-      <tr aria-hidden="true" className="pointer-events-none">
-        <td colSpan={colSpan} className="border-0 p-0" style={{ height: `${totalHeight}px` }} />
-      </tr>
+    <tbody className="bg-surface">
+      {topSpacerHeight > 0 ? (
+        <tr aria-hidden="true" className="pointer-events-none">
+          <td colSpan={colSpan} className="border-0 p-0" style={{ height: `${topSpacerHeight}px` }} />
+        </tr>
+      ) : null}
       {virtualRows.map((vRow, idx) => (
-        <DataTableRow
-          key={vRow.key}
-          row={vRow.data}
-          rowIndex={vRow.index}
-          columns={columns}
-          columnMeta={columnMeta}
-          getEffectivePinPosition={getEffectivePinPosition}
-          isSelected={selectedRows.has(vRow.data.id)}
-          isExpanded={expandedRows.has(vRow.data.id)}
-          isActive={activeRowId === vRow.data.id}
-          isFocused={focusedIndex === vRow.index}
-          isLastRow={idx === virtualRows.length - 1}
-          selectable={selectable}
-          showColumnBorders={showColumnBorders}
-          zebra={zebra}
-          enableExpansion={enableExpansion}
-          canExpand={getRowCanExpand ? getRowCanExpand(vRow.data) : !!renderExpandedRow}
-          onSelect={onSelect}
-          onToggleExpand={onToggleExpand}
-          onRowClick={onRowClick}
-          onRowContextMenu={onRowContextMenu}
-          onRowHover={onRowHover}
-          renderExpandedRow={renderExpandedRow}
-          density={density}
-          style={getRowStyle(vRow)}
-          data-index={vRow.index}
-          rowRef={measureElement}
-          inlineEditing={inlineEditing}
-          cellSelectionEnabled={cellSelectionEnabled}
-          getCellSelectionContext={getCellSelectionContext}
-          onCellClick={onCellClick}
-          onCellKeyDown={onCellKeyDown}
-        />
+        vRow.data.kind === 'expanded' ? (
+          <DataTableExpandedRow
+            key={vRow.key}
+            row={vRow.data.row}
+            columns={columns}
+            selectable={selectable}
+            showColumnBorders={showColumnBorders}
+            enableExpansion={enableExpansion}
+            isLastRow={idx === virtualRows.length - 1 && bottomSpacerHeight === 0}
+            rowRef={measureElement}
+            data-index={vRow.index}
+            renderExpandedRow={renderExpandedRow ?? (() => null)}
+          />
+        ) : (
+          <DataTableRow
+            key={vRow.key}
+            row={vRow.data.row}
+            rowIndex={vRow.data.rowIndex}
+            columns={columns}
+            columnMeta={columnMeta}
+            getEffectivePinPosition={getEffectivePinPosition}
+            isSelected={selectedRows.has(vRow.data.row.id)}
+            isExpanded={expandedRows.has(vRow.data.row.id)}
+            isActive={activeRowId === vRow.data.row.id}
+            isFocused={focusedIndex === vRow.data.rowIndex}
+            isLastRow={idx === virtualRows.length - 1 && bottomSpacerHeight === 0}
+            selectable={selectable}
+            showColumnBorders={showColumnBorders}
+            zebra={zebra}
+            enableExpansion={enableExpansion}
+            canExpand={getRowCanExpand ? getRowCanExpand(vRow.data.row) : !!renderExpandedRow}
+            onSelect={onSelect}
+            onToggleExpand={onToggleExpand}
+            onRowClick={onRowClick}
+            onRowContextMenu={onRowContextMenu}
+            onRowHover={onRowHover}
+            density={density}
+            data-index={vRow.index}
+            inlineEditing={inlineEditing}
+            cellSelectionEnabled={cellSelectionEnabled}
+            getCellSelectionContext={getCellSelectionContext}
+            onCellClick={onCellClick}
+            onCellKeyDown={onCellKeyDown}
+          />
+        )
       ))}
+      {bottomSpacerHeight > 0 ? (
+        <tr aria-hidden="true" className="pointer-events-none">
+          <td
+            colSpan={colSpan}
+            className="border-0 p-0"
+            style={{ height: `${bottomSpacerHeight}px` }}
+          />
+        </tr>
+      ) : null}
     </tbody>
   );
 }

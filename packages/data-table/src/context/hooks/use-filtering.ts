@@ -1,18 +1,25 @@
 "use client";
 
 import { useCallback } from "react";
-import { useDataTableContext } from "../provider";
+import {
+  useDataTableControlledState,
+  useDataTableFilterSlice,
+  useDataTableRuntime,
+} from "../provider";
 import type { FilterValue } from "../../types";
 
 /**
  * Hook for filtering functionality
  */
 export function useFiltering() {
-  const { state, dispatch, controlled, onFilterChange, onSearchChange } =
-    useDataTableContext();
+  const { dispatch, callbacks } = useDataTableRuntime();
+  const controlled = useDataTableControlledState();
+  const { searchText: internalSearchText, columnFilters: internalColumnFilters } =
+    useDataTableFilterSlice();
+  const { onFilterChange, onSearchChange } = callbacks;
 
-  const searchText = controlled.search ?? state.searchText;
-  const columnFilters = controlled.filters ?? state.columnFilters;
+  const searchText = controlled.search ?? internalSearchText;
+  const columnFilters = controlled.filters ?? internalColumnFilters;
 
   const setSearch = useCallback(
     (value: string) => {
@@ -42,7 +49,7 @@ export function useFiltering() {
         onFilterChange?.(next);
       } else {
         dispatch({ type: "SET_FILTER", key, value });
-        const next = { ...state.columnFilters };
+        const next = { ...internalColumnFilters };
         if (
           value === null ||
           value === "" ||
@@ -55,7 +62,7 @@ export function useFiltering() {
         onFilterChange?.(next);
       }
     },
-    [controlled.filters, onFilterChange, dispatch, state.columnFilters]
+    [controlled.filters, onFilterChange, dispatch, internalColumnFilters]
   );
 
   const removeFilter = useCallback(
@@ -66,12 +73,12 @@ export function useFiltering() {
         onFilterChange?.(next);
       } else {
         dispatch({ type: "REMOVE_FILTER", key });
-        const next = { ...state.columnFilters };
+        const next = { ...internalColumnFilters };
         delete next[key];
         onFilterChange?.(next);
       }
     },
-    [controlled.filters, onFilterChange, dispatch, state.columnFilters]
+    [controlled.filters, onFilterChange, dispatch, internalColumnFilters]
   );
 
   const clearAllFilters = useCallback(() => {

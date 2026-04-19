@@ -6,7 +6,7 @@ import { Icon } from "@unisane/ui";
 import type { Column, PinPosition, ColumnMetaMap, InlineEditingController, RowGroup, GroupHeaderProps, CellSelectionContext, RowActivationEvent } from "../types/index";
 import type { LoadingVariant } from "../types/config";
 import type { RowDragProps } from "../hooks/ui/use-row-drag";
-import { DataTableRow } from "./row";
+import { DataTableExpandedRow, DataTableRow } from "./row";
 import { GroupRow } from "./group-row";
 import { SkeletonLoadingState } from "./skeleton-loading-state";
 import type { Density } from "../constants/index";
@@ -278,6 +278,8 @@ function DataTableBodyInner<T extends { id: string }>({
           group.rows.forEach((row, rowIndexInGroup) => {
             const currentRowIndex = globalRowIndex++;
             const isLastRow = isLastGroup && rowIndexInGroup === group.rows.length - 1;
+            const isExpanded = expandedRows.has(row.id);
+            const canExpand = getRowCanExpand ? getRowCanExpand(row) : !!renderExpandedRow;
 
             elements.push(
               <DataTableRow
@@ -288,21 +290,20 @@ function DataTableBodyInner<T extends { id: string }>({
                 columnMeta={columnMeta}
                 getEffectivePinPosition={getEffectivePinPosition}
                 isSelected={selectedRows.has(row.id)}
-                isExpanded={expandedRows.has(row.id)}
+                isExpanded={isExpanded}
                 isActive={activeRowId === row.id}
                 isFocused={focusedIndex === currentRowIndex}
-                isLastRow={isLastRow}
+                isLastRow={isLastRow && !isExpanded}
                 selectable={selectable}
                 showColumnBorders={showColumnBorders}
                 zebra={zebra}
                 enableExpansion={enableExpansion}
-                canExpand={getRowCanExpand ? getRowCanExpand(row) : !!renderExpandedRow}
+                canExpand={canExpand}
                 onSelect={onSelect}
                 onToggleExpand={onToggleExpand}
                 onRowClick={onRowClick}
                 onRowContextMenu={onRowContextMenu}
                 onRowHover={onRowHover}
-                renderExpandedRow={renderExpandedRow}
                 density={density}
                 inlineEditing={inlineEditing}
                 groupDepth={group.depth + 1}
@@ -313,6 +314,21 @@ function DataTableBodyInner<T extends { id: string }>({
                 searchText={searchText}
               />
             );
+
+            if (isExpanded && renderExpandedRow) {
+              elements.push(
+                <DataTableExpandedRow
+                  key={`${row.id}__expanded`}
+                  row={row}
+                  columns={columns}
+                  selectable={selectable}
+                  showColumnBorders={showColumnBorders}
+                  enableExpansion={enableExpansion}
+                  isLastRow={isLastRow}
+                  renderExpandedRow={renderExpandedRow}
+                />,
+              );
+            }
           });
         }
       }
@@ -333,45 +349,68 @@ function DataTableBodyInner<T extends { id: string }>({
   // Render ungrouped rows
   return (
     <tbody className="bg-surface">
-      {data.map((row, index) => (
-        <DataTableRow
-          key={row.id}
-          row={row}
-          rowIndex={index}
-          columns={columns}
-          columnMeta={columnMeta}
-          getEffectivePinPosition={getEffectivePinPosition}
-          isSelected={selectedRows.has(row.id)}
-          isExpanded={expandedRows.has(row.id)}
-          isActive={activeRowId === row.id}
-          isFocused={focusedIndex === index}
-          isLastRow={index === data.length - 1}
-          selectable={selectable}
-          showColumnBorders={showColumnBorders}
-          zebra={zebra}
-          enableExpansion={enableExpansion}
-          canExpand={getRowCanExpand ? getRowCanExpand(row) : !!renderExpandedRow}
-          onSelect={onSelect}
-          onToggleExpand={onToggleExpand}
-          onRowClick={onRowClick}
-          onRowContextMenu={onRowContextMenu}
-          onRowHover={onRowHover}
-          renderExpandedRow={renderExpandedRow}
-          density={density}
-          inlineEditing={inlineEditing}
-          cellSelectionEnabled={cellSelectionEnabled}
-          getCellSelectionContext={getCellSelectionContext}
-          onCellClick={onCellClick}
-          onCellKeyDown={onCellKeyDown}
-          reorderableRows={reorderableRows}
-          isDragging={isDraggingRow?.(row.id)}
-          isDropTarget={isDropTarget?.(row.id)}
-          dropPosition={getDropPosition?.(row.id)}
-          rowDragProps={getRowDragProps?.(row.id, index)}
-          dragHandleProps={getDragHandleProps?.(row.id, index)}
-          searchText={searchText}
-        />
-      ))}
+      {data.flatMap((row, index) => {
+        const isExpanded = expandedRows.has(row.id);
+        const isLastDataRow = index === data.length - 1;
+        const canExpand = getRowCanExpand ? getRowCanExpand(row) : !!renderExpandedRow;
+
+        const elements = [
+          <DataTableRow
+            key={row.id}
+            row={row}
+            rowIndex={index}
+            columns={columns}
+            columnMeta={columnMeta}
+            getEffectivePinPosition={getEffectivePinPosition}
+            isSelected={selectedRows.has(row.id)}
+            isExpanded={isExpanded}
+            isActive={activeRowId === row.id}
+            isFocused={focusedIndex === index}
+            isLastRow={isLastDataRow && !isExpanded}
+            selectable={selectable}
+            showColumnBorders={showColumnBorders}
+            zebra={zebra}
+            enableExpansion={enableExpansion}
+            canExpand={canExpand}
+            onSelect={onSelect}
+            onToggleExpand={onToggleExpand}
+            onRowClick={onRowClick}
+            onRowContextMenu={onRowContextMenu}
+            onRowHover={onRowHover}
+            density={density}
+            inlineEditing={inlineEditing}
+            cellSelectionEnabled={cellSelectionEnabled}
+            getCellSelectionContext={getCellSelectionContext}
+            onCellClick={onCellClick}
+            onCellKeyDown={onCellKeyDown}
+            reorderableRows={reorderableRows}
+            isDragging={isDraggingRow?.(row.id)}
+            isDropTarget={isDropTarget?.(row.id)}
+            dropPosition={getDropPosition?.(row.id)}
+            rowDragProps={getRowDragProps?.(row.id, index)}
+            dragHandleProps={getDragHandleProps?.(row.id, index)}
+            searchText={searchText}
+          />,
+        ];
+
+        if (isExpanded && renderExpandedRow) {
+          elements.push(
+            <DataTableExpandedRow
+              key={`${row.id}__expanded`}
+              row={row}
+              columns={columns}
+              selectable={selectable}
+              showColumnBorders={showColumnBorders}
+              enableExpansion={enableExpansion}
+              reorderableRows={reorderableRows}
+              isLastRow={isLastDataRow}
+              renderExpandedRow={renderExpandedRow}
+            />,
+          );
+        }
+
+        return elements;
+      })}
     </tbody>
   );
 }

@@ -1,7 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useMemo } from "react";
-import { useDataTableContext } from "../provider";
+import {
+  useDataTableControlledState,
+  useDataTableRuntime,
+  useDataTableSelectionSlice,
+} from "../provider";
 import { DataTableError, DataTableErrorCode } from "../../errors";
 
 /**
@@ -15,7 +19,10 @@ import { DataTableError, DataTableErrorCode } from "../../errors";
  * Now uses useEffect to fire callbacks after state changes are committed.
  */
 export function useSelection() {
-  const { state, dispatch, controlled, onSelectionChange, onSelectAllFiltered, onError } = useDataTableContext();
+  const { dispatch, callbacks } = useDataTableRuntime();
+  const controlled = useDataTableControlledState();
+  const { selectedRows: internalSelectedRows, expandedRows } = useDataTableSelectionSlice();
+  const { onSelectionChange, onSelectAllFiltered, onError } = callbacks;
 
   // Check if sparse selection is being used (takes precedence)
   const sparseSelection = controlled.sparseSelection;
@@ -25,7 +32,7 @@ export function useSelection() {
   const isControlled = controlled.selectedIds !== undefined || usingSparseSelection;
 
   // Track previous selection to detect changes (for uncontrolled mode callback)
-  const prevSelectionRef = useRef<Set<string>>(state.selectedRows);
+  const prevSelectionRef = useRef<Set<string>>(internalSelectedRows);
 
   // Track if this is the initial mount to skip the first effect
   const isInitialMount = useRef(true);
@@ -35,13 +42,13 @@ export function useSelection() {
     if (usingSparseSelection) {
       // For sparse selection, we create a "virtual" Set that uses the sparse isSelected function
       // This maintains API compatibility while using O(1) lookups
-      return state.selectedRows; // We'll override isSelected below
+      return internalSelectedRows; // We'll override isSelected below
     }
     if (controlled.selectedIds !== undefined) {
       return new Set(controlled.selectedIds);
     }
-    return state.selectedRows;
-  }, [usingSparseSelection, controlled.selectedIds, state.selectedRows]);
+    return internalSelectedRows;
+  }, [usingSparseSelection, controlled.selectedIds, internalSelectedRows]);
 
   // Fire onSelectionChange callback when uncontrolled state changes
   // This ensures the callback is fired AFTER the reducer has updated
@@ -49,7 +56,7 @@ export function useSelection() {
     // Skip initial mount
     if (isInitialMount.current) {
       isInitialMount.current = false;
-      prevSelectionRef.current = state.selectedRows;
+      prevSelectionRef.current = internalSelectedRows;
       return;
     }
 
@@ -58,7 +65,7 @@ export function useSelection() {
 
     // Check if selection actually changed
     const prev = prevSelectionRef.current;
-    const current = state.selectedRows;
+    const current = internalSelectedRows;
 
     // Compare sets - check if they're different
     const hasChanged = prev.size !== current.size ||
@@ -70,7 +77,7 @@ export function useSelection() {
     }
 
     prevSelectionRef.current = current;
-  }, [state.selectedRows, isControlled, onSelectionChange]);
+  }, [internalSelectedRows, isControlled, onSelectionChange]);
 
   const selectRow = useCallback(
     (id: string) => {
@@ -217,7 +224,7 @@ export function useSelection() {
   return {
     selectedRows,
     selectedCount,
-    expandedRows: state.expandedRows,
+    expandedRows,
     selectRow,
     deselectRow,
     toggleSelect,
@@ -227,7 +234,7 @@ export function useSelection() {
     hasSelectAllFiltered: !!onSelectAllFiltered,
     toggleExpand,
     isSelected,
-    isExpanded: (id: string) => state.expandedRows.has(id),
+    isExpanded: (id: string) => expandedRows.has(id),
     // Expose sparse selection state for consumers that need it
     sparseSelectionState: sparseSelection?.state,
     isAllSelected: sparseSelection?.isAllSelected,

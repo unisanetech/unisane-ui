@@ -2,16 +2,8 @@
 export { DataTable, type DataTableProps } from './data-table';
 export { DataTableInner, type DataTableInnerProps } from './data-table-inner';
 
-// Layout components and legacy split-scroll helpers
-export {
-  DataTableLayout,
-  StickyZone,
-  SyncedScrollContainer,
-  StickyHeaderScrollContainer,
-  HeaderTable,
-  BodyTable,
-  useScrollSync,
-} from './layout';
+// Layout components used by the active render path
+export { DataTableLayout, StickyZone } from './layout';
 
 // Table primitives
 export {

@@ -13,7 +13,7 @@ import type {
 import { DataTableHeader } from './header/index';
 import { DataTableBody } from './body';
 import { DataTableFooter } from './footer';
-import { VirtualizedBody } from './virtualized-body';
+import { VirtualizedBody, type VirtualizedBodyItem } from './virtualized-body';
 import { TableColgroup } from './colgroup';
 import { Table, TableContainer } from './table';
 import { CustomScrollbar } from './custom-scrollbar';
@@ -380,24 +380,77 @@ export function DataTableInner<T extends { id: string }>({
   // Scale by the global theme density factor for proper virtualization
   const baseRowHeight = estimateRowHeight ?? DENSITY_CONFIG[density].rowHeight;
   const rowHeight = Math.round(baseRowHeight * densityScale);
+  const expandedRowHeightEstimate = rowHeight * 3;
+
+  const virtualizedRowItems = useMemo<Array<VirtualizedBodyItem<T>>>(() => {
+    if (!renderExpandedRow) {
+      return paginatedData.map((row, rowIndex) => ({
+        id: row.id,
+        kind: 'row',
+        row,
+        rowIndex,
+      }));
+    }
+
+    return paginatedData.flatMap((row, rowIndex) => {
+      const items: Array<VirtualizedBodyItem<T>> = [
+        {
+          id: row.id,
+          kind: 'row',
+          row,
+          rowIndex,
+        },
+      ];
+
+      const canExpand = getRowCanExpand ? getRowCanExpand(row) : true;
+      if (canExpand && expandedRows.has(row.id)) {
+        items.push({
+          id: `${row.id}__expanded`,
+          kind: 'expanded',
+          row,
+          rowIndex,
+        });
+      }
+
+      return items;
+    });
+  }, [expandedRows, getRowCanExpand, paginatedData, renderExpandedRow]);
+
+  const rowVirtualIndexMap = useMemo(() => {
+    const indexMap = new Map<number, number>();
+
+    virtualizedRowItems.forEach((item, virtualIndex) => {
+      if (item.kind === 'row') {
+        indexMap.set(item.rowIndex, virtualIndex);
+      }
+    });
+
+    return indexMap;
+  }, [virtualizedRowItems]);
 
   const {
     containerRef: virtualContainerRef,
     virtualRows,
     totalHeight,
     isVirtualized,
-    getRowStyle,
+    scrollToIndex,
     measureElement,
   } = useVirtualizedRows({
-    data: paginatedData,
+    data: virtualizedRowItems,
     estimateRowHeight: rowHeight,
+    estimateSize: (item) =>
+      item.kind === 'expanded' ? expandedRowHeightEstimate : rowHeight,
     enabled: virtualize && usesInternalVerticalScroll,
     threshold: virtualizeThreshold,
   });
 
-  useEffect(() => {
-    virtualContainerRef.current = tableContainerRef.current;
-  }, [virtualContainerRef]);
+  const handleTableContainerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      tableContainerRef.current = node;
+      virtualContainerRef.current = node;
+    },
+    [virtualContainerRef],
+  );
 
   useEffect(() => {
     const container = tableContainerRef.current;
@@ -556,6 +609,19 @@ export function DataTableInner<T extends { id: string }>({
     containerRef: tableContainerRef,
     getRowId: getRowDomId,
   });
+
+  useEffect(() => {
+    if (!isVirtualized || focusedIndex === null) {
+      return;
+    }
+
+    const virtualIndex = rowVirtualIndexMap.get(focusedIndex);
+    if (virtualIndex === undefined) {
+      return;
+    }
+
+    scrollToIndex(virtualIndex, { align: 'auto' });
+  }, [focusedIndex, isVirtualized, rowVirtualIndexMap, scrollToIndex]);
 
   // ─── STATUS ANNOUNCEMENTS ─────────────────────────────────────────────────
 
@@ -716,7 +782,7 @@ export function DataTableInner<T extends { id: string }>({
           </StickyZone>
         )}
 
-        <TableContainer ref={tableContainerRef} onScroll={handleTableScroll}>
+        <TableContainer ref={handleTableContainerRef} onScroll={handleTableScroll}>
           <Table
             aria-rowcount={totalItems ?? processedData.length}
             aria-colcount={
@@ -764,7 +830,6 @@ export function DataTableInner<T extends { id: string }>({
                 onRowContextMenu={onRowContextMenu}
                 onRowHover={onRowHover}
                 density={density}
-                getRowStyle={getRowStyle}
                 measureElement={measureElement}
                 inlineEditing={inlineEditing}
                 cellSelectionEnabled={cellSelectionEnabled}

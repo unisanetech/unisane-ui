@@ -50,7 +50,6 @@ interface DataTableRowProps<T> {
   /** Callback when row is right-clicked (context menu) */
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
   onRowHover?: (row: T | null) => void;
-  renderExpandedRow?: (row: T) => ReactNode;
   density?: Density;
   /** Virtualization: inline styles for absolute positioning */
   style?: CSSProperties;
@@ -117,7 +116,6 @@ function DataTableRowInner<T extends { id: string }>({
   onRowClick,
   onRowContextMenu,
   onRowHover,
-  renderExpandedRow,
   density = 'standard',
   style,
   'data-index': dataIndex,
@@ -565,54 +563,90 @@ function DataTableRowInner<T extends { id: string }>({
         })}
       </tr>
 
-      {/* Expanded content */}
-      {isExpanded && renderExpandedRow && (
-        <tr className="bg-surface-container-lowest animate-in slide-in-from-top-1 duration-snappy">
-          {/* Drag handle placeholder - scrolls with content */}
-          {reorderableRows && (
-            <td
-              className="bg-surface-container-lowest border-outline-subtle border-b"
-              style={{
-                width: COLUMN_WIDTHS.DRAG_HANDLE,
-                minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-                maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-              }}
-            />
-          )}
-          {selectable && (
-            <td
-              className={cn(
-                'bg-surface-container-lowest border-outline-subtle left-0 isolate z-10 border-b @md:sticky',
-                showColumnBorders && 'border-outline-subtle border-r',
-              )}
-              style={{
-                width: COLUMN_WIDTHS.CHECKBOX,
-                minWidth: COLUMN_WIDTHS.CHECKBOX,
-                maxWidth: COLUMN_WIDTHS.CHECKBOX,
-              }}
-            />
-          )}
-          {enableExpansion && (
-            <td
-              className={cn(
-                'bg-surface-container-lowest border-outline-subtle isolate z-10 border-b @md:sticky',
-                showColumnBorders && 'border-outline-subtle border-r',
-              )}
-              style={{
-                // Position after checkbox if selectable, otherwise at 0
-                left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
-                width: COLUMN_WIDTHS.EXPANDER,
-                minWidth: COLUMN_WIDTHS.EXPANDER,
-                maxWidth: COLUMN_WIDTHS.EXPANDER,
-              }}
-            />
-          )}
-          <td colSpan={columns.length} className="border-outline-subtle border-b p-0">
-            <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
-          </td>
-        </tr>
-      )}
     </>
+  );
+}
+
+interface DataTableExpandedRowProps<T> {
+  row: T;
+  columns: Column<T>[];
+  selectable: boolean;
+  showColumnBorders: boolean;
+  enableExpansion: boolean;
+  reorderableRows?: boolean;
+  isLastRow?: boolean;
+  rowRef?: (node: HTMLTableRowElement | null) => void;
+  'data-index'?: number;
+  renderExpandedRow: (row: T) => ReactNode;
+}
+
+function DataTableExpandedRowInner<T extends { id: string }>({
+  row,
+  columns,
+  selectable,
+  showColumnBorders,
+  enableExpansion,
+  reorderableRows = false,
+  isLastRow = false,
+  rowRef,
+  'data-index': dataIndex,
+  renderExpandedRow,
+}: DataTableExpandedRowProps<T>) {
+  return (
+    <tr
+      ref={rowRef}
+      className="bg-surface-container-lowest animate-in slide-in-from-top-1 duration-snappy"
+      data-index={dataIndex}
+    >
+      {reorderableRows && (
+        <td
+          className={cn(
+            'bg-surface-container-lowest',
+            !isLastRow && 'border-outline-subtle border-b',
+          )}
+          style={{
+            width: COLUMN_WIDTHS.DRAG_HANDLE,
+            minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+          }}
+        />
+      )}
+      {selectable && (
+        <td
+          className={cn(
+            'bg-surface-container-lowest left-0 isolate z-10 @md:sticky',
+            !isLastRow && 'border-outline-subtle border-b',
+            showColumnBorders && 'border-outline-subtle border-r',
+          )}
+          style={{
+            width: COLUMN_WIDTHS.CHECKBOX,
+            minWidth: COLUMN_WIDTHS.CHECKBOX,
+            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+          }}
+        />
+      )}
+      {enableExpansion && (
+        <td
+          className={cn(
+            'bg-surface-container-lowest isolate z-10 @md:sticky',
+            !isLastRow && 'border-outline-subtle border-b',
+            showColumnBorders && 'border-outline-subtle border-r',
+          )}
+          style={{
+            left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
+            width: COLUMN_WIDTHS.EXPANDER,
+            minWidth: COLUMN_WIDTHS.EXPANDER,
+            maxWidth: COLUMN_WIDTHS.EXPANDER,
+          }}
+        />
+      )}
+      <td
+        colSpan={columns.length}
+        className={cn('p-0', !isLastRow && 'border-outline-subtle border-b')}
+      >
+        <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
+      </td>
+    </tr>
   );
 }
 
@@ -702,3 +736,5 @@ export const DataTableRow = memo(DataTableRowInner, (prev, next) => {
   // All checks passed - props are equal
   return true;
 }) as typeof DataTableRowInner;
+
+export const DataTableExpandedRow = memo(DataTableExpandedRowInner) as typeof DataTableExpandedRowInner;

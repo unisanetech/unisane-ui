@@ -1,7 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState, useEffect, useRef, type RefObject } from "react";
-import { useDataTableContext } from "../provider";
+import {
+  useDataTableColumnSlice,
+  useDataTableControlledState,
+  useDataTableRuntime,
+} from "../provider";
 import type { Column, PinPosition } from "../../types";
 import { RESPONSIVE } from "../../constants";
 
@@ -9,15 +13,10 @@ import { RESPONSIVE } from "../../constants";
  * Hook for column management functionality
  */
 export function useColumns<T>() {
-  const {
-    state,
-    dispatch,
-    config,
-    controlled,
-    onColumnPinChange,
-    onColumnOrderChange,
-    onColumnVisibilityChange,
-  } = useDataTableContext<T>();
+  const { dispatch, config, callbacks } = useDataTableRuntime<T>();
+  const controlled = useDataTableControlledState();
+  const state = useDataTableColumnSlice();
+  const { onColumnPinChange, onColumnOrderChange, onColumnVisibilityChange } = callbacks;
 
   const pinState = controlled.pinState ?? state.columnPinState;
   const columnOrder = controlled.columnOrder ?? state.columnOrder;

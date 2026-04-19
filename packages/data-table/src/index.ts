@@ -253,14 +253,9 @@ export {
   TableHeaderCell,
   TableCell,
 
-  // Layout components and legacy split-scroll helpers
+  // Layout components used by the active render path
   DataTableLayout,
   StickyZone,
-  SyncedScrollContainer,
-  StickyHeaderScrollContainer,
-  HeaderTable,
-  BodyTable,
-  useScrollSync,
 
   // Data table components
   DataTableHeader,

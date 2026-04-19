@@ -1,7 +1,11 @@
 "use client";
 
 import { useCallback } from "react";
-import { useDataTableContext } from "../provider";
+import {
+  useDataTableControlledState,
+  useDataTableRuntime,
+  useDataTableSortSlice,
+} from "../provider";
 import type { MultiSortState } from "../../types";
 import { safeArrayAccess } from "../../utils/type-guards";
 
@@ -10,16 +14,13 @@ import { safeArrayAccess } from "../../utils/type-guards";
  * Supports both single-sort and multi-sort modes
  */
 export function useSorting() {
-  const {
-    state,
-    dispatch,
-    controlled,
-    maxSortColumns,
-    onSortChange,
-  } = useDataTableContext();
+  const { dispatch, maxSortColumns, callbacks } = useDataTableRuntime();
+  const controlled = useDataTableControlledState();
+  const { sortState: internalSortState } = useDataTableSortSlice();
+  const { onSortChange } = callbacks;
 
   // Get current sort state (controlled or internal)
-  const sortState: MultiSortState = controlled.sortState ?? state.sortState ?? [];
+  const sortState: MultiSortState = controlled.sortState ?? internalSortState ?? [];
 
   // Set sort state directly
   const setSort = useCallback(

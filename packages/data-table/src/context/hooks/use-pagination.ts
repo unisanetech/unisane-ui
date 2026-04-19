@@ -1,20 +1,22 @@
 "use client";
 
 import { useCallback } from "react";
-import { useDataTableContext } from "../provider";
+import { useDataTablePaginationSlice, useDataTableRuntime } from "../provider";
 
 /**
  * Hook for pagination functionality
  */
 export function usePagination() {
-  const { state, dispatch, onPaginationChange } = useDataTableContext();
+  const { dispatch, callbacks } = useDataTableRuntime();
+  const { pagination } = useDataTablePaginationSlice();
+  const { onPaginationChange } = callbacks;
 
   const setPage = useCallback(
     (page: number) => {
       dispatch({ type: "SET_PAGE", page });
-      onPaginationChange?.(page, state.pagination.pageSize);
+      onPaginationChange?.(page, pagination.pageSize);
     },
-    [dispatch, onPaginationChange, state.pagination.pageSize]
+    [dispatch, onPaginationChange, pagination.pageSize]
   );
 
   const setPageSize = useCallback(
@@ -27,16 +29,16 @@ export function usePagination() {
   );
 
   const nextPage = useCallback(() => {
-    const newPage = state.pagination.page + 1;
+    const newPage = pagination.page + 1;
     dispatch({ type: "NEXT_PAGE" });
-    onPaginationChange?.(newPage, state.pagination.pageSize);
-  }, [dispatch, onPaginationChange, state.pagination.page, state.pagination.pageSize]);
+    onPaginationChange?.(newPage, pagination.pageSize);
+  }, [dispatch, onPaginationChange, pagination.page, pagination.pageSize]);
 
   const prevPage = useCallback(() => {
-    const newPage = Math.max(1, state.pagination.page - 1);
+    const newPage = Math.max(1, pagination.page - 1);
     dispatch({ type: "PREV_PAGE" });
-    onPaginationChange?.(newPage, state.pagination.pageSize);
-  }, [dispatch, onPaginationChange, state.pagination.page, state.pagination.pageSize]);
+    onPaginationChange?.(newPage, pagination.pageSize);
+  }, [dispatch, onPaginationChange, pagination.page, pagination.pageSize]);
 
   /**
    * Reset pagination to page 1 and notify parent.
@@ -44,12 +46,12 @@ export function usePagination() {
    */
   const resetPage = useCallback(() => {
     dispatch({ type: "SET_PAGE", page: 1 });
-    onPaginationChange?.(1, state.pagination.pageSize);
-  }, [dispatch, onPaginationChange, state.pagination.pageSize]);
+    onPaginationChange?.(1, pagination.pageSize);
+  }, [dispatch, onPaginationChange, pagination.pageSize]);
 
   return {
-    page: state.pagination.page,
-    pageSize: state.pagination.pageSize,
+    page: pagination.page,
+    pageSize: pagination.pageSize,
     setPage,
     setPageSize,
     nextPage,

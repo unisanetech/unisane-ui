@@ -1,13 +1,14 @@
 "use client";
 
 import { useCallback } from "react";
-import { useDataTableContext } from "../provider";
+import { useDataTableColumnSlice, useDataTableRuntime } from "../provider";
 
 /**
  * Hook for table UI state and configuration
  */
 export function useTableUI() {
-  const { state, dispatch, config, errorHub } = useDataTableContext();
+  const { dispatch, config, errorHub } = useDataTableRuntime();
+  const { columnPinState, columnWidths, hiddenColumns } = useDataTableColumnSlice();
 
   const resetAll = useCallback(
     () => dispatch({ type: "RESET_ALL" }),
@@ -19,8 +20,8 @@ export function useTableUI() {
     errorHub,
     resetAll,
     hasCustomizations:
-      Object.keys(state.columnPinState).length > 0 ||
-      Object.keys(state.columnWidths).length > 0 ||
-      state.hiddenColumns.size > 0,
+      Object.keys(columnPinState).length > 0 ||
+      Object.keys(columnWidths).length > 0 ||
+      hiddenColumns.size > 0,
   };
 }
