@@ -9,7 +9,7 @@ import { Text } from '../primitives/text';
 import { IconButton } from './icon-button';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
-export type SheetPlacement = 'right' | 'bottom';
+export type SheetPlacement = 'left' | 'right' | 'bottom';
 
 export interface SheetProps {
   open?: boolean;
@@ -96,6 +96,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     const descriptionId = useId();
     const bodyDescriptionId = useId();
     const isBottom = placement === 'bottom';
+    const isLeft = placement === 'left';
     const resolvedShowCloseButton = showCloseButton ?? Boolean(title || description || icon);
     const hasHeader = Boolean(title || description || icon || resolvedShowCloseButton);
     const describedBy = description ? descriptionId : bodyDescriptionId;
@@ -227,7 +228,11 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       <div
         className={cn(
           'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
-          isBottom ? 'items-end justify-center p-0' : 'items-stretch justify-end p-0',
+          isBottom
+            ? 'items-end justify-center p-0'
+            : isLeft
+              ? 'items-stretch justify-start p-0'
+              : 'items-stretch justify-end p-0',
         )}
         role="presentation"
       >
@@ -257,15 +262,23 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           }}
           className={cn(
             'bg-surface shadow-5 border-outline-soft relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
-            isBottom ? 'rounded-t-lg rounded-b-none border-b-0' : 'h-full rounded-none border-r-0',
+            isBottom
+              ? 'rounded-t-lg rounded-b-none border-b-0'
+              : isLeft
+                ? 'h-full rounded-none border-l-0'
+                : 'h-full rounded-none border-r-0',
             isBottom ? bottomSizeClasses[size] : rightSizeClasses[size],
             isBottom
               ? isVisible
                 ? 'translate-y-0 opacity-100'
                 : 'translate-y-6 opacity-0'
-              : isVisible
-                ? 'translate-x-0 opacity-100'
-                : 'translate-x-6 opacity-0',
+              : isLeft
+                ? isVisible
+                  ? 'translate-x-0 opacity-100'
+                  : '-translate-x-6 opacity-0'
+                : isVisible
+                  ? 'translate-x-0 opacity-100'
+                  : 'translate-x-6 opacity-0',
             className,
           )}
           style={{
