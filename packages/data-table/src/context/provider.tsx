@@ -6,22 +6,20 @@ import {
   useReducer,
   useEffect,
   useMemo,
-  useCallback,
   startTransition,
 } from "react";
 import type {
   DataTableAction,
-  DataTableContextValue,
   DataTableProviderProps,
   DataTableConfig,
   DataTableCallbacks,
+  DataTableControlledState,
   SelectionSlice,
   SortSlice,
   FilterSlice,
   PaginationSlice,
   ColumnSlice,
   GroupingSlice,
-  StateSlices,
 } from "./types";
 import { dataTableReducer, createInitialState } from "./reducer";
 import { flattenColumns, hasColumnGroups } from "../types/index";
@@ -41,14 +39,11 @@ interface DataTableRuntimeContextValue<T = unknown> {
   config: DataTableConfig<T>;
   errorHub: ErrorHub;
   callbacks: DataTableCallbacks;
-  getCallbacks: () => DataTableCallbacks;
   maxSortColumns: number;
 }
 
-type DataTableControlledContextValue = DataTableContextValue["controlled"];
-
 const DataTableRuntimeContext = createContext<DataTableRuntimeContextValue<unknown> | null>(null);
-const DataTableControlledContext = createContext<DataTableControlledContextValue | null>(null);
+const DataTableControlledContext = createContext<DataTableControlledState | null>(null);
 const DataTableSelectionContext = createContext<SelectionSlice | null>(null);
 const DataTableSortContext = createContext<SortSlice | null>(null);
 const DataTableFilterContext = createContext<FilterSlice | null>(null);
@@ -435,7 +430,7 @@ export function DataTableProvider<T extends { id: string }>({
 
   // ─── CONTEXT VALUE ─────────────────────────────────────────────────────────
 
-  const controlled = useMemo(
+  const controlled = useMemo<DataTableControlledState>(
     () => ({
       sortState: externalSortState,
       filters: controlledFilters,
@@ -528,8 +523,6 @@ export function DataTableProvider<T extends { id: string }>({
     ]
   );
 
-  const getCallbacks = useCallback(() => callbacks, [callbacks]);
-
   const runtimeValue = useMemo<DataTableRuntimeContextValue<T>>(
     () => ({
       dispatch,
@@ -537,7 +530,6 @@ export function DataTableProvider<T extends { id: string }>({
       errorHub,
       maxSortColumns,
       callbacks,
-      getCallbacks,
     }),
     [
       dispatch,
@@ -545,16 +537,9 @@ export function DataTableProvider<T extends { id: string }>({
       errorHub,
       maxSortColumns,
       callbacks,
-      getCallbacks,
     ]
   );
 
-  // Note: We cast to DataTableContextValue<unknown> because React Context doesn't support generics.
-  // The generic type T is preserved through useDataTableContext<T>() which casts back.
-  // This is a safe cast because:
-  // 1. T extends { id: string } constraint is maintained
-  // 2. All T-dependent operations go through typed hooks (useColumns<T>, etc.)
-  // 3. The context consumer (useDataTableContext<T>) restores the correct type
   const tableContent = (
     <DataTableRuntimeContext.Provider
       value={runtimeValue as DataTableRuntimeContextValue<unknown>}
@@ -622,7 +607,7 @@ export function useOptionalDataTableRuntime<T = unknown>():
   return context as DataTableRuntimeContextValue<T> | null;
 }
 
-export function useDataTableControlledState(): DataTableControlledContextValue {
+export function useDataTableControlledState(): DataTableControlledState {
   return useRequiredContext(
     DataTableControlledContext,
     "useDataTableControlledState"
@@ -662,138 +647,8 @@ export function useDataTableGroupingSlice(): GroupingSlice {
   );
 }
 
-export function useDataTableContext<T = unknown>(): DataTableContextValue<T> {
-  const runtime = useDataTableRuntime<T>();
-  const controlled = useDataTableControlledState();
-  const selection = useDataTableSelectionSlice();
-  const sort = useDataTableSortSlice();
-  const filter = useDataTableFilterSlice();
-  const pagination = useDataTablePaginationSlice();
-  const column = useDataTableColumnSlice();
-  const grouping = useDataTableGroupingSlice();
-
-  const stateSlices: StateSlices = {
-    selection,
-    sort,
-    filter,
-    pagination,
-    column,
-    grouping,
-  };
-
-  const state = {
-    selectedRows: selection.selectedRows,
-    expandedRows: selection.expandedRows,
-    sortState: sort.sortState,
-    searchText: filter.searchText,
-    columnFilters: filter.columnFilters,
-    pagination: pagination.pagination,
-    hiddenColumns: column.hiddenColumns,
-    columnWidths: column.columnWidths,
-    columnPinState: column.columnPinState,
-    columnOrder: column.columnOrder,
-    groupBy: grouping.groupBy,
-    expandedGroups: grouping.expandedGroups,
-  };
-
-  return {
-    state,
-    stateSlices,
-    dispatch: runtime.dispatch,
-    config: runtime.config,
-    errorHub: runtime.errorHub,
-    controlled,
-    maxSortColumns: runtime.maxSortColumns,
-    onSortChange: runtime.callbacks.onSortChange,
-    onFilterChange: runtime.callbacks.onFilterChange,
-    onSearchChange: runtime.callbacks.onSearchChange,
-    onColumnPinChange: runtime.callbacks.onColumnPinChange,
-    onColumnOrderChange: runtime.callbacks.onColumnOrderChange,
-    onSelectionChange: runtime.callbacks.onSelectionChange,
-    onGroupByChange: runtime.callbacks.onGroupByChange,
-    onSelectAllFiltered: runtime.callbacks.onSelectAllFiltered,
-    onPaginationChange: runtime.callbacks.onPaginationChange,
-    onColumnVisibilityChange: runtime.callbacks.onColumnVisibilityChange,
-    onScroll: runtime.callbacks.onScroll,
-    onError: runtime.callbacks.onError,
-    getCallbacks: runtime.getCallbacks,
-  };
-}
-
-/**
- * Optional version of useDataTableContext that returns null if not inside a provider.
- * Useful for layout components that may be used outside a DataTableProvider.
- */
-export function useOptionalDataTableContext<T = unknown>(): DataTableContextValue<T> | null {
-  const runtime = useContext(DataTableRuntimeContext);
-  const controlled = useContext(DataTableControlledContext);
-  const selection = useContext(DataTableSelectionContext);
-  const sort = useContext(DataTableSortContext);
-  const filter = useContext(DataTableFilterContext);
-  const pagination = useContext(DataTablePaginationContext);
-  const column = useContext(DataTableColumnContext);
-  const grouping = useContext(DataTableGroupingContext);
-
-  if (
-    !runtime ||
-    !controlled ||
-    !selection ||
-    !sort ||
-    !filter ||
-    !pagination ||
-    !column ||
-    !grouping
-  ) {
-    return null;
-  }
-
-  return {
-    state: {
-      selectedRows: selection.selectedRows,
-      expandedRows: selection.expandedRows,
-      sortState: sort.sortState,
-      searchText: filter.searchText,
-      columnFilters: filter.columnFilters,
-      pagination: pagination.pagination,
-      hiddenColumns: column.hiddenColumns,
-      columnWidths: column.columnWidths,
-      columnPinState: column.columnPinState,
-      columnOrder: column.columnOrder,
-      groupBy: grouping.groupBy,
-      expandedGroups: grouping.expandedGroups,
-    },
-    stateSlices: {
-      selection,
-      sort,
-      filter,
-      pagination,
-      column,
-      grouping,
-    },
-    dispatch: runtime.dispatch,
-    config: runtime.config as DataTableConfig<T>,
-    errorHub: runtime.errorHub,
-    controlled,
-    maxSortColumns: runtime.maxSortColumns,
-    onSortChange: runtime.callbacks.onSortChange,
-    onFilterChange: runtime.callbacks.onFilterChange,
-    onSearchChange: runtime.callbacks.onSearchChange,
-    onColumnPinChange: runtime.callbacks.onColumnPinChange,
-    onColumnOrderChange: runtime.callbacks.onColumnOrderChange,
-    onSelectionChange: runtime.callbacks.onSelectionChange,
-    onGroupByChange: runtime.callbacks.onGroupByChange,
-    onSelectAllFiltered: runtime.callbacks.onSelectAllFiltered,
-    onPaginationChange: runtime.callbacks.onPaginationChange,
-    onColumnVisibilityChange: runtime.callbacks.onColumnVisibilityChange,
-    onScroll: runtime.callbacks.onScroll,
-    onError: runtime.callbacks.onError,
-    getCallbacks: runtime.getCallbacks,
-  };
-}
-
 // ─── RE-EXPORT SPECIALIZED HOOKS ────────────────────────────────────────────
 // Hooks are now in separate files for better maintainability.
-// Re-exported here for backward compatibility.
 
 export {
   useSelection,

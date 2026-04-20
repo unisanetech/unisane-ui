@@ -33,7 +33,6 @@ import { useRowDrag } from '../hooks/ui/use-row-drag';
 import { useColumnLayout } from '../hooks/ui/use-column-layout';
 import { useAnnouncements } from '../hooks/ui/use-announcements';
 import {
-  useDataTableContext,
   useSelection,
   useSorting,
   useFiltering,
@@ -42,6 +41,7 @@ import {
   useTableUI,
   useGrouping,
 } from '../context';
+import { useDataTableRuntime } from '../context/provider';
 import { ensureRowIds } from '../utils/ensure-row-ids';
 import { getNestedValue } from '../utils/get-nested-value';
 import { getTotalPages, clampPage } from '../utils/pagination';
@@ -187,7 +187,7 @@ export function DataTableInner<T extends { id: string }>({
     pinnedRightColumns,
     resetColumnPins,
   } = useColumns<T>();
-  const { getCallbacks } = useDataTableContext<T>();
+  const { callbacks } = useDataTableRuntime<T>();
   const { config, errorHub } = useTableUI();
   const {
     groupBy,
@@ -737,7 +737,7 @@ export function DataTableInner<T extends { id: string }>({
       const target = event.currentTarget;
       updatePinnedShadowState(target.scrollLeft);
       handleColumnVirtualizerScroll(event);
-      getCallbacks().onScroll?.({
+      callbacks.onScroll?.({
         scrollLeft: target.scrollLeft,
         scrollTop: target.scrollTop,
         scrollWidth: target.scrollWidth,
@@ -746,7 +746,7 @@ export function DataTableInner<T extends { id: string }>({
         clientHeight: target.clientHeight,
       });
     },
-    [updatePinnedShadowState, handleColumnVirtualizerScroll, getCallbacks],
+    [updatePinnedShadowState, handleColumnVirtualizerScroll, callbacks],
   );
 
   return (

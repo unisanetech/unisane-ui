@@ -53,3 +53,18 @@ export {
   type HighlightedTextProps,
   type HighlightedSpan,
 } from './highlighted-text';
+export { DataTableToolbar, ExportDropdown, type ExportDropdownProps } from './toolbar/index';
+export {
+  GroupingPillsBar,
+  FrozenColumnsIndicator,
+  type ToolbarAction,
+  type ToolbarDropdown,
+  type ToolbarDropdownOption,
+  type ToolbarIconAction,
+  type DataTableToolbarProps,
+  type ExportHandler,
+  type PrintHandler,
+  type GroupingPillsBarProps,
+  type FrozenColumnsIndicatorProps,
+} from './toolbar/index';
+export { DataTablePagination } from './pagination';

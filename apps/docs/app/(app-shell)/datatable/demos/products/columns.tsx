@@ -1,7 +1,8 @@
 "use client";
 
 import { Icon } from "@unisane/ui";
-import { createActionsColumn, type Column, type RowContextMenuItemOrSeparator } from "@unisane/data-table";
+import type { Column, RowContextMenuItemOrSeparator } from "@unisane/data-table";
+import { createActionsColumn } from "@unisane/data-table/components";
 import type { Product, ProductStatus, ProductVisibility, ProductCategory } from "./types";
 import { categories, statuses, visibilities, brands } from "./types";
 

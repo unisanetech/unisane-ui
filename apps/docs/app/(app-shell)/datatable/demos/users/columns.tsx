@@ -1,7 +1,8 @@
 "use client";
 
 import { Avatar, Icon } from "@unisane/ui";
-import { createActionsColumn, type Column, type RowContextMenuItemOrSeparator } from "@unisane/data-table";
+import type { Column, RowContextMenuItemOrSeparator } from "@unisane/data-table";
+import { createActionsColumn } from "@unisane/data-table/components";
 import type { User } from "./types";
 import { departments } from "./types";
 

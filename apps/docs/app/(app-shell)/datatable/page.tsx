@@ -2,29 +2,29 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import {
-  DataTableProvider,
-  DataTableInner,
-  useInlineEditingWithFeedback,
-  useInlineEditingWithHistory,
-  useSelection,
-  useGrouping,
-  useRowContextMenu,
-  RowContextMenu,
-  useCellSelection,
-  usePrint,
-  useActionDialog,
-  useResponsiveDensity,
-  exportData,
-  getNestedValue,
-  enStrings,
-  hiStrings,
   type Column,
   type BulkAction,
   type Density,
-  type ExportFormat,
   type RowContextMenuItemOrSeparator,
-  type PrintHandler,
 } from '@unisane/data-table';
+import { DataTableProvider, useSelection, useGrouping } from '@unisane/data-table/context';
+import {
+  DataTableInner,
+  RowContextMenu,
+  useRowContextMenu,
+  type PrintHandler,
+} from '@unisane/data-table/components';
+import {
+  useInlineEditingWithFeedback,
+  useInlineEditingWithHistory,
+  useCellSelection,
+  useActionDialog,
+  useResponsiveDensity,
+} from '@unisane/data-table/hooks';
+import { exportData, type ExportFormat } from '@unisane/data-table/export';
+import { enStrings, hiStrings } from '@unisane/data-table/i18n';
+import { usePrint } from '@unisane/data-table/print';
+import { getNestedValue } from '@unisane/data-table/utils';
 import {
   Typography,
   Tabs,
@@ -212,9 +212,9 @@ function UsersTable({
       {
         label: 'Export',
         icon: 'download',
-        onClick: (ids) => {
+        onClick: async (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
-          exportData({
+          await exportData({
             format: 'csv',
             data: selected,
             columns,
@@ -304,8 +304,9 @@ function UsersTable({
           searchable: true,
           bulkActions: features.enableSelection ? bulkActions : [],
           exportHandler: {
-            onExport: (format: ExportFormat) =>
-              exportData({ format, data, columns, filename: 'all-users' }),
+            onExport: async (format: ExportFormat) => {
+              await exportData({ format, data, columns, filename: 'all-users' });
+            },
             formats: ['csv', 'excel', 'pdf', 'json'],
           },
           printHandler,
@@ -469,9 +470,9 @@ function ProductsTable({
       {
         label: 'Export',
         icon: 'download',
-        onClick: (ids) => {
+        onClick: async (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
-          exportData({
+          await exportData({
             format: 'csv',
             data: selected,
             columns,
@@ -582,8 +583,9 @@ function ProductsTable({
           searchable: true,
           bulkActions: features.enableSelection ? bulkActions : [],
           exportHandler: {
-            onExport: (format: ExportFormat) =>
-              exportData({ format, data, columns, filename: 'all-products' }),
+            onExport: async (format: ExportFormat) => {
+              await exportData({ format, data, columns, filename: 'all-products' });
+            },
             formats: ['csv', 'excel', 'pdf', 'json'],
           },
           printHandler,
@@ -753,9 +755,9 @@ function InventoryTable({
       {
         label: 'Export',
         icon: 'download',
-        onClick: (ids) => {
+        onClick: async (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
-          exportData({
+          await exportData({
             format: 'csv',
             data: selected,
             columns,
@@ -855,13 +857,14 @@ function InventoryTable({
           searchable: true,
           bulkActions: features.enableSelection ? bulkActions : [],
           exportHandler: {
-            onExport: (format: ExportFormat) =>
-              exportData({
+            onExport: async (format: ExportFormat) => {
+              await exportData({
                 format,
                 data,
                 columns,
                 filename: 'inventory-export',
-              }),
+              });
+            },
             formats: ['csv', 'excel', 'pdf', 'json'],
           },
           printHandler,
@@ -1026,9 +1029,9 @@ function FinancialTable({
       {
         label: 'Export',
         icon: 'download',
-        onClick: (ids) => {
+        onClick: async (ids) => {
           const selected = data.filter((d) => ids.includes(d.id));
-          exportData({
+          await exportData({
             format: 'csv',
             data: selected,
             columns,
@@ -1178,13 +1181,14 @@ function FinancialTable({
           searchable: true,
           bulkActions: features.enableSelection ? bulkActions : [],
           exportHandler: {
-            onExport: (format: ExportFormat) =>
-              exportData({
+            onExport: async (format: ExportFormat) => {
+              await exportData({
                 format,
                 data,
                 columns,
                 filename: 'financial-transactions',
-              }),
+              });
+            },
             formats: ['csv', 'excel', 'pdf', 'json'],
           },
           printHandler,

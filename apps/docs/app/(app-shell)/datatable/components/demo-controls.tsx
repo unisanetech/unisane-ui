@@ -1,7 +1,8 @@
 "use client";
 
 import { Typography, Switch, Chip } from "@unisane/ui";
-import type { Density, PartialDataTableLocale } from "@unisane/data-table";
+import type { Density } from "@unisane/data-table";
+import type { PartialDataTableLocale } from "@unisane/data-table/i18n";
 
 // ─── LOCALE OPTIONS ──────────────────────────────────────────────────────────
 

@@ -56,6 +56,22 @@
       "types": "./dist/context/index.d.ts",
       "import": "./dist/context/index.js"
     },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./export": {
+      "types": "./dist/export.d.ts",
+      "import": "./dist/export.js"
+    },
+    "./i18n": {
+      "types": "./dist/i18n/index.d.ts",
+      "import": "./dist/i18n/index.js"
+    },
+    "./print": {
+      "types": "./dist/print.d.ts",
+      "import": "./dist/print.js"
+    },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js"

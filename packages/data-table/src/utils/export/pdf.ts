@@ -1,16 +1,34 @@
-import { jsPDF } from "jspdf";
-import autoTable from "jspdf-autotable";
 import type { PDFExportOptions, ExportResult } from "./types";
 import { prepareExportData, getCellValue, generateFilename } from "./utils";
 
-// ─── PDF EXPORT ─────────────────────────────────────────────────────────────
+type JsPDFModule = typeof import("jspdf");
+type AutoTableModule = typeof import("jspdf-autotable");
 
-/**
- * Exports table data to PDF format
- */
-export function exportToPDF<T extends { id: string }>(
+let jspdfModule: JsPDFModule | null = null;
+let autoTableModule: AutoTableModule | null = null;
+
+async function loadPDFLibraries(): Promise<{
+  jsPDF: JsPDFModule["jsPDF"];
+  autoTable: AutoTableModule["default"];
+}> {
+  if (!jspdfModule || !autoTableModule) {
+    const [jspdf, autotable] = await Promise.all([
+      import("jspdf"),
+      import("jspdf-autotable"),
+    ]);
+    jspdfModule = jspdf;
+    autoTableModule = autotable;
+  }
+
+  return {
+    jsPDF: jspdfModule.jsPDF,
+    autoTable: autoTableModule.default,
+  };
+}
+
+export async function exportToPDF<T extends { id: string }>(
   options: PDFExportOptions<T>
-): ExportResult {
+): Promise<ExportResult> {
   const {
     filename,
     orientation = "portrait",
@@ -26,7 +44,6 @@ export function exportToPDF<T extends { id: string }>(
   } = options;
 
   try {
-    // Validate required options
     if (!options.data) {
       return { success: false, error: "No data provided for export" };
     }
@@ -34,6 +51,7 @@ export function exportToPDF<T extends { id: string }>(
       return { success: false, error: "No columns provided for export" };
     }
 
+    const { jsPDF, autoTable } = await loadPDFLibraries();
     const { rows, columns } = prepareExportData(options);
 
     if (rows.length === 0) {
@@ -44,14 +62,12 @@ export function exportToPDF<T extends { id: string }>(
       return { success: false, error: "No columns to export" };
     }
 
-    // Create PDF document
     const doc = new jsPDF({
       orientation,
       unit: "mm",
       format: pageSize,
     });
 
-    // Add title if provided
     let startY = 15;
     if (title) {
       doc.setFontSize(16);
@@ -60,13 +76,11 @@ export function exportToPDF<T extends { id: string }>(
       startY += 10;
     }
 
-    // Prepare table data
     const headers = includeHeaders ? [columns.map((col) => col.header)] : [];
     const body = rows.map((row) =>
       columns.map((col) => getCellValue(row, col, formatValue))
     );
 
-    // Parse color from hex to RGB
     const parseColor = (hex: string): [number, number, number] => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
       if (result) {
@@ -76,10 +90,9 @@ export function exportToPDF<T extends { id: string }>(
           parseInt(result[3]!, 16),
         ];
       }
-      return [103, 80, 164]; // Default primary color
+      return [103, 80, 164];
     };
 
-    // Generate table
     autoTable(doc, {
       head: headers,
       body,
@@ -100,7 +113,6 @@ export function exportToPDF<T extends { id: string }>(
       },
       margin: { top: 15, right: 14, bottom: 20, left: 14 },
       didDrawPage: (data) => {
-        // Add page numbers
         if (showPageNumbers) {
           const pageCount = doc.getNumberOfPages();
           doc.setFontSize(8);
@@ -110,7 +122,6 @@ export function exportToPDF<T extends { id: string }>(
           doc.text(pageText, pageWidth - 25, doc.internal.pageSize.getHeight() - 10);
         }
 
-        // Add timestamp
         if (includeTimestamp && data.pageNumber === 1) {
           doc.setFontSize(8);
           doc.setFont("helvetica", "normal");
@@ -120,7 +131,6 @@ export function exportToPDF<T extends { id: string }>(
       },
     });
 
-    // Download
     const outputFilename = generateFilename(filename, "pdf");
     doc.save(outputFilename);
 
@@ -135,12 +145,9 @@ export function exportToPDF<T extends { id: string }>(
   }
 }
 
-/**
- * Returns PDF as a Blob (without downloading)
- */
-export function toPDFBlob<T extends { id: string }>(
+export async function toPDFBlob<T extends { id: string }>(
   options: PDFExportOptions<T>
-): Blob {
+): Promise<Blob> {
   const {
     orientation = "portrait",
     pageSize = "a4",
@@ -152,6 +159,7 @@ export function toPDFBlob<T extends { id: string }>(
     formatValue,
   } = options;
 
+  const { jsPDF, autoTable } = await loadPDFLibraries();
   const { rows, columns } = prepareExportData(options);
 
   const doc = new jsPDF({
@@ -200,4 +208,12 @@ export function toPDFBlob<T extends { id: string }>(
   });
 
   return doc.output("blob");
+}
+
+export function isPDFLoaded(): boolean {
+  return jspdfModule !== null && autoTableModule !== null;
+}
+
+export async function preloadPDF(): Promise<void> {
+  await loadPDFLibraries();
 }

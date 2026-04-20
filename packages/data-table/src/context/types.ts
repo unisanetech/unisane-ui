@@ -16,31 +16,49 @@ import type { DataTableErrorConfig } from "../types/props";
 
 // ─── STATE TYPES ────────────────────────────────────────────────────────────
 
-export interface DataTableState {
+export interface SelectionSlice {
   // Selection
   selectedRows: Set<string>;
   expandedRows: Set<string>;
+}
 
+export interface SortSlice {
   // Sorting (supports multi-sort)
   sortState: MultiSortState;
+}
 
+export interface FilterSlice {
   // Filtering
   searchText: string;
   columnFilters: FilterState;
+}
 
+export interface PaginationSlice {
   // Pagination
   pagination: PaginationState;
+}
 
+export interface ColumnSlice {
   // Columns
   hiddenColumns: Set<string>;
   columnWidths: Record<string, number>;
   columnPinState: ColumnPinState;
   columnOrder: string[];
+}
 
+export interface GroupingSlice {
   // Row Grouping (supports single string or array for multi-level)
   groupBy: string | string[] | null;
   expandedGroups: Set<string>;
 }
+
+export type DataTableState =
+  & SelectionSlice
+  & SortSlice
+  & FilterSlice
+  & PaginationSlice
+  & ColumnSlice
+  & GroupingSlice;
 
 // ─── ACTION TYPES ───────────────────────────────────────────────────────────
 
@@ -130,48 +148,6 @@ export interface DataTableConfig<T> {
   dir: "ltr" | "rtl";
 }
 
-// ─── STATE SLICES ────────────────────────────────────────────────────────────
-// Split state into separate memoized slices to prevent unnecessary re-renders.
-
-export interface SelectionSlice {
-  selectedRows: Set<string>;
-  expandedRows: Set<string>;
-}
-
-export interface SortSlice {
-  sortState: MultiSortState;
-}
-
-export interface FilterSlice {
-  searchText: string;
-  columnFilters: FilterState;
-}
-
-export interface PaginationSlice {
-  pagination: PaginationState;
-}
-
-export interface ColumnSlice {
-  hiddenColumns: Set<string>;
-  columnWidths: Record<string, number>;
-  columnPinState: ColumnPinState;
-  columnOrder: string[];
-}
-
-export interface GroupingSlice {
-  groupBy: string | string[] | null;
-  expandedGroups: Set<string>;
-}
-
-export interface StateSlices {
-  selection: SelectionSlice;
-  sort: SortSlice;
-  filter: FilterSlice;
-  pagination: PaginationSlice;
-  column: ColumnSlice;
-  grouping: GroupingSlice;
-}
-
 // ─── CALLBACK TYPES ──────────────────────────────────────────────────────────
 
 /** Scroll event information */
@@ -220,55 +196,17 @@ export interface DataTableCallbacks {
   onError: ((error: DataTableError) => void) | undefined;
 }
 
-// ─── CONTEXT VALUE ──────────────────────────────────────────────────────────
+// ─── CONTROLLED STATE TYPES ─────────────────────────────────────────────────
 
-export interface DataTableContextValue<T = unknown> {
-  state: DataTableState;
-  /** Memoized state slices for optimized re-renders */
-  stateSlices: StateSlices;
-  dispatch: React.Dispatch<DataTableAction>;
-  config: DataTableConfig<T>;
-
-  // ─── Error Handling ───
-  /** Central error hub for reporting and tracking errors */
-  errorHub: ErrorHub;
-
-  // Controlled state
-  controlled: {
-    sortState: MultiSortState | undefined;
-    filters: FilterState | undefined;
-    search: string | undefined;
-    pinState: ColumnPinState | undefined;
-    columnOrder: string[] | undefined;
-    selectedIds: string[] | undefined;
-    groupBy: string | string[] | null | undefined;
-    sparseSelection: SparseSelectionController | undefined;
-  };
-
-  // Multi-sort config
-  maxSortColumns: number;
-
-  // Event callbacks (direct references for backward compatibility)
-  onSortChange: ((sortState: MultiSortState) => void) | undefined;
-  onFilterChange: ((filters: FilterState) => void) | undefined;
-  onSearchChange: ((value: string) => void) | undefined;
-  onColumnPinChange: ((key: string, position: PinPosition) => void) | undefined;
-  onColumnOrderChange: ((order: string[]) => void) | undefined;
-  onSelectionChange: ((ids: string[]) => void) | undefined;
-  onGroupByChange: ((key: string | string[] | null) => void) | undefined;
-  /** Async callback to select all rows across the filtered dataset (server-backed) */
-  onSelectAllFiltered: (() => Promise<string[]>) | undefined;
-  /** Callback when pagination changes (useful for sync when controlled sort/filter resets page) */
-  onPaginationChange: ((page: number, pageSize: number) => void) | undefined;
-  /** Callback when column visibility changes */
-  onColumnVisibilityChange: ((hiddenColumns: string[]) => void) | undefined;
-  /** Callback when table scrolls */
-  onScroll: ((info: ScrollEventInfo) => void) | undefined;
-  /** Global error handler for DataTable errors */
-  onError: ((error: DataTableError) => void) | undefined;
-
-  /** Get stable callback references (avoids stale closure issues) */
-  getCallbacks: () => DataTableCallbacks;
+export interface DataTableControlledState {
+  sortState: MultiSortState | undefined;
+  filters: FilterState | undefined;
+  search: string | undefined;
+  pinState: ColumnPinState | undefined;
+  columnOrder: string[] | undefined;
+  selectedIds: string[] | undefined;
+  groupBy: string | string[] | null | undefined;
+  sparseSelection: SparseSelectionController | undefined;
 }
 
 // ─── PROVIDER PROPS ─────────────────────────────────────────────────────────

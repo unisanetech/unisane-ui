@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from '@unisane/ui';
-import type { ExportFormat } from '../../utils/export';
+import type { ExportFormat, ExportResult } from '../../utils/export';
 import type { ExportHandler } from './types';
 import { ToolbarDropdownButton, SegmentedDropdownButton } from './buttons';
 import { useI18n } from '../../i18n';
@@ -59,6 +59,10 @@ const FORMAT_CONFIG: Record<ExportFormat, FormatConfig> = {
 
 const DEFAULT_FORMATS: ExportFormat[] = ['csv', 'excel', 'pdf', 'json'];
 
+function isExportResult(value: unknown): value is ExportResult {
+  return typeof value === 'object' && value !== null && 'success' in value;
+}
+
 // ─── EXPORT DROPDOWN ────────────────────────────────────────────────────────
 
 export interface ExportDropdownProps {
@@ -89,7 +93,11 @@ export function ExportDropdown({
     async (format: ExportFormat) => {
       try {
         feedback('exportStarted', { format: format.toUpperCase() });
-        await onExport(format);
+        const result = await onExport(format);
+        if (isExportResult(result) && !result.success) {
+          feedback('exportFailed');
+          return;
+        }
         feedback('exportSuccess', { format: format.toUpperCase() });
       } catch {
         feedback('exportFailed');

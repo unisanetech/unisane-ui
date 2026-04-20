@@ -5,6 +5,7 @@ import type { ExportResult, ExportFormat, ExportConfig } from "./types";
 import { exportToCSV } from "./csv";
 import { exportToJSON } from "./json";
 import { exportToExcel } from "./excel";
+import { exportToPDF } from "./pdf";
 import type { ErrorHub } from "../../errors/error-hub";
 import { ExportError } from "../../errors/runtime-errors";
 
@@ -86,8 +87,7 @@ export async function safeExport<T extends { id: string }>(
         result = await exportToExcel(config);
         break;
       case "pdf":
-        // PDF export not yet implemented
-        result = { success: false, error: "PDF export not yet implemented" };
+        result = await exportToPDF(config);
         break;
       default:
         result = { success: false, error: `Unknown export format: ${(config as { format: string }).format}` };
@@ -256,7 +256,7 @@ async function safeExportInternal<T extends { id: string }>(
         result = await exportToExcel(config);
         break;
       case "pdf":
-        result = { success: false, error: "PDF export not yet implemented" };
+        result = await exportToPDF(config);
         break;
       default:
         result = { success: false, error: `Unknown export format: ${(config as { format: string }).format}` };

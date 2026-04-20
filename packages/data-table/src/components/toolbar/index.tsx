@@ -43,7 +43,7 @@ export {
   MoreActionsDropdown,
   LabeledDropdown,
 } from "./dropdowns";
-export { ExportDropdown } from "./export-dropdown";
+export { ExportDropdown, type ExportDropdownProps } from "./export-dropdown";
 export {
   SelectionBar,
   TitleBar,

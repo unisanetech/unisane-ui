@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import type { BulkAction, Density } from "../../types";
-import type { ExportFormat } from "../../utils/export";
+import type { ExportFormat, ExportResult } from "../../utils/export";
 
 /** Export handler configuration */
 export interface ExportHandler {
   /** Callback when export is triggered */
-  onExport: (format: ExportFormat) => void;
+  onExport: (format: ExportFormat) => void | ExportResult | Promise<void | ExportResult>;
   /** Available formats (defaults to all: csv, excel, pdf, json) */
   formats?: ExportFormat[];
   /** Currently exporting format (shows loading state) */

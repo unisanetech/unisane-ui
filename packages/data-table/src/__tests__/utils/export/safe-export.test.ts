@@ -153,14 +153,14 @@ describe("safeExport", () => {
   });
 
   describe("PDF export", () => {
-    it("should return error for PDF (not implemented)", async () => {
+    it("should export to PDF when the PDF libraries are available", async () => {
       const result = await safeExport(
         { format: "pdf", data: testData, columns: testColumns },
         { errorHub }
       );
 
-      expect(result.success).toBe(false);
-      expect(result.error).toContain("not yet implemented");
+      expect(result.success).toBe(true);
+      expect(result.format).toBe("pdf");
     });
   });
 
@@ -353,13 +353,13 @@ describe("safeBatchExport", () => {
     const results = await safeBatchExport(
       [
         { format: "csv", data: testData, columns: testColumns },
-        { format: "pdf", data: testData, columns: testColumns }, // Not implemented
+        { format: "pdf", data: testData, columns: testColumns },
       ],
       { errorHub }
     );
 
     expect(results[0]!.success).toBe(true);
-    expect(results[1]!.success).toBe(false);
+    expect(results[1]!.success).toBe(true);
   });
 
   it("should return empty array for empty configs", async () => {

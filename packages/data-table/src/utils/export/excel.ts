@@ -1,15 +1,20 @@
-import * as XLSX from "xlsx";
 import type { ExcelExportOptions, ExportResult } from "./types";
 import { prepareExportData, getCellValue, generateFilename } from "./utils";
 
+type XLSXModule = typeof import("xlsx");
 type CellStyle = Record<string, unknown>;
 type StyledCell = Record<string, unknown> & { s?: CellStyle };
+
+let xlsxModule: XLSXModule | null = null;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function getStyledCell(worksheet: XLSX.WorkSheet, cellRef: string): StyledCell | null {
+function getStyledCell(
+  worksheet: import("xlsx").WorkSheet,
+  cellRef: string
+): StyledCell | null {
   const worksheetRecord = worksheet as Record<string, unknown>;
   const cell = worksheetRecord[cellRef];
   if (!isRecord(cell)) return null;
@@ -20,14 +25,17 @@ function toArrayBuffer(value: unknown): ArrayBuffer | null {
   return value instanceof ArrayBuffer ? value : null;
 }
 
-// ─── EXCEL EXPORT ───────────────────────────────────────────────────────────
+async function loadXLSX(): Promise<XLSXModule> {
+  if (xlsxModule) {
+    return xlsxModule;
+  }
+  xlsxModule = await import("xlsx");
+  return xlsxModule;
+}
 
-/**
- * Exports table data to Excel (.xlsx) format
- */
-export function exportToExcel<T extends { id: string }>(
+export async function exportToExcel<T extends { id: string }>(
   options: ExcelExportOptions<T>
-): ExportResult {
+): Promise<ExportResult> {
   const {
     filename,
     sheetName = "Sheet1",
@@ -40,7 +48,6 @@ export function exportToExcel<T extends { id: string }>(
   } = options;
 
   try {
-    // Validate required options
     if (!options.data) {
       return { success: false, error: "No data provided for export" };
     }
@@ -48,6 +55,7 @@ export function exportToExcel<T extends { id: string }>(
       return { success: false, error: "No columns provided for export" };
     }
 
+    const XLSX = await loadXLSX();
     const { rows, columns } = prepareExportData(options);
 
     if (rows.length === 0) {
@@ -58,24 +66,19 @@ export function exportToExcel<T extends { id: string }>(
       return { success: false, error: "No columns to export" };
     }
 
-    // Build data array
     const data: string[][] = [];
 
-    // Add headers
     if (includeHeaders) {
       data.push(columns.map((col) => col.header));
     }
 
-    // Add data rows
     for (const row of rows) {
       const values = columns.map((col) => getCellValue(row, col, formatValue));
       data.push(values);
     }
 
-    // Create worksheet
     const worksheet = XLSX.utils.aoa_to_sheet(data);
 
-    // Auto-size columns
     if (autoWidth) {
       const colWidths = columns.map((col) => {
         const maxLength = Math.max(
@@ -87,12 +90,10 @@ export function exportToExcel<T extends { id: string }>(
       worksheet["!cols"] = colWidths;
     }
 
-    // Freeze header row
     if (freezeHeader && includeHeaders) {
       worksheet["!freeze"] = { xSplit: 0, ySplit: 1 };
     }
 
-    // Apply header styling (using cell refs)
     if (styleHeader && includeHeaders) {
       for (let c = 0; c < columns.length; c++) {
         const cellRef = XLSX.utils.encode_cell({ r: 0, c });
@@ -107,7 +108,6 @@ export function exportToExcel<T extends { id: string }>(
       }
     }
 
-    // Apply zebra stripes
     if (zebraStripes) {
       const startRow = includeHeaders ? 1 : 0;
       for (let r = startRow; r < data.length; r++) {
@@ -126,22 +126,20 @@ export function exportToExcel<T extends { id: string }>(
       }
     }
 
-    // Create workbook
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-    // Generate buffer
     const buffer = toArrayBuffer(
       XLSX.write(workbook, { type: "array", bookType: "xlsx" }) as unknown
     );
     if (!buffer) {
       return { success: false, error: "Failed to build Excel buffer" };
     }
+
     const blob = new Blob([buffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     });
 
-    // Download
     const outputFilename = generateFilename(filename, "xlsx");
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -164,13 +162,11 @@ export function exportToExcel<T extends { id: string }>(
   }
 }
 
-/**
- * Returns Excel workbook as a Blob (without downloading)
- */
-export function toExcelBlob<T extends { id: string }>(
+export async function toExcelBlob<T extends { id: string }>(
   options: ExcelExportOptions<T>
-): Blob {
+): Promise<Blob> {
   const { sheetName = "Sheet1", includeHeaders = true, formatValue } = options;
+  const XLSX = await loadXLSX();
   const { rows, columns } = prepareExportData(options);
 
   const data: string[][] = [];
@@ -194,7 +190,16 @@ export function toExcelBlob<T extends { id: string }>(
   if (!buffer) {
     throw new Error("Failed to build Excel buffer");
   }
+
   return new Blob([buffer], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
+}
+
+export function isXLSXLoaded(): boolean {
+  return xlsxModule !== null;
+}
+
+export async function preloadXLSX(): Promise<void> {
+  await loadXLSX();
 }

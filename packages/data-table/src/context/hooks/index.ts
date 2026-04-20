@@ -1,6 +1,6 @@
 // ─── SPECIALIZED HOOKS ──────────────────────────────────────────────────────
 // These hooks provide focused APIs for specific DataTable functionality.
-// They all depend on useDataTableContext from the provider.
+// They subscribe only to the state slices they consume.
 
 export { useSelection } from "./use-selection";
 export { useSorting } from "./use-sorting";

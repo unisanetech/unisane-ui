@@ -2,7 +2,7 @@
 
 import React from "react";
 import type { Column, RowContextMenuItemOrSeparator } from "@unisane/data-table";
-import { ActionsCell } from "@unisane/data-table";
+import { ActionsCell } from "@unisane/data-table/components";
 import { Badge, Tooltip, Icon } from "@unisane/ui";
 import type { Transaction, TransactionStatus } from "./types";
 
