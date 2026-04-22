@@ -96,6 +96,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
     left: 0,
     width: 320,
   });
+  const [isPositioned, setIsPositioned] = useState(false);
 
   const updatePopoverPosition = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return;
@@ -145,7 +146,10 @@ export const DatePicker: React.FC<DatePickerProps> = ({
 
   // Handle click outside to close
   useLayoutEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      setIsPositioned(false);
+      return;
+    }
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (containerRef.current?.contains(target)) return;
@@ -159,17 +163,23 @@ export const DatePicker: React.FC<DatePickerProps> = ({
       }
     };
 
-    updatePopoverPosition();
-    const rafId = window.requestAnimationFrame(updatePopoverPosition);
-    window.addEventListener('resize', updatePopoverPosition);
-    window.addEventListener('scroll', updatePopoverPosition, true);
+    const updatePosition = () => {
+      updatePopoverPosition();
+      setIsPositioned(true);
+    };
+
+    setIsPositioned(false);
+    updatePosition();
+    const rafId = window.requestAnimationFrame(updatePosition);
+    window.addEventListener('resize', updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('keydown', handleEscape);
 
     return () => {
       window.cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', updatePopoverPosition);
-      window.removeEventListener('scroll', updatePopoverPosition, true);
+      window.removeEventListener('resize', updatePosition);
+      window.removeEventListener('scroll', updatePosition, true);
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('keydown', handleEscape);
     };
@@ -226,23 +236,24 @@ export const DatePicker: React.FC<DatePickerProps> = ({
               role="dialog"
               aria-modal="true"
               aria-label="Choose date"
-              className={cn(
-                'animate-in fade-in zoom-in-95 duration-short ease-standard fixed z-[var(--z-popover,2000)]',
-              )}
+              className={cn('fixed z-[var(--z-popover,2000)] transition-none')}
               style={{
                 top: popoverPosition.top,
                 left: popoverPosition.left,
                 width: popoverPosition.width,
+                visibility: isPositioned ? 'visible' : 'hidden',
                 ...getPortalLayerStyle(containerRef.current),
               }}
             >
-              <Calendar
-                className="max-w-none"
-                selectedDate={selectedValue}
-                onDateSelect={handleDateSelect}
-                min={min}
-                max={max}
-              />
+              <div className="animate-surface-enter">
+                <Calendar
+                  className="max-w-none"
+                  selectedDate={selectedValue}
+                  onDateSelect={handleDateSelect}
+                  min={min}
+                  max={max}
+                />
+              </div>
             </div>,
             document.body,
           )

@@ -50,6 +50,70 @@
   }
 }
 
+@keyframes fade-enter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-x-enter {
+  from {
+    opacity: 0;
+    transform: scaleX(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @layer base {
   /* Remove default focus outline */
   *:focus {
@@ -121,6 +185,30 @@
 
   .animate-content-enter {
     animation: content-enter 200ms ease-out;
+  }
+
+  .animate-fade-enter {
+    animation: fade-enter var(--duration-short, 120ms) var(--ease-standard, ease-out) both;
+  }
+
+  .animate-surface-enter {
+    animation: surface-enter var(--duration-short, 120ms) var(--ease-standard, ease-out) both;
+  }
+
+  .animate-panel-enter {
+    animation: panel-enter var(--duration-medium, 160ms) var(--ease-standard, ease-out) both;
+  }
+
+  .animate-scale-enter {
+    animation: scale-enter var(--duration-medium, 160ms) var(--ease-emphasized, ease-out) both;
+  }
+
+  .animate-scale-x-enter {
+    animation: scale-x-enter var(--duration-medium, 160ms) var(--ease-emphasized, ease-out) both;
+  }
+
+  .animate-toast-enter {
+    animation: toast-enter var(--duration-medium, 160ms) var(--ease-emphasized, ease-out) both;
   }
 
   /* Z-index utilities for layering system */

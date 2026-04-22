@@ -173,7 +173,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
       </span>
 
       {isSelected && (
-        <div className="bg-primary animate-in zoom-in-x duration-medium ease-emphasized absolute bottom-0 z-20 h-[calc(var(--unit)*0.75)] w-full rounded-t-full" />
+        <div className="bg-primary animate-scale-x-enter absolute bottom-0 z-20 h-[calc(var(--unit)*0.75)] w-full rounded-t-full" />
       )}
     </button>
   );
@@ -199,10 +199,7 @@ export const TabsContent: React.FC<React.HTMLAttributes<HTMLDivElement> & { valu
       role="tabpanel"
       aria-labelledby={triggerId}
       tabIndex={0}
-      className={cn(
-        'animate-in fade-in slide-in-from-bottom-1 duration-medium mt-4 focus-visible:outline-none',
-        className,
-      )}
+      className={cn('animate-panel-enter mt-4 focus-visible:outline-none', className)}
       {...props}
     >
       {children}

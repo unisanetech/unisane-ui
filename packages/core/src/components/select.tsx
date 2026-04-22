@@ -77,6 +77,7 @@ export const Select: React.FC<SelectProps> = ({
     maxHeight: 280,
     direction: 'down',
   });
+  const [isPositioned, setIsPositioned] = React.useState(!portal);
   const [selectedValue, setSelectedValue] = useControllableState<string>({
     value,
     defaultValue,
@@ -142,17 +143,31 @@ export const Select: React.FC<SelectProps> = ({
   }, [fieldSize.optionHeightPx, options.length]);
 
   useLayoutEffect(() => {
-    if (portal && isOpen) {
-      updateDropdownPosition();
-      const raf = window.requestAnimationFrame(updateDropdownPosition);
-      window.addEventListener('scroll', updateDropdownPosition, true);
-      window.addEventListener('resize', updateDropdownPosition);
-      return () => {
-        window.cancelAnimationFrame(raf);
-        window.removeEventListener('scroll', updateDropdownPosition, true);
-        window.removeEventListener('resize', updateDropdownPosition);
-      };
+    if (!portal) {
+      setIsPositioned(true);
+      return;
     }
+
+    if (!isOpen) {
+      setIsPositioned(false);
+      return;
+    }
+
+    const updatePosition = () => {
+      updateDropdownPosition();
+      setIsPositioned(true);
+    };
+
+    setIsPositioned(false);
+    updatePosition();
+    const raf = window.requestAnimationFrame(updatePosition);
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
   }, [isOpen, portal, updateDropdownPosition]);
 
   useEffect(() => {
@@ -286,6 +301,7 @@ export const Select: React.FC<SelectProps> = ({
               left: dropdownPosition.left,
               width: dropdownPosition.width,
               maxHeight: dropdownPosition.maxHeight,
+              visibility: isPositioned ? 'visible' : 'hidden',
               ...getPortalLayerStyle(triggerRef.current),
             }
           : { maxHeight: dropdownPosition.maxHeight }
@@ -339,9 +355,7 @@ export const Select: React.FC<SelectProps> = ({
           fieldContainerVariants({ variant, error, disabled: false }),
           'cursor-pointer',
           'focus-within:ring-0',
-          !disabled &&
-            !isOpen &&
-            (variant === 'outlined' ? undefined : 'hover:border-outline'),
+          !disabled && !isOpen && (variant === 'outlined' ? undefined : 'hover:border-outline'),
           isOpen && (variant === 'outlined' ? 'border-primary! border-2' : 'bg-surface'),
           disabled && 'cursor-not-allowed opacity-38',
         )}
@@ -367,7 +381,7 @@ export const Select: React.FC<SelectProps> = ({
         <div className="relative flex h-full w-full min-w-0 items-center">
           <div
             className={cn(
-              'pointer-events-none absolute inset-y-0 left-0 right-[calc(var(--unit)*9)] min-w-0 text-left text-on-surface',
+              'text-on-surface pointer-events-none absolute inset-y-0 right-[calc(var(--unit)*9)] left-0 min-w-0 text-left',
               fieldSize.horizontalPadding,
               variant === 'filled' && label
                 ? cn('flex h-full w-full items-end', fieldSize.filledDisplayPadding)
@@ -375,7 +389,9 @@ export const Select: React.FC<SelectProps> = ({
               !selectedLabel && !label && 'text-on-surface-variant',
             )}
           >
-            <span className={cn('block min-w-0 truncate', fieldSize.valueText)}>{displayLabel}</span>
+            <span className={cn('block min-w-0 truncate', fieldSize.valueText)}>
+              {displayLabel}
+            </span>
           </div>
 
           {label && (

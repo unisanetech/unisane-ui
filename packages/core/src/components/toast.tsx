@@ -131,10 +131,7 @@ function ToastItem({ toast, onDismiss }: ToastItemProps) {
 
   return (
     <div
-      className={cn(
-        toastVariants({ variant }),
-        'animate-in slide-in-from-right-full fade-in duration-medium',
-      )}
+      className={cn(toastVariants({ variant }), 'animate-toast-enter')}
       role={isAlert ? 'alert' : 'status'}
       aria-live={isAlert ? 'assertive' : 'polite'}
     >

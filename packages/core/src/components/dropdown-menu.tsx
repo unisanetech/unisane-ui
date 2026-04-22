@@ -314,6 +314,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [computedPlacement, setComputedPlacement] = useState({ side, align });
+  const [isPositioned, setIsPositioned] = useState(false);
 
   const normalizedPadding = useMemo(() => {
     if (typeof collisionPadding === 'number') {
@@ -333,6 +334,11 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   }, [collisionPadding]);
 
   useLayoutEffect(() => {
+    if (!open) {
+      setIsPositioned(false);
+      return;
+    }
+
     if (!open || !triggerRef.current) return;
 
     const updatePosition = () => {
@@ -355,7 +361,12 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
 
       setPosition({ top: result.top, left: result.left });
       setComputedPlacement({ side: result.actualSide, align: result.actualAlign });
+      setIsPositioned(true);
     };
+
+    if (portal) {
+      setIsPositioned(false);
+    }
 
     updatePosition();
 
@@ -462,16 +473,13 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       aria-orientation="vertical"
       data-side={computedPlacement.side}
       data-align={computedPlacement.align}
-      className={cn(
-        getPositionClasses(),
-        'animate-in fade-in-0 zoom-in-95',
-        'duration-snappy ease-emphasized',
-      )}
+      className={cn(getPositionClasses(), portal && 'transition-none')}
       style={
         portal
           ? {
               top: position.top,
               left: position.left,
+              visibility: isPositioned ? 'visible' : 'hidden',
               ...getPortalLayerStyle(triggerRef.current),
             }
           : undefined
@@ -481,7 +489,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
         open={true}
         onClick={handleContentClick}
         className={cn(
-          'shadow-2 border-outline-soft relative w-full overflow-visible border',
+          'animate-surface-enter shadow-2 border-outline-soft relative w-full overflow-visible border',
           className,
         )}
       >
@@ -700,8 +708,14 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     useDropdownMenuSubContext('DropdownMenuSubContent');
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
+  const [isPositioned, setIsPositioned] = useState(false);
 
   useLayoutEffect(() => {
+    if (!open) {
+      setIsPositioned(false);
+      return;
+    }
+
     if (!open || !triggerRef.current) return;
 
     const updatePosition = () => {
@@ -716,8 +730,10 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       );
 
       setPosition(result);
+      setIsPositioned(true);
     };
 
+    setIsPositioned(false);
     updatePosition();
 
     window.addEventListener('scroll', updatePosition, true);
@@ -738,18 +754,23 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       role="menu"
       aria-orientation="vertical"
       data-side={position.side}
-      className={cn(
-        'fixed z-[var(--z-popover,2000)]',
-        position.side === 'right'
-          ? 'animate-in fade-in-0 slide-in-from-left-1'
-          : 'animate-in fade-in-0 slide-in-from-right-1',
-        'duration-snappy ease-emphasized',
-      )}
-      style={{ top: position.top, left: position.left, ...getPortalLayerStyle(triggerRef.current) }}
+      className={cn('fixed z-[var(--z-popover,2000)]', 'transition-none')}
+      style={{
+        top: position.top,
+        left: position.left,
+        visibility: isPositioned ? 'visible' : 'hidden',
+        ...getPortalLayerStyle(triggerRef.current),
+      }}
       onMouseEnter={openSubmenu}
       onMouseLeave={closeSubmenu}
     >
-      <Menu open={true} className={cn('shadow-2 border-outline-soft min-w-40 border', className)}>
+      <Menu
+        open={true}
+        className={cn(
+          'animate-surface-enter shadow-2 border-outline-soft min-w-40 border',
+          className,
+        )}
+      >
         {children}
       </Menu>
     </div>

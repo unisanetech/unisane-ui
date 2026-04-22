@@ -91,7 +91,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
             fill="none"
             stroke="currentColor"
             strokeWidth="4"
-            className="animate-in zoom-in duration-medium ease-emphasized relative z-10"
+            className="animate-scale-enter relative z-10"
             aria-hidden="true"
           >
             <polyline points="20 6 9 17 4 12" />
@@ -178,7 +178,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
         {onDelete && (
           <button
             type="button"
-            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary relative z-10 -mr-1 ml-1 rounded-icon-button p-0.5 transition-colors focus-visible:ring-2"
+            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary rounded-icon-button relative z-10 -mr-1 ml-1 p-0.5 transition-colors focus-visible:ring-2"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
