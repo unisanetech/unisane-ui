@@ -404,7 +404,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
         ref={scrollbarRef}
         data-datatable-custom-scrollbar="true"
         className={cn(
-          'bg-surface border-outline-subtle overflow-hidden border-t',
+          'bg-surface overflow-hidden',
           // Hide on mobile (< @md) - native scrollbar used for touch usability
           'hidden @md:block',
           // Sticky positioning when table bottom is below viewport
