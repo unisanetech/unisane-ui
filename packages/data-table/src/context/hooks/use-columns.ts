@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useMemo, useState, useEffect, useRef, type RefObject } from "react";
+import { useCallback, useMemo, useState, useEffect, useRef, type RefObject } from 'react';
 import {
   useDataTableColumnSlice,
   useDataTableControlledState,
   useDataTableRuntime,
-} from "../provider";
-import type { Column, PinPosition } from "../../types";
-import { RESPONSIVE } from "../../constants";
+} from '../provider';
+import type { Column, PinPosition } from '../../types';
+import { RESPONSIVE } from '../../constants';
 
 /**
  * Hook for column management functionality
@@ -20,10 +20,15 @@ export function useColumns<T>() {
 
   const pinState = controlled.pinState ?? state.columnPinState;
   const columnOrder = controlled.columnOrder ?? state.columnOrder;
+  const hiddenColumns = useMemo(
+    () =>
+      controlled.hiddenColumnKeys ? new Set(controlled.hiddenColumnKeys) : state.hiddenColumns,
+    [controlled.hiddenColumnKeys, state.hiddenColumns],
+  );
 
   // Track container width for responsive column visibility
   const [containerWidth, setContainerWidth] = useState<number>(
-    typeof window !== "undefined" ? window.innerWidth : 1024
+    typeof window !== 'undefined' ? window.innerWidth : 1024,
   );
 
   // Track if we're using container-based width (vs window fallback)
@@ -31,7 +36,7 @@ export function useColumns<T>() {
 
   // Update container width on window resize (fallback when no container is observed)
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     const handleResize = () => {
       // Only use window width if we're not observing a container
@@ -39,8 +44,8 @@ export function useColumns<T>() {
         setContainerWidth(window.innerWidth);
       }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   /**
@@ -49,7 +54,7 @@ export function useColumns<T>() {
    * Returns a cleanup function.
    */
   const observeContainer = useCallback((containerRef: RefObject<HTMLElement | null>) => {
-    if (typeof window === "undefined" || !containerRef.current) return () => {};
+    if (typeof window === 'undefined' || !containerRef.current) return () => {};
 
     const element = containerRef.current;
     isUsingContainerWidth.current = true;
@@ -75,40 +80,56 @@ export function useColumns<T>() {
 
   const toggleVisibility = useCallback(
     (key: string) => {
-      dispatch({ type: "TOGGLE_COLUMN_VISIBILITY", key });
+      if (controlled.hiddenColumnKeys) {
+        const newHiddenColumns = hiddenColumns.has(key)
+          ? [...hiddenColumns].filter((hiddenKey) => hiddenKey !== key)
+          : [...hiddenColumns, key];
+        onColumnVisibilityChange?.(newHiddenColumns);
+        return;
+      }
+      dispatch({ type: 'TOGGLE_COLUMN_VISIBILITY', key });
       // Notify about visibility change (after state updates)
-      const newHiddenColumns = state.hiddenColumns.has(key)
-        ? [...state.hiddenColumns].filter((k) => k !== key)
-        : [...state.hiddenColumns, key];
+      const newHiddenColumns = hiddenColumns.has(key)
+        ? [...hiddenColumns].filter((k) => k !== key)
+        : [...hiddenColumns, key];
       onColumnVisibilityChange?.(newHiddenColumns);
     },
-    [dispatch, state.hiddenColumns, onColumnVisibilityChange]
+    [controlled.hiddenColumnKeys, dispatch, hiddenColumns, onColumnVisibilityChange],
   );
 
   const hideColumn = useCallback(
     (key: string) => {
-      dispatch({ type: "HIDE_COLUMN", key });
-      if (!state.hiddenColumns.has(key)) {
-        onColumnVisibilityChange?.([...state.hiddenColumns, key]);
+      if (controlled.hiddenColumnKeys) {
+        if (!hiddenColumns.has(key)) {
+          onColumnVisibilityChange?.([...hiddenColumns, key]);
+        }
+        return;
+      }
+      dispatch({ type: 'HIDE_COLUMN', key });
+      if (!hiddenColumns.has(key)) {
+        onColumnVisibilityChange?.([...hiddenColumns, key]);
       }
     },
-    [dispatch, state.hiddenColumns, onColumnVisibilityChange]
+    [controlled.hiddenColumnKeys, dispatch, hiddenColumns, onColumnVisibilityChange],
   );
 
   const showAllColumns = useCallback(() => {
-    dispatch({ type: "SHOW_ALL_COLUMNS" });
+    if (controlled.hiddenColumnKeys) {
+      onColumnVisibilityChange?.([]);
+      return;
+    }
+    dispatch({ type: 'SHOW_ALL_COLUMNS' });
     onColumnVisibilityChange?.([]);
-  }, [dispatch, onColumnVisibilityChange]);
+  }, [controlled.hiddenColumnKeys, dispatch, onColumnVisibilityChange]);
 
   const setColumnWidth = useCallback(
-    (key: string, width: number) =>
-      dispatch({ type: "SET_COLUMN_WIDTH", key, width }),
-    [dispatch]
+    (key: string, width: number) => dispatch({ type: 'SET_COLUMN_WIDTH', key, width }),
+    [dispatch],
   );
 
   const resetColumnWidths = useCallback(
-    () => dispatch({ type: "RESET_COLUMN_WIDTHS" }),
-    [dispatch]
+    () => dispatch({ type: 'RESET_COLUMN_WIDTHS' }),
+    [dispatch],
   );
 
   const setColumnPin = useCallback(
@@ -116,17 +137,14 @@ export function useColumns<T>() {
       if (controlled.pinState) {
         onColumnPinChange?.(key, position);
       } else {
-        dispatch({ type: "SET_COLUMN_PIN", key, position });
+        dispatch({ type: 'SET_COLUMN_PIN', key, position });
         onColumnPinChange?.(key, position);
       }
     },
-    [controlled.pinState, onColumnPinChange, dispatch]
+    [controlled.pinState, onColumnPinChange, dispatch],
   );
 
-  const resetColumnPins = useCallback(
-    () => dispatch({ type: "RESET_COLUMN_PINS" }),
-    [dispatch]
-  );
+  const resetColumnPins = useCallback(() => dispatch({ type: 'RESET_COLUMN_PINS' }), [dispatch]);
 
   // Column order management
   const setColumnOrder = useCallback(
@@ -134,20 +152,19 @@ export function useColumns<T>() {
       if (controlled.columnOrder) {
         onColumnOrderChange?.(order);
       } else {
-        dispatch({ type: "SET_COLUMN_ORDER", order });
+        dispatch({ type: 'SET_COLUMN_ORDER', order });
         onColumnOrderChange?.(order);
       }
     },
-    [controlled.columnOrder, onColumnOrderChange, dispatch]
+    [controlled.columnOrder, onColumnOrderChange, dispatch],
   );
 
   // Move a column from one index to another
   const reorderColumn = useCallback(
     (fromKey: string, toKey: string) => {
       // Get current column keys in order
-      const currentOrder = columnOrder.length > 0
-        ? columnOrder
-        : config.columns.map((col) => String(col.key));
+      const currentOrder =
+        columnOrder.length > 0 ? columnOrder : config.columns.map((col) => String(col.key));
 
       const fromIndex = currentOrder.indexOf(fromKey);
       const toIndex = currentOrder.indexOf(toKey);
@@ -163,20 +180,17 @@ export function useColumns<T>() {
 
       setColumnOrder(newOrder);
     },
-    [columnOrder, config.columns, setColumnOrder]
+    [columnOrder, config.columns, setColumnOrder],
   );
 
-  const resetColumnOrder = useCallback(
-    () => {
-      if (controlled.columnOrder) {
-        onColumnOrderChange?.([]);
-      } else {
-        dispatch({ type: "SET_COLUMN_ORDER", order: [] });
-        onColumnOrderChange?.([]);
-      }
-    },
-    [controlled.columnOrder, onColumnOrderChange, dispatch]
-  );
+  const resetColumnOrder = useCallback(() => {
+    if (controlled.columnOrder) {
+      onColumnOrderChange?.([]);
+    } else {
+      dispatch({ type: 'SET_COLUMN_ORDER', order: [] });
+      onColumnOrderChange?.([]);
+    }
+  }, [controlled.columnOrder, onColumnOrderChange, dispatch]);
 
   // Check if pinning should be active based on container width
   const isPinningEnabled = containerWidth >= RESPONSIVE.MIN_WIDTH_FOR_PINNING;
@@ -196,7 +210,7 @@ export function useColumns<T>() {
       }
       return col.pinned ?? null;
     },
-    [pinState, isPinningEnabled]
+    [pinState, isPinningEnabled],
   );
 
   // Check if a column should be visible based on responsive settings
@@ -208,7 +222,7 @@ export function useColumns<T>() {
       }
       return true;
     },
-    [containerWidth]
+    [containerWidth],
   );
 
   // Visible columns - respects column order, user hidden state, and responsive visibility
@@ -216,7 +230,7 @@ export function useColumns<T>() {
     const visible = config.columns.filter((col) => {
       const key = String(col.key);
       // Check user-hidden state
-      if (state.hiddenColumns.has(key)) {
+      if (hiddenColumns.has(key)) {
         return false;
       }
       // Check responsive visibility
@@ -238,28 +252,28 @@ export function useColumns<T>() {
       const bIndex = orderMap.get(String(b.key)) ?? Infinity;
       return aIndex - bIndex;
     });
-  }, [config.columns, state.hiddenColumns, columnOrder, isColumnResponsivelyVisible]);
+  }, [config.columns, hiddenColumns, columnOrder, isColumnResponsivelyVisible]);
 
   // Columns hidden due to responsive settings (for UI indicator)
   const responsivelyHiddenColumns = useMemo(() => {
     return config.columns.filter(
-      (col) => !state.hiddenColumns.has(String(col.key)) && !isColumnResponsivelyVisible(col)
+      (col) => !hiddenColumns.has(String(col.key)) && !isColumnResponsivelyVisible(col),
     );
-  }, [config.columns, state.hiddenColumns, isColumnResponsivelyVisible]);
+  }, [config.columns, hiddenColumns, isColumnResponsivelyVisible]);
 
   const pinnedLeftColumns = useMemo(
-    () => visibleColumns.filter((col) => getEffectivePinPosition(col) === "left"),
-    [visibleColumns, getEffectivePinPosition]
+    () => visibleColumns.filter((col) => getEffectivePinPosition(col) === 'left'),
+    [visibleColumns, getEffectivePinPosition],
   );
 
   const pinnedRightColumns = useMemo(
-    () => visibleColumns.filter((col) => getEffectivePinPosition(col) === "right"),
-    [visibleColumns, getEffectivePinPosition]
+    () => visibleColumns.filter((col) => getEffectivePinPosition(col) === 'right'),
+    [visibleColumns, getEffectivePinPosition],
   );
 
   const unpinnedColumns = useMemo(
     () => visibleColumns.filter((col) => getEffectivePinPosition(col) === null),
-    [visibleColumns, getEffectivePinPosition]
+    [visibleColumns, getEffectivePinPosition],
   );
 
   return {
@@ -268,7 +282,7 @@ export function useColumns<T>() {
     pinnedLeftColumns,
     pinnedRightColumns,
     unpinnedColumns,
-    hiddenColumns: state.hiddenColumns,
+    hiddenColumns,
     columnWidths: state.columnWidths,
     pinState,
     columnOrder,

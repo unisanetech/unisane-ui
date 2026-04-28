@@ -4,7 +4,11 @@ import React from 'react';
 import { cn } from '@unisane/ui';
 import type { Column, ColumnGroup } from '../../types';
 import { isColumnGroup } from '../../types';
-import { COLUMN_WIDTHS } from '../../constants';
+import {
+  DENSITY_HEADER_TEXT_STYLES,
+  DENSITY_UTILITY_COLUMN_WIDTHS,
+  type Density,
+} from '../../constants';
 
 export interface GroupHeaderRowProps<T> {
   columnDefinitions: Array<Column<T> | ColumnGroup<T>>;
@@ -13,6 +17,7 @@ export interface GroupHeaderRowProps<T> {
   showColumnBorders: boolean;
   paddingClass: string;
   hasPinnedLeftData: boolean;
+  density?: Density;
 }
 
 export function GroupHeaderRow<T>({
@@ -22,8 +27,12 @@ export function GroupHeaderRow<T>({
   showColumnBorders,
   paddingClass,
   hasPinnedLeftData,
+  density = 'standard',
 }: GroupHeaderRowProps<T>) {
   void hasPinnedLeftData;
+  const headerTextClass = DENSITY_HEADER_TEXT_STYLES[density];
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
+
   return (
     <tr aria-rowindex={1}>
       {/* Checkbox placeholder */}
@@ -36,9 +45,9 @@ export function GroupHeaderRow<T>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            width: COLUMN_WIDTHS.CHECKBOX,
-            minWidth: COLUMN_WIDTHS.CHECKBOX,
-            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+            width: utilityColumnWidths.checkbox,
+            minWidth: utilityColumnWidths.checkbox,
+            maxWidth: utilityColumnWidths.checkbox,
           }}
           rowSpan={2}
         />
@@ -54,11 +63,11 @@ export function GroupHeaderRow<T>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            width: COLUMN_WIDTHS.EXPANDER,
-            minWidth: COLUMN_WIDTHS.EXPANDER,
-            maxWidth: COLUMN_WIDTHS.EXPANDER,
+            width: utilityColumnWidths.expander,
+            minWidth: utilityColumnWidths.expander,
+            maxWidth: utilityColumnWidths.expander,
             // Position after checkbox if selectable, otherwise at 0
-            left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
+            left: selectable ? utilityColumnWidths.checkbox : 0,
           }}
           rowSpan={2}
         />
@@ -74,7 +83,8 @@ export function GroupHeaderRow<T>({
               colSpan={def.children.length}
               className={cn(
                 'bg-surface border-outline-subtle border-b',
-                'text-label-medium text-on-surface-variant text-center align-middle font-semibold',
+                'text-on-surface-variant text-center align-middle font-semibold',
+                headerTextClass,
                 paddingClass,
                 showColumnBorders && !isLastGroup && 'border-outline-subtle border-r',
               )}
@@ -91,7 +101,8 @@ export function GroupHeaderRow<T>({
               rowSpan={2}
               className={cn(
                 'bg-surface border-outline-subtle border-b',
-                'text-label-large text-on-surface-variant align-middle font-medium',
+                'text-on-surface-variant align-middle font-medium',
+                headerTextClass,
                 paddingClass,
                 def.align === 'center' && 'text-center',
                 def.align === 'end' && 'text-right',

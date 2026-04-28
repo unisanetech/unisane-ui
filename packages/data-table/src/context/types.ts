@@ -1,7 +1,11 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 import type {
   Column,
   ColumnGroup,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
+  DataTableContextMenuAction,
+  DataTableContextMenuContext,
   FilterState,
   MultiSortState,
   PaginationState,
@@ -9,10 +13,9 @@ import type {
   PinPosition,
   TableVariant,
   SparseSelectionController,
-} from "../types/index";
-import type { PartialDataTableLocale } from "../i18n/types";
-import type { ErrorHub } from "../errors/error-hub";
-import type { DataTableErrorConfig } from "../types/props";
+} from '../types/index';
+import type { PartialDataTableLocale } from '../i18n/types';
+import type { DataTableErrorConfig } from '../types/props';
 
 // ─── STATE TYPES ────────────────────────────────────────────────────────────
 
@@ -52,67 +55,66 @@ export interface GroupingSlice {
   expandedGroups: Set<string>;
 }
 
-export type DataTableState =
-  & SelectionSlice
-  & SortSlice
-  & FilterSlice
-  & PaginationSlice
-  & ColumnSlice
-  & GroupingSlice;
+export type DataTableState = SelectionSlice &
+  SortSlice &
+  FilterSlice &
+  PaginationSlice &
+  ColumnSlice &
+  GroupingSlice;
 
 // ─── ACTION TYPES ───────────────────────────────────────────────────────────
 
 export type DataTableAction =
   // Selection
-  | { type: "SELECT_ROW"; id: string }
-  | { type: "DESELECT_ROW"; id: string }
-  | { type: "SELECT_ALL"; ids: string[] }
-  | { type: "DESELECT_ALL" }
-  | { type: "TOGGLE_SELECT"; id: string }
-  | { type: "TOGGLE_EXPAND"; id: string }
-  | { type: "EXPAND_ROW"; id: string }
-  | { type: "COLLAPSE_ROW"; id: string }
+  | { type: 'SELECT_ROW'; id: string }
+  | { type: 'DESELECT_ROW'; id: string }
+  | { type: 'SELECT_ALL'; ids: string[] }
+  | { type: 'DESELECT_ALL' }
+  | { type: 'TOGGLE_SELECT'; id: string }
+  | { type: 'TOGGLE_EXPAND'; id: string }
+  | { type: 'EXPAND_ROW'; id: string }
+  | { type: 'COLLAPSE_ROW'; id: string }
 
   // Sorting (multi-sort)
-  | { type: "SET_SORT"; sortState: MultiSortState }
-  | { type: "CYCLE_SORT"; key: string }
-  | { type: "ADD_SORT"; key: string; maxColumns?: number }
-  | { type: "REMOVE_SORT"; key: string }
-  | { type: "CLEAR_SORT" }
+  | { type: 'SET_SORT'; sortState: MultiSortState }
+  | { type: 'CYCLE_SORT'; key: string }
+  | { type: 'ADD_SORT'; key: string; maxColumns?: number }
+  | { type: 'REMOVE_SORT'; key: string }
+  | { type: 'CLEAR_SORT' }
 
   // Filtering
-  | { type: "SET_SEARCH"; value: string }
-  | { type: "SET_FILTER"; key: string; value: unknown }
-  | { type: "REMOVE_FILTER"; key: string }
-  | { type: "CLEAR_ALL_FILTERS" }
+  | { type: 'SET_SEARCH'; value: string }
+  | { type: 'SET_FILTER'; key: string; value: unknown }
+  | { type: 'REMOVE_FILTER'; key: string }
+  | { type: 'CLEAR_ALL_FILTERS' }
 
   // Pagination
-  | { type: "SET_PAGE"; page: number }
-  | { type: "SET_PAGE_SIZE"; pageSize: number }
-  | { type: "NEXT_PAGE" }
-  | { type: "PREV_PAGE" }
+  | { type: 'SET_PAGE'; page: number }
+  | { type: 'SET_PAGE_SIZE'; pageSize: number }
+  | { type: 'NEXT_PAGE' }
+  | { type: 'PREV_PAGE' }
 
   // Columns
-  | { type: "TOGGLE_COLUMN_VISIBILITY"; key: string }
-  | { type: "SHOW_ALL_COLUMNS" }
-  | { type: "HIDE_COLUMN"; key: string }
-  | { type: "SET_COLUMN_WIDTH"; key: string; width: number }
-  | { type: "RESET_COLUMN_WIDTHS" }
-  | { type: "SET_COLUMN_PIN"; key: string; position: PinPosition }
-  | { type: "RESET_COLUMN_PINS" }
-  | { type: "SET_COLUMN_ORDER"; order: string[] }
+  | { type: 'TOGGLE_COLUMN_VISIBILITY'; key: string }
+  | { type: 'SHOW_ALL_COLUMNS' }
+  | { type: 'HIDE_COLUMN'; key: string }
+  | { type: 'SET_COLUMN_WIDTH'; key: string; width: number }
+  | { type: 'RESET_COLUMN_WIDTHS' }
+  | { type: 'SET_COLUMN_PIN'; key: string; position: PinPosition }
+  | { type: 'RESET_COLUMN_PINS' }
+  | { type: 'SET_COLUMN_ORDER'; order: string[] }
 
   // Row Grouping (supports single column or multi-level grouping)
-  | { type: "SET_GROUP_BY"; key: string | string[] | null }
-  | { type: "ADD_GROUP_BY"; key: string }
-  | { type: "REMOVE_GROUP_BY"; key: string }
-  | { type: "TOGGLE_GROUP_EXPAND"; groupId: string }
-  | { type: "EXPAND_ALL_GROUPS"; groupIds: string[] }
-  | { type: "COLLAPSE_ALL_GROUPS" }
+  | { type: 'SET_GROUP_BY'; key: string | string[] | null }
+  | { type: 'ADD_GROUP_BY'; key: string }
+  | { type: 'REMOVE_GROUP_BY'; key: string }
+  | { type: 'TOGGLE_GROUP_EXPAND'; groupId: string }
+  | { type: 'EXPAND_ALL_GROUPS'; groupIds: string[] }
+  | { type: 'COLLAPSE_ALL_GROUPS' }
 
   // Bulk
-  | { type: "RESET_ALL" }
-  | { type: "HYDRATE"; state: Partial<DataTableState> };
+  | { type: 'RESET_ALL' }
+  | { type: 'HYDRATE'; state: Partial<DataTableState> };
 
 // ─── CONFIG TYPES ───────────────────────────────────────────────────────────
 
@@ -124,8 +126,8 @@ export interface DataTableConfig<T> {
   columns: Column<T>[];
   /** Whether column groups exist */
   hasGroups: boolean;
-  mode: "local" | "remote";
-  paginationMode: "offset" | "cursor" | "none";
+  mode: 'local' | 'remote';
+  paginationMode: 'offset' | 'cursor' | 'none';
   variant: TableVariant;
   /** Whether row selection is enabled */
   rowSelectionEnabled: boolean;
@@ -138,6 +140,7 @@ export interface DataTableConfig<T> {
   resizable: boolean;
   pinnable: boolean;
   reorderable: boolean;
+  columnVisibility: boolean;
   /** Enable row grouping feature */
   groupingEnabled: boolean;
   /** Show summary footer row */
@@ -145,7 +148,7 @@ export interface DataTableConfig<T> {
   /** Label for the summary row */
   summaryLabel: string;
   /** Text direction (ltr or rtl) */
-  dir: "ltr" | "rtl";
+  dir: 'ltr' | 'rtl';
 }
 
 // ─── CALLBACK TYPES ──────────────────────────────────────────────────────────
@@ -169,7 +172,7 @@ export interface ScrollEventInfo {
 /** Error event information */
 export interface DataTableError {
   /** Error type/category */
-  type: "render" | "data" | "export" | "filter" | "sort" | "selection" | "unknown";
+  type: 'render' | 'data' | 'export' | 'filter' | 'sort' | 'selection' | 'unknown';
   /** Error message */
   message: string;
   /** Original error object if available */
@@ -178,7 +181,7 @@ export interface DataTableError {
   context?: Record<string, unknown>;
 }
 
-export interface DataTableCallbacks {
+export interface DataTableCallbacks<T = unknown> {
   onSortChange: ((sortState: MultiSortState) => void) | undefined;
   onFilterChange: ((filters: FilterState) => void) | undefined;
   onSearchChange: ((value: string) => void) | undefined;
@@ -190,6 +193,14 @@ export interface DataTableCallbacks {
   onPaginationChange: ((page: number, pageSize: number) => void) | undefined;
   /** Callback when column visibility changes */
   onColumnVisibilityChange: ((hiddenColumns: string[]) => void) | undefined;
+  /** Adds app-specific actions to a column header menu */
+  getColumnMenuActions:
+    | ((context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[])
+    | undefined;
+  /** Adds app-specific actions to the table right-click context menu */
+  getContextMenuActions:
+    | ((context: DataTableContextMenuContext<T>) => DataTableContextMenuAction<T>[])
+    | undefined;
   /** Callback when table scrolls */
   onScroll: ((info: ScrollEventInfo) => void) | undefined;
   /** Global error handler for DataTable errors */
@@ -204,6 +215,7 @@ export interface DataTableControlledState {
   search: string | undefined;
   pinState: ColumnPinState | undefined;
   columnOrder: string[] | undefined;
+  hiddenColumnKeys: string[] | undefined;
   selectedIds: string[] | undefined;
   groupBy: string | string[] | null | undefined;
   sparseSelection: SparseSelectionController | undefined;
@@ -216,8 +228,8 @@ export interface DataTableProviderProps<T> {
   tableId?: string;
   /** Column definitions (supports flat columns or grouped columns) */
   columns: Array<Column<T> | ColumnGroup<T>>;
-  mode?: "local" | "remote";
-  paginationMode?: "offset" | "cursor" | "none";
+  mode?: 'local' | 'remote';
+  paginationMode?: 'offset' | 'cursor' | 'none';
   variant?: TableVariant;
   /** Enable row selection (checkboxes) */
   rowSelectionEnabled?: boolean;
@@ -234,6 +246,8 @@ export interface DataTableProviderProps<T> {
   resizable?: boolean;
   pinnable?: boolean;
   reorderable?: boolean;
+  /** Enable built-in column show/hide controls */
+  columnVisibility?: boolean;
   /** Enable row grouping feature (adds "Group by" option to column menus) */
   groupingEnabled?: boolean;
   /** Show summary footer row with aggregated values */
@@ -259,6 +273,7 @@ export interface DataTableProviderProps<T> {
   onColumnPinChange?: (key: string, position: PinPosition) => void;
   columnOrder?: string[];
   onColumnOrderChange?: (order: string[]) => void;
+  hiddenColumnKeys?: string[];
   selectedIds?: string[];
   onSelectionChange?: (ids: string[]) => void;
   /** Controlled groupBy column key(s) - single string or array for multi-level */
@@ -279,6 +294,12 @@ export interface DataTableProviderProps<T> {
   onPaginationChange?: (page: number, pageSize: number) => void;
   /** Callback when column visibility changes (show/hide columns) */
   onColumnVisibilityChange?: (hiddenColumns: string[]) => void;
+  /** Adds app-specific actions to a column header menu */
+  getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
+  /** Adds app-specific actions to the table right-click context menu */
+  getContextMenuActions?: (
+    context: DataTableContextMenuContext<T>,
+  ) => DataTableContextMenuAction<T>[];
   /** Callback when table scrolls (useful for infinite scroll, lazy loading) */
   onScroll?: (info: ScrollEventInfo) => void;
   /**
@@ -300,7 +321,7 @@ export interface DataTableProviderProps<T> {
    * - Scroll positions are normalized across browsers
    * @default "ltr"
    */
-  dir?: "ltr" | "rtl";
+  dir?: 'ltr' | 'rtl';
 
   // ─── Feedback ───
   /**

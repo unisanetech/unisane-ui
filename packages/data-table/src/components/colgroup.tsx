@@ -1,7 +1,7 @@
 'use client';
 
 import type { Column, ColumnMetaMap, PinPosition } from '../types/index';
-import { COLUMN_WIDTHS } from '../constants/index';
+import { COLUMN_WIDTHS, DENSITY_UTILITY_COLUMN_WIDTHS, type Density } from '../constants/index';
 
 // ─── COLGROUP PROPS ───────────────────────────────────────────────────────
 
@@ -14,6 +14,8 @@ interface TableColgroupProps<T> {
   getEffectivePinPosition?: (col: Column<T>) => PinPosition;
   /** Whether row reordering is enabled */
   reorderableRows?: boolean;
+  /** Table density for utility column sizing */
+  density?: Density;
 }
 
 // ─── COLGROUP COMPONENT ───────────────────────────────────────────────────
@@ -25,7 +27,9 @@ export function TableColgroup<T>({
   enableExpansion,
   getEffectivePinPosition,
   reorderableRows = false,
+  density = 'standard',
 }: TableColgroupProps<T>) {
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
   // Find the last non-pinned column to make it flexible
   const lastNonPinnedIndex = getEffectivePinPosition
     ? columns.reduce((lastIdx, col, idx) => {
@@ -40,9 +44,9 @@ export function TableColgroup<T>({
       {reorderableRows && (
         <col
           style={{
-            width: COLUMN_WIDTHS.DRAG_HANDLE,
-            minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-            maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            minWidth: utilityColumnWidths.dragHandle,
+            maxWidth: utilityColumnWidths.dragHandle,
+            width: utilityColumnWidths.dragHandle,
           }}
         />
       )}
@@ -51,9 +55,9 @@ export function TableColgroup<T>({
       {selectable && (
         <col
           style={{
-            width: COLUMN_WIDTHS.CHECKBOX,
-            minWidth: COLUMN_WIDTHS.CHECKBOX,
-            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+            width: utilityColumnWidths.checkbox,
+            minWidth: utilityColumnWidths.checkbox,
+            maxWidth: utilityColumnWidths.checkbox,
           }}
         />
       )}
@@ -62,9 +66,9 @@ export function TableColgroup<T>({
       {enableExpansion && (
         <col
           style={{
-            width: COLUMN_WIDTHS.EXPANDER,
-            minWidth: COLUMN_WIDTHS.EXPANDER,
-            maxWidth: COLUMN_WIDTHS.EXPANDER,
+            width: utilityColumnWidths.expander,
+            minWidth: utilityColumnWidths.expander,
+            maxWidth: utilityColumnWidths.expander,
           }}
         />
       )}

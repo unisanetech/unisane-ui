@@ -23,8 +23,8 @@ import { useI18n } from '../../i18n';
 type DensityLabelKey = 'densityCompact' | 'densityDense' | 'densityStandard' | 'densityComfortable';
 
 const densityOptions: { value: Density; labelKey: DensityLabelKey; icon: string }[] = [
-  { value: 'compact', labelKey: 'densityCompact', icon: 'density_small' },
-  { value: 'dense', labelKey: 'densityDense', icon: 'density_medium' },
+  { value: 'dense', labelKey: 'densityDense', icon: 'density_small' },
+  { value: 'compact', labelKey: 'densityCompact', icon: 'density_medium' },
   { value: 'standard', labelKey: 'densityStandard', icon: 'density_medium' },
   { value: 'comfortable', labelKey: 'densityComfortable', icon: 'density_large' },
 ];

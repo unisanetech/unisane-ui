@@ -5,7 +5,7 @@ import { Skeleton } from '@unisane/ui';
 import { cn } from '@unisane/ui';
 import type { Column, ColumnMetaMap, PinPosition } from '../types/index';
 import type { Density } from '../constants/index';
-import { DENSITY_STYLES } from '../constants/index';
+import { DENSITY_STYLES, DENSITY_UTILITY_COLUMN_WIDTHS } from '../constants/index';
 
 // ─── TYPES ─────────────────────────────────────────────────────────────────────
 
@@ -143,12 +143,13 @@ function SkeletonRow<T>({
   reorderableRows?: boolean;
 }) {
   const cellPadding = DENSITY_STYLES[density];
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
 
   return (
     <tr className="border-outline-subtle border-b last:border-b-0" aria-hidden="true">
       {/* Drag handle column */}
       {reorderableRows && (
-        <td className={cn(cellPadding, 'w-10')}>
+        <td className={cellPadding} style={{ width: utilityColumnWidths.dragHandle }}>
           <Skeleton variant="rectangular" className="h-4 w-4 rounded-sm" />
         </td>
       )}
@@ -156,11 +157,8 @@ function SkeletonRow<T>({
       {/* Selection checkbox column */}
       {selectable && (
         <td
-          className={cn(
-            cellPadding,
-            'w-12',
-            showColumnBorders && 'border-outline-subtle border-r',
-          )}
+          className={cn(cellPadding, showColumnBorders && 'border-outline-subtle border-r')}
+          style={{ width: utilityColumnWidths.checkbox }}
         >
           <Skeleton variant="rectangular" className="size-5 rounded-sm" />
         </td>
@@ -169,11 +167,8 @@ function SkeletonRow<T>({
       {/* Expansion toggle column */}
       {enableExpansion && (
         <td
-          className={cn(
-            cellPadding,
-            'w-12',
-            showColumnBorders && 'border-outline-subtle border-r',
-          )}
+          className={cn(cellPadding, showColumnBorders && 'border-outline-subtle border-r')}
+          style={{ width: utilityColumnWidths.expander }}
         >
           <Skeleton variant="circular" className="size-5" />
         </td>

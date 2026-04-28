@@ -3,7 +3,12 @@
 import React from 'react';
 import { cn, Icon, Checkbox } from '@unisane/ui';
 import type { RowGroup, GroupHeaderProps, Column } from '../types/index';
-import { DENSITY_STYLES, type Density } from '../constants/index';
+import {
+  DENSITY_CELL_TEXT_STYLES,
+  DENSITY_ICON_TEXT_STYLES,
+  DENSITY_STYLES,
+  type Density,
+} from '../constants/index';
 import { useI18n } from '../i18n';
 
 // ─── GROUP ROW PROPS ─────────────────────────────────────────────────────────
@@ -116,6 +121,8 @@ export function GroupRow<T extends { id: string }>({
 }: GroupRowProps<T>) {
   const { t } = useI18n();
   const paddingClass = DENSITY_STYLES[density];
+  const cellTextClass = DENSITY_CELL_TEXT_STYLES[density];
+  const iconTextClass = DENSITY_ICON_TEXT_STYLES[density];
 
   // Calculate total colSpan
   // +1 for checkbox if selectable, +1 for expand if enableExpansion
@@ -168,7 +175,7 @@ export function GroupRow<T extends { id: string }>({
     >
       <td
         colSpan={totalColumns}
-        className={cn('text-left', paddingClass)}
+        className={cn('text-left', paddingClass, cellTextClass)}
         style={{ paddingLeft: depthPadding }}
       >
         <div className="flex items-center gap-2">
@@ -196,7 +203,7 @@ export function GroupRow<T extends { id: string }>({
               group.isExpanded && 'rotate-90',
             )}
           >
-            <Icon symbol="chevron_right" className="text-[20px]" />
+            <Icon symbol="chevron_right" className={iconTextClass} />
           </span>
 
           {/* Group header content */}

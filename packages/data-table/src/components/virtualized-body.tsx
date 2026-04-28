@@ -44,6 +44,14 @@ interface VirtualizedBodyProps<T extends { id: string }> {
   onToggleExpand: (id: string) => void;
   onRowClick?: (row: T, activation: RowActivationEvent) => void;
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
+  onCellContextMenu?: (
+    row: T,
+    rowIndex: number,
+    column: Column<T>,
+    columnKey: string,
+    value: unknown,
+    event: React.MouseEvent,
+  ) => void;
   onRowHover?: (row: T | null) => void;
   density?: Density;
   measureElement?: (element: HTMLElement | null) => void;
@@ -146,6 +154,7 @@ export function VirtualizedBody<T extends { id: string }>({
   onToggleExpand,
   onRowClick,
   onRowContextMenu,
+  onCellContextMenu,
   onRowHover,
   density = 'standard',
   measureElement,
@@ -176,10 +185,14 @@ export function VirtualizedBody<T extends { id: string }>({
     <tbody className="bg-surface">
       {topSpacerHeight > 0 ? (
         <tr aria-hidden="true" className="pointer-events-none">
-          <td colSpan={colSpan} className="border-0 p-0" style={{ height: `${topSpacerHeight}px` }} />
+          <td
+            colSpan={colSpan}
+            className="border-0 p-0"
+            style={{ height: `${topSpacerHeight}px` }}
+          />
         </tr>
       ) : null}
-      {virtualRows.map((vRow, idx) => (
+      {virtualRows.map((vRow, idx) =>
         vRow.data.kind === 'expanded' ? (
           <DataTableExpandedRow
             key={vRow.key}
@@ -188,6 +201,7 @@ export function VirtualizedBody<T extends { id: string }>({
             selectable={selectable}
             showColumnBorders={showColumnBorders}
             enableExpansion={enableExpansion}
+            density={density}
             isLastRow={idx === virtualRows.length - 1 && bottomSpacerHeight === 0}
             rowRef={measureElement}
             data-index={vRow.index}
@@ -215,6 +229,7 @@ export function VirtualizedBody<T extends { id: string }>({
             onToggleExpand={onToggleExpand}
             onRowClick={onRowClick}
             onRowContextMenu={onRowContextMenu}
+            onCellContextMenu={onCellContextMenu}
             onRowHover={onRowHover}
             density={density}
             data-index={vRow.index}
@@ -224,8 +239,8 @@ export function VirtualizedBody<T extends { id: string }>({
             onCellClick={onCellClick}
             onCellKeyDown={onCellKeyDown}
           />
-        )
-      ))}
+        ),
+      )}
       {bottomSpacerHeight > 0 ? (
         <tr aria-hidden="true" className="pointer-events-none">
           <td

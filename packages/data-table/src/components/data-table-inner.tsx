@@ -5,6 +5,9 @@ import type { CSSProperties, ReactNode } from 'react';
 import { cn } from '@unisane/ui';
 import type {
   BulkAction,
+  Column,
+  DataTableCellPasteContext,
+  DataTableContextMenuContext,
   InlineEditingController,
   GroupHeaderProps,
   CellSelectionContext,
@@ -21,6 +24,7 @@ import { StatusAnnouncer } from './status-announcer';
 import { DataTableLayout, StickyZone } from './layout';
 import { DataTableToolbar, type DataTableToolbarProps } from './toolbar';
 import { DataTablePagination } from './pagination';
+import { DataTableContextMenu, type DataTableContextMenuState } from './context-menu';
 import type { CursorPagination } from '../types';
 import { useProcessedData } from '../hooks/data/use-processed-data';
 import { useGroupedData } from '../hooks/data/use-grouped-data';
@@ -45,7 +49,7 @@ import { useDataTableRuntime } from '../context/provider';
 import { ensureRowIds } from '../utils/ensure-row-ids';
 import { getNestedValue } from '../utils/get-nested-value';
 import { getTotalPages, clampPage } from '../utils/pagination';
-import { DENSITY_CONFIG, type Density } from '../constants/index';
+import { DENSITY_CONFIG, parseCellId, type Density } from '../constants/index';
 import { useI18n } from '../i18n';
 
 // ─── TOOLBAR PROPS ─────────────────────────────────────────────────────────
@@ -101,6 +105,8 @@ export interface DataTableInnerProps<T extends { id: string }> {
   renderGroupHeader?: (props: GroupHeaderProps<T>) => ReactNode;
   /** Cell selection: whether cell selection is enabled */
   cellSelectionEnabled?: boolean;
+  /** Context menu: whether right-click custom actions are enabled */
+  contextMenuEnabled?: boolean;
   /** Cell selection: get cell selection context for a specific cell */
   getCellSelectionContext?: (rowId: string, columnKey: string) => CellSelectionContext;
   /** Cell selection: handle cell click */
@@ -111,6 +117,8 @@ export interface DataTableInnerProps<T extends { id: string }> {
   onCellActiveChange?: (cell: { rowId: string; columnKey: string } | null) => void;
   /** Cell selection: callback when selected cells change */
   onCellSelectionChange?: (cells: Array<{ rowId: string; columnKey: string }>) => void;
+  /** Cell selection: callback when clipboard text is pasted into the active cell */
+  onCellPaste?: (context: DataTableCellPasteContext) => void | Promise<void>;
   /** Row reordering: whether drag-to-reorder is enabled */
   reorderableRows?: boolean;
   /** Row reordering: callback when row order changes */
@@ -149,11 +157,13 @@ export function DataTableInner<T extends { id: string }>({
   estimateRowHeight,
   renderGroupHeader,
   cellSelectionEnabled = false,
+  contextMenuEnabled = false,
   getCellSelectionContext,
   onCellClick,
   onCellKeyDown,
   onCellActiveChange,
   onCellSelectionChange,
+  onCellPaste,
   reorderableRows = false,
   onRowReorder,
   cursorPagination,
@@ -203,6 +213,11 @@ export function DataTableInner<T extends { id: string }>({
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const dataTableRootRef = useRef<HTMLDivElement>(null);
   const [usesInternalVerticalScroll, setUsesInternalVerticalScroll] = useState(false);
+  const [contextMenuState, setContextMenuState] = useState<DataTableContextMenuState<T>>({
+    open: false,
+    context: null,
+    actions: [],
+  });
 
   // Observe container for accurate responsive width detection
   useEffect(() => {
@@ -236,6 +251,7 @@ export function DataTableInner<T extends { id: string }>({
       enableExpansion,
       reorderableRows,
       isGrouped,
+      density,
     });
 
   // ─── COLUMN VIRTUALIZATION ─────────────────────────────────────────────────
@@ -438,8 +454,7 @@ export function DataTableInner<T extends { id: string }>({
   } = useVirtualizedRows({
     data: virtualizedRowItems,
     estimateRowHeight: rowHeight,
-    estimateSize: (item) =>
-      item.kind === 'expanded' ? expandedRowHeightEstimate : rowHeight,
+    estimateSize: (item) => (item.kind === 'expanded' ? expandedRowHeightEstimate : rowHeight),
     enabled: virtualize && usesInternalVerticalScroll,
     threshold: virtualizeThreshold,
   });
@@ -673,9 +688,113 @@ export function DataTableInner<T extends { id: string }>({
     ? (onCellKeyDown ?? internalCellSelection.handleCellKeyDown)
     : undefined;
 
+  const selectedCells = useMemo(
+    () =>
+      cellSelectionEnabled
+        ? Array.from(internalCellSelection.state.selectedCells)
+            .map(parseCellId)
+            .filter((cell): cell is { rowId: string; columnKey: string } => Boolean(cell))
+        : [],
+    [cellSelectionEnabled, internalCellSelection.state.selectedCells],
+  );
+
+  const closeContextMenu = useCallback(() => {
+    setContextMenuState((current) =>
+      current.open ? { open: false, context: null, actions: [] } : current,
+    );
+  }, []);
+
+  const openContextMenu = useCallback(
+    (context: DataTableContextMenuContext<T>, event: React.MouseEvent) => {
+      if (!contextMenuEnabled || !callbacks.getContextMenuActions) return;
+      const actions = callbacks.getContextMenuActions(context).filter((action) => !action.hidden);
+      if (!actions.length) return;
+      event.preventDefault();
+      setContextMenuState({ open: true, context, actions });
+    },
+    [callbacks, contextMenuEnabled],
+  );
+
+  const handleRowContextMenu = useCallback(
+    (row: T, event: React.MouseEvent) => {
+      onRowContextMenu?.(row, event);
+      const rowIndex = paginatedData.findIndex((candidate) => candidate.id === row.id);
+      openContextMenu(
+        {
+          target: 'row',
+          position: { x: event.clientX, y: event.clientY },
+          row,
+          rowIndex: rowIndex >= 0 ? rowIndex : 0,
+          selectedRowIds: Array.from(selectedRows),
+          selectedCells,
+          activeCell: internalCellSelection.state.activeCell,
+        },
+        event,
+      );
+    },
+    [
+      internalCellSelection.state.activeCell,
+      onRowContextMenu,
+      openContextMenu,
+      paginatedData,
+      selectedCells,
+      selectedRows,
+    ],
+  );
+
+  const handleCellContextMenu = useCallback(
+    (
+      row: T,
+      rowIndex: number,
+      column: Column<T>,
+      columnKey: string,
+      value: unknown,
+      event: React.MouseEvent,
+    ) => {
+      openContextMenu(
+        {
+          target: 'cell',
+          position: { x: event.clientX, y: event.clientY },
+          row,
+          rowIndex,
+          column,
+          columnKey,
+          value,
+          selectedRowIds: Array.from(selectedRows),
+          selectedCells,
+          activeCell: internalCellSelection.state.activeCell,
+        },
+        event,
+      );
+    },
+    [internalCellSelection.state.activeCell, openContextMenu, selectedCells, selectedRows],
+  );
+
   // Combine keyboard handlers for row navigation and cell selection
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
+      if (
+        cellSelectionEnabled &&
+        onCellPaste &&
+        internalCellSelection.state.activeCell &&
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === 'v'
+      ) {
+        event.preventDefault();
+        const activeCell = internalCellSelection.state.activeCell;
+        void navigator.clipboard
+          ?.readText()
+          .then((text) =>
+            onCellPaste({
+              activeCell,
+              selectedCells,
+              text,
+            }),
+          )
+          .catch(() => undefined);
+        return;
+      }
+
       // Cell selection keyboard handling takes priority if enabled
       if (cellSelectionEnabled && effectiveOnCellKeyDown) {
         effectiveOnCellKeyDown(event);
@@ -684,7 +803,14 @@ export function DataTableInner<T extends { id: string }>({
       // Fall through to default keyboard navigation
       keyboardProps.onKeyDown?.(event);
     },
-    [cellSelectionEnabled, effectiveOnCellKeyDown, keyboardProps],
+    [
+      cellSelectionEnabled,
+      effectiveOnCellKeyDown,
+      internalCellSelection.state.activeCell,
+      keyboardProps,
+      onCellPaste,
+      selectedCells,
+    ],
   );
 
   // Common header props for both virtualized and non-virtualized modes
@@ -706,11 +832,13 @@ export function DataTableInner<T extends { id: string }>({
     resizable: config.resizable,
     pinnable: config.pinnable,
     reorderable,
+    columnVisibility: config.columnVisibility,
     onColumnPin: setColumnPin,
     onColumnResize: setColumnWidth,
     onColumnHide: hideColumn,
     onColumnFilter: setFilter,
     onColumnReorder: reorderColumn,
+    getColumnMenuActions: callbacks.getColumnMenuActions,
     columnFilters,
     groupingEnabled: config.groupingEnabled,
     groupBy,
@@ -801,6 +929,7 @@ export function DataTableInner<T extends { id: string }>({
               enableExpansion={enableExpansion}
               getEffectivePinPosition={getEffectivePinPosition}
               reorderableRows={reorderableRows && !isGrouped}
+              density={density}
             />
             <DataTableHeader {...headerProps} />
             {isVirtualized ? (
@@ -827,7 +956,10 @@ export function DataTableInner<T extends { id: string }>({
                 onSelect={handleSelectRow}
                 onToggleExpand={toggleExpand}
                 onRowClick={onRowClick}
-                onRowContextMenu={onRowContextMenu}
+                onRowContextMenu={
+                  contextMenuEnabled || onRowContextMenu ? handleRowContextMenu : undefined
+                }
+                onCellContextMenu={contextMenuEnabled ? handleCellContextMenu : undefined}
                 onRowHover={onRowHover}
                 density={density}
                 measureElement={measureElement}
@@ -857,7 +989,10 @@ export function DataTableInner<T extends { id: string }>({
                   onSelect={handleSelectRow}
                   onToggleExpand={toggleExpand}
                   onRowClick={onRowClick}
-                  onRowContextMenu={onRowContextMenu}
+                  onRowContextMenu={
+                    contextMenuEnabled || onRowContextMenu ? handleRowContextMenu : undefined
+                  }
+                  onCellContextMenu={contextMenuEnabled ? handleCellContextMenu : undefined}
                   onRowHover={onRowHover}
                   renderExpandedRow={renderExpandedRow}
                   getRowCanExpand={getRowCanExpand}
@@ -932,6 +1067,7 @@ export function DataTableInner<T extends { id: string }>({
             }
           />
         )}
+        <DataTableContextMenu state={contextMenuState} onClose={closeContextMenu} />
       </div>
     </DataTableLayout>
   );

@@ -1,13 +1,6 @@
-"use client";
+'use client';
 
-import {
-  createContext,
-  useContext,
-  useReducer,
-  useEffect,
-  useMemo,
-  startTransition,
-} from "react";
+import { createContext, useContext, useReducer, useEffect, useMemo, startTransition } from 'react';
 import type {
   DataTableAction,
   DataTableProviderProps,
@@ -20,17 +13,17 @@ import type {
   PaginationSlice,
   ColumnSlice,
   GroupingSlice,
-} from "./types";
-import { dataTableReducer, createInitialState } from "./reducer";
-import { flattenColumns, hasColumnGroups } from "../types/index";
-import type { ColumnPinState } from "../types/index";
-import { I18nProvider } from "../i18n/index";
-import { FeedbackProvider } from "../feedback";
-import { ErrorHub } from "../errors/error-hub";
-import { validateColumns } from "../utils/validation";
-import { ErrorSeverity } from "../errors/severity";
-import { DataTableError, DataTableErrorCode } from "../errors/base";
-import { createDesyncDetector } from "../utils/controlled-state-warnings";
+} from './types';
+import { dataTableReducer, createInitialState } from './reducer';
+import { flattenColumns, hasColumnGroups } from '../types/index';
+import type { ColumnPinState } from '../types/index';
+import { I18nProvider } from '../i18n/index';
+import { FeedbackProvider } from '../feedback';
+import { ErrorHub } from '../errors/error-hub';
+import { validateColumns } from '../utils/validation';
+import { ErrorSeverity } from '../errors/severity';
+import { DataTableError, DataTableErrorCode } from '../errors/base';
+import { createDesyncDetector } from '../utils/controlled-state-warnings';
 
 // ─── CONTEXT ────────────────────────────────────────────────────────────────
 
@@ -38,7 +31,7 @@ interface DataTableRuntimeContextValue<T = unknown> {
   dispatch: React.Dispatch<DataTableAction>;
   config: DataTableConfig<T>;
   errorHub: ErrorHub;
-  callbacks: DataTableCallbacks;
+  callbacks: DataTableCallbacks<T>;
   maxSortColumns: number;
 }
 
@@ -53,30 +46,27 @@ const DataTableGroupingContext = createContext<GroupingSlice | null>(null);
 
 // ─── STORAGE KEYS ───────────────────────────────────────────────────────────
 
-const getStorageKey = (tableId: string, suffix: string) =>
-  `unisane-datatable-${tableId}-${suffix}`;
+const getStorageKey = (tableId: string, suffix: string) => `unisane-datatable-${tableId}-${suffix}`;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function isStringArray(value: unknown): value is string[] {
-  return Array.isArray(value) && value.every((item) => typeof item === "string");
+  return Array.isArray(value) && value.every((item) => typeof item === 'string');
 }
 
 function isNumberRecord(value: unknown): value is Record<string, number> {
   return (
     isRecord(value) &&
-    Object.values(value).every((item) => typeof item === "number" && Number.isFinite(item))
+    Object.values(value).every((item) => typeof item === 'number' && Number.isFinite(item))
   );
 }
 
 function isColumnPinState(value: unknown): value is ColumnPinState {
   return (
     isRecord(value) &&
-    Object.values(value).every(
-      (pin) => pin === "left" || pin === "right" || pin === null
-    )
+    Object.values(value).every((pin) => pin === 'left' || pin === 'right' || pin === null)
   );
 }
 
@@ -86,9 +76,9 @@ export function DataTableProvider<T extends { id: string }>({
   children,
   tableId,
   columns,
-  mode = "local",
-  paginationMode = "offset",
-  variant = "list",
+  mode = 'local',
+  paginationMode = 'offset',
+  variant = 'list',
   rowSelectionEnabled = false,
   showColumnDividers,
   zebra = false,
@@ -97,9 +87,10 @@ export function DataTableProvider<T extends { id: string }>({
   resizable = true,
   pinnable = true,
   reorderable = false,
+  columnVisibility = true,
   groupingEnabled = false,
   showSummary = false,
-  summaryLabel = "Summary",
+  summaryLabel = 'Summary',
   initialPageSize,
   // Sort config
   maxSortColumns = 3,
@@ -114,6 +105,7 @@ export function DataTableProvider<T extends { id: string }>({
   onColumnPinChange,
   columnOrder: externalColumnOrder,
   onColumnOrderChange,
+  hiddenColumnKeys: externalHiddenColumnKeys,
   selectedIds: externalSelectedIds,
   onSelectionChange,
   groupBy: externalGroupBy,
@@ -122,10 +114,12 @@ export function DataTableProvider<T extends { id: string }>({
   sparseSelection,
   onPaginationChange,
   onColumnVisibilityChange,
+  getColumnMenuActions,
+  getContextMenuActions,
   onScroll,
   onError,
   locale,
-  dir = "ltr",
+  dir = 'ltr',
   // Feedback
   enableFeedback = true,
   disableToasts = false,
@@ -134,7 +128,7 @@ export function DataTableProvider<T extends { id: string }>({
   errorConfig,
 }: DataTableProviderProps<T>) {
   // Default showColumnDividers based on variant if not explicitly set
-  const effectiveShowColumnDividers = showColumnDividers ?? (variant === "grid");
+  const effectiveShowColumnDividers = showColumnDividers ?? variant === 'grid';
 
   // Flatten columns and check for groups
   const flatColumns = useMemo(() => flattenColumns(columns), [columns]);
@@ -156,11 +150,17 @@ export function DataTableProvider<T extends { id: string }>({
         errorConfig?.onError?.(error);
         // Also call the legacy onError prop for backward compatibility
         onError?.({
-          type: error.code.startsWith("DT_5") ? "filter" :
-                error.code.startsWith("DT_4") ? "render" :
-                error.code.startsWith("DT_6") ? "export" :
-                error.code.startsWith("DT_3") ? "data" :
-                error.code.startsWith("DT_2") ? "sort" : "unknown",
+          type: error.code.startsWith('DT_5')
+            ? 'filter'
+            : error.code.startsWith('DT_4')
+              ? 'render'
+              : error.code.startsWith('DT_6')
+                ? 'export'
+                : error.code.startsWith('DT_3')
+                  ? 'data'
+                  : error.code.startsWith('DT_2')
+                    ? 'sort'
+                    : 'unknown',
           message: error.message,
           error: error,
           context: error.context,
@@ -188,15 +188,15 @@ export function DataTableProvider<T extends { id: string }>({
 
   useEffect(() => {
     // Skip validation in production unless strict mode is enabled
-    if (process.env.NODE_ENV === "production" && !errorConfig?.strictValidation) {
+    if (process.env.NODE_ENV === 'production' && !errorConfig?.strictValidation) {
       return;
     }
 
     if (!columns || columns.length === 0) {
       const error = new DataTableError(
-        "No columns provided. Table will not render correctly.",
+        'No columns provided. Table will not render correctly.',
         DataTableErrorCode.INVALID_CONFIG,
-        { severity: ErrorSeverity.ERROR }
+        { severity: ErrorSeverity.ERROR },
       );
       errorHub.report(error);
       return;
@@ -213,7 +213,7 @@ export function DataTableProvider<T extends { id: string }>({
     }
 
     // Log warnings in development
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       for (const warning of validation.warnings) {
         console.warn(`[DataTable] ${warning}`);
       }
@@ -224,9 +224,9 @@ export function DataTableProvider<T extends { id: string }>({
   const normalizedStickyOffset = useMemo(() => {
     if (stickyOffset === undefined) {
       // Default: use CSS variable that can be set by parent layout (e.g., SidebarInset)
-      return "var(--app-header-height, 0px)";
+      return 'var(--app-header-height, 0px)';
     }
-    if (typeof stickyOffset === "number") {
+    if (typeof stickyOffset === 'number') {
       return `${stickyOffset}px`;
     }
     return stickyOffset;
@@ -249,6 +249,7 @@ export function DataTableProvider<T extends { id: string }>({
       resizable,
       pinnable,
       reorderable,
+      columnVisibility,
       groupingEnabled,
       showSummary,
       summaryLabel,
@@ -270,39 +271,40 @@ export function DataTableProvider<T extends { id: string }>({
       resizable,
       pinnable,
       reorderable,
+      columnVisibility,
       groupingEnabled,
       showSummary,
       summaryLabel,
       dir,
-    ]
+    ],
   );
 
   const [state, dispatch] = useReducer(
     dataTableReducer,
     { pageSize: initialPageSize },
-    createInitialState
+    createInitialState,
   );
 
   // ─── LOCALSTORAGE PERSISTENCE ──────────────────────────────────────────────
 
   // Load settings from localStorage on mount
   useEffect(() => {
-    if (!tableId || typeof localStorage === "undefined") return;
+    if (!tableId || typeof localStorage === 'undefined') return;
 
     try {
       // Load UI settings
-      const savedSettings = localStorage.getItem(getStorageKey(tableId, "settings"));
+      const savedSettings = localStorage.getItem(getStorageKey(tableId, 'settings'));
       if (savedSettings) {
         const parsed: unknown = JSON.parse(savedSettings);
         if (isRecord(parsed) && isStringArray(parsed.hiddenColumns)) {
           dispatch({
-            type: "HYDRATE",
+            type: 'HYDRATE',
             state: { hiddenColumns: new Set(parsed.hiddenColumns) },
           });
         }
         if (isRecord(parsed) && isNumberRecord(parsed.columnWidths)) {
           dispatch({
-            type: "HYDRATE",
+            type: 'HYDRATE',
             state: { columnWidths: parsed.columnWidths },
           });
         }
@@ -310,22 +312,22 @@ export function DataTableProvider<T extends { id: string }>({
 
       // Load pin state (if not externally controlled)
       if (!externalPinState) {
-        const savedPins = localStorage.getItem(getStorageKey(tableId, "pins"));
+        const savedPins = localStorage.getItem(getStorageKey(tableId, 'pins'));
         if (savedPins) {
           const parsed: unknown = JSON.parse(savedPins);
           if (isColumnPinState(parsed)) {
-            dispatch({ type: "HYDRATE", state: { columnPinState: parsed } });
+            dispatch({ type: 'HYDRATE', state: { columnPinState: parsed } });
           }
         }
       }
     } catch (e) {
-      console.error("Failed to load DataTable settings:", e);
+      console.error('Failed to load DataTable settings:', e);
     }
   }, [tableId, externalPinState]);
 
   // Save settings to localStorage (using requestIdleCallback to avoid blocking UI)
   useEffect(() => {
-    if (!tableId || typeof localStorage === "undefined") return;
+    if (!tableId || typeof localStorage === 'undefined') return;
 
     const settings = {
       hiddenColumns: Array.from(state.hiddenColumns),
@@ -335,13 +337,13 @@ export function DataTableProvider<T extends { id: string }>({
     // Use requestIdleCallback if available, otherwise setTimeout
     const saveToStorage = () => {
       try {
-        localStorage.setItem(getStorageKey(tableId, "settings"), JSON.stringify(settings));
+        localStorage.setItem(getStorageKey(tableId, 'settings'), JSON.stringify(settings));
       } catch (e) {
-        console.warn("Failed to save DataTable settings to localStorage:", e);
+        console.warn('Failed to save DataTable settings to localStorage:', e);
       }
     };
 
-    if (typeof requestIdleCallback !== "undefined") {
+    if (typeof requestIdleCallback !== 'undefined') {
       const id = requestIdleCallback(saveToStorage, { timeout: 1000 });
       return () => cancelIdleCallback(id);
     } else {
@@ -352,24 +354,24 @@ export function DataTableProvider<T extends { id: string }>({
 
   // Save pin state (using requestIdleCallback to avoid blocking UI)
   useEffect(() => {
-    if (!tableId || externalPinState || typeof localStorage === "undefined") return;
+    if (!tableId || externalPinState || typeof localStorage === 'undefined') return;
 
     const savePinState = () => {
       try {
         if (Object.keys(state.columnPinState).length > 0) {
           localStorage.setItem(
-            getStorageKey(tableId, "pins"),
-            JSON.stringify(state.columnPinState)
+            getStorageKey(tableId, 'pins'),
+            JSON.stringify(state.columnPinState),
           );
         } else {
-          localStorage.removeItem(getStorageKey(tableId, "pins"));
+          localStorage.removeItem(getStorageKey(tableId, 'pins'));
         }
       } catch (e) {
-        console.warn("Failed to save DataTable pin state to localStorage:", e);
+        console.warn('Failed to save DataTable pin state to localStorage:', e);
       }
     };
 
-    if (typeof requestIdleCallback !== "undefined") {
+    if (typeof requestIdleCallback !== 'undefined') {
       const id = requestIdleCallback(savePinState, { timeout: 1000 });
       return () => cancelIdleCallback(id);
     } else {
@@ -391,7 +393,7 @@ export function DataTableProvider<T extends { id: string }>({
   useEffect(() => {
     if (externalSelectedIds !== undefined) {
       startTransition(() => {
-        dispatch({ type: "SELECT_ALL", ids: externalSelectedIds });
+        dispatch({ type: 'SELECT_ALL', ids: externalSelectedIds });
       });
     }
   }, [externalSelectedIds]);
@@ -400,16 +402,17 @@ export function DataTableProvider<T extends { id: string }>({
   // In development, detect when controlled props don't match callback values
 
   const desyncDetector = useMemo(
-    () => createDesyncDetector({
-      errorHub,
-      consoleWarnings: process.env.NODE_ENV !== "production",
-    }),
-    [errorHub]
+    () =>
+      createDesyncDetector({
+        errorHub,
+        consoleWarnings: process.env.NODE_ENV !== 'production',
+      }),
+    [errorHub],
   );
 
   // Verify controlled state after prop changes
   useEffect(() => {
-    if (process.env.NODE_ENV === "production") return;
+    if (process.env.NODE_ENV === 'production') return;
 
     // Verify each controlled state type
     desyncDetector.verifySortState(externalSortState);
@@ -437,11 +440,22 @@ export function DataTableProvider<T extends { id: string }>({
       search: searchValue,
       pinState: externalPinState,
       columnOrder: externalColumnOrder,
+      hiddenColumnKeys: externalHiddenColumnKeys,
       selectedIds: externalSelectedIds,
       groupBy: externalGroupBy,
       sparseSelection,
     }),
-    [externalSortState, controlledFilters, searchValue, externalPinState, externalColumnOrder, externalSelectedIds, externalGroupBy, sparseSelection]
+    [
+      externalSortState,
+      controlledFilters,
+      searchValue,
+      externalPinState,
+      externalColumnOrder,
+      externalHiddenColumnKeys,
+      externalSelectedIds,
+      externalGroupBy,
+      sparseSelection,
+    ],
   );
 
   const selectionSlice = useMemo<SelectionSlice>(
@@ -449,14 +463,14 @@ export function DataTableProvider<T extends { id: string }>({
       selectedRows: state.selectedRows,
       expandedRows: state.expandedRows,
     }),
-    [state.selectedRows, state.expandedRows]
+    [state.selectedRows, state.expandedRows],
   );
 
   const sortSlice = useMemo<SortSlice>(
     () => ({
       sortState: state.sortState,
     }),
-    [state.sortState]
+    [state.sortState],
   );
 
   const filterSlice = useMemo<FilterSlice>(
@@ -464,14 +478,14 @@ export function DataTableProvider<T extends { id: string }>({
       searchText: state.searchText,
       columnFilters: state.columnFilters,
     }),
-    [state.searchText, state.columnFilters]
+    [state.searchText, state.columnFilters],
   );
 
   const paginationSlice = useMemo<PaginationSlice>(
     () => ({
       pagination: state.pagination,
     }),
-    [state.pagination]
+    [state.pagination],
   );
 
   const columnSlice = useMemo<ColumnSlice>(
@@ -481,7 +495,7 @@ export function DataTableProvider<T extends { id: string }>({
       columnPinState: state.columnPinState,
       columnOrder: state.columnOrder,
     }),
-    [state.hiddenColumns, state.columnWidths, state.columnPinState, state.columnOrder]
+    [state.hiddenColumns, state.columnWidths, state.columnPinState, state.columnOrder],
   );
 
   const groupingSlice = useMemo<GroupingSlice>(
@@ -489,10 +503,10 @@ export function DataTableProvider<T extends { id: string }>({
       groupBy: state.groupBy,
       expandedGroups: state.expandedGroups,
     }),
-    [state.groupBy, state.expandedGroups]
+    [state.groupBy, state.expandedGroups],
   );
 
-  const callbacks = useMemo<DataTableCallbacks>(
+  const callbacks = useMemo<DataTableCallbacks<T>>(
     () => ({
       onSortChange,
       onFilterChange,
@@ -504,6 +518,8 @@ export function DataTableProvider<T extends { id: string }>({
       onSelectAllFiltered,
       onPaginationChange,
       onColumnVisibilityChange,
+      getColumnMenuActions,
+      getContextMenuActions,
       onScroll,
       onError,
     }),
@@ -518,9 +534,11 @@ export function DataTableProvider<T extends { id: string }>({
       onSelectAllFiltered,
       onPaginationChange,
       onColumnVisibilityChange,
+      getColumnMenuActions,
+      getContextMenuActions,
       onScroll,
       onError,
-    ]
+    ],
   );
 
   const runtimeValue = useMemo<DataTableRuntimeContextValue<T>>(
@@ -531,19 +549,11 @@ export function DataTableProvider<T extends { id: string }>({
       maxSortColumns,
       callbacks,
     }),
-    [
-      dispatch,
-      config,
-      errorHub,
-      maxSortColumns,
-      callbacks,
-    ]
+    [dispatch, config, errorHub, maxSortColumns, callbacks],
   );
 
   const tableContent = (
-    <DataTableRuntimeContext.Provider
-      value={runtimeValue as DataTableRuntimeContextValue<unknown>}
-    >
+    <DataTableRuntimeContext.Provider value={runtimeValue as DataTableRuntimeContextValue<unknown>}>
       <DataTableControlledContext.Provider value={controlled}>
         <DataTableSelectionContext.Provider value={selectionSlice}>
           <DataTableSortContext.Provider value={sortSlice}>
@@ -582,10 +592,7 @@ export function DataTableProvider<T extends { id: string }>({
 
 // ─── BASE HOOK ──────────────────────────────────────────────────────────────
 
-function useRequiredContext<Value>(
-  context: React.Context<Value | null>,
-  hookName: string
-): Value {
+function useRequiredContext<Value>(context: React.Context<Value | null>, hookName: string): Value {
   const value = useContext(context);
   if (!value) {
     throw new Error(`${hookName} must be used within a DataTableProvider`);
@@ -596,55 +603,41 @@ function useRequiredContext<Value>(
 export function useDataTableRuntime<T = unknown>(): DataTableRuntimeContextValue<T> {
   return useRequiredContext(
     DataTableRuntimeContext,
-    "useDataTableRuntime"
+    'useDataTableRuntime',
   ) as DataTableRuntimeContextValue<T>;
 }
 
-export function useOptionalDataTableRuntime<T = unknown>():
-  | DataTableRuntimeContextValue<T>
-  | null {
+export function useOptionalDataTableRuntime<T = unknown>(): DataTableRuntimeContextValue<T> | null {
   const context = useContext(DataTableRuntimeContext);
   return context as DataTableRuntimeContextValue<T> | null;
 }
 
 export function useDataTableControlledState(): DataTableControlledState {
-  return useRequiredContext(
-    DataTableControlledContext,
-    "useDataTableControlledState"
-  );
+  return useRequiredContext(DataTableControlledContext, 'useDataTableControlledState');
 }
 
 export function useDataTableSelectionSlice(): SelectionSlice {
-  return useRequiredContext(
-    DataTableSelectionContext,
-    "useDataTableSelectionSlice"
-  );
+  return useRequiredContext(DataTableSelectionContext, 'useDataTableSelectionSlice');
 }
 
 export function useDataTableSortSlice(): SortSlice {
-  return useRequiredContext(DataTableSortContext, "useDataTableSortSlice");
+  return useRequiredContext(DataTableSortContext, 'useDataTableSortSlice');
 }
 
 export function useDataTableFilterSlice(): FilterSlice {
-  return useRequiredContext(DataTableFilterContext, "useDataTableFilterSlice");
+  return useRequiredContext(DataTableFilterContext, 'useDataTableFilterSlice');
 }
 
 export function useDataTablePaginationSlice(): PaginationSlice {
-  return useRequiredContext(
-    DataTablePaginationContext,
-    "useDataTablePaginationSlice"
-  );
+  return useRequiredContext(DataTablePaginationContext, 'useDataTablePaginationSlice');
 }
 
 export function useDataTableColumnSlice(): ColumnSlice {
-  return useRequiredContext(DataTableColumnContext, "useDataTableColumnSlice");
+  return useRequiredContext(DataTableColumnContext, 'useDataTableColumnSlice');
 }
 
 export function useDataTableGroupingSlice(): GroupingSlice {
-  return useRequiredContext(
-    DataTableGroupingContext,
-    "useDataTableGroupingSlice"
-  );
+  return useRequiredContext(DataTableGroupingContext, 'useDataTableGroupingSlice');
 }
 
 // ─── RE-EXPORT SPECIALIZED HOOKS ────────────────────────────────────────────
@@ -658,4 +651,4 @@ export {
   useColumns,
   useGrouping,
   useTableUI,
-} from "./hooks";
+} from './hooks';

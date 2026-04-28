@@ -1,7 +1,6 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, Slot } from '../lib/utils';
-import { actionFrameSizeClasses } from '../lib/action-size';
 import { Ripple } from '../components/ripple';
 
 const menuVariants = cva(
@@ -21,6 +20,9 @@ const menuVariants = cva(
     },
   },
 );
+
+const menuIconSlotClasses =
+  'relative z-10 flex size-icon-sm shrink-0 items-center justify-center leading-none text-[var(--icon-sm)] [&>.material-symbols-outlined]:size-icon-sm [&>.material-symbols-outlined]:text-[var(--icon-sm)] [&>svg]:size-icon-sm';
 
 export interface MenuProps
   extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof menuVariants> {
@@ -71,7 +73,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       : children;
 
   const itemClasses = cn(
-    `relative w-full text-left ${actionFrameSizeClasses.md} flex items-center gap-3 cursor-pointer select-none overflow-hidden`,
+    'text-label-large relative flex min-h-[var(--size-action-md)] w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[calc(var(--unit)*3)] py-[calc(var(--unit)*2)] text-left select-none',
     'text-on-surface transition-colors duration-short ease-standard',
     'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
@@ -82,16 +84,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const innerContent = (
     <>
       <Ripple disabled={disabled} />
-      {icon && (
-        <div className="relative z-10 flex min-h-[var(--size-icon-sm)] min-w-[var(--size-icon-sm)] shrink-0 items-center justify-center">
-          {icon}
-        </div>
-      )}
-      <span className="text-body-large relative z-10 flex-1 font-medium">{label}</span>
+      {icon && <div className={menuIconSlotClasses}>{icon}</div>}
+      <span className="relative z-10 flex min-w-0 flex-1 translate-y-px items-center truncate">
+        {label}
+      </span>
       {trailingIcon && (
-        <div className="text-on-surface-variant relative z-10 flex shrink-0 items-center justify-center">
-          {trailingIcon}
-        </div>
+        <div className={cn(menuIconSlotClasses, 'text-on-surface-variant')}>{trailingIcon}</div>
       )}
     </>
   );

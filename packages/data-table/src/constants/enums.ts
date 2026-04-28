@@ -6,8 +6,8 @@
  * Sort direction values
  */
 export const SortDirection = {
-  ASC: "asc",
-  DESC: "desc",
+  ASC: 'asc',
+  DESC: 'desc',
   NONE: null,
 } as const;
 
@@ -17,8 +17,8 @@ export type SortDirectionValue = (typeof SortDirection)[keyof typeof SortDirecti
  * Pin position values
  */
 export const PinPosition = {
-  LEFT: "left",
-  RIGHT: "right",
+  LEFT: 'left',
+  RIGHT: 'right',
   NONE: null,
 } as const;
 
@@ -29,11 +29,11 @@ export type PinPositionValue = (typeof PinPosition)[keyof typeof PinPosition];
  */
 export const TableVariant = {
   /** Full featured with borders, column dividers (default for data editing) */
-  GRID: "grid",
+  GRID: 'grid',
   /** Row borders only, cleaner look (default for read-only lists) */
-  LIST: "list",
+  LIST: 'list',
   /** No borders, compact (ideal for logs/audit trails) */
-  MINIMAL: "minimal",
+  MINIMAL: 'minimal',
 } as const;
 
 export type TableVariantValue = (typeof TableVariant)[keyof typeof TableVariant];
@@ -42,14 +42,14 @@ export type TableVariantValue = (typeof TableVariant)[keyof typeof TableVariant]
  * Row density presets
  */
 export const DensityLevel = {
-  /** Tight spacing for data-dense views */
-  COMPACT: "compact",
-  /** Slightly more compact than standard */
-  DENSE: "dense",
+  /** Lowest spacing for maximum data density */
+  DENSE: 'dense',
+  /** Tight spacing with more breathing room than dense */
+  COMPACT: 'compact',
   /** Default spacing */
-  STANDARD: "standard",
+  STANDARD: 'standard',
   /** Extra spacing for touch-friendly interfaces */
-  COMFORTABLE: "comfortable",
+  COMFORTABLE: 'comfortable',
 } as const;
 
 export type DensityLevelValue = (typeof DensityLevel)[keyof typeof DensityLevel];
@@ -58,11 +58,11 @@ export type DensityLevelValue = (typeof DensityLevel)[keyof typeof DensityLevel]
  * Filter input types
  */
 export const FilterType = {
-  TEXT: "text",
-  SELECT: "select",
-  MULTI_SELECT: "multi-select",
-  NUMBER_RANGE: "number-range",
-  DATE_RANGE: "date-range",
+  TEXT: 'text',
+  SELECT: 'select',
+  MULTI_SELECT: 'multi-select',
+  NUMBER_RANGE: 'number-range',
+  DATE_RANGE: 'date-range',
 } as const;
 
 export type FilterTypeValue = (typeof FilterType)[keyof typeof FilterType];
@@ -71,9 +71,9 @@ export type FilterTypeValue = (typeof FilterType)[keyof typeof FilterType];
  * Selection mode for row selection
  */
 export const SelectionMode = {
-  SINGLE: "single",
-  MULTIPLE: "multiple",
-  NONE: "none",
+  SINGLE: 'single',
+  MULTIPLE: 'multiple',
+  NONE: 'none',
 } as const;
 
 export type SelectionModeValue = (typeof SelectionMode)[keyof typeof SelectionMode];
@@ -82,9 +82,9 @@ export type SelectionModeValue = (typeof SelectionMode)[keyof typeof SelectionMo
  * Column alignment
  */
 export const ColumnAlign = {
-  LEFT: "left",
-  CENTER: "center",
-  RIGHT: "right",
+  LEFT: 'left',
+  CENTER: 'center',
+  RIGHT: 'right',
 } as const;
 
 export type ColumnAlignValue = (typeof ColumnAlign)[keyof typeof ColumnAlign];
@@ -93,9 +93,9 @@ export type ColumnAlignValue = (typeof ColumnAlign)[keyof typeof ColumnAlign];
  * Cell selection mode
  */
 export const CellSelectionMode = {
-  SINGLE: "single",
-  RANGE: "range",
-  MULTIPLE: "multiple",
+  SINGLE: 'single',
+  RANGE: 'range',
+  MULTIPLE: 'multiple',
 } as const;
 
 export type CellSelectionModeValue = (typeof CellSelectionMode)[keyof typeof CellSelectionMode];

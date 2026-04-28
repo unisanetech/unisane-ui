@@ -21,7 +21,14 @@ import type {
 import type { RowDragProps } from '../hooks/ui/use-row-drag';
 import { getNestedValue } from '../utils/get-nested-value';
 import { first, last } from '../utils/type-guards';
-import { COLUMN_WIDTHS, DENSITY_STYLES, type Density, createCellId } from '../constants/index';
+import {
+  DENSITY_CELL_TEXT_STYLES,
+  DENSITY_ICON_TEXT_STYLES,
+  DENSITY_STYLES,
+  DENSITY_UTILITY_COLUMN_WIDTHS,
+  type Density,
+  createCellId,
+} from '../constants/index';
 import { useI18n } from '../i18n';
 import { DragHandle } from './drag-handle';
 import { HighlightedText } from './highlighted-text';
@@ -49,6 +56,15 @@ interface DataTableRowProps<T> {
   onRowClick?: (row: T, activation: RowActivationEvent) => void;
   /** Callback when row is right-clicked (context menu) */
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
+  /** Callback when a cell is right-clicked (context menu) */
+  onCellContextMenu?: (
+    row: T,
+    rowIndex: number,
+    column: Column<T>,
+    columnKey: string,
+    value: unknown,
+    event: React.MouseEvent,
+  ) => void;
   onRowHover?: (row: T | null) => void;
   density?: Density;
   /** Virtualization: inline styles for absolute positioning */
@@ -115,6 +131,7 @@ function DataTableRowInner<T extends { id: string }>({
   onToggleExpand,
   onRowClick,
   onRowContextMenu,
+  onCellContextMenu,
   onRowHover,
   density = 'standard',
   style,
@@ -139,6 +156,9 @@ function DataTableRowInner<T extends { id: string }>({
   const { t } = useI18n();
   const isOddRow = rowIndex % 2 === 1;
   const paddingClass = DENSITY_STYLES[density];
+  const cellTextClass = DENSITY_CELL_TEXT_STYLES[density];
+  const iconTextClass = DENSITY_ICON_TEXT_STYLES[density];
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
 
   // State for showing "not editable" tooltip on non-editable cells
   const [notEditableCell, setNotEditableCell] = useState<string | null>(null);
@@ -244,9 +264,9 @@ function DataTableRowInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.DRAG_HANDLE,
-              minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-              maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+              width: utilityColumnWidths.dragHandle,
+              minWidth: utilityColumnWidths.dragHandle,
+              maxWidth: utilityColumnWidths.dragHandle,
             }}
           >
             {/* Drop indicator line - spans full table width */}
@@ -283,9 +303,9 @@ function DataTableRowInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.CHECKBOX,
-              minWidth: COLUMN_WIDTHS.CHECKBOX,
-              maxWidth: COLUMN_WIDTHS.CHECKBOX,
+              width: utilityColumnWidths.checkbox,
+              minWidth: utilityColumnWidths.checkbox,
+              maxWidth: utilityColumnWidths.checkbox,
             }}
           >
             <div className="flex h-full items-center justify-center">
@@ -312,11 +332,11 @@ function DataTableRowInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.EXPANDER,
-              minWidth: COLUMN_WIDTHS.EXPANDER,
-              maxWidth: COLUMN_WIDTHS.EXPANDER,
+              width: utilityColumnWidths.expander,
+              minWidth: utilityColumnWidths.expander,
+              maxWidth: utilityColumnWidths.expander,
               // Position after checkbox if selectable, otherwise at 0
-              left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
+              left: selectable ? utilityColumnWidths.checkbox : 0,
             }}
           >
             {canExpand && (
@@ -333,7 +353,7 @@ function DataTableRowInner<T extends { id: string }>({
               >
                 <Icon
                   symbol={isExpanded ? 'expand_less' : 'expand_more'}
-                  className="h-5 w-5 transition-transform"
+                  className={cn(iconTextClass, 'transition-transform')}
                 />
               </IconButton>
             )}
@@ -388,7 +408,8 @@ function DataTableRowInner<T extends { id: string }>({
                   type={inputType}
                   step={inputType === 'number' ? 'any' : undefined}
                   className={cn(
-                    'text-body-medium absolute inset-0 h-full w-full',
+                    'absolute inset-0 h-full w-full',
+                    cellTextClass,
                     'bg-surface text-on-surface border-2',
                     'focus:outline-none',
                     col.align === 'center' && 'text-center',
@@ -483,7 +504,8 @@ function DataTableRowInner<T extends { id: string }>({
             <td
               key={key}
               className={cn(
-                'text-body-medium text-on-surface whitespace-nowrap',
+                'text-on-surface whitespace-nowrap',
+                cellTextClass,
                 // Actions columns need overflow-visible for dropdown, others use overflow-hidden
                 // Use group-hover/row to allow overflow on hover for tooltips
                 isActionsColumn
@@ -540,6 +562,15 @@ function DataTableRowInner<T extends { id: string }>({
               }}
               onClick={cellSelectionEnabled || isEditable ? handleCellClick : undefined}
               onDoubleClick={inlineEditing || editProps ? handleDoubleClick : undefined}
+              onContextMenu={
+                onCellContextMenu
+                  ? (event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      onCellContextMenu(row, rowIndex, col, key, rawValue, event);
+                    }
+                  : undefined
+              }
               onKeyDown={
                 cellSelectionEnabled || isEditable || inlineEditing ? handleCellKeyDown : undefined
               }
@@ -562,7 +593,6 @@ function DataTableRowInner<T extends { id: string }>({
           );
         })}
       </tr>
-
     </>
   );
 }
@@ -573,6 +603,7 @@ interface DataTableExpandedRowProps<T> {
   selectable: boolean;
   showColumnBorders: boolean;
   enableExpansion: boolean;
+  density?: Density;
   reorderableRows?: boolean;
   isLastRow?: boolean;
   rowRef?: (node: HTMLTableRowElement | null) => void;
@@ -586,12 +617,15 @@ function DataTableExpandedRowInner<T extends { id: string }>({
   selectable,
   showColumnBorders,
   enableExpansion,
+  density = 'standard',
   reorderableRows = false,
   isLastRow = false,
   rowRef,
   'data-index': dataIndex,
   renderExpandedRow,
 }: DataTableExpandedRowProps<T>) {
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
+
   return (
     <tr
       ref={rowRef}
@@ -605,9 +639,9 @@ function DataTableExpandedRowInner<T extends { id: string }>({
             !isLastRow && 'border-outline-subtle border-b',
           )}
           style={{
-            width: COLUMN_WIDTHS.DRAG_HANDLE,
-            minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-            maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            width: utilityColumnWidths.dragHandle,
+            minWidth: utilityColumnWidths.dragHandle,
+            maxWidth: utilityColumnWidths.dragHandle,
           }}
         />
       )}
@@ -619,9 +653,9 @@ function DataTableExpandedRowInner<T extends { id: string }>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            width: COLUMN_WIDTHS.CHECKBOX,
-            minWidth: COLUMN_WIDTHS.CHECKBOX,
-            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+            width: utilityColumnWidths.checkbox,
+            minWidth: utilityColumnWidths.checkbox,
+            maxWidth: utilityColumnWidths.checkbox,
           }}
         />
       )}
@@ -633,10 +667,10 @@ function DataTableExpandedRowInner<T extends { id: string }>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
-            width: COLUMN_WIDTHS.EXPANDER,
-            minWidth: COLUMN_WIDTHS.EXPANDER,
-            maxWidth: COLUMN_WIDTHS.EXPANDER,
+            left: selectable ? utilityColumnWidths.checkbox : 0,
+            width: utilityColumnWidths.expander,
+            minWidth: utilityColumnWidths.expander,
+            maxWidth: utilityColumnWidths.expander,
           }}
         />
       )}
@@ -737,4 +771,6 @@ export const DataTableRow = memo(DataTableRowInner, (prev, next) => {
   return true;
 }) as typeof DataTableRowInner;
 
-export const DataTableExpandedRow = memo(DataTableExpandedRowInner) as typeof DataTableExpandedRowInner;
+export const DataTableExpandedRow = memo(
+  DataTableExpandedRowInner,
+) as typeof DataTableExpandedRowInner;

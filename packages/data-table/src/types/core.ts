@@ -2,7 +2,7 @@
 // Fundamental types used throughout the data-table package.
 // These are the building blocks for sorting, filtering, pagination, and display.
 
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 // ─── BRANDED TYPES ───────────────────────────────────────────────────────────
 
@@ -21,7 +21,7 @@ export type Brand<T, TBrand extends string> = T & { readonly [__brand]: TBrand }
  * Non-empty array type - guarantees at least one element
  * Use `asNonEmpty()` or `isNonEmpty()` to safely create/check
  */
-export type NonEmptyArray<T> = Brand<[T, ...T[]], "NonEmptyArray">;
+export type NonEmptyArray<T> = Brand<[T, ...T[]], 'NonEmptyArray'>;
 
 /**
  * Type guard to check if an array is non-empty
@@ -33,7 +33,7 @@ export function isNonEmpty<T>(arr: T[]): arr is NonEmptyArray<T> {
 /**
  * Assert an array is non-empty (throws if empty)
  */
-export function asNonEmpty<T>(arr: T[], message = "Expected non-empty array"): NonEmptyArray<T> {
+export function asNonEmpty<T>(arr: T[], message = 'Expected non-empty array'): NonEmptyArray<T> {
   if (arr.length === 0) {
     throw new Error(message);
   }
@@ -55,18 +55,18 @@ export function toNonEmpty<T>(arr: T[]): NonEmptyArray<T> | undefined {
  * - "desc": Descending (Z-A, 9-0)
  * - null: No sorting applied
  */
-export type SortDirection = "asc" | "desc" | null;
+export type SortDirection = 'asc' | 'desc' | null;
 
 /**
  * Source of a sort operation - helps track how the sort was triggered
  */
 export type SortSource =
-  | "header-click"    // User clicked column header
-  | "menu"            // User used column menu
-  | "keyboard"        // User used keyboard shortcut
-  | "api"             // Programmatic via API
-  | "initial"         // Initial/default sort
-  | "restore";        // Restored from persistence
+  | 'header-click' // User clicked column header
+  | 'menu' // User used column menu
+  | 'keyboard' // User used keyboard shortcut
+  | 'api' // Programmatic via API
+  | 'initial' // Initial/default sort
+  | 'restore'; // Restored from persistence
 
 /**
  * Single sort item for multi-sort support
@@ -75,7 +75,7 @@ export interface SortItem {
   /** Column key being sorted */
   key: string;
   /** Sort direction */
-  direction: "asc" | "desc";
+  direction: 'asc' | 'desc';
   /**
    * Source of the sort operation (optional, for tracking/analytics)
    * @default undefined
@@ -100,29 +100,29 @@ export type MultiSortState = SortItem[];
  * Text filter value - for text search/contains matching
  */
 export interface TextFilterValue {
-  type: "text";
+  type: 'text';
   value: string;
   /** Case-sensitive matching */
   caseSensitive?: boolean;
   /** Match mode */
-  match?: "contains" | "exact" | "starts-with" | "ends-with";
+  match?: 'contains' | 'exact' | 'starts-with' | 'ends-with';
 }
 
 /**
  * Number filter value - single number or comparison
  */
 export interface NumberFilterValue {
-  type: "number";
+  type: 'number';
   value: number;
   /** Comparison operator */
-  operator?: "eq" | "neq" | "gt" | "gte" | "lt" | "lte";
+  operator?: 'eq' | 'neq' | 'gt' | 'gte' | 'lt' | 'lte';
 }
 
 /**
  * Number range filter value - min/max bounds
  */
 export interface NumberRangeFilterValue {
-  type: "number-range";
+  type: 'number-range';
   min?: number;
   max?: number;
   /** Include min value in range (default: true) */
@@ -135,17 +135,17 @@ export interface NumberRangeFilterValue {
  * Date filter value - single date comparison
  */
 export interface DateFilterValue {
-  type: "date";
+  type: 'date';
   value: Date | string;
   /** Comparison operator */
-  operator?: "eq" | "neq" | "before" | "after" | "on-or-before" | "on-or-after";
+  operator?: 'eq' | 'neq' | 'before' | 'after' | 'on-or-before' | 'on-or-after';
 }
 
 /**
  * Date range filter value - start/end bounds
  */
 export interface DateRangeFilterValue {
-  type: "date-range";
+  type: 'date-range';
   start?: Date | string;
   end?: Date | string;
   /** Include start date in range (default: true) */
@@ -158,7 +158,7 @@ export interface DateRangeFilterValue {
  * Select filter value - single selection from options
  */
 export interface SelectFilterValue {
-  type: "select";
+  type: 'select';
   value: string | number;
 }
 
@@ -166,17 +166,17 @@ export interface SelectFilterValue {
  * Multi-select filter value - multiple selections
  */
 export interface MultiSelectFilterValue {
-  type: "multi-select";
+  type: 'multi-select';
   values: (string | number)[];
   /** Match mode for multiple values */
-  match?: "any" | "all";
+  match?: 'any' | 'all';
 }
 
 /**
  * Boolean filter value
  */
 export interface BooleanFilterValue {
-  type: "boolean";
+  type: 'boolean';
   value: boolean;
 }
 
@@ -246,14 +246,14 @@ export interface TypedFilterState {
  * Available filter input types
  */
 export type FilterType =
-  | "text"
-  | "select"
-  | "multi-select"
-  | "number-range"
-  | "date-range"
-  | "number"
-  | "date"
-  | "boolean";
+  | 'text'
+  | 'select'
+  | 'multi-select'
+  | 'number-range'
+  | 'date-range'
+  | 'number'
+  | 'date'
+  | 'boolean';
 
 /**
  * Option for select/multi-select filters
@@ -284,7 +284,7 @@ export interface FilterRendererProps<V = FilterValue> {
  * - "right": Pin to right edge
  * - null: Not pinned (scrolls with table)
  */
-export type PinPosition = "left" | "right" | null;
+export type PinPosition = 'left' | 'right' | null;
 
 /**
  * Map of column keys to pin positions
@@ -299,16 +299,16 @@ export type ColumnPinState = Record<string, PinPosition>;
  * - "list": Row borders only, cleaner look (default for read-only lists)
  * - "minimal": No borders, compact (ideal for logs/audit trails)
  */
-export type TableVariant = "grid" | "list" | "minimal";
+export type TableVariant = 'grid' | 'list' | 'minimal';
 
 /**
  * Row density presets
- * - "compact": Tight spacing for data-dense views
- * - "dense": Slightly more compact than standard
+ * - "dense": Lowest spacing for maximum data density
+ * - "compact": Tight spacing with more breathing room than dense
  * - "standard": Default spacing
  * - "comfortable": Extra spacing for touch-friendly interfaces
  */
-export type Density = "compact" | "dense" | "standard" | "comfortable";
+export type Density = 'compact' | 'dense' | 'standard' | 'comfortable';
 
 // ─── PAGINATION TYPES ────────────────────────────────────────────────────────
 

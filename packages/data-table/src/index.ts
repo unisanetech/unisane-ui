@@ -1,5 +1,5 @@
-export { DataTable } from "./components/data-table";
-export type { DataTableProps } from "./types";
+export { DataTable } from './components/data-table';
+export type { DataTableProps } from './types';
 
 export type {
   Brand,
@@ -85,12 +85,17 @@ export type {
   EditingConfig,
   StylingConfig,
   CallbacksConfig,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
+  DataTableContextMenuAction,
+  DataTableContextMenuContext,
+  DataTableContextMenuTarget,
   ControlledStateConfig,
   LoadingVariant,
   DataTablePreset,
   SimpleColumn,
   SimpleBulkAction,
-} from "./types";
+} from './types';
 
 export {
   isNonEmpty,
@@ -102,4 +107,4 @@ export {
   getPresetConfig,
   defineColumns,
   defineBulkActions,
-} from "./types";
+} from './types';

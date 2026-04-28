@@ -140,6 +140,12 @@ export type {
   EditingConfig,
   StylingConfig,
   CallbacksConfig,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
+  DataTableContextMenuAction,
+  DataTableCellPasteContext,
+  DataTableContextMenuContext,
+  DataTableContextMenuTarget,
   ControlledStateConfig,
   // Loading
   LoadingVariant,

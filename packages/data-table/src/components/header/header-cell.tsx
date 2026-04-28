@@ -2,11 +2,20 @@
 
 import React, { useId } from 'react';
 import { cn, Icon } from '@unisane/ui';
-import type { Column, SortDirection, PinPosition, ColumnMetaMap, FilterValue } from '../../types';
+import type {
+  Column,
+  SortDirection,
+  PinPosition,
+  ColumnMetaMap,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
+  FilterValue,
+} from '../../types';
 import { ResizeHandle } from './resize-handle';
 import { ColumnMenu } from './column-menu';
 import { SortControl } from './sort-control';
 import { useI18n } from '../../i18n';
+import { DENSITY_HEADER_TEXT_STYLES, type Density } from '../../constants';
 
 export interface HeaderCellProps<T> {
   column: Column<T>;
@@ -22,11 +31,13 @@ export interface HeaderCellProps<T> {
   showColumnBorders: boolean;
   resizable: boolean;
   pinnable: boolean;
+  columnVisibility: boolean;
   onSort: (e: React.MouseEvent) => void;
   onPin: (position: PinPosition) => void;
   onResize: (key: string, width: number) => void;
   onHide: () => void;
   onFilter?: (value: FilterValue) => void;
+  getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
   currentFilter?: FilterValue;
   /** Whether this is the last pinned-left column */
   isLastPinnedLeft?: boolean;
@@ -60,6 +71,8 @@ export interface HeaderCellProps<T> {
   onAddGroupBy?: (key: string) => void;
   /** Whether row drag-to-reorder is enabled (affects sticky positioning) */
   reorderableRows?: boolean;
+  /** Table density for text and control sizing */
+  density?: Density;
 }
 
 export function HeaderCell<T>({
@@ -75,11 +88,13 @@ export function HeaderCell<T>({
   showColumnBorders,
   resizable,
   pinnable,
+  columnVisibility,
   onSort,
   onPin,
   onResize,
   onHide,
   onFilter,
+  getColumnMenuActions,
   currentFilter,
   isLastPinnedLeft = false,
   isFirstPinnedRight = false,
@@ -93,19 +108,32 @@ export function HeaderCell<T>({
   onGroupBy,
   onAddGroupBy,
   reorderableRows = false,
+  density = 'standard',
 }: HeaderCellProps<T>) {
   void reorderableRows;
   const { t } = useI18n();
+  const headerTextClass = DENSITY_HEADER_TEXT_STYLES[density];
   const filterDescriptionId = useId();
+  const columnKey = String(column.key);
+  const columnMenuActionContext: ColumnMenuActionContext<T> = {
+    column,
+    columnKey,
+    header: String(column.header),
+    pinPosition,
+  };
+  const columnMenuActions =
+    getColumnMenuActions?.(columnMenuActionContext).filter((action) => !action.hidden) ?? [];
   const hasFilterOptions = column.filterable !== false;
+  const isHideable = columnVisibility && column.hideable !== false;
   // Grouping is only available for columns with explicit groupable: true OR columns with select filter (categorical data)
   const isGroupable =
     column.groupable === true || (column.groupable !== false && column.filterType === 'select');
   const hasMenu =
     hasFilterOptions ||
     (pinnable && column.pinnable !== false) ||
-    column.hideable !== false ||
-    (groupingEnabled && isGroupable);
+    isHideable ||
+    (groupingEnabled && isGroupable) ||
+    columnMenuActions.length > 0;
 
   const hasActiveFilter =
     currentFilter !== undefined && currentFilter !== null && currentFilter !== '';
@@ -119,7 +147,8 @@ export function HeaderCell<T>({
     <th
       className={cn(
         'group bg-surface border-outline-subtle border-b',
-        'text-label-large text-on-surface-variant font-medium whitespace-nowrap',
+        'text-on-surface-variant font-medium whitespace-nowrap',
+        headerTextClass,
         'duration-snappy transition-colors',
         // Relative positioning is needed for the resize handle (absolute positioned)
         'relative align-middle',
@@ -226,6 +255,7 @@ export function HeaderCell<T>({
         {isSortable && (
           <SortControl
             variant="action"
+            density={density}
             isSorted={isSorted}
             sortDirection={sortDirection}
             sortPriority={sortPriority}
@@ -246,16 +276,20 @@ export function HeaderCell<T>({
             column={column}
             pinPosition={pinPosition}
             pinnable={pinnable}
+            hideable={isHideable}
             currentFilter={currentFilter}
             hasActiveFilter={hasActiveFilter}
             onPin={onPin}
             onHide={onHide}
             onFilter={onFilter}
+            actionContext={columnMenuActionContext}
+            actions={columnMenuActions}
             groupingEnabled={groupingEnabled}
             groupBy={groupBy}
             groupByArray={groupByArray}
             onGroupBy={onGroupBy}
             onAddGroupBy={onAddGroupBy}
+            density={density}
           />
         )}
       </div>

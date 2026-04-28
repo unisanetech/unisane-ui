@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import type { Column, ColumnGroup } from '../types/column';
 import type { BulkAction } from '../types/features';
@@ -479,6 +479,10 @@ export function DataTable<T extends { id: string }>({
   const initialDensity = styling.density ?? 'standard';
   const [internalDensity, setInternalDensity] = useState(initialDensity);
 
+  useEffect(() => {
+    setInternalDensity(styling.density ?? 'standard');
+  }, [styling.density]);
+
   // Effective density (will be used for both toolbar and table)
   const effectiveDensity = internalDensity;
 
@@ -525,6 +529,8 @@ export function DataTable<T extends { id: string }>({
       stickyOffset={styling.stickyOffset}
       resizable={features.columnResize ?? true}
       pinnable={features.columnPinning ?? true}
+      reorderable={features.columnReorder ?? false}
+      columnVisibility={features.columnVisibility ?? true}
       initialPageSize={paginationConfig.pageSize ?? 25}
       // Controlled props - merged with top-level props
       sortState={effectiveSortState}
@@ -535,6 +541,12 @@ export function DataTable<T extends { id: string }>({
       onSearchChange={effectiveOnSearchChange}
       columnPinState={controlled?.columnPinState}
       onColumnPinChange={callbacks?.onColumnPinChange}
+      columnOrder={controlled?.columnOrder}
+      onColumnOrderChange={callbacks?.onColumnOrderChange}
+      hiddenColumnKeys={controlled?.hiddenColumnKeys}
+      onColumnVisibilityChange={callbacks?.onColumnVisibilityChange}
+      getColumnMenuActions={callbacks?.getColumnMenuActions}
+      getContextMenuActions={callbacks?.getContextMenuActions}
       selectedIds={controlled?.selectedIds}
       onSelectionChange={callbacks?.onSelectionChange}
     >
@@ -550,7 +562,7 @@ export function DataTable<T extends { id: string }>({
                     bulkActions,
                     density: effectiveDensity,
                     onDensityChange: setInternalDensity,
-                    showColumnToggle: true,
+                    showColumnToggle: features.columnVisibility ?? true,
                     showDensityToggle: true,
                     refreshing,
                     onRefresh,
@@ -582,8 +594,10 @@ export function DataTable<T extends { id: string }>({
             onRowReorder={callbacks?.onRowReorder}
             inlineEditing={inlineEditing}
             cellSelectionEnabled={features.cellSelection ?? false}
+            contextMenuEnabled={features.contextMenu ?? Boolean(callbacks?.getContextMenuActions)}
             onCellActiveChange={callbacks?.onCellActiveChange}
             onCellSelectionChange={callbacks?.onCellSelectionChange}
+            onCellPaste={callbacks?.onCellPaste}
             cursorPagination={cursorPagination}
             disableLocalProcessing={disableLocalProcessing}
           />

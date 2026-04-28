@@ -1,16 +1,25 @@
-"use client";
+'use client';
 
-import React, { memo } from "react";
-import type { ReactNode } from "react";
-import { Icon } from "@unisane/ui";
-import type { Column, PinPosition, ColumnMetaMap, InlineEditingController, RowGroup, GroupHeaderProps, CellSelectionContext, RowActivationEvent } from "../types/index";
-import type { LoadingVariant } from "../types/config";
-import type { RowDragProps } from "../hooks/ui/use-row-drag";
-import { DataTableExpandedRow, DataTableRow } from "./row";
-import { GroupRow } from "./group-row";
-import { SkeletonLoadingState } from "./skeleton-loading-state";
-import type { Density } from "../constants/index";
-import { useI18n } from "../i18n";
+import React, { memo } from 'react';
+import type { ReactNode } from 'react';
+import { Icon } from '@unisane/ui';
+import type {
+  Column,
+  PinPosition,
+  ColumnMetaMap,
+  InlineEditingController,
+  RowGroup,
+  GroupHeaderProps,
+  CellSelectionContext,
+  RowActivationEvent,
+} from '../types/index';
+import type { LoadingVariant } from '../types/config';
+import type { RowDragProps } from '../hooks/ui/use-row-drag';
+import { DataTableExpandedRow, DataTableRow } from './row';
+import { GroupRow } from './group-row';
+import { SkeletonLoadingState } from './skeleton-loading-state';
+import type { Density } from '../constants/index';
+import { useI18n } from '../i18n';
 
 // ─── BODY PROPS ─────────────────────────────────────────────────────────────
 
@@ -36,6 +45,15 @@ interface DataTableBodyProps<T> {
   onRowClick?: (row: T, activation: RowActivationEvent) => void;
   /** Callback when row is right-clicked (context menu) */
   onRowContextMenu?: (row: T, event: React.MouseEvent) => void;
+  /** Callback when a cell is right-clicked (context menu) */
+  onCellContextMenu?: (
+    row: T,
+    rowIndex: number,
+    column: Column<T>,
+    columnKey: string,
+    value: unknown,
+    event: React.MouseEvent,
+  ) => void;
   onRowHover?: (row: T | null) => void;
   renderExpandedRow?: (row: T) => ReactNode;
   getRowCanExpand?: (row: T) => boolean;
@@ -69,20 +87,23 @@ interface DataTableBodyProps<T> {
   /** Row reordering: get drag props for a row */
   getRowDragProps?: (rowId: string, rowIndex: number) => RowDragProps;
   /** Row reordering: get drag handle props */
-  getDragHandleProps?: (rowId: string, rowIndex: number) => {
+  getDragHandleProps?: (
+    rowId: string,
+    rowIndex: number,
+  ) => {
     onMouseDown: (e: React.MouseEvent) => void;
     onKeyDown: (e: React.KeyboardEvent) => void;
     tabIndex: number;
     role: string;
-    "aria-label": string;
-    "aria-grabbed": boolean | undefined;
+    'aria-label': string;
+    'aria-grabbed': boolean | undefined;
   };
   /** Row reordering: check if row is being dragged */
   isDraggingRow?: (id: string) => boolean;
   /** Row reordering: check if row is a drop target */
   isDropTarget?: (id: string) => boolean;
   /** Row reordering: get drop position for a row */
-  getDropPosition?: (id: string) => "before" | "after" | null;
+  getDropPosition?: (id: string) => 'before' | 'after' | null;
   /** Search text for highlighting matching content in cells */
   searchText?: string;
 }
@@ -91,14 +112,14 @@ interface DataTableBodyProps<T> {
 
 function LoadingState({ colSpan }: { colSpan: number }) {
   const { t } = useI18n();
-  const loadingText = t("loading");
+  const loadingText = t('loading');
 
   return (
     <tbody className="bg-surface">
       <tr role="row">
         <td
           colSpan={colSpan}
-          className="px-4 py-20 text-center text-on-surface-variant"
+          className="text-on-surface-variant px-4 py-20 text-center"
           role="cell"
         >
           <div
@@ -108,7 +129,7 @@ function LoadingState({ colSpan }: { colSpan: number }) {
             aria-label={loadingText}
           >
             <div
-              className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"
+              className="border-primary h-8 w-8 animate-spin rounded-full border-4 border-t-transparent"
               aria-hidden="true"
             />
             <span className="text-body-medium">{loadingText}</span>
@@ -124,22 +145,22 @@ function LoadingState({ colSpan }: { colSpan: number }) {
 function EmptyState({
   colSpan,
   message,
-  icon = "search_off",
+  icon = 'search_off',
 }: {
   colSpan: number;
   message?: string;
   icon?: string;
 }) {
   const { t } = useI18n();
-  const emptyMessage = message ?? t("noResults");
-  const hintMessage = t("noResultsHint");
+  const emptyMessage = message ?? t('noResults');
+  const hintMessage = t('noResultsHint');
 
   return (
     <tbody className="bg-surface">
       <tr role="row">
         <td
           colSpan={colSpan}
-          className="px-4 py-16 text-center text-on-surface-variant"
+          className="text-on-surface-variant px-4 py-16 text-center"
           role="cell"
         >
           <div
@@ -147,11 +168,13 @@ function EmptyState({
             role="status"
             aria-label={`${emptyMessage}. ${hintMessage}`}
           >
-            <Icon symbol={icon} className="w-8 h-8 text-on-surface-variant mb-2" aria-hidden="true" />
+            <Icon
+              symbol={icon}
+              className="text-on-surface-variant mb-2 h-8 w-8"
+              aria-hidden="true"
+            />
             <span className="text-title-medium text-on-surface">{emptyMessage}</span>
-            <span className="text-body-small text-on-surface-variant mt-1">
-              {hintMessage}
-            </span>
+            <span className="text-body-small text-on-surface-variant mt-1">{hintMessage}</span>
           </div>
         </td>
       </tr>
@@ -169,17 +192,18 @@ function DataTableBodyInner<T extends { id: string }>({
   selectedRows,
   expandedRows,
   isLoading,
-  loadingVariant = "skeleton",
+  loadingVariant = 'skeleton',
   skeletonRowCount = 5,
   selectable,
   showColumnBorders,
   zebra,
   enableExpansion,
-  density = "standard",
+  density = 'standard',
   onSelect,
   onToggleExpand,
   onRowClick,
   onRowContextMenu,
+  onCellContextMenu,
   onRowHover,
   renderExpandedRow,
   getRowCanExpand,
@@ -206,11 +230,12 @@ function DataTableBodyInner<T extends { id: string }>({
   searchText,
 }: DataTableBodyProps<T>) {
   // Calculate colspan
-  const colSpan = columns.length + (selectable ? 1 : 0) + (enableExpansion ? 1 : 0) + (reorderableRows ? 1 : 0);
+  const colSpan =
+    columns.length + (selectable ? 1 : 0) + (enableExpansion ? 1 : 0) + (reorderableRows ? 1 : 0);
 
   // Loading state - choose variant
   if (isLoading) {
-    if (loadingVariant === "skeleton") {
+    if (loadingVariant === 'skeleton') {
       return (
         <SkeletonLoadingState
           columns={columns}
@@ -237,7 +262,7 @@ function DataTableBodyInner<T extends { id: string }>({
   // Recursive function to render groups and their children (for multi-level grouping)
   const renderGroupsRecursively = (
     groups: RowGroup<T>[],
-    isLastInParent: boolean[] = []
+    isLastInParent: boolean[] = [],
   ): React.ReactNode[] => {
     const elements: React.ReactNode[] = [];
     let globalRowIndex = 0;
@@ -261,17 +286,17 @@ function DataTableBodyInner<T extends { id: string }>({
           isLastGroup={isLastGroup && !group.isExpanded && !hasChildGroups}
           selectedRows={selectedRows}
           onSelectGroup={onSelectGroup}
-        />
+        />,
       );
 
       // If expanded, render child groups or rows
       if (group.isExpanded) {
         if (hasChildGroups) {
           // Recursively render child groups
-          const childElements = renderGroupsRecursively(
-            group.childGroups!,
-            [...isLastInParent, isLastGroup]
-          );
+          const childElements = renderGroupsRecursively(group.childGroups!, [
+            ...isLastInParent,
+            isLastGroup,
+          ]);
           elements.push(...childElements);
         } else if (hasRows) {
           // Render data rows at the deepest level
@@ -303,6 +328,7 @@ function DataTableBodyInner<T extends { id: string }>({
                 onToggleExpand={onToggleExpand}
                 onRowClick={onRowClick}
                 onRowContextMenu={onRowContextMenu}
+                onCellContextMenu={onCellContextMenu}
                 onRowHover={onRowHover}
                 density={density}
                 inlineEditing={inlineEditing}
@@ -312,7 +338,7 @@ function DataTableBodyInner<T extends { id: string }>({
                 onCellClick={onCellClick}
                 onCellKeyDown={onCellKeyDown}
                 searchText={searchText}
-              />
+              />,
             );
 
             if (isExpanded && renderExpandedRow) {
@@ -324,6 +350,7 @@ function DataTableBodyInner<T extends { id: string }>({
                   selectable={selectable}
                   showColumnBorders={showColumnBorders}
                   enableExpansion={enableExpansion}
+                  density={density}
                   isLastRow={isLastRow}
                   renderExpandedRow={renderExpandedRow}
                 />,
@@ -339,11 +366,7 @@ function DataTableBodyInner<T extends { id: string }>({
 
   // Render grouped rows (supports multi-level)
   if (isGrouped && groupedRows.length > 0) {
-    return (
-      <tbody className="bg-surface">
-        {renderGroupsRecursively(groupedRows)}
-      </tbody>
-    );
+    return <tbody className="bg-surface">{renderGroupsRecursively(groupedRows)}</tbody>;
   }
 
   // Render ungrouped rows
@@ -376,6 +399,7 @@ function DataTableBodyInner<T extends { id: string }>({
             onToggleExpand={onToggleExpand}
             onRowClick={onRowClick}
             onRowContextMenu={onRowContextMenu}
+            onCellContextMenu={onCellContextMenu}
             onRowHover={onRowHover}
             density={density}
             inlineEditing={inlineEditing}
@@ -402,6 +426,7 @@ function DataTableBodyInner<T extends { id: string }>({
               selectable={selectable}
               showColumnBorders={showColumnBorders}
               enableExpansion={enableExpansion}
+              density={density}
               reorderableRows={reorderableRows}
               isLastRow={isLastDataRow}
               renderExpandedRow={renderExpandedRow}

@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import type { Column, ColumnMetaMap, PinPosition } from '../../types';
-import { COLUMN_WIDTHS } from '../../constants/index';
+import { DENSITY_UTILITY_COLUMN_WIDTHS, type Density } from '../../constants/index';
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
@@ -21,6 +21,8 @@ export interface UseColumnLayoutOptions<T> {
   reorderableRows?: boolean;
   /** Whether data is grouped (disables drag handles) */
   isGrouped?: boolean;
+  /** Table density for utility column sizing */
+  density?: Density;
 }
 
 export interface UseColumnLayoutReturn<T> {
@@ -55,7 +57,9 @@ export function useColumnLayout<T>({
   enableExpansion,
   reorderableRows = false,
   isGrouped = false,
+  density = 'standard',
 }: UseColumnLayoutOptions<T>): UseColumnLayoutReturn<T> {
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
   // Sort columns by pin position: pinned-left → unpinned → pinned-right
   // This ensures correct DOM order for sticky positioning
   const sortedVisibleColumns = useMemo(() => {
@@ -76,8 +80,8 @@ export function useColumnLayout<T>({
   // Calculate column metadata (widths, left/right positions)
   const columnMeta = useMemo<ColumnMetaMap>(() => {
     const meta: ColumnMetaMap = {};
-    const expanderWidth = enableExpansion ? COLUMN_WIDTHS.EXPANDER : 0;
-    let leftAcc = (selectable ? COLUMN_WIDTHS.CHECKBOX : 0) + expanderWidth;
+    const expanderWidth = enableExpansion ? utilityColumnWidths.expander : 0;
+    let leftAcc = (selectable ? utilityColumnWidths.checkbox : 0) + expanderWidth;
 
     // Initialize all column widths
     sortedVisibleColumns.forEach((col) => {
@@ -109,25 +113,40 @@ export function useColumnLayout<T>({
     });
 
     return meta;
-  }, [sortedVisibleColumns, columnWidths, enableExpansion, getEffectivePinPosition, selectable]);
+  }, [
+    sortedVisibleColumns,
+    columnWidths,
+    enableExpansion,
+    getEffectivePinPosition,
+    selectable,
+    utilityColumnWidths,
+  ]);
 
   // Calculate total table width
   const totalTableWidth = useMemo(() => {
-    const dragHandleWidth = reorderableRows && !isGrouped ? COLUMN_WIDTHS.DRAG_HANDLE : 0;
-    const checkboxWidth = selectable ? COLUMN_WIDTHS.CHECKBOX : 0;
-    const expanderWidth = enableExpansion ? COLUMN_WIDTHS.EXPANDER : 0;
+    const dragHandleWidth = reorderableRows && !isGrouped ? utilityColumnWidths.dragHandle : 0;
+    const checkboxWidth = selectable ? utilityColumnWidths.checkbox : 0;
+    const expanderWidth = enableExpansion ? utilityColumnWidths.expander : 0;
     const columnsWidth = sortedVisibleColumns.reduce((acc, col) => {
       const key = String(col.key);
       const width = columnMeta[key]?.width ?? (typeof col.width === 'number' ? col.width : 150);
       return acc + width;
     }, 0);
     return dragHandleWidth + checkboxWidth + expanderWidth + columnsWidth;
-  }, [selectable, enableExpansion, sortedVisibleColumns, columnMeta, reorderableRows, isGrouped]);
+  }, [
+    selectable,
+    enableExpansion,
+    sortedVisibleColumns,
+    columnMeta,
+    reorderableRows,
+    isGrouped,
+    utilityColumnWidths,
+  ]);
 
   // Calculate pinned column widths for scrollbar positioning
   const { pinnedLeftWidth, pinnedRightWidth } = useMemo(() => {
-    const checkboxWidth = selectable ? COLUMN_WIDTHS.CHECKBOX : 0;
-    const expanderWidth = enableExpansion ? COLUMN_WIDTHS.EXPANDER : 0;
+    const checkboxWidth = selectable ? utilityColumnWidths.checkbox : 0;
+    const expanderWidth = enableExpansion ? utilityColumnWidths.expander : 0;
 
     // Left pinned: includes sticky utility columns and left-pinned data columns.
     // The drag handle scrolls with content, so it must not shift the custom scrollbar track.
@@ -157,6 +176,7 @@ export function useColumnLayout<T>({
     enableExpansion,
     reorderableRows,
     isGrouped,
+    utilityColumnWidths,
   ]);
 
   // Detect edge case where all columns are hidden

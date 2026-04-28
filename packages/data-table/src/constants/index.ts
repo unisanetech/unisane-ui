@@ -19,18 +19,22 @@ export {
   type ColumnAlignValue,
   CellSelectionMode,
   type CellSelectionModeValue,
-} from "./enums";
+} from './enums';
 
 // Alias for components using Density type
-export type { DensityLevelValue as Density } from "./enums";
+export type { DensityLevelValue as Density } from './enums';
 
 // ─── DENSITY ─────────────────────────────────────────────────────────────────
 export {
   DENSITY_STYLES,
+  DENSITY_CELL_TEXT_STYLES,
+  DENSITY_HEADER_TEXT_STYLES,
+  DENSITY_ICON_TEXT_STYLES,
+  DENSITY_UTILITY_COLUMN_WIDTHS,
   DENSITY_CONFIG,
   ROW_HEIGHT_BASE,
   DEFAULT_DENSITY,
-} from "./density";
+} from './density';
 
 // ─── DIMENSIONS ──────────────────────────────────────────────────────────────
 export {
@@ -44,25 +48,17 @@ export {
   createCellId,
   parseCellId,
   getCellSelector,
-} from "./dimensions";
+} from './dimensions';
 
 // ─── PAGINATION ──────────────────────────────────────────────────────────────
-export {
-  DEFAULT_PAGE_SIZE,
-  DEFAULT_PAGE_SIZE_OPTIONS,
-  PAGINATION_LIMITS,
-} from "./pagination";
+export { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS, PAGINATION_LIMITS } from './pagination';
 
 // ─── VIRTUALIZATION ──────────────────────────────────────────────────────────
 export {
   DEFAULT_VIRTUALIZE_THRESHOLD,
   DEFAULT_OVERSCAN,
   VIRTUALIZATION_CONFIG,
-} from "./virtualization";
+} from './virtualization';
 
 // ─── KEYBOARD ────────────────────────────────────────────────────────────────
-export {
-  DEFAULT_KEYBOARD_PAGE_SIZE,
-  KeyboardKeys,
-  KEYBOARD_SHORTCUTS,
-} from "./keyboard";
+export { DEFAULT_KEYBOARD_PAGE_SIZE, KeyboardKeys, KEYBOARD_SHORTCUTS } from './keyboard';

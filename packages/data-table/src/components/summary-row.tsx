@@ -4,7 +4,12 @@ import React, { memo } from 'react';
 import type { ReactNode } from 'react';
 import { cn, Icon } from '@unisane/ui';
 import type { Column, PinPosition, ColumnMetaMap } from '../types/index';
-import { COLUMN_WIDTHS, type Density } from '../constants/index';
+import {
+  DENSITY_ICON_TEXT_STYLES,
+  DENSITY_STYLES,
+  DENSITY_UTILITY_COLUMN_WIDTHS,
+  type Density,
+} from '../constants/index';
 import { useI18n } from '../i18n';
 import { getNestedValue } from '../utils/get-nested-value';
 
@@ -241,10 +246,10 @@ function SummaryRowInner<T extends { id: string }>({
   customSummaryRenderer = {},
   reorderableRows = false,
 }: SummaryRowProps<T>) {
-  void density;
   const { t } = useI18n();
-  // Use compact padding for summary row regardless of table density
-  const paddingClass = 'py-1.5 px-3';
+  const paddingClass = DENSITY_STYLES[density];
+  const iconTextClass = DENSITY_ICON_TEXT_STYLES[density];
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
   const effectiveLabel = label ?? t('summary');
 
   // Check if any column has summary defined
@@ -255,8 +260,8 @@ function SummaryRowInner<T extends { id: string }>({
   }
 
   // Calculate sticky offsets for drag handle, checkbox and expander columns
-  const dragHandleWidth = reorderableRows ? COLUMN_WIDTHS.DRAG_HANDLE : 0;
-  const checkboxWidth = selectable ? COLUMN_WIDTHS.CHECKBOX : 0;
+  const dragHandleWidth = reorderableRows ? utilityColumnWidths.dragHandle : 0;
+  const checkboxWidth = selectable ? utilityColumnWidths.checkbox : 0;
 
   // Determine which cell should show the icon
   // Priority: drag handle > checkbox > expander
@@ -275,14 +280,14 @@ function SummaryRowInner<T extends { id: string }>({
             'sticky left-0 isolate z-10',
           )}
           style={{
-            width: COLUMN_WIDTHS.DRAG_HANDLE,
-            minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-            maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+            width: utilityColumnWidths.dragHandle,
+            minWidth: utilityColumnWidths.dragHandle,
+            maxWidth: utilityColumnWidths.dragHandle,
           }}
         >
           {showIconInDragHandle && (
             <div className="flex h-full items-center justify-center">
-              <Icon symbol="functions" className="text-primary text-[16px]" />
+              <Icon symbol="functions" className={cn('text-primary', iconTextClass)} />
             </div>
           )}
         </td>
@@ -297,15 +302,15 @@ function SummaryRowInner<T extends { id: string }>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            width: COLUMN_WIDTHS.CHECKBOX,
-            minWidth: COLUMN_WIDTHS.CHECKBOX,
-            maxWidth: COLUMN_WIDTHS.CHECKBOX,
+            width: utilityColumnWidths.checkbox,
+            minWidth: utilityColumnWidths.checkbox,
+            maxWidth: utilityColumnWidths.checkbox,
             left: dragHandleWidth,
           }}
         >
           {showIconInCheckbox && (
             <div className="flex h-full items-center justify-center">
-              <Icon symbol="functions" className="text-primary text-[16px]" />
+              <Icon symbol="functions" className={cn('text-primary', iconTextClass)} />
             </div>
           )}
         </td>
@@ -320,15 +325,15 @@ function SummaryRowInner<T extends { id: string }>({
             showColumnBorders && 'border-outline-subtle border-r',
           )}
           style={{
-            width: COLUMN_WIDTHS.EXPANDER,
-            minWidth: COLUMN_WIDTHS.EXPANDER,
-            maxWidth: COLUMN_WIDTHS.EXPANDER,
+            width: utilityColumnWidths.expander,
+            minWidth: utilityColumnWidths.expander,
+            maxWidth: utilityColumnWidths.expander,
             left: dragHandleWidth + checkboxWidth,
           }}
         >
           {showIconInExpander && (
             <div className="flex h-full items-center justify-center">
-              <Icon symbol="functions" className="text-primary text-[16px]" />
+              <Icon symbol="functions" className={cn('text-primary', iconTextClass)} />
             </div>
           )}
         </td>
@@ -363,9 +368,7 @@ function SummaryRowInner<T extends { id: string }>({
                   !isLastColumn &&
                   !pinPosition &&
                   'border-outline-subtle border-r',
-                showColumnBorders &&
-                  key === lastPinnedLeftKey &&
-                  'border-outline-subtle border-r',
+                showColumnBorders && key === lastPinnedLeftKey && 'border-outline-subtle border-r',
                 showColumnBorders &&
                   key === firstPinnedRightKey &&
                   'border-outline-subtle border-l',

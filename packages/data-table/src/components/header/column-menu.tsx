@@ -15,18 +15,28 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from '@unisane/ui';
-import type { Column, PinPosition, FilterValue } from '../../types';
+import type {
+  Column,
+  PinPosition,
+  FilterValue,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
+} from '../../types';
 import { useI18n } from '../../i18n';
+import { DENSITY_ICON_TEXT_STYLES, type Density } from '../../constants';
 
 export interface ColumnMenuProps<T> {
   column: Column<T>;
   pinPosition: PinPosition;
   pinnable: boolean;
+  hideable: boolean;
   currentFilter?: FilterValue;
   hasActiveFilter: boolean;
   onPin: (position: PinPosition) => void;
   onHide: () => void;
   onFilter?: (value: FilterValue) => void;
+  actionContext: ColumnMenuActionContext<T>;
+  actions: ColumnMenuAction<T>[];
   /** Whether grouping is enabled for the table */
   groupingEnabled?: boolean;
   /** Current column(s) being grouped by */
@@ -37,23 +47,30 @@ export interface ColumnMenuProps<T> {
   onGroupBy?: (key: string | string[] | null) => void;
   /** Callback to add a column to multi-level grouping */
   onAddGroupBy?: (key: string) => void;
+  /** Table density for trigger icon sizing */
+  density?: Density;
 }
 
 export function ColumnMenu<T>({
   column,
   pinPosition,
   pinnable,
+  hideable,
   currentFilter,
   hasActiveFilter,
   onPin,
   onHide,
   onFilter,
+  actionContext,
+  actions,
   groupingEnabled = false,
   groupByArray = [],
   onGroupBy,
   onAddGroupBy,
+  density = 'standard',
 }: ColumnMenuProps<T>) {
   const { t } = useI18n();
+  const iconTextClass = DENSITY_ICON_TEXT_STYLES[density];
   const [filterInputValue, setFilterInputValue] = useState(
     typeof currentFilter === 'string' ? currentFilter : '',
   );
@@ -86,7 +103,7 @@ export function ColumnMenu<T>({
               'hover:bg-state-hover hover:text-on-surface transition-colors',
             )}
           >
-            <Icon symbol="more_vert" className="text-[18px]" />
+            <Icon symbol="more_vert" className={iconTextClass} />
           </IconButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" portal className="min-w-48">
@@ -110,9 +127,7 @@ export function ColumnMenu<T>({
                   onClear={handleFilterClear}
                 />
               )}
-              {((pinnable && column.pinnable !== false) || column.hideable !== false) && (
-                <DropdownMenuSeparator />
-              )}
+              {((pinnable && column.pinnable !== false) || hideable) && <DropdownMenuSeparator />}
             </>
           )}
 
@@ -131,7 +146,7 @@ export function ColumnMenu<T>({
               >
                 {pinPosition === 'right' ? t('unpinRight') : t('pinRight')}
               </DropdownMenuItem>
-              {(column.hideable !== false || groupingEnabled) && <DropdownMenuSeparator />}
+              {(hideable || groupingEnabled) && <DropdownMenuSeparator />}
             </>
           )}
 
@@ -181,12 +196,12 @@ export function ColumnMenu<T>({
                     </>
                   );
                 })()}
-                {column.hideable !== false && <DropdownMenuSeparator />}
+                {hideable && <DropdownMenuSeparator />}
               </>
             )}
 
           {/* Hide column */}
-          {column.hideable !== false && (
+          {hideable && (
             <DropdownMenuItem
               onClick={onHide}
               icon={<Icon symbol="visibility_off" className="h-4 w-4" />}
@@ -194,6 +209,23 @@ export function ColumnMenu<T>({
               {t('hideColumn')}
             </DropdownMenuItem>
           )}
+
+          {actions.map((action, index) => (
+            <React.Fragment key={action.key}>
+              {(action.separatorBefore || (index === 0 && hideable)) && <DropdownMenuSeparator />}
+              <DropdownMenuItem
+                icon={action.icon}
+                disabled={action.disabled}
+                onClick={() => {
+                  void action.onSelect(actionContext);
+                }}
+                className={action.variant === 'danger' ? 'text-error' : undefined}
+              >
+                {action.label}
+              </DropdownMenuItem>
+              {action.separatorAfter && <DropdownMenuSeparator />}
+            </React.Fragment>
+          ))}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
@@ -339,12 +371,7 @@ function TextFilter<T>({
               {t('apply')}
             </Button>
             {hasActiveFilter && (
-              <Button
-                type="button"
-                variant="tonal"
-                size="sm"
-                onClick={onClear}
-              >
+              <Button type="button" variant="tonal" size="sm" onClick={onClear}>
                 {t('clear')}
               </Button>
             )}

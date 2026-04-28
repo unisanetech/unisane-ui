@@ -35,6 +35,7 @@ export {
   type UseRowContextMenuOptions,
   type UseRowContextMenuReturn,
 } from './row-context-menu';
+export { DataTableContextMenu, type DataTableContextMenuState } from './context-menu';
 export { VirtualizedBody } from './virtualized-body';
 export { DataTableErrorBoundary, DataTableErrorDisplay } from './error-boundary';
 export { DragHandle, type DragHandleProps } from './drag-handle';

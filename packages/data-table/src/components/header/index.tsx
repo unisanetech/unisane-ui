@@ -9,10 +9,12 @@ import type {
   MultiSortState,
   PinPosition,
   ColumnMetaMap,
+  ColumnMenuAction,
+  ColumnMenuActionContext,
   FilterValue,
 } from '../../types';
 import { isColumnGroup } from '../../types';
-import { COLUMN_WIDTHS, DENSITY_STYLES, type Density } from '../../constants';
+import { DENSITY_STYLES, DENSITY_UTILITY_COLUMN_WIDTHS, type Density } from '../../constants';
 import { useColumnDrag } from '../../hooks/ui/use-column-drag';
 import { useI18n } from '../../i18n';
 import { first, last, safeArrayAccess } from '../../utils/type-guards';
@@ -52,11 +54,13 @@ export interface DataTableHeaderProps<T> {
   resizable?: boolean;
   pinnable?: boolean;
   reorderable?: boolean;
+  columnVisibility?: boolean;
   onColumnPin?: (key: string, position: PinPosition) => void;
   onColumnResize?: (key: string, width: number) => void;
   onColumnHide?: (key: string) => void;
   onColumnFilter?: (key: string, value: FilterValue) => void;
   onColumnReorder?: (fromKey: string, toKey: string) => void;
+  getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
   columnFilters?: Record<string, FilterValue>;
   /** Whether grouping is enabled */
   groupingEnabled?: boolean;
@@ -96,11 +100,13 @@ function DataTableHeaderInner<T extends { id: string }>({
   resizable = false,
   pinnable = false,
   reorderable = false,
+  columnVisibility = true,
   onColumnPin,
   onColumnResize,
   onColumnHide,
   onColumnFilter,
   onColumnReorder,
+  getColumnMenuActions,
   columnFilters = {},
   groupingEnabled = false,
   groupBy,
@@ -113,6 +119,7 @@ function DataTableHeaderInner<T extends { id: string }>({
 }: DataTableHeaderProps<T>) {
   const { t } = useI18n();
   const paddingClass = DENSITY_STYLES[density];
+  const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
 
   // Column drag-to-reorder
   const { getDragProps, isDraggingColumn, isDropTarget, getDropPosition } = useColumnDrag({
@@ -174,6 +181,7 @@ function DataTableHeaderInner<T extends { id: string }>({
           showColumnBorders={showColumnBorders}
           paddingClass={paddingClass}
           hasPinnedLeftData={hasPinnedLeftData}
+          density={density}
         />
       )}
 
@@ -187,9 +195,9 @@ function DataTableHeaderInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.DRAG_HANDLE,
-              minWidth: COLUMN_WIDTHS.DRAG_HANDLE,
-              maxWidth: COLUMN_WIDTHS.DRAG_HANDLE,
+              width: utilityColumnWidths.dragHandle,
+              minWidth: utilityColumnWidths.dragHandle,
+              maxWidth: utilityColumnWidths.dragHandle,
             }}
           >
             <span className="sr-only">Reorder rows</span>
@@ -206,9 +214,9 @@ function DataTableHeaderInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.CHECKBOX,
-              minWidth: COLUMN_WIDTHS.CHECKBOX,
-              maxWidth: COLUMN_WIDTHS.CHECKBOX,
+              width: utilityColumnWidths.checkbox,
+              minWidth: utilityColumnWidths.checkbox,
+              maxWidth: utilityColumnWidths.checkbox,
             }}
           >
             <div className="flex h-full items-center justify-center">
@@ -233,9 +241,9 @@ function DataTableHeaderInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.CHECKBOX,
-              minWidth: COLUMN_WIDTHS.CHECKBOX,
-              maxWidth: COLUMN_WIDTHS.CHECKBOX,
+              width: utilityColumnWidths.checkbox,
+              minWidth: utilityColumnWidths.checkbox,
+              maxWidth: utilityColumnWidths.checkbox,
             }}
           >
             <div className="flex h-full items-center justify-center">
@@ -260,11 +268,11 @@ function DataTableHeaderInner<T extends { id: string }>({
               showColumnBorders && 'border-outline-subtle border-r',
             )}
             style={{
-              width: COLUMN_WIDTHS.EXPANDER,
-              minWidth: COLUMN_WIDTHS.EXPANDER,
-              maxWidth: COLUMN_WIDTHS.EXPANDER,
+              width: utilityColumnWidths.expander,
+              minWidth: utilityColumnWidths.expander,
+              maxWidth: utilityColumnWidths.expander,
               // Position after checkbox if selectable, otherwise at 0
-              left: selectable ? COLUMN_WIDTHS.CHECKBOX : 0,
+              left: selectable ? utilityColumnWidths.checkbox : 0,
             }}
           >
             <span className="sr-only">Expand row</span>
@@ -299,11 +307,13 @@ function DataTableHeaderInner<T extends { id: string }>({
               showColumnBorders={showColumnBorders}
               resizable={resizable}
               pinnable={pinnable}
+              columnVisibility={columnVisibility}
               onSort={(e) => onSort(key, e.shiftKey)}
               onPin={(position) => onColumnPin?.(key, position)}
               onResize={(colKey, width) => onColumnResize?.(colKey, width)}
               onHide={() => onColumnHide?.(key)}
               onFilter={(value) => onColumnFilter?.(key, value)}
+              getColumnMenuActions={getColumnMenuActions}
               currentFilter={columnFilters[key]}
               isLastPinnedLeft={key === lastPinnedLeftKey}
               isFirstPinnedRight={key === firstPinnedRightKey}
@@ -317,6 +327,7 @@ function DataTableHeaderInner<T extends { id: string }>({
               onGroupBy={onGroupBy}
               onAddGroupBy={onAddGroupBy}
               reorderableRows={reorderableRows}
+              density={density}
             />
           );
         })}

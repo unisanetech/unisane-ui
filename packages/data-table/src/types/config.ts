@@ -56,6 +56,13 @@ export interface FeaturesConfig {
   columnReorder?: boolean;
 
   /**
+   * Enable column visibility controls.
+   * Consumers may still render their own column menu via callbacks/state.
+   * @default true
+   */
+  columnVisibility?: boolean;
+
+  /**
    * Enable row expansion with detail view.
    * @default false (true if renderExpandedRow is provided)
    */
@@ -72,6 +79,12 @@ export interface FeaturesConfig {
    * @default false
    */
   cellSelection?: boolean;
+
+  /**
+   * Enable the custom table context menu extension.
+   * When omitted, the menu is enabled only when callbacks.getContextMenuActions is provided.
+   */
+  contextMenu?: boolean;
 
   /**
    * Enable keyboard navigation.
@@ -338,6 +351,58 @@ export interface StylingConfig {
 
 // ─── CALLBACKS CONFIG ─────────────────────────────────────────────────────────
 
+export interface ColumnMenuActionContext<T> {
+  column: Column<T>;
+  columnKey: string;
+  header: string;
+  pinPosition: PinPosition;
+}
+
+export interface ColumnMenuAction<T> {
+  key: string;
+  label: ReactNode;
+  icon?: ReactNode;
+  disabled?: boolean;
+  hidden?: boolean;
+  variant?: 'default' | 'danger';
+  separatorBefore?: boolean;
+  separatorAfter?: boolean;
+  onSelect: (context: ColumnMenuActionContext<T>) => void | Promise<void>;
+}
+
+export type DataTableContextMenuTarget = 'cell' | 'row';
+
+export interface DataTableContextMenuContext<T> {
+  target: DataTableContextMenuTarget;
+  position: { x: number; y: number };
+  row: T;
+  rowIndex: number;
+  column?: Column<T>;
+  columnKey?: string;
+  value?: unknown;
+  selectedRowIds: string[];
+  selectedCells: Array<{ rowId: string; columnKey: string }>;
+  activeCell: { rowId: string; columnKey: string } | null;
+}
+
+export type DataTableCellPasteContext = {
+  activeCell: { rowId: string; columnKey: string };
+  selectedCells: Array<{ rowId: string; columnKey: string }>;
+  text: string;
+};
+
+export interface DataTableContextMenuAction<T> {
+  key: string;
+  label: ReactNode;
+  icon?: ReactNode;
+  disabled?: boolean;
+  hidden?: boolean;
+  variant?: 'default' | 'danger';
+  separatorBefore?: boolean;
+  separatorAfter?: boolean;
+  onSelect: (context: DataTableContextMenuContext<T>) => void | Promise<void>;
+}
+
 /**
  * Event callbacks grouped together.
  *
@@ -380,6 +445,17 @@ export interface CallbacksConfig<T> {
   /** Called when column order changes */
   onColumnOrderChange?: (columnOrder: string[]) => void;
 
+  /** Called when column visibility changes */
+  onColumnVisibilityChange?: (hiddenColumnKeys: string[]) => void;
+
+  /** Adds app-specific actions to the column header menu. */
+  getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
+
+  /** Adds app-specific actions to the table right-click context menu. */
+  getContextMenuActions?: (
+    context: DataTableContextMenuContext<T>,
+  ) => DataTableContextMenuAction<T>[];
+
   /** Called when row order changes (drag-to-reorder) */
   onRowReorder?: (fromIndex: number, toIndex: number, newOrder: string[]) => void;
 
@@ -388,6 +464,9 @@ export interface CallbacksConfig<T> {
 
   /** Called when selected cells change (cell selection mode) */
   onCellSelectionChange?: (cells: Array<{ rowId: string; columnKey: string }>) => void;
+
+  /** Called when clipboard text is pasted into the active cell (cell selection mode) */
+  onCellPaste?: (context: DataTableCellPasteContext) => void | Promise<void>;
 
   /**
    * Optional semantic callback for row deletion requests.
@@ -442,6 +521,9 @@ export interface ControlledStateConfig {
 
   /** Controlled column order */
   columnOrder?: string[];
+
+  /** Controlled hidden column keys */
+  hiddenColumnKeys?: string[];
 }
 
 // ─── PRESETS ──────────────────────────────────────────────────────────────────
