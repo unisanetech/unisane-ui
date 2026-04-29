@@ -17,14 +17,18 @@
   ],
   "exports": [
     ".",
+    "./components",
     "./constants",
     "./context",
     "./errors",
+    "./export",
     "./hooks",
     "./hooks/data",
     "./hooks/features",
     "./hooks/ui",
     "./hooks/utilities",
+    "./i18n",
+    "./print",
     "./types",
     "./types/*",
     "./utils"
