@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { cn } from "../lib/utils";
-import { getFieldSizeStyles, type FieldSize } from "../lib/field-size";
+import React, { useState, useEffect, useRef } from 'react';
+import { cn } from '../lib/utils';
+import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import {
   fieldContainerVariants,
   getFieldAffixClasses,
   getFieldHelperTextClasses,
   getFieldLabelClasses,
   type FieldShellVariant,
-} from "../lib/field-shell";
-import { useFieldState } from "../lib/use-field-state";
+} from '../lib/field-shell';
+import { useFieldState } from '../lib/use-field-state';
 
-export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> &
-  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "size"> &
-  {
+export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> &
+  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> & {
     variant?: FieldShellVariant;
     error?: boolean;
     label: string;
@@ -27,14 +26,11 @@ export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "
     size?: FieldSize;
   };
 
-export const TextField = React.forwardRef<
-  HTMLInputElement | HTMLTextAreaElement,
-  TextFieldProps
->(
+export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(
   (
     {
       label,
-      variant = "outlined",
+      variant = 'outlined',
       error,
       helperText,
       leadingIcon,
@@ -42,7 +38,7 @@ export const TextField = React.forwardRef<
       className,
       labelClassName,
       labelBg,
-      size = "md",
+      size = 'md',
       id,
       multiline = false,
       disabled,
@@ -53,14 +49,12 @@ export const TextField = React.forwardRef<
       onChange,
       ...props
     },
-    ref
+    ref,
   ) => {
     const internalRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
     const fieldSize = getFieldSizeStyles(size);
     const [isFocused, setIsFocused] = useState(false);
-    const [internalValue, setInternalValue] = useState(
-      value || defaultValue || ""
-    );
+    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
 
     useEffect(() => {
       if (value !== undefined) setInternalValue(value);
@@ -79,13 +73,10 @@ export const TextField = React.forwardRef<
       onChange?.(e as React.ChangeEvent<HTMLInputElement> & React.ChangeEvent<HTMLTextAreaElement>);
     };
 
-    const hasValue =
-      internalValue !== undefined &&
-      internalValue !== null &&
-      internalValue !== "";
+    const hasValue = internalValue !== undefined && internalValue !== null && internalValue !== '';
     const { fieldId, helperId, isFloating } = useFieldState({
       id,
-      idPrefix: "textfield",
+      idPrefix: 'textfield',
       helperText,
       active: isFocused,
       hasValue,
@@ -93,20 +84,21 @@ export const TextField = React.forwardRef<
 
     useEffect(() => {
       if (ref) {
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref(internalRef.current);
         } else {
-          (ref as React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null>).current = internalRef.current;
+          (ref as React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null>).current =
+            internalRef.current;
         }
       }
     }, [ref]);
 
     return (
-      <div className={cn("relative inline-flex flex-col w-full", className)}>
+      <div className={cn('relative inline-flex w-full flex-col', className)}>
         <div
           className={cn(
             fieldContainerVariants({ variant, error, disabled }),
-            multiline ? "items-start py-0" : ["items-center", fieldSize.containerHeight]
+            multiline ? 'items-start py-0' : ['items-center', fieldSize.containerHeight],
           )}
         >
           {leadingIcon && (
@@ -116,15 +108,15 @@ export const TextField = React.forwardRef<
                 error: Boolean(error),
                 active: isFocused,
                 multiline,
-                side: "leading",
+                side: 'leading',
               })}
             >
-              <div className={cn(fieldSize.iconSize, "flex items-center justify-center")}>
+              <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
                 {leadingIcon}
               </div>
             </span>
           )}
-          <div className="relative flex-1 h-full min-w-0">
+          <div className="relative h-full min-w-0 flex-1">
             {multiline ? (
               <textarea
                 ref={internalRef as React.RefObject<HTMLTextAreaElement>}
@@ -136,11 +128,11 @@ export const TextField = React.forwardRef<
                 onChange={handleChange}
                 aria-describedby={helperId}
                 className={cn(
-                  "w-full h-full bg-transparent outline-none border-none focus:ring-0 text-on-surface caret-primary placeholder-transparent resize-none min-h-24",
+                  'unisane-text-field-control text-on-surface caret-primary h-full min-h-24 w-full resize-none border-none bg-transparent placeholder-transparent outline-none focus:ring-0',
                   fieldSize.horizontalPadding,
                   fieldSize.multilinePaddingY,
                   fieldSize.valueText,
-                  variant === "filled" ? fieldSize.filledTextareaPadding : ""
+                  variant === 'filled' ? fieldSize.filledTextareaPadding : '',
                 )}
                 placeholder=" "
                 {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
@@ -156,10 +148,10 @@ export const TextField = React.forwardRef<
                 onChange={handleChange}
                 aria-describedby={helperId}
                 className={cn(
-                  "w-full h-full bg-transparent outline-none border-none focus:ring-0 text-on-surface caret-primary placeholder-transparent",
+                  'unisane-text-field-control text-on-surface caret-primary h-full w-full border-none bg-transparent placeholder-transparent outline-none focus:ring-0',
                   fieldSize.horizontalPadding,
                   fieldSize.valueText,
-                  variant === "filled" ? fieldSize.filledInputPadding : ""
+                  variant === 'filled' ? fieldSize.filledInputPadding : '',
                 )}
                 placeholder=" "
                 {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
@@ -187,25 +179,22 @@ export const TextField = React.forwardRef<
                 size,
                 error: Boolean(error),
                 multiline,
-                side: "trailing",
+                side: 'trailing',
               })}
             >
-              <div className={cn(fieldSize.iconSize, "flex items-center justify-center")}>
+              <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
                 {trailingIcon}
               </div>
             </span>
           )}
         </div>
         {helperText && (
-          <span
-            id={helperId}
-            className={getFieldHelperTextClasses(size, Boolean(error))}
-          >
+          <span id={helperId} className={getFieldHelperTextClasses(size, Boolean(error))}>
             {helperText}
           </span>
         )}
       </div>
     );
-  }
+  },
 );
-TextField.displayName = "TextField";
+TextField.displayName = 'TextField';

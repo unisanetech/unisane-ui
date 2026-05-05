@@ -135,6 +135,16 @@
     outline: 2px solid var(--color-primary);
     outline-offset: 2px;
   }
+
+  .unisane-text-field-control:-webkit-autofill,
+  .unisane-text-field-control:-webkit-autofill:hover,
+  .unisane-text-field-control:-webkit-autofill:focus,
+  .unisane-text-field-control:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px var(--color-surface) inset;
+    -webkit-text-fill-color: var(--color-on-surface);
+    caret-color: var(--color-primary);
+    transition: background-color 9999s ease-out;
+  }
 }
 
 @layer utilities {
