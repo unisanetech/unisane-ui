@@ -97,7 +97,7 @@ export const Popover: React.FC<PopoverProps> = ({
           role="dialog"
           aria-modal="true"
           className={cn(
-            'bg-surface shadow-2 animate-in fade-in zoom-in-95 duration-short ease-standard border-outline-soft absolute z-[var(--z-popover,2000)] min-w-40 rounded-sm border py-1',
+            'absolute z-[var(--z-popover,2000)]',
             side === 'bottom' && 'top-[calc(100%+var(--spacing-2))]',
             side === 'top' && 'bottom-[calc(100%+var(--spacing-2))]',
             side === 'left' && 'right-[calc(100%+var(--spacing-2))]',
@@ -112,10 +112,16 @@ export const Popover: React.FC<PopoverProps> = ({
               'top-1/2 -translate-y-1/2',
             (side === 'left' || side === 'right') && align === 'start' && 'top-0',
             (side === 'left' || side === 'right') && align === 'end' && 'bottom-0',
-            className,
           )}
         >
-          {content}
+          <div
+            className={cn(
+              'animate-surface-enter bg-surface shadow-2 border-outline-soft min-w-40 rounded-sm border py-1',
+              className,
+            )}
+          >
+            {content}
+          </div>
         </div>
       )}
     </div>

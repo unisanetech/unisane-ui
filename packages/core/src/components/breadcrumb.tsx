@@ -62,7 +62,7 @@ export const BreadcrumbPage: React.FC<{
 );
 
 export const BreadcrumbSeparator: React.FC = () => (
-  <Icon symbol="chevron_right" size={14} className="text-outline" />
+  <Icon symbol="chevron_right" size="xs" className="text-outline" />
 );
 
 export const BreadcrumbEllipsis: React.FC<{

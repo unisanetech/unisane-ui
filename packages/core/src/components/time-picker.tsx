@@ -462,7 +462,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
             variant="standard"
             aria-label={inputType === 'dial' ? 'Switch to keyboard' : 'Switch to clock'}
             onClick={() => setInputType(inputType === 'dial' ? 'keyboard' : 'dial')}
-            icon={<Icon symbol={inputType === 'dial' ? 'keyboard' : 'schedule'} size={24} />}
+            icon={<Icon symbol={inputType === 'dial' ? 'keyboard' : 'schedule'} size="md" />}
           />
           <div className="flex gap-2">
             <Button variant="text" onClick={() => setIsOpen(false)}>

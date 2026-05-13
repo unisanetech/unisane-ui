@@ -1,31 +1,22 @@
 import React from "react";
 import { cn } from "@/lib/utils";
+import { Icon, type IconProps } from "@/primitives/icon";
 
 export interface NavigationIconProps {
   icon: React.ReactNode | string;
   active?: boolean;
-  size?: number;
+  size?: NonNullable<IconProps["size"]>;
   className?: string;
 }
 
 export function NavigationIcon({
   icon,
   active = false,
-  size = 20,
+  size = "sm",
   className,
 }: NavigationIconProps) {
   if (typeof icon === "string") {
-    return (
-      <span
-        className={cn("material-symbols-outlined transition-all duration-short", className)}
-        style={{
-          fontSize: size,
-          fontVariationSettings: active ? "'FILL' 1, 'wght' 500" : "'wght' 400",
-        }}
-      >
-        {icon}
-      </span>
-    );
+    return <Icon symbol={icon} filled={active} size={size} className={className} />;
   }
 
   return <>{icon}</>;
@@ -77,7 +68,7 @@ export function NavigationRailItemContent({
             <NavigationIcon
               icon={active && activeIcon ? activeIcon : icon}
               active={active}
-              size={22}
+              size="md"
             />
           </span>
         </div>
@@ -163,11 +154,11 @@ export function NavigationDrawerItemContent({
       {ripple}
 
       {icon && (
-        <span className="relative z-10 shrink-0">
+        <span className="relative z-10 flex size-icon-sm shrink-0 items-center justify-center">
           <NavigationIcon
             icon={active && activeIcon ? activeIcon : icon}
             active={!!active}
-            size={20}
+            size="sm"
           />
         </span>
       )}

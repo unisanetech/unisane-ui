@@ -179,7 +179,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         role="presentation"
       >
         <div
-          className="bg-scrim animate-in fade-in duration-medium absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity"
+          className="bg-scrim animate-fade-enter absolute inset-0 backdrop-blur-[calc(var(--unit)/2)]"
           onClick={() => setIsOpenRef.current(false)}
           aria-hidden="true"
         />
@@ -196,7 +196,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           rounded="lg"
           className={cn(
             'border-outline-soft relative flex w-full max-w-110 flex-col overflow-hidden border outline-none',
-            'expanded:max-w-150 animate-in fade-in zoom-in-95 duration-medium ease-emphasized',
+            'expanded:max-w-150 animate-surface-enter',
             className,
           )}
         >

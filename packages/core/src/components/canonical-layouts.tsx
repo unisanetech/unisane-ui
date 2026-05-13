@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { cn } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
+import { Icon } from '../primitives/icon';
 import { IconButton } from './icon-button';
 import { Pane, PaneLayout } from '../layout/pane';
 
@@ -45,7 +46,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
               variant="standard"
               className="bg-surface-container-low border-outline-subtle border backdrop-blur-md"
               aria-label="Back"
-              icon={<span className="material-symbols-outlined">arrow_back</span>}
+              icon={<Icon symbol="arrow_back" />}
             />
           </div>
         )}
@@ -165,11 +166,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                 <IconButton
                   onClick={handleClose}
                   variant="standard"
-                  icon={
-                    <span className="material-symbols-outlined text-(length:--size-icon-sm)">
-                      close
-                    </span>
-                  }
+                  icon={<Icon symbol="close" />}
                   aria-label="Close pane"
                   className={cn(!showCloseButtonOnDesktop && 'expanded:hidden')}
                 />
@@ -190,11 +187,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                   <IconButton
                     onClick={handleClose}
                     variant="standard"
-                    icon={
-                      <span className="material-symbols-outlined text-(length:--size-icon-sm)">
-                        close
-                      </span>
-                    }
+                    icon={<Icon symbol="close" />}
                     aria-label="Close pane"
                     className={cn(!showCloseButtonOnDesktop && 'expanded:hidden')}
                   />
@@ -224,11 +217,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
               variant="standard"
               className="border-outline-subtle bg-surface hover:border-primary group shrink-0 rounded-sm border transition-all"
               aria-label="Expand pane"
-              icon={
-                <span className="material-symbols-outlined group-hover:text-primary transition-colors">
-                  chevron_left
-                </span>
-              }
+              icon={<Icon symbol="chevron_left" className="group-hover:text-primary" />}
             />
             <div className="bg-outline-subtle min-h-10 w-[calc(var(--unit)/4)] flex-1" />
             <div className="text-label-small text-on-surface-variant mt-12 mb-6 shrink-0 origin-center rotate-90 font-medium tracking-wide whitespace-nowrap">

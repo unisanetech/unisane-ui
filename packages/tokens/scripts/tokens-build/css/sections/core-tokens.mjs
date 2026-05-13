@@ -1,4 +1,4 @@
-import { CHROMA_SCALE, TONAL_LIGHTNESS } from "../../constants.mjs";
+import { CHROMA_SCALE, TONAL_LIGHTNESS } from '../../constants.mjs';
 
 export function generateCoreTokensSection(config) {
   const primaryHue = config.primary.hue;
@@ -303,21 +303,21 @@ export function generateCoreTokensSection(config) {
 
   // M3 Type Scale
   const typeScale = {
-    "display-large": { size: 57, line: 64, weight: 400, tracking: "-0.25px" },
-    "display-medium": { size: 45, line: 52, weight: 400, tracking: "0" },
-    "display-small": { size: 36, line: 44, weight: 400, tracking: "0" },
-    "headline-large": { size: 32, line: 40, weight: 400, tracking: "0" },
-    "headline-medium": { size: 28, line: 36, weight: 400, tracking: "0" },
-    "headline-small": { size: 24, line: 32, weight: 400, tracking: "0" },
-    "title-large": { size: 22, line: 28, weight: 400, tracking: "0" },
-    "title-medium": { size: 16, line: 24, weight: 500, tracking: "0.15px" },
-    "title-small": { size: 14, line: 20, weight: 500, tracking: "0.1px" },
-    "body-large": { size: 16, line: 24, weight: 400, tracking: "0.5px" },
-    "body-medium": { size: 14, line: 20, weight: 400, tracking: "0.25px" },
-    "body-small": { size: 12, line: 16, weight: 400, tracking: "0.4px" },
-    "label-large": { size: 14, line: 20, weight: 500, tracking: "0.1px" },
-    "label-medium": { size: 12, line: 16, weight: 500, tracking: "0.5px" },
-    "label-small": { size: 11, line: 16, weight: 500, tracking: "0.5px" },
+    'display-large': { size: 57, line: 64, weight: 400, tracking: '-0.25px' },
+    'display-medium': { size: 45, line: 52, weight: 400, tracking: '0' },
+    'display-small': { size: 36, line: 44, weight: 400, tracking: '0' },
+    'headline-large': { size: 32, line: 40, weight: 400, tracking: '0' },
+    'headline-medium': { size: 28, line: 36, weight: 400, tracking: '0' },
+    'headline-small': { size: 24, line: 32, weight: 400, tracking: '0' },
+    'title-large': { size: 22, line: 28, weight: 400, tracking: '0' },
+    'title-medium': { size: 16, line: 24, weight: 500, tracking: '0.15px' },
+    'title-small': { size: 14, line: 20, weight: 500, tracking: '0.1px' },
+    'body-large': { size: 16, line: 24, weight: 400, tracking: '0.5px' },
+    'body-medium': { size: 14, line: 20, weight: 400, tracking: '0.25px' },
+    'body-small': { size: 12, line: 16, weight: 400, tracking: '0.4px' },
+    'label-large': { size: 14, line: 20, weight: 500, tracking: '0.1px' },
+    'label-medium': { size: 12, line: 16, weight: 500, tracking: '0.5px' },
+    'label-small': { size: 11, line: 16, weight: 500, tracking: '0.5px' },
   };
 
   css += `\n  /* === TYPOGRAPHY === */\n`;
@@ -377,11 +377,11 @@ export function generateCoreTokensSection(config) {
   --opacity-muted: 0.60;
 
   /* === ICON SIZES === */
-  --icon-xs: calc(16px * var(--scale-space));
-  --icon-sm: calc(20px * var(--scale-space));
-  --icon-md: calc(24px * var(--scale-space));
-  --icon-lg: calc(32px * var(--scale-space));
-  --icon-xl: calc(48px * var(--scale-space));
+  --icon-xs: 16px;
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 32px;
+  --icon-xl: 48px;
 
   /* === COMPONENT SIZES === */
   --size-action-sm: calc(32px * var(--scale-space));

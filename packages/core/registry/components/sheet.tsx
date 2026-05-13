@@ -225,17 +225,17 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       ) : null);
 
     return createPortal(
-        <div
-          className={cn(
-            'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
-            isBottom
-              ? 'items-end justify-center p-0'
-              : isLeft
-                ? 'items-stretch justify-start p-0'
-                : 'items-stretch justify-end p-0',
-          )}
-          role="presentation"
-        >
+      <div
+        className={cn(
+          'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
+          isBottom
+            ? 'items-end justify-center p-0'
+            : isLeft
+              ? 'items-stretch justify-start p-0'
+              : 'items-stretch justify-end p-0',
+        )}
+        role="presentation"
+      >
         <div
           className={cn(
             'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',

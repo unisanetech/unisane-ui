@@ -317,7 +317,7 @@ export function SidebarCollapsibleGroup({
         <Ripple />
         {icon && (
           <span className="shrink-0">
-            <NavigationIcon icon={icon} active={isSelfActive || hasActiveChild} size={20} />
+            <NavigationIcon icon={icon} active={isSelfActive || hasActiveChild} size="sm" />
           </span>
         )}
         <span className="flex-1 truncate text-left">{label}</span>

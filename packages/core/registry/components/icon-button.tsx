@@ -11,7 +11,8 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from '@/components/ui/ripple';
 import { cn, Slot } from '@/lib/utils';
-import { iconButtonSizeClasses } from '@/lib/action-size';
+import { getIconFrameSizeClass, iconButtonSizeClasses } from '@/lib/action-size';
+import { Icon, type IconProps } from '@/primitives/icon';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -20,6 +21,17 @@ import {
   getActionDisabledState,
   getActionStateAttributes,
 } from '@/lib/action-control';
+
+function isIconElement(node: ReactNode): node is ReactElement<IconProps> {
+  return isValidElement(node) && node.type === Icon;
+}
+
+function normalizeIconNode(node: ReactNode, size: NonNullable<IconProps['size']>): ReactNode {
+  if (!isIconElement(node) || node.props.size !== undefined) {
+    return node;
+  }
+  return cloneElement(node, { size });
+}
 
 const iconButtonVariants = cva(
   `relative inline-flex items-center justify-center rounded-icon-button transition-all duration-snappy ease-emphasized ${actionInteractiveClass}`,
@@ -69,6 +81,7 @@ export interface IconButtonProps
   'aria-label': string;
   icon?: ReactNode;
   loading?: boolean;
+  iconSize?: NonNullable<IconProps['size']>;
   asChild?: boolean;
   children?: ReactNode;
 }
@@ -83,6 +96,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       selected = false,
       disabled = false,
       loading = false,
+      iconSize,
       asChild = false,
       'aria-label': ariaLabel,
       className = '',
@@ -93,14 +107,12 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   ) => {
     const isDisabled = getActionDisabledState(disabled, loading);
     const canRenderAsChild = asChild && isValidElement(children);
-    const iconSizeClasses = {
-      sm: 'size-icon-sm',
-      md: 'size-icon-md',
-      lg: 'size-icon-md',
-    };
-    const resolvedContent = children ?? icon;
+    const resolvedIconSize: NonNullable<IconProps['size']> =
+      iconSize ?? (size === 'sm' ? 'sm' : 'md');
+    const resolvedContent = normalizeIconNode(children ?? icon, resolvedIconSize);
     const renderContent = (content: ReactNode) => {
-      const sizeClass = iconSizeClasses[size || 'md'];
+      const sizeClass = getIconFrameSizeClass(resolvedIconSize);
+      const normalizedContent = normalizeIconNode(content, resolvedIconSize);
 
       return (
         <>
@@ -110,7 +122,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
             <ActionSpinner className={cn('relative z-10', sizeClass)} />
           ) : (
             <span className={cn('relative z-10 flex items-center justify-center', sizeClass)}>
-              {content}
+              {normalizedContent}
             </span>
           )}
         </>

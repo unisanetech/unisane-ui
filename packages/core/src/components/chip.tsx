@@ -186,7 +186,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
             aria-label={`Remove ${label}`}
             disabled={disabled}
           >
-            <CloseIcon size={12} />
+            <CloseIcon size="xs" />
           </button>
         )}
       </div>

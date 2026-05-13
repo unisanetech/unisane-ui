@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
+import { Icon } from '../../../primitives/icon';
 import { useSidebar } from '../context/sidebar-provider';
 import type { SidebarTriggerVisibility } from '../model/sidebar.types';
 import { shouldRenderSidebarTrigger } from '../model/sidebar.state';
@@ -98,7 +99,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         ref={ref}
         onClick={handleClick}
         className={cn(
-          'inline-flex h-10 w-10 items-center justify-center rounded-icon-button',
+          'rounded-icon-button inline-flex h-10 w-10 items-center justify-center',
           'text-on-surface-variant hover:bg-state-hover',
           'duration-short transition-colors',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
@@ -109,7 +110,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         aria-expanded={usesOverlayDrawer ? mobileOpen : expanded}
         {...props}
       >
-        {children || <span className="material-symbols-outlined">menu</span>}
+        {children || <Icon symbol="menu" />}
       </button>
     );
   },
@@ -119,14 +120,8 @@ SidebarTrigger.displayName = 'SidebarTrigger';
 export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const {
-    isDrawerVisible,
-    expanded,
-    mobileOpen,
-    usesOverlayDrawer,
-    close,
-    drawerEnabled,
-  } = useSidebar();
+  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, close, drawerEnabled } =
+    useSidebar();
 
   if (!drawerEnabled) {
     return null;

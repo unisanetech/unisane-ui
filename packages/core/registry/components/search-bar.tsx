@@ -2,20 +2,36 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Icon } from '@/primitives/icon';
+import { Icon, type IconProps } from '@/primitives/icon';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
+
+function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {
+  return React.isValidElement(node) && node.type === Icon;
+}
+
+function normalizeIconNode(
+  node: React.ReactNode,
+  size: NonNullable<IconProps['size']>,
+): React.ReactNode {
+  if (!isIconElement(node) || node.props.size !== undefined) {
+    return node;
+  }
+  return React.cloneElement(node, { size });
+}
 
 export interface SearchBarProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   leadingIcon?: React.ReactNode;
   trailingIcon?: React.ReactNode;
   onTrailingIconClick?: () => void;
   size?: FieldSize;
+  iconSize?: NonNullable<IconProps['size']>;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
   leadingIcon,
   trailingIcon,
   onTrailingIconClick,
+  iconSize,
   className,
   placeholder = 'Search',
   value,
@@ -45,6 +61,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   const canClear = !disabled && !readOnly;
   const shouldShowDefaultClear = !trailingIcon && canClear && currentValue.length > 0;
   const fieldSize = getFieldSizeStyles(size);
+  const resolvedIconSize: NonNullable<IconProps['size']> =
+    iconSize ?? (size === 'lg' ? 'md' : 'sm');
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isControlled) {
@@ -73,10 +91,16 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     input.focus();
   };
 
-  const trailing =
+  const trailing = normalizeIconNode(
     trailingIcon ??
-    (shouldShowDefaultClear ? <Icon symbol="close" size={size === 'lg' ? 'md' : 'sm'} /> : null);
+      (shouldShowDefaultClear ? <Icon symbol="close" size={resolvedIconSize} /> : null),
+    resolvedIconSize,
+  );
   const trailingIsAction = Boolean(onTrailingIconClick || shouldShowDefaultClear);
+  const resolvedLeadingIcon = normalizeIconNode(
+    leadingIcon ?? <Icon symbol="search" size={resolvedIconSize} />,
+    resolvedIconSize,
+  );
 
   return (
     <div
@@ -93,7 +117,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           fieldSize.searchTriggerPadding,
         )}
       >
-        {leadingIcon || <Icon symbol="search" size={size === 'lg' ? 'md' : 'sm'} />}
+        {resolvedLeadingIcon}
       </div>
 
       <input

@@ -74,6 +74,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       width: 0,
       maxHeight: 240,
     });
+    const [isPositioned, setIsPositioned] = React.useState(!portal);
     const [selectedValue, setSelectedValue] = useControllableState<string>({
       value,
       defaultValue,
@@ -147,17 +148,31 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     }, [fieldSize.optionHeightPx, filteredOptions.length]);
 
     React.useLayoutEffect(() => {
-      if (!portal || !isOpen) return;
+      if (!portal) {
+        setIsPositioned(true);
+        return;
+      }
 
-      updateDropdownPosition();
-      const raf = window.requestAnimationFrame(updateDropdownPosition);
-      window.addEventListener('scroll', updateDropdownPosition, true);
-      window.addEventListener('resize', updateDropdownPosition);
+      if (!isOpen) {
+        setIsPositioned(false);
+        return;
+      }
+
+      const updatePosition = () => {
+        updateDropdownPosition();
+        setIsPositioned(true);
+      };
+
+      setIsPositioned(false);
+      updatePosition();
+      const raf = window.requestAnimationFrame(updatePosition);
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
 
       return () => {
         window.cancelAnimationFrame(raf);
-        window.removeEventListener('scroll', updateDropdownPosition, true);
-        window.removeEventListener('resize', updateDropdownPosition);
+        window.removeEventListener('scroll', updatePosition, true);
+        window.removeEventListener('resize', updatePosition);
       };
     }, [isOpen, portal, updateDropdownPosition]);
 
@@ -415,16 +430,15 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           </div>
         </div>
 
-        {isOpen && !disabled &&
+        {isOpen &&
+          !disabled &&
           (() => {
             const dropdown = (
               <div
                 ref={dropdownRef}
                 className={cn(
                   'bg-surface border-outline-soft shadow-2 z-[var(--z-popover,2000)] overflow-y-auto rounded-sm border',
-                  portal
-                    ? 'fixed'
-                    : 'absolute top-[calc(100%+var(--unit))] right-0 left-0',
+                  portal ? 'fixed' : 'absolute top-[calc(100%+var(--unit))] right-0 left-0',
                 )}
                 style={
                   portal
@@ -433,6 +447,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         left: dropdownPosition.left,
                         width: dropdownPosition.width,
                         maxHeight: dropdownPosition.maxHeight,
+                        visibility: isPositioned ? 'visible' : 'hidden',
                         ...getPortalLayerStyle(comboboxRef.current),
                       }
                     : undefined

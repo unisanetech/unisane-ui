@@ -35,15 +35,25 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
         children.trim().length > 0 &&
         !children.includes("<"));
 
-    const sizeClasses = isScale
+    const iconSize = isScale ? size : undefined;
+    const sizeClasses = iconSize
       ? {
           xs: "size-icon-xs text-[var(--icon-xs)]",
           sm: "size-icon-sm text-[var(--icon-sm)]",
-          md: "w-icon-md h-icon-md text-[var(--icon-md)]",
-          lg: "w-icon-lg h-icon-lg text-[var(--icon-lg)]",
-          xl: "w-icon-xl h-icon-xl text-[var(--icon-xl)]",
-        }[size as string]
+          md: "size-icon-md text-[var(--icon-md)]",
+          lg: "size-icon-lg text-[var(--icon-lg)]",
+          xl: "size-icon-xl text-[var(--icon-xl)]",
+        }[iconSize]
       : "";
+    const opticalSize = iconSize
+      ? {
+          xs: 20,
+          sm: 20,
+          md: 24,
+          lg: 32,
+          xl: 48,
+        }[iconSize]
+      : 24;
 
     if (isSymbol) {
       const iconName = symbol || children;
@@ -59,7 +69,7 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
             fontSize: !isScale ? size : undefined,
             width: !isScale ? size : undefined,
             height: !isScale ? size : undefined,
-            fontVariationSettings: `'FILL' ${filled ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24`,
+            fontVariationSettings: `'FILL' ${filled ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' ${opticalSize}`,
             ...style,
           }}
           {...props}

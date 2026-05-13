@@ -11,7 +11,7 @@ import {
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
 import { cn, Slot } from '../lib/utils';
-import { iconButtonSizeClasses } from '../lib/action-size';
+import { getIconFrameSizeClass, iconButtonSizeClasses } from '../lib/action-size';
 import { Icon, type IconProps } from '../primitives/icon';
 import {
   ActionSpinner,
@@ -31,16 +31,6 @@ function normalizeIconNode(node: ReactNode, size: NonNullable<IconProps['size']>
     return node;
   }
   return cloneElement(node, { size });
-}
-
-function getIconSizeClass(size: NonNullable<IconProps['size']>): string {
-  if (typeof size === 'number') {
-    return size > 20 ? 'size-icon-md' : 'size-icon-sm';
-  }
-  if (size === 'md' || size === 'lg' || size === 'xl') {
-    return 'size-icon-md';
-  }
-  return 'size-icon-sm';
 }
 
 const iconButtonVariants = cva(
@@ -121,7 +111,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       iconSize ?? (size === 'sm' ? 'sm' : 'md');
     const resolvedContent = normalizeIconNode(children ?? icon, resolvedIconSize);
     const renderContent = (content: ReactNode) => {
-      const sizeClass = getIconSizeClass(resolvedIconSize);
+      const sizeClass = getIconFrameSizeClass(resolvedIconSize);
       const normalizedContent = normalizeIconNode(content, resolvedIconSize);
 
       return (

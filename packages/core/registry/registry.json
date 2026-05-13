@@ -394,7 +394,8 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "ripple"
+        "ripple",
+        "icon"
       ]
     },
     "calendar": {
@@ -421,6 +422,7 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "icon",
         "icon-button",
         "pane"
       ]
@@ -610,7 +612,8 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "ripple"
+        "ripple",
+        "icon"
       ]
     },
     "list": {
@@ -790,6 +793,7 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "icon",
         "ripple"
       ]
     },
@@ -858,6 +862,7 @@
         "sidebar.state",
         "ripple",
         "sidebar-navigation-utils",
+        "icon",
         "sidebar.types",
         "sidebar-shell",
         "sidebar-inset",
@@ -965,7 +970,8 @@
       ],
       "dependencies": [],
       "registryDependencies": [
-        "theme-provider"
+        "theme-provider",
+        "icon"
       ]
     },
     "time-picker": {

@@ -594,11 +594,11 @@
   --opacity-muted: 0.60;
 
   /* === ICON SIZES === */
-  --icon-xs: calc(16px * var(--scale-space));
-  --icon-sm: calc(20px * var(--scale-space));
-  --icon-md: calc(24px * var(--scale-space));
-  --icon-lg: calc(32px * var(--scale-space));
-  --icon-xl: calc(48px * var(--scale-space));
+  --icon-xs: 16px;
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 32px;
+  --icon-xl: 48px;
 
   /* === COMPONENT SIZES === */
   --size-action-sm: calc(32px * var(--scale-space));

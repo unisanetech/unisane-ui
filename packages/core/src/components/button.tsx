@@ -14,7 +14,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from './ripple';
 import { Icon, type IconProps } from '../primitives/icon';
 import { cn, Slot } from '../lib/utils';
-import { actionButtonSizeClasses } from '../lib/action-size';
+import { actionButtonSizeClasses, getIconFrameSizeClass } from '../lib/action-size';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -35,8 +35,15 @@ function normalizeIconNode(node: ReactNode, size: NonNullable<IconProps['size']>
   return cloneElement(node, { size });
 }
 
+function shouldOpticallyAlignIcon(node: ReactNode): boolean {
+  return (
+    isIconElement(node) &&
+    (node.props.symbol !== undefined || typeof node.props.children === 'string')
+  );
+}
+
 const buttonVariants = cva(
-  `relative inline-flex items-center justify-center gap-2 rounded-button whitespace-nowrap font-medium leading-none transition-all duration-short ease-standard ${actionInteractiveClass}`,
+  `relative inline-flex items-center justify-center gap-2.5 rounded-button whitespace-nowrap font-medium leading-none transition-all duration-short ease-standard ${actionInteractiveClass}`,
   {
     variants: {
       variant: {
@@ -95,9 +102,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const buttonClasses = cn(buttonVariants({ variant, size }), className);
     const resolvedIconSize: NonNullable<IconProps['size']> =
       iconSize ?? (size === 'lg' ? 'md' : 'sm');
-    const iconSizeClass = resolvedIconSize === 'md' ? 'size-icon-md' : 'size-icon-sm';
+    const iconSizeClass = getIconFrameSizeClass(resolvedIconSize);
     const resolvedIcon = normalizeIconNode(icon, resolvedIconSize);
     const resolvedTrailingIcon = normalizeIconNode(trailingIcon, resolvedIconSize);
+    const iconOpticalClass = shouldOpticallyAlignIcon(resolvedIcon) ? '-translate-y-px' : '';
+    const trailingIconOpticalClass = shouldOpticallyAlignIcon(resolvedTrailingIcon)
+      ? '-translate-y-px'
+      : '';
 
     const renderContent = (content: ReactNode) => (
       <>
@@ -107,7 +118,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {!loading && resolvedIcon && (
           <span
-            className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
+            className={cn(
+              iconSizeClass,
+              'pointer-events-none relative z-10 flex shrink-0 items-center justify-center',
+              iconOpticalClass,
+            )}
           >
             {resolvedIcon}
           </span>
@@ -124,7 +139,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
         {!loading && resolvedTrailingIcon && (
           <span
-            className={`${iconSizeClass} pointer-events-none relative z-10 flex shrink-0 items-center justify-center`}
+            className={cn(
+              iconSizeClass,
+              'pointer-events-none relative z-10 flex shrink-0 items-center justify-center',
+              trailingIconOpticalClass,
+            )}
           >
             {resolvedTrailingIcon}
           </span>

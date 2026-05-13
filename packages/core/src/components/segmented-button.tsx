@@ -3,7 +3,7 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
-import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
+import { actionFrameHeightClasses, actionFramePaddingXClasses } from '../lib/action-size';
 import { useControllableState } from '../lib/use-controllable-state';
 import { Icon, type IconProps } from '../primitives/icon';
 import { Ripple } from './ripple';
@@ -16,23 +16,23 @@ export interface SegmentedButtonOption {
 }
 
 type SegmentedButtonValue = string | string[];
+type SegmentedButtonSize = 'sm' | 'md' | 'lg';
 
-const SegmentedButtonSizeContext = React.createContext<FieldSize>('md');
-const SegmentedButtonIconSizeContext = React.createContext<NonNullable<IconProps['size']>>(18);
+const SegmentedButtonSizeContext = React.createContext<SegmentedButtonSize>('md');
+const SegmentedButtonIconSizeContext = React.createContext<NonNullable<IconProps['size']>>('sm');
 
 function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {
   return React.isValidElement(node) && node.type === Icon;
 }
 
-function getDefaultIconSize(size: FieldSize): NonNullable<IconProps['size']> {
+function getDefaultIconSize(size: SegmentedButtonSize): NonNullable<IconProps['size']> {
   switch (size) {
-    case 'sm':
-      return 16;
     case 'lg':
-      return 20;
+      return 'md';
+    case 'sm':
     case 'md':
     default:
-      return 18;
+      return 'sm';
   }
 }
 
@@ -53,17 +53,15 @@ function normalizeIconChildren(
   return React.Children.map(children, (child) => normalizeIconNode(child, size));
 }
 
-function getSegmentedButtonSizeStyles(size: FieldSize) {
-  const fieldSize = getFieldSizeStyles(size);
-
+function getSegmentedButtonSizeStyles(size: SegmentedButtonSize) {
   return {
-    containerHeight: fieldSize.containerHeight,
-    itemGap: size === 'sm' ? 'gap-1.5' : size === 'lg' ? 'gap-3' : 'gap-2',
-    itemPaddingX: fieldSize.horizontalPadding,
-    itemText: size === 'lg' ? 'text-label-large' : 'text-label-medium',
-    iconClass: fieldSize.iconSize,
-    checkWidth: size === 'sm' ? 'w-4' : size === 'lg' ? 'w-6' : 'w-5',
-    checkSize: size === 'sm' ? 16 : size === 'lg' ? 20 : 18,
+    containerHeight: actionFrameHeightClasses[size],
+    itemGap: 'gap-2.5',
+    itemPaddingX: actionFramePaddingXClasses[size],
+    itemText: size === 'sm' ? 'text-label-medium' : 'text-label-large',
+    iconClass: size === 'lg' ? 'size-icon-md' : 'size-icon-sm',
+    checkWidth: size === 'lg' ? 'w-[var(--icon-md)]' : 'w-[var(--icon-sm)]',
+    checkClass: size === 'lg' ? 'size-icon-md' : 'size-icon-sm',
     checkStrokeWidth: size === 'sm' ? 3 : 4,
   };
 }
@@ -75,7 +73,8 @@ export interface SegmentedButtonProps {
   onValueChange?: (value: string | string[]) => void;
   multiSelect?: boolean;
   className?: string;
-  size?: FieldSize;
+  'aria-label'?: string;
+  size?: SegmentedButtonSize;
   iconSize?: NonNullable<IconProps['size']>;
   children?: React.ReactNode;
 }
@@ -87,6 +86,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
   onValueChange,
   multiSelect = false,
   className,
+  'aria-label': ariaLabel,
   size = 'md',
   iconSize,
   children,
@@ -110,6 +110,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
               sizeStyles.containerHeight,
               className,
             )}
+            aria-label={ariaLabel}
             role="group"
           >
             {children}
@@ -208,6 +209,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
             sizeStyles.containerHeight,
             className,
           )}
+          aria-label={ariaLabel}
           role={multiSelect ? 'group' : 'radiogroup'}
           aria-multiselectable={multiSelect}
         >
@@ -248,8 +250,7 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
                   )}
                 >
                   <svg
-                    width={sizeStyles.checkSize}
-                    height={sizeStyles.checkSize}
+                    className={sizeStyles.checkClass}
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -293,9 +294,9 @@ const segmentedButtonItemVariants = cva(
         false: 'cursor-pointer',
       },
       size: {
-        sm: 'gap-1.5 px-3 text-label-medium',
-        md: 'gap-2 px-4 text-label-medium',
-        lg: 'gap-3 px-5 text-label-large',
+        sm: `${getSegmentedButtonSizeStyles('sm').itemGap} ${getSegmentedButtonSizeStyles('sm').itemPaddingX} ${getSegmentedButtonSizeStyles('sm').itemText}`,
+        md: `${getSegmentedButtonSizeStyles('md').itemGap} ${getSegmentedButtonSizeStyles('md').itemPaddingX} ${getSegmentedButtonSizeStyles('md').itemText}`,
+        lg: `${getSegmentedButtonSizeStyles('lg').itemGap} ${getSegmentedButtonSizeStyles('lg').itemPaddingX} ${getSegmentedButtonSizeStyles('lg').itemText}`,
       },
     },
     defaultVariants: {
@@ -312,7 +313,7 @@ export type SegmentedButtonItemProps = VariantProps<typeof segmentedButtonItemVa
   disabled?: boolean;
   onClick?: () => void;
   className?: string;
-  size?: FieldSize;
+  size?: SegmentedButtonSize;
   iconSize?: NonNullable<IconProps['size']>;
 };
 

@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import { Icon } from '@/primitives/icon';
 import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
 import type { SidebarTriggerVisibility } from '@/components/ui/sidebar/model/sidebar.types';
 import { shouldRenderSidebarTrigger } from '@/components/ui/sidebar/model/sidebar.state';
@@ -109,7 +110,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         aria-expanded={usesOverlayDrawer ? mobileOpen : expanded}
         {...props}
       >
-        {children || <span className="material-symbols-outlined">menu</span>}
+        {children || <Icon symbol="menu" />}
       </button>
     );
   },

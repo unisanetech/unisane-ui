@@ -275,7 +275,10 @@ export const TimePicker: React.FC<TimePickerProps> = ({
           ) : (
             <div className="flex items-end gap-3">
               <div className="space-y-2">
-                <label htmlFor={hourInputId} className="text-title-medium text-on-surface-variant block pl-1">
+                <label
+                  htmlFor={hourInputId}
+                  className="text-title-medium text-on-surface-variant block pl-1"
+                >
                   Hour
                 </label>
                 <input
@@ -291,16 +294,22 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setHours(nextValue);
                   }}
                   onBlur={() => setHours((current) => clampHours(current))}
-                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 outline-none transition-colors focus:ring-1"
+                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
                 />
               </div>
 
-              <span className="text-display-small text-on-surface pb-2 leading-none" aria-hidden="true">
+              <span
+                className="text-display-small text-on-surface pb-2 leading-none"
+                aria-hidden="true"
+              >
                 :
               </span>
 
               <div className="space-y-2">
-                <label htmlFor={minuteInputId} className="text-title-medium text-on-surface-variant block pl-1">
+                <label
+                  htmlFor={minuteInputId}
+                  className="text-title-medium text-on-surface-variant block pl-1"
+                >
                   Minute
                 </label>
                 <input
@@ -316,7 +325,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setMinutes(nextValue);
                   }}
                   onBlur={() => setMinutes((current) => clampMinutes(current))}
-                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 outline-none transition-colors focus:ring-1"
+                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
                 />
               </div>
             </div>
@@ -357,7 +366,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         </div>
 
         {inputType === 'dial' && (
-          <div className="animate-in fade-in zoom-in-95 duration-emphasized relative mb-4 flex w-full justify-center">
+          <div className="animate-surface-enter relative mb-4 flex w-full justify-center">
             <div
               ref={dialRef}
               className="bg-surface-container-highest relative h-64 w-64 shrink-0 cursor-pointer touch-none rounded-full select-none"
@@ -453,7 +462,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
             variant="standard"
             aria-label={inputType === 'dial' ? 'Switch to keyboard' : 'Switch to clock'}
             onClick={() => setInputType(inputType === 'dial' ? 'keyboard' : 'dial')}
-            icon={<Icon symbol={inputType === 'dial' ? 'keyboard' : 'schedule'} size={24} />}
+            icon={<Icon symbol={inputType === 'dial' ? 'keyboard' : 'schedule'} size="md" />}
           />
           <div className="flex gap-2">
             <Button variant="text" onClick={() => setIsOpen(false)}>
