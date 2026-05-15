@@ -9,6 +9,7 @@ import { inventoryCategories, inventoryStatuses, warehouseLocations } from "./ty
 // ─── INVENTORY ACTION ITEMS ───────────────────────────────────────────────────
 
 export function createInventoryActionItems(
+  onView: (item: InventoryItem) => void,
   onEdit: (item: InventoryItem) => void,
   onRestock: (item: InventoryItem) => void,
   onAdjustStock: (item: InventoryItem) => void,
@@ -20,7 +21,7 @@ export function createInventoryActionItems(
       key: "view",
       label: "View details",
       icon: "visibility",
-      onClick: (row) => alert(`SKU: ${row.sku}\nName: ${row.name}\nStock: ${row.currentStock} ${row.unit}\nPrice: ₹${row.sellingPrice}`)
+      onClick: onView
     },
     {
       key: "edit",
@@ -63,6 +64,7 @@ export function createInventoryActionItems(
 // ─── CREATE ACTIONS COLUMN ────────────────────────────────────────────────────
 
 export function createInventoryActionsColumn(
+  onView: (item: InventoryItem) => void,
   onEdit: (item: InventoryItem) => void,
   onRestock: (item: InventoryItem) => void,
   onAdjustStock: (item: InventoryItem) => void,
@@ -70,7 +72,14 @@ export function createInventoryActionsColumn(
   onDelete: (item: InventoryItem) => void
 ): Column<InventoryItem> {
   return createActionsColumn<InventoryItem>({
-    items: createInventoryActionItems(onEdit, onRestock, onAdjustStock, onViewHistory, onDelete),
+    items: createInventoryActionItems(
+      onView,
+      onEdit,
+      onRestock,
+      onAdjustStock,
+      onViewHistory,
+      onDelete
+    ),
     pinned: "right",
   });
 }

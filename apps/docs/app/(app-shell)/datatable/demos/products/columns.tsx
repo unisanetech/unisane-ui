@@ -9,6 +9,7 @@ import { categories, statuses, visibilities, brands } from "./types";
 // ─── PRODUCT ACTION ITEMS ─────────────────────────────────────────────────────
 
 export function createProductActionItems(
+  onView: (product: Product) => void,
   onEdit: (product: Product) => void,
   onDuplicate: (product: Product) => void,
   onArchive: (product: Product) => void,
@@ -19,7 +20,7 @@ export function createProductActionItems(
       key: "view",
       label: "View details",
       icon: "visibility",
-      onClick: (row) => alert(`${row.name}\nSKU: ${row.sku}\nPrice: $${row.price}`)
+      onClick: onView
     },
     {
       key: "edit",
@@ -54,13 +55,14 @@ export function createProductActionItems(
 // ─── CREATE ACTIONS COLUMN ────────────────────────────────────────────────────
 
 export function createProductActionsColumn(
+  onView: (product: Product) => void,
   onEdit: (product: Product) => void,
   onDuplicate: (product: Product) => void,
   onArchive: (product: Product) => void,
   onDelete: (product: Product) => void
 ): Column<Product> {
   return createActionsColumn<Product>({
-    items: createProductActionItems(onEdit, onDuplicate, onArchive, onDelete),
+    items: createProductActionItems(onView, onEdit, onDuplicate, onArchive, onDelete),
     pinned: "right",
   });
 }

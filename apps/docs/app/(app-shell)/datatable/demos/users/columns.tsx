@@ -9,6 +9,7 @@ import { departments } from "./types";
 // ─── USER ACTION ITEMS ────────────────────────────────────────────────────────
 
 export function createUserActionItems(
+  onView: (user: User) => void,
   onEdit: (user: User) => void,
   onDelete: (user: User) => void
 ): RowContextMenuItemOrSeparator<User>[] {
@@ -17,7 +18,7 @@ export function createUserActionItems(
       key: "view",
       label: "View details",
       icon: "visibility",
-      onClick: (row) => alert(`${row.name}\n${row.email}\n${row.department}`)
+      onClick: onView
     },
     {
       key: "edit",
@@ -39,11 +40,12 @@ export function createUserActionItems(
 // ─── CREATE ACTIONS COLUMN ────────────────────────────────────────────────────
 
 export function createUserActionsColumn(
+  onView: (user: User) => void,
   onEdit: (user: User) => void,
   onDelete: (user: User) => void
 ): Column<User> {
   return createActionsColumn<User>({
-    items: createUserActionItems(onEdit, onDelete),
+    items: createUserActionItems(onView, onEdit, onDelete),
     pinned: "right",
   });
 }

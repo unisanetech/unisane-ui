@@ -33,6 +33,7 @@ import {
   TabsContent,
   Icon,
   ConfirmDialog,
+  Dialog,
   Sheet,
   TextField,
   Button,
@@ -99,6 +100,68 @@ const LOCALE_OPTIONS: Record<LocaleKey, LocaleOption> = {
 
 const DEMO_TABLE_CLASS_NAME = 'h-[70vh] min-h-[560px]';
 
+type DemoNotice = {
+  title: string;
+  description: string;
+};
+
+function DemoNoticeDialog({
+  notice,
+  onClose,
+}: {
+  notice: DemoNotice | null;
+  onClose: () => void;
+}) {
+  return (
+    <Dialog
+      open={Boolean(notice)}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+      title={notice?.title ?? 'Action'}
+      description={notice?.description}
+      icon={<Icon symbol="info" />}
+      actions={
+        <Button variant="filled" onClick={onClose}>
+          Close
+        </Button>
+      }
+    />
+  );
+}
+
+function BulkDeleteConfirmDialog({
+  ids,
+  label,
+  onClose,
+  onConfirm,
+}: {
+  ids: readonly string[] | null;
+  label: string;
+  onClose: () => void;
+  onConfirm: (ids: readonly string[]) => void;
+}) {
+  const count = ids?.length ?? 0;
+
+  return (
+    <ConfirmDialog
+      open={Boolean(ids)}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+      title={`Delete ${count} ${label}?`}
+      description="This removes the selected rows from this demo table."
+      confirmLabel="Delete"
+      variant="danger"
+      onConfirm={() => {
+        if (!ids) return;
+        onConfirm(ids);
+        onClose();
+      }}
+    />
+  );
+}
+
 // ─── USERS TABLE ─────────────────────────────────────────────────────────────
 
 interface UsersTableProps {
@@ -126,6 +189,8 @@ function UsersTable({
 }: UsersTableProps) {
   const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
+  const [notice, setNotice] = useState<DemoNotice | null>(null);
+  const [bulkDeleteIds, setBulkDeleteIds] = useState<readonly string[] | null>(null);
   const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
     useGrouping();
   const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<User>();
@@ -234,11 +299,7 @@ function UsersTable({
         label: 'Delete',
         icon: 'delete',
         variant: 'danger',
-        onClick: (ids) => {
-          if (confirm(`Delete ${ids.length} users?`)) {
-            setData((prev) => prev.filter((row) => !ids.includes(row.id)));
-          }
-        },
+        onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
     [columns, data, setData],
@@ -247,7 +308,16 @@ function UsersTable({
   const contextMenuItems: RowContextMenuItemOrSeparator<User>[] = useMemo(
     () =>
       createUserActionItems(
-        (user) => alert(`Editing ${user.name}`),
+        (user) =>
+          setNotice({
+            title: user.name,
+            description: `${user.email} · ${user.department}`,
+          }),
+        (user) =>
+          setNotice({
+            title: 'Edit user',
+            description: `${user.name} · ${user.email}`,
+          }),
         (user) => setData((prev) => prev.filter((r) => r.id !== user.id)),
       ),
     [setData],
@@ -349,6 +419,13 @@ function UsersTable({
           selectedIds={selectedIds}
         />
       )}
+      <DemoNoticeDialog notice={notice} onClose={() => setNotice(null)} />
+      <BulkDeleteConfirmDialog
+        ids={bulkDeleteIds}
+        label="users"
+        onClose={() => setBulkDeleteIds(null)}
+        onConfirm={(ids) => setData((prev) => prev.filter((row) => !ids.includes(row.id)))}
+      />
     </>
   );
 }
@@ -380,6 +457,8 @@ function ProductsTable({
 }: ProductsTableProps) {
   const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
+  const [notice, setNotice] = useState<DemoNotice | null>(null);
+  const [bulkDeleteIds, setBulkDeleteIds] = useState<readonly string[] | null>(null);
   const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
     useGrouping();
   const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<Product>();
@@ -500,11 +579,7 @@ function ProductsTable({
         label: 'Delete',
         icon: 'delete',
         variant: 'danger',
-        onClick: (ids) => {
-          if (confirm(`Delete ${ids.length} products?`)) {
-            setData((prev) => prev.filter((row) => !ids.includes(row.id)));
-          }
-        },
+        onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
     [columns, data, setData],
@@ -513,7 +588,16 @@ function ProductsTable({
   const contextMenuItems: RowContextMenuItemOrSeparator<Product>[] = useMemo(
     () =>
       createProductActionItems(
-        (product) => alert(`Editing ${product.name}`),
+        (product) =>
+          setNotice({
+            title: product.name,
+            description: `SKU ${product.sku} · $${product.price}`,
+          }),
+        (product) =>
+          setNotice({
+            title: 'Edit product',
+            description: `${product.name} · SKU ${product.sku}`,
+          }),
         (product) => {
           const newProduct = {
             ...product,
@@ -628,6 +712,13 @@ function ProductsTable({
           selectedIds={selectedIds}
         />
       )}
+      <DemoNoticeDialog notice={notice} onClose={() => setNotice(null)} />
+      <BulkDeleteConfirmDialog
+        ids={bulkDeleteIds}
+        label="products"
+        onClose={() => setBulkDeleteIds(null)}
+        onConfirm={(ids) => setData((prev) => prev.filter((row) => !ids.includes(row.id)))}
+      />
     </>
   );
 }
@@ -659,6 +750,8 @@ function InventoryTable({
 }: InventoryTableProps) {
   const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
+  const [notice, setNotice] = useState<DemoNotice | null>(null);
+  const [bulkDeleteIds, setBulkDeleteIds] = useState<readonly string[] | null>(null);
   const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
     useGrouping();
   const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<InventoryItem>();
@@ -778,17 +871,17 @@ function InventoryTable({
       {
         label: 'Create PO',
         icon: 'add_shopping_cart',
-        onClick: (ids) => alert(`Creating purchase order for ${ids.length} items...`),
+        onClick: (ids) =>
+          setNotice({
+            title: 'Create purchase order',
+            description: `Creating a purchase order for ${ids.length} selected items.`,
+          }),
       },
       {
         label: 'Delete',
         icon: 'delete',
         variant: 'danger',
-        onClick: (ids) => {
-          if (confirm(`Delete ${ids.length} inventory items?`)) {
-            setData((prev) => prev.filter((row) => !ids.includes(row.id)));
-          }
-        },
+        onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
     [data, setData, columns],
@@ -797,10 +890,31 @@ function InventoryTable({
   const contextMenuItems: RowContextMenuItemOrSeparator<InventoryItem>[] = useMemo(
     () =>
       createInventoryActionItems(
-        (item) => alert(`Editing ${item.name}`),
-        (item) => alert(`Creating restock order for ${item.name}`),
-        (item) => alert(`Adjusting stock for ${item.name}`),
-        (item) => alert(`Viewing history for ${item.name}`),
+        (item) =>
+          setNotice({
+            title: item.name,
+            description: `SKU ${item.sku} · ${item.currentStock} ${item.unit} · ₹${item.sellingPrice}`,
+          }),
+        (item) =>
+          setNotice({
+            title: 'Edit item',
+            description: `${item.name} · SKU ${item.sku}`,
+          }),
+        (item) =>
+          setNotice({
+            title: 'Create restock order',
+            description: `Preparing a restock order for ${item.name}.`,
+          }),
+        (item) =>
+          setNotice({
+            title: 'Adjust stock',
+            description: `Adjusting current stock for ${item.name}.`,
+          }),
+        (item) =>
+          setNotice({
+            title: 'Stock history',
+            description: `${item.name} currently has ${item.currentStock} ${item.unit}.`,
+          }),
         (item) => setData((prev) => prev.filter((r) => r.id !== item.id)),
       ),
     [setData],
@@ -907,6 +1021,13 @@ function InventoryTable({
           selectedIds={selectedIds}
         />
       )}
+      <DemoNoticeDialog notice={notice} onClose={() => setNotice(null)} />
+      <BulkDeleteConfirmDialog
+        ids={bulkDeleteIds}
+        label="inventory items"
+        onClose={() => setBulkDeleteIds(null)}
+        onConfirm={(ids) => setData((prev) => prev.filter((row) => !ids.includes(row.id)))}
+      />
     </>
   );
 }
@@ -938,6 +1059,8 @@ function FinancialTable({
 }: FinancialTableProps) {
   const { selectedRows } = useSelection();
   const selectedIds = Array.from(selectedRows);
+  const [notice, setNotice] = useState<DemoNotice | null>(null);
+  const [bulkDeleteIds, setBulkDeleteIds] = useState<readonly string[] | null>(null);
   const { isGrouped, groupByArray, expandedGroups, expandAllGroups, collapseAllGroups } =
     useGrouping();
   const { menuState, handleRowContextMenu, closeMenu } = useRowContextMenu<Transaction>();
@@ -1063,11 +1186,7 @@ function FinancialTable({
         label: 'Delete',
         icon: 'delete',
         variant: 'danger',
-        onClick: (ids) => {
-          if (confirm(`Delete ${ids.length} transactions?`)) {
-            setData((prev) => prev.filter((row) => !ids.includes(row.id)));
-          }
-        },
+        onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
     [data, setData, columns],
@@ -1076,7 +1195,11 @@ function FinancialTable({
   const contextMenuItems: RowContextMenuItemOrSeparator<Transaction>[] = useMemo(
     () =>
       createTransactionActionItems(
-        (txn) => alert(`Viewing ${txn.reference}`),
+        (txn) =>
+          setNotice({
+            title: txn.reference,
+            description: `${txn.description} · ${txn.status}`,
+          }),
         (txn) => {
           const newTxn = {
             ...txn,
@@ -1232,6 +1355,13 @@ function FinancialTable({
           selectedIds={selectedIds}
         />
       )}
+      <DemoNoticeDialog notice={notice} onClose={() => setNotice(null)} />
+      <BulkDeleteConfirmDialog
+        ids={bulkDeleteIds}
+        label="transactions"
+        onClose={() => setBulkDeleteIds(null)}
+        onConfirm={(ids) => setData((prev) => prev.filter((row) => !ids.includes(row.id)))}
+      />
     </>
   );
 }
@@ -1256,6 +1386,7 @@ export default function DataTableDemoPage() {
   const [financialData, setFinancialData] = useState<Transaction[]>(() =>
     generateTransactions(200),
   );
+  const [demoNotice, setDemoNotice] = useState<DemoNotice | null>(null);
 
   // ─── Action Dialog State (Best Practice Pattern) ────────────────────────────
   // Using useActionDialog hook to manage edit/delete dialogs with type safety
@@ -1275,6 +1406,13 @@ export default function DataTableDemoPage() {
     },
     [userActions],
   );
+
+  const handleViewUser = useCallback((user: User) => {
+    setDemoNotice({
+      title: user.name,
+      description: `${user.email} · ${user.department}`,
+    });
+  }, []);
 
   const handleSaveUser = useCallback(() => {
     if (userActions.selectedRow) {
@@ -1298,15 +1436,20 @@ export default function DataTableDemoPage() {
 
   // Create columns with actions for Users
   const usersColumnsWithActions = useMemo(() => {
-    const actionsColumn = createUserActionsColumn(handleEditUser, (user) =>
+    const actionsColumn = createUserActionsColumn(handleViewUser, handleEditUser, (user) =>
       userActions.openDialog('delete', user),
     );
     return [...userColumns, actionsColumn];
-  }, [handleEditUser, userActions]);
+  }, [handleEditUser, handleViewUser, userActions]);
 
   // Create columns with actions for Products
   const productsColumnsWithActions = useMemo(() => {
     const actionsColumn = createProductActionsColumn(
+      (product) =>
+        setDemoNotice({
+          title: product.name,
+          description: `SKU ${product.sku} · $${product.price}`,
+        }),
       (product) => productActions.openDialog('edit', product),
       (product) => {
         const newProduct = {
@@ -1329,10 +1472,31 @@ export default function DataTableDemoPage() {
   // Create columns with actions for Inventory
   const inventoryColumnsWithActions = useMemo(() => {
     const actionsColumn = createInventoryActionsColumn(
-      (item) => alert(`Editing ${item.name}`),
-      (item) => alert(`Creating restock order for ${item.name}`),
-      (item) => alert(`Adjusting stock for ${item.name}`),
-      (item) => alert(`Viewing history for ${item.name}`),
+      (item) =>
+        setDemoNotice({
+          title: item.name,
+          description: `SKU ${item.sku} · ${item.currentStock} ${item.unit} · ₹${item.sellingPrice}`,
+        }),
+      (item) =>
+        setDemoNotice({
+          title: 'Edit item',
+          description: `${item.name} · SKU ${item.sku}`,
+        }),
+      (item) =>
+        setDemoNotice({
+          title: 'Create restock order',
+          description: `Preparing a restock order for ${item.name}.`,
+        }),
+      (item) =>
+        setDemoNotice({
+          title: 'Adjust stock',
+          description: `Adjusting current stock for ${item.name}.`,
+        }),
+      (item) =>
+        setDemoNotice({
+          title: 'Stock history',
+          description: `${item.name} currently has ${item.currentStock} ${item.unit}.`,
+        }),
       (item) => setInventoryData((prev) => prev.filter((r) => r.id !== item.id)),
     );
     return [...inventoryColumns, actionsColumn];
@@ -1341,7 +1505,11 @@ export default function DataTableDemoPage() {
   // Create columns with actions for Financial
   const financialColumnsWithActions = useMemo(() => {
     const actionsColumn = createTransactionActionsColumn(
-      (txn) => alert(`Viewing ${txn.reference}`),
+      (txn) =>
+        setDemoNotice({
+          title: txn.reference,
+          description: `${txn.description} · ${txn.status}`,
+        }),
       (txn) => {
         const newTxn = {
           ...txn,
@@ -1904,6 +2072,7 @@ export default function DataTableDemoPage() {
           }
         }}
       />
+      <DemoNoticeDialog notice={demoNotice} onClose={() => setDemoNotice(null)} />
     </div>
   );
 }

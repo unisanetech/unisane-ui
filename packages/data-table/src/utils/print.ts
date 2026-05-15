@@ -444,8 +444,6 @@ export function printDataTable<T extends { id: string }>(
 
   if (!printWindow) {
     console.error("Failed to open print window. Please allow popups for this site.");
-    // Fallback: try inline print with injected styles
-    alert("Popup blocked. Please allow popups to use the print feature.");
     return;
   }
 
