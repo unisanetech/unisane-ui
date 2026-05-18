@@ -15,6 +15,8 @@ const badgeVariants = cva('inline-flex items-center justify-center rounded-full 
       tertiary: '',
       error: '',
       success: '',
+      warning: '',
+      info: '',
     },
     size: {
       sm: 'text-label-small px-1.5 py-0.5',
@@ -28,6 +30,8 @@ const badgeVariants = cva('inline-flex items-center justify-center rounded-full 
     { variant: 'filled', color: 'tertiary', className: 'bg-tertiary text-on-tertiary' },
     { variant: 'filled', color: 'error', className: 'bg-error text-on-error' },
     { variant: 'filled', color: 'success', className: 'bg-success text-on-success' },
+    { variant: 'filled', color: 'warning', className: 'bg-warning text-on-warning' },
+    { variant: 'filled', color: 'info', className: 'bg-info text-on-info' },
     {
       variant: 'tonal',
       color: 'primary',
@@ -49,6 +53,16 @@ const badgeVariants = cva('inline-flex items-center justify-center rounded-full 
       color: 'success',
       className: 'bg-success-container text-on-success-container',
     },
+    {
+      variant: 'tonal',
+      color: 'warning',
+      className: 'bg-warning-container text-on-warning-container',
+    },
+    {
+      variant: 'tonal',
+      color: 'info',
+      className: 'bg-info-container text-on-info-container',
+    },
     { variant: 'outlined', color: 'primary', className: 'text-primary border-primary-container' },
     {
       variant: 'outlined',
@@ -62,6 +76,8 @@ const badgeVariants = cva('inline-flex items-center justify-center rounded-full 
     },
     { variant: 'outlined', color: 'error', className: 'text-error border-error-container' },
     { variant: 'outlined', color: 'success', className: 'text-success border-success-container' },
+    { variant: 'outlined', color: 'warning', className: 'text-warning border-warning-container' },
+    { variant: 'outlined', color: 'info', className: 'text-info border-info-container' },
   ],
   defaultVariants: {
     variant: 'filled',
