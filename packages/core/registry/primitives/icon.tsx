@@ -1,50 +1,36 @@
-import React, { forwardRef } from "react";
-import { cn } from "@/lib/utils";
+import React, { forwardRef } from 'react';
+import { cn } from '@/lib/utils';
 
 export interface IconProps extends React.HTMLAttributes<HTMLElement> {
-  size?: number | "xs" | "sm" | "md" | "lg" | "xl";
+  size?: number | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   filled?: boolean;
   symbol?: string;
   viewBox?: string;
   fill?: string;
   stroke?: string;
   strokeWidth?: string | number;
-  strokeLinecap?: "butt" | "round" | "square" | "inherit";
-  strokeLinejoin?: "miter" | "round" | "bevel" | "inherit";
+  strokeLinecap?: 'butt' | 'round' | 'square' | 'inherit';
+  strokeLinejoin?: 'miter' | 'round' | 'bevel' | 'inherit';
 }
 
 export const Icon = forwardRef<HTMLElement, IconProps>(
-  (
-    {
-      size = "md",
-      filled = false,
-      symbol,
-      className,
-      children,
-      style,
-      ...props
-    },
-    ref
-  ) => {
-    const isScale =
-      typeof size === "string" && ["xs", "sm", "md", "lg", "xl"].includes(size);
+  ({ size = 'md', filled = false, symbol, className, children, style, ...props }, ref) => {
+    const isScale = typeof size === 'string' && ['xs', 'sm', 'md', 'lg', 'xl'].includes(size);
 
     const isSymbol =
       symbol ||
-      (typeof children === "string" &&
-        children.trim().length > 0 &&
-        !children.includes("<"));
+      (typeof children === 'string' && children.trim().length > 0 && !children.includes('<'));
 
     const iconSize = isScale ? size : undefined;
     const sizeClasses = iconSize
       ? {
-          xs: "size-icon-xs text-[var(--icon-xs)]",
-          sm: "size-icon-sm text-[var(--icon-sm)]",
-          md: "size-icon-md text-[var(--icon-md)]",
-          lg: "size-icon-lg text-[var(--icon-lg)]",
-          xl: "size-icon-xl text-[var(--icon-xl)]",
+          xs: 'size-icon-xs text-[var(--icon-xs)]',
+          sm: 'size-icon-sm text-[var(--icon-sm)]',
+          md: 'size-icon-md text-[var(--icon-md)]',
+          lg: 'size-icon-lg text-[var(--icon-lg)]',
+          xl: 'size-icon-xl text-[var(--icon-xl)]',
         }[iconSize]
-      : "";
+      : '';
     const opticalSize = iconSize
       ? {
           xs: 20,
@@ -61,9 +47,9 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
         <span
           ref={ref as React.Ref<HTMLSpanElement>}
           className={cn(
-            "material-symbols-outlined select-none inline-flex items-center justify-center align-middle shrink-0 leading-none",
+            'material-symbols-outlined inline-flex shrink-0 items-center justify-center align-middle leading-none select-none',
             isScale && sizeClasses,
-            className
+            className,
           )}
           style={{
             fontSize: !isScale ? size : undefined,
@@ -91,27 +77,21 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className={cn("inline-block shrink-0", isScale && sizeClasses, className)}
+        className={cn('inline-block shrink-0', isScale && sizeClasses, className)}
         style={style}
         {...(props as React.SVGProps<SVGSVGElement>)}
       >
         {children}
       </svg>
     );
-  }
+  },
 );
 
-Icon.displayName = "Icon";
+Icon.displayName = 'Icon';
 
-export const CheckIcon = (props: Omit<IconProps, "symbol">) => (
-  <Icon symbol="check" {...props} />
-);
-export const ChevronRightIcon = (props: Omit<IconProps, "symbol">) => (
+export const CheckIcon = (props: Omit<IconProps, 'symbol'>) => <Icon symbol="check" {...props} />;
+export const ChevronRightIcon = (props: Omit<IconProps, 'symbol'>) => (
   <Icon symbol="chevron_right" {...props} />
 );
-export const CloseIcon = (props: Omit<IconProps, "symbol">) => (
-  <Icon symbol="close" {...props} />
-);
-export const MenuIcon = (props: Omit<IconProps, "symbol">) => (
-  <Icon symbol="menu" {...props} />
-);
+export const CloseIcon = (props: Omit<IconProps, 'symbol'>) => <Icon symbol="close" {...props} />;
+export const MenuIcon = (props: Omit<IconProps, 'symbol'>) => <Icon symbol="menu" {...props} />;

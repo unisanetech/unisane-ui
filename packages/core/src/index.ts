@@ -21,8 +21,17 @@ export { ThemeSwitcher } from './components/theme-switcher';
 export { Container } from './layout/container';
 export { AppLayout, AppLayout as Scaffold } from './layout/app-layout';
 export { Pane, PaneLayout, PaneDivider } from './layout/pane';
+export { PageSection } from './layout/page-section';
+export type { PageSectionProps } from './layout/page-section';
+export { ActionCluster } from './layout/action-cluster';
+export type { ActionClusterProps } from './layout/action-cluster';
+export { CardGrid } from './layout/card-grid';
+export type { CardGridProps } from './layout/card-grid';
+export { PreviewFrame } from './layout/preview-frame';
+export type { PreviewFrameProps } from './layout/preview-frame';
 
 export { Text } from './primitives/text';
+export type { TextProps, TextRole } from './primitives/text';
 export { Surface } from './primitives/surface';
 export { StateLayer } from './primitives/state-layer';
 export { FocusRing } from './primitives/focus-ring';
@@ -128,7 +137,7 @@ export type { TabsProps, TabsTriggerProps, TabsSize } from './components/tabs';
 export { Divider } from './components/divider';
 export type { DividerProps } from './components/divider';
 export { Typography } from './components/typography';
-export type { TypographyProps } from './components/typography';
+export type { TypographyProps, TypographyRole } from './components/typography';
 
 export {
   Nav,

@@ -1,5 +1,6 @@
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
+import { typographyRoleClasses, type TypographyRole } from "@/lib/typography-roles";
 import { cn } from "@/lib/utils";
 
 // Tailwind v4's --text-* system automatically applies font-size, line-height,
@@ -80,10 +81,12 @@ export type TextProps = React.HTMLAttributes<HTMLElement> &
   VariantProps<typeof textVariants> & {
     as?: TextElement;
     htmlFor?: string; // For label elements
+    typeRole?: TypographyRole;
   };
 
 export const Text: React.FC<TextProps> = ({
   variant,
+  typeRole,
   color,
   align,
   weight,
@@ -95,7 +98,11 @@ export const Text: React.FC<TextProps> = ({
 }) => {
   return (
     <Component
-      className={cn(textVariants({ variant, color, align, weight, className }))}
+      className={cn(
+        textVariants({ variant: typeRole ? null : variant, color, align, weight }),
+        typeRole && typographyRoleClasses[typeRole],
+        className,
+      )}
       {...(Component === "label" && htmlFor ? { htmlFor } : {})}
       {...props}
     >
@@ -103,3 +110,5 @@ export const Text: React.FC<TextProps> = ({
     </Component>
   );
 };
+
+export type { TypographyRole as TextRole };

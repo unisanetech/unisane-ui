@@ -307,8 +307,13 @@
 
 
   /* === SCALING KNOBS === */
-  --scale-space: 1;
-  --scale-type: 1;
+  --scale-space-density: 1;
+  --scale-space-viewport: 1;
+  --scale-space: calc(var(--scale-space-density) * var(--scale-space-viewport));
+  --scale-type-density: 1;
+  --scale-type-user: 1;
+  --scale-type-viewport: 1;
+  --scale-type: calc(var(--scale-type-density) * var(--scale-type-user) * var(--scale-type-viewport));
   /* Radius uses combined multiplier: density-radius × theme-radius */
   --scale-radius-density: 1;   /* Modified by data-density */
   --scale-radius-theme: 1;     /* Modified by data-radius */
@@ -548,6 +553,43 @@
   --type-label-small-line: calc(16px * var(--scale-type));
   --type-label-small-tracking: 0.5px;
 
+  /* === RESPONSIVE TYPOGRAPHY ROLES === */
+  --type-role-hero-title-font: var(--font-sans);
+  --type-role-hero-title-weight: 400;
+  --type-role-hero-title-size: clamp(calc(36px * var(--scale-type)), 8vw, calc(57px * var(--scale-type)));
+  --type-role-hero-title-line: clamp(calc(44px * var(--scale-type)), calc(8vw * 1.1228070175438596), calc(64px * var(--scale-type)));
+  --type-role-hero-title-tracking: 0;
+  --type-role-page-title-font: var(--font-sans);
+  --type-role-page-title-weight: 400;
+  --type-role-page-title-size: clamp(calc(30px * var(--scale-type)), 5.5vw, calc(45px * var(--scale-type)));
+  --type-role-page-title-line: clamp(calc(36px * var(--scale-type)), calc(5.5vw * 1.1555555555555554), calc(52px * var(--scale-type)));
+  --type-role-page-title-tracking: 0;
+  --type-role-section-title-font: var(--font-sans);
+  --type-role-section-title-weight: 400;
+  --type-role-section-title-size: clamp(calc(24px * var(--scale-type)), 4vw, calc(36px * var(--scale-type)));
+  --type-role-section-title-line: clamp(calc(32px * var(--scale-type)), calc(4vw * 1.2222222222222223), calc(44px * var(--scale-type)));
+  --type-role-section-title-tracking: 0;
+  --type-role-section-lead-font: var(--font-sans);
+  --type-role-section-lead-weight: 400;
+  --type-role-section-lead-size: clamp(calc(16px * var(--scale-type)), 2.2vw, calc(16px * var(--scale-type)));
+  --type-role-section-lead-line: clamp(calc(24px * var(--scale-type)), calc(2.2vw * 1.5), calc(24px * var(--scale-type)));
+  --type-role-section-lead-tracking: 0;
+  --type-role-panel-title-font: var(--font-sans);
+  --type-role-panel-title-weight: 400;
+  --type-role-panel-title-size: clamp(calc(18px * var(--scale-type)), 2.5vw, calc(24px * var(--scale-type)));
+  --type-role-panel-title-line: clamp(calc(24px * var(--scale-type)), calc(2.5vw * 1.3333333333333333), calc(32px * var(--scale-type)));
+  --type-role-panel-title-tracking: 0;
+  --type-role-card-title-font: var(--font-sans);
+  --type-role-card-title-weight: 500;
+  --type-role-card-title-size: clamp(calc(14px * var(--scale-type)), 2vw, calc(16px * var(--scale-type)));
+  --type-role-card-title-line: clamp(calc(20px * var(--scale-type)), calc(2vw * 1.5), calc(24px * var(--scale-type)));
+  --type-role-card-title-tracking: 0;
+  --type-role-eyebrow-font: var(--font-sans);
+  --type-role-eyebrow-weight: 500;
+  --type-role-eyebrow-size: clamp(calc(11px * var(--scale-type)), 1.2vw, calc(11px * var(--scale-type)));
+  --type-role-eyebrow-line: clamp(calc(16px * var(--scale-type)), calc(1.2vw * 1.4545454545454546), calc(16px * var(--scale-type)));
+  --type-role-eyebrow-tracking: 0;
+
   /* === SHAPE (Radius) === */
   --radius-none: 0px;
   --radius-xs: calc(4px * var(--scale-radius));
@@ -636,6 +678,15 @@
   --layout-drawer: calc(360px * var(--scale-space));
   --layout-navigation-drawer: calc(300px * var(--scale-space));
   --layout-command-list-max-height: calc(300px * var(--scale-space));
+  --layout-page-x: clamp(calc(var(--unit) * 4), 4vw, calc(var(--unit) * 10));
+  --layout-section-y: clamp(calc(var(--unit) * 12), 8vw, calc(var(--unit) * 28));
+  --layout-section-y-compact: clamp(calc(var(--unit) * 8), 5vw, calc(var(--unit) * 18));
+  --layout-hero-y: clamp(calc(var(--unit) * 14), 10vw, calc(var(--unit) * 36));
+  --layout-content-gap: clamp(calc(var(--unit) * 6), 4vw, calc(var(--unit) * 14));
+  --layout-panel-padding: clamp(calc(var(--unit) * 4), 3vw, calc(var(--unit) * 8));
+  --layout-card-padding: clamp(calc(var(--unit) * 4), 2.5vw, calc(var(--unit) * 7));
+  --layout-cluster-gap: clamp(calc(var(--unit) * 3), 2vw, calc(var(--unit) * 5));
+  --layout-grid-gap: clamp(calc(var(--unit) * 4), 3vw, calc(var(--unit) * 8));
 
   /* === Z-INDEX === */
   --z-fab: 500;
@@ -1189,20 +1240,20 @@
    ============================================================ */
 
 [data-density="compact"] {
-  --scale-space: 0.875;
-  --scale-type: 0.9;
+  --scale-space-density: 0.875;
+  --scale-type-density: 0.9;
   --scale-radius-density: 0.9;
 }
 
 [data-density="dense"] {
-  --scale-space: 0.75;
-  --scale-type: 0.85;
+  --scale-space-density: 0.75;
+  --scale-type-density: 0.85;
   --scale-radius-density: 0.85;
 }
 
 [data-density="comfortable"] {
-  --scale-space: 1.1;
-  --scale-type: 1.0;
+  --scale-space-density: 1.1;
+  --scale-type-density: 1.0;
   --scale-radius-density: 1.0;
 }
 
@@ -1507,6 +1558,34 @@
   --text-label-small--line-height: var(--type-label-small-line);
   --text-label-small--letter-spacing: var(--type-label-small-tracking);
   --text-label-small--font-weight: var(--type-label-small-weight);
+  --text-role-hero-title: var(--type-role-hero-title-size);
+  --text-role-hero-title--line-height: var(--type-role-hero-title-line);
+  --text-role-hero-title--letter-spacing: var(--type-role-hero-title-tracking);
+  --text-role-hero-title--font-weight: var(--type-role-hero-title-weight);
+  --text-role-page-title: var(--type-role-page-title-size);
+  --text-role-page-title--line-height: var(--type-role-page-title-line);
+  --text-role-page-title--letter-spacing: var(--type-role-page-title-tracking);
+  --text-role-page-title--font-weight: var(--type-role-page-title-weight);
+  --text-role-section-title: var(--type-role-section-title-size);
+  --text-role-section-title--line-height: var(--type-role-section-title-line);
+  --text-role-section-title--letter-spacing: var(--type-role-section-title-tracking);
+  --text-role-section-title--font-weight: var(--type-role-section-title-weight);
+  --text-role-section-lead: var(--type-role-section-lead-size);
+  --text-role-section-lead--line-height: var(--type-role-section-lead-line);
+  --text-role-section-lead--letter-spacing: var(--type-role-section-lead-tracking);
+  --text-role-section-lead--font-weight: var(--type-role-section-lead-weight);
+  --text-role-panel-title: var(--type-role-panel-title-size);
+  --text-role-panel-title--line-height: var(--type-role-panel-title-line);
+  --text-role-panel-title--letter-spacing: var(--type-role-panel-title-tracking);
+  --text-role-panel-title--font-weight: var(--type-role-panel-title-weight);
+  --text-role-card-title: var(--type-role-card-title-size);
+  --text-role-card-title--line-height: var(--type-role-card-title-line);
+  --text-role-card-title--letter-spacing: var(--type-role-card-title-tracking);
+  --text-role-card-title--font-weight: var(--type-role-card-title-weight);
+  --text-role-eyebrow: var(--type-role-eyebrow-size);
+  --text-role-eyebrow--line-height: var(--type-role-eyebrow-line);
+  --text-role-eyebrow--letter-spacing: var(--type-role-eyebrow-tracking);
+  --text-role-eyebrow--font-weight: var(--type-role-eyebrow-weight);
 
   /* Spacing - Standard Tailwind keys mapped to density-scaled values */
   /* These override Tailwind defaults so p-4, gap-2, etc. scale with density */
@@ -1563,6 +1642,15 @@
   /* Layout */
   --spacing-layout-margin: var(--layout-margin);
   --spacing-layout-gutter: var(--layout-gutter);
+  --spacing-layout-page-x: var(--layout-page-x);
+  --spacing-layout-section-y: var(--layout-section-y);
+  --spacing-layout-section-y-compact: var(--layout-section-y-compact);
+  --spacing-layout-hero-y: var(--layout-hero-y);
+  --spacing-layout-content-gap: var(--layout-content-gap);
+  --spacing-layout-panel-padding: var(--layout-panel-padding);
+  --spacing-layout-card-padding: var(--layout-card-padding);
+  --spacing-layout-cluster-gap: var(--layout-cluster-gap);
+  --spacing-layout-grid-gap: var(--layout-grid-gap);
   --width-pane-list: var(--layout-pane-list);
   --width-pane-fixed: var(--layout-pane-fixed);
   --width-pane-supporting: var(--layout-pane-supporting);

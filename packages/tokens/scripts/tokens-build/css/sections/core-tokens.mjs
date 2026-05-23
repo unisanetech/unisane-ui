@@ -136,8 +136,13 @@ export function generateCoreTokensSection(config) {
   css += `
 
   /* === SCALING KNOBS === */
-  --scale-space: 1;
-  --scale-type: 1;
+  --scale-space-density: 1;
+  --scale-space-viewport: 1;
+  --scale-space: calc(var(--scale-space-density) * var(--scale-space-viewport));
+  --scale-type-density: 1;
+  --scale-type-user: 1;
+  --scale-type-viewport: 1;
+  --scale-type: calc(var(--scale-type-density) * var(--scale-type-user) * var(--scale-type-viewport));
   /* Radius uses combined multiplier: density-radius × theme-radius */
   --scale-radius-density: 1;   /* Modified by data-density */
   --scale-radius-theme: 1;     /* Modified by data-radius */
@@ -330,6 +335,55 @@ export function generateCoreTokensSection(config) {
 `;
   }
 
+  const typeRoles = {
+    'hero-title': { minSize: 36, maxSize: 57, minLine: 44, maxLine: 64, fluid: '8vw', weight: 400 },
+    'page-title': {
+      minSize: 30,
+      maxSize: 45,
+      minLine: 36,
+      maxLine: 52,
+      fluid: '5.5vw',
+      weight: 400,
+    },
+    'section-title': {
+      minSize: 24,
+      maxSize: 36,
+      minLine: 32,
+      maxLine: 44,
+      fluid: '4vw',
+      weight: 400,
+    },
+    'section-lead': {
+      minSize: 16,
+      maxSize: 16,
+      minLine: 24,
+      maxLine: 24,
+      fluid: '2.2vw',
+      weight: 400,
+    },
+    'panel-title': {
+      minSize: 18,
+      maxSize: 24,
+      minLine: 24,
+      maxLine: 32,
+      fluid: '2.5vw',
+      weight: 400,
+    },
+    'card-title': { minSize: 14, maxSize: 16, minLine: 20, maxLine: 24, fluid: '2vw', weight: 500 },
+    eyebrow: { minSize: 11, maxSize: 11, minLine: 16, maxLine: 16, fluid: '1.2vw', weight: 500 },
+  };
+
+  css += `\n  /* === RESPONSIVE TYPOGRAPHY ROLES === */\n`;
+  for (const [name, props] of Object.entries(typeRoles)) {
+    const lineRatio = props.maxLine / props.maxSize;
+    css += `  --type-role-${name}-font: var(--font-sans);
+  --type-role-${name}-weight: ${props.weight};
+  --type-role-${name}-size: clamp(calc(${props.minSize}px * var(--scale-type)), ${props.fluid}, calc(${props.maxSize}px * var(--scale-type)));
+  --type-role-${name}-line: clamp(calc(${props.minLine}px * var(--scale-type)), calc(${props.fluid} * ${lineRatio}), calc(${props.maxLine}px * var(--scale-type)));
+  --type-role-${name}-tracking: 0;
+`;
+  }
+
   css += `
   /* === SHAPE (Radius) === */
   --radius-none: 0px;
@@ -419,6 +473,15 @@ export function generateCoreTokensSection(config) {
   --layout-drawer: calc(360px * var(--scale-space));
   --layout-navigation-drawer: calc(300px * var(--scale-space));
   --layout-command-list-max-height: calc(300px * var(--scale-space));
+  --layout-page-x: clamp(calc(var(--unit) * 4), 4vw, calc(var(--unit) * 10));
+  --layout-section-y: clamp(calc(var(--unit) * 12), 8vw, calc(var(--unit) * 28));
+  --layout-section-y-compact: clamp(calc(var(--unit) * 8), 5vw, calc(var(--unit) * 18));
+  --layout-hero-y: clamp(calc(var(--unit) * 14), 10vw, calc(var(--unit) * 36));
+  --layout-content-gap: clamp(calc(var(--unit) * 6), 4vw, calc(var(--unit) * 14));
+  --layout-panel-padding: clamp(calc(var(--unit) * 4), 3vw, calc(var(--unit) * 8));
+  --layout-card-padding: clamp(calc(var(--unit) * 4), 2.5vw, calc(var(--unit) * 7));
+  --layout-cluster-gap: clamp(calc(var(--unit) * 3), 2vw, calc(var(--unit) * 5));
+  --layout-grid-gap: clamp(calc(var(--unit) * 4), 3vw, calc(var(--unit) * 8));
 
   /* === Z-INDEX === */
   --z-fab: 500;

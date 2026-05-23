@@ -47,7 +47,7 @@ export const Stepper: React.FC<StepperProps> = ({ steps, activeStep = 0, childre
 
             <div
               className={cn(
-                'text-label-small duration-emphasized z-10 flex h-8 w-8 items-center justify-center rounded-button border-2 font-medium transition-all',
+                'text-label-small duration-emphasized rounded-button z-10 flex h-8 w-8 items-center justify-center border-2 font-medium transition-all',
                 isActive && 'bg-primary border-primary text-on-primary scale-110',
                 isCompleted && 'bg-primary border-primary text-on-primary',
                 !isActive &&
@@ -128,7 +128,7 @@ export const Step: React.FC<StepProps> = ({
       <Ripple />
       <div
         className={cn(
-          'duration-medium ease-standard flex h-8 w-8 items-center justify-center rounded-button transition-colors',
+          'duration-medium ease-standard rounded-button flex h-8 w-8 items-center justify-center transition-colors',
           active
             ? 'bg-primary text-on-primary'
             : completed

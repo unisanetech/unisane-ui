@@ -303,20 +303,20 @@ export function generateColorThemesAndAxesSection() {
    ============================================================ */
 
 [data-density="compact"] {
-  --scale-space: 0.875;
-  --scale-type: 0.9;
+  --scale-space-density: 0.875;
+  --scale-type-density: 0.9;
   --scale-radius-density: 0.9;
 }
 
 [data-density="dense"] {
-  --scale-space: 0.75;
-  --scale-type: 0.85;
+  --scale-space-density: 0.75;
+  --scale-type-density: 0.85;
   --scale-radius-density: 0.85;
 }
 
 [data-density="comfortable"] {
-  --scale-space: 1.1;
-  --scale-type: 1.0;
+  --scale-space-density: 1.1;
+  --scale-type-density: 1.0;
   --scale-radius-density: 1.0;
 }
 

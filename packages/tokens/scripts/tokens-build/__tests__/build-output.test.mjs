@@ -321,9 +321,9 @@ test('contrast modifiers remap semantic tones for light and dark contexts', () =
 test('density, radius, and elevation axes expose the expected scaling variables', () => {
   const { mergedCss } = generateBuildArtifacts('blue');
 
-  assertBlockHasVar(mergedCss, '[data-density="compact"]', '--scale-space', '0.875');
-  assertBlockHasVar(mergedCss, '[data-density="dense"]', '--scale-type', '0.85');
-  assertBlockHasVar(mergedCss, '[data-density="comfortable"]', '--scale-space', '1.1');
+  assertBlockHasVar(mergedCss, '[data-density="compact"]', '--scale-space-density', '0.875');
+  assertBlockHasVar(mergedCss, '[data-density="dense"]', '--scale-type-density', '0.85');
+  assertBlockHasVar(mergedCss, '[data-density="comfortable"]', '--scale-space-density', '1.1');
 
   assertBlockHasVar(mergedCss, '[data-radius="none"]', '--scale-radius-theme', '0');
   assertBlockHasVar(mergedCss, '[data-radius="soft"]', '--scale-radius-theme', '1.25');
@@ -337,6 +337,39 @@ test('density, radius, and elevation axes expose the expected scaling variables'
   assert.match(mergedCss, /--size-fab-md:\s*calc\(56px \* var\(--scale-space\)\);/);
   assert.match(mergedCss, /--size-avatar-md:\s*calc\(40px \* var\(--scale-space\)\);/);
   assert.match(mergedCss, /--size-pagination-button:\s*calc\(48px \* var\(--scale-space\)\);/);
+});
+
+test('responsive role tokens compose with theme scaling and Tailwind utilities', () => {
+  const { mergedCss } = generateBuildArtifacts('blue');
+
+  assertBlockHasVar(
+    mergedCss,
+    ':root,\n[data-theme-scope]',
+    '--scale-space',
+    'calc(var(--scale-space-density) * var(--scale-space-viewport))',
+  );
+  assertBlockHasVar(
+    mergedCss,
+    ':root,\n[data-theme-scope]',
+    '--scale-type',
+    'calc(var(--scale-type-density) * var(--scale-type-user) * var(--scale-type-viewport))',
+  );
+  assert.match(
+    mergedCss,
+    /--type-role-hero-title-size:\s*clamp\(calc\(36px \* var\(--scale-type\)\), 8vw, calc\(57px \* var\(--scale-type\)\)\);/,
+  );
+  assert.match(mergedCss, /--type-role-section-title-tracking:\s*0;/);
+  assert.match(
+    mergedCss,
+    /--layout-page-x:\s*clamp\(calc\(var\(--unit\) \* 4\), 4vw, calc\(var\(--unit\) \* 10\)\);/,
+  );
+  assert.match(mergedCss, /--spacing-layout-page-x:\s*var\(--layout-page-x\);/);
+  assert.match(mergedCss, /--spacing-layout-grid-gap:\s*var\(--layout-grid-gap\);/);
+  assert.match(mergedCss, /--text-role-hero-title:\s*var\(--type-role-hero-title-size\);/);
+  assert.match(
+    mergedCss,
+    /--text-role-card-title--font-weight:\s*var\(--type-role-card-title-weight\);/,
+  );
 });
 
 test('dark mode remaps tone layers for both media-query and class-driven activation', () => {

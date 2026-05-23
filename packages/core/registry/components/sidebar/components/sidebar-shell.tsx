@@ -99,7 +99,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
         ref={ref}
         onClick={handleClick}
         className={cn(
-          'inline-flex h-10 w-10 items-center justify-center rounded-icon-button',
+          'rounded-icon-button inline-flex h-10 w-10 items-center justify-center',
           'text-on-surface-variant hover:bg-state-hover',
           'duration-short transition-colors',
           'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
@@ -120,14 +120,8 @@ SidebarTrigger.displayName = 'SidebarTrigger';
 export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const {
-    isDrawerVisible,
-    expanded,
-    mobileOpen,
-    usesOverlayDrawer,
-    close,
-    drawerEnabled,
-  } = useSidebar();
+  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, close, drawerEnabled } =
+    useSidebar();
 
   if (!drawerEnabled) {
     return null;

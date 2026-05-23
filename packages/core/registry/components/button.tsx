@@ -36,7 +36,10 @@ function normalizeIconNode(node: ReactNode, size: NonNullable<IconProps['size']>
 }
 
 function shouldOpticallyAlignIcon(node: ReactNode): boolean {
-  return isIconElement(node) && (node.props.symbol !== undefined || typeof node.props.children === 'string');
+  return (
+    isIconElement(node) &&
+    (node.props.symbol !== undefined || typeof node.props.children === 'string')
+  );
 }
 
 const buttonVariants = cva(

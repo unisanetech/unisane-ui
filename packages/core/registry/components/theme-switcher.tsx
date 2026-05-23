@@ -31,7 +31,7 @@ export const ThemeSwitcher = React.forwardRef<HTMLDivElement, ThemeSwitcherProps
       <div
         ref={ref}
         className={cn(
-          'border-outline-variant inline-flex items-center overflow-hidden rounded-button border',
+          'border-outline-variant rounded-button inline-flex items-center overflow-hidden border',
           fieldSize.containerHeight,
           className,
         )}
@@ -47,7 +47,7 @@ export const ThemeSwitcher = React.forwardRef<HTMLDivElement, ThemeSwitcherProps
             aria-checked={theme === t.value}
             onClick={() => setTheme(t.value)}
             className={cn(
-              'duration-snappy relative flex items-center justify-center rounded-button transition-colors',
+              'duration-snappy rounded-button relative flex items-center justify-center transition-colors',
               gapClass,
               paddingClass,
               labelClass,

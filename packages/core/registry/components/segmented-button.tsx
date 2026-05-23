@@ -19,8 +19,7 @@ type SegmentedButtonValue = string | string[];
 type SegmentedButtonSize = 'sm' | 'md' | 'lg';
 
 const SegmentedButtonSizeContext = React.createContext<SegmentedButtonSize>('md');
-const SegmentedButtonIconSizeContext =
-  React.createContext<NonNullable<IconProps['size']>>('sm');
+const SegmentedButtonIconSizeContext = React.createContext<NonNullable<IconProps['size']>>('sm');
 
 function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {
   return React.isValidElement(node) && node.type === Icon;

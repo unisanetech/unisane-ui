@@ -72,6 +72,16 @@
       "dependencies": [],
       "registryDependencies": []
     },
+    "typography-roles": {
+      "name": "TypographyRoles",
+      "type": "lib:util",
+      "description": "TypographyRoles utility",
+      "files": [
+        "lib/typography-roles.ts"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "use-controllable-state": {
       "name": "UseControllableState",
       "type": "lib:util",
@@ -244,12 +254,32 @@
       "dependencies": [],
       "registryDependencies": []
     },
+    "action-cluster": {
+      "name": "ActionCluster",
+      "type": "layout:ui",
+      "description": "ActionCluster component",
+      "files": [
+        "layout/action-cluster.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "app-layout": {
       "name": "AppLayout",
       "type": "layout:ui",
       "description": "AppLayout component",
       "files": [
         "layout/app-layout.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    "card-grid": {
+      "name": "CardGrid",
+      "type": "layout:ui",
+      "description": "CardGrid component",
+      "files": [
+        "layout/card-grid.tsx"
       ],
       "dependencies": [],
       "registryDependencies": []
@@ -264,12 +294,32 @@
       "dependencies": [],
       "registryDependencies": []
     },
+    "page-section": {
+      "name": "PageSection",
+      "type": "layout:ui",
+      "description": "PageSection component",
+      "files": [
+        "layout/page-section.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
     "pane": {
       "name": "Pane",
       "type": "layout:ui",
       "description": "Pane component",
       "files": [
         "layout/pane.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    "preview-frame": {
+      "name": "PreviewFrame",
+      "type": "layout:ui",
+      "description": "PreviewFrame component",
+      "files": [
+        "layout/preview-frame.tsx"
       ],
       "dependencies": [],
       "registryDependencies": []

@@ -1,21 +1,21 @@
-import React from "react";
-import { cn } from "@/lib/utils";
-import { Icon, type IconProps } from "@/primitives/icon";
+import React from 'react';
+import { cn } from '@/lib/utils';
+import { Icon, type IconProps } from '@/primitives/icon';
 
 export interface NavigationIconProps {
   icon: React.ReactNode | string;
   active?: boolean;
-  size?: NonNullable<IconProps["size"]>;
+  size?: NonNullable<IconProps['size']>;
   className?: string;
 }
 
 export function NavigationIcon({
   icon,
   active = false,
-  size = "sm",
+  size = 'sm',
   className,
 }: NavigationIconProps) {
-  if (typeof icon === "string") {
+  if (typeof icon === 'string') {
     return <Icon symbol={icon} filled={active} size={size} className={className} />;
   }
 
@@ -24,9 +24,9 @@ export function NavigationIcon({
 
 export function getNavigationRailItemClasses(disabled?: boolean, className?: string) {
   return cn(
-    "group relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none",
-    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-    disabled && "pointer-events-none cursor-not-allowed opacity-38",
+    'group relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none',
+    'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+    disabled && 'pointer-events-none cursor-not-allowed opacity-38',
     className,
   );
 }
@@ -57,10 +57,10 @@ export function NavigationRailItemContent({
       <div className="relative flex items-center justify-center">
         <div
           className={cn(
-            "relative flex h-8 w-14 items-center justify-center overflow-hidden rounded-button transition-all duration-medium ease-emphasized",
+            'rounded-button duration-medium ease-emphasized relative flex h-8 w-14 items-center justify-center overflow-hidden transition-all',
             active
-              ? "bg-state-selected text-on-surface"
-              : "bg-transparent text-on-surface-variant hover:bg-state-hover",
+              ? 'bg-state-selected text-on-surface'
+              : 'text-on-surface-variant hover:bg-state-hover bg-transparent',
           )}
         >
           {ripple}
@@ -76,11 +76,11 @@ export function NavigationRailItemContent({
         {badge !== undefined && (
           <span
             className={cn(
-              "absolute -top-0.5 -right-0.5 z-20 flex h-3 min-w-3 items-center justify-center rounded-full bg-error px-0.5 text-[10px] leading-none font-medium text-on-error pointer-events-none ring-1 ring-surface",
-              typeof badge === "number" && badge < 10 && "h-2 min-w-2 p-0.5",
+              'bg-error text-on-error ring-surface pointer-events-none absolute -top-0.5 -right-0.5 z-20 flex h-3 min-w-3 items-center justify-center rounded-full px-0.5 text-[10px] leading-none font-medium ring-1',
+              typeof badge === 'number' && badge < 10 && 'h-2 min-w-2 p-0.5',
             )}
             role="status"
-            aria-label={typeof badge === "number" ? `${badge} notifications` : String(badge)}
+            aria-label={typeof badge === 'number' ? `${badge} notifications` : String(badge)}
           >
             {badge}
           </span>
@@ -90,11 +90,11 @@ export function NavigationRailItemContent({
       {showLabel ? (
         <span
           className={cn(
-            "max-w-full px-0.5 text-center text-label-small transition-colors duration-short",
+            'text-label-small duration-short max-w-full px-0.5 text-center transition-colors',
             active
-              ? "font-bold text-on-surface"
-              : "font-medium text-on-surface-variant group-hover:text-on-surface",
-            disabled && "group-hover:text-on-surface-variant",
+              ? 'text-on-surface font-bold'
+              : 'text-on-surface-variant group-hover:text-on-surface font-medium',
+            disabled && 'group-hover:text-on-surface-variant',
           )}
         >
           {label}
@@ -112,13 +112,13 @@ export function getNavigationDrawerItemClasses(args: {
   const { active, disabled, className } = args;
 
   return cn(
-    "group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2",
-    "text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none",
-    "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset",
+    'group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2',
+    'text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none',
+    'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset',
     active
-      ? "bg-state-selected text-on-surface font-medium"
-      : "text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface",
-    disabled && "opacity-38 cursor-not-allowed pointer-events-none",
+      ? 'bg-state-selected text-on-surface font-medium'
+      : 'text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface',
+    disabled && 'opacity-38 cursor-not-allowed pointer-events-none',
     className,
   );
 }
@@ -145,16 +145,16 @@ export function NavigationDrawerItemContent({
     <>
       <span
         className={cn(
-          "absolute inset-0 pointer-events-none transition-opacity duration-short",
+          'duration-short pointer-events-none absolute inset-0 transition-opacity',
           active
-            ? "bg-primary opacity-0 group-hover:opacity-[0.08] group-focus-visible:opacity-[0.12] group-active:opacity-[0.12]"
-            : "",
+            ? 'bg-primary opacity-0 group-hover:opacity-[0.08] group-focus-visible:opacity-[0.12] group-active:opacity-[0.12]'
+            : '',
         )}
       />
       {ripple}
 
       {icon && (
-        <span className="relative z-10 flex size-icon-sm shrink-0 items-center justify-center">
+        <span className="size-icon-sm relative z-10 flex shrink-0 items-center justify-center">
           <NavigationIcon
             icon={active && activeIcon ? activeIcon : icon}
             active={!!active}
@@ -167,8 +167,8 @@ export function NavigationDrawerItemContent({
 
       {badge && (
         <span className="relative z-10 ml-auto">
-          {typeof badge === "string" || typeof badge === "number" ? (
-            <span className="inline-block min-w-5 px-1.5 py-0.5 text-center text-label-small font-medium text-on-surface-variant">
+          {typeof badge === 'string' || typeof badge === 'number' ? (
+            <span className="text-label-small text-on-surface-variant inline-block min-w-5 px-1.5 py-0.5 text-center font-medium">
               {badge}
             </span>
           ) : (

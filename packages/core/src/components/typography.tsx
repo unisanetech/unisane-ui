@@ -1,5 +1,10 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import {
+  typographyRoleClasses,
+  typographyRoleDefaultTags,
+  type TypographyRole,
+} from '../lib/typography-roles';
 import { cn } from '../lib/utils';
 
 const typographyVariants = cva('text-on-surface', {
@@ -29,10 +34,21 @@ const typographyVariants = cva('text-on-surface', {
 
 export type TypographyVariant = NonNullable<VariantProps<typeof typographyVariants>['variant']>;
 
-export type TypographyProps = React.HTMLAttributes<HTMLElement> &
-  VariantProps<typeof typographyVariants> & {
-    component?: React.ElementType;
-  };
+type BaseTypographyProps = React.HTMLAttributes<HTMLElement> & {
+  component?: React.ElementType;
+};
+
+type VariantTypographyProps = BaseTypographyProps & {
+  variant?: TypographyVariant;
+  typeRole?: never;
+};
+
+type RoleTypographyProps = BaseTypographyProps & {
+  typeRole: TypographyRole;
+  variant?: never;
+};
+
+export type TypographyProps = VariantTypographyProps | RoleTypographyProps;
 
 const defaultTags: Record<TypographyVariant, React.ElementType> = {
   displayLarge: 'h1',
@@ -53,16 +69,30 @@ const defaultTags: Record<TypographyVariant, React.ElementType> = {
 };
 
 export const Typography: React.FC<TypographyProps> = ({
-  variant = 'bodyLarge',
+  variant,
+  typeRole,
   component,
   className,
   children,
   ...props
 }) => {
-  const Component = component || defaultTags[variant as TypographyVariant] || 'p';
+  const resolvedVariant = variant ?? 'bodyLarge';
+  const Component =
+    component ||
+    (typeRole ? typographyRoleDefaultTags[typeRole] : defaultTags[resolvedVariant]) ||
+    'p';
   return (
-    <Component className={cn(typographyVariants({ variant, className }))} {...props}>
+    <Component
+      className={cn(
+        typeRole ? 'text-on-surface' : typographyVariants({ variant: resolvedVariant }),
+        typeRole && typographyRoleClasses[typeRole],
+        className,
+      )}
+      {...props}
+    >
       {children}
     </Component>
   );
 };
+
+export type { TypographyRole };

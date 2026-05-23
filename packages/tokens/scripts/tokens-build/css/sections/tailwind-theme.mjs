@@ -120,11 +120,30 @@ export function generateTailwindTheme() {
   // The --text-*--line-height, --text-*--letter-spacing, --text-*--font-weight suffixes
   // are automatically applied when using the text-* utility
   const typeNames = [
-    "display-large", "display-medium", "display-small",
-    "headline-large", "headline-medium", "headline-small",
-    "title-large", "title-medium", "title-small",
-    "body-large", "body-medium", "body-small",
-    "label-large", "label-medium", "label-small",
+    'display-large',
+    'display-medium',
+    'display-small',
+    'headline-large',
+    'headline-medium',
+    'headline-small',
+    'title-large',
+    'title-medium',
+    'title-small',
+    'body-large',
+    'body-medium',
+    'body-small',
+    'label-large',
+    'label-medium',
+    'label-small',
+  ];
+  const typeRoleNames = [
+    'hero-title',
+    'page-title',
+    'section-title',
+    'section-lead',
+    'panel-title',
+    'card-title',
+    'eyebrow',
   ];
 
   for (const name of typeNames) {
@@ -132,6 +151,13 @@ export function generateTailwindTheme() {
   --text-${name}--line-height: var(--type-${name}-line);
   --text-${name}--letter-spacing: var(--type-${name}-tracking);
   --text-${name}--font-weight: var(--type-${name}-weight);
+`;
+  }
+  for (const name of typeRoleNames) {
+    css += `  --text-role-${name}: var(--type-role-${name}-size);
+  --text-role-${name}--line-height: var(--type-role-${name}-line);
+  --text-role-${name}--letter-spacing: var(--type-role-${name}-tracking);
+  --text-role-${name}--font-weight: var(--type-role-${name}-weight);
 `;
   }
 
@@ -144,55 +170,55 @@ export function generateTailwindTheme() {
   // Tailwind: 0.5 = 2px, 1 = 4px, 2 = 8px, etc. (0.25rem base)
   // Our system: 1u = 4px * scale, so p-4 = 4u = 16px * scale
   const tailwindSpacing = [
-    [0, 0],           // 0 = 0px
-    [0.5, 0.5],       // 0.5 = 2px = 0.5u
-    [1, 1],           // 1 = 4px = 1u
-    [1.5, 1.5],       // 1.5 = 6px = 1.5u
-    [2, 2],           // 2 = 8px = 2u
-    [2.5, 2.5],       // 2.5 = 10px = 2.5u
-    [3, 3],           // 3 = 12px = 3u
-    [3.5, 3.5],       // 3.5 = 14px = 3.5u
-    [4, 4],           // 4 = 16px = 4u
-    [5, 5],           // 5 = 20px = 5u
-    [6, 6],           // 6 = 24px = 6u
-    [7, 7],           // 7 = 28px = 7u
-    [8, 8],           // 8 = 32px = 8u
-    [9, 9],           // 9 = 36px = 9u
-    [10, 10],         // 10 = 40px = 10u
-    [11, 11],         // 11 = 44px = 11u
-    [12, 12],         // 12 = 48px = 12u
-    [14, 14],         // 14 = 56px = 14u
-    [16, 16],         // 16 = 64px = 16u
-    [20, 20],         // 20 = 80px = 20u
-    [24, 24],         // 24 = 96px = 24u
-    [25, 25],         // 25 = 100px (time-picker hand)
-    [28, 28],         // 28 = 112px = 28u
-    [30, 30],         // 30 = 120px (stepper, text-field)
-    [32, 32],         // 32 = 128px - not in our scale, use calc
-    [36, 36],         // 36 = 144px
-    [38, 38],         // 38 = 152px = 38u (our custom)
-    [40, 40],         // 40 = 160px
-    [44, 44],         // 44 = 176px
-    [48, 48],         // 48 = 192px
-    [50, 50],         // 50 = 200px (tooltip, menu)
-    [52, 52],         // 52 = 208px
-    [56, 56],         // 56 = 224px
-    [60, 60],         // 60 = 240px
-    [64, 64],         // 64 = 256px
-    [70, 70],         // 70 = 280px (dialog)
-    [72, 72],         // 72 = 288px = 72u (our custom)
-    [78, 78],         // 78 = 312px (dialog max)
-    [80, 80],         // 80 = 320px
-    [86, 86],         // 86 = 344px (snackbar)
-    [90, 90],         // 90 = 360px (pane list)
-    [96, 96],         // 96 = 384px
-    [100, 100],       // 100 = 400px = 100u (our custom)
-    [120, 120],       // 120 = 480px
-    [150, 150],       // 150 = 600px (sheet md)
-    [170, 170],       // 170 = 680px (dialog expanded)
-    [210, 210],       // 210 = 840px (sheet lg)
-    [250, 250],       // 250 = 1000px (accordion expanded)
-    [280, 280],       // 280 = 1120px (sheet xl)
+    [0, 0], // 0 = 0px
+    [0.5, 0.5], // 0.5 = 2px = 0.5u
+    [1, 1], // 1 = 4px = 1u
+    [1.5, 1.5], // 1.5 = 6px = 1.5u
+    [2, 2], // 2 = 8px = 2u
+    [2.5, 2.5], // 2.5 = 10px = 2.5u
+    [3, 3], // 3 = 12px = 3u
+    [3.5, 3.5], // 3.5 = 14px = 3.5u
+    [4, 4], // 4 = 16px = 4u
+    [5, 5], // 5 = 20px = 5u
+    [6, 6], // 6 = 24px = 6u
+    [7, 7], // 7 = 28px = 7u
+    [8, 8], // 8 = 32px = 8u
+    [9, 9], // 9 = 36px = 9u
+    [10, 10], // 10 = 40px = 10u
+    [11, 11], // 11 = 44px = 11u
+    [12, 12], // 12 = 48px = 12u
+    [14, 14], // 14 = 56px = 14u
+    [16, 16], // 16 = 64px = 16u
+    [20, 20], // 20 = 80px = 20u
+    [24, 24], // 24 = 96px = 24u
+    [25, 25], // 25 = 100px (time-picker hand)
+    [28, 28], // 28 = 112px = 28u
+    [30, 30], // 30 = 120px (stepper, text-field)
+    [32, 32], // 32 = 128px - not in our scale, use calc
+    [36, 36], // 36 = 144px
+    [38, 38], // 38 = 152px = 38u (our custom)
+    [40, 40], // 40 = 160px
+    [44, 44], // 44 = 176px
+    [48, 48], // 48 = 192px
+    [50, 50], // 50 = 200px (tooltip, menu)
+    [52, 52], // 52 = 208px
+    [56, 56], // 56 = 224px
+    [60, 60], // 60 = 240px
+    [64, 64], // 64 = 256px
+    [70, 70], // 70 = 280px (dialog)
+    [72, 72], // 72 = 288px = 72u (our custom)
+    [78, 78], // 78 = 312px (dialog max)
+    [80, 80], // 80 = 320px
+    [86, 86], // 86 = 344px (snackbar)
+    [90, 90], // 90 = 360px (pane list)
+    [96, 96], // 96 = 384px
+    [100, 100], // 100 = 400px = 100u (our custom)
+    [120, 120], // 120 = 480px
+    [150, 150], // 150 = 600px (sheet md)
+    [170, 170], // 170 = 680px (dialog expanded)
+    [210, 210], // 210 = 840px (sheet lg)
+    [250, 250], // 250 = 1000px (accordion expanded)
+    [280, 280], // 280 = 1120px (sheet xl)
   ];
 
   for (const [twKey, unitMultiplier] of tailwindSpacing) {
@@ -200,7 +226,7 @@ export function generateTailwindTheme() {
       css += `  --spacing-0: 0px;\n`;
     } else {
       // Use calc for dynamic scaling with --unit
-      css += `  --spacing-${twKey.toString().replace(".", "_")}: calc(var(--unit) * ${unitMultiplier});\n`;
+      css += `  --spacing-${twKey.toString().replace('.', '_')}: calc(var(--unit) * ${unitMultiplier});\n`;
     }
   }
 
@@ -208,6 +234,15 @@ export function generateTailwindTheme() {
   /* Layout */
   --spacing-layout-margin: var(--layout-margin);
   --spacing-layout-gutter: var(--layout-gutter);
+  --spacing-layout-page-x: var(--layout-page-x);
+  --spacing-layout-section-y: var(--layout-section-y);
+  --spacing-layout-section-y-compact: var(--layout-section-y-compact);
+  --spacing-layout-hero-y: var(--layout-hero-y);
+  --spacing-layout-content-gap: var(--layout-content-gap);
+  --spacing-layout-panel-padding: var(--layout-panel-padding);
+  --spacing-layout-card-padding: var(--layout-card-padding);
+  --spacing-layout-cluster-gap: var(--layout-cluster-gap);
+  --spacing-layout-grid-gap: var(--layout-grid-gap);
   --width-pane-list: var(--layout-pane-list);
   --width-pane-fixed: var(--layout-pane-fixed);
   --width-pane-supporting: var(--layout-pane-supporting);
