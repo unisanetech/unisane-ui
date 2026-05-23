@@ -179,7 +179,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
         role="presentation"
       >
         <div
-          className="bg-scrim animate-fade-enter absolute inset-0 backdrop-blur-[calc(var(--unit)/2)]"
+          className="bg-scrim animate-fade-enter absolute inset-0"
           onClick={() => setIsOpenRef.current(false)}
           aria-hidden="true"
         />

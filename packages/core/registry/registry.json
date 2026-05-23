@@ -19,7 +19,9 @@
       "files": [
         "lib/action-size.ts"
       ],
-      "dependencies": [],
+      "dependencies": [
+        "vaul"
+      ],
       "registryDependencies": []
     },
     "field-shell": {
@@ -602,6 +604,20 @@
       "registryDependencies": [
         "text",
         "surface",
+        "icon-button"
+      ]
+    },
+    "drawer": {
+      "name": "Drawer",
+      "type": "components:ui",
+      "description": "Drawer component",
+      "files": [
+        "components/drawer.tsx"
+      ],
+      "dependencies": [
+        "vaul"
+      ],
+      "registryDependencies": [
         "icon-button"
       ]
     },

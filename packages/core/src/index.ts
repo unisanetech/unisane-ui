@@ -114,6 +114,8 @@ export type { CardProps } from './components/card';
 export { Select } from './components/select';
 export type { SelectProps, SelectOption } from './components/select';
 export { Sheet } from './components/sheet';
+export { Drawer } from './components/drawer';
+export type { DrawerProps, DrawerSize } from './components/drawer';
 export { Chip } from './components/chip';
 export type { ChipProps } from './components/chip';
 export { Badge } from './components/badge';

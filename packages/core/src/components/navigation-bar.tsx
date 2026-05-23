@@ -17,13 +17,22 @@ const navigationBarVariants = cva(
   },
 );
 
-export interface NavigationBarProps extends VariantProps<typeof navigationBarVariants> {
+export interface NavigationBarProps
+  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof navigationBarVariants> {
   children: React.ReactNode;
-  className?: string;
 }
 
-const NavigationBarRoot: React.FC<NavigationBarProps> = ({ variant, children, className }) => {
-  return <nav className={cn(navigationBarVariants({ variant, className }))}>{children}</nav>;
+const NavigationBarRoot: React.FC<NavigationBarProps> = ({
+  variant,
+  children,
+  className,
+  ...props
+}) => {
+  return (
+    <nav className={cn(navigationBarVariants({ variant, className }))} {...props}>
+      {children}
+    </nav>
+  );
 };
 
 export interface NavigationBarItemProps {
@@ -58,7 +67,7 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
       <div className="relative mb-1 h-8 w-16">
         <div
           className={cn(
-            'duration-medium ease-standard absolute inset-0 overflow-hidden rounded-button transition-all',
+            'duration-medium ease-standard rounded-button absolute inset-0 overflow-hidden transition-all',
             active
               ? 'bg-secondary-container scale-x-100 opacity-100'
               : 'group-hover:bg-state-hover scale-x-50 bg-transparent opacity-0',
@@ -67,6 +76,7 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
           <Ripple center />
         </div>
         <div
+          aria-hidden="true"
           className={cn(
             'relative z-10 flex h-full w-full items-center justify-center transition-colors',
             active

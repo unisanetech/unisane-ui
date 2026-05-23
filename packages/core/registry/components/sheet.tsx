@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 import { Text } from '@/primitives/text';
-import { IconButton } from '@/components/ui/icon-button';
+import { IconButton, type IconButtonProps } from '@/components/ui/icon-button';
 
 export type SheetSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 export type SheetPlacement = 'left' | 'right' | 'bottom';
@@ -29,6 +29,8 @@ export interface SheetProps {
   size?: SheetSize;
   placement?: SheetPlacement;
   showCloseButton?: boolean;
+  closeButtonSize?: IconButtonProps['size'];
+  closeButtonIconSize?: IconButtonProps['iconSize'];
   closeLabel?: string;
 }
 
@@ -78,6 +80,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       size = 'md',
       placement = 'right',
       showCloseButton,
+      closeButtonSize = 'md',
+      closeButtonIconSize,
       closeLabel = 'Close sheet',
     },
     ref,
@@ -238,7 +242,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
       >
         <div
           className={cn(
-            'bg-scrim absolute inset-0 backdrop-blur-[calc(var(--unit)/2)] transition-opacity',
+            'bg-scrim absolute inset-0 transition-opacity',
             isVisible ? 'opacity-100' : 'opacity-0',
           )}
           style={{
@@ -337,7 +341,8 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                   aria-label={closeLabel}
                   icon={closeIcon}
                   variant="standard"
-                  size="md"
+                  size={closeButtonSize}
+                  iconSize={closeButtonIconSize}
                   className="bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
                   onClick={() => setIsOpen(false)}
                 />
