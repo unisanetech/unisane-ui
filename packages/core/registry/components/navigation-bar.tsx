@@ -89,7 +89,7 @@ const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
       </div>
       <span
         className={cn(
-          'text-label-medium font-medium transition-colors',
+          'text-label-medium w-full truncate text-center font-medium transition-colors',
           active ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface',
         )}
       >
