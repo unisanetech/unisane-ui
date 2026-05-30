@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "ui",
+  "id": "@unisane/email-templates",
+  "edition": "oss",
+  "maturity": "beta",
+  "supportedModes": [
+    "full-platform"
+  ],
+  "requiresPackages": [],
+  "requiresTokens": [],
+  "runtimeProfiles": [],
+  "docs": [
+    "README.md"
+  ],
+  "exports": [
+    "."
+  ]
+}
