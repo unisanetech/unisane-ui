@@ -19,9 +19,7 @@
       "files": [
         "lib/action-size.ts"
       ],
-      "dependencies": [
-        "vaul"
-      ],
+      "dependencies": [],
       "registryDependencies": []
     },
     "field-shell": {
@@ -607,20 +605,6 @@
         "icon-button"
       ]
     },
-    "drawer": {
-      "name": "Drawer",
-      "type": "components:ui",
-      "description": "Drawer component",
-      "files": [
-        "components/drawer.tsx"
-      ],
-      "dependencies": [
-        "vaul"
-      ],
-      "registryDependencies": [
-        "icon-button"
-      ]
-    },
     "divider": {
       "name": "Divider",
       "type": "components:ui",
@@ -630,6 +614,18 @@
       ],
       "dependencies": [],
       "registryDependencies": []
+    },
+    "drawer": {
+      "name": "Drawer",
+      "type": "components:ui",
+      "description": "Drawer component",
+      "files": [
+        "components/drawer.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "icon-button"
+      ]
     },
     "dropdown-menu": {
       "name": "DropdownMenu",
@@ -693,6 +689,21 @@
       "registryDependencies": [
         "typography",
         "ripple"
+      ]
+    },
+    "month-picker": {
+      "name": "MonthPicker",
+      "type": "components:ui",
+      "description": "MonthPicker component",
+      "files": [
+        "components/month-picker.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "surface",
+        "text",
+        "icon-button",
+        "text-field"
       ]
     },
     "navigation": {

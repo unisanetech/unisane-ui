@@ -69,16 +69,17 @@ export function renderOtpTemplate(args: {
   footerHtml: string;
 }): RenderedEmailTemplate {
   const code = readText(args.props.code) ?? '';
+  const normalizedCode = normalizeOtpCode(code);
   const ttlText = ttlSentence(args.props.ttlSec, 'This code expires soon.');
   const subject = `Your ${args.brand.name} verification code`;
   const bodyHtml = `<p style="margin:0 auto 18px;max-width:430px;color:${args.brand.muted};font-size:16px;line-height:1.7">Enter the verification code below to continue.</p>
-    ${renderOtpCode(code, args.brand)}
+    ${renderOtpCode(normalizedCode, args.brand)}
     ${renderNote(ttlText, args.brand)}
     <div style="margin-top:18px;border:1px solid ${args.brand.border};border-radius:8px;background:${args.brand.softSurface};padding:14px 16px;color:${args.brand.text};font-size:14px;line-height:1.6;font-weight:700;text-align:center">Do not share this code.</div>`;
 
   return {
     subject,
-    text: joinText(`Your ${args.brand.name} verification code is ${code}.`, ttlText, 'Do not share this code.'),
+    text: joinText(`Your ${args.brand.name} verification code is ${normalizedCode}.`, ttlText, 'Do not share this code.'),
     html: renderEmailLayout({
       brand: args.brand,
       eyebrow: 'Verification code',
@@ -91,20 +92,14 @@ export function renderOtpTemplate(args: {
   };
 }
 
-function renderOtpCode(code: string, brand: NormalizedEmailBrand): string {
-  const digits = Array.from(code.replace(/\s+/g, ''));
-  if (!digits.length) {
+function normalizeOtpCode(code: string): string {
+  return code.replace(/\s+/g, '').trim();
+}
+
+function renderOtpCode(normalizedCode: string, brand: NormalizedEmailBrand): string {
+  if (!normalizedCode.length) {
     return `<div style="margin:0 0 16px;border:1px solid ${brand.border};border-radius:8px;background:${brand.softSurface};padding:18px 12px;text-align:center;color:${brand.subtle};font-size:14px">Verification code unavailable</div>`;
   }
 
-  return `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="border-collapse:separate;border-spacing:7px 0;margin:0 auto 16px;text-align:center">
-    <tr>
-      ${digits
-        .map(
-          (digit) =>
-            `<td class="us-email-otp-digit" style="width:44px;border:1px solid ${brand.border};border-radius:8px;background:${brand.surface};padding:12px 8px;color:${brand.text};font-size:30px;font-weight:700;line-height:1;text-align:center">${escapeHtml(digit)}</td>`,
-        )
-        .join('')}
-    </tr>
-  </table>`;
+  return `<div style="margin:0 auto 16px;border:1px solid ${brand.border};border-radius:8px;background:${brand.surface};padding:18px 16px;text-align:center;color:${brand.text};font-size:32px;font-weight:700;line-height:1.2;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace">${escapeHtml(normalizedCode)}</div>`;
 }

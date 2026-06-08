@@ -45,6 +45,7 @@ import { carouselDoc } from "./components/carousel.docs";
 import { comboboxDoc } from "./components/combobox.docs";
 import { datePickerDoc } from "./components/date-picker.docs";
 import { dateInputDoc } from "./components/date-input.docs";
+import { monthPickerDoc } from "./components/month-picker.docs";
 import { fabMenuDoc } from "./components/fab-menu.docs";
 import { navigationBarDoc } from "./components/navigation-bar.docs";
 import { navigationDrawerDoc } from "./components/navigation-drawer.docs";
@@ -102,6 +103,7 @@ const DETAILED_DOCS: Record<string, ComponentDoc> = {
   combobox: comboboxDoc,
   "date-picker": datePickerDoc,
   "date-input": dateInputDoc,
+  "month-picker": monthPickerDoc,
   "fab-menu": fabMenuDoc,
   "navigation-bar": navigationBarDoc,
   "navigation-drawer": navigationDrawerDoc,
@@ -270,6 +272,15 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     category: "text-inputs",
     status: "stable",
     icon: "edit_calendar",
+  },
+  {
+    slug: "month-picker",
+    name: "Month Picker",
+    description:
+      "Month pickers let users select month-level values without day-level precision.",
+    category: "text-inputs",
+    status: "stable",
+    icon: "calendar_month",
   },
   {
     slug: "dialog",

@@ -124,7 +124,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
           <VaulDrawer.Content
             ref={ref}
             className={cn(
-              'bg-surface text-on-surface border-outline-soft fixed inset-x-0 bottom-0 z-[var(--z-modal,3000)] mx-auto flex w-full flex-col overflow-hidden rounded-t-lg rounded-b-none border border-b-0 shadow-5 outline-none',
+              'bg-surface text-on-surface border-outline-soft shadow-5 fixed inset-x-0 bottom-0 z-[var(--z-modal,3000)] mx-auto flex w-full flex-col overflow-hidden rounded-t-lg rounded-b-none border border-b-0 outline-none',
               'medium:max-w-[min(640px,calc(100vw-var(--spacing-8)))]',
               sizeClasses[size],
               className,
@@ -155,16 +155,12 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
               >
                 <div className="min-w-0 flex-1 space-y-1 text-left">
                   {title ? (
-                    <VaulDrawer.Title
-                      className="font-sans text-title-large text-on-surface text-left font-normal leading-tight wrap-break-word"
-                    >
+                    <VaulDrawer.Title className="text-title-large text-on-surface text-left font-sans leading-tight font-normal wrap-break-word">
                       {title}
                     </VaulDrawer.Title>
                   ) : null}
                   {description ? (
-                    <VaulDrawer.Description
-                      className="font-sans text-body-small text-on-surface-variant text-left font-normal leading-relaxed wrap-break-word"
-                    >
+                    <VaulDrawer.Description className="text-body-small text-on-surface-variant text-left font-sans leading-relaxed font-normal wrap-break-word">
                       {description}
                     </VaulDrawer.Description>
                   ) : null}
@@ -186,9 +182,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
             ) : null}
 
             {!description ? (
-              <VaulDrawer.Description className="sr-only">
-                Drawer content
-              </VaulDrawer.Description>
+              <VaulDrawer.Description className="sr-only">Drawer content</VaulDrawer.Description>
             ) : null}
 
             <div className="no-scrollbar relative z-10 flex-1 overflow-y-auto">

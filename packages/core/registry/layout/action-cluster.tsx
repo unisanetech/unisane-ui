@@ -1,31 +1,31 @@
-import React from "react";
-import { cn } from "@/lib/utils";
+import React from 'react';
+import { cn } from '@/lib/utils';
 
 export interface ActionClusterProps extends React.HTMLAttributes<HTMLDivElement> {
-  align?: "start" | "center" | "end" | "stretch";
-  collapse?: "sm" | "md" | "never";
+  align?: 'start' | 'center' | 'end' | 'stretch';
+  collapse?: 'sm' | 'md' | 'never';
 }
 
 const alignClasses = {
-  start: "items-start justify-start",
-  center: "items-center justify-center",
-  end: "items-end justify-end",
-  stretch: "items-stretch justify-start",
+  start: 'items-start justify-start',
+  center: 'items-center justify-center',
+  end: 'items-end justify-end',
+  stretch: 'items-stretch justify-start',
 } as const;
 
 const collapseClasses = {
-  sm: "flex-col sm:flex-row [&>*]:w-full sm:[&>*]:w-auto",
-  md: "flex-col md:flex-row [&>*]:w-full md:[&>*]:w-auto",
-  never: "flex-row flex-wrap",
+  sm: 'flex-col sm:flex-row [&>*]:w-full sm:[&>*]:w-auto',
+  md: 'flex-col md:flex-row [&>*]:w-full md:[&>*]:w-auto',
+  never: 'flex-row flex-wrap',
 } as const;
 
 export const ActionCluster = React.forwardRef<HTMLDivElement, ActionClusterProps>(
-  ({ align = "start", collapse = "sm", className, children, ...props }, ref) => {
+  ({ align = 'start', collapse = 'sm', className, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          "flex min-w-0 gap-layout-cluster-gap",
+          'gap-layout-cluster-gap flex min-w-0',
           alignClasses[align],
           collapseClasses[collapse],
           className,
@@ -37,4 +37,4 @@ export const ActionCluster = React.forwardRef<HTMLDivElement, ActionClusterProps
     );
   },
 );
-ActionCluster.displayName = "ActionCluster";
+ActionCluster.displayName = 'ActionCluster';

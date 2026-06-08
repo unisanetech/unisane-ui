@@ -79,9 +79,7 @@ export const Typography: React.FC<TypographyProps> = ({
   const resolvedVariant = variant ?? 'bodyLarge';
   const Component =
     component ||
-    (typeRole
-      ? typographyRoleDefaultTags[typeRole]
-      : defaultTags[resolvedVariant as TypographyVariant]) ||
+    (typeRole ? typographyRoleDefaultTags[typeRole] : defaultTags[resolvedVariant]) ||
     'p';
   return (
     <Component

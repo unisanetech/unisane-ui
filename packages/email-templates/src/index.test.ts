@@ -29,21 +29,23 @@ describe('renderEmailTemplate', () => {
     expect(rendered.html).toContain('https://assets.unisane.test/logo.svg');
   });
 
-  it('renders OTP codes without leaking raw HTML', () => {
+  it('renders OTP codes as contiguous copyable text without leaking raw HTML', () => {
     const rendered = renderEmailTemplate({
       template: EMAIL_TEMPLATE_NAMES.AUTH_OTP_CODE,
       brand,
       props: {
-        code: '<739216>',
+        code: '<7 3 9 2 1 6>',
         ttlSec: 600,
       },
     });
 
     expect(rendered.subject).toBe('Your Unisane verification code');
-    expect(rendered.html).toContain('us-email-otp-digit');
-    expect(rendered.html).toContain('&lt;');
-    expect(rendered.html).toContain('&gt;');
-    expect(rendered.html).not.toContain('<739216>');
+    expect(rendered.html).not.toContain('us-email-otp-digit');
+    expect(rendered.html).toContain('&lt;739216&gt;');
+    expect(rendered.html).not.toContain('&lt;7 3 9 2 1 6&gt;');
+    expect(rendered.html).not.toContain('<7 3 9 2 1 6>');
+    expect(rendered.text).toContain('verification code is <739216>.');
+    expect(rendered.text).not.toContain('<7 3 9 2 1 6>');
     expect(rendered.text).toContain('10 minutes');
   });
 

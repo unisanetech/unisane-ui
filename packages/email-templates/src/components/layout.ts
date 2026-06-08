@@ -62,7 +62,6 @@ export function renderEmailLayout(args: EmailLayoutArgs): string {
         .us-email-link-fallback { padding: 13px 14px !important; }
         .us-email-details-label, .us-email-details-value { display: block !important; width: auto !important; }
         .us-email-step-index { width: 32px !important; height: 32px !important; line-height: 32px !important; }
-        .us-email-otp-digit { font-size: 28px !important; padding: 10px 6px !important; }
       }
     </style>
   </head>
