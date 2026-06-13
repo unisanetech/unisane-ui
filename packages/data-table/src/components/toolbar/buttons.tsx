@@ -104,7 +104,7 @@ export function ToolbarTextButton({
       size="sm"
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
-        'h-11 min-h-[44px] items-center gap-2 px-3 text-body-medium font-medium transition-colors @md:h-9 @md:min-h-[36px]',
+        'text-body-medium h-11 min-h-[44px] items-center gap-2 px-3 font-medium transition-colors @md:h-9 @md:min-h-[36px]',
         'text-on-surface hover:bg-state-hover',
         'disabled:pointer-events-none disabled:opacity-50',
         active && 'bg-primary-container text-on-primary-container border-primary-container',
@@ -243,22 +243,19 @@ export function SegmentedIconButton({
     <IconButton
       onClick={onClick}
       disabled={disabled}
-      variant="standard"
+      variant={active ? 'tonal' : 'standard'}
       size="md"
       className={cn(
-        'border-outline-variant bg-surface border transition-colors',
-        'hover:bg-state-hover',
+        'border-outline-variant border',
         'disabled:pointer-events-none disabled:opacity-50',
-        active && 'bg-primary-container text-on-primary-container border-primary-container',
-        !active && 'text-on-surface-variant',
         isFirst && 'rounded-l-lg',
         isLast && 'rounded-r-lg',
         !isFirst && '-ml-px',
       )}
+      selected={active}
+      icon={<Icon symbol={icon} />}
       aria-label={label}
-    >
-      <Icon symbol={icon} className="h-5 w-5" />
-    </IconButton>
+    />
   );
 }
 
@@ -306,17 +303,12 @@ export function CompactIconButton({
     <IconButton
       onClick={onClick}
       disabled={disabled}
-      variant="standard"
+      variant={active ? 'tonal' : 'standard'}
       size="md"
-      className={cn(
-        'transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-        'disabled:pointer-events-none disabled:opacity-50',
-        active && 'bg-primary-container text-on-primary-container',
-      )}
+      className="disabled:pointer-events-none disabled:opacity-50"
+      selected={active}
+      icon={<Icon symbol={icon} />}
       aria-label={label}
-    >
-      <Icon symbol={icon} className="h-5 w-5" />
-    </IconButton>
+    />
   );
 }

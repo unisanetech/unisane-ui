@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
 import { type FieldSize } from '../lib/field-size';
@@ -81,6 +81,8 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
   const [viewYear, setViewYear] = useState(() => readYear(normalizedValue) ?? new Date().getFullYear());
+  const [inputValue, setInputValue] = useState(() => formatMonthLabel(normalizedValue));
+  const inputFocusedRef = useRef(false);
   const [popoverPosition, setPopoverPosition] = useState({
     top: 0,
     left: 0,
@@ -89,6 +91,10 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   const [isPositioned, setIsPositioned] = useState(false);
 
   const displayValue = useMemo(() => formatMonthLabel(normalizedValue), [normalizedValue]);
+
+  useEffect(() => {
+    if (!inputFocusedRef.current) setInputValue(displayValue);
+  }, [displayValue]);
 
   const updatePopoverPosition = useCallback(() => {
     if (!containerRef.current || typeof window === 'undefined') return;
@@ -120,10 +126,53 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
       const nextValue = `${viewYear}-${String(monthIndex + 1).padStart(2, '0')}`;
       if (isMonthDisabled(nextValue, normalizedMin, normalizedMax)) return;
       setSelectedValue(nextValue);
+      setInputValue(formatMonthLabel(nextValue));
       setOpenState(false);
     },
     [normalizedMax, normalizedMin, setOpenState, setSelectedValue, viewYear],
   );
+
+  const commitInputValue = useCallback(() => {
+    const nextValue = parseMonthInput(inputValue);
+    inputFocusedRef.current = false;
+
+    if (!inputValue.trim()) {
+      setSelectedValue('');
+      setInputValue('');
+      setOpenState(false);
+      return;
+    }
+
+    if (!nextValue || isMonthDisabled(nextValue, normalizedMin, normalizedMax)) {
+      setInputValue(displayValue);
+      return;
+    }
+
+    setSelectedValue(nextValue);
+    setViewYear(readYear(nextValue) ?? viewYear);
+    setInputValue(formatMonthLabel(nextValue));
+    setOpenState(false);
+  }, [
+    displayValue,
+    inputValue,
+    normalizedMax,
+    normalizedMin,
+    setOpenState,
+    setSelectedValue,
+    viewYear,
+  ]);
+  const scheduleInputCommit = useCallback(() => {
+    window.setTimeout(() => {
+      const activeElement = document.activeElement;
+      if (
+        activeElement &&
+        (containerRef.current?.contains(activeElement) || popoverRef.current?.contains(activeElement))
+      ) {
+        return;
+      }
+      commitInputValue();
+    }, 0);
+  }, [commitInputValue]);
 
   useLayoutEffect(() => {
     if (!isOpen) {
@@ -194,7 +243,6 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   return (
     <div className={cn('relative w-full', className)} ref={containerRef}>
       <TextField
-        readOnly
         disabled={disabled}
         error={error}
         helperText={helperText}
@@ -202,11 +250,21 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         labelBg={labelBg}
         size={size}
         trailingIcon={pickerButton}
-        value={displayValue}
+        value={inputValue}
         variant={variant}
         onClick={openPicker}
+        onBlur={scheduleInputCommit}
+        onChange={(event) => setInputValue(event.currentTarget.value)}
+        onFocus={() => {
+          inputFocusedRef.current = true;
+        }}
         onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            commitInputValue();
+            return;
+          }
+          if (event.key === 'ArrowDown') {
             event.preventDefault();
             openPicker();
           }
@@ -296,6 +354,28 @@ function normalizeMonthValue(value?: string) {
 function readYear(value: string) {
   const normalized = normalizeMonthValue(value);
   return normalized ? Number(normalized.slice(0, 4)) : null;
+}
+
+function parseMonthInput(value: string): string | undefined {
+  const normalized = normalizeMonthValue(value);
+  if (normalized) return normalized;
+
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  const numeric = /^(0?[1-9]|1[0-2])[/\-\s]+(\d{4})$/.exec(trimmed);
+  if (numeric?.[1] && numeric[2]) {
+    return `${numeric[2]}-${numeric[1].padStart(2, '0')}`;
+  }
+
+  const named = /^([a-zA-Z]+)\s+(\d{4})$/.exec(trimmed);
+  if (!named?.[1] || !named[2]) return undefined;
+
+  const monthIndex = MONTHS.findIndex((month) =>
+    month.toLowerCase().startsWith(named[1]!.toLowerCase()),
+  );
+  if (monthIndex < 0) return undefined;
+  return `${named[2]}-${String(monthIndex + 1).padStart(2, '0')}`;
 }
 
 function formatMonthLabel(value: string) {

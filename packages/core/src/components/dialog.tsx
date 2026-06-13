@@ -22,6 +22,7 @@ export interface DialogProps {
   headerClassName?: string;
   footerClassName?: string;
   className?: string;
+  mobilePresentation?: 'centered' | 'fullscreen';
   showCloseButton?: boolean;
   closeLabel?: string;
 }
@@ -67,6 +68,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       headerClassName,
       footerClassName,
       className,
+      mobilePresentation = 'centered',
       showCloseButton,
       closeLabel = 'Close dialog',
     },
@@ -173,9 +175,14 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
       return null;
     }
 
+    const isFullscreenMobile = mobilePresentation === 'fullscreen';
+
     return createPortal(
       <div
-        className="medium:p-10 fixed inset-0 z-[var(--z-modal,3000)] flex items-center justify-center p-6"
+        className={cn(
+          'fixed inset-0 z-[var(--z-modal,3000)] flex items-center justify-center',
+          isFullscreenMobile ? 'p-0 medium:p-10' : 'p-6 medium:p-10',
+        )}
         role="presentation"
       >
         <div
@@ -195,8 +202,11 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           elevation={5}
           rounded="lg"
           className={cn(
-            'border-outline-soft relative flex w-full max-w-110 flex-col overflow-hidden border outline-none',
-            'expanded:max-w-150 animate-surface-enter',
+            'border-outline-soft relative flex w-full flex-col overflow-hidden border outline-none',
+            isFullscreenMobile
+              ? 'h-dvh max-h-dvh max-w-none rounded-none border-0 medium:h-auto medium:max-h-[calc(100dvh-var(--spacing-20))] medium:max-w-110 medium:rounded-lg medium:border expanded:medium:max-w-150'
+              : 'max-w-110 expanded:max-w-150',
+            'animate-surface-enter',
             className,
           )}
         >
@@ -253,7 +263,14 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           ) : null}
 
           {hasBodyContent ? (
-            <div className="max-h-[min(78vh,calc(100dvh-var(--spacing-24)))] flex-1 overflow-y-auto">
+            <div
+              className={cn(
+                'flex-1 overflow-y-auto',
+                isFullscreenMobile
+                  ? 'min-h-0'
+                  : 'max-h-[min(78vh,calc(100dvh-var(--spacing-24)))]',
+              )}
+            >
               <div
                 id={!description ? bodyDescriptionId : undefined}
                 className={cn(
@@ -271,6 +288,8 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
             <div
               className={cn(
                 'border-outline-subtle bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
+                isFullscreenMobile &&
+                  'flex-col-reverse medium:flex-row [&>*]:w-full medium:[&>*]:w-auto',
                 footerClassName,
               )}
             >

@@ -32,7 +32,6 @@ import { useVirtualizedRows } from '../hooks/features/use-virtualized-rows';
 import { useVirtualizedColumns } from '../hooks/features/use-virtualized-columns';
 import { useKeyboardNavigation } from '../hooks/ui/use-keyboard-navigation';
 import { useCellSelection } from '../hooks/ui/use-cell-selection';
-import { useDensityScale } from '../hooks/ui/use-density-scale';
 import { useRowDrag } from '../hooks/ui/use-row-drag';
 import { useColumnLayout } from '../hooks/ui/use-column-layout';
 import { useAnnouncements } from '../hooks/ui/use-announcements';
@@ -389,13 +388,8 @@ export function DataTableInner<T extends { id: string }>({
 
   // ─── VIRTUALIZATION ───────────────────────────────────────────────────────
 
-  // Get the global theme density scale factor (0.75 - 1.1)
-  const densityScale = useDensityScale();
-
   // Use custom estimateRowHeight if provided, otherwise use density-based height
-  // Scale by the global theme density factor for proper virtualization
-  const baseRowHeight = estimateRowHeight ?? DENSITY_CONFIG[density].rowHeight;
-  const rowHeight = Math.round(baseRowHeight * densityScale);
+  const rowHeight = estimateRowHeight ?? DENSITY_CONFIG[density].rowHeight;
   const expandedRowHeightEstimate = rowHeight * 3;
 
   const virtualizedRowItems = useMemo<Array<VirtualizedBodyItem<T>>>(() => {
@@ -847,9 +841,7 @@ export function DataTableInner<T extends { id: string }>({
     onAddGroupBy: addGroupBy,
     reorderableRows: reorderableRows && !isGrouped,
     sticky: config.stickyHeader,
-    stickyOffset: usesInternalVerticalScroll
-      ? '0px'
-      : `calc(${config.stickyOffset} + var(--data-table-header-offset, 0px))`,
+    stickyOffset: '0px',
   };
 
   // Extract keyboard props but override role for proper semantics

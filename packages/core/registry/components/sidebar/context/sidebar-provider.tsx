@@ -34,10 +34,7 @@ function shouldOpenForActiveDescendant(
   return Boolean(topLevelItem?.items?.length) && topLevelItem?.id !== activeId;
 }
 
-function getViewportFlagsForValue(
-  viewport: SidebarViewport,
-  breakpoints: SidebarBreakpoints,
-) {
+function getViewportFlagsForValue(viewport: SidebarViewport, breakpoints: SidebarBreakpoints) {
   if (viewport === 'mobile') {
     return computeViewportFlags(breakpoints.mobile - 1, breakpoints);
   }
@@ -135,7 +132,7 @@ export function SidebarProvider({
   const isExpandedControlled = controlledExpanded !== undefined;
   const isMobileOpenControlled = controlledMobileOpen !== undefined;
 
-  const activeId = isActiveControlled ? controlledActiveId ?? null : activeIdState;
+  const activeId = isActiveControlled ? (controlledActiveId ?? null) : activeIdState;
   const expanded = isExpandedControlled ? !!controlledExpanded : expandedState;
   const mobileOpen = isMobileOpenControlled ? !!controlledMobileOpen : mobileOpenState;
   const initialViewportState = getInitialViewportFlags(
@@ -185,7 +182,9 @@ export function SidebarProvider({
 
     const updateFlags = () => {
       const sourceWidth =
-        containerMode === 'contained' && containerWidth !== null ? containerWidth : window.innerWidth;
+        containerMode === 'contained' && containerWidth !== null
+          ? containerWidth
+          : window.innerWidth;
       const next = computeViewportFlags(sourceWidth, {
         mobile: mobileBreakpoint,
         desktop: desktopBreakpoint,
@@ -203,13 +202,7 @@ export function SidebarProvider({
 
     window.addEventListener('resize', updateFlags);
     return () => window.removeEventListener('resize', updateFlags);
-  }, [
-    containerMode,
-    containerWidth,
-    desktopBreakpoint,
-    forceViewport,
-    mobileBreakpoint,
-  ]);
+  }, [containerMode, containerWidth, desktopBreakpoint, forceViewport, mobileBreakpoint]);
 
   useEffect(() => {
     if (!persist) return;
@@ -246,11 +239,7 @@ export function SidebarProvider({
         if (!isExpandedControlled) {
           setExpandedState(
             defaultExpanded ||
-              shouldOpenForActiveDescendant(
-                items,
-                defaultActiveId,
-                activeDescendantDrawerBehavior,
-              ),
+              shouldOpenForActiveDescendant(items, defaultActiveId, activeDescendantDrawerBehavior),
           );
         }
       }
@@ -314,6 +303,7 @@ export function SidebarProvider({
     expanded,
     mobileOpen,
     hoveredHasChildren: !!hoveredId && hoverHasChildren,
+    railWidth,
     drawerWidth,
   });
 
@@ -574,9 +564,7 @@ export function SidebarProvider({
   }, [derived.drawerEnabled, targetItem]);
 
   const effectiveItem =
-    derived.drawerEnabled && lastContentId
-      ? findTopLevelContainerById(items, lastContentId)
-      : null;
+    derived.drawerEnabled && lastContentId ? findTopLevelContainerById(items, lastContentId) : null;
 
   const value: SidebarState = {
     activeId,

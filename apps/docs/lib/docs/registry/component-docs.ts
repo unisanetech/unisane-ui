@@ -17,6 +17,7 @@ import { dialogDoc } from "./components/dialog.docs";
 import { checkboxDoc } from "./components/checkbox.docs";
 import { switchDoc } from "./components/switch.docs";
 import { textFieldDoc } from "./components/text-field.docs";
+import { tokenFieldDoc } from "./components/token-field.docs";
 import { selectDoc } from "./components/select.docs";
 import { tabsDoc } from "./components/tabs.docs";
 import { toastDoc } from "./components/toast.docs";
@@ -75,6 +76,7 @@ const DETAILED_DOCS: Record<string, ComponentDoc> = {
   checkbox: checkboxDoc,
   switch: switchDoc,
   "text-field": textFieldDoc,
+  "token-field": tokenFieldDoc,
   select: selectDoc,
   tabs: tabsDoc,
   toast: toastDoc,
@@ -533,6 +535,15 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     category: "text-inputs",
     status: "stable",
     icon: "edit",
+  },
+  {
+    slug: "token-field",
+    name: "Token Field",
+    description:
+      "Token fields let users enter multiple short text values such as tags, skills, keywords, recipients, or labels.",
+    category: "text-inputs",
+    status: "beta",
+    icon: "label",
   },
   {
     slug: "time-picker",

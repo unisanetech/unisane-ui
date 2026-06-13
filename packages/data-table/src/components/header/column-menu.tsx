@@ -94,15 +94,7 @@ export function ColumnMenu<T>({
     <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <IconButton
-            variant="standard"
-            size="sm"
-            aria-label={t('actions')}
-            className={cn(
-              'text-on-surface-variant',
-              'hover:bg-state-hover hover:text-on-surface transition-colors',
-            )}
-          >
+          <IconButton variant="standard" size="sm" aria-label={t('actions')}>
             <Icon symbol="more_vert" className={iconTextClass} />
           </IconButton>
         </DropdownMenuTrigger>

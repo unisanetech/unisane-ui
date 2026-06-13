@@ -939,6 +939,7 @@
         "sidebar.state",
         "ripple",
         "sidebar-navigation-utils",
+        "tooltip",
         "icon",
         "sidebar.types",
         "sidebar-shell",
@@ -1078,6 +1079,18 @@
         "icon",
         "button",
         "ripple"
+      ]
+    },
+    "token-field": {
+      "name": "TokenField",
+      "type": "components:ui",
+      "description": "TokenField component",
+      "files": [
+        "components/token-field.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "chip"
       ]
     },
     "tooltip": {

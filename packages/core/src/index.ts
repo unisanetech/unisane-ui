@@ -108,6 +108,12 @@ export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';
+export {
+  TokenField,
+  normalizeTokenFieldToken,
+  splitTokenFieldInput,
+} from './components/token-field';
+export type { TokenFieldProps } from './components/token-field';
 export { Checkbox } from './components/checkbox';
 export { Radio } from './components/radio';
 export { Switch } from './components/switch';

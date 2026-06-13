@@ -16,6 +16,9 @@ export interface IconProps extends React.HTMLAttributes<HTMLElement> {
 export const Icon = forwardRef<HTMLElement, IconProps>(
   ({ size = 'md', filled = false, symbol, className, children, style, ...props }, ref) => {
     const isScale = typeof size === 'string' && ['xs', 'sm', 'md', 'lg', 'xl'].includes(size);
+    const hasExplicitAccessibility =
+      props['aria-hidden'] !== undefined || props['aria-label'] !== undefined || props.role !== undefined;
+    const accessibilityProps = hasExplicitAccessibility ? {} : { 'aria-hidden': 'true' as const };
 
     const isSymbol =
       symbol ||
@@ -40,6 +43,7 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
           xl: 48,
         }[iconSize]
       : 24;
+    const resolvedFontSize = isScale ? `var(--icon-${iconSize})` : size;
 
     if (isSymbol) {
       const iconName = symbol || children;
@@ -52,12 +56,14 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
             className,
           )}
           style={{
-            fontSize: !isScale ? size : undefined,
+            fontSize: resolvedFontSize,
+            lineHeight: 1,
             width: !isScale ? size : undefined,
             height: !isScale ? size : undefined,
             fontVariationSettings: `'FILL' ${filled ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' ${opticalSize}`,
             ...style,
           }}
+          {...accessibilityProps}
           {...props}
         >
           {iconName}
@@ -79,6 +85,7 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
         strokeLinejoin="round"
         className={cn('inline-block shrink-0', isScale && sizeClasses, className)}
         style={style}
+        {...accessibilityProps}
         {...(props as React.SVGProps<SVGSVGElement>)}
       >
         {children}

@@ -33,6 +33,7 @@ export interface SidebarDerivedStateInput {
   expanded: boolean;
   mobileOpen: boolean;
   hoveredHasChildren: boolean;
+  railWidth: number;
   drawerWidth: number;
 }
 
@@ -97,15 +98,33 @@ export function resolveSidebarBehavior(
 }
 
 export function deriveSidebarState(input: SidebarDerivedStateInput): SidebarDerivedState {
+  if (input.mode === 'collapsible-drawer') {
+    const drawerEnabled = true;
+    const usesOverlayDrawer = input.behavior === 'overlay';
+    const isDrawerVisible = usesOverlayDrawer ? input.mobileOpen : true;
+    const contentMargin = usesOverlayDrawer
+      ? 0
+      : input.expanded
+        ? input.drawerWidth
+        : input.railWidth;
+
+    return {
+      railEnabled: false,
+      drawerEnabled,
+      usesOverlayDrawer,
+      isRailVisible: false,
+      isDrawerVisible,
+      contentMargin,
+    };
+  }
+
   const railEnabled = input.mode !== 'drawer-only';
   const drawerEnabled = input.mode !== 'rail-only';
   const usesOverlayDrawer = drawerEnabled && input.behavior === 'overlay';
   const isRailVisible = railEnabled && !usesOverlayDrawer;
   const isDrawerVisible =
     drawerEnabled &&
-    (usesOverlayDrawer
-      ? input.mobileOpen
-      : input.expanded || input.hoveredHasChildren);
+    (usesOverlayDrawer ? input.mobileOpen : input.expanded || input.hoveredHasChildren);
 
   const contentMargin =
     !drawerEnabled || usesOverlayDrawer || !input.expanded ? 0 : input.drawerWidth;
@@ -120,9 +139,7 @@ export function deriveSidebarState(input: SidebarDerivedStateInput): SidebarDeri
   };
 }
 
-export function shouldRenderSidebarTrigger(
-  input: SidebarTriggerVisibilityInput,
-): boolean {
+export function shouldRenderSidebarTrigger(input: SidebarTriggerVisibilityInput): boolean {
   if (!input.drawerEnabled || input.visibility === 'hidden') {
     return false;
   }
@@ -142,10 +159,7 @@ export function shouldRenderSidebarTrigger(
   return input.drawerEnabled;
 }
 
-export function findNavigationItemById(
-  items: NavigationItem[],
-  id: string,
-): NavigationItem | null {
+export function findNavigationItemById(items: NavigationItem[], id: string): NavigationItem | null {
   for (const item of items) {
     if (item.id === id) return item;
     if (item.items && item.items.length > 0) {

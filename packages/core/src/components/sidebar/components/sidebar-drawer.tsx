@@ -36,6 +36,7 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
       mobileDrawerWidth,
       railEnabled,
       drawerEnabled,
+      mode,
       side,
       close,
     } = sidebar;
@@ -45,7 +46,8 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
     const previousActiveElementRef = useRef<HTMLElement | null>(null);
 
     const isOpen = usesOverlayDrawer ? mobileOpen : isDrawerVisible;
-    const isOverlay = usesOverlayDrawer || !expanded;
+    const isCollapsibleDrawer = mode === 'collapsible-drawer' && !usesOverlayDrawer;
+    const isOverlay = usesOverlayDrawer || (!expanded && !isCollapsibleDrawer);
     const baseOffset = railEnabled && !usesOverlayDrawer ? railWidth : 0;
     useEffect(() => {
       if (!drawerEnabled || !isOpen || !usesOverlayDrawer) {
@@ -131,7 +133,7 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
           'overflow-hidden',
           visuals.drawerForegroundClass,
           visuals.drawerBackgroundClass,
-          'duration-emphasized ease-emphasized transition-transform motion-reduce:transition-none',
+          'duration-emphasized ease-emphasized transition-[transform,width] motion-reduce:transition-none',
           usesOverlayDrawer && 'z-[1610] max-w-[85vw]',
           !usesOverlayDrawer && 'z-30',
           isOverlay && isOpen && visuals.drawerRadiusClass,
@@ -147,7 +149,9 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
         style={{
           width: usesOverlayDrawer
             ? `var(--sidebar-mobile-drawer-width, ${mobileDrawerWidth}px)`
-            : `var(--sidebar-drawer-width, ${drawerWidth}px)`,
+            : isCollapsibleDrawer && !expanded
+              ? `var(--sidebar-rail-width, ${railWidth}px)`
+              : `var(--sidebar-drawer-width, ${drawerWidth}px)`,
           [side]: usesOverlayDrawer ? 0 : baseOffset,
           ...(isOverlay && isOpen
             ? {

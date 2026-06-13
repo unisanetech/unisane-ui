@@ -2,7 +2,7 @@ import type React from 'react';
 import type { NavigationItem } from '../../../types/navigation';
 
 export type SidebarSide = 'left' | 'right';
-export type SidebarMode = 'rail-drawer' | 'drawer-only' | 'rail-only';
+export type SidebarMode = 'rail-drawer' | 'drawer-only' | 'rail-only' | 'collapsible-drawer';
 export type SidebarBehavior = 'overlay' | 'inset';
 export type SidebarLegacyBehavior = 'adaptive';
 export type SidebarBehaviorInput = SidebarBehavior | SidebarLegacyBehavior;

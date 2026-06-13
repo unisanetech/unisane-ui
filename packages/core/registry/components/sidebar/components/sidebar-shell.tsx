@@ -120,14 +120,17 @@ SidebarTrigger.displayName = 'SidebarTrigger';
 export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, close, drawerEnabled } =
+  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, close, drawerEnabled, mode } =
     useSidebar();
 
   if (!drawerEnabled) {
     return null;
   }
 
-  const isVisible = usesOverlayDrawer ? mobileOpen : isDrawerVisible && !expanded;
+  const isCollapsibleDrawer = mode === 'collapsible-drawer' && !usesOverlayDrawer;
+  const isVisible = usesOverlayDrawer
+    ? mobileOpen
+    : !isCollapsibleDrawer && isDrawerVisible && !expanded;
 
   if (!isVisible) return null;
 

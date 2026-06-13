@@ -247,7 +247,7 @@ export function HeaderCell<T>({
           'bg-surface-container rounded-sm',
           isSorted
             ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100',
+            : 'pointer-events-auto opacity-0 group-focus-within:opacity-100 group-hover:opacity-100',
           'transition-opacity duration-150',
         )}
       >

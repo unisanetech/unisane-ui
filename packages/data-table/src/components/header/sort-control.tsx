@@ -54,11 +54,7 @@ export function SortControl({
       size="sm"
       onClick={onClick}
       aria-label={ariaLabel ?? 'Sort'}
-      className={cn(
-        isSorted
-          ? 'text-primary hover:bg-state-hover hover:text-primary'
-          : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface',
-      )}
+      selected={isSorted}
     >
       <Icon symbol={iconSymbol} className={iconTextClass} />
       {hasPriority && (

@@ -58,16 +58,13 @@ export function ColumnVisibilityDropdown<T>({
     />
   ) : compact ? (
     <IconButton
-      variant="standard"
+      variant={hasHiddenColumns ? 'tonal' : 'standard'}
       size="md"
       aria-label={t('columns')}
-      className={cn(
-        'relative transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-        hasHiddenColumns && 'bg-primary-container text-on-primary-container',
-      )}
+      className="relative"
+      selected={hasHiddenColumns}
     >
-      <Icon symbol="view_column" className="h-5 w-5" />
+      <Icon symbol="view_column" />
       {hasHiddenColumns && hiddenColumns.size > 0 && (
         <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-medium">
           {hiddenColumns.size}
@@ -139,17 +136,12 @@ export function DensityDropdown({
     />
   ) : compact ? (
     <IconButton
-      variant="standard"
+      variant={isActive ? 'tonal' : 'standard'}
       size="md"
       aria-label={t('density')}
-      className={cn(
-        'transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-        isActive && 'bg-primary-container text-on-primary-container',
-      )}
-    >
-      <Icon symbol={currentIcon} className="h-5 w-5" />
-    </IconButton>
+      selected={isActive}
+      icon={<Icon symbol={currentIcon} />}
+    />
   ) : (
     <ToolbarDropdownButton label={t('density')} icon={currentIcon} active={isActive} as="div" />
   );
@@ -191,13 +183,8 @@ export function MoreActionsDropdown({
       variant="standard"
       size="md"
       aria-label={t('moreActions')}
-      className={cn(
-        'transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-      )}
-    >
-      <Icon symbol="more_vert" className="h-5 w-5" />
-    </IconButton>
+      icon={<Icon symbol="more_vert" />}
+    />
   ) : (
     <Button variant="outlined" size="sm" className="gap-2">
       <span>{t('moreActions')}</span>

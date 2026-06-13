@@ -33,6 +33,13 @@ function normalizeIconNode(node: ReactNode, size: NonNullable<IconProps['size']>
   return cloneElement(node, { size });
 }
 
+function shouldOpticallyAlignIcon(node: ReactNode): boolean {
+  return (
+    isIconElement(node) &&
+    (node.props.symbol !== undefined || typeof node.props.children === 'string')
+  );
+}
+
 const iconButtonVariants = cva(
   `relative inline-flex items-center justify-center rounded-icon-button transition-all duration-snappy ease-emphasized ${actionInteractiveClass}`,
   {
@@ -113,6 +120,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     const renderContent = (content: ReactNode) => {
       const sizeClass = getIconFrameSizeClass(resolvedIconSize);
       const normalizedContent = normalizeIconNode(content, resolvedIconSize);
+      const iconOpticalClass = shouldOpticallyAlignIcon(normalizedContent) ? '-translate-y-px' : '';
 
       return (
         <>
@@ -121,7 +129,13 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
           {loading ? (
             <ActionSpinner className={cn('relative z-10', sizeClass)} />
           ) : (
-            <span className={cn('relative z-10 flex items-center justify-center', sizeClass)}>
+            <span
+              className={cn(
+                'relative z-10 flex items-center justify-center',
+                sizeClass,
+                iconOpticalClass,
+              )}
+            >
               {normalizedContent}
             </span>
           )}

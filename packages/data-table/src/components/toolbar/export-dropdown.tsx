@@ -113,14 +113,9 @@ export function ExportDropdown({
       variant="standard"
       size="md"
       aria-label={t('export')}
-      className={cn(
-        'transition-colors',
-        'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-        isExporting && 'animate-pulse',
-      )}
-    >
-      <Icon symbol={iconSymbol} className="h-5 w-5" />
-    </IconButton>
+      className={cn(isExporting && 'animate-pulse')}
+      icon={<Icon symbol={iconSymbol} />}
+    />
   ) : (
     <ToolbarDropdownButton label={t('export')} icon={iconSymbol} as="div" />
   );

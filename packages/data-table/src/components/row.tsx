@@ -344,10 +344,7 @@ function DataTableRowInner<T extends { id: string }>({
                 onClick={() => onToggleExpand(row.id)}
                 variant="standard"
                 size="sm"
-                className={cn(
-                  'text-on-surface-variant transition-all',
-                  'hover:bg-state-hover hover:text-on-surface',
-                )}
+                selected={isExpanded}
                 aria-expanded={isExpanded}
                 aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
               >

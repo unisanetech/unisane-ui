@@ -10,6 +10,7 @@ import { useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
 import { findNavigationItemById } from '@/components/ui/sidebar/model/sidebar.state';
 import { getSidebarVisualTheme } from '@/components/ui/sidebar/components/sidebar-visuals';
 import { Ripple } from '@/components/ui/ripple';
+import { Tooltip } from '@/components/ui/tooltip';
 import type { NavigationItem } from '@/types/navigation';
 import { collectDescendantIds } from '@/components/ui/sidebar/components/sidebar-navigation-utils';
 
@@ -35,10 +36,7 @@ export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
           visuals.railForegroundClass,
           visuals.railBackgroundClass,
           'duration-medium ease-standard transition-all motion-reduce:transition-none',
-          isDrawerVisible &&
-            (side === 'left'
-              ? 'border-r'
-              : 'border-l'),
+          isDrawerVisible && (side === 'left' ? 'border-r' : 'border-l'),
           className,
         )}
         style={{
@@ -94,7 +92,7 @@ export function SidebarRailItem({
   children,
   childIds = [],
 }: SidebarRailItemProps) {
-  const { activeId, handleClick, handleHover, hasActiveChild, items } = useSidebar();
+  const { activeId, handleClick, handleHover, hasActiveChild, items, side } = useSidebar();
   const resolvedChildIds = resolveChildIds(items, id, childIds);
   const isDirectlyActive = activeId === id;
   const hasChildActive = resolvedChildIds.length > 0 && hasActiveChild(resolvedChildIds);
@@ -116,6 +114,18 @@ export function SidebarRailItem({
   );
 
   const commonClasses = getNavigationRailItemClasses(disabled);
+  const withTooltip = (node: React.ReactElement) =>
+    tooltipText ? (
+      <Tooltip
+        label={tooltipText}
+        side={side === 'right' ? 'left' : 'right'}
+        triggerClassName="w-full"
+      >
+        {node}
+      </Tooltip>
+    ) : (
+      node
+    );
 
   const commonProps = {
     onClick: (e: React.MouseEvent) => {
@@ -130,30 +140,29 @@ export function SidebarRailItem({
     'aria-current': isActive ? ('page' as const) : undefined,
     'aria-disabled': disabled || undefined,
     'aria-label': showLabel ? undefined : label,
-    title: tooltipText,
   };
 
   if (asChild && children) {
-    return (
+    return withTooltip(
       <Slot {...commonProps}>
         {isValidElement(children)
           ? cloneElement(children as React.ReactElement, {}, content)
           : children}
-      </Slot>
+      </Slot>,
     );
   }
 
   if (href) {
-    return (
+    return withTooltip(
       <a href={disabled ? undefined : href} {...commonProps} tabIndex={disabled ? -1 : undefined}>
         {content}
-      </a>
+      </a>,
     );
   }
 
-  return (
+  return withTooltip(
     <button {...commonProps} disabled={disabled}>
       {content}
-    </button>
+    </button>,
   );
 }

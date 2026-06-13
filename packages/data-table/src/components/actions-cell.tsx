@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react';
 import {
   cn,
   Icon,
@@ -10,13 +10,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from "@unisane/ui";
-import type {
-  RowContextMenuItem,
-  RowContextMenuItemOrSeparator,
-} from "../types/index";
-import { useI18n } from "../i18n";
-import type { Column } from "../types/index";
+} from '@unisane/ui';
+import type { RowContextMenuItem, RowContextMenuItemOrSeparator } from '../types/index';
+import { useI18n } from '../i18n';
+import type { Column } from '../types/index';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
@@ -26,9 +23,9 @@ export interface ActionsCellProps<T extends { id: string }> {
   /** Menu items to display */
   items: RowContextMenuItemOrSeparator<T>[];
   /** Size of the trigger button */
-  size?: "sm" | "md";
+  size?: 'sm' | 'md';
   /** Alignment of the dropdown */
-  align?: "start" | "end";
+  align?: 'start' | 'end';
   /** Additional class name for the trigger button */
   className?: string;
   /** Whether the cell is disabled */
@@ -37,10 +34,8 @@ export interface ActionsCellProps<T extends { id: string }> {
 
 // ─── HELPER ──────────────────────────────────────────────────────────────────
 
-function isMenuItem<T>(
-  item: RowContextMenuItemOrSeparator<T>
-): item is RowContextMenuItem<T> {
-  return !("type" in item && item.type === "separator");
+function isMenuItem<T>(item: RowContextMenuItemOrSeparator<T>): item is RowContextMenuItem<T> {
+  return !('type' in item && item.type === 'separator');
 }
 
 // ─── ACTIONS CELL COMPONENT ──────────────────────────────────────────────────
@@ -63,8 +58,8 @@ function isMenuItem<T>(
 export function ActionsCell<T extends { id: string }>({
   row,
   items,
-  size = "sm",
-  align = "end",
+  size = 'sm',
+  align = 'end',
   className,
   disabled = false,
 }: ActionsCellProps<T>) {
@@ -74,7 +69,7 @@ export function ActionsCell<T extends { id: string }>({
   const visibleItems = items.filter((item) => {
     if (!isMenuItem(item)) return true;
     if (item.visible === undefined) return true;
-    if (typeof item.visible === "function") return item.visible(row);
+    if (typeof item.visible === 'function') return item.visible(row);
     return item.visible;
   });
 
@@ -83,55 +78,33 @@ export function ActionsCell<T extends { id: string }>({
   }
 
   return (
-    <div
-      className="flex items-center justify-center"
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className="flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <IconButton
             disabled={disabled}
             variant="standard"
             size={size}
-            aria-label={t("actions")}
-            className={cn(
-              "text-on-surface-variant hover:text-on-surface",
-              "hover:bg-state-hover active:bg-state-pressed",
-              className
-            )}
-          >
-            <Icon
-              symbol="more_vert"
-              className={cn(
-                size === "sm" && "text-[18px]",
-                size === "md" && "text-[20px]"
-              )}
-            />
-          </IconButton>
+            aria-label={t('actions')}
+            className={className}
+            icon={<Icon symbol="more_vert" />}
+          />
         </DropdownMenuTrigger>
 
         <DropdownMenuContent align={align} className="min-w-44" portal>
           {visibleItems.map((item, index) => {
             // Separator
             if (!isMenuItem(item)) {
-              return (
-                <DropdownMenuSeparator key={item.key ?? `separator-${index}`} />
-              );
+              return <DropdownMenuSeparator key={item.key ?? `separator-${index}`} />;
             }
 
             // Menu item
             const isDisabled =
-              typeof item.disabled === "function"
-                ? item.disabled(row)
-                : item.disabled;
+              typeof item.disabled === 'function' ? item.disabled(row) : item.disabled;
 
             const icon = item.icon;
             const iconElement =
-              typeof icon === "string" ? (
-                <Icon symbol={icon} className="w-4 h-4" />
-              ) : (
-                icon
-              );
+              typeof icon === 'string' ? <Icon symbol={icon} className="h-4 w-4" /> : icon;
 
             return (
               <ActionMenuItem
@@ -170,7 +143,7 @@ function ActionMenuItem<T extends { id: string }>({
       if (disabled) return;
       await item.onClick(row, e);
     },
-    [item, row, disabled]
+    [item, row, disabled],
   );
 
   return (
@@ -179,8 +152,8 @@ function ActionMenuItem<T extends { id: string }>({
       onClick={handleClick}
       disabled={disabled}
       className={cn(
-        item.variant === "danger" &&
-          "text-error hover:bg-state-error focus:bg-state-error [&>span:first-child]:text-error"
+        item.variant === 'danger' &&
+          'text-error hover:bg-state-error focus:bg-state-error [&>span:first-child]:text-error',
       )}
     >
       {item.label}
@@ -198,11 +171,11 @@ export interface CreateActionsColumnOptions<T extends { id: string }> {
   /** Column width (defaults to 48) */
   width?: number;
   /** Pin position */
-  pinned?: "left" | "right" | null;
+  pinned?: 'left' | 'right' | null;
   /** Size of the trigger button */
-  size?: "sm" | "md";
+  size?: 'sm' | 'md';
   /** Alignment of the dropdown */
-  align?: "start" | "end";
+  align?: 'start' | 'end';
   /** Whether the column is hideable */
   hideable?: boolean;
   /** Custom column key (defaults to "__actions") */
@@ -230,13 +203,13 @@ export interface CreateActionsColumnOptions<T extends { id: string }> {
  */
 export function createActionsColumn<T extends { id: string }>({
   items,
-  header = "",
+  header = '',
   width = 48,
   pinned = null,
-  size = "sm",
-  align = "end",
+  size = 'sm',
+  align = 'end',
   hideable = false,
-  key = "__actions",
+  key = '__actions',
 }: CreateActionsColumnOptions<T>): Column<T> {
   return {
     key: key as keyof T & string,
@@ -250,11 +223,9 @@ export function createActionsColumn<T extends { id: string }>({
     hideable,
     pinnable: false,
     pinned: pinned ?? undefined,
-    align: "center",
+    align: 'center',
     printable: false, // Actions column should not be included in print output
-    render: (row: T) => (
-      <ActionsCell<T> row={row} items={items} size={size} align={align} />
-    ),
+    render: (row: T) => <ActionsCell<T> row={row} items={items} size={size} align={align} />,
   };
 }
 

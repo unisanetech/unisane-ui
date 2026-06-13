@@ -5,13 +5,8 @@ import { DensityLevel, type DensityLevelValue } from './enums';
 
 /**
  * Padding classes for different density levels.
- * Uses standard Tailwind spacing which scales automatically with global theme density
- * via CSS custom properties (--scale-space).
- *
- * When data-density="compact" is set on <html>, spacing tokens scale to 87.5%
- * When data-density="comfortable" is set on <html>, spacing tokens scale to 110%
- *
- * The component-level density prop provides additional fine-tuning on top of global density.
+ * These are component density presets. Do not multiply them by global
+ * theme density; otherwise table density and app density compound.
  */
 export const DENSITY_STYLES: Record<DensityLevelValue, string> = {
   [DensityLevel.DENSE]: 'py-1 px-2',
@@ -53,10 +48,8 @@ export const DENSITY_UTILITY_COLUMN_WIDTHS: Record<
 
 /**
  * Configuration for each density level including base row heights.
- * These values represent the base height at standard density (--scale-space: 1).
- *
- * In components, these should be multiplied by the density scale factor
- * or used as CSS calc() with var(--scale-space) for dynamic scaling.
+ * These values belong to the table density system and should match the
+ * rendered padding/text density presets.
  */
 export const DENSITY_CONFIG: Record<DensityLevelValue, { rowHeight: number; label: string }> = {
   [DensityLevel.DENSE]: { rowHeight: 32, label: 'Dense' },
@@ -66,10 +59,7 @@ export const DENSITY_CONFIG: Record<DensityLevelValue, { rowHeight: number; labe
 };
 
 /**
- * CSS variable-based row height for use in inline styles.
- * This allows row heights to scale with global theme density.
- *
- * Usage: style={{ height: `calc(${ROW_HEIGHT_BASE[density]} * var(--scale-space, 1))` }}
+ * CSS row-height values for table-density-owned inline styles.
  */
 export const ROW_HEIGHT_BASE: Record<DensityLevelValue, string> = {
   [DensityLevel.DENSE]: '32px',

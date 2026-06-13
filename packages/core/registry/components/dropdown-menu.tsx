@@ -396,6 +396,12 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       const target = event.target as Node;
       if (ref.current && ref.current.contains(target)) return;
       if (triggerRef.current && triggerRef.current.contains(target)) return;
+      if (target instanceof HTMLElement) {
+        const subContent = target.closest('[data-dropdown-menu-subcontent-owner]');
+        if (subContent?.getAttribute('data-dropdown-menu-subcontent-owner') === menuId) {
+          return;
+        }
+      }
       setOpen(false);
     };
 
@@ -521,7 +527,8 @@ type DropdownMenuSubContextValue = {
   open: boolean;
   setOpen: (open: boolean) => void;
   menuId: string;
-  triggerRef: React.RefObject<HTMLDivElement | null>;
+  parentMenuId: string;
+  triggerRef: React.RefObject<HTMLElement | null>;
   openSubmenu: () => void;
   closeSubmenu: () => void;
 };
@@ -542,6 +549,7 @@ export const DropdownMenuSub: React.FC<DropdownMenuSubProps> = ({
   defaultOpen = false,
   onOpenChange,
 }) => {
+  const { menuId: parentMenuId } = useDropdownMenuContext('DropdownMenuSub');
   const [isOpen = false, setIsOpen] = useControllableState<boolean>({
     value: open,
     defaultValue: defaultOpen,
@@ -549,7 +557,7 @@ export const DropdownMenuSub: React.FC<DropdownMenuSubProps> = ({
   });
   const subMenuId = useId();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
 
   const openSubmenu = React.useCallback(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -573,18 +581,17 @@ export const DropdownMenuSub: React.FC<DropdownMenuSubProps> = ({
       open: isOpen,
       setOpen: setIsOpen,
       menuId: subMenuId,
+      parentMenuId,
       triggerRef,
       openSubmenu,
       closeSubmenu,
     }),
-    [closeSubmenu, isOpen, openSubmenu, setIsOpen, subMenuId],
+    [closeSubmenu, isOpen, openSubmenu, parentMenuId, setIsOpen, subMenuId],
   );
 
   return (
     <DropdownMenuSubContext.Provider value={contextValue}>
-      <div ref={triggerRef} className="relative">
-        {children}
-      </div>
+      <div className="relative">{children}</div>
     </DropdownMenuSubContext.Provider>
   );
 };
@@ -602,7 +609,7 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   className,
   disabled = false,
 }) => {
-  const { open, menuId, openSubmenu, closeSubmenu } =
+  const { open, menuId, triggerRef, openSubmenu, closeSubmenu } =
     useDropdownMenuSubContext('DropdownMenuSubTrigger');
   const handleMouseEnter = () => {
     if (disabled) return;
@@ -614,19 +621,21 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   };
 
   return (
-    <MenuItem
-      icon={icon}
-      trailingIcon={<Icon symbol="chevron_right" size="sm" />}
-      className={className}
-      disabled={disabled}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      aria-expanded={open}
-      aria-haspopup="menu"
-      aria-controls={menuId}
-    >
-      {children}
-    </MenuItem>
+    <div ref={triggerRef as React.RefObject<HTMLDivElement | null>}>
+      <MenuItem
+        icon={icon}
+        trailingIcon={<Icon symbol="chevron_right" size="sm" />}
+        className={className}
+        disabled={disabled}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={menuId}
+      >
+        {children}
+      </MenuItem>
+    </div>
   );
 };
 
@@ -704,7 +713,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
 }) => {
-  const { open, menuId, triggerRef, openSubmenu, closeSubmenu } =
+  const { open, menuId, parentMenuId, triggerRef, openSubmenu, closeSubmenu } =
     useDropdownMenuSubContext('DropdownMenuSubContent');
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
@@ -747,12 +756,13 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
 
   if (!open) return null;
 
-  return (
+  const content = (
     <div
       ref={ref}
       id={menuId}
       role="menu"
       aria-orientation="vertical"
+      data-dropdown-menu-subcontent-owner={parentMenuId}
       data-side={position.side}
       className={cn('fixed z-[var(--z-popover,2000)]', 'transition-none')}
       style={{
@@ -775,4 +785,10 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       </Menu>
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(content, document.body);
+  }
+
+  return content;
 };

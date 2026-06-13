@@ -3,9 +3,17 @@
 Canonical runtime model:
 
 - `side`: `left | right`
-- `mode`: `rail-drawer | drawer-only | rail-only`
+- `mode`: `rail-drawer | drawer-only | rail-only | collapsible-drawer`
 - `behavior`: `overlay | inset`
 - `containerMode`: `viewport | contained`
+
+Mode semantics:
+
+- `rail-drawer`: Material-style navigation rail plus a separate drawer surface.
+- `drawer-only`: drawer surface only.
+- `rail-only`: navigation rail only.
+- `collapsible-drawer`: one drawer surface that changes between `drawerWidth` and `railWidth`;
+  use it for admin/shadcn-style sidebars where collapsed means icon-only navigation.
 
 Public compatibility model:
 

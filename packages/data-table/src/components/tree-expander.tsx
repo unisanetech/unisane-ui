@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn, Icon, IconButton } from "@unisane/ui";
-import { useI18n } from "../i18n";
+import React from 'react';
+import { cn, Icon, IconButton } from '@unisane/ui';
+import { useI18n } from '../i18n';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
@@ -64,14 +64,11 @@ export function TreeExpander({
 
   // Don't render anything for leaf nodes without indicator
   if (!hasChildren && !showLeafIndicator) {
-    return <span style={{ width: indent + 24, display: "inline-block" }} />;
+    return <span style={{ width: indent + 24, display: 'inline-block' }} />;
   }
 
   return (
-    <span
-      className={cn("inline-flex items-center", className)}
-      style={{ paddingLeft: indent }}
-    >
+    <span className={cn('inline-flex items-center', className)} style={{ paddingLeft: indent }}>
       {hasChildren ? (
         <IconButton
           variant="standard"
@@ -81,30 +78,24 @@ export function TreeExpander({
             onToggle();
           }}
           disabled={isLoading}
-          className={cn(
-            "text-on-surface-variant hover:bg-state-hover hover:text-on-surface",
-            "transition-colors",
-            isLoading && "opacity-50 cursor-wait"
-          )}
+          className={cn(isLoading && 'cursor-wait opacity-50')}
+          selected={isExpanded}
           aria-expanded={isExpanded}
-          aria-label={isExpanded ? t("collapseRow") : t("expandRow")}
+          aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
         >
           {isLoading ? (
-            <Icon symbol="progress_activity" className="w-4 h-4 animate-spin text-on-surface-variant" />
+            <Icon symbol="progress_activity" className="text-on-surface-variant animate-spin" />
           ) : (
             <Icon
-              symbol={isExpanded ? "expand_more" : "chevron_right"}
-              className={cn(
-                "text-[18px] transition-transform duration-150",
-                isExpanded && "text-primary"
-              )}
+              symbol={isExpanded ? 'expand_more' : 'chevron_right'}
+              className="transition-transform duration-150"
             />
           )}
         </IconButton>
       ) : showLeafIndicator ? (
         // Leaf indicator (dot or dash)
-        <span className="inline-flex items-center justify-center w-6 h-6">
-          <span className="w-1.5 h-1.5 rounded-full bg-outline-variant" />
+        <span className="inline-flex h-6 w-6 items-center justify-center">
+          <span className="bg-outline-variant h-1.5 w-1.5 rounded-full" />
         </span>
       ) : null}
     </span>

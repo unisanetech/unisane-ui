@@ -96,11 +96,10 @@ export function SelectionBar({
             onClick={onClearSelection}
             variant="standard"
             size="sm"
-            className="text-primary hover:bg-state-hover hover:text-primary"
+            selected
             aria-label={t('deselectAll')}
-          >
-            <Icon symbol="close" className="text-[18px]" />
-          </IconButton>
+            icon={<Icon symbol="close" />}
+          />
         )}
       </div>
 
@@ -114,14 +113,9 @@ export function SelectionBar({
                 <IconButton
                   variant="standard"
                   size="md"
-                  className={cn(
-                    'transition-colors',
-                    'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-                  )}
                   aria-label={t('actions')}
-                >
-                  <Icon symbol="more_vert" className="h-5 w-5" />
-                </IconButton>
+                  icon={<Icon symbol="more_vert" />}
+                />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="min-w-48">
                 {bulkActions.map((action, idx) => renderActionButton(action, idx, false))}
@@ -171,9 +165,9 @@ export function TitleBar({
   const showInfo = hasRange || (totalItems !== undefined && totalItems > 0);
 
   return (
-    <div className="flex min-w-0 flex-col gap-0.5 @md:flex-row @md:items-center @md:gap-3">
+    <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
       {title && <h2 className="text-title-medium text-on-surface truncate font-medium">{title}</h2>}
-      {title && showInfo && <div className="bg-outline-soft hidden h-6 w-px @md:block" />}
+      {title && showInfo && <div className="bg-outline-soft h-6 w-px shrink-0" />}
       {showInfo && (
         <span className="text-body-small text-on-surface-variant whitespace-nowrap">
           {hasRange
@@ -288,7 +282,12 @@ export function GroupingPillsBar<T>({ showEmpty = false }: GroupingPillsBarProps
 
           {/* Clear all grouping button */}
           {groupByArray.length > 1 && (
-            <Button variant="text" size="sm" onClick={() => setGroupBy(null)} className="text-error">
+            <Button
+              variant="text"
+              size="sm"
+              onClick={() => setGroupBy(null)}
+              className="text-error"
+            >
               {t('clearAll')}
             </Button>
           )}

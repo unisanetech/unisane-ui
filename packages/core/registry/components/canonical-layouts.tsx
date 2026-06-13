@@ -152,10 +152,10 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
 
       <aside
         className={cn(
-          'bg-surface duration-long ease-emphasized z-20 shrink-0 overflow-hidden transition-all',
+          'bg-surface duration-long ease-emphasized z-40 shrink-0 overflow-hidden transition-all',
           'medium:w-[min(100%,var(--width-pane-supporting))] absolute inset-y-0 right-0 h-full w-full',
           isOpen ? 'shadow-3 translate-x-0' : 'translate-x-full shadow-none',
-          'expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-subtle expanded:w-full',
+          'expanded:z-auto expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-subtle expanded:w-full',
         )}
       >
         {isOpen ? (
@@ -229,7 +229,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
 
       <div
         className={cn(
-          'expanded:hidden bg-scrim duration-emphasized absolute inset-0 z-10 backdrop-blur-[calc(var(--unit)/4)] transition-opacity',
+          'expanded:hidden bg-scrim duration-emphasized absolute inset-0 z-30 backdrop-blur-[calc(var(--unit)/4)] transition-opacity',
           isOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0',
         )}
         onClick={handleClose}

@@ -129,14 +129,10 @@ export function SearchInput({
         size="md"
         aria-label={t('openSearch')}
         onClick={() => setIsOverlayOpen(true)}
-        className={cn(
-          'relative @3xl:hidden',
-          'text-on-surface-variant hover:text-on-surface hover:bg-state-hover',
-          'transition-colors',
-          className,
-        )}
+        className={cn('relative @3xl:hidden', className)}
+        selected={hasActiveSearch}
       >
-        <Icon symbol="search" className="h-5 w-5" />
+        <Icon symbol="search" />
         {/* Active search indicator */}
         {hasActiveSearch && (
           <span className="bg-primary absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
@@ -172,7 +168,7 @@ export function SearchInput({
               onClick={handleClear}
               variant="text"
               size="sm"
-              className="shrink-0 text-primary"
+              className="text-primary shrink-0"
             >
               {t('clear')}
             </Button>
@@ -181,11 +177,10 @@ export function SearchInput({
             variant="standard"
             size="md"
             onClick={handleOverlayClose}
-            className="shrink-0 text-on-surface-variant hover:text-on-surface hover:bg-state-hover transition-colors"
+            className="shrink-0"
             aria-label={t('clearSearch')}
-          >
-            <Icon symbol="close" className="h-5 w-5" />
-          </IconButton>
+            icon={<Icon symbol="close" />}
+          />
         </div>
       )}
 
@@ -228,11 +223,10 @@ export function SearchInput({
             onClick={handleClear}
             variant="standard"
             size="sm"
-            className="shrink-0 text-on-surface-variant hover:text-on-surface"
+            className="shrink-0"
             aria-label={t('clearSearch')}
-          >
-            <Icon symbol="close" className="text-on-surface-variant h-4 w-4" />
-          </IconButton>
+            icon={<Icon symbol="close" />}
+          />
         )}
       </div>
     </>
@@ -338,9 +332,13 @@ export function MobileSearchOverlay({ isOpen, onClose, placeholder }: MobileSear
               {t('clear')}
             </Button>
           )}
-          <IconButton variant="standard" size="md" onClick={handleClose} aria-label={t('clearSearch')}>
-            <Icon symbol="close" className="h-5 w-5" />
-          </IconButton>
+          <IconButton
+            variant="standard"
+            size="md"
+            onClick={handleClose}
+            aria-label={t('clearSearch')}
+            icon={<Icon symbol="close" />}
+          />
         </div>
       </div>
     </div>

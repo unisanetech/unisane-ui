@@ -20,6 +20,7 @@ export interface TooltipProps {
   children: React.ReactNode;
   variant?: 'plain' | 'rich';
   className?: string;
+  triggerClassName?: string;
   side?: 'top' | 'bottom' | 'left' | 'right';
 }
 
@@ -33,6 +34,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   children,
   variant = 'plain',
   className,
+  triggerClassName,
   side = 'top',
 }) => {
   const tooltipId = useId();
@@ -131,7 +133,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   return (
     <div
       ref={triggerRef}
-      className="relative inline-flex"
+      className={cn('relative inline-flex', triggerClassName)}
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       onFocus={() => setOpen(true)}

@@ -19,7 +19,8 @@ const chipVariants = cva(
       variant: {
         assist: 'bg-surface border-outline-soft text-on-surface',
         filter: 'bg-surface border-outline-soft text-on-surface-variant',
-        input: 'bg-surface border-outline-soft text-on-surface',
+        input:
+          'bg-surface-container-high border-outline-subtle text-on-surface hover:bg-surface-container-highest hover:border-outline-soft',
         suggestion: 'bg-surface border-outline-soft text-on-surface-variant',
       },
       selected: {
@@ -49,6 +50,7 @@ export type ChipProps = Omit<
     label: string;
     icon?: ReactNode;
     onDelete?: () => void;
+    deleteButtonTabIndex?: number;
     disabled?: boolean;
     onClick?: MouseEventHandler<HTMLElement>;
   };
@@ -61,6 +63,7 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
       selected,
       disabled = false,
       onDelete,
+      deleteButtonTabIndex,
       icon,
       className,
       onClick,
@@ -178,15 +181,16 @@ export const Chip = forwardRef<HTMLButtonElement | HTMLDivElement, ChipProps>(
         {onDelete && (
           <button
             type="button"
-            className="hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary rounded-icon-button relative z-10 -mr-1 ml-1 p-0.5 transition-colors focus-visible:ring-2"
+            className="text-on-surface-variant hover:bg-state-hover hover:text-on-surface focus-visible:ring-primary rounded-icon-button relative z-10 -mr-1 ml-0.5 flex h-5 w-5 shrink-0 items-center justify-center transition-colors focus-visible:ring-2"
             onClick={(e) => {
               e.stopPropagation();
               onDelete();
             }}
             aria-label={`Remove ${label}`}
             disabled={disabled}
+            tabIndex={deleteButtonTabIndex}
           >
-            <CloseIcon size="xs" />
+            <CloseIcon size={14} />
           </button>
         )}
       </div>
