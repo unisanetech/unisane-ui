@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import {
@@ -21,6 +21,8 @@ export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, '
     leadingIcon?: React.ReactNode;
     trailingIcon?: React.ReactNode;
     multiline?: boolean;
+    autoResize?: boolean;
+    autoResizeMaxHeight?: number;
     labelClassName?: string;
     labelBg?: string;
     size?: FieldSize;
@@ -41,6 +43,8 @@ export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement
       size = 'md',
       id,
       multiline = false,
+      autoResize = false,
+      autoResizeMaxHeight = 360,
       disabled,
       value,
       defaultValue,
@@ -60,6 +64,11 @@ export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement
       if (value !== undefined) setInternalValue(value);
     }, [value]);
 
+    useLayoutEffect(() => {
+      if (!multiline || !autoResize) return;
+      resizeTextarea(internalRef.current, autoResizeMaxHeight);
+    }, [autoResize, autoResizeMaxHeight, internalValue, multiline]);
+
     const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setIsFocused(true);
       onFocus?.(e as React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>);
@@ -70,6 +79,7 @@ export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement
     };
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setInternalValue(e.target.value);
+      if (multiline && autoResize) resizeTextarea(e.currentTarget, autoResizeMaxHeight);
       onChange?.(e as React.ChangeEvent<HTMLInputElement> & React.ChangeEvent<HTMLTextAreaElement>);
     };
 
@@ -198,3 +208,15 @@ export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement
   },
 );
 TextField.displayName = 'TextField';
+
+function resizeTextarea(
+  field: HTMLInputElement | HTMLTextAreaElement | null,
+  maxHeight: number,
+) {
+  if (!(field instanceof HTMLTextAreaElement)) return;
+
+  field.style.height = 'auto';
+  const nextHeight = Math.min(field.scrollHeight, maxHeight);
+  field.style.height = `${nextHeight}px`;
+  field.style.overflowY = field.scrollHeight > maxHeight ? 'auto' : 'hidden';
+}
