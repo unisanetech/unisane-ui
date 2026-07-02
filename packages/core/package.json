@@ -81,6 +81,7 @@
     "@unisane/eslint-config": "workspace:*",
     "@unisane/typescript-config": "workspace:*",
     "eslint": "^9.39.1",
+    "tailwindcss": "^4.1.18",
     "tsc-alias": "^1.8.10",
     "typescript": "5.9.2"
   },
