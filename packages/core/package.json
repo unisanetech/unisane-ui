@@ -20,35 +20,43 @@
     "./styles.css": "./dist/index.css",
     "./components/sidebar": {
       "types": "./dist/components/sidebar/index.d.ts",
-      "import": "./dist/components/sidebar/index.js"
+      "import": "./dist/components/sidebar/index.js",
+      "default": "./dist/components/sidebar/index.js"
     },
     "./components/navigation": {
       "types": "./dist/components/navigation/index.d.ts",
-      "import": "./dist/components/navigation/index.js"
+      "import": "./dist/components/navigation/index.js",
+      "default": "./dist/components/navigation/index.js"
     },
     "./components/data-table": {
       "types": "./dist/components/data-table/index.d.ts",
-      "import": "./dist/components/data-table/index.js"
+      "import": "./dist/components/data-table/index.js",
+      "default": "./dist/components/data-table/index.js"
     },
     "./components/*": {
       "types": "./dist/components/*.d.ts",
-      "import": "./dist/components/*.js"
+      "import": "./dist/components/*.js",
+      "default": "./dist/components/*.js"
     },
     "./primitives/*": {
       "types": "./dist/primitives/*.d.ts",
-      "import": "./dist/primitives/*.js"
+      "import": "./dist/primitives/*.js",
+      "default": "./dist/primitives/*.js"
     },
     "./layout/*": {
       "types": "./dist/layout/*.d.ts",
-      "import": "./dist/layout/*.js"
+      "import": "./dist/layout/*.js",
+      "default": "./dist/layout/*.js"
     },
     "./hooks/*": {
       "types": "./dist/hooks/*.d.ts",
-      "import": "./dist/hooks/*.js"
+      "import": "./dist/hooks/*.js",
+      "default": "./dist/hooks/*.js"
     },
     "./lib/*": {
       "types": "./dist/lib/*.d.ts",
-      "import": "./dist/lib/*.js"
+      "import": "./dist/lib/*.js",
+      "default": "./dist/lib/*.js"
     },
     "./meta": "./unisane.meta.json"
   },
