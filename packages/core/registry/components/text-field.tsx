@@ -209,10 +209,7 @@ export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement
 );
 TextField.displayName = 'TextField';
 
-function resizeTextarea(
-  field: HTMLInputElement | HTMLTextAreaElement | null,
-  maxHeight: number,
-) {
+function resizeTextarea(field: HTMLInputElement | HTMLTextAreaElement | null, maxHeight: number) {
   if (!(field instanceof HTMLTextAreaElement)) return;
 
   field.style.height = 'auto';

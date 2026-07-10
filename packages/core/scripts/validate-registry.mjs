@@ -24,6 +24,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, '..');
 const srcDir = path.join(rootDir, 'src');
 const registryDir = path.join(rootDir, 'registry');
+const packageJsonPath = path.join(rootDir, 'package.json');
 
 // Track validation results
 const results = {
@@ -279,6 +280,22 @@ async function validateRegistryStyles() {
   }
 }
 
+async function validatePackageFiles() {
+  console.log('🔍 Validating published registry ownership...\n');
+
+  try {
+    const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
+    if (!Array.isArray(packageJson.files) || !packageJson.files.includes('registry')) {
+      error('package.json files must include the generated registry directory');
+      return;
+    }
+
+    info('✅ package file ownership includes registry/**');
+  } catch (err) {
+    error(`Could not validate package file ownership: ${err.message}`);
+  }
+}
+
 /**
  * Check for common issues in component files
  */
@@ -415,6 +432,7 @@ async function main() {
   await checkUnrewrittenImports();
   await validateRegistryJson();
   await validateRegistryStyles();
+  await validatePackageFiles();
   await checkCommonIssues();
 
   const passed = printSummary();

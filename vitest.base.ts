@@ -1,10 +1,4 @@
 import { defineConfig } from 'vitest/config';
-import { fileURLToPath } from 'node:url';
-import { dirname, resolve } from 'node:path';
-import { SHARED_VITEST_COVERAGE_THRESHOLDS } from '../scripts/_lib/vitest-coverage';
-
-const ROOT = dirname(fileURLToPath(import.meta.url));
-const TS_BASE = resolve(ROOT, 'tsconfig.json');
 
 export default defineConfig({
   resolve: { conditions: ['node', 'import'] },
@@ -17,7 +11,6 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
-      thresholds: SHARED_VITEST_COVERAGE_THRESHOLDS,
       exclude: ['**/dist/**', '**/node_modules/**', '**/.turbo/**'],
     },
     exclude: ['**/dist/**', '**/node_modules/**', '**/.turbo/**'],

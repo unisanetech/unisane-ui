@@ -7,6 +7,7 @@
   ],
   "files": [
     "dist",
+    "registry",
     "unisane.meta.json"
   ],
   "main": "./dist/index.js",

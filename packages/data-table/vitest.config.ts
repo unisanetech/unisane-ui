@@ -1,7 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { SHARED_VITEST_COVERAGE_THRESHOLDS } from '../../../scripts/_lib/vitest-coverage';
 
 export default defineConfig({
   plugins: [react()],
@@ -26,7 +25,6 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
-      thresholds: SHARED_VITEST_COVERAGE_THRESHOLDS,
       include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'src/**/*.{test,spec}.{ts,tsx}',

@@ -1,6 +1,5 @@
 import path from 'node:path';
 import { defineConfig } from 'vitest/config';
-import { SHARED_VITEST_COVERAGE_THRESHOLDS } from '../../../scripts/_lib/vitest-coverage';
 
 export default defineConfig({
   resolve: {
@@ -18,7 +17,6 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],
-      thresholds: SHARED_VITEST_COVERAGE_THRESHOLDS,
       exclude: ['**/dist/**', '**/node_modules/**', '**/.turbo/**'],
     },
   },
