@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateBuildArtifacts } from '../build-pipeline.mjs';
+import { generateBuildArtifacts, writeBuildArtifacts } from '../build-pipeline.mjs';
 import { validateThemeConfig, validateThemeOverride } from '../theme-validation.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -40,6 +41,22 @@ test('blue theme CSS matches snapshot', () => {
 
   const expected = readFileSync(blueSnapshotPath, 'utf-8');
   assert.equal(mergedCss, expected);
+});
+
+test('artifact calculation writes only through the explicit build owner', () => {
+  const outputRoot = mkdtempSync(join(tmpdir(), 'unisane-tokens-'));
+  try {
+    const artifacts = generateBuildArtifacts('blue');
+    const cssPath = join(outputRoot, 'dist', 'unisane.css');
+    const refPath = join(outputRoot, 'src', 'ref.json');
+
+    writeBuildArtifacts(artifacts, { cssPath, refPath });
+
+    assert.equal(readFileSync(cssPath, 'utf8'), artifacts.mergedCss);
+    assert.deepEqual(JSON.parse(readFileSync(refPath, 'utf8')), artifacts.palettes);
+  } finally {
+    rmSync(outputRoot, { recursive: true, force: true });
+  }
 });
 
 test('cyan theme build output differs from blue and uses hue 195', () => {
