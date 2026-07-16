@@ -42,7 +42,6 @@ export type MonthPickerProps = {
   className?: string;
   min?: string;
   max?: string;
-  labelBg?: string;
   size?: FieldSize;
 };
 
@@ -61,7 +60,6 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   variant = 'outlined',
   min,
   max,
-  labelBg,
   size = 'md',
 }) => {
   const [selectedValue, setSelectedValue] = useControllableState<string>({
@@ -80,7 +78,9 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   const isOpen = openState ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
-  const [viewYear, setViewYear] = useState(() => readYear(normalizedValue) ?? new Date().getFullYear());
+  const [viewYear, setViewYear] = useState(
+    () => readYear(normalizedValue) ?? new Date().getFullYear(),
+  );
   const [inputValue, setInputValue] = useState(() => formatMonthLabel(normalizedValue));
   const inputFocusedRef = useRef(false);
   const [popoverPosition, setPopoverPosition] = useState({
@@ -166,7 +166,8 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
       const activeElement = document.activeElement;
       if (
         activeElement &&
-        (containerRef.current?.contains(activeElement) || popoverRef.current?.contains(activeElement))
+        (containerRef.current?.contains(activeElement) ||
+          popoverRef.current?.contains(activeElement))
       ) {
         return;
       }
@@ -244,17 +245,16 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
     <div className={cn('relative w-full', className)} ref={containerRef}>
       <TextField
         disabled={disabled}
-        error={error}
-        helperText={helperText}
+        {...(error ? { errorMessage: helperText } : { description: helperText })}
+        invalid={error}
         label={label}
-        labelBg={labelBg}
         size={size}
         trailingIcon={pickerButton}
         value={inputValue}
         variant={variant}
         onClick={openPicker}
         onBlur={scheduleInputCommit}
-        onChange={(event) => setInputValue(event.currentTarget.value)}
+        onValueChange={setInputValue}
         onFocus={() => {
           inputFocusedRef.current = true;
         }}
@@ -287,7 +287,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
                 ...getPortalLayerStyle(containerRef.current),
               }}
             >
-              <Surface tone="surface" elevation={1} className="rounded-sm overflow-hidden">
+              <Surface tone="surface" elevation={1} className="overflow-hidden rounded-sm">
                 <div className="border-outline-subtle flex items-center justify-between border-b p-3">
                   <IconButton
                     aria-label="Previous year"
@@ -303,11 +303,19 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
                     onClick={() => setViewYear((year) => year + 1)}
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-2 p-3" role="grid" aria-label={`Months in ${viewYear}`}>
+                <div
+                  className="grid grid-cols-3 gap-2 p-3"
+                  role="grid"
+                  aria-label={`Months in ${viewYear}`}
+                >
                   {MONTHS.map((month, monthIndex) => {
                     const optionValue = `${viewYear}-${String(monthIndex + 1).padStart(2, '0')}`;
                     const selected = normalizedValue === optionValue;
-                    const disabledMonth = isMonthDisabled(optionValue, normalizedMin, normalizedMax);
+                    const disabledMonth = isMonthDisabled(
+                      optionValue,
+                      normalizedMin,
+                      normalizedMax,
+                    );
 
                     return (
                       <button

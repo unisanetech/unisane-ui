@@ -1,41 +1,102 @@
-"use client";
+'use client';
 
-import { DocLayout, DocSection } from "@/features/docs-page";
-import { COLOR_THEME_OPTIONS, getColorThemeSwatch } from "@/lib/theme/color-theme-options";
-import { Card, Typography, Button } from "@unisane/ui";
-import { useTheme } from "@unisane/ui";
+import { DocLayout, DocSection } from '@/features/docs-page';
+import { ColorThemePreviewGrid } from '@/features/docs-page/components/color-theme-preview-grid';
+import {
+  Button,
+  Card,
+  Typography,
+  useAppearancePreference,
+  useDensity,
+  useMode,
+} from '@unisane/ui';
 
 const TOC_ITEMS = [
-  { id: "theme-provider", label: "ThemeProvider Setup" },
-  { id: "color-modes", label: "Light & Dark Mode" },
-  { id: "color-themes", label: "Color Themes" },
-  { id: "radius-styles", label: "Border Radius" },
-  { id: "density", label: "Density" },
-  { id: "programmatic", label: "Programmatic Control" },
+  { id: 'color-themes', label: 'Project Color Theme' },
+  { id: 'runtime-preferences', label: 'Runtime Preferences' },
+  { id: 'color-modes', label: 'Light & Dark Mode' },
+  { id: 'radius-styles', label: 'Border Radius' },
+  { id: 'density', label: 'Density' },
+  { id: 'programmatic', label: 'Preference Control' },
 ];
 
 export default function ThemingPage() {
   return (
     <DocLayout
       title="Theming"
-      description="Customize the look and feel of your application with Unisane UI's powerful theming system."
+      description="Choose a generated project color theme, then opt into only the runtime preferences your product needs."
       toc={TOC_ITEMS}
     >
-      {/* ThemeProvider Setup */}
       <DocSection
-        id="theme-provider"
-        title="ThemeProvider Setup"
-        description="Wrap your application with ThemeProvider to enable theming across all components."
+        id="color-themes"
+        title="Project Color Theme"
+        description="Color themes replace the managed semantic color region in your project's globals.css."
       >
         <div className="space-y-8">
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-            The ThemeProvider manages your application&apos;s theme state, including color mode, color theme,
-            border radius, and density. It persists user preferences to localStorage automatically.
+            Choose the theme during initialization or replace it later with the CLI. Components
+            continue to consume the same semantic color roles, and your CSS outside the managed
+            region is preserved.
           </Typography>
 
           <CodeBlock
+            title="Choose or change a project theme"
+            code={`# New setup
+unisane ui init --theme blue
+
+# Change it later
+unisane ui theme green
+
+# Preview the change without writing
+unisane ui theme purple --dry-run`}
+          />
+
+          <InfoCard icon="verified_user" variant="info">
+            Theme replacement creates a{' '}
+            <code className="bg-surface-container text-body-small mx-1 rounded px-1.5 py-0.5">
+              globals.css.backup
+            </code>{' '}
+            and changes only the region between the Unisane theme markers.
+          </InfoCard>
+
+          <Typography variant="titleMedium">Available themes</Typography>
+          <ColorThemePreviewGrid />
+          <Typography variant="bodySmall" className="text-on-surface-variant max-w-2xl">
+            This grid is an interactive documentation preview. Applications select one of these
+            themes with the CLI; they do not ship every color preset or a runtime color-theme
+            selector.
+          </Typography>
+        </div>
+      </DocSection>
+
+      {/* Runtime preferences */}
+      <DocSection
+        id="runtime-preferences"
+        title="Runtime Preferences"
+        description="The generated CSS works without a provider. Add one only when users need runtime preferences."
+      >
+        <div className="space-y-8">
+          <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
+            Components need no provider for their default appearance. Install the appearance
+            provider component when your application needs a user-controlled light/dark mode,
+            contrast, density, radius, action shape, or elevation.
+          </Typography>
+
+          <CodeBlock
+            title="Enable only the preferences your product exposes"
+            code={`unisane ui appearance enable \\
+  --axes mode,density,contrast \\
+  --persistence localStorage`}
+          />
+
+          <CodeBlock
             title="app/layout.tsx"
-            code={`import { ThemeProvider } from "@unisane/ui";
+            code={`import {
+  AppearanceProvider,
+  AppearanceScript,
+} from "@/components/ui/appearance-provider";
+
+const appearanceAxes = ["mode", "density", "contrast"] as const;
 
 export default function RootLayout({
   children,
@@ -44,10 +105,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <AppearanceScript
+          enabledAxes={appearanceAxes}
+          persistence="localStorage"
+        />
+      </head>
       <body>
-        <ThemeProvider>
+        <AppearanceProvider
+          enabledAxes={appearanceAxes}
+          persistence="localStorage"
+        >
           {children}
-        </ThemeProvider>
+        </AppearanceProvider>
       </body>
     </html>
   );
@@ -55,8 +125,11 @@ export default function RootLayout({
           />
 
           <InfoCard icon="info" variant="info">
-            Add <code className="mx-1 px-1.5 py-0.5 bg-surface-container rounded text-body-small">suppressHydrationWarning</code> to
-            your html tag to prevent hydration warnings when theme is applied.
+            Add{' '}
+            <code className="bg-surface-container text-body-small mx-1 rounded px-1.5 py-0.5">
+              suppressHydrationWarning
+            </code>{' '}
+            to your html tag to prevent hydration warnings when theme is applied.
           </InfoCard>
         </div>
       </DocSection>
@@ -68,7 +141,7 @@ export default function RootLayout({
         description="Support light, dark, and system-based color modes out of the box."
       >
         <div className="space-y-8">
-          <div className="grid grid-cols-1 @md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 @md:grid-cols-3">
             <ModeCard
               icon="light_mode"
               title="Light Mode"
@@ -86,63 +159,23 @@ export default function RootLayout({
             />
           </div>
 
-          <ThemeSwitcherDemo />
+          <ModeSwitcherDemo />
 
           <CodeBlock
-            title="Using the useTheme hook"
-            code={`import { useTheme } from "@unisane/ui";
+            title="Using the focused mode hook"
+            code={`import { useMode } from "@/components/ui/appearance-provider";
 
 function ThemeToggle() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { mode, setMode, resolvedMode } = useMode();
 
   return (
-    <button onClick={() => setTheme(
-      theme === "light" ? "dark" : "light"
+    <button onClick={() => setMode(
+      mode === "light" ? "dark" : "light"
     )}>
-      Current: {resolvedTheme}
+      Current: {resolvedMode}
     </button>
   );
 }`}
-          />
-        </div>
-      </DocSection>
-
-      {/* Color Themes */}
-      <DocSection
-        id="color-themes"
-        title="Color Themes"
-        description="Choose from a palette of carefully crafted color themes."
-      >
-        <div className="space-y-8">
-          <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-            Each color theme provides a complete set of primary, secondary, and tertiary colors
-            that work harmoniously together in both light and dark modes.
-          </Typography>
-
-          <ColorThemeGrid />
-
-          <CodeBlock
-            title="Setting a color theme"
-            code={`import { useTheme } from "@unisane/ui";
-
-function ThemeColorPicker() {
-  const { setColorTheme } = useTheme();
-  
-  return (
-    <>
-      <button onClick={() => setColorTheme("purple")}>
-        Purple
-      </button>
-      <button onClick={() => setColorTheme("green")}>
-        Green
-      </button>
-    </>
-  );
-}
-
-// You can also set defaults on first render
-// by applying HTML attributes such as:
-// <html data-color-theme="blue" data-theme-mode="system">`}
           />
         </div>
       </DocSection>
@@ -159,35 +192,35 @@ function ThemeColorPicker() {
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-outline-variant">
-                  <th className="py-3 pr-4 text-label-large text-on-surface">Style</th>
-                  <th className="py-3 pr-4 text-label-large text-on-surface">Value</th>
-                  <th className="py-3 text-label-large text-on-surface">Best for</th>
+                <tr className="border-outline-variant border-b">
+                  <th className="text-label-large text-on-surface py-3 pr-4">Style</th>
+                  <th className="text-label-large text-on-surface py-3 pr-4">Value</th>
+                  <th className="text-label-large text-on-surface py-3">Best for</th>
                 </tr>
               </thead>
               <tbody className="text-body-medium text-on-surface-variant">
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">none</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">none</td>
                   <td className="py-3 pr-4">0px</td>
                   <td className="py-3">Sharp, modern interfaces</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">minimal</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">minimal</td>
                   <td className="py-3 pr-4">2px</td>
                   <td className="py-3">Subtle softness</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">sharp</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">sharp</td>
                   <td className="py-3 pr-4">4px</td>
                   <td className="py-3">Professional, technical apps</td>
                 </tr>
-                <tr className="border-b border-outline-variant">
-                  <td className="py-3 pr-4 font-mono text-primary">standard</td>
+                <tr className="border-outline-variant border-b">
+                  <td className="text-primary py-3 pr-4 font-mono">standard</td>
                   <td className="py-3 pr-4">8px</td>
                   <td className="py-3">Balanced, default setting</td>
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-mono text-primary">soft</td>
+                  <td className="text-primary py-3 pr-4 font-mono">soft</td>
                   <td className="py-3 pr-4">16px</td>
                   <td className="py-3">Friendly, approachable feel</td>
                 </tr>
@@ -206,9 +239,9 @@ function ThemeColorPicker() {
         <div className="space-y-8">
           <DensityDemo />
 
-          <div className="grid grid-cols-1 @md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 @md:grid-cols-2">
             <Card variant="outlined" className="p-5">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="mb-3 flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary">density_small</span>
                 <Typography variant="titleMedium">Compact / Dense</Typography>
               </div>
@@ -217,7 +250,7 @@ function ThemeColorPicker() {
               </Typography>
             </Card>
             <Card variant="outlined" className="p-5">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="mb-3 flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary">density_medium</span>
                 <Typography variant="titleMedium">Standard</Typography>
               </div>
@@ -226,7 +259,7 @@ function ThemeColorPicker() {
               </Typography>
             </Card>
             <Card variant="outlined" className="p-5">
-              <div className="flex items-center gap-3 mb-3">
+              <div className="mb-3 flex items-center gap-3">
                 <span className="material-symbols-outlined text-primary">density_large</span>
                 <Typography variant="titleMedium">Comfortable</Typography>
               </div>
@@ -238,75 +271,61 @@ function ThemeColorPicker() {
         </div>
       </DocSection>
 
-      {/* Programmatic Control */}
+      {/* Preference Control */}
       <DocSection
         id="programmatic"
-        title="Programmatic Control"
-        description="Access and modify theme settings anywhere in your application."
+        title="Preference Control"
+        description="Use focused local hooks for the runtime preferences your application exposes."
       >
         <div className="space-y-8">
           <CodeBlock
-            title="Full useTheme API"
-            code={`import { useTheme } from "@unisane/ui";
+            title="Focused runtime preferences"
+            code={`import {
+  useMode,
+  useDensity,
+} from "@/components/ui/appearance-provider";
 
-function ThemeSettings() {
-  const {
-    // Current values
-    theme,           // "light" | "dark" | "system"
-    resolvedTheme,   // "light" | "dark" (actual applied theme)
-    colorTheme,      // "blue" | "purple" | "pink" | ...
-    radius,          // "none" | "minimal" | "sharp" | "standard" | "soft"
-    density,         // "compact" | "dense" | "standard" | "comfortable"
-    scheme,          // "tonal" | "monochrome" | "neutral"
-    contrast,        // "standard" | "medium" | "high"
-
-    // Setters
-    setTheme,
-    setColorTheme,
-    setRadius,
-    setDensity,
-    setScheme,
-    setContrast,
-  } = useTheme();
-
-  // Example: Reset to defaults
-  const resetTheme = () => {
-    setTheme("system");
-    setColorTheme("blue");
-    setRadius("standard");
-    setDensity("standard");
-  };
+function AppearanceSettings() {
+  const { setMode, resolvedMode } = useMode();
+  const { density, setDensity } = useDensity();
 
   return (
-    <button onClick={resetTheme}>
-      Reset to Defaults
-    </button>
+    <>
+      <button onClick={() => setMode("system")}>{resolvedMode}</button>
+      <button onClick={() => setDensity("compact")}>{density}</button>
+    </>
   );
 }`}
           />
 
           <InfoCard icon="lightbulb" variant="tip">
-            Theme preferences are automatically persisted to localStorage under the key{" "}
-            <code className="mx-1 px-1.5 py-0.5 bg-surface-container rounded text-body-small">unisane-theme</code>.
-            Users will see their preferences restored on subsequent visits.
+            The persistence policy is explicit. With{' '}
+            <code className="bg-surface-container text-body-small mx-1 rounded px-1.5 py-0.5">
+              localStorage
+            </code>
+            , enabled preferences use the{' '}
+            <code className="bg-surface-container text-body-small mx-1 rounded px-1.5 py-0.5">
+              unisane-appearance
+            </code>{' '}
+            key by default.
           </InfoCard>
 
-          <Typography variant="titleMedium" className="mt-8">Available Hooks</Typography>
-          <div className="grid grid-cols-1 @md:grid-cols-3 gap-4">
+          <Typography variant="titleMedium" className="mt-8">
+            Focused Hooks
+          </Typography>
+          <div className="grid grid-cols-1 gap-4 @md:grid-cols-2">
             <Card variant="filled" className="p-4">
-              <Typography variant="labelLarge" className="font-mono text-primary mb-2">useTheme()</Typography>
-              <Typography variant="bodySmall" className="text-on-surface-variant">
-                Full access to all theme settings and setters.
+              <Typography variant="labelLarge" className="text-primary mb-2 font-mono">
+                useMode()
               </Typography>
-            </Card>
-            <Card variant="filled" className="p-4">
-              <Typography variant="labelLarge" className="font-mono text-primary mb-2">useColorScheme()</Typography>
               <Typography variant="bodySmall" className="text-on-surface-variant">
                 Focused access to light/dark mode only.
               </Typography>
             </Card>
             <Card variant="filled" className="p-4">
-              <Typography variant="labelLarge" className="font-mono text-primary mb-2">useDensity()</Typography>
+              <Typography variant="labelLarge" className="text-primary mb-2 font-mono">
+                useDensity()
+              </Typography>
               <Typography variant="bodySmall" className="text-on-surface-variant">
                 Focused access to density settings only.
               </Typography>
@@ -320,95 +339,60 @@ function ThemeSettings() {
 
 // ─── DEMO COMPONENTS ───────────────────────────────────────────────────────────
 
-function ThemeSwitcherDemo() {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+function ModeSwitcherDemo() {
+  const { mode, setMode, resolvedMode } = useMode();
 
   return (
     <Card variant="outlined" className="p-6">
-      <Typography variant="titleMedium" className="mb-4">Try it out</Typography>
-      <div className="flex flex-wrap gap-3 mb-4">
-        <Button
-          variant={theme === "light" ? "filled" : "outlined"}
-          onClick={() => setTheme("light")}
-        >
+      <Typography variant="titleMedium" className="mb-4">
+        Try it out
+      </Typography>
+      <div className="mb-4 flex flex-wrap gap-3">
+        <Button variant={mode === 'light' ? 'filled' : 'outlined'} onClick={() => setMode('light')}>
           <span className="material-symbols-outlined mr-2 text-[18px]">light_mode</span>
           Light
         </Button>
-        <Button
-          variant={theme === "dark" ? "filled" : "outlined"}
-          onClick={() => setTheme("dark")}
-        >
+        <Button variant={mode === 'dark' ? 'filled' : 'outlined'} onClick={() => setMode('dark')}>
           <span className="material-symbols-outlined mr-2 text-[18px]">dark_mode</span>
           Dark
         </Button>
         <Button
-          variant={theme === "system" ? "filled" : "outlined"}
-          onClick={() => setTheme("system")}
+          variant={mode === 'system' ? 'filled' : 'outlined'}
+          onClick={() => setMode('system')}
         >
           <span className="material-symbols-outlined mr-2 text-[18px]">contrast</span>
           System
         </Button>
       </div>
       <Typography variant="bodySmall" className="text-on-surface-variant">
-        Current mode: <span className="text-primary font-medium">{theme}</span> →
-        Resolved: <span className="text-primary font-medium">{resolvedTheme}</span>
+        Current mode: <span className="text-primary font-medium">{mode}</span> → Resolved:{' '}
+        <span className="text-primary font-medium">{resolvedMode}</span>
       </Typography>
     </Card>
   );
 }
 
-function ColorThemeGrid() {
-  const { colorTheme, setColorTheme } = useTheme();
-
-  return (
-    <div className="grid grid-cols-2 @sm:grid-cols-5 gap-3">
-      {COLOR_THEME_OPTIONS.map((t) => (
-        <button
-          key={t.value}
-          onClick={() => setColorTheme(t.value)}
-          className={`relative p-4 rounded-lg border-2 transition-all ${
-            colorTheme === t.value
-              ? "border-primary bg-primary-container"
-              : "border-outline-variant hover:border-outline"
-          }`}
-        >
-          <div
-            className="w-8 h-8 rounded-full mx-auto mb-2"
-            style={{ backgroundColor: getColorThemeSwatch(t) }}
-          />
-          <Typography variant="labelMedium" className="text-center">
-            {t.label}
-          </Typography>
-          {colorTheme === t.value && (
-            <span className="absolute top-2 right-2 material-symbols-outlined text-primary text-[16px]">
-              check_circle
-            </span>
-          )}
-        </button>
-      ))}
-    </div>
-  );
-}
-
 function RadiusDemo() {
-  const { radius, setRadius } = useTheme();
+  const { value: radius, setValue: setRadius } = useAppearancePreference('radius');
 
   const radiusOptions: Array<{ value: typeof radius; label: string }> = [
-    { value: "none", label: "None" },
-    { value: "minimal", label: "Minimal" },
-    { value: "sharp", label: "Sharp" },
-    { value: "standard", label: "Standard" },
-    { value: "soft", label: "Soft" },
+    { value: 'none', label: 'None' },
+    { value: 'minimal', label: 'Minimal' },
+    { value: 'sharp', label: 'Sharp' },
+    { value: 'standard', label: 'Standard' },
+    { value: 'soft', label: 'Soft' },
   ];
 
   return (
     <Card variant="outlined" className="p-6">
-      <Typography variant="titleMedium" className="mb-4">Border Radius Preview</Typography>
-      <div className="flex flex-wrap gap-2 mb-6">
+      <Typography variant="titleMedium" className="mb-4">
+        Border Radius Preview
+      </Typography>
+      <div className="mb-6 flex flex-wrap gap-2">
         {radiusOptions.map((r) => (
           <Button
             key={r.value}
-            variant={radius === r.value ? "filled" : "outlined"}
+            variant={radius === r.value ? 'filled' : 'outlined'}
             size="sm"
             onClick={() => setRadius(r.value)}
           >
@@ -417,12 +401,14 @@ function RadiusDemo() {
         ))}
       </div>
       <div className="flex flex-wrap gap-4">
-        <div className="w-24 h-24 bg-primary-container flex items-center justify-center rounded-sm">
-          <Typography variant="labelSmall" className="text-on-primary-container">Card</Typography>
+        <div className="bg-primary-container flex h-24 w-24 items-center justify-center rounded-sm">
+          <Typography variant="labelSmall" className="text-on-primary-container">
+            Card
+          </Typography>
         </div>
         <Button variant="filled">Button</Button>
         <Button variant="tonal">Tonal</Button>
-        <div className="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center">
+        <div className="bg-secondary-container flex h-12 w-12 items-center justify-center rounded-full">
           <span className="material-symbols-outlined text-on-secondary-container">favorite</span>
         </div>
       </div>
@@ -431,23 +417,25 @@ function RadiusDemo() {
 }
 
 function DensityDemo() {
-  const { density, setDensity } = useTheme();
+  const { density, setDensity } = useDensity();
 
   const densityOptions: Array<{ value: typeof density; label: string }> = [
-    { value: "compact", label: "Compact" },
-    { value: "dense", label: "Dense" },
-    { value: "standard", label: "Standard" },
-    { value: "comfortable", label: "Comfortable" },
+    { value: 'compact', label: 'Compact' },
+    { value: 'dense', label: 'Dense' },
+    { value: 'standard', label: 'Standard' },
+    { value: 'comfortable', label: 'Comfortable' },
   ];
 
   return (
     <Card variant="outlined" className="p-6">
-      <Typography variant="titleMedium" className="mb-4">Density Preview</Typography>
-      <div className="flex flex-wrap gap-2 mb-6">
+      <Typography variant="titleMedium" className="mb-4">
+        Density Preview
+      </Typography>
+      <div className="mb-6 flex flex-wrap gap-2">
         {densityOptions.map((d) => (
           <Button
             key={d.value}
-            variant={density === d.value ? "filled" : "outlined"}
+            variant={density === d.value ? 'filled' : 'outlined'}
             size="sm"
             onClick={() => setDensity(d.value)}
           >
@@ -482,41 +470,55 @@ function ModeCard({
 }) {
   return (
     <Card variant="outlined" className="p-5">
-      <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center mb-3">
-        <span className="material-symbols-outlined text-on-primary-container text-[20px]">{icon}</span>
+      <div className="bg-primary-container mb-3 flex h-10 w-10 items-center justify-center rounded-lg">
+        <span className="material-symbols-outlined text-on-primary-container text-[20px]">
+          {icon}
+        </span>
       </div>
-      <Typography variant="titleMedium" className="mb-1">{title}</Typography>
-      <Typography variant="bodySmall" className="text-on-surface-variant">{description}</Typography>
+      <Typography variant="titleMedium" className="mb-1">
+        {title}
+      </Typography>
+      <Typography variant="bodySmall" className="text-on-surface-variant">
+        {description}
+      </Typography>
     </Card>
   );
 }
 
 function CodeBlock({ title, code }: { title: string; code: string }) {
   return (
-    <div className="rounded-lg overflow-hidden border border-outline-variant">
-      <div className="px-4 py-2 bg-surface-container border-b border-outline-variant">
+    <div className="border-outline-variant overflow-hidden rounded-lg border">
+      <div className="bg-surface-container border-outline-variant border-b px-4 py-2">
         <Typography variant="labelMedium" className="text-on-surface-variant font-mono">
           {title}
         </Typography>
       </div>
       <div className="bg-surface-container-low">
-        <pre className="p-4 overflow-x-auto">
-          <code className="text-body-small font-mono text-on-surface">{code}</code>
+        <pre className="overflow-x-auto p-4">
+          <code className="text-body-small text-on-surface font-mono">{code}</code>
         </pre>
       </div>
     </div>
   );
 }
 
-function InfoCard({ icon, variant, children }: { icon: string; variant: "info" | "tip"; children: React.ReactNode }) {
+function InfoCard({
+  icon,
+  variant,
+  children,
+}: {
+  icon: string;
+  variant: 'info' | 'tip';
+  children: React.ReactNode;
+}) {
   const styles = {
-    info: "bg-primary-container border-primary",
-    tip: "bg-tertiary-container border-tertiary",
+    info: 'bg-primary-container border-primary',
+    tip: 'bg-tertiary-container border-tertiary',
   };
-  const iconColor = variant === "info" ? "text-primary" : "text-tertiary";
+  const iconColor = variant === 'info' ? 'text-primary' : 'text-tertiary';
 
   return (
-    <div className={`p-4 rounded-lg border ${styles[variant]}`}>
+    <div className={`rounded-lg border p-4 ${styles[variant]}`}>
       <div className="flex gap-3">
         <span className={`material-symbols-outlined ${iconColor} shrink-0`}>{icon}</span>
         <Typography variant="bodySmall" className="text-on-surface-variant">

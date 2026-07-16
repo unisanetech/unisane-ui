@@ -82,16 +82,17 @@ export function TreeExpander({
           selected={isExpanded}
           aria-expanded={isExpanded}
           aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
-        >
-          {isLoading ? (
-            <Icon symbol="progress_activity" className="text-on-surface-variant animate-spin" />
-          ) : (
-            <Icon
-              symbol={isExpanded ? 'expand_more' : 'chevron_right'}
-              className="transition-transform duration-150"
-            />
-          )}
-        </IconButton>
+          icon={
+            isLoading ? (
+              <Icon symbol="progress_activity" className="text-on-surface-variant animate-spin" />
+            ) : (
+              <Icon
+                symbol={isExpanded ? 'expand_more' : 'chevron_right'}
+                className="transition-transform duration-150"
+              />
+            )
+          }
+        />
       ) : showLeafIndicator ? (
         // Leaf indicator (dot or dash)
         <span className="inline-flex h-6 w-6 items-center justify-center">

@@ -123,15 +123,18 @@ export function BlockCodeExplorer({ codeExample, className }: BlockCodeExplorerP
     <Surface
       tone="surfaceContainerLow"
       rounded="sm"
-      className={cn('border-outline-variant grid min-h-0 overflow-hidden border @4xl:grid-cols-[260px_minmax(0,1fr)]', className)}
+      className={cn(
+        'border-outline-variant grid min-h-0 overflow-hidden border @4xl:grid-cols-[260px_minmax(0,1fr)]',
+        className,
+      )}
     >
-      <div className="border-outline-variant min-h-0 border-b bg-surface @4xl:border-r @4xl:border-b-0">
+      <div className="border-outline-variant bg-surface min-h-0 border-b @4xl:border-r @4xl:border-b-0">
         <div className="border-outline-variant flex h-14 items-center border-b px-4">
           <Typography variant="labelLarge" className="text-on-surface-variant">
             Files
           </Typography>
         </div>
-        <div className="max-h-64 overflow-auto p-2 @4xl:max-h-none @4xl:h-full">
+        <div className="max-h-64 overflow-auto p-2 @4xl:h-full @4xl:max-h-none">
           <BlockCodeTree
             node={tree}
             expandedFolders={expandedFolders}
@@ -142,19 +145,19 @@ export function BlockCodeExplorer({ codeExample, className }: BlockCodeExplorerP
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-col bg-surface">
+      <div className="bg-surface flex min-h-0 flex-col">
         <div className="border-outline-variant flex h-14 items-center justify-between gap-3 border-b px-4">
           <div className="min-w-0">
             <Typography
               variant="labelMedium"
-              className="truncate font-mono text-on-surface-variant"
+              className="text-on-surface-variant truncate font-mono"
             >
               {selectedFile?.path ?? 'No file selected'}
             </Typography>
           </div>
           <div className="flex items-center gap-2">
             {selectedFile?.language ? (
-              <Typography variant="labelSmall" className="font-mono text-on-surface-variant">
+              <Typography variant="labelSmall" className="text-on-surface-variant font-mono">
                 {selectedFile.language}
               </Typography>
             ) : null}
@@ -164,17 +167,18 @@ export function BlockCodeExplorer({ codeExample, className }: BlockCodeExplorerP
               aria-label={copied ? 'Copied!' : 'Copy code'}
               onClick={handleCopy}
               disabled={!selectedFile}
-            >
-              <span className="material-symbols-outlined text-[20px]">
-                {copied ? 'check' : 'content_copy'}
-              </span>
-            </IconButton>
+              icon={
+                <span className="material-symbols-outlined text-[20px]">
+                  {copied ? 'check' : 'content_copy'}
+                </span>
+              }
+            />
           </div>
         </div>
 
         <div className="min-h-0 flex-1 overflow-auto p-5">
           {selectedFile ? (
-            <pre className="text-body-small overflow-auto font-mono leading-relaxed text-on-surface">
+            <pre className="text-body-small text-on-surface overflow-auto font-mono leading-relaxed">
               <code>{selectedFile.code}</code>
             </pre>
           ) : (
@@ -233,13 +237,13 @@ function BlockCodeTree({
         <button
           type="button"
           onClick={() => onToggleFolder(node.path)}
-          className="flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-body-small text-on-surface hover:bg-surface-container"
+          className="text-body-small text-on-surface hover:bg-surface-container flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left"
           style={{ paddingLeft: `${depth * 12 + 8}px` }}
         >
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
+          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">
             {expanded ? 'expand_more' : 'chevron_right'}
           </span>
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant">
+          <span className="material-symbols-outlined text-on-surface-variant text-[18px]">
             folder
           </span>
           <span className="truncate">{node.name}</span>
@@ -271,8 +275,9 @@ function BlockCodeTree({
       type="button"
       onClick={() => onSelectFile(node.path)}
       className={cn(
-        'flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left text-body-small text-on-surface hover:bg-surface-container',
-        selected && 'bg-secondary-container text-on-secondary-container hover:bg-secondary-container',
+        'text-body-small text-on-surface hover:bg-surface-container flex w-full items-center gap-2 rounded-sm px-2 py-2 text-left',
+        selected &&
+          'bg-secondary-container text-on-secondary-container hover:bg-secondary-container',
       )}
       style={{ paddingLeft: `${depth * 12 + 8}px` }}
     >

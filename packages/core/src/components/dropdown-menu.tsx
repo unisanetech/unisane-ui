@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { cn, Slot } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
 import { getPortalLayerStyle } from '../lib/portal-layer';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '../primitives/menu';
 
 export interface DropdownMenuProps {

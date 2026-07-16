@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo } from 'react';
 
 // ─── TYPES ────────────────────────────────────────────────────────────────────
 
@@ -47,7 +47,7 @@ export interface UseActionDialogReturn<T> {
  * @example
  * ```tsx
  * function UsersTable({ data }: { data: User[] }) {
- *   const { openDialog, getDialogProps, selectedRow, closeDialog } = useActionDialog<User>();
+ *   const { openDialog, getDialogProps, selectedRow } = useActionDialog<User>();
  *
  *   const actionItems = [
  *     { key: "edit", label: "Edit", onClick: (row) => openDialog("edit", row) },
@@ -64,19 +64,14 @@ export interface UseActionDialogReturn<T> {
  *         {...getDialogProps("delete")}
  *         title="Delete user?"
  *         description={`This will permanently delete ${selectedRow?.name}.`}
- *         onConfirm={() => {
- *           deleteUser(selectedRow.id);
- *           closeDialog();
- *         }}
+ *         onConfirm={() => deleteUser(selectedRow.id)}
  *       />
  *     </>
  *   );
  * }
  * ```
  */
-export function useActionDialog<T>(
-  options: UseActionDialogOptions = {}
-): UseActionDialogReturn<T> {
+export function useActionDialog<T>(options: UseActionDialogOptions = {}): UseActionDialogReturn<T> {
   const { onClose } = options;
 
   const [state, setState] = useState<ActionDialogState<T>>({
@@ -96,7 +91,7 @@ export function useActionDialog<T>(
 
   const isDialogOpen = useCallback(
     (type: ActionDialogType) => state.isOpen && state.type === type,
-    [state.isOpen, state.type]
+    [state.isOpen, state.type],
   );
 
   const getDialogProps = useCallback(
@@ -106,7 +101,7 @@ export function useActionDialog<T>(
         if (!open) closeDialog();
       },
     }),
-    [state.isOpen, state.type, closeDialog]
+    [state.isOpen, state.type, closeDialog],
   );
 
   return useMemo(
@@ -118,7 +113,7 @@ export function useActionDialog<T>(
       getDialogProps,
       selectedRow: state.row,
     }),
-    [state, openDialog, closeDialog, isDialogOpen, getDialogProps]
+    [state, openDialog, closeDialog, isDialogOpen, getDialogProps],
   );
 }
 
@@ -139,7 +134,7 @@ export interface UseConfirmActionReturn {
   /** Whether the action is currently executing */
   isLoading: boolean;
   /** Execute the confirm action */
-  execute: () => Promise<void>;
+  execute: () => Promise<boolean>;
 }
 
 /**
@@ -150,10 +145,7 @@ export interface UseConfirmActionReturn {
  * const { isLoading, execute } = useConfirmAction({
  *   row: selectedUser,
  *   action: async (user) => await deleteUser(user.id),
- *   onSuccess: () => {
- *     closeDialog();
- *     toast.success("User deleted");
- *   },
+ *   onSuccess: () => toast.success("User deleted"),
  * });
  *
  * <ConfirmDialog
@@ -171,14 +163,16 @@ export function useConfirmAction<T>({
   const [isLoading, setIsLoading] = useState(false);
 
   const execute = useCallback(async () => {
-    if (!row) return;
+    if (!row) return false;
 
     setIsLoading(true);
     try {
       await action(row);
       onSuccess?.();
+      return true;
     } catch (error) {
       onError?.(error instanceof Error ? error : new Error(String(error)));
+      return false;
     } finally {
       setIsLoading(false);
     }

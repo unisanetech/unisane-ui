@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from 'react';
 import { cn } from '../lib/utils';
 import { Fab } from './fab';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { useControllableState } from '../lib/use-controllable-state';
 
 export interface FabAction {

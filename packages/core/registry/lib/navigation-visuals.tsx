@@ -1,6 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Icon, type IconProps } from '@/primitives/icon';
+import { Icon, type IconProps } from '@/components/ui/icon';
 
 export interface NavigationIconProps {
   icon: React.ReactNode | string;

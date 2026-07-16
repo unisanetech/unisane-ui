@@ -1,40 +1,40 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Carousel, CarouselSlide, IconButton } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Carousel, CarouselSlide, IconButton } from '@unisane/ui';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CarouselHeroVisual = () => (
   <HeroBackground tone="tertiary">
     {/* Mock Carousel */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="h-44 bg-surface-container-high relative">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border shadow-xl">
+      <div className="bg-surface-container-high relative h-44">
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="material-symbols-outlined text-on-surface-variant text-[48px]">image</span>
+          <span className="material-symbols-outlined text-on-surface-variant text-[48px]">
+            image
+          </span>
         </div>
         {/* Navigation Arrows */}
         <IconButton
           variant="filled"
           size="md"
           aria-label="Previous slide"
-          className="absolute left-3 top-1/2 -translate-y-1/2 bg-surface-container-low"
-        >
-          <span className="material-symbols-outlined text-on-surface">chevron_left</span>
-        </IconButton>
+          className="bg-surface-container-low absolute top-1/2 left-3 -translate-y-1/2"
+          icon={<span className="material-symbols-outlined text-on-surface">chevron_left</span>}
+        />
         <IconButton
           variant="filled"
           size="md"
           aria-label="Next slide"
-          className="absolute right-3 top-1/2 -translate-y-1/2 bg-surface-container-low"
-        >
-          <span className="material-symbols-outlined text-on-surface">chevron_right</span>
-        </IconButton>
+          className="bg-surface-container-low absolute top-1/2 right-3 -translate-y-1/2"
+          icon={<span className="material-symbols-outlined text-on-surface">chevron_right</span>}
+        />
         {/* Indicators */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
-          <div className="w-2 h-2 rounded-full bg-primary" />
-          <div className="w-2 h-2 rounded-full bg-outline-medium" />
-          <div className="w-2 h-2 rounded-full bg-outline-medium" />
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
+          <div className="bg-primary h-2 w-2 rounded-full" />
+          <div className="bg-outline-medium h-2 w-2 rounded-full" />
+          <div className="bg-outline-medium h-2 w-2 rounded-full" />
         </div>
       </div>
     </div>
@@ -43,20 +43,20 @@ const CarouselHeroVisual = () => (
 
 // ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
 const CarouselBasicExample = () => (
-  <div className="w-full max-w-xs h-52">
+  <div className="h-52 w-full max-w-xs">
     <Carousel showControls showIndicators>
       <CarouselSlide>
-        <div className="w-full h-full bg-primary-container flex items-center justify-center rounded-sm">
+        <div className="bg-primary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-primary-container">Slide 1</span>
         </div>
       </CarouselSlide>
       <CarouselSlide>
-        <div className="w-full h-full bg-secondary-container flex items-center justify-center rounded-sm">
+        <div className="bg-secondary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-secondary-container">Slide 2</span>
         </div>
       </CarouselSlide>
       <CarouselSlide>
-        <div className="w-full h-full bg-tertiary-container flex items-center justify-center rounded-sm">
+        <div className="bg-tertiary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-tertiary-container">Slide 3</span>
         </div>
       </CarouselSlide>
@@ -65,20 +65,20 @@ const CarouselBasicExample = () => (
 );
 
 const CarouselAutoPlayExample = () => (
-  <div className="w-full max-w-xs h-52">
+  <div className="h-52 w-full max-w-xs">
     <Carousel autoPlay interval={3000} showIndicators>
       <CarouselSlide>
-        <div className="w-full h-full bg-tertiary-container flex items-center justify-center rounded-sm">
+        <div className="bg-tertiary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-tertiary-container">Auto 1</span>
         </div>
       </CarouselSlide>
       <CarouselSlide>
-        <div className="w-full h-full bg-primary-container flex items-center justify-center rounded-sm">
+        <div className="bg-primary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-primary-container">Auto 2</span>
         </div>
       </CarouselSlide>
       <CarouselSlide>
-        <div className="w-full h-full bg-secondary-container flex items-center justify-center rounded-sm">
+        <div className="bg-secondary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-secondary-container">Auto 3</span>
         </div>
       </CarouselSlide>
@@ -87,15 +87,15 @@ const CarouselAutoPlayExample = () => (
 );
 
 const CarouselMinimalExample = () => (
-  <div className="w-full max-w-xs h-52">
+  <div className="h-52 w-full max-w-xs">
     <Carousel showControls={false} showIndicators={false}>
       <CarouselSlide>
-        <div className="w-full h-full bg-surface-container flex items-center justify-center rounded-sm border border-outline-variant">
+        <div className="bg-surface-container border-outline-variant flex h-full w-full items-center justify-center rounded-sm border">
           <span className="text-title-large text-on-surface">Minimal</span>
         </div>
       </CarouselSlide>
       <CarouselSlide>
-        <div className="w-full h-full bg-surface-container flex items-center justify-center rounded-sm border border-outline-variant">
+        <div className="bg-surface-container border-outline-variant flex h-full w-full items-center justify-center rounded-sm border">
           <span className="text-title-large text-on-surface">Swipe</span>
         </div>
       </CarouselSlide>
@@ -105,141 +105,139 @@ const CarouselMinimalExample = () => (
 
 export const carouselDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "carousel",
-  name: "Carousel",
+  slug: 'carousel',
+  name: 'Carousel',
   description:
-    "Carousels display a collection of items that can be navigated through horizontally.",
-  category: "containment",
-  status: "stable",
-  icon: "view_carousel",
+    'Carousels display a collection of items that can be navigated through horizontally.',
+  category: 'containment',
+  status: 'stable',
+  icon: 'view_carousel',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Carousel", "CarouselSlide"],
+  importPath: '@unisane/ui',
+  exports: ['Carousel', 'CarouselSlide'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <CarouselHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Choose carousel configuration based on content and interaction needs.",
+    description: 'Choose carousel configuration based on content and interaction needs.',
     columns: {
-      emphasis: "Feature",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Feature',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "With Controls",
+        emphasis: 'With Controls',
         component: (
           <div className="h-24 w-44">
             <Carousel showControls showIndicators={false}>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-primary-container" />
+                <div className="bg-primary-container h-full w-full rounded-sm" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-secondary-container" />
+                <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        rationale: "When manual navigation is needed.",
-        examples: "Image galleries, Product showcases",
+        rationale: 'When manual navigation is needed.',
+        examples: 'Image galleries, Product showcases',
       },
       {
-        emphasis: "Auto-play",
+        emphasis: 'Auto-play',
         component: (
           <div className="h-24 w-44">
             <Carousel autoPlay interval={3000} showControls={false} showIndicators>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-secondary-container" />
+                <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-tertiary-container" />
+                <div className="bg-tertiary-container h-full w-full rounded-sm" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        rationale: "For passive viewing experiences.",
-        examples: "Hero banners, Testimonials, Promotions",
+        rationale: 'For passive viewing experiences.',
+        examples: 'Hero banners, Testimonials, Promotions',
       },
       {
-        emphasis: "Minimal",
+        emphasis: 'Minimal',
         component: (
           <div className="h-24 w-44">
             <Carousel showControls={false} showIndicators={false}>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+                <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+                <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        rationale: "For clean, swipe-only interfaces.",
-        examples: "Onboarding, Mobile galleries",
+        rationale: 'For clean, swipe-only interfaces.',
+        examples: 'Onboarding, Mobile galleries',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Carousel configurations vary by level of interactivity and visual prominence.",
+    description: 'Carousel configurations vary by level of interactivity and visual prominence.',
     items: [
       {
         component: (
           <div className="h-24 w-44">
             <Carousel showControls showIndicators>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-primary-container" />
+                <div className="bg-primary-container h-full w-full rounded-sm" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-secondary-container" />
+                <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-tertiary-container" />
+                <div className="bg-tertiary-container h-full w-full rounded-sm" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        title: "Full controls",
-        subtitle: "Arrows + Indicators",
+        title: 'Full controls',
+        subtitle: 'Arrows + Indicators',
       },
       {
         component: (
           <div className="h-24 w-44">
             <Carousel showControls={false} showIndicators>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-secondary-container" />
+                <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-primary-container" />
+                <div className="bg-primary-container h-full w-full rounded-sm" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        title: "Indicators only",
-        subtitle: "Auto-play friendly",
+        title: 'Indicators only',
+        subtitle: 'Auto-play friendly',
       },
       {
         component: (
           <div className="h-24 w-44">
             <Carousel showControls={false} showIndicators={false}>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+                <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
               <CarouselSlide>
-                <div className="h-full w-full rounded-sm bg-surface-container border border-outline-variant" />
+                <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
             </Carousel>
           </div>
         ),
-        title: "Minimal",
-        subtitle: "Swipe/touch only",
+        title: 'Minimal',
+        subtitle: 'Swipe/touch only',
       },
     ],
   },
@@ -247,22 +245,22 @@ export const carouselDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Carousels are typically used for featured content, image galleries, and promotional banners.",
+      'Carousels are typically used for featured content, image galleries, and promotional banners.',
     examples: [
       {
-        title: "With controls",
+        title: 'With controls',
         visual: <CarouselBasicExample />,
-        caption: "Use arrow keys or click controls to navigate",
+        caption: 'Use arrow keys or click controls to navigate',
       },
       {
-        title: "Auto-play",
+        title: 'Auto-play',
         visual: <CarouselAutoPlayExample />,
-        caption: "Automatically advances slides, pauses on hover",
+        caption: 'Automatically advances slides, pauses on hover',
       },
       {
-        title: "Minimal (swipe only)",
+        title: 'Minimal (swipe only)',
         visual: <CarouselMinimalExample />,
-        caption: "Clean interface for touch/swipe navigation",
+        caption: 'Clean interface for touch/swipe navigation',
       },
     ],
   },
@@ -270,51 +268,56 @@ export const carouselDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "CarouselSlide components to display.",
+      description: 'CarouselSlide components to display.',
     },
     {
-      name: "autoPlay",
-      type: "boolean",
-      default: "false",
-      description: "Automatically advance slides.",
+      name: 'autoPlay',
+      type: 'boolean',
+      default: 'false',
+      description: 'Automatically advance slides.',
     },
     {
-      name: "interval",
-      type: "number",
-      default: "5000",
-      description: "Auto-play interval in milliseconds.",
+      name: 'interval',
+      type: 'number',
+      default: '5000',
+      description: 'Auto-play interval in milliseconds.',
     },
     {
-      name: "showControls",
-      type: "boolean",
-      default: "true",
-      description: "Show navigation arrow buttons.",
+      name: 'showControls',
+      type: 'boolean',
+      default: 'true',
+      description: 'Show navigation arrow buttons.',
     },
     {
-      name: "showIndicators",
-      type: "boolean",
-      default: "true",
-      description: "Show dot indicators for slides.",
+      name: 'showIndicators',
+      type: 'boolean',
+      default: 'true',
+      description: 'Show dot indicators for slides.',
     },
     {
-      name: "aria-label",
-      type: "string",
+      name: 'aria-label',
+      type: 'string',
       default: '"Image carousel"',
-      description: "Accessible label for the carousel.",
+      description: 'Accessible label for the carousel.',
     },
   ],
 
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
   subComponents: [
     {
-      name: "CarouselSlide",
-      description: "Container for individual slide content.",
+      name: 'CarouselSlide',
+      description: 'Container for individual slide content.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Content to display in the slide." },
-        { name: "className", type: "string", description: "Additional CSS classes." },
+        {
+          name: 'children',
+          type: 'ReactNode',
+          required: true,
+          description: 'Content to display in the slide.',
+        },
+        { name: 'className', type: 'string', description: 'Additional CSS classes.' },
       ],
     },
   ],
@@ -323,24 +326,24 @@ export const carouselDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "Uses role='region' with aria-roledescription='carousel'.",
-      "Current slide position announced via aria-live.",
+      'Current slide position announced via aria-live.',
       "Each slide has proper role='tabpanel' semantics.",
     ],
     keyboard: [
-      { key: "Arrow Left", description: "Go to previous slide" },
-      { key: "Arrow Right", description: "Go to next slide" },
-      { key: "Home", description: "Go to first slide" },
-      { key: "End", description: "Go to last slide" },
+      { key: 'Arrow Left', description: 'Go to previous slide' },
+      { key: 'Arrow Right', description: 'Go to next slide' },
+      { key: 'Home', description: 'Go to first slide' },
+      { key: 'End', description: 'Go to last slide' },
     ],
     focus: [
-      "Carousel is focusable for keyboard navigation.",
-      "Auto-play pauses on hover for accessibility.",
+      'Carousel is focusable for keyboard navigation.',
+      'Auto-play pauses on hover for accessibility.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Wrap content in CarouselSlide components.",
+    description: 'Wrap content in CarouselSlide components.',
     code: `import { Carousel, CarouselSlide } from "@unisane/ui";
 
 function ImageGallery() {
@@ -363,12 +366,12 @@ function ImageGallery() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "tabs",
-      reason: "Use for content that should be navigated by category.",
+      slug: 'tabs',
+      reason: 'Use for content that should be navigated by category.',
     },
     {
-      slug: "card",
-      reason: "Use for individual content items within slides.",
+      slug: 'card',
+      reason: 'Use for individual content items within slides.',
     },
   ],
 };

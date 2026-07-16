@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useCallback, useId, forwardRef } from 'react'
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { Text } from '@/primitives/text';
-import { Icon } from '@/primitives/icon';
+import { Icon } from '@/components/ui/icon';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '@/lib/field-shell';

@@ -1,6 +1,8 @@
 'use client';
 
-import { Button, Checkbox, Surface, TextField, Typography } from '@unisane/ui';
+import { Button, Surface, Typography } from '@unisane/ui';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { TextField } from '@unisane/ui/text-field';
 
 export function AuthSplitBlock() {
   return (
@@ -9,10 +11,7 @@ export function AuthSplitBlock() {
       rounded="sm"
       className="border-outline-variant grid h-full w-full overflow-hidden border @3xl:grid-cols-[minmax(0,1.1fr)_420px]"
     >
-      <Surface
-        tone="primaryContainer"
-        className="flex min-h-[420px] flex-col justify-between p-8"
-      >
+      <Surface tone="primaryContainer" className="flex min-h-[420px] flex-col justify-between p-8">
         <div className="space-y-4">
           <Typography variant="labelLarge" className="text-on-primary-container">
             Team portal

@@ -1,29 +1,16 @@
 'use client';
 
 import { cn } from '@unisane/ui/lib/utils';
+import { IconButton, SearchBar, TopAppBar, Surface } from '@unisane/ui';
 import {
-  IconButton,
-  SearchBar,
   Sidebar,
-  SidebarBackdrop,
-  SidebarCollapsibleGroup,
-  SidebarContent,
   SidebarDrawer,
-  SidebarGroupLabel,
-  SidebarHeader,
   SidebarInset,
-  SidebarMenu,
-  SidebarNavItem,
   SidebarProvider,
   SidebarRail,
-  SidebarRailItem,
   SidebarTrigger,
-  TopAppBar,
-  Typography,
-  Surface,
-  useSidebar,
-} from '@unisane/ui';
-import type { NavigationItem } from '@unisane/ui';
+} from '@unisane/ui/sidebar';
+import type { NavigationItem } from '@unisane/ui/navigation';
 import type { DocsBlockViewport } from '@/lib/docs/blocks/types';
 
 const navigationItems: NavigationItem[] = [
@@ -52,37 +39,6 @@ const navigationItems: NavigationItem[] = [
   { id: 'settings-root', label: 'Settings', icon: 'settings' },
 ];
 
-function renderNestedMenu(
-  items: NavigationItem[],
-  showRootIcons: boolean,
-  level = 0,
-) {
-  return items.map((item) => {
-    const hasChildren = Boolean(item.items && item.items.length > 0);
-    if (!hasChildren) {
-      return (
-        <SidebarNavItem
-          key={item.id}
-          id={item.id}
-          icon={level === 0 && showRootIcons ? item.icon : undefined}
-          label={item.label}
-        />
-      );
-    }
-
-    return (
-      <SidebarCollapsibleGroup
-        key={item.id}
-        id={item.id}
-        label={item.label}
-        icon={level === 0 && showRootIcons ? item.icon : undefined}
-      >
-        <SidebarMenu>{renderNestedMenu(item.items || [], false, level + 1)}</SidebarMenu>
-      </SidebarCollapsibleGroup>
-    );
-  });
-}
-
 interface AppShellBlockProps {
   viewport?: DocsBlockViewport;
 }
@@ -91,7 +47,7 @@ export function AppShellBlock({ viewport = 'desktop' }: AppShellBlockProps) {
   return (
     <SidebarProvider
       items={navigationItems}
-      defaultActiveId="approvals"
+      defaultValue="approvals"
       defaultExpanded={viewport === 'desktop'}
       defaultMobileOpen={false}
       forceViewport={viewport}
@@ -105,7 +61,6 @@ export function AppShellBlock({ viewport = 'desktop' }: AppShellBlockProps) {
 }
 
 function AppShellBlockContent({ viewport }: AppShellBlockProps) {
-  const { mobileOpen, effectiveItem } = useSidebar();
   const isDesktop = viewport === 'desktop';
   const isTablet = viewport === 'tablet';
   const isMobile = viewport === 'mobile';
@@ -115,47 +70,19 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
   return (
     <div className="border-outline-variant relative h-full w-full [transform:translateZ(0)] overflow-hidden rounded-sm border">
       <Sidebar className="h-full">
-        <SidebarRail>
-          <SidebarRailItem id="workspace" label="Workspace" icon="space_dashboard" />
-          <SidebarRailItem id="queue" label="Queue" icon="inbox" />
-          <SidebarRailItem id="reports" label="Reports" icon="bar_chart" />
-          <SidebarRailItem id="settings-root" label="Settings" icon="settings" />
-        </SidebarRail>
-
-        <SidebarDrawer>
-          {mobileOpen ? (
-            <SidebarContent className="pt-3 pb-14">
-              <SidebarGroupLabel>Main navigation</SidebarGroupLabel>
-              <SidebarMenu>{renderNestedMenu(navigationItems, true)}</SidebarMenu>
-            </SidebarContent>
-          ) : (
-            <>
-              <SidebarHeader>
-                <Typography variant="labelLarge" className="text-on-surface-variant">
-                  {effectiveItem?.label ?? 'Workspace'}
-                </Typography>
-              </SidebarHeader>
-              <SidebarContent>
-                <SidebarMenu>
-                  {renderNestedMenu(
-                    effectiveItem?.items && effectiveItem.items.length > 0
-                      ? effectiveItem.items
-                      : navigationItems[0]?.items || [],
-                    false,
-                  )}
-                </SidebarMenu>
-              </SidebarContent>
-            </>
-          )}
-        </SidebarDrawer>
-        <SidebarBackdrop />
+        <SidebarRail aria-label="App navigation" />
+        <SidebarDrawer aria-label="App navigation" overlayHeadline="Main navigation" />
 
         <SidebarInset className="h-full">
           <TopAppBar
             variant="small"
             title="App shell"
             navigationIcon={
-              <SidebarTrigger visibility="mobile" className="size-9 rounded-sm text-on-surface-variant hover:bg-state-hover">
+              <SidebarTrigger
+                aria-label="Open navigation"
+                visibility="mobile"
+                className="text-on-surface-variant hover:bg-state-hover size-9 rounded-sm"
+              >
                 <span className="material-symbols-outlined text-[18px]">menu</span>
               </SidebarTrigger>
             }
@@ -172,18 +99,19 @@ function AppShellBlockContent({ viewport }: AppShellBlockProps) {
                   variant="standard"
                   size="sm"
                   aria-label="Search"
-                  className={cn('pointer-events-none', showCompactSearch ? 'inline-flex' : 'hidden')}
-                >
-                  <span className="material-symbols-outlined text-[18px]">search</span>
-                </IconButton>
+                  className={cn(
+                    'pointer-events-none',
+                    showCompactSearch ? 'inline-flex' : 'hidden',
+                  )}
+                  icon={<span className="material-symbols-outlined text-[18px]">search</span>}
+                />
                 <IconButton
                   variant="standard"
                   size="sm"
                   aria-label="More actions"
                   className="pointer-events-none"
-                >
-                  <span className="material-symbols-outlined text-[18px]">more_vert</span>
-                </IconButton>
+                  icon={<span className="material-symbols-outlined text-[18px]">more_vert</span>}
+                />
               </>
             }
           />

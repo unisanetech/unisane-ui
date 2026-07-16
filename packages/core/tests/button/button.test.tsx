@@ -1,22 +1,23 @@
 // @vitest-environment happy-dom
 
-import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { Button } from "../../src/components/button";
+import React, { act } from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Button } from '../../src/components/button';
+import { Icon } from '../../src/components/icon';
 
 function installMatchMedia(initialMatches = false) {
   let matches = initialMatches;
   const listeners = new Set<(event: MediaQueryListEvent) => void>();
 
-  Object.defineProperty(window, "matchMedia", {
+  Object.defineProperty(window, 'matchMedia', {
     configurable: true,
     writable: true,
     value: () => ({
       get matches() {
         return matches;
       },
-      media: "(prefers-reduced-motion: reduce)",
+      media: '(prefers-reduced-motion: reduce)',
       onchange: null,
       addEventListener: (_event: string, listener: (event: MediaQueryListEvent) => void) => {
         listeners.add(listener);
@@ -44,7 +45,7 @@ function installMatchMedia(initialMatches = false) {
 }
 
 async function render(ui: React.ReactNode) {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
 
@@ -62,51 +63,67 @@ async function cleanup(root: Root, container: HTMLElement) {
   container.remove();
 }
 
-describe("Button", () => {
+describe('Button', () => {
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
     installMatchMedia(false);
   });
 
   afterEach(() => {
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
 
-  it("renders a native button with the expected default semantics", async () => {
+  it('renders a native button with the expected default semantics', async () => {
     const onClick = vi.fn();
     const rendered = await render(<Button onClick={onClick}>Save</Button>);
-    const button = rendered.container.querySelector("button");
+    const button = rendered.container.querySelector('button');
 
     expect(button).not.toBeNull();
-    expect(button?.getAttribute("type")).toBe("button");
-    expect(button?.textContent).toContain("Save");
+    expect(button?.getAttribute('type')).toBe('button');
+    expect(button?.textContent).toContain('Save');
 
-    button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    button?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).toHaveBeenCalledTimes(1);
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("treats loading as disabled and exposes aria-busy", async () => {
+  it('treats loading as disabled and exposes aria-busy', async () => {
     const onClick = vi.fn();
     const rendered = await render(
       <Button loading onClick={onClick}>
         Save
       </Button>,
     );
-    const button = rendered.container.querySelector("button");
+    const button = rendered.container.querySelector('button');
 
     expect(button?.disabled).toBe(true);
-    expect(button?.getAttribute("aria-busy")).toBe("true");
-    expect(button?.getAttribute("data-disabled")).toBe("true");
+    expect(button?.getAttribute('aria-busy')).toBe('true');
+    expect(button?.getAttribute('data-disabled')).toBe('true');
 
-    button?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    button?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     expect(onClick).toHaveBeenCalledTimes(0);
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("renders asChild without losing the composed click behavior", async () => {
+  it('renders canonical leading and trailing icon slots', async () => {
+    const rendered = await render(
+      <Button leadingIcon={<Icon symbol="save" />} trailingIcon={<Icon symbol="arrow_forward" />}>
+        Save
+      </Button>,
+    );
+    const icons = rendered.container.querySelectorAll('.material-symbols-outlined');
+
+    expect(icons).toHaveLength(2);
+    expect(icons[0]?.textContent).toBe('save');
+    expect(icons[0]?.classList.contains('size-icon-sm')).toBe(true);
+    expect(icons[1]?.textContent).toBe('arrow_forward');
+
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('renders asChild without losing the composed click behavior', async () => {
     const buttonClick = vi.fn();
     const childClick = vi.fn();
     const rendered = await render(
@@ -116,20 +133,20 @@ describe("Button", () => {
         </a>
       </Button>,
     );
-    const link = rendered.container.querySelector("a");
+    const link = rendered.container.querySelector('a');
 
     expect(link).not.toBeNull();
-    expect(link?.getAttribute("aria-disabled")).toBeNull();
-    expect(link?.textContent).toContain("Docs");
+    expect(link?.getAttribute('aria-disabled')).toBeNull();
+    expect(link?.textContent).toContain('Docs');
 
-    link?.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+    link?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     expect(buttonClick).toHaveBeenCalledTimes(1);
     expect(childClick).toHaveBeenCalledTimes(1);
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("blocks composed child clicks when disabled in asChild mode", async () => {
+  it('blocks composed child clicks when disabled in asChild mode', async () => {
     const buttonClick = vi.fn();
     const childClick = vi.fn();
     const rendered = await render(
@@ -139,13 +156,13 @@ describe("Button", () => {
         </a>
       </Button>,
     );
-    const link = rendered.container.querySelector("a");
+    const link = rendered.container.querySelector('a');
 
-    expect(link?.getAttribute("aria-disabled")).toBe("true");
-    expect(link?.getAttribute("data-disabled")).toBe("true");
-    expect(link?.getAttribute("tabindex")).toBe("-1");
+    expect(link?.getAttribute('aria-disabled')).toBe('true');
+    expect(link?.getAttribute('data-disabled')).toBe('true');
+    expect(link?.getAttribute('tabindex')).toBe('-1');
 
-    const clickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
+    const clickEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
     link?.dispatchEvent(clickEvent);
     expect(clickEvent.defaultPrevented).toBe(true);
     expect(buttonClick).toHaveBeenCalledTimes(0);

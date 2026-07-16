@@ -14,8 +14,7 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createHash } from 'crypto';
-import { loadThemeConfig } from '../../tokens/scripts/tokens-build/theme-config.mjs';
-import { generateMergedTokenCss } from '../../tokens/scripts/tokens-build/css-generators.mjs';
+import { generateRegistryStyleArtifacts } from './registry-styles.mjs';
 import { rewriteSourceImportsToRegistry } from './registry-imports.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +24,8 @@ const rootDir = path.join(__dirname, '..');
 const srcDir = path.join(rootDir, 'src');
 const registryDir = path.join(rootDir, 'registry');
 const packageJsonPath = path.join(rootDir, 'package.json');
+const MODULE_SPECIFIER_REGEX = /(?:\bfrom\s+|\bimport\s+)(["'])([^"']+)\1/g;
+const PEER_PACKAGES = new Set(['react', 'react-dom']);
 
 // Track validation results
 const results = {
@@ -254,27 +255,180 @@ async function validateRegistryJson() {
   }
 }
 
+function toInstalledRelativePath(registryFile) {
+  const [root, ...rest] = registryFile.split('/');
+  if (['components', 'primitives', 'layout'].includes(root)) {
+    return path.posix.join('components/ui', ...rest);
+  }
+  return path.posix.join(root, ...rest);
+}
+
+function resolveInstalledPath(specifier, installedOwners) {
+  let relativePath = null;
+
+  if (specifier.startsWith('@/components/ui/')) {
+    relativePath = specifier.slice('@/'.length);
+  } else if (specifier.startsWith('@/primitives/')) {
+    relativePath = `components/ui/${specifier.slice('@/primitives/'.length)}`;
+  } else if (specifier.startsWith('@/layout/')) {
+    relativePath = `components/ui/${specifier.slice('@/layout/'.length)}`;
+  } else if (specifier.startsWith('@/')) {
+    relativePath = specifier.slice('@/'.length);
+  }
+
+  if (!relativePath) return null;
+
+  const candidates = [
+    relativePath,
+    `${relativePath}.ts`,
+    `${relativePath}.tsx`,
+    `${relativePath}/index.ts`,
+    `${relativePath}/index.tsx`,
+  ];
+  return candidates.find((candidate) => installedOwners.has(candidate)) ?? null;
+}
+
+function getPackageName(specifier) {
+  if (specifier.startsWith('@')) {
+    const [scope, name] = specifier.split('/');
+    return scope && name ? `${scope}/${name}` : null;
+  }
+  return specifier.split('/')[0] || null;
+}
+
+function getDependencyPackageName(dependency) {
+  if (dependency.startsWith('@')) {
+    const versionSeparator = dependency.indexOf('@', 1);
+    return versionSeparator === -1 ? dependency : dependency.slice(0, versionSeparator);
+  }
+  return dependency.split('@')[0];
+}
+
+async function validateRegistryDependencyClosure() {
+  console.log('🔍 Validating registry dependency closure...\n');
+
+  try {
+    const registry = JSON.parse(await fs.readFile(path.join(registryDir, 'registry.json'), 'utf8'));
+    const installedOwners = new Map();
+
+    for (const [key, component] of Object.entries(registry.components)) {
+      for (const file of component.files ?? []) {
+        const installedPath = toInstalledRelativePath(file);
+        const existingOwner = installedOwners.get(installedPath);
+        if (existingOwner && existingOwner !== key) {
+          error(
+            `Registry items ${existingOwner} and ${key} collide at installed path ${installedPath}`,
+          );
+        } else {
+          installedOwners.set(installedPath, key);
+        }
+      }
+    }
+
+    for (const [key, component] of Object.entries(registry.components)) {
+      const registryDependencies = new Set(component.registryDependencies ?? []);
+      const dependencyPackages = new Set(
+        (component.dependencies ?? []).map(getDependencyPackageName),
+      );
+
+      for (const dependency of registryDependencies) {
+        if (!registry.components[dependency]) {
+          error(`Registry item ${key} references unknown dependency ${dependency}`);
+        }
+      }
+
+      for (const file of component.files ?? []) {
+        const content = await fs.readFile(path.join(registryDir, file), 'utf8');
+        const specifiers = Array.from(
+          content.matchAll(MODULE_SPECIFIER_REGEX),
+          (match) => match[2],
+        );
+
+        for (const specifier of specifiers) {
+          if (specifier.startsWith('@unisane/')) {
+            error(
+              `Registry source must not import Unisane runtime packages: ${file} -> ${specifier}`,
+            );
+            continue;
+          }
+
+          const installedPath = resolveInstalledPath(specifier, installedOwners);
+          if (specifier.startsWith('@/')) {
+            if (!installedPath) {
+              error(`Registry import does not resolve after installation: ${file} -> ${specifier}`);
+              continue;
+            }
+
+            const dependencyOwner = installedOwners.get(installedPath);
+            if (dependencyOwner !== key && !registryDependencies.has(dependencyOwner)) {
+              error(
+                `Registry item ${key} omits local dependency ${dependencyOwner} required by ${file}`,
+              );
+            }
+            continue;
+          }
+
+          if (specifier.startsWith('.')) continue;
+          const packageName = getPackageName(specifier);
+          if (!packageName || PEER_PACKAGES.has(packageName)) continue;
+          if (!dependencyPackages.has(packageName)) {
+            error(`Registry item ${key} omits npm dependency ${packageName} required by ${file}`);
+          }
+        }
+      }
+    }
+
+    if (results.errors.length === 0) {
+      info('✅ Registry local and npm dependency closure is complete');
+    }
+  } catch (err) {
+    error(`Could not validate registry dependency closure: ${err.message}`);
+  }
+}
+
 /**
  * Validate copied registry styles against the canonical token generator.
  */
 async function validateRegistryStyles() {
   console.log('🔍 Validating registry styles...\n');
 
-  const registryStylePath = path.join(registryDir, 'styles', 'unisane.css');
+  const registryStylePath = path.join(registryDir, 'styles', 'globals.css');
 
   try {
     const registryCss = await fs.readFile(registryStylePath, 'utf-8');
-    const expectedCss = generateMergedTokenCss(loadThemeConfig());
+    const { globalsCss: expectedCss, themes } = await generateRegistryStyleArtifacts(
+      path.join(srcDir, 'styles.css'),
+    );
 
     if (
       getContentHash(normalizeTextContent(registryCss)) !==
       getContentHash(normalizeTextContent(expectedCss))
     ) {
-      error('Content drift detected: styles/unisane.css');
+      error('Content drift detected: styles/globals.css');
       return;
     }
 
-    info('✅ registry styles are in sync');
+    for (const [themeName, expectedThemeCss] of themes) {
+      const themePath = path.join(registryDir, 'styles', 'themes', `${themeName}.css`);
+      const actualThemeCss = await fs.readFile(themePath, 'utf8');
+      if (
+        getContentHash(normalizeTextContent(actualThemeCss)) !==
+        getContentHash(normalizeTextContent(expectedThemeCss))
+      ) {
+        error(`Content drift detected: styles/themes/${themeName}.css`);
+      }
+    }
+
+    const retiredPattern =
+      /--(?:ref|tone)-|--(?:hue|chroma)(?:-|:)|data-(?:color-theme|scheme)|data-theme-scope/u;
+    if (retiredPattern.test(registryCss)) {
+      error(
+        'Consumer globals.css contains retired palette, tone, preset, scheme, or preview-scope output',
+      );
+      return;
+    }
+
+    info('✅ registry globals and replace-in-place themes are in sync');
   } catch (err) {
     error(`Could not validate registry styles: ${err.message}`);
   }
@@ -431,6 +585,7 @@ async function main() {
   await checkComponentDrift();
   await checkUnrewrittenImports();
   await validateRegistryJson();
+  await validateRegistryDependencyClosure();
   await validateRegistryStyles();
   await validatePackageFiles();
   await checkCommonIssues();

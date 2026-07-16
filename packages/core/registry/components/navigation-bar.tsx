@@ -1,126 +1,112 @@
-import React, { isValidElement, cloneElement } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, focusRing, Slot } from '@/lib/utils';
+'use client';
+
+import React from 'react';
+import { cn, focusRing } from '@/lib/utils';
+import {
+  getVisibleNavigationItems,
+  NavigationAction,
+  useNavigationSelection,
+} from '@/lib/navigation-action';
+import { NavigationIcon } from '@/lib/navigation-visuals';
+import type { NavigationPresentationProps } from '@/types/navigation';
 import { Ripple } from '@/components/ui/ripple';
 
-const navigationBarVariants = cva(
-  'absolute bottom-0 left-0 right-0 h-20 bg-surface-container-low border-t border-outline-soft flex items-center justify-around px-4 pb-4 z-30',
-  {
-    variants: {
-      variant: {
-        default: '',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-    },
-  },
-);
-
 export interface NavigationBarProps
-  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof navigationBarVariants> {
-  children: React.ReactNode;
+  extends
+    NavigationPresentationProps,
+    Omit<React.HTMLAttributes<HTMLElement>, 'children' | 'defaultValue' | 'onSelect'> {
+  'aria-label': string;
+  itemClassName?: string;
 }
 
-const NavigationBarRoot: React.FC<NavigationBarProps> = ({
-  variant,
-  children,
+export function NavigationBar({
+  items,
+  value,
+  defaultValue,
+  onValueChange,
+  onItemSelect,
+  renderLink,
   className,
+  'aria-label': ariaLabel,
+  itemClassName,
   ...props
-}) => {
+}: NavigationBarProps) {
+  const { currentValue, selectItem } = useNavigationSelection({
+    value,
+    defaultValue,
+    onValueChange,
+    onItemSelect,
+  });
+
   return (
-    <nav className={cn(navigationBarVariants({ variant, className }))} {...props}>
-      {children}
+    <nav
+      className={cn(
+        'border-outline-soft bg-surface-container-low absolute right-0 bottom-0 left-0 z-30 flex h-20 items-center justify-around border-t px-4 pb-4',
+        className,
+      )}
+      aria-label={ariaLabel}
+      {...props}
+    >
+      {getVisibleNavigationItems(items).map((item) => {
+        const active = currentValue === item.id;
+        return (
+          <NavigationAction
+            key={item.id}
+            item={item}
+            active={active}
+            onActivate={selectItem}
+            renderLink={renderLink}
+            className={cn(
+              'group relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 select-none focus-visible:outline-none',
+              focusRing,
+              itemClassName,
+            )}
+          >
+            <span className="relative mb-1 h-8 w-16">
+              <span
+                className={cn(
+                  'rounded-button duration-medium ease-standard absolute inset-0 overflow-hidden transition-all',
+                  active
+                    ? 'bg-secondary-container scale-x-100 opacity-100'
+                    : 'group-hover:bg-state-hover scale-x-50 bg-transparent opacity-0',
+                )}
+              >
+                <Ripple center disabled={item.disabled} />
+              </span>
+              <span
+                aria-hidden="true"
+                className={cn(
+                  'relative z-10 flex h-full w-full items-center justify-center transition-colors',
+                  active
+                    ? 'text-on-secondary-container'
+                    : 'text-on-surface-variant group-hover:text-on-surface',
+                )}
+              >
+                {item.icon ? (
+                  <NavigationIcon
+                    icon={active && item.activeIcon ? item.activeIcon : item.icon}
+                    active={active}
+                    size="md"
+                  />
+                ) : null}
+              </span>
+              {item.badge !== undefined ? (
+                <span className="bg-error text-on-error absolute -top-1 right-0 z-20 flex min-h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none">
+                  {item.badge}
+                </span>
+              ) : null}
+            </span>
+            <span
+              className={cn(
+                'text-label-medium w-full truncate text-center font-medium transition-colors',
+                active ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface',
+              )}
+            >
+              {item.label}
+            </span>
+          </NavigationAction>
+        );
+      })}
     </nav>
   );
-};
-
-export interface NavigationBarItemProps {
-  icon: React.ReactNode;
-  label: string;
-  active?: boolean;
-  onClick?: () => void;
-  className?: string;
-  href?: string;
-  asChild?: boolean;
-  children?: React.ReactNode;
 }
-
-const NavigationBarItem: React.FC<NavigationBarItemProps> = ({
-  icon,
-  label,
-  active,
-  onClick,
-  className,
-  href,
-  asChild,
-  children,
-}) => {
-  const itemClasses = cn(
-    'relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 group select-none focus-visible:outline-none',
-    focusRing,
-    className,
-  );
-
-  const innerContent = (
-    <>
-      <div className="relative mb-1 h-8 w-16">
-        <div
-          className={cn(
-            'duration-medium ease-standard rounded-button absolute inset-0 overflow-hidden transition-all',
-            active
-              ? 'bg-secondary-container scale-x-100 opacity-100'
-              : 'group-hover:bg-state-hover scale-x-50 bg-transparent opacity-0',
-          )}
-        >
-          <Ripple center />
-        </div>
-        <div
-          aria-hidden="true"
-          className={cn(
-            'relative z-10 flex h-full w-full items-center justify-center transition-colors',
-            active
-              ? 'text-on-secondary-container'
-              : 'text-on-surface-variant group-hover:text-on-surface',
-          )}
-        >
-          {icon}
-        </div>
-      </div>
-      <span
-        className={cn(
-          'text-label-medium w-full truncate text-center font-medium transition-colors',
-          active ? 'text-on-surface' : 'text-on-surface-variant group-hover:text-on-surface',
-        )}
-      >
-        {label}
-      </span>
-    </>
-  );
-
-  if (asChild && children && isValidElement(children)) {
-    return (
-      <Slot className={itemClasses} aria-pressed={active}>
-        {cloneElement(children as React.ReactElement, {}, innerContent)}
-      </Slot>
-    );
-  }
-
-  if (href) {
-    return (
-      <a href={href} className={itemClasses} aria-current={active ? 'page' : undefined}>
-        {innerContent}
-      </a>
-    );
-  }
-
-  return (
-    <button type="button" className={itemClasses} onClick={onClick} aria-pressed={active}>
-      {innerContent}
-    </button>
-  );
-};
-
-export const NavigationBar = Object.assign(NavigationBarRoot, {
-  Item: NavigationBarItem,
-});

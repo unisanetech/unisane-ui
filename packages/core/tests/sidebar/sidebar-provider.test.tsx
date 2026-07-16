@@ -1,272 +1,166 @@
 // @vitest-environment happy-dom
 
-import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { renderToStaticMarkup } from "react-dom/server";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import React, { act } from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   Sidebar,
-  SidebarBackdrop,
   SidebarDrawer,
+  SidebarInset,
   SidebarProvider,
+  SidebarTrigger,
   useSidebar,
-} from "../../src/components/sidebar";
-import type { NavigationItem } from "../../src/types/navigation";
+} from '../../src/components/sidebar';
+import type { NavigationItem } from '../../src/types/navigation';
 
 const ITEMS: NavigationItem[] = [
   {
-    id: "components",
-    label: "Components",
-    href: "/docs/components",
+    id: 'components',
+    label: 'Components',
+    href: '/docs/components',
     items: [
-      { id: "button", label: "Button", href: "/docs/components/button" },
-      { id: "card", label: "Card", href: "/docs/components/card" },
+      { id: 'button', label: 'Button', href: '/docs/components/button' },
+      { id: 'card', label: 'Card', href: '/docs/components/card' },
     ],
   },
-  {
-    id: "home",
-    label: "Home",
-    href: "/",
-    items: [],
-  },
+  { id: 'home', label: 'Home', href: '/' },
 ];
 
-function SidebarProbe() {
-  const { activeId, expanded, effectiveItem, handleClick, isMobile, isDesktop } = useSidebar();
-
+function Probe() {
+  const sidebar = useSidebar();
   return (
     <div>
-      <div data-testid="active">{activeId ?? ""}</div>
-      <div data-testid="expanded">{String(expanded)}</div>
-      <div data-testid="effective">{effectiveItem?.id ?? ""}</div>
-      <div data-testid="mobile">{String(isMobile)}</div>
-      <div data-testid="desktop">{String(isDesktop)}</div>
-      <button type="button" onClick={() => handleClick("components")}>
-        click-components
+      <div data-testid="value">{sidebar.value ?? ''}</div>
+      <div data-testid="expanded">{String(sidebar.expanded)}</div>
+      <div data-testid="effective">{sidebar.effectiveItem?.id ?? ''}</div>
+      <div data-testid="viewport">{sidebar.viewport}</div>
+      <button type="button" onClick={() => sidebar.selectItem(ITEMS[0]!, 'rail')}>
+        components
       </button>
-      <button type="button" onClick={() => handleClick("home")}>
-        click-home
+      <button type="button" onClick={() => sidebar.selectItem(ITEMS[1]!, 'rail')}>
+        home
       </button>
     </div>
   );
 }
 
-function SidebarStackingProbe() {
-  return (
-    <Sidebar data-testid="sidebar-root">
-      <div />
-    </Sidebar>
-  );
-}
-
-function SidebarLayoutProbe() {
-  return (
-    <Sidebar>
-      <SidebarDrawer data-testid="sidebar-drawer">
-        <div />
-      </SidebarDrawer>
-      <SidebarBackdrop data-testid="sidebar-backdrop" />
-    </Sidebar>
-  );
-}
-
 async function render(ui: React.ReactNode) {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
-
-  await act(async () => {
-    root.render(ui);
-  });
-
-  return {
-    root,
-    container,
-    async rerender(nextUi: React.ReactNode) {
-      await act(async () => {
-        root.render(nextUi);
-      });
-    },
-  };
+  await act(async () => root.render(ui));
+  return { root, container };
 }
 
 async function cleanup(root: Root, container: HTMLElement) {
-  await act(async () => {
-    root.unmount();
-  });
+  await act(async () => root.unmount());
   container.remove();
 }
 
-function getText(container: HTMLElement, testId: string) {
-  return container.querySelector(`[data-testid="${testId}"]`)?.textContent ?? "";
+function text(container: HTMLElement, testId: string) {
+  return container.querySelector(`[data-testid="${testId}"]`)?.textContent ?? '';
 }
 
-describe("SidebarProvider", () => {
+describe('SidebarProvider', () => {
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });
-
   afterEach(() => {
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
 
-  it("keeps the rail collapsed when route sync activates a top-level group item", async () => {
+  it('derives the contextual drawer from a controlled descendant value', async () => {
     const rendered = await render(
-      <SidebarProvider items={ITEMS} defaultActiveId="home" persist={false}>
-        <SidebarProbe />
+      <SidebarProvider items={ITEMS} value="card" persist={false}>
+        <Probe />
       </SidebarProvider>,
     );
-
-    await rendered.rerender(
-      <SidebarProvider items={ITEMS} defaultActiveId="components" persist={false}>
-        <SidebarProbe />
-      </SidebarProvider>,
-    );
-
-    expect(getText(rendered.container, "active")).toBe("components");
-    expect(getText(rendered.container, "expanded")).toBe("false");
-    expect(getText(rendered.container, "effective")).toBe("components");
-
+    expect(text(rendered.container, 'value')).toBe('card');
+    expect(text(rendered.container, 'expanded')).toBe('true');
+    expect(text(rendered.container, 'effective')).toBe('components');
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("auto-opens the drawer when route sync activates a descendant item by default", async () => {
-    const initial = await render(
-      <SidebarProvider items={ITEMS} defaultActiveId="card" persist={false}>
-        <SidebarProbe />
-      </SidebarProvider>,
-    );
-
-    expect(getText(initial.container, "active")).toBe("card");
-    expect(getText(initial.container, "expanded")).toBe("true");
-    expect(getText(initial.container, "effective")).toBe("components");
-
-    await cleanup(initial.root, initial.container);
-
+  it('can keep a route-selected descendant collapsed', async () => {
     const rendered = await render(
-      <SidebarProvider items={ITEMS} defaultActiveId="home" persist={false}>
-        <SidebarProbe />
+      <SidebarProvider items={ITEMS} value="card" openOnChildSelection={false} persist={false}>
+        <Probe />
       </SidebarProvider>,
     );
-
-    await rendered.rerender(
-      <SidebarProvider items={ITEMS} defaultActiveId="card" persist={false}>
-        <SidebarProbe />
-      </SidebarProvider>,
-    );
-
-    expect(getText(rendered.container, "active")).toBe("card");
-    expect(getText(rendered.container, "expanded")).toBe("true");
-    expect(getText(rendered.container, "effective")).toBe("components");
-
+    expect(text(rendered.container, 'expanded')).toBe('false');
+    expect(text(rendered.container, 'effective')).toBe('components');
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("can keep the drawer collapsed when active descendant auto-open is disabled", async () => {
+  it('opens a rail category and closes for a leaf destination', async () => {
     const rendered = await render(
-      <SidebarProvider items={ITEMS} defaultActiveId="home" persist={false}>
-        <SidebarProbe />
+      <SidebarProvider items={ITEMS} defaultValue="home" persist={false}>
+        <Probe />
       </SidebarProvider>,
     );
-
-    await rendered.rerender(
-      <SidebarProvider
-        items={ITEMS}
-        defaultActiveId="card"
-        persist={false}
-        activeDescendantDrawerBehavior="closed"
-      >
-        <SidebarProbe />
-      </SidebarProvider>,
-    );
-
-    expect(getText(rendered.container, "active")).toBe("card");
-    expect(getText(rendered.container, "expanded")).toBe("false");
-    expect(getText(rendered.container, "effective")).toBe("components");
-
+    const buttons = Array.from(rendered.container.querySelectorAll('button'));
+    await act(async () => buttons[0]?.click());
+    expect(text(rendered.container, 'value')).toBe('components');
+    expect(text(rendered.container, 'expanded')).toBe('true');
+    await act(async () => buttons[1]?.click());
+    expect(text(rendered.container, 'value')).toBe('home');
+    expect(text(rendered.container, 'expanded')).toBe('false');
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("opens the drawer when clicking a rail item with children", async () => {
-    const rendered = await render(
-      <SidebarProvider items={ITEMS} defaultActiveId="home" persist={false}>
-        <SidebarProbe />
-      </SidebarProvider>,
-    );
-
-    const [componentsButton, homeButton] = Array.from(
-      rendered.container.querySelectorAll("button"),
-    ) as HTMLButtonElement[];
-
-    await act(async () => {
-      componentsButton?.click();
-    });
-
-    expect(getText(rendered.container, "active")).toBe("components");
-    expect(getText(rendered.container, "expanded")).toBe("true");
-    expect(getText(rendered.container, "effective")).toBe("components");
-
-    await act(async () => {
-      homeButton?.click();
-    });
-
-    expect(getText(rendered.container, "active")).toBe("home");
-    expect(getText(rendered.container, "expanded")).toBe("false");
-
-    await cleanup(rendered.root, rendered.container);
-  });
-
-  it("uses the explicit initial viewport during server render", () => {
+  it('uses the explicit viewport during server rendering', () => {
     const markup = renderToStaticMarkup(
-      <SidebarProvider
-        items={ITEMS}
-        defaultActiveId="home"
-        initialViewport="mobile"
-        persist={false}
-      >
-        <SidebarProbe />
+      <SidebarProvider items={ITEMS} initialViewport="mobile" persist={false}>
+        <Probe />
       </SidebarProvider>,
     );
-
-    expect(markup).toContain('data-testid="mobile">true<');
-    expect(markup).toContain('data-testid="desktop">false<');
+    expect(markup).toContain('data-testid="viewport">mobile<');
   });
 
-  it("raises the sidebar stacking context when the overlay drawer is open", async () => {
+  it('uses neutral root state markers and owns the overlay backdrop', async () => {
     const rendered = await render(
-      <SidebarProvider
-        items={ITEMS}
-        persist={false}
-        forceViewport="mobile"
-        defaultMobileOpen
-      >
-        <SidebarStackingProbe />
+      <SidebarProvider items={ITEMS} forceViewport="mobile" defaultMobileOpen persist={false}>
+        <Sidebar data-testid="root">
+          <SidebarDrawer aria-label="Primary navigation" />
+        </Sidebar>
       </SidebarProvider>,
     );
-
-    const sidebarRoot = rendered.container.querySelector(
-      '[data-testid="sidebar-root"]',
-    ) as HTMLElement | null;
-
-    expect(sidebarRoot?.className).toContain("z-[var(--z-drawer,1500)]");
-
+    const root = rendered.container.querySelector('[data-testid="root"]');
+    expect(root?.getAttribute('data-slot')).toBe('sidebar');
+    expect(root?.outerHTML).not.toContain(['unisane', 'sidebar'].join('-'));
+    expect(rendered.container.querySelector('[role="dialog"]')).not.toBeNull();
+    expect(rendered.container.querySelector('.bg-scrim')).not.toBeNull();
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("anchors desktop inset drawer and backdrop to the sidebar root", async () => {
+  it('dismisses the overlay with Escape and restores the trigger focus', async () => {
     const rendered = await render(
-      <SidebarProvider items={ITEMS} persist={false} forceViewport="desktop">
-        <SidebarLayoutProbe />
+      <SidebarProvider items={ITEMS} forceViewport="mobile" persist={false}>
+        <Sidebar>
+          <SidebarTrigger aria-label="Open primary navigation" />
+          <SidebarDrawer aria-label="Primary navigation" />
+          <SidebarInset data-testid="inset">Content</SidebarInset>
+        </Sidebar>
       </SidebarProvider>,
     );
-
-    const drawer = rendered.container.querySelector(
-      '[data-testid="sidebar-drawer"]',
-    ) as HTMLElement | null;
-
-    expect(drawer?.className).toContain("absolute");
-    expect(drawer?.className).not.toContain("fixed");
-
+    const trigger = rendered.container.querySelector(
+      'button[aria-label="Open primary navigation"]',
+    ) as HTMLButtonElement;
+    trigger.focus();
+    await act(async () => trigger.click());
+    expect(rendered.container.querySelector('[role="dialog"]')).not.toBeNull();
+    expect(rendered.container.querySelector('[data-testid="inset"]')?.hasAttribute('inert')).toBe(
+      true,
+    );
+    await act(async () => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    expect(rendered.container.querySelector('[role="dialog"]')).toBeNull();
+    expect(rendered.container.querySelector('[data-testid="inset"]')?.hasAttribute('inert')).toBe(
+      false,
+    );
+    expect(document.activeElement).toBe(trigger);
     await cleanup(rendered.root, rendered.container);
   });
 });

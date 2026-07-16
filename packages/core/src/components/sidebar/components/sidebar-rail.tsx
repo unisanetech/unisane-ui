@@ -1,168 +1,47 @@
 'use client';
 
-import React, { cloneElement, forwardRef, isValidElement } from 'react';
-import { cn, Slot } from '../../../lib/utils';
-import {
-  NavigationRailItemContent,
-  getNavigationRailItemClasses,
-} from '../../../lib/navigation-visuals';
+import React from 'react';
+import { cn } from '../../../lib/utils';
+import { NavigationRail, type NavigationRailProps } from '../../navigation-rail';
 import { useSidebar } from '../context/sidebar-provider';
-import { findNavigationItemById } from '../model/sidebar.state';
-import { getSidebarVisualTheme } from './sidebar-visuals';
-import { Ripple } from '../../ripple';
-import { Tooltip } from '../../tooltip';
-import type { NavigationItem } from '../../../types/navigation';
-import { collectDescendantIds } from './sidebar-navigation-utils';
+import { findTopLevelContainerById } from '../model/sidebar.state';
 
-export interface SidebarRailProps extends React.HTMLAttributes<HTMLElement> {
-  children?: React.ReactNode;
-}
+export interface SidebarRailProps extends Omit<
+  NavigationRailProps,
+  | 'items'
+  | 'value'
+  | 'defaultValue'
+  | 'onValueChange'
+  | 'onItemSelect'
+  | 'renderLink'
+  | 'onItemHover'
+> {}
 
-export const SidebarRail = forwardRef<HTMLElement, SidebarRailProps>(
-  ({ children, className, style, ...props }, ref) => {
-    const sidebar = useSidebar();
-    const { handleRailLeave, isDrawerVisible, isRailVisible, side, railWidth } = sidebar;
-    const visuals = getSidebarVisualTheme(sidebar);
+export function SidebarRail({ className, style, onMouseLeave, ...props }: SidebarRailProps) {
+  const sidebar = useSidebar();
+  if (!sidebar.isRailVisible) return null;
+  const selectedTopLevel = sidebar.value
+    ? (findTopLevelContainerById(sidebar.items, sidebar.value)?.id ?? null)
+    : null;
 
-    if (!isRailVisible) {
-      return null;
-    }
-
-    return (
-      <nav
-        ref={ref}
-        className={cn(
-          'relative z-50 flex h-full shrink-0 flex-col items-center gap-1 py-3',
-          visuals.railForegroundClass,
-          visuals.railBackgroundClass,
-          'duration-medium ease-standard transition-all motion-reduce:transition-none',
-          isDrawerVisible && (side === 'left' ? 'border-r' : 'border-l'),
-          className,
-        )}
-        style={{
-          width: `var(--sidebar-rail-width, ${railWidth}px)`,
-          borderColor: isDrawerVisible ? visuals.borderColor : undefined,
-          ...visuals.railStyle,
-          ...style,
-        }}
-        onMouseLeave={handleRailLeave}
-        aria-label="Sidebar Navigation"
-        {...props}
-      >
-        {children}
-      </nav>
-    );
-  },
-);
-SidebarRail.displayName = 'SidebarRail';
-
-export interface SidebarRailItemProps {
-  id: string;
-  label: string;
-  icon: React.ReactNode | string;
-  activeIcon?: React.ReactNode | string;
-  badge?: string | number;
-  tooltip?: string;
-  labelVisibility?: 'always' | 'selected' | 'hidden';
-  disabled?: boolean;
-  href?: string;
-  asChild?: boolean;
-  children?: React.ReactNode;
-  childIds?: string[];
-}
-
-function resolveChildIds(items: NavigationItem[], id: string, childIds: string[]): string[] {
-  if (childIds.length > 0) {
-    return childIds;
-  }
-  return collectDescendantIds(findNavigationItemById(items, id)?.items);
-}
-
-export function SidebarRailItem({
-  id,
-  label,
-  icon,
-  activeIcon,
-  badge,
-  tooltip,
-  labelVisibility = 'always',
-  disabled,
-  href,
-  asChild,
-  children,
-  childIds = [],
-}: SidebarRailItemProps) {
-  const { activeId, handleClick, handleHover, hasActiveChild, items, side } = useSidebar();
-  const resolvedChildIds = resolveChildIds(items, id, childIds);
-  const isDirectlyActive = activeId === id;
-  const hasChildActive = resolvedChildIds.length > 0 && hasActiveChild(resolvedChildIds);
-  const isActive = isDirectlyActive || hasChildActive;
-  const showLabel = labelVisibility === 'always' || (labelVisibility === 'selected' && isActive);
-  const tooltipText = tooltip ?? (labelVisibility === 'hidden' ? label : undefined);
-
-  const content = (
-    <NavigationRailItemContent
-      icon={icon}
-      activeIcon={activeIcon}
-      badge={badge}
-      label={label}
-      showLabel={showLabel}
-      active={isActive}
-      disabled={disabled}
-      ripple={<Ripple center disabled={disabled} />}
+  return (
+    <NavigationRail
+      items={sidebar.items}
+      value={selectedTopLevel}
+      onItemSelect={(item) => sidebar.selectItem(item, 'rail')}
+      renderLink={sidebar.renderLink}
+      onItemHover={sidebar.previewItem}
+      onMouseLeave={(event) => {
+        sidebar.clearPreview();
+        onMouseLeave?.(event);
+      }}
+      className={cn(
+        'w-auto border-r-0',
+        sidebar.side === 'left' ? 'border-r' : 'border-l',
+        className,
+      )}
+      style={{ width: `var(--sidebar-rail-width, ${sidebar.railWidth}px)`, ...style }}
+      {...props}
     />
-  );
-
-  const commonClasses = getNavigationRailItemClasses(disabled);
-  const withTooltip = (node: React.ReactElement) =>
-    tooltipText ? (
-      <Tooltip
-        label={tooltipText}
-        side={side === 'right' ? 'left' : 'right'}
-        triggerClassName="w-full"
-      >
-        {node}
-      </Tooltip>
-    ) : (
-      node
-    );
-
-  const commonProps = {
-    onClick: (e: React.MouseEvent) => {
-      if (disabled) {
-        e.preventDefault();
-        return;
-      }
-      handleClick(id);
-    },
-    onMouseEnter: () => !disabled && handleHover(id),
-    className: commonClasses,
-    'aria-current': isActive ? ('page' as const) : undefined,
-    'aria-disabled': disabled || undefined,
-    'aria-label': showLabel ? undefined : label,
-  };
-
-  if (asChild && children) {
-    return withTooltip(
-      <Slot {...commonProps}>
-        {isValidElement(children)
-          ? cloneElement(children as React.ReactElement, {}, content)
-          : children}
-      </Slot>,
-    );
-  }
-
-  if (href) {
-    return withTooltip(
-      <a href={disabled ? undefined : href} {...commonProps} tabIndex={disabled ? -1 : undefined}>
-        {content}
-      </a>,
-    );
-  }
-
-  return withTooltip(
-    <button {...commonProps} disabled={disabled}>
-      {content}
-    </button>,
   );
 }

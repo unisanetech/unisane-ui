@@ -63,14 +63,17 @@ export function ColumnVisibilityDropdown<T>({
       aria-label={t('columns')}
       className="relative"
       selected={hasHiddenColumns}
-    >
-      <Icon symbol="view_column" />
-      {hasHiddenColumns && hiddenColumns.size > 0 && (
-        <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-medium">
-          {hiddenColumns.size}
-        </span>
-      )}
-    </IconButton>
+      icon={
+        <>
+          <Icon symbol="view_column" />
+          {hasHiddenColumns && hiddenColumns.size > 0 && (
+            <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-medium">
+              {hiddenColumns.size}
+            </span>
+          )}
+        </>
+      }
+    />
   ) : (
     <ToolbarDropdownButton
       label={t('columns')}

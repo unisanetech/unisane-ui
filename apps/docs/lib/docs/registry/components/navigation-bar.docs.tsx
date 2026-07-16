@@ -1,260 +1,133 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { NavigationBar } from "@unisane/ui";
+import { useState } from 'react';
+import { NavigationBar } from '@unisane/ui/navigation-bar';
+import type { NavigationItem } from '@unisane/ui/navigation';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
-const NavigationBarHeroVisual = () => (
-  <HeroBackground tone="surface">
-    {/* Mock Phone with Nav Bar */}
-    <div className="relative bg-surface w-72 h-52 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      {/* Content */}
-      <div className="p-4 space-y-3">
-        <div className="h-4 bg-surface-container-high rounded-sm w-full" />
-        <div className="h-4 bg-surface-container-high rounded-sm w-3/4" />
-        <div className="h-4 bg-surface-container-high rounded-sm w-1/2" />
+const items: NavigationItem[] = [
+  { id: 'home', label: 'Home', icon: 'home', activeIcon: 'home' },
+  { id: 'explore', label: 'Explore', icon: 'explore' },
+  { id: 'saved', label: 'Saved', icon: 'bookmark', badge: 2 },
+  { id: 'profile', label: 'Profile', icon: 'person' },
+];
+
+function NavigationBarExample() {
+  const [value, setValue] = useState<string | null>('home');
+  return (
+    <div className="bg-surface-container-low relative h-48 w-full max-w-sm overflow-hidden rounded-sm border border-outline-variant">
+      <div className="space-y-3 p-5">
+        <div className="bg-surface-container-high h-3 w-full rounded-sm" />
+        <div className="bg-surface-container-high h-3 w-3/4 rounded-sm" />
       </div>
-      {/* Navigation Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-surface-container border-t border-outline-variant flex items-center justify-around px-4 pb-4">
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-16 h-8 rounded-sm bg-secondary-container flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-secondary-container">home</span>
-          </div>
-          <span className="text-label-medium text-on-surface">Home</span>
-        </div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-16 h-8 flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant">search</span>
-          </div>
-          <span className="text-label-medium text-on-surface-variant">Search</span>
-        </div>
-        <div className="flex flex-col items-center gap-1">
-          <div className="w-16 h-8 flex items-center justify-center">
-            <span className="material-symbols-outlined text-on-surface-variant">person</span>
-          </div>
-          <span className="text-label-medium text-on-surface-variant">Profile</span>
-        </div>
-      </div>
+      <NavigationBar
+        aria-label="Primary navigation"
+        items={items}
+        value={value}
+        onValueChange={setValue}
+      />
     </div>
-  </HeroBackground>
-);
-
-// ─── EXAMPLES ────────────────────────────────────────────────────────────────
-const NavigationBarBasicExample = () => (
-  <div className="relative h-full min-h-[160px] w-full overflow-hidden rounded-sm bg-surface-container-low">
-    <div className="space-y-3 p-4">
-      <div className="h-3 w-1/3 rounded-sm bg-outline-soft" />
-      <div className="h-3 w-full rounded-sm bg-surface-container-high" />
-      <div className="h-3 w-2/3 rounded-sm bg-surface-container-high" />
-    </div>
-    <NavigationBar className="absolute inset-x-0 bottom-0 h-20">
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">home</span>}
-        label="Home"
-        active
-      />
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">explore</span>}
-        label="Explore"
-      />
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">bookmark</span>}
-        label="Saved"
-      />
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">person</span>}
-        label="Profile"
-      />
-    </NavigationBar>
-  </div>
-);
+  );
+}
 
 export const navigationBarDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "navigation-bar",
-  name: "Navigation Bar",
+  slug: 'navigation-bar',
+  name: 'Navigation Bar',
   description:
-    "Navigation bars provide access to primary destinations in an app on mobile devices.",
-  category: "navigation",
-  status: "stable",
-  icon: "bottom_navigation",
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["NavigationBar"],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
-  heroVisual: <NavigationBarHeroVisual />,
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+    'The mobile bottom presentation of the shared navigation item and selection contract.',
+  category: 'navigation',
+  status: 'stable',
+  icon: 'bottom_navigation',
+  importPath: '@/components/ui/navigation-bar',
+  exports: ['NavigationBar'],
+  heroVisual: (
+    <HeroBackground tone="surface">
+      <NavigationBarExample />
+    </HeroBackground>
+  ),
   choosing: {
     description:
-      "Use navigation bar for primary app destinations (3-5 items).",
+      'Use NavigationBar for three to five primary destinations on compact screens. The same items can move to NavigationRail or NavigationDrawer at wider breakpoints.',
     columns: {
-      emphasis: "Items",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Presentation',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "3 items",
-        component: (
-          <div className="relative h-20 w-48 overflow-hidden rounded-sm border border-outline-variant">
-            <NavigationBar className="absolute inset-x-0 bottom-0">
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
-            </NavigationBar>
-          </div>
-        ),
-        rationale: "Minimal navigation for focused apps.",
-        examples: "Simple apps, Single-purpose tools",
-      },
-      {
-        emphasis: "4-5 items",
-        component: (
-          <div className="relative h-20 w-56 overflow-hidden rounded-sm border border-outline-variant">
-            <NavigationBar className="absolute inset-x-0 bottom-0">
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">add_box</span>} label="Create" />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">notifications</span>} label="Alerts" />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
-            </NavigationBar>
-          </div>
-        ),
-        rationale: "Standard navigation for most apps.",
-        examples: "Social media, E-commerce, Content apps",
+        emphasis: 'Bottom bar',
+        component: <NavigationBarExample />,
+        rationale: 'Primary compact-screen destinations remain visible near the thumb zone.',
+        examples: 'Mobile workspaces, consumer apps',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Navigation bar is fixed at the bottom of mobile screens.",
-    previewDefaults: {
-      tone: "surfaceContainerLow",
-      minHeight: "sm",
-      padding: "none",
-      align: "end",
-      justify: "start",
-    },
+    description: 'Place it at the bottom edge of the compact app shell.',
+    previewDefaults: { tone: 'surfaceContainerLow', minHeight: 'lg', padding: 'none' },
     examples: [
       {
-        title: "Basic navigation",
-        visual: <NavigationBarBasicExample />,
-        caption: "Click items to navigate between sections",
+        title: 'Controlled destinations',
+        visual: <NavigationBarExample />,
+        caption: 'One item collection and one selected id drive the presentation.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
-    {
-      name: "children",
-      type: "ReactNode",
-      required: true,
-      description: "NavigationBar.Item components.",
-    },
-    {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
-    },
+    { name: 'items', type: 'NavigationItem[]', required: true, description: 'Shared destination collection.' },
+    { name: 'value', type: 'string | null', description: 'Controlled selected item id.' },
+    { name: 'defaultValue', type: 'string | null', description: 'Initial uncontrolled selected id.' },
+    { name: 'onValueChange', type: '(id: string | null) => void', description: 'Selection callback.' },
+    { name: 'onItemSelect', type: '(item: NavigationItem) => void', description: 'Activation callback with the selected item.' },
+    { name: 'renderLink', type: 'NavigationLinkRenderer', description: 'Framework-link renderer used for href items.' },
+    { name: 'aria-label', type: 'string', required: true, description: 'Accessible name for the navigation landmark.' },
+    { name: 'itemClassName', type: 'string', description: 'Presentation-wide item layout override.' },
+    { name: 'className', type: 'string', description: 'Container layout classes.' },
   ],
-
-  // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
-  subComponents: [
-    {
-      name: "NavigationBar.Item",
-      description: "Individual navigation item.",
-      props: [
-        { name: "icon", type: "ReactNode", required: true, description: "Icon to display." },
-        { name: "label", type: "string", required: true, description: "Label text below icon." },
-        { name: "active", type: "boolean", description: "Whether this item is active." },
-        { name: "onClick", type: "() => void", description: "Click handler." },
-        { name: "href", type: "string", description: "Link URL if using as anchor." },
-        { name: "asChild", type: "boolean", description: "Render as child element (for Next.js Link)." },
-      ],
-    },
-  ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses semantic <nav> element.",
-      "Link items can expose the active route with aria-current.",
-      "Labels provide context for each destination.",
+      'Uses a named navigation landmark.',
+      'The selected destination exposes aria-current="page".',
+      'Disabled items remain unavailable without toggle-button semantics.',
     ],
     keyboard: [
-      { key: "Tab", description: "Navigate between items" },
-      { key: "Enter/Space", description: "Activate focused item" },
+      { key: 'Tab', description: 'Move among visible destinations.' },
+      { key: 'Enter / Space', description: 'Activate the focused destination.' },
     ],
-    focus: [
-      "Focus ring visible on focused items.",
-      "Active state clearly distinguished visually.",
-    ],
+    focus: ['Every enabled item uses native link or button focus behavior and a visible focus ring.'],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use with state or router for active tracking.",
-    code: `import { NavigationBar } from "@unisane/ui";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+    description:
+      'Registry-installed projects import the local presentation and shared local navigation type.',
+    code: `import { NavigationBar } from "@/components/ui/navigation-bar";
+import type { NavigationItem } from "@/types/navigation";
 
-function MobileNav() {
-  const pathname = usePathname();
+const items: NavigationItem[] = [
+  { id: "home", label: "Home", icon: "home", href: "/" },
+  { id: "search", label: "Search", icon: "search", href: "/search" },
+  { id: "profile", label: "Profile", icon: "person", href: "/profile" },
+];
 
+export function MobileNavigation({ pathname }: { pathname: string }) {
   return (
-    <NavigationBar>
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">home</span>}
-        label="Home"
-        active={pathname === "/"}
-        asChild
-      >
-        <Link href="/" />
-      </NavigationBar.Item>
-
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">search</span>}
-        label="Search"
-        active={pathname === "/search"}
-        asChild
-      >
-        <Link href="/search" />
-      </NavigationBar.Item>
-
-      <NavigationBar.Item
-        icon={<span className="material-symbols-outlined">person</span>}
-        label="Profile"
-        active={pathname === "/profile"}
-        asChild
-      >
-        <Link href="/profile" />
-      </NavigationBar.Item>
-    </NavigationBar>
+    <NavigationBar
+      aria-label="Primary navigation"
+      items={items}
+      value={items.find((item) => item.href === pathname)?.id ?? null}
+    />
   );
 }`,
   },
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  guidelines: [
+    { type: 'do', text: 'Reuse the same item ids when the presentation changes at a breakpoint.' },
+    { type: 'do', text: 'Use href for destinations and onItemSelect for app actions without a URL.' },
+    { type: 'dont', text: 'Do not model destinations as pressed toggle buttons.' },
+  ],
   related: [
-    {
-      slug: "navigation-rail",
-      reason: "Use for larger screens (tablet/desktop).",
-    },
-    {
-      slug: "navigation-drawer",
-      reason: "Use for many destinations or secondary navigation.",
-    },
-    {
-      slug: "bottom-app-bar",
-      reason: "Use for contextual actions instead of navigation.",
-    },
+    { slug: 'navigation-rail', reason: 'Compact vertical presentation for larger screens.' },
+    { slug: 'navigation-drawer', reason: 'Labeled persistent or modal presentation.' },
+    { slug: 'sidebar', reason: 'Application-shell orchestration across responsive presentations.' },
   ],
 };

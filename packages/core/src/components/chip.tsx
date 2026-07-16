@@ -8,7 +8,7 @@ import {
   forwardRef,
 } from 'react';
 import { Ripple } from './ripple';
-import { CloseIcon } from '../primitives/icon';
+import { CloseIcon } from './icon';
 import { cn } from '../lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 

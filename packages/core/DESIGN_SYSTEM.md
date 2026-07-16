@@ -49,15 +49,18 @@ System docs:
 | `--color-*`      | Semantic color tokens                  | `--color-primary`        |
 | Tailwind classes | Final utility classes                  | `bg-primary`, `shadow-1` |
 
-### Theming Axes
+### Appearance Axes
 
-| Axis        | Attribute          | Controls            | Values                         |
-| ----------- | ------------------ | ------------------- | ------------------------------ |
-| Color Theme | `data-color-theme` | Primary hue         | blue, purple, green, red, etc. |
-| Scheme      | `data-scheme`      | Saturation (chroma) | tonal, neutral, monochrome     |
-| Contrast    | `data-contrast`    | Tone darkness       | standard, medium, high         |
-| Density     | `data-density`     | Spacing scale       | dense, compact, comfortable    |
-| Radius      | `data-radius`      | Corner softness     | sharp, standard, soft          |
+Project color themes replace the canonical semantic values in CSS. Runtime attributes exist only for explicitly enabled user preferences.
+
+| Axis         | Attribute           | Controls            | Values                                |
+| ------------ | ------------------- | ------------------- | ------------------------------------- |
+| Mode         | `data-theme-mode`   | Light/dark behavior | light, dark, system                   |
+| Contrast     | `data-contrast`     | Tone darkness       | standard, medium, high                |
+| Density      | `data-density`      | Component density   | dense, compact, standard, comfortable |
+| Radius       | `data-radius`       | Corner softness     | none, minimal, sharp, standard, soft  |
+| Action shape | `data-action-shape` | Action geometry     | standard, full                        |
+| Elevation    | `data-elevation`    | Shadow depth        | flat, subtle, standard, pronounced    |
 
 ---
 

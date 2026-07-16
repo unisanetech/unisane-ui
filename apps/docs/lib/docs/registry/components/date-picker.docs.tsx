@@ -1,265 +1,254 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Calendar, DatePicker } from "@unisane/ui";
+import { useState } from 'react';
+import { Calendar } from '@unisane/ui/calendar';
+import { DatePicker } from '@unisane/ui/date-picker';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DatePickerHeroVisual = () => (
   <HeroBackground tone="secondary">
-    {/* Mock Date Picker */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
-      <div className="text-label-medium text-on-surface-variant mb-2">Date</div>
-      <div className="bg-surface border-2 border-outline-variant rounded-sm px-4 py-3 flex items-center justify-between">
-        <span className="text-body-medium text-on-surface">December 15, 2024</span>
-        <span className="material-symbols-outlined text-on-surface-variant">calendar_today</span>
-      </div>
-      {/* Mock Calendar Dropdown */}
-      <div className="mt-2 bg-surface-container rounded-sm shadow-2 p-4">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-title-small text-on-surface">December 2024</span>
-          <div className="flex gap-2">
-            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">chevron_left</span>
-            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">chevron_right</span>
-          </div>
-        </div>
-        <div className="grid grid-cols-7 gap-1">
-          {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
-            <div key={i} className="text-center text-label-small text-on-surface-variant py-1">{d}</div>
-          ))}
-          {Array.from({ length: 15 }).map((_, i) => (
-            <div key={i} className={`text-center text-body-small py-1 rounded-full ${i === 14 ? "bg-primary text-on-primary" : "text-on-surface"}`}>
-              {i + 1}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="min-h-[430px] w-full max-w-sm">
+      <DatePicker
+        label="Event date"
+        defaultValue={new Date(2026, 2, 13)}
+        defaultOpen
+        portal={false}
+      />
     </div>
   </HeroBackground>
 );
 
-// ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
-const DatePickerBasicExample = () => {
-  const [date, setDate] = useState<Date | undefined>();
+function DatePickerBasicExample() {
+  const [date, setDate] = useState<Date>();
   return (
     <div className="w-full max-w-xs">
       <DatePicker
-        label="Select Date"
+        label="Appointment date"
         value={date}
         onValueChange={setDate}
+        description="Type the date or choose it from the calendar."
       />
     </div>
   );
-};
+}
 
 export const datePickerDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "date-picker",
-  name: "Date Picker",
+  slug: 'date-picker',
+  name: 'Date Picker',
   description:
-    "Date picker provides a compact input with a popover calendar for selecting dates.",
-  category: "selection",
-  status: "stable",
-  icon: "calendar_today",
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["DatePicker"],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
+    'A segmented date field with an optional calendar popover for direct entry and visual selection.',
+  category: 'selection',
+  status: 'stable',
+  icon: 'calendar_today',
+  importPath: '@/components/ui/date-picker',
+  exports: ['DatePicker'],
   heroVisual: <DatePickerHeroVisual />,
   examplesPreview: {
-    overflow: "visible",
-    minHeight: "lg",
+    overflow: 'visible',
+    minHeight: 'xl',
   },
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose between date picker and inline calendar based on space and use case.",
+      'Choose the composed picker for forms and Calendar for always-visible month context.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Component',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Date Picker",
+        emphasis: 'Date Picker',
         component: (
           <div className="w-56">
-            <DatePicker value={new Date(2024, 11, 15)} label="Date" />
+            <DatePicker label="Date" defaultValue={new Date(2026, 2, 13)} />
           </div>
         ),
-        rationale: "Compact input for forms and limited space.",
-        examples: "Forms, Filters, Date fields",
+        rationale:
+          'Users may type a known date or browse visually without a permanently visible grid.',
+        examples: 'Forms, filters, booking details',
       },
       {
-        emphasis: "Calendar",
+        emphasis: 'Calendar',
         component: (
-          <div className="w-56">
-            <Calendar selectedDate={new Date(2024, 11, 15)} />
+          <div className="w-64">
+            <Calendar selectedDate={new Date(2026, 2, 13)} />
           </div>
         ),
-        rationale: "When users need to see full month context.",
-        examples: "Event scheduling, Availability display",
+        rationale: 'Month context is primary and enough space is available.',
+        examples: 'Availability, scheduling, dashboards',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Date pickers are commonly used in forms for date input.",
+      'Use a visible label and place the picker with the other fields in its form section.',
     previewDefaults: {
-      overflow: "visible",
-      minHeight: "xl",
-      align: "start",
-      justify: "start",
+      overflow: 'visible',
+      minHeight: 'xl',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Form input",
+        title: 'Form field',
         visual: <DatePickerBasicExample />,
-        caption: "Click to open calendar popover",
+        caption: 'Direct segmented entry and calendar selection share one Date value.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
+    { name: 'value', type: 'Date | undefined', description: 'Controlled selected date.' },
+    { name: 'defaultValue', type: 'Date | undefined', description: 'Initial uncontrolled date.' },
     {
-      name: "value",
-      type: "Date | undefined",
-      description: "The selected date value.",
+      name: 'onValueChange',
+      type: '(date: Date | undefined) => void',
+      description: 'Called when direct entry or calendar selection changes the date.',
+    },
+    { name: 'open', type: 'boolean', description: 'Controlled calendar open state.' },
+    { name: 'defaultOpen', type: 'boolean', default: 'false', description: 'Initial open state.' },
+    {
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: 'Called when the calendar requests an open-state change.',
+    },
+    { name: 'label', type: 'string', required: true, description: 'Accessible field label.' },
+    {
+      name: 'hideLabel',
+      type: 'boolean',
+      default: 'false',
+      description: 'Visually hides the label.',
     },
     {
-      name: "defaultValue",
-      type: "Date | undefined",
-      description: "The default date for uncontrolled usage.",
+      name: 'description',
+      type: 'ReactNode',
+      description: 'Guidance linked to every date segment.',
     },
     {
-      name: "onValueChange",
-      type: "(date: Date | undefined) => void",
-      description: "Callback fired when date is selected or cleared.",
+      name: 'errorMessage',
+      type: 'ReactNode',
+      description: 'Linked error content that marks the field invalid.',
     },
     {
-      name: "open",
-      type: "boolean",
-      description: "Controlled open state for the calendar popover.",
+      name: 'invalid',
+      type: 'boolean',
+      default: 'false',
+      description: 'Marks the field invalid without requiring error content.',
     },
     {
-      name: "defaultOpen",
-      type: "boolean",
-      default: "false",
-      description: "Initial open state for uncontrolled usage.",
+      name: 'required',
+      type: 'boolean',
+      default: 'false',
+      description: 'Communicates required field state.',
     },
     {
-      name: "onOpenChange",
-      type: "(open: boolean) => void",
-      description: "Callback fired when the calendar popover opens or closes.",
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Disables entry and visual selection.',
     },
     {
-      name: "label",
-      type: "string",
-      default: '"Date"',
-      description: "Label for the input field.",
-    },
-    {
-      name: "variant",
+      name: 'variant',
       type: '"outlined" | "filled"',
       default: '"outlined"',
-      description: "Visual style variant of the trigger field.",
+      description: 'Field presentation.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg"',
       default: '"md"',
-      description: "Shared field size used for the trigger height and spacing.",
+      description: 'Field density size.',
     },
     {
-      name: "helperText",
-      type: "string",
-      description: "Helper or error text displayed below the field.",
+      name: 'locale',
+      type: 'string',
+      description: 'Locale shared by segment order and calendar labels.',
+    },
+    { name: 'format', type: 'string', description: 'Explicit segment pattern such as dd/MM/yyyy.' },
+    { name: 'min', type: 'Date', description: 'Earliest allowed local calendar day.' },
+    { name: 'max', type: 'Date', description: 'Latest allowed local calendar day.' },
+    {
+      name: 'showCalendarButton',
+      type: 'boolean',
+      default: 'true',
+      description: 'Shows the visual-picker trigger.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Disable the date picker.",
+      name: 'portal',
+      type: 'boolean',
+      default: 'true',
+      description: 'Renders the popover in document.body when enabled.',
     },
     {
-      name: "showCalendarButton",
-      type: "boolean",
-      default: "true",
-      description: "Whether to show the calendar toggle button.",
+      name: 'weekStartsOn',
+      type: '0 | 1 | 2 | 3 | 4 | 5 | 6',
+      default: '0',
+      description: 'First weekday column.',
     },
-    {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
-    },
+    { name: 'name', type: 'string', description: 'Adds a YYYY-MM-DD hidden form value.' },
+    { name: 'className', type: 'string', description: 'Project-owned layout classes.' },
   ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Input is properly labeled.",
-      "Calendar popup is announced when opened.",
-      "Selected date is read by screen readers.",
+      'The visible or hidden field label names every editable segment.',
+      'Description and error content are linked to all segments.',
+      'The calendar is announced as a non-modal dialog containing a date grid.',
+      'Selected, current, and unavailable dates expose distinct states.',
     ],
     keyboard: [
-      { key: "Enter/Space", description: "Open calendar popup" },
-      { key: "Arrow Keys", description: "Navigate calendar dates" },
-      { key: "Escape", description: "Close calendar" },
+      { key: 'Tab', description: 'Move through date segments and the calendar button.' },
+      { key: 'Arrow Up / Down', description: 'Adjust the focused date segment.' },
+      { key: 'Alt + Arrow Down', description: 'Open the calendar from a date segment.' },
+      { key: 'Arrow keys', description: 'Move through calendar dates, including across months.' },
+      { key: 'Enter / Space', description: 'Select the focused calendar date.' },
+      { key: 'Escape', description: 'Close the calendar and restore focus.' },
     ],
     focus: [
-      "Focus visible on input field.",
-      "Focus trapped in calendar when open.",
+      'Opening the calendar moves focus to the selected or nearest available date.',
+      'The non-modal popover does not trap focus or inert the page.',
+      'Dismissal restores focus to the calendar trigger when it is present.',
     ],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state for date value.",
-    code: `import { DatePicker } from "@unisane/ui";
+    description:
+      'Registry-installed projects import the local recipe. The DateInput, Calendar, field, icon, overlay, and positioning dependencies are installed with it.',
+    code: `import { DatePicker } from "@/components/ui/date-picker";
 import { useState } from "react";
 
-function BookingForm() {
-  const [checkIn, setCheckIn] = useState<Date>();
-  const [checkOut, setCheckOut] = useState<Date>();
+export function BookingDateField() {
+  const [date, setDate] = useState<Date>();
 
   return (
-    <div className="space-y-4">
-      <DatePicker
-        label="Check-in"
-        value={checkIn}
-        onValueChange={setCheckIn}
-      />
-      <DatePicker
-        label="Check-out"
-        value={checkOut}
-        onValueChange={setCheckOut}
-      />
-    </div>
+    <DatePicker
+      label="Booking date"
+      value={date}
+      onValueChange={setDate}
+      description="Type a date or choose one from the calendar."
+      min={new Date()}
+    />
   );
 }`,
   },
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  guidelines: [
+    { type: 'do', text: 'Use DatePicker when both fast typing and visual exploration matter.' },
+    { type: 'do', text: 'Use one locale for segment ordering and calendar labels.' },
+    {
+      type: 'do',
+      text: 'Use description and errorMessage for distinct guidance and validation roles.',
+    },
+    { type: 'dont', text: 'Do not use DatePicker for month-only chronology; use MonthPicker.' },
+    {
+      type: 'dont',
+      text: 'Do not hide the calendar button unless Alt+ArrowDown is documented for your audience.',
+    },
+  ],
   related: [
     {
-      slug: "calendar",
-      reason: "Use for inline date display.",
+      slug: 'date-input',
+      reason: 'Use for keyboard-first segmented entry without a visual picker.',
     },
-    {
-      slug: "time-picker",
-      reason: "Use for time selection.",
-    },
-    {
-      slug: "text-field",
-      reason: "Base input component used internally.",
-    },
+    { slug: 'calendar', reason: 'Use when the month grid should remain visible.' },
+    { slug: 'month-picker', reason: 'Use for month/year precision.' },
   ],
 };

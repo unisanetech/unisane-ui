@@ -94,12 +94,7 @@ export type BadgeProps = VariantProps<typeof badgeVariants> &
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
   ({ children, variant, color, size, className, ...props }, ref) => {
     return (
-      <span
-        ref={ref}
-        role="status"
-        className={cn(badgeVariants({ variant, color, size, className }))}
-        {...props}
-      >
+      <span ref={ref} className={cn(badgeVariants({ variant, color, size, className }))} {...props}>
         {children}
       </span>
     );

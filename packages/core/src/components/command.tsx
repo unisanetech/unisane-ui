@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Command as CommandPrimitive } from 'cmdk';
 import { cn } from '../lib/utils';
 import { actionFrameSizeClasses } from '../lib/action-size';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { Dialog } from './dialog';
 
 const Command = React.forwardRef<
@@ -26,16 +26,24 @@ export interface CommandDialogProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  'aria-label'?: string;
   children?: React.ReactNode;
 }
 
-const CommandDialog = ({ children, open, defaultOpen, onOpenChange }: CommandDialogProps) => {
+const CommandDialog = ({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  'aria-label': ariaLabel = 'Command menu',
+}: CommandDialogProps) => {
   return (
     <Dialog
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
-      className="overflow-hidden p-0 shadow-3"
+      aria-label={ariaLabel}
+      className="shadow-3 overflow-hidden p-0"
     >
       <Command className="[&_[cmdk-group-heading]]:text-on-surface-variant [&_[cmdk-group-heading]]:px-3 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5 [&_[data-cmdk-input-wrapper]_svg]:h-5 [&_[data-cmdk-input-wrapper]_svg]:w-5">
         {children}
@@ -126,7 +134,7 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     className={cn(
-      `text-body-medium data-[selected=true]:bg-state-hover data-[selected=true]:text-on-surface relative flex cursor-default items-center rounded-button outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 ${actionFrameSizeClasses.md}`,
+      `text-body-medium data-[selected=true]:bg-state-hover data-[selected=true]:text-on-surface rounded-button relative flex cursor-default items-center outline-none select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 ${actionFrameSizeClasses.md}`,
       className,
     )}
     {...props}

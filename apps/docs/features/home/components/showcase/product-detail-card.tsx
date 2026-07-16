@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { Badge, Button, Card, Divider, Icon, Surface, Typography } from '@unisane/ui';
+import { Button, Card, Icon, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import { Divider } from '@unisane/ui/divider';
 
 type CartItem = {
   name: string;
@@ -56,10 +58,14 @@ function QuantityControl({ value }: { value: number }) {
     <Surface
       tone="surface"
       rounded="sm"
-      className="pointer-events-none inline-flex items-center gap-1 border border-outline-variant px-1.5 py-0.5"
+      className="border-outline-variant pointer-events-none inline-flex items-center gap-1 border px-1.5 py-0.5"
     >
       <Icon symbol="remove" size={14} className="text-on-surface-variant" />
-      <Typography variant="labelMedium" component="span" className="min-w-3 text-center text-on-surface">
+      <Typography
+        variant="labelMedium"
+        component="span"
+        className="text-on-surface min-w-3 text-center"
+      >
         {value}
       </Typography>
       <Icon symbol="add" size={14} className="text-on-surface-variant" />
@@ -69,7 +75,7 @@ function QuantityControl({ value }: { value: number }) {
 
 export function ProductDetailCard() {
   return (
-    <Card variant="outlined" className="h-full bg-surface">
+    <Card variant="outlined" className="bg-surface h-full">
       <Card.Content className="flex h-full min-h-0 flex-col gap-2 overflow-hidden px-3 py-3 font-normal @sm:px-4 @sm:py-4">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
@@ -87,7 +93,11 @@ export function ProductDetailCard() {
           <Typography variant="bodySmall" component="p" className="text-on-surface-variant">
             You are eligible for free shipping.
           </Typography>
-          <Surface tone="surfaceContainerHighest" rounded="full" className="h-1 w-full overflow-hidden">
+          <Surface
+            tone="surfaceContainerHighest"
+            rounded="full"
+            className="h-1 w-full overflow-hidden"
+          >
             <Surface tone="primary" rounded="full" className="h-full w-4/4" />
           </Surface>
         </div>
@@ -101,7 +111,7 @@ export function ProductDetailCard() {
                 <Surface
                   tone="surface"
                   rounded="sm"
-                  className="flex h-[46px] w-[46px] items-center justify-center border border-outline-variant p-1"
+                  className="border-outline-variant flex h-[46px] w-[46px] items-center justify-center border p-1"
                 >
                   <Image
                     src={item.thumbnail}
@@ -113,12 +123,22 @@ export function ProductDetailCard() {
                 </Surface>
 
                 <div className="space-y-0.5">
-                  <Typography variant="titleSmall" component="p" className="line-clamp-1 text-on-surface leading-tight">
+                  <Typography
+                    variant="titleSmall"
+                    component="p"
+                    className="text-on-surface line-clamp-1 leading-tight"
+                  >
                     {item.name}
                   </Typography>
                   {item.details.map((detail) => (
-                    <Typography key={`${item.name}-${detail.label}`} variant="bodySmall" component="p" className="line-clamp-1 text-on-surface">
-                      <span className="text-on-surface-variant">{detail.label}:</span> {detail.value}
+                    <Typography
+                      key={`${item.name}-${detail.label}`}
+                      variant="bodySmall"
+                      component="p"
+                      className="text-on-surface line-clamp-1"
+                    >
+                      <span className="text-on-surface-variant">{detail.label}:</span>{' '}
+                      {detail.value}
                     </Typography>
                   ))}
                 </div>
@@ -133,7 +153,11 @@ export function ProductDetailCard() {
                       {item.previousPrice}
                     </Typography>
                   ) : null}
-                  <Typography variant="titleMedium" component="p" className="text-on-surface leading-tight">
+                  <Typography
+                    variant="titleMedium"
+                    component="p"
+                    className="text-on-surface leading-tight"
+                  >
                     {item.price}
                   </Typography>
                   {item.savings ? (
@@ -146,7 +170,7 @@ export function ProductDetailCard() {
 
               <div className="mt-1.5 grid grid-cols-[46px_minmax(0,1fr)_auto] items-center gap-2">
                 <div aria-hidden />
-                <div className="pointer-events-none inline-flex items-center gap-1 text-on-surface-variant">
+                <div className="text-on-surface-variant pointer-events-none inline-flex items-center gap-1">
                   <Icon symbol="delete" size={14} />
                   <Typography variant="labelMedium" component="p">
                     Remove
@@ -181,9 +205,13 @@ export function ProductDetailCard() {
                   key={item.name}
                   tone="surface"
                   rounded="sm"
-                  className="flex items-center gap-1.5 border border-outline-variant p-1.5"
+                  className="border-outline-variant flex items-center gap-1.5 border p-1.5"
                 >
-                  <Surface tone="surface" rounded="sm" className="flex h-8 w-8 items-center justify-center p-0.5">
+                  <Surface
+                    tone="surface"
+                    rounded="sm"
+                    className="flex h-8 w-8 items-center justify-center p-0.5"
+                  >
                     <Image
                       src={item.thumbnail}
                       alt={item.thumbnailAlt}
@@ -195,14 +223,14 @@ export function ProductDetailCard() {
                   <Typography
                     variant="labelMedium"
                     component="p"
-                    className="line-clamp-2 flex-1 text-on-surface leading-tight"
+                    className="text-on-surface line-clamp-2 flex-1 leading-tight"
                   >
                     {item.name}
                   </Typography>
                   <Surface
                     tone="surface"
                     rounded="sm"
-                    className="pointer-events-none flex h-6 w-6 items-center justify-center border border-outline-variant"
+                    className="border-outline-variant pointer-events-none flex h-6 w-6 items-center justify-center border"
                   >
                     <Icon symbol="add" size={14} className="text-on-surface-variant" />
                   </Surface>

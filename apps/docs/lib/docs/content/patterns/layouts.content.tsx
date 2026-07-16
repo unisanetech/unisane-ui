@@ -1,4 +1,5 @@
-import { Badge, Button, Surface, Typography } from '@unisane/ui';
+import { Button, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { layoutsPatternMeta as meta } from './pattern-page-meta';
 
@@ -90,7 +91,8 @@ export const layoutsPatternPage: PatternPageDoc = {
               </div>
             </Surface>
           ),
-          code: `import { Badge, Button, Surface, Typography } from "@unisane/ui";
+          code: `import { Badge } from '@/components/ui/badge';
+import { Button, Surface, Typography } from '@unisane/ui';
 
 export function ListDetailWorkspace() {
   return (

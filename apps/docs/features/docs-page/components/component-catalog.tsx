@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { HeroBackground } from "@/lib/docs/runtime/hero-background";
-import { COMPONENT_REGISTRY } from "@/lib/docs/registry/selectors";
+import Link from 'next/link';
+import { HeroBackground } from '@/lib/docs/runtime/hero-background';
+import { COMPONENT_REGISTRY } from '@/lib/docs/registry/selectors';
 import {
-  Alert,
   Avatar,
-  Badge,
   Button,
   Card,
-  Checkbox,
   Chip,
   Fab,
   IconButton,
   Pagination,
   Progress,
   SearchBar,
-  Select,
   Slider,
   Surface,
-  Switch,
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-  TextField,
   Typography,
-} from "@unisane/ui";
+} from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { Switch } from '@unisane/ui/switch';
+import { Alert } from '@unisane/ui/alert';
+import { SelectField } from '@unisane/ui/select-field';
+import { TextField } from '@unisane/ui/text-field';
 
 function CatalogCard({
   title,
@@ -39,17 +39,17 @@ function CatalogCard({
 }) {
   return (
     <Link href={href} className="group block h-full">
-      <div className="h-full overflow-hidden rounded-lg bg-surface-container-low transition-colors group-hover:bg-surface-container">
+      <div className="bg-surface-container-low group-hover:bg-surface-container h-full overflow-hidden rounded-lg transition-colors">
         <div className="h-[200px] overflow-hidden">{children}</div>
-        <div className="flex items-center justify-between gap-3 border-t border-outline-weak p-4">
+        <div className="border-outline-weak flex items-center justify-between gap-3 border-t p-4">
           <Typography
             variant="titleMedium"
             component="h3"
-            className="truncate text-on-surface transition-colors group-hover:text-primary"
+            className="text-on-surface group-hover:text-primary truncate transition-colors"
           >
             {title}
           </Typography>
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant transition-all group-hover:translate-x-0.5 group-hover:text-primary">
+          <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary text-[18px] transition-all group-hover:translate-x-0.5">
             arrow_forward
           </span>
         </div>
@@ -60,11 +60,11 @@ function CatalogCard({
 
 function renderCatalogPreview(slug: string, icon?: string) {
   switch (slug) {
-    case "button":
-    case "icon-button":
-    case "fab":
-    case "fab-menu":
-    case "segmented-button":
+    case 'button':
+    case 'icon-button':
+    case 'fab':
+    case 'fab-menu':
+    case 'segmented-button':
       return (
         <HeroBackground tone="primary" className="rounded-md">
           <div className="flex flex-wrap justify-center gap-3">
@@ -76,7 +76,7 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "card":
+    case 'card':
       return (
         <HeroBackground tone="secondary" className="rounded-md">
           <Card variant="elevated" className="max-w-[220px] p-4">
@@ -93,22 +93,26 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "chip":
+    case 'chip':
       return (
         <HeroBackground tone="tertiary" className="rounded-md">
           <div className="flex flex-wrap justify-center gap-2">
             <Chip variant="filter" label="React" selected />
             <Chip variant="filter" label="TypeScript" />
-            <Chip variant="assist" label="Add filter" icon={<span className="material-symbols-outlined text-[18px]">add</span>} />
+            <Chip
+              variant="assist"
+              label="Add filter"
+              icon={<span className="material-symbols-outlined text-[18px]">add</span>}
+            />
           </div>
         </HeroBackground>
       );
 
-    case "text-field":
-    case "select":
-    case "combobox":
-    case "date-input":
-    case "search-bar":
+    case 'text-field':
+    case 'select':
+    case 'combobox':
+    case 'date-input':
+    case 'search-bar':
       return (
         <HeroBackground tone="surface" className="rounded-md">
           <div className="w-full max-w-[300px] space-y-3">
@@ -118,7 +122,7 @@ function renderCatalogPreview(slug: string, icon?: string) {
               placeholder="Enter your email"
               size="sm"
             />
-            {slug === "search-bar" ? (
+            {slug === 'search-bar' ? (
               <SearchBar
                 value=""
                 onChange={() => {}}
@@ -127,14 +131,14 @@ function renderCatalogPreview(slug: string, icon?: string) {
                 className="pointer-events-none"
               />
             ) : (
-              <Select
+              <SelectField
                 id={`catalog-${slug}-select`}
                 label="Plan"
                 size="sm"
                 value="growth"
                 options={[
-                  { value: "starter", label: "Starter" },
-                  { value: "growth", label: "Growth" },
+                  { value: 'starter', label: 'Starter' },
+                  { value: 'growth', label: 'Growth' },
                 ]}
                 portal={false}
                 className="pointer-events-none"
@@ -144,11 +148,11 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "checkbox":
-    case "radio":
-    case "switch":
-    case "slider":
-    case "rating":
+    case 'checkbox':
+    case 'radio':
+    case 'switch':
+    case 'slider':
+    case 'rating':
       return (
         <HeroBackground tone="primary" className="rounded-md">
           <div className="space-y-5">
@@ -165,7 +169,7 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "progress":
+    case 'progress':
       return (
         <HeroBackground tone="secondary" className="rounded-md">
           <div className="w-full max-w-[280px] space-y-5">
@@ -175,8 +179,8 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "avatar":
-    case "badge":
+    case 'avatar':
+    case 'badge':
       return (
         <HeroBackground tone="tertiary" className="rounded-md">
           <div className="flex items-center gap-3">
@@ -189,7 +193,7 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "tabs":
+    case 'tabs':
       return (
         <HeroBackground tone="surface" className="rounded-md">
           <div className="w-full max-w-[320px]">
@@ -211,18 +215,18 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "pagination":
+    case 'pagination':
       return (
         <HeroBackground tone="surface" className="rounded-md">
           <Pagination currentPage={3} totalPages={8} onPageChange={() => {}} />
         </HeroBackground>
       );
 
-    case "breadcrumb":
+    case 'breadcrumb':
       return (
         <HeroBackground tone="surface" className="rounded-md">
-          <Surface tone="surface" rounded="sm" className="px-5 py-3 shadow-1">
-            <div className="flex items-center gap-2 text-label-medium font-medium text-on-surface-variant">
+          <Surface tone="surface" rounded="sm" className="shadow-1 px-5 py-3">
+            <div className="text-label-medium text-on-surface-variant flex items-center gap-2 font-medium">
               <span>Home</span>
               <span className="material-symbols-outlined text-[14px]">chevron_right</span>
               <span>Products</span>
@@ -233,40 +237,40 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "top-app-bar":
-    case "bottom-app-bar":
-    case "navigation-bar":
-    case "navigation-rail":
-    case "navigation-drawer":
-    case "sidebar":
+    case 'top-app-bar':
+    case 'bottom-app-bar':
+    case 'navigation-bar':
+    case 'navigation-rail':
+    case 'navigation-drawer':
+    case 'sidebar':
       return (
         <HeroBackground tone="surface" className="rounded-md">
-          <div className="flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border border-outline-variant bg-surface">
-            <div className="w-20 border-r border-outline-variant bg-surface-container-low p-3 space-y-2">
-              <div className="h-8 rounded-sm bg-primary-container" />
-              <div className="h-8 rounded-sm bg-surface-container-high" />
-              <div className="h-8 rounded-sm bg-surface-container-high" />
+          <div className="border-outline-variant bg-surface flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border">
+            <div className="border-outline-variant bg-surface-container-low w-20 space-y-2 border-r p-3">
+              <div className="bg-primary-container h-8 rounded-sm" />
+              <div className="bg-surface-container-high h-8 rounded-sm" />
+              <div className="bg-surface-container-high h-8 rounded-sm" />
             </div>
             <div className="flex-1 p-4">
-              <div className="mb-3 h-10 rounded-sm bg-surface-container-high" />
+              <div className="bg-surface-container-high mb-3 h-10 rounded-sm" />
               <div className="space-y-2">
-                <div className="h-3 rounded-sm bg-outline-muted" />
-                <div className="h-3 rounded-sm bg-outline-muted" />
-                <div className="h-3 w-3/4 rounded-sm bg-outline-muted" />
+                <div className="bg-outline-muted h-3 rounded-sm" />
+                <div className="bg-outline-muted h-3 rounded-sm" />
+                <div className="bg-outline-muted h-3 w-3/4 rounded-sm" />
               </div>
             </div>
           </div>
         </HeroBackground>
       );
 
-    case "calendar":
-    case "date-picker":
-    case "time-picker":
+    case 'calendar':
+    case 'date-picker':
+    case 'time-picker':
       return (
         <HeroBackground tone="secondary" className="rounded-md">
-          <div className="rounded-sm bg-surface p-4 shadow-1">
-            <div className="mb-2 grid grid-cols-7 gap-1 text-center text-label-small text-on-surface-variant">
-              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+          <div className="bg-surface shadow-1 rounded-sm p-4">
+            <div className="text-label-small text-on-surface-variant mb-2 grid grid-cols-7 gap-1 text-center">
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
                 <div key={`${day}-${index}`}>{day}</div>
               ))}
             </div>
@@ -274,8 +278,8 @@ function renderCatalogPreview(slug: string, icon?: string) {
               {Array.from({ length: 31 }).map((_, index) => (
                 <div
                   key={index}
-                  className={`flex aspect-square items-center justify-center rounded-full text-body-small ${
-                    index === 14 ? "bg-primary text-on-primary" : "text-on-surface"
+                  className={`text-body-small flex aspect-square items-center justify-center rounded-full ${
+                    index === 14 ? 'bg-primary text-on-primary' : 'text-on-surface'
                   }`}
                 >
                   {index + 1}
@@ -286,62 +290,72 @@ function renderCatalogPreview(slug: string, icon?: string) {
         </HeroBackground>
       );
 
-    case "carousel":
+    case 'carousel':
       return (
         <HeroBackground tone="tertiary" className="rounded-md">
-          <div className="relative w-full max-w-[320px] rounded-sm bg-surface-container-high p-6">
-            <IconButton variant="filled" size="sm" aria-label="Previous slide" className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 bg-surface">
-              <span className="material-symbols-outlined">chevron_left</span>
-            </IconButton>
-            <div className="flex h-28 items-center justify-center rounded-sm bg-surface-container-low">
-              <span className="material-symbols-outlined text-[36px] text-on-surface-variant">image</span>
+          <div className="bg-surface-container-high relative w-full max-w-[320px] rounded-sm p-6">
+            <IconButton
+              variant="filled"
+              size="sm"
+              aria-label="Previous slide"
+              className="bg-surface pointer-events-none absolute top-1/2 left-4 -translate-y-1/2"
+              icon={<span className="material-symbols-outlined">chevron_left</span>}
+            />
+            <div className="bg-surface-container-low flex h-28 items-center justify-center rounded-sm">
+              <span className="material-symbols-outlined text-on-surface-variant text-[36px]">
+                image
+              </span>
             </div>
-            <IconButton variant="filled" size="sm" aria-label="Next slide" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 bg-surface">
-              <span className="material-symbols-outlined">chevron_right</span>
-            </IconButton>
+            <IconButton
+              variant="filled"
+              size="sm"
+              aria-label="Next slide"
+              className="bg-surface pointer-events-none absolute top-1/2 right-4 -translate-y-1/2"
+              icon={<span className="material-symbols-outlined">chevron_right</span>}
+            />
           </div>
         </HeroBackground>
       );
 
-    case "canonical-layouts":
-    case "pane-group":
+    case 'canonical-layouts':
+    case 'pane-group':
       return (
         <HeroBackground tone="surface" className="rounded-md">
-          <div className="flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border border-outline-variant bg-surface">
-            <div className="w-24 border-r border-outline-variant bg-surface p-3 space-y-2">
-              <div className="h-3 rounded-sm bg-primary-container" />
-              <div className="h-8 rounded-sm bg-secondary-container" />
-              <div className="h-8 rounded-sm bg-surface-container-high" />
-              <div className="h-8 rounded-sm bg-surface-container-high" />
+          <div className="border-outline-variant bg-surface flex h-full w-full max-w-[320px] overflow-hidden rounded-sm border">
+            <div className="border-outline-variant bg-surface w-24 space-y-2 border-r p-3">
+              <div className="bg-primary-container h-3 rounded-sm" />
+              <div className="bg-secondary-container h-8 rounded-sm" />
+              <div className="bg-surface-container-high h-8 rounded-sm" />
+              <div className="bg-surface-container-high h-8 rounded-sm" />
             </div>
-            <div className="flex-1 bg-surface-container-low p-4">
+            <div className="bg-surface-container-low flex-1 p-4">
               <div className="mb-3 flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary-container" />
+                <div className="bg-primary-container h-10 w-10 rounded-full" />
                 <div className="flex-1 space-y-1">
-                  <div className="h-3 w-3/4 rounded-sm bg-outline-muted" />
-                  <div className="h-2 w-1/2 rounded-sm bg-outline-muted" />
+                  <div className="bg-outline-muted h-3 w-3/4 rounded-sm" />
+                  <div className="bg-outline-muted h-2 w-1/2 rounded-sm" />
                 </div>
               </div>
               <div className="space-y-2">
-                <div className="h-2 rounded-sm bg-surface-container-high" />
-                <div className="h-2 rounded-sm bg-surface-container-high" />
-                <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+                <div className="bg-surface-container-high h-2 rounded-sm" />
+                <div className="bg-surface-container-high h-2 rounded-sm" />
+                <div className="bg-surface-container-high h-2 w-3/4 rounded-sm" />
               </div>
             </div>
           </div>
         </HeroBackground>
       );
 
-    case "alert":
-    case "banner":
-    case "toast":
+    case 'alert':
+    case 'banner':
+    case 'toast':
       return (
         <HeroBackground tone="secondary" className="rounded-md">
           <div className="w-full max-w-[300px] space-y-3">
             <Alert variant="info" title="Changes published">
               Your settings are now live for all members.
             </Alert>
-            <Surface tone="surface" rounded="sm" className="flex items-center gap-3 p-3 shadow-1">
+            <Surface tone="surface" rounded="sm" className="shadow-1 flex items-center gap-3 p-3">
               <span className="material-symbols-outlined text-primary">check_circle</span>
               <Typography variant="bodySmall" className="text-on-surface">
                 Draft shared successfully
@@ -355,15 +369,13 @@ function renderCatalogPreview(slug: string, icon?: string) {
       return (
         <HeroBackground tone="surface" className="rounded-md">
           <div className="flex flex-col items-center justify-center gap-3 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-surface text-on-surface-variant shadow-1">
-              <span className="material-symbols-outlined text-[24px]">
-                {icon || "widgets"}
-              </span>
+            <div className="bg-surface text-on-surface-variant shadow-1 flex h-12 w-12 items-center justify-center rounded-sm">
+              <span className="material-symbols-outlined text-[24px]">{icon || 'widgets'}</span>
             </div>
             <Typography
               variant="bodySmall"
               component="p"
-              className="max-w-[18ch] text-on-surface-variant"
+              className="text-on-surface-variant max-w-[18ch]"
             >
               Production-ready component preview
             </Typography>
@@ -402,10 +414,10 @@ export function ComponentCatalogHeader() {
       <Typography
         variant="titleMedium"
         component="p"
-        className="mt-4 max-w-3xl text-on-surface-variant @3xl:text-title-large"
+        className="text-on-surface-variant @3xl:text-title-large mt-4 max-w-3xl"
       >
-        From buttons to complex layouts, everything you need to build product
-        interfaces with one consistent system.
+        From buttons to complex layouts, everything you need to build product interfaces with one
+        consistent system.
       </Typography>
     </div>
   );

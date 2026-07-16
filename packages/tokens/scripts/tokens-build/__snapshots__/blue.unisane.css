@@ -1,312 +1,345 @@
+/* unisane:theme:start */
+/* Generated theme: Blue. Replace this managed region with the CLI. */
+:root {
+  --color-primary: #007eb7;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #c8f3ff;
+  --color-on-primary-container: #001f41;
+  --color-secondary: #4d7796;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #deeefa;
+  --color-on-secondary-container: #031d2e;
+  --color-tertiary: #7166aa;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #eae8ff;
+  --color-on-tertiary-container: #1b123a;
+  --color-surface: #ffffff;
+  --color-on-surface: #171b1e;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f8f9;
+  --color-surface-container: #f1f4f5;
+  --color-surface-container-high: #eef1f2;
+  --color-surface-container-highest: #e8eced;
+  --color-surface-variant: #e7ecef;
+  --color-on-surface-variant: #49545a;
+  --color-background: #ffffff;
+  --color-on-background: #171b1e;
+  --color-outline: #a1adb3;
+  --color-outline-variant: #bcc6cb;
+  --color-error: #c53637;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdcd6;
+  --color-on-error-container: #450000;
+  --color-success: #008b1d;
+  --color-on-success: #ffffff;
+  --color-success-container: #d2f7d2;
+  --color-on-success-container: #002700;
+  --color-warning: #9c6600;
+  --color-on-warning: #ffffff;
+  --color-warning-container: #fde9c1;
+  --color-on-warning-container: #311000;
+  --color-info: #0077c7;
+  --color-on-info: #ffffff;
+  --color-info-container: #cdf0ff;
+  --color-on-info-container: #00194a;
+  --color-inverse-surface: #30363a;
+  --color-inverse-on-surface: #f3f5f7;
+  --color-inverse-primary: #9ee2ff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --color-primary: #9ee2ff;
+    --color-on-primary: #003d69;
+    --color-primary-container: #005d91;
+    --color-on-primary-container: #c8f3ff;
+    --color-secondary: #c3dbee;
+    --color-on-secondary: #173950;
+    --color-secondary-container: #305773;
+    --color-on-secondary-container: #deeefa;
+    --color-tertiary: #d6d2fc;
+    --color-on-tertiary: #362b5f;
+    --color-tertiary-container: #524785;
+    --color-on-tertiary-container: #eae8ff;
+    --color-surface: #0c1012;
+    --color-on-surface: #e8eced;
+    --color-surface-container-lowest: #0c1012;
+    --color-surface-container-low: #171b1e;
+    --color-surface-container: #292f32;
+    --color-surface-container-high: #383e42;
+    --color-surface-container-highest: #3d4447;
+    --color-surface-variant: #49545a;
+    --color-on-surface-variant: #d1d9dd;
+    --color-background: #0c1012;
+    --color-on-background: #e8eced;
+    --color-outline: #859198;
+    --color-outline-variant: #67747a;
+    --color-error: #ffbeb7;
+    --color-on-error: #700001;
+    --color-error-container: #9b0d1a;
+    --color-on-error-container: #ffdcd6;
+    --color-success: #afe9af;
+    --color-on-success: #004700;
+    --color-success-container: #006800;
+    --color-on-success-container: #d2f7d2;
+    --color-warning: #f2d494;
+    --color-on-warning: #542a00;
+    --color-warning-container: #784700;
+    --color-on-warning-container: #fde9c1;
+    --color-info: #a7deff;
+    --color-on-info: #003675;
+    --color-info-container: #00559f;
+    --color-on-info-container: #cdf0ff;
+    --color-inverse-surface: #e8eced;
+    --color-inverse-on-surface: #30363a;
+    --color-inverse-primary: #007eb7;
+  }
+}
+
+.dark {
+  --color-primary: #9ee2ff;
+  --color-on-primary: #003d69;
+  --color-primary-container: #005d91;
+  --color-on-primary-container: #c8f3ff;
+  --color-secondary: #c3dbee;
+  --color-on-secondary: #173950;
+  --color-secondary-container: #305773;
+  --color-on-secondary-container: #deeefa;
+  --color-tertiary: #d6d2fc;
+  --color-on-tertiary: #362b5f;
+  --color-tertiary-container: #524785;
+  --color-on-tertiary-container: #eae8ff;
+  --color-surface: #0c1012;
+  --color-on-surface: #e8eced;
+  --color-surface-container-lowest: #0c1012;
+  --color-surface-container-low: #171b1e;
+  --color-surface-container: #292f32;
+  --color-surface-container-high: #383e42;
+  --color-surface-container-highest: #3d4447;
+  --color-surface-variant: #49545a;
+  --color-on-surface-variant: #d1d9dd;
+  --color-background: #0c1012;
+  --color-on-background: #e8eced;
+  --color-outline: #859198;
+  --color-outline-variant: #67747a;
+  --color-error: #ffbeb7;
+  --color-on-error: #700001;
+  --color-error-container: #9b0d1a;
+  --color-on-error-container: #ffdcd6;
+  --color-success: #afe9af;
+  --color-on-success: #004700;
+  --color-success-container: #006800;
+  --color-on-success-container: #d2f7d2;
+  --color-warning: #f2d494;
+  --color-on-warning: #542a00;
+  --color-warning-container: #784700;
+  --color-on-warning-container: #fde9c1;
+  --color-info: #a7deff;
+  --color-on-info: #003675;
+  --color-info-container: #00559f;
+  --color-on-info-container: #cdf0ff;
+  --color-inverse-surface: #e8eced;
+  --color-inverse-on-surface: #30363a;
+  --color-inverse-primary: #007eb7;
+}
+
+[data-contrast="medium"] {
+  --color-primary: #005d91;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ddfbff;
+  --color-on-primary-container: #001f41;
+  --color-secondary: #305773;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ecf7ff;
+  --color-on-secondary-container: #031d2e;
+  --color-tertiary: #524785;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #f4f3ff;
+  --color-on-tertiary-container: #1b123a;
+  --color-surface: #ffffff;
+  --color-on-surface: #171b1e;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f8f9;
+  --color-surface-container: #f1f4f5;
+  --color-surface-container-high: #eef1f2;
+  --color-surface-container-highest: #e8eced;
+  --color-surface-variant: #edf1f3;
+  --color-on-surface-variant: #3a4449;
+  --color-background: #ffffff;
+  --color-on-background: #171b1e;
+  --color-outline: #49545a;
+  --color-outline-variant: #67747a;
+  --color-error: #c53637;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdcd6;
+  --color-on-error-container: #450000;
+  --color-success: #006800;
+  --color-on-success: #ffffff;
+  --color-success-container: #e3fee3;
+  --color-on-success-container: #002700;
+  --color-warning: #784700;
+  --color-on-warning: #ffffff;
+  --color-warning-container: #fff4d7;
+  --color-on-warning-container: #311000;
+  --color-info: #00559f;
+  --color-on-info: #ffffff;
+  --color-info-container: #e0f9ff;
+  --color-on-info-container: #00194a;
+  --color-inverse-surface: #30363a;
+  --color-inverse-on-surface: #f3f5f7;
+  --color-inverse-primary: #9ee2ff;
+}
+
+.dark[data-contrast="medium"],
+[data-contrast="medium"].dark {
+  --color-primary: #9ee2ff;
+  --color-on-primary: #003d69;
+  --color-primary-container: #005d91;
+  --color-on-primary-container: #ddfbff;
+  --color-secondary: #c3dbee;
+  --color-on-secondary: #173950;
+  --color-secondary-container: #305773;
+  --color-on-secondary-container: #ecf7ff;
+  --color-tertiary: #d6d2fc;
+  --color-on-tertiary: #362b5f;
+  --color-tertiary-container: #524785;
+  --color-on-tertiary-container: #f4f3ff;
+  --color-surface: #0c1012;
+  --color-on-surface: #f3f5f7;
+  --color-surface-container-lowest: #0c1012;
+  --color-surface-container-low: #171b1e;
+  --color-surface-container: #292f32;
+  --color-surface-container-high: #383e42;
+  --color-surface-container-highest: #3d4447;
+  --color-surface-variant: #3a4449;
+  --color-on-surface-variant: #e7ecef;
+  --color-background: #0c1012;
+  --color-on-background: #e8eced;
+  --color-outline: #a1adb3;
+  --color-outline-variant: #859198;
+  --color-error: #ffbeb7;
+  --color-on-error: #700001;
+  --color-error-container: #9b0d1a;
+  --color-on-error-container: #ffdcd6;
+  --color-success: #afe9af;
+  --color-on-success: #004700;
+  --color-success-container: #006800;
+  --color-on-success-container: #d2f7d2;
+  --color-warning: #f2d494;
+  --color-on-warning: #542a00;
+  --color-warning-container: #784700;
+  --color-on-warning-container: #fde9c1;
+  --color-info: #a7deff;
+  --color-on-info: #003675;
+  --color-info-container: #00559f;
+  --color-on-info-container: #cdf0ff;
+  --color-inverse-surface: #e8eced;
+  --color-inverse-on-surface: #30363a;
+  --color-inverse-primary: #007eb7;
+}
+
+[data-contrast="high"] {
+  --color-primary: #003d69;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ddfbff;
+  --color-on-primary-container: #000000;
+  --color-secondary: #173950;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ecf7ff;
+  --color-on-secondary-container: #000000;
+  --color-tertiary: #362b5f;
+  --color-on-tertiary: #ffffff;
+  --color-tertiary-container: #f4f3ff;
+  --color-on-tertiary-container: #000000;
+  --color-surface: #ffffff;
+  --color-on-surface: #000000;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f8f9;
+  --color-surface-container: #f1f4f5;
+  --color-surface-container-high: #eef1f2;
+  --color-surface-container-highest: #e8eced;
+  --color-surface-variant: #f2f6f8;
+  --color-on-surface-variant: #2e373c;
+  --color-background: #ffffff;
+  --color-on-background: #000000;
+  --color-outline: #2e373c;
+  --color-outline-variant: #67747a;
+  --color-error: #700001;
+  --color-on-error: #ffffff;
+  --color-error-container: #ffdcd6;
+  --color-on-error-container: #450000;
+  --color-success: #004700;
+  --color-on-success: #ffffff;
+  --color-success-container: #e3fee3;
+  --color-on-success-container: #000000;
+  --color-warning: #542a00;
+  --color-on-warning: #ffffff;
+  --color-warning-container: #fff4d7;
+  --color-on-warning-container: #000000;
+  --color-info: #003675;
+  --color-on-info: #ffffff;
+  --color-info-container: #e0f9ff;
+  --color-on-info-container: #000000;
+  --color-inverse-surface: #30363a;
+  --color-inverse-on-surface: #f3f5f7;
+  --color-inverse-primary: #9ee2ff;
+}
+
+.dark[data-contrast="high"],
+[data-contrast="high"].dark {
+  --color-primary: #ddfbff;
+  --color-on-primary: #000000;
+  --color-primary-container: #001f41;
+  --color-on-primary-container: #ffffff;
+  --color-secondary: #ecf7ff;
+  --color-on-secondary: #000000;
+  --color-secondary-container: #031d2e;
+  --color-on-secondary-container: #ffffff;
+  --color-tertiary: #f4f3ff;
+  --color-on-tertiary: #000000;
+  --color-tertiary-container: #1b123a;
+  --color-on-tertiary-container: #ffffff;
+  --color-surface: #0c1012;
+  --color-on-surface: #ffffff;
+  --color-surface-container-lowest: #0c1012;
+  --color-surface-container-low: #171b1e;
+  --color-surface-container: #292f32;
+  --color-surface-container-high: #383e42;
+  --color-surface-container-highest: #3d4447;
+  --color-surface-variant: #2e373c;
+  --color-on-surface-variant: #f2f6f8;
+  --color-background: #0c1012;
+  --color-on-background: #ffffff;
+  --color-outline: #d1d9dd;
+  --color-outline-variant: #a1adb3;
+  --color-error: #ffeae6;
+  --color-on-error: #000000;
+  --color-error-container: #9b0d1a;
+  --color-on-error-container: #ffdcd6;
+  --color-success: #e3fee3;
+  --color-on-success: #000000;
+  --color-success-container: #002700;
+  --color-on-success-container: #ffffff;
+  --color-warning: #fff4d7;
+  --color-on-warning: #000000;
+  --color-warning-container: #311000;
+  --color-on-warning-container: #ffffff;
+  --color-info: #e0f9ff;
+  --color-on-info: #000000;
+  --color-info-container: #00194a;
+  --color-on-info-container: #ffffff;
+  --color-inverse-surface: #e8eced;
+  --color-inverse-on-surface: #30363a;
+  --color-inverse-primary: #007eb7;
+}
+/* unisane:theme:end */
 /* ============================================================
    Unisane UI Design Tokens
    Generated from "Blue" theme using OKLCH color science
    ============================================================ */
 
-/* ============================================================
-   THEMING SYSTEM - Multiple ways to customize!
-   ============================================================
-
-   1. HUE - Change the primary color:
-      :root { --hue: 145; }     // Green
-      :root { --hue: 285; }     // Purple
-      :root { --hue: 55; }      // Orange
-
-      Available hues:
-      Blue: 230 (default)  Green: 145   Cyan: 195
-      Purple: 285          Orange: 55   Red: 25
-
-   2. CHROMA - Adjust color intensity:
-      :root { --chroma: 0.08; }  // Muted
-      :root { --chroma: 0.18; }  // Vibrant
-
-   3. SCHEME - Color strategy (via data attribute):
-      <html data-scheme="tonal">       // Default - full color
-      <html data-scheme="monochrome">  // Pure grayscale
-      <html data-scheme="neutral">     // Low saturation, professional
-
-   4. CONTRAST - Accessibility level (via data attribute):
-      <html data-contrast="standard">  // Default
-      <html data-contrast="medium">    // Boosted readability
-      <html data-contrast="high">      // Maximum contrast preset
-
-   5. DARK MODE:
-      <html class="dark">              // Manual dark mode
-      // Or automatic via prefers-color-scheme
-
-   6. DENSITY:
-      <html data-density="compact">    // Tighter spacing
-      <html data-density="comfortable">// More breathing room
-
-   7. RADIUS:
-      <html data-radius="sharp">       // Sharper corners
-      <html data-radius="soft">        // Rounder corners
-
-   COMBINING: All options can be combined!
-      <html class="dark" data-scheme="neutral" data-contrast="high">
-   ============================================================ */
-
-/* Theme defaults layer - can be overridden by unlayered app CSS */
-@layer unisane-defaults {
-  :root {
-    --hue: 230;
-    --chroma: 0.15;
-  }
-}
-
-:root,
-[data-theme-scope] {
-  /* Derived hues (auto-calculated) */
-  --hue-secondary: calc(var(--hue) + 12);
-  --hue-tertiary: calc(var(--hue) + 60);
-  --hue-neutral: var(--hue);
-  --hue-error: 25;
-  --hue-success: 145;
-  --hue-warning: 85;
-  --hue-info: 245;
-
-  /* Derived chromas */
-  --chroma-secondary: calc(var(--chroma) * 0.45);
-  --chroma-tertiary: calc(var(--chroma) * 0.7);
-  --chroma-neutral: 0.012;
-  --chroma-status-scale: 1;
-  --chroma-error: calc(0.18 * var(--chroma-status-scale));
-  --chroma-success: calc(0.18 * var(--chroma-status-scale));
-  --chroma-warning: calc(0.16 * var(--chroma-status-scale));
-  --chroma-info: calc(0.16 * var(--chroma-status-scale));
-
-  /* Neutral variant chroma (1.5x neutral) */
-  --chroma-neutral-variant: calc(var(--chroma-neutral) * 1.5);
-
-  /* === REFERENCE PALETTES (auto-derived from --hue and --chroma) === */
-
-  /* primary */
-  --ref-primary-0: #000000;
-  --ref-primary-4: oklch(0.1 calc(var(--chroma) * 0.5) var(--hue));
-  --ref-primary-6: oklch(0.13 calc(var(--chroma) * 0.6) var(--hue));
-  --ref-primary-8: oklch(0.17 calc(var(--chroma) * 0.65) var(--hue));
-  --ref-primary-10: oklch(0.22 calc(var(--chroma) * 0.7) var(--hue));
-  --ref-primary-12: oklch(0.25 calc(var(--chroma) * 0.75) var(--hue));
-  --ref-primary-17: oklch(0.3 calc(var(--chroma) * 0.8) var(--hue));
-  --ref-primary-20: oklch(0.33 calc(var(--chroma) * 0.85) var(--hue));
-  --ref-primary-22: oklch(0.36 calc(var(--chroma) * 0.87) var(--hue));
-  --ref-primary-24: oklch(0.38 calc(var(--chroma) * 0.88) var(--hue));
-  --ref-primary-30: oklch(0.44 calc(var(--chroma) * 0.95) var(--hue));
-  --ref-primary-40: oklch(0.55 calc(var(--chroma) * 1) var(--hue));
-  --ref-primary-50: oklch(0.65 calc(var(--chroma) * 1) var(--hue));
-  --ref-primary-60: oklch(0.74 calc(var(--chroma) * 0.9) var(--hue));
-  --ref-primary-70: oklch(0.82 calc(var(--chroma) * 0.75) var(--hue));
-  --ref-primary-80: oklch(0.88 calc(var(--chroma) * 0.55) var(--hue));
-  --ref-primary-90: oklch(0.94 calc(var(--chroma) * 0.35) var(--hue));
-  --ref-primary-92: oklch(0.955 calc(var(--chroma) * 0.3) var(--hue));
-  --ref-primary-94: oklch(0.965 calc(var(--chroma) * 0.27) var(--hue));
-  --ref-primary-95: oklch(0.97 calc(var(--chroma) * 0.25) var(--hue));
-  --ref-primary-96: oklch(0.978 calc(var(--chroma) * 0.22) var(--hue));
-  --ref-primary-99: oklch(0.995 calc(var(--chroma) * 0.15) var(--hue));
-  --ref-primary-100: #ffffff;
-
-  /* secondary */
-  --ref-secondary-0: #000000;
-  --ref-secondary-4: oklch(0.1 calc(var(--chroma-secondary) * 0.5) var(--hue-secondary));
-  --ref-secondary-6: oklch(0.13 calc(var(--chroma-secondary) * 0.6) var(--hue-secondary));
-  --ref-secondary-8: oklch(0.17 calc(var(--chroma-secondary) * 0.65) var(--hue-secondary));
-  --ref-secondary-10: oklch(0.22 calc(var(--chroma-secondary) * 0.7) var(--hue-secondary));
-  --ref-secondary-12: oklch(0.25 calc(var(--chroma-secondary) * 0.75) var(--hue-secondary));
-  --ref-secondary-17: oklch(0.3 calc(var(--chroma-secondary) * 0.8) var(--hue-secondary));
-  --ref-secondary-20: oklch(0.33 calc(var(--chroma-secondary) * 0.85) var(--hue-secondary));
-  --ref-secondary-22: oklch(0.36 calc(var(--chroma-secondary) * 0.87) var(--hue-secondary));
-  --ref-secondary-24: oklch(0.38 calc(var(--chroma-secondary) * 0.88) var(--hue-secondary));
-  --ref-secondary-30: oklch(0.44 calc(var(--chroma-secondary) * 0.95) var(--hue-secondary));
-  --ref-secondary-40: oklch(0.55 calc(var(--chroma-secondary) * 1) var(--hue-secondary));
-  --ref-secondary-50: oklch(0.65 calc(var(--chroma-secondary) * 1) var(--hue-secondary));
-  --ref-secondary-60: oklch(0.74 calc(var(--chroma-secondary) * 0.9) var(--hue-secondary));
-  --ref-secondary-70: oklch(0.82 calc(var(--chroma-secondary) * 0.75) var(--hue-secondary));
-  --ref-secondary-80: oklch(0.88 calc(var(--chroma-secondary) * 0.55) var(--hue-secondary));
-  --ref-secondary-90: oklch(0.94 calc(var(--chroma-secondary) * 0.35) var(--hue-secondary));
-  --ref-secondary-92: oklch(0.955 calc(var(--chroma-secondary) * 0.3) var(--hue-secondary));
-  --ref-secondary-94: oklch(0.965 calc(var(--chroma-secondary) * 0.27) var(--hue-secondary));
-  --ref-secondary-95: oklch(0.97 calc(var(--chroma-secondary) * 0.25) var(--hue-secondary));
-  --ref-secondary-96: oklch(0.978 calc(var(--chroma-secondary) * 0.22) var(--hue-secondary));
-  --ref-secondary-99: oklch(0.995 calc(var(--chroma-secondary) * 0.15) var(--hue-secondary));
-  --ref-secondary-100: #ffffff;
-
-  /* tertiary */
-  --ref-tertiary-0: #000000;
-  --ref-tertiary-4: oklch(0.1 calc(var(--chroma-tertiary) * 0.5) var(--hue-tertiary));
-  --ref-tertiary-6: oklch(0.13 calc(var(--chroma-tertiary) * 0.6) var(--hue-tertiary));
-  --ref-tertiary-8: oklch(0.17 calc(var(--chroma-tertiary) * 0.65) var(--hue-tertiary));
-  --ref-tertiary-10: oklch(0.22 calc(var(--chroma-tertiary) * 0.7) var(--hue-tertiary));
-  --ref-tertiary-12: oklch(0.25 calc(var(--chroma-tertiary) * 0.75) var(--hue-tertiary));
-  --ref-tertiary-17: oklch(0.3 calc(var(--chroma-tertiary) * 0.8) var(--hue-tertiary));
-  --ref-tertiary-20: oklch(0.33 calc(var(--chroma-tertiary) * 0.85) var(--hue-tertiary));
-  --ref-tertiary-22: oklch(0.36 calc(var(--chroma-tertiary) * 0.87) var(--hue-tertiary));
-  --ref-tertiary-24: oklch(0.38 calc(var(--chroma-tertiary) * 0.88) var(--hue-tertiary));
-  --ref-tertiary-30: oklch(0.44 calc(var(--chroma-tertiary) * 0.95) var(--hue-tertiary));
-  --ref-tertiary-40: oklch(0.55 calc(var(--chroma-tertiary) * 1) var(--hue-tertiary));
-  --ref-tertiary-50: oklch(0.65 calc(var(--chroma-tertiary) * 1) var(--hue-tertiary));
-  --ref-tertiary-60: oklch(0.74 calc(var(--chroma-tertiary) * 0.9) var(--hue-tertiary));
-  --ref-tertiary-70: oklch(0.82 calc(var(--chroma-tertiary) * 0.75) var(--hue-tertiary));
-  --ref-tertiary-80: oklch(0.88 calc(var(--chroma-tertiary) * 0.55) var(--hue-tertiary));
-  --ref-tertiary-90: oklch(0.94 calc(var(--chroma-tertiary) * 0.35) var(--hue-tertiary));
-  --ref-tertiary-92: oklch(0.955 calc(var(--chroma-tertiary) * 0.3) var(--hue-tertiary));
-  --ref-tertiary-94: oklch(0.965 calc(var(--chroma-tertiary) * 0.27) var(--hue-tertiary));
-  --ref-tertiary-95: oklch(0.97 calc(var(--chroma-tertiary) * 0.25) var(--hue-tertiary));
-  --ref-tertiary-96: oklch(0.978 calc(var(--chroma-tertiary) * 0.22) var(--hue-tertiary));
-  --ref-tertiary-99: oklch(0.995 calc(var(--chroma-tertiary) * 0.15) var(--hue-tertiary));
-  --ref-tertiary-100: #ffffff;
-
-  /* neutral */
-  --ref-neutral-0: #000000;
-  --ref-neutral-4: oklch(0.1 calc(var(--chroma-neutral) * 0.5) var(--hue-neutral));
-  --ref-neutral-6: oklch(0.13 calc(var(--chroma-neutral) * 0.6) var(--hue-neutral));
-  --ref-neutral-8: oklch(0.17 calc(var(--chroma-neutral) * 0.65) var(--hue-neutral));
-  --ref-neutral-10: oklch(0.22 calc(var(--chroma-neutral) * 0.7) var(--hue-neutral));
-  --ref-neutral-12: oklch(0.25 calc(var(--chroma-neutral) * 0.75) var(--hue-neutral));
-  --ref-neutral-17: oklch(0.3 calc(var(--chroma-neutral) * 0.8) var(--hue-neutral));
-  --ref-neutral-20: oklch(0.33 calc(var(--chroma-neutral) * 0.85) var(--hue-neutral));
-  --ref-neutral-22: oklch(0.36 calc(var(--chroma-neutral) * 0.87) var(--hue-neutral));
-  --ref-neutral-24: oklch(0.38 calc(var(--chroma-neutral) * 0.88) var(--hue-neutral));
-  --ref-neutral-30: oklch(0.44 calc(var(--chroma-neutral) * 0.95) var(--hue-neutral));
-  --ref-neutral-40: oklch(0.55 calc(var(--chroma-neutral) * 1) var(--hue-neutral));
-  --ref-neutral-50: oklch(0.65 calc(var(--chroma-neutral) * 1) var(--hue-neutral));
-  --ref-neutral-60: oklch(0.74 calc(var(--chroma-neutral) * 0.9) var(--hue-neutral));
-  --ref-neutral-70: oklch(0.82 calc(var(--chroma-neutral) * 0.75) var(--hue-neutral));
-  --ref-neutral-80: oklch(0.88 calc(var(--chroma-neutral) * 0.55) var(--hue-neutral));
-  --ref-neutral-90: oklch(0.94 calc(var(--chroma-neutral) * 0.35) var(--hue-neutral));
-  --ref-neutral-92: oklch(0.955 calc(var(--chroma-neutral) * 0.3) var(--hue-neutral));
-  --ref-neutral-94: oklch(0.965 calc(var(--chroma-neutral) * 0.27) var(--hue-neutral));
-  --ref-neutral-95: oklch(0.97 calc(var(--chroma-neutral) * 0.25) var(--hue-neutral));
-  --ref-neutral-96: oklch(0.978 calc(var(--chroma-neutral) * 0.22) var(--hue-neutral));
-  --ref-neutral-99: oklch(0.995 calc(var(--chroma-neutral) * 0.15) var(--hue-neutral));
-  --ref-neutral-100: #ffffff;
-
-  /* neutral-variant */
-  --ref-neutral-variant-0: #000000;
-  --ref-neutral-variant-4: oklch(0.1 calc(var(--chroma-neutral-variant) * 0.5) var(--hue-neutral));
-  --ref-neutral-variant-6: oklch(0.13 calc(var(--chroma-neutral-variant) * 0.6) var(--hue-neutral));
-  --ref-neutral-variant-8: oklch(0.17 calc(var(--chroma-neutral-variant) * 0.65) var(--hue-neutral));
-  --ref-neutral-variant-10: oklch(0.22 calc(var(--chroma-neutral-variant) * 0.7) var(--hue-neutral));
-  --ref-neutral-variant-12: oklch(0.25 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
-  --ref-neutral-variant-17: oklch(0.3 calc(var(--chroma-neutral-variant) * 0.8) var(--hue-neutral));
-  --ref-neutral-variant-20: oklch(0.33 calc(var(--chroma-neutral-variant) * 0.85) var(--hue-neutral));
-  --ref-neutral-variant-22: oklch(0.36 calc(var(--chroma-neutral-variant) * 0.87) var(--hue-neutral));
-  --ref-neutral-variant-24: oklch(0.38 calc(var(--chroma-neutral-variant) * 0.88) var(--hue-neutral));
-  --ref-neutral-variant-30: oklch(0.44 calc(var(--chroma-neutral-variant) * 0.95) var(--hue-neutral));
-  --ref-neutral-variant-40: oklch(0.55 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
-  --ref-neutral-variant-50: oklch(0.65 calc(var(--chroma-neutral-variant) * 1) var(--hue-neutral));
-  --ref-neutral-variant-60: oklch(0.74 calc(var(--chroma-neutral-variant) * 0.9) var(--hue-neutral));
-  --ref-neutral-variant-70: oklch(0.82 calc(var(--chroma-neutral-variant) * 0.75) var(--hue-neutral));
-  --ref-neutral-variant-80: oklch(0.88 calc(var(--chroma-neutral-variant) * 0.55) var(--hue-neutral));
-  --ref-neutral-variant-90: oklch(0.94 calc(var(--chroma-neutral-variant) * 0.35) var(--hue-neutral));
-  --ref-neutral-variant-92: oklch(0.955 calc(var(--chroma-neutral-variant) * 0.3) var(--hue-neutral));
-  --ref-neutral-variant-94: oklch(0.965 calc(var(--chroma-neutral-variant) * 0.27) var(--hue-neutral));
-  --ref-neutral-variant-95: oklch(0.97 calc(var(--chroma-neutral-variant) * 0.25) var(--hue-neutral));
-  --ref-neutral-variant-96: oklch(0.978 calc(var(--chroma-neutral-variant) * 0.22) var(--hue-neutral));
-  --ref-neutral-variant-99: oklch(0.995 calc(var(--chroma-neutral-variant) * 0.15) var(--hue-neutral));
-  --ref-neutral-variant-100: #ffffff;
-
-  /* error */
-  --ref-error-0: #000000;
-  --ref-error-4: oklch(0.1 calc(var(--chroma-error) * 0.5) var(--hue-error));
-  --ref-error-6: oklch(0.13 calc(var(--chroma-error) * 0.6) var(--hue-error));
-  --ref-error-8: oklch(0.17 calc(var(--chroma-error) * 0.65) var(--hue-error));
-  --ref-error-10: oklch(0.22 calc(var(--chroma-error) * 0.7) var(--hue-error));
-  --ref-error-12: oklch(0.25 calc(var(--chroma-error) * 0.75) var(--hue-error));
-  --ref-error-17: oklch(0.3 calc(var(--chroma-error) * 0.8) var(--hue-error));
-  --ref-error-20: oklch(0.33 calc(var(--chroma-error) * 0.85) var(--hue-error));
-  --ref-error-22: oklch(0.36 calc(var(--chroma-error) * 0.87) var(--hue-error));
-  --ref-error-24: oklch(0.38 calc(var(--chroma-error) * 0.88) var(--hue-error));
-  --ref-error-30: oklch(0.44 calc(var(--chroma-error) * 0.95) var(--hue-error));
-  --ref-error-40: oklch(0.55 calc(var(--chroma-error) * 1) var(--hue-error));
-  --ref-error-50: oklch(0.65 calc(var(--chroma-error) * 1) var(--hue-error));
-  --ref-error-60: oklch(0.74 calc(var(--chroma-error) * 0.9) var(--hue-error));
-  --ref-error-70: oklch(0.82 calc(var(--chroma-error) * 0.75) var(--hue-error));
-  --ref-error-80: oklch(0.88 calc(var(--chroma-error) * 0.55) var(--hue-error));
-  --ref-error-90: oklch(0.94 calc(var(--chroma-error) * 0.35) var(--hue-error));
-  --ref-error-92: oklch(0.955 calc(var(--chroma-error) * 0.3) var(--hue-error));
-  --ref-error-94: oklch(0.965 calc(var(--chroma-error) * 0.27) var(--hue-error));
-  --ref-error-95: oklch(0.97 calc(var(--chroma-error) * 0.25) var(--hue-error));
-  --ref-error-96: oklch(0.978 calc(var(--chroma-error) * 0.22) var(--hue-error));
-  --ref-error-99: oklch(0.995 calc(var(--chroma-error) * 0.15) var(--hue-error));
-  --ref-error-100: #ffffff;
-
-  /* success */
-  --ref-success-0: #000000;
-  --ref-success-4: oklch(0.1 calc(var(--chroma-success) * 0.5) var(--hue-success));
-  --ref-success-6: oklch(0.13 calc(var(--chroma-success) * 0.6) var(--hue-success));
-  --ref-success-8: oklch(0.17 calc(var(--chroma-success) * 0.65) var(--hue-success));
-  --ref-success-10: oklch(0.22 calc(var(--chroma-success) * 0.7) var(--hue-success));
-  --ref-success-12: oklch(0.25 calc(var(--chroma-success) * 0.75) var(--hue-success));
-  --ref-success-17: oklch(0.3 calc(var(--chroma-success) * 0.8) var(--hue-success));
-  --ref-success-20: oklch(0.33 calc(var(--chroma-success) * 0.85) var(--hue-success));
-  --ref-success-22: oklch(0.36 calc(var(--chroma-success) * 0.87) var(--hue-success));
-  --ref-success-24: oklch(0.38 calc(var(--chroma-success) * 0.88) var(--hue-success));
-  --ref-success-30: oklch(0.44 calc(var(--chroma-success) * 0.95) var(--hue-success));
-  --ref-success-40: oklch(0.55 calc(var(--chroma-success) * 1) var(--hue-success));
-  --ref-success-50: oklch(0.65 calc(var(--chroma-success) * 1) var(--hue-success));
-  --ref-success-60: oklch(0.74 calc(var(--chroma-success) * 0.9) var(--hue-success));
-  --ref-success-70: oklch(0.82 calc(var(--chroma-success) * 0.75) var(--hue-success));
-  --ref-success-80: oklch(0.88 calc(var(--chroma-success) * 0.55) var(--hue-success));
-  --ref-success-90: oklch(0.94 calc(var(--chroma-success) * 0.35) var(--hue-success));
-  --ref-success-92: oklch(0.955 calc(var(--chroma-success) * 0.3) var(--hue-success));
-  --ref-success-94: oklch(0.965 calc(var(--chroma-success) * 0.27) var(--hue-success));
-  --ref-success-95: oklch(0.97 calc(var(--chroma-success) * 0.25) var(--hue-success));
-  --ref-success-96: oklch(0.978 calc(var(--chroma-success) * 0.22) var(--hue-success));
-  --ref-success-99: oklch(0.995 calc(var(--chroma-success) * 0.15) var(--hue-success));
-  --ref-success-100: #ffffff;
-
-  /* warning */
-  --ref-warning-0: #000000;
-  --ref-warning-4: oklch(0.1 calc(var(--chroma-warning) * 0.5) var(--hue-warning));
-  --ref-warning-6: oklch(0.13 calc(var(--chroma-warning) * 0.6) var(--hue-warning));
-  --ref-warning-8: oklch(0.17 calc(var(--chroma-warning) * 0.65) var(--hue-warning));
-  --ref-warning-10: oklch(0.22 calc(var(--chroma-warning) * 0.7) var(--hue-warning));
-  --ref-warning-12: oklch(0.25 calc(var(--chroma-warning) * 0.75) var(--hue-warning));
-  --ref-warning-17: oklch(0.3 calc(var(--chroma-warning) * 0.8) var(--hue-warning));
-  --ref-warning-20: oklch(0.33 calc(var(--chroma-warning) * 0.85) var(--hue-warning));
-  --ref-warning-22: oklch(0.36 calc(var(--chroma-warning) * 0.87) var(--hue-warning));
-  --ref-warning-24: oklch(0.38 calc(var(--chroma-warning) * 0.88) var(--hue-warning));
-  --ref-warning-30: oklch(0.44 calc(var(--chroma-warning) * 0.95) var(--hue-warning));
-  --ref-warning-40: oklch(0.55 calc(var(--chroma-warning) * 1) var(--hue-warning));
-  --ref-warning-50: oklch(0.65 calc(var(--chroma-warning) * 1) var(--hue-warning));
-  --ref-warning-60: oklch(0.74 calc(var(--chroma-warning) * 0.9) var(--hue-warning));
-  --ref-warning-70: oklch(0.82 calc(var(--chroma-warning) * 0.75) var(--hue-warning));
-  --ref-warning-80: oklch(0.88 calc(var(--chroma-warning) * 0.55) var(--hue-warning));
-  --ref-warning-90: oklch(0.94 calc(var(--chroma-warning) * 0.35) var(--hue-warning));
-  --ref-warning-92: oklch(0.955 calc(var(--chroma-warning) * 0.3) var(--hue-warning));
-  --ref-warning-94: oklch(0.965 calc(var(--chroma-warning) * 0.27) var(--hue-warning));
-  --ref-warning-95: oklch(0.97 calc(var(--chroma-warning) * 0.25) var(--hue-warning));
-  --ref-warning-96: oklch(0.978 calc(var(--chroma-warning) * 0.22) var(--hue-warning));
-  --ref-warning-99: oklch(0.995 calc(var(--chroma-warning) * 0.15) var(--hue-warning));
-  --ref-warning-100: #ffffff;
-
-  /* info */
-  --ref-info-0: #000000;
-  --ref-info-4: oklch(0.1 calc(var(--chroma-info) * 0.5) var(--hue-info));
-  --ref-info-6: oklch(0.13 calc(var(--chroma-info) * 0.6) var(--hue-info));
-  --ref-info-8: oklch(0.17 calc(var(--chroma-info) * 0.65) var(--hue-info));
-  --ref-info-10: oklch(0.22 calc(var(--chroma-info) * 0.7) var(--hue-info));
-  --ref-info-12: oklch(0.25 calc(var(--chroma-info) * 0.75) var(--hue-info));
-  --ref-info-17: oklch(0.3 calc(var(--chroma-info) * 0.8) var(--hue-info));
-  --ref-info-20: oklch(0.33 calc(var(--chroma-info) * 0.85) var(--hue-info));
-  --ref-info-22: oklch(0.36 calc(var(--chroma-info) * 0.87) var(--hue-info));
-  --ref-info-24: oklch(0.38 calc(var(--chroma-info) * 0.88) var(--hue-info));
-  --ref-info-30: oklch(0.44 calc(var(--chroma-info) * 0.95) var(--hue-info));
-  --ref-info-40: oklch(0.55 calc(var(--chroma-info) * 1) var(--hue-info));
-  --ref-info-50: oklch(0.65 calc(var(--chroma-info) * 1) var(--hue-info));
-  --ref-info-60: oklch(0.74 calc(var(--chroma-info) * 0.9) var(--hue-info));
-  --ref-info-70: oklch(0.82 calc(var(--chroma-info) * 0.75) var(--hue-info));
-  --ref-info-80: oklch(0.88 calc(var(--chroma-info) * 0.55) var(--hue-info));
-  --ref-info-90: oklch(0.94 calc(var(--chroma-info) * 0.35) var(--hue-info));
-  --ref-info-92: oklch(0.955 calc(var(--chroma-info) * 0.3) var(--hue-info));
-  --ref-info-94: oklch(0.965 calc(var(--chroma-info) * 0.27) var(--hue-info));
-  --ref-info-95: oklch(0.97 calc(var(--chroma-info) * 0.25) var(--hue-info));
-  --ref-info-96: oklch(0.978 calc(var(--chroma-info) * 0.22) var(--hue-info));
-  --ref-info-99: oklch(0.995 calc(var(--chroma-info) * 0.15) var(--hue-info));
-  --ref-info-100: #ffffff;
-
-
-  /* === SCALING KNOBS === */
+:root {
+  /* === FOUNDATION SCALING === */
   --scale-space-density: 1;
   --scale-space-viewport: 1;
   --scale-space: calc(var(--scale-space-density) * var(--scale-space-viewport));
@@ -328,129 +361,6 @@
   --width-drawer-compact: 360px;
   --width-navigation-drawer: 300px;
 
-  /* === TONE MAPPING LAYER (Light Mode) ===
-     Override these to remap which palette tones map to semantic colors.
-     This enables special schemes (monochrome, high-contrast) without
-     regenerating the entire palette. Just change the tone mappings! */
-
-  /* Primary tone mapping (M3 standard: tone 40) */
-  --tone-primary: var(--ref-primary-40);
-  --tone-on-primary: var(--ref-primary-100);
-  --tone-primary-container: var(--ref-primary-90);
-  --tone-on-primary-container: var(--ref-primary-10);
-
-  /* Secondary tone mapping */
-  --tone-secondary: var(--ref-secondary-40);
-  --tone-on-secondary: var(--ref-secondary-100);
-  --tone-secondary-container: var(--ref-secondary-90);
-  --tone-on-secondary-container: var(--ref-secondary-10);
-
-  /* Tertiary tone mapping */
-  --tone-tertiary: var(--ref-tertiary-40);
-  --tone-on-tertiary: var(--ref-tertiary-100);
-  --tone-tertiary-container: var(--ref-tertiary-90);
-  --tone-on-tertiary-container: var(--ref-tertiary-10);
-
-  /* Surface tone mapping
-     Unisane uses surface as the canonical app/page canvas in light mode. */
-  --tone-surface: var(--ref-neutral-100);
-  --tone-on-surface: var(--ref-neutral-10);
-  --tone-surface-container-lowest: var(--ref-neutral-100);
-  --tone-surface-container-low: var(--ref-neutral-96);
-  --tone-surface-container: var(--ref-neutral-94);
-  --tone-surface-container-high: var(--ref-neutral-92);
-  --tone-surface-container-highest: var(--ref-neutral-90);
-  --tone-surface-variant: var(--ref-neutral-variant-90);
-  --tone-on-surface-variant: var(--ref-neutral-variant-30);
-
-  /* Background/outline tone mapping
-     Standard baseline tuned for softer product UI boundaries. */
-  --tone-background: var(--ref-neutral-100);
-  --tone-on-background: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-70);
-
-  /* Error tone mapping */
-  --tone-error: var(--ref-error-40);
-  --tone-on-error: var(--ref-error-100);
-  --tone-error-container: var(--ref-error-90);
-  --tone-on-error-container: var(--ref-error-10);
-
-  /* Status tone mapping */
-  --tone-success: var(--ref-success-40);
-  --tone-on-success: var(--ref-success-100);
-  --tone-success-container: var(--ref-success-90);
-  --tone-on-success-container: var(--ref-success-10);
-
-  --tone-warning: var(--ref-warning-40);
-  --tone-on-warning: var(--ref-warning-100);
-  --tone-warning-container: var(--ref-warning-90);
-  --tone-on-warning-container: var(--ref-warning-10);
-
-  --tone-info: var(--ref-info-40);
-  --tone-on-info: var(--ref-info-100);
-  --tone-info-container: var(--ref-info-90);
-  --tone-on-info-container: var(--ref-info-10);
-
-  /* Inverse tone mapping */
-  --tone-inverse-surface: var(--ref-neutral-20);
-  --tone-inverse-on-surface: var(--ref-neutral-95);
-  --tone-inverse-primary: var(--ref-primary-80);
-
-  /* === SEMANTIC COLORS (reference tone mapping layer) === */
-  --color-primary: var(--tone-primary);
-  --color-on-primary: var(--tone-on-primary);
-  --color-primary-container: var(--tone-primary-container);
-  --color-on-primary-container: var(--tone-on-primary-container);
-
-  --color-secondary: var(--tone-secondary);
-  --color-on-secondary: var(--tone-on-secondary);
-  --color-secondary-container: var(--tone-secondary-container);
-  --color-on-secondary-container: var(--tone-on-secondary-container);
-
-  --color-tertiary: var(--tone-tertiary);
-  --color-on-tertiary: var(--tone-on-tertiary);
-  --color-tertiary-container: var(--tone-tertiary-container);
-  --color-on-tertiary-container: var(--tone-on-tertiary-container);
-
-  --color-surface: var(--tone-surface);
-  --color-on-surface: var(--tone-on-surface);
-  --color-surface-container-lowest: var(--tone-surface-container-lowest);
-  --color-surface-container-low: var(--tone-surface-container-low);
-  --color-surface-container: var(--tone-surface-container);
-  --color-surface-container-high: var(--tone-surface-container-high);
-  --color-surface-container-highest: var(--tone-surface-container-highest);
-
-  --color-surface-variant: var(--tone-surface-variant);
-  --color-on-surface-variant: var(--tone-on-surface-variant);
-  --color-background: var(--tone-background);
-  --color-on-background: var(--tone-on-background);
-  --color-outline: var(--tone-outline);
-  --color-outline-variant: var(--tone-outline-variant);
-
-  --color-error: var(--tone-error);
-  --color-on-error: var(--tone-on-error);
-  --color-error-container: var(--tone-error-container);
-  --color-on-error-container: var(--tone-on-error-container);
-
-  --color-success: var(--tone-success);
-  --color-on-success: var(--tone-on-success);
-  --color-success-container: var(--tone-success-container);
-  --color-on-success-container: var(--tone-on-success-container);
-
-  --color-warning: var(--tone-warning);
-  --color-on-warning: var(--tone-on-warning);
-  --color-warning-container: var(--tone-warning-container);
-  --color-on-warning-container: var(--tone-on-warning-container);
-
-  --color-info: var(--tone-info);
-  --color-on-info: var(--tone-on-info);
-  --color-info-container: var(--tone-info-container);
-  --color-on-info-container: var(--tone-on-info-container);
-
-  --color-inverse-surface: var(--tone-inverse-surface);
-  --color-inverse-on-surface: var(--tone-inverse-on-surface);
-  --color-inverse-primary: var(--tone-inverse-primary);
   --color-scrim: rgba(0, 0, 0, 0.32);
   --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);
 
@@ -696,549 +606,7 @@
   --z-modal: 3000;
 }
 
-/* ============================================================
-   DARK MODE - CSS-only, no JS required!
-   Works with: .dark class OR prefers-color-scheme
-   Updates the tone mapping layer for dark mode.
-   ============================================================ */
-
-/* Local theme scope for isolated previews */
-[data-theme-scope="light"] {
-  color-scheme: light;
-
-  --tone-primary: var(--ref-primary-40);
-  --tone-on-primary: var(--ref-primary-100);
-  --tone-primary-container: var(--ref-primary-90);
-  --tone-on-primary-container: var(--ref-primary-10);
-
-  --tone-secondary: var(--ref-secondary-40);
-  --tone-on-secondary: var(--ref-secondary-100);
-  --tone-secondary-container: var(--ref-secondary-90);
-  --tone-on-secondary-container: var(--ref-secondary-10);
-
-  --tone-tertiary: var(--ref-tertiary-40);
-  --tone-on-tertiary: var(--ref-tertiary-100);
-  --tone-tertiary-container: var(--ref-tertiary-90);
-  --tone-on-tertiary-container: var(--ref-tertiary-10);
-
-  --tone-surface: var(--ref-neutral-100);
-  --tone-on-surface: var(--ref-neutral-10);
-  --tone-surface-container-lowest: var(--ref-neutral-100);
-  --tone-surface-container-low: var(--ref-neutral-96);
-  --tone-surface-container: var(--ref-neutral-94);
-  --tone-surface-container-high: var(--ref-neutral-92);
-  --tone-surface-container-highest: var(--ref-neutral-90);
-  --tone-surface-variant: var(--ref-neutral-variant-90);
-  --tone-on-surface-variant: var(--ref-neutral-variant-30);
-
-  --tone-background: var(--ref-neutral-100);
-  --tone-on-background: var(--ref-neutral-10);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-70);
-
-  --tone-error: var(--ref-error-40);
-  --tone-on-error: var(--ref-error-100);
-  --tone-error-container: var(--ref-error-90);
-  --tone-on-error-container: var(--ref-error-10);
-
-  --tone-success: var(--ref-success-40);
-  --tone-on-success: var(--ref-success-100);
-  --tone-success-container: var(--ref-success-90);
-  --tone-on-success-container: var(--ref-success-10);
-
-  --tone-warning: var(--ref-warning-40);
-  --tone-on-warning: var(--ref-warning-100);
-  --tone-warning-container: var(--ref-warning-90);
-  --tone-on-warning-container: var(--ref-warning-10);
-
-  --tone-info: var(--ref-info-40);
-  --tone-on-info: var(--ref-info-100);
-  --tone-info-container: var(--ref-info-90);
-  --tone-on-info-container: var(--ref-info-10);
-
-  --tone-inverse-surface: var(--ref-neutral-20);
-  --tone-inverse-on-surface: var(--ref-neutral-95);
-  --tone-inverse-primary: var(--ref-primary-80);
-}
-
-[data-theme-scope="dark"] {
-  color-scheme: dark;
-
-  --tone-primary: var(--ref-primary-80);
-  --tone-on-primary: var(--ref-primary-20);
-  --tone-primary-container: var(--ref-primary-30);
-  --tone-on-primary-container: var(--ref-primary-90);
-
-  --tone-secondary: var(--ref-secondary-80);
-  --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
-  --tone-on-secondary-container: var(--ref-secondary-90);
-
-  --tone-tertiary: var(--ref-tertiary-80);
-  --tone-on-tertiary: var(--ref-tertiary-20);
-  --tone-tertiary-container: var(--ref-tertiary-30);
-  --tone-on-tertiary-container: var(--ref-tertiary-90);
-
-  --tone-surface: var(--ref-neutral-8);
-  --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-8);
-  --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-17);
-  --tone-surface-container-high: var(--ref-neutral-22);
-  --tone-surface-container-highest: var(--ref-neutral-24);
-  --tone-surface-variant: var(--ref-neutral-variant-30);
-  --tone-on-surface-variant: var(--ref-neutral-variant-80);
-
-  --tone-background: var(--ref-neutral-8);
-  --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
-
-  --tone-error: var(--ref-error-80);
-  --tone-on-error: var(--ref-error-20);
-  --tone-error-container: var(--ref-error-30);
-  --tone-on-error-container: var(--ref-error-90);
-
-  --tone-success: var(--ref-success-80);
-  --tone-on-success: var(--ref-success-20);
-  --tone-success-container: var(--ref-success-30);
-  --tone-on-success-container: var(--ref-success-90);
-
-  --tone-warning: var(--ref-warning-80);
-  --tone-on-warning: var(--ref-warning-20);
-  --tone-warning-container: var(--ref-warning-30);
-  --tone-on-warning-container: var(--ref-warning-90);
-
-  --tone-info: var(--ref-info-80);
-  --tone-on-info: var(--ref-info-20);
-  --tone-info-container: var(--ref-info-30);
-  --tone-on-info-container: var(--ref-info-90);
-
-  --tone-inverse-surface: var(--ref-neutral-90);
-  --tone-inverse-on-surface: var(--ref-neutral-20);
-  --tone-inverse-primary: var(--ref-primary-40);
-}
-
-/* System preference dark mode */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-
-  --tone-primary: var(--ref-primary-80);
-  --tone-on-primary: var(--ref-primary-20);
-  --tone-primary-container: var(--ref-primary-30);
-  --tone-on-primary-container: var(--ref-primary-90);
-
-  --tone-secondary: var(--ref-secondary-80);
-  --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
-  --tone-on-secondary-container: var(--ref-secondary-90);
-
-  --tone-tertiary: var(--ref-tertiary-80);
-  --tone-on-tertiary: var(--ref-tertiary-20);
-  --tone-tertiary-container: var(--ref-tertiary-30);
-  --tone-on-tertiary-container: var(--ref-tertiary-90);
-
-  --tone-surface: var(--ref-neutral-8);
-  --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-8);
-  --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-17);
-  --tone-surface-container-high: var(--ref-neutral-22);
-  --tone-surface-container-highest: var(--ref-neutral-24);
-  --tone-surface-variant: var(--ref-neutral-variant-30);
-  --tone-on-surface-variant: var(--ref-neutral-variant-80);
-
-  --tone-background: var(--ref-neutral-8);
-  --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
-
-  --tone-error: var(--ref-error-80);
-  --tone-on-error: var(--ref-error-20);
-  --tone-error-container: var(--ref-error-30);
-  --tone-on-error-container: var(--ref-error-90);
-
-  --tone-success: var(--ref-success-80);
-  --tone-on-success: var(--ref-success-20);
-  --tone-success-container: var(--ref-success-30);
-  --tone-on-success-container: var(--ref-success-90);
-
-  --tone-warning: var(--ref-warning-80);
-  --tone-on-warning: var(--ref-warning-20);
-  --tone-warning-container: var(--ref-warning-30);
-  --tone-on-warning-container: var(--ref-warning-90);
-
-  --tone-info: var(--ref-info-80);
-  --tone-on-info: var(--ref-info-20);
-  --tone-info-container: var(--ref-info-30);
-  --tone-on-info-container: var(--ref-info-90);
-
-  --tone-inverse-surface: var(--ref-neutral-90);
-  --tone-inverse-on-surface: var(--ref-neutral-20);
-  --tone-inverse-primary: var(--ref-primary-40);
-  }
-}
-
-/* Manual .dark class override */
-.dark {
-
-  --tone-primary: var(--ref-primary-80);
-  --tone-on-primary: var(--ref-primary-20);
-  --tone-primary-container: var(--ref-primary-30);
-  --tone-on-primary-container: var(--ref-primary-90);
-
-  --tone-secondary: var(--ref-secondary-80);
-  --tone-on-secondary: var(--ref-secondary-20);
-  --tone-secondary-container: var(--ref-secondary-30);
-  --tone-on-secondary-container: var(--ref-secondary-90);
-
-  --tone-tertiary: var(--ref-tertiary-80);
-  --tone-on-tertiary: var(--ref-tertiary-20);
-  --tone-tertiary-container: var(--ref-tertiary-30);
-  --tone-on-tertiary-container: var(--ref-tertiary-90);
-
-  --tone-surface: var(--ref-neutral-8);
-  --tone-on-surface: var(--ref-neutral-90);
-  --tone-surface-container-lowest: var(--ref-neutral-8);
-  --tone-surface-container-low: var(--ref-neutral-10);
-  --tone-surface-container: var(--ref-neutral-17);
-  --tone-surface-container-high: var(--ref-neutral-22);
-  --tone-surface-container-highest: var(--ref-neutral-24);
-  --tone-surface-variant: var(--ref-neutral-variant-30);
-  --tone-on-surface-variant: var(--ref-neutral-variant-80);
-
-  --tone-background: var(--ref-neutral-8);
-  --tone-on-background: var(--ref-neutral-90);
-  --tone-outline: var(--ref-neutral-variant-50);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
-
-  --tone-error: var(--ref-error-80);
-  --tone-on-error: var(--ref-error-20);
-  --tone-error-container: var(--ref-error-30);
-  --tone-on-error-container: var(--ref-error-90);
-
-  --tone-success: var(--ref-success-80);
-  --tone-on-success: var(--ref-success-20);
-  --tone-success-container: var(--ref-success-30);
-  --tone-on-success-container: var(--ref-success-90);
-
-  --tone-warning: var(--ref-warning-80);
-  --tone-on-warning: var(--ref-warning-20);
-  --tone-warning-container: var(--ref-warning-30);
-  --tone-on-warning-container: var(--ref-warning-90);
-
-  --tone-info: var(--ref-info-80);
-  --tone-on-info: var(--ref-info-20);
-  --tone-info-container: var(--ref-info-30);
-  --tone-on-info-container: var(--ref-info-90);
-
-  --tone-inverse-surface: var(--ref-neutral-90);
-  --tone-inverse-on-surface: var(--ref-neutral-20);
-  --tone-inverse-primary: var(--ref-primary-40);
-}
-
-/* ============================================================
-   COLOR THEMES - Hue presets
-   Usage: <html data-color-theme="purple">
-
-   Color themes set the primary hue and chroma.
-   Can be combined with any scheme.
-
-   Available themes:
-   - blue (default)  - Hue 230, professional blue
-   - purple          - Hue 285, creative purple
-   - pink            - Hue 340, playful pink
-   - red             - Hue 15, bold red/coral
-   - orange          - Hue 45, warm orange
-   - yellow          - Hue 85, bright yellow
-   - green           - Hue 145, natural green
-   - cyan            - Hue 195, cool cyan
-   - neutral         - Soft accent, product-focused neutral
-   - black           - Zero saturation, monochrome
-   ============================================================ */
-
-:root[data-color-theme="blue"],
-[data-theme-scope][data-color-theme="blue"] {
-  --hue: 230;
-  --chroma: 0.15;
-}
-
-:root[data-color-theme="purple"],
-[data-theme-scope][data-color-theme="purple"] {
-  --hue: 285;
-  --chroma: 0.14;
-}
-
-:root[data-color-theme="pink"],
-[data-theme-scope][data-color-theme="pink"] {
-  --hue: 340;
-  --chroma: 0.15;
-}
-
-:root[data-color-theme="red"],
-[data-theme-scope][data-color-theme="red"] {
-  --hue: 15;
-  --chroma: 0.16;
-}
-
-:root[data-color-theme="orange"],
-[data-theme-scope][data-color-theme="orange"] {
-  --hue: 45;
-  --chroma: 0.16;
-}
-
-:root[data-color-theme="yellow"],
-[data-theme-scope][data-color-theme="yellow"] {
-  --hue: 85;
-  --chroma: 0.14;
-}
-
-:root[data-color-theme="green"],
-[data-theme-scope][data-color-theme="green"] {
-  --hue: 145;
-  --chroma: 0.14;
-}
-
-:root[data-color-theme="cyan"],
-[data-theme-scope][data-color-theme="cyan"] {
-  --hue: 195;
-  --chroma: 0.12;
-}
-
-/* Neutral theme - soft accent for product UIs */
-:root[data-color-theme="neutral"],
-[data-theme-scope][data-color-theme="neutral"] {
-  --hue: 230;
-  --chroma: 0.06;
-  --chroma-neutral: 0.008;
-  --chroma-status-scale: 0.75;
-}
-
-/* Black theme - zero saturation (same as monochrome but as a color theme)
-   Only sets chroma to 0, tone mapping controlled by contrast level */
-:root[data-color-theme="black"],
-[data-theme-scope][data-color-theme="black"] {
-  --chroma: 0;
-  --chroma-neutral: 0;
-  --chroma-status-scale: 0;
-}
-
-/* ============================================================
-   COLOR SCHEMES - Saturation control
-   Usage: <html data-scheme="monochrome">
-
-   Schemes control SATURATION (chroma) only.
-   Tone darkness is controlled separately by data-contrast.
-
-   Available schemes:
-   - tonal (default) - Full M3 tonal palette with vibrant colors
-   - neutral         - Low chroma, subtle color hints (professional)
-   - monochrome      - Zero saturation, pure grayscale
-   ============================================================ */
-
-/* Neutral scheme - low saturation, subtle color hints */
-[data-scheme="neutral"] {
-  --chroma: 0.03;
-  --chroma-neutral: 0.008;
-  --chroma-status-scale: 0.7;
-}
-
-/* Monochrome scheme - pure grayscale
-   Only sets chroma to 0, tone mapping unchanged (controlled by contrast) */
-[data-scheme="monochrome"] {
-  --chroma: 0;
-  --chroma-neutral: 0;
-  --chroma-status-scale: 0;
-}
-
-/* ============================================================
-   CONTRAST LEVELS - Accessibility modifier
-   Usage: <html data-contrast="high">
-
-   Contrast controls TONE EXTREMITY for accessibility.
-   Can be combined with any scheme.
-
-   Available levels:
-   - standard (default) - M3 baseline contrast
-   - medium             - Slightly boosted for better readability
-   - high               - Maximum contrast preset for accessibility
-   ============================================================ */
-
-/* Medium contrast - boosted readability (darker primary: tone 30) */
-[data-contrast="medium"] {
-  --tone-primary: var(--ref-primary-30);
-  --tone-on-primary: var(--ref-primary-100);
-  --tone-primary-container: var(--ref-primary-95);
-  --tone-on-primary-container: var(--ref-primary-10);
-
-  --tone-secondary: var(--ref-secondary-30);
-  --tone-on-secondary: var(--ref-secondary-100);
-  --tone-secondary-container: var(--ref-secondary-95);
-  --tone-on-secondary-container: var(--ref-secondary-10);
-
-  --tone-tertiary: var(--ref-tertiary-30);
-  --tone-on-tertiary: var(--ref-tertiary-100);
-  --tone-tertiary-container: var(--ref-tertiary-95);
-  --tone-on-tertiary-container: var(--ref-tertiary-10);
-
-  --tone-success: var(--ref-success-30);
-  --tone-on-success: var(--ref-success-100);
-  --tone-success-container: var(--ref-success-95);
-  --tone-on-success-container: var(--ref-success-10);
-
-  --tone-warning: var(--ref-warning-30);
-  --tone-on-warning: var(--ref-warning-100);
-  --tone-warning-container: var(--ref-warning-95);
-  --tone-on-warning-container: var(--ref-warning-10);
-
-  --tone-info: var(--ref-info-30);
-  --tone-on-info: var(--ref-info-100);
-  --tone-info-container: var(--ref-info-95);
-  --tone-on-info-container: var(--ref-info-10);
-
-  --tone-on-surface: var(--ref-neutral-10);
-  --tone-on-surface-variant: var(--ref-neutral-variant-24);
-  --tone-surface-variant: var(--ref-neutral-variant-92);
-  --tone-outline: var(--ref-neutral-variant-30);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
-}
-
-.dark[data-contrast="medium"],
-[data-contrast="medium"].dark,
-[data-theme-scope="dark"][data-contrast="medium"] {
-  --tone-primary: var(--ref-primary-80);
-  --tone-on-primary: var(--ref-primary-10);
-  --tone-primary-container: var(--ref-primary-30);
-  --tone-on-primary-container: var(--ref-primary-95);
-
-  --tone-secondary: var(--ref-secondary-80);
-  --tone-on-secondary: var(--ref-secondary-10);
-  --tone-secondary-container: var(--ref-secondary-30);
-  --tone-on-secondary-container: var(--ref-secondary-95);
-
-  --tone-tertiary: var(--ref-tertiary-80);
-  --tone-on-tertiary: var(--ref-tertiary-10);
-  --tone-tertiary-container: var(--ref-tertiary-30);
-  --tone-on-tertiary-container: var(--ref-tertiary-95);
-
-  --tone-success: var(--ref-success-80);
-  --tone-on-success: var(--ref-success-10);
-  --tone-success-container: var(--ref-success-30);
-  --tone-on-success-container: var(--ref-success-95);
-
-  --tone-warning: var(--ref-warning-80);
-  --tone-on-warning: var(--ref-warning-10);
-  --tone-warning-container: var(--ref-warning-30);
-  --tone-on-warning-container: var(--ref-warning-95);
-
-  --tone-info: var(--ref-info-80);
-  --tone-on-info: var(--ref-info-10);
-  --tone-info-container: var(--ref-info-30);
-  --tone-on-info-container: var(--ref-info-95);
-
-  --tone-on-surface: var(--ref-neutral-95);
-  --tone-on-surface-variant: var(--ref-neutral-variant-90);
-  --tone-surface-variant: var(--ref-neutral-variant-24);
-  --tone-outline: var(--ref-neutral-variant-60);
-  --tone-outline-variant: var(--ref-neutral-variant-50);
-}
-
-/* High contrast - boosted accessibility with stronger tone extremity */
-[data-contrast="high"] {
-  --tone-primary: var(--ref-primary-20);
-  --tone-on-primary: var(--ref-primary-100);
-  --tone-primary-container: var(--ref-primary-95);
-  --tone-on-primary-container: var(--ref-primary-0);
-
-  --tone-secondary: var(--ref-secondary-20);
-  --tone-on-secondary: var(--ref-secondary-100);
-  --tone-secondary-container: var(--ref-secondary-95);
-  --tone-on-secondary-container: var(--ref-secondary-0);
-
-  --tone-tertiary: var(--ref-tertiary-20);
-  --tone-on-tertiary: var(--ref-tertiary-100);
-  --tone-tertiary-container: var(--ref-tertiary-95);
-  --tone-on-tertiary-container: var(--ref-tertiary-0);
-
-  --tone-surface: var(--ref-neutral-100);
-  --tone-on-surface: var(--ref-neutral-0);
-  --tone-background: var(--ref-neutral-100);
-  --tone-on-background: var(--ref-neutral-0);
-  --tone-on-surface-variant: var(--ref-neutral-variant-20);
-  --tone-surface-variant: var(--ref-neutral-variant-95);
-  --tone-outline: var(--ref-neutral-variant-20);
-  --tone-outline-variant: var(--ref-neutral-variant-40);
-
-  --tone-error: var(--ref-error-20);
-  --tone-on-error: var(--ref-error-100);
-
-  --tone-success: var(--ref-success-20);
-  --tone-on-success: var(--ref-success-100);
-  --tone-success-container: var(--ref-success-95);
-  --tone-on-success-container: var(--ref-success-0);
-
-  --tone-warning: var(--ref-warning-20);
-  --tone-on-warning: var(--ref-warning-100);
-  --tone-warning-container: var(--ref-warning-95);
-  --tone-on-warning-container: var(--ref-warning-0);
-
-  --tone-info: var(--ref-info-20);
-  --tone-on-info: var(--ref-info-100);
-  --tone-info-container: var(--ref-info-95);
-  --tone-on-info-container: var(--ref-info-0);
-}
-
-.dark[data-contrast="high"],
-[data-contrast="high"].dark,
-[data-theme-scope="dark"][data-contrast="high"] {
-  --tone-primary: var(--ref-primary-95);
-  --tone-on-primary: var(--ref-primary-0);
-  --tone-primary-container: var(--ref-primary-10);
-  --tone-on-primary-container: var(--ref-primary-100);
-
-  --tone-secondary: var(--ref-secondary-95);
-  --tone-on-secondary: var(--ref-secondary-0);
-  --tone-secondary-container: var(--ref-secondary-10);
-  --tone-on-secondary-container: var(--ref-secondary-100);
-
-  --tone-tertiary: var(--ref-tertiary-95);
-  --tone-on-tertiary: var(--ref-tertiary-0);
-  --tone-tertiary-container: var(--ref-tertiary-10);
-  --tone-on-tertiary-container: var(--ref-tertiary-100);
-
-  --tone-surface: var(--ref-neutral-8);
-  --tone-on-surface: var(--ref-neutral-100);
-  --tone-background: var(--ref-neutral-8);
-  --tone-on-background: var(--ref-neutral-100);
-  --tone-on-surface-variant: var(--ref-neutral-variant-95);
-  --tone-surface-variant: var(--ref-neutral-variant-20);
-  --tone-outline: var(--ref-neutral-variant-80);
-  --tone-outline-variant: var(--ref-neutral-variant-60);
-
-  --tone-error: var(--ref-error-95);
-  --tone-on-error: var(--ref-error-0);
-
-  --tone-success: var(--ref-success-95);
-  --tone-on-success: var(--ref-success-0);
-  --tone-success-container: var(--ref-success-10);
-  --tone-on-success-container: var(--ref-success-100);
-
-  --tone-warning: var(--ref-warning-95);
-  --tone-on-warning: var(--ref-warning-0);
-  --tone-warning-container: var(--ref-warning-10);
-  --tone-on-warning-container: var(--ref-warning-100);
-
-  --tone-info: var(--ref-info-95);
-  --tone-on-info: var(--ref-info-0);
-  --tone-info-container: var(--ref-info-10);
-  --tone-on-info-container: var(--ref-info-100);
-}
-
-/* ============================================================
-   DENSITY - CSS-only via data attribute
-   Usage: <html data-density="compact">
-   ============================================================ */
-
+/* Optional runtime preference axes. Add attributes only when the application exposes them. */
 [data-density="compact"] {
   --scale-space-density: 0.875;
   --scale-type-density: 0.9;
@@ -1253,79 +621,23 @@
 
 [data-density="comfortable"] {
   --scale-space-density: 1.1;
-  --scale-type-density: 1.0;
-  --scale-radius-density: 1.0;
+  --scale-type-density: 1;
+  --scale-radius-density: 1;
 }
 
-/* ============================================================
-   RADIUS THEME - CSS-only via data attribute
-   Usage: <html data-radius="soft">
-   Values must match ThemeProvider RADIUS_PRESETS
-   ============================================================ */
+[data-radius="none"] { --scale-radius-theme: 0; }
+[data-radius="minimal"] { --scale-radius-theme: 0.25; }
+[data-radius="sharp"] { --scale-radius-theme: 0.5; }
+[data-radius="standard"] { --scale-radius-theme: 1; }
+[data-radius="soft"] { --scale-radius-theme: 1.25; }
 
-[data-radius="none"] {
-  --scale-radius-theme: 0;
-}
+[data-action-shape="standard"] { --radius-button-family: var(--radius-button-default); }
+[data-action-shape="full"] { --radius-button-family: var(--radius-button-full); }
 
-[data-radius="minimal"] {
-  --scale-radius-theme: 0.25;
-}
-
-[data-radius="sharp"] {
-  --scale-radius-theme: 0.5;
-}
-
-[data-radius="standard"] {
-  --scale-radius-theme: 1.0;
-}
-
-[data-radius="soft"] {
-  --scale-radius-theme: 1.25;
-}
-
-/* ============================================================
-   ACTION SHAPE MODE - Optional global override
-   Usage: <html data-action-shape="full">
-   Applies to button-family controls (Button + IconButton), not FAB.
-   ============================================================ */
-
-[data-action-shape="standard"] {
-  --radius-button-family: var(--radius-button-default);
-}
-
-[data-action-shape="full"] {
-  --radius-button-family: var(--radius-button-full);
-}
-
-/* ============================================================
-   ELEVATION - Control shadow intensity
-   Usage: <html data-elevation="subtle">
-
-   Elevation controls SHADOW OPACITY for visual depth.
-   Can be combined with any scheme or contrast level.
-
-   Available levels:
-   - flat        - No shadows (--shadow-opacity: 0)
-   - subtle      - Reduced shadows for minimal UI (--shadow-opacity: 0.25)
-   - standard    - Default UI shadows (--shadow-opacity: 0.5)
-   - pronounced  - Stronger shadows for depth (--shadow-opacity: 1)
-   ============================================================ */
-
-[data-elevation="flat"] {
-  --shadow-opacity: 0;
-}
-
-[data-elevation="subtle"] {
-  --shadow-opacity: 0.25;
-}
-
-[data-elevation="standard"] {
-  --shadow-opacity: 0.5;
-}
-
-[data-elevation="pronounced"] {
-  --shadow-opacity: 1;
-}
+[data-elevation="flat"] { --shadow-opacity: 0; }
+[data-elevation="subtle"] { --shadow-opacity: 0.25; }
+[data-elevation="standard"] { --shadow-opacity: 0.5; }
+[data-elevation="pronounced"] { --shadow-opacity: 1; }
 
 /* ============================================================
    SCROLLBAR STYLING

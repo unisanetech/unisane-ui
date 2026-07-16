@@ -32,14 +32,14 @@ import {
   TabsTrigger,
   TabsContent,
   Icon,
-  ConfirmDialog,
-  Dialog,
   Sheet,
-  TextField,
   Button,
   Tooltip,
   cn,
 } from '@unisane/ui';
+import { Dialog } from '@unisane/ui/dialog';
+import { ConfirmDialog } from '@unisane/ui/confirm-dialog';
+import { TextField } from '@unisane/ui/text-field';
 
 // Components
 import {
@@ -105,13 +105,7 @@ type DemoNotice = {
   description: string;
 };
 
-function DemoNoticeDialog({
-  notice,
-  onClose,
-}: {
-  notice: DemoNotice | null;
-  onClose: () => void;
-}) {
+function DemoNoticeDialog({ notice, onClose }: { notice: DemoNotice | null; onClose: () => void }) {
   return (
     <Dialog
       open={Boolean(notice)}
@@ -152,11 +146,11 @@ function BulkDeleteConfirmDialog({
       title={`Delete ${count} ${label}?`}
       description="This removes the selected rows from this demo table."
       confirmLabel="Delete"
-      variant="danger"
+      tone="danger"
       onConfirm={() => {
-        if (!ids) return;
+        if (!ids) return false;
         onConfirm(ids);
-        onClose();
+        return true;
       }}
     />
   );
@@ -2020,7 +2014,7 @@ export default function DataTableDemoPage() {
         title="Delete user?"
         description={`This will permanently delete ${userActions.selectedRow?.name ?? 'this user'}. This action cannot be undone.`}
         confirmLabel="Delete"
-        variant="danger"
+        tone="danger"
         onConfirm={handleDeleteUser}
       />
 
@@ -2036,16 +2030,12 @@ export default function DataTableDemoPage() {
         size="sm"
       >
         <div className="flex flex-col gap-4 p-4">
-          <TextField
-            label="Name"
-            value={editUserName}
-            onChange={(e) => setEditUserName(e.target.value)}
-          />
+          <TextField label="Name" value={editUserName} onValueChange={(e) => setEditUserName(e)} />
           <TextField
             label="Email"
             type="email"
             value={editUserEmail}
-            onChange={(e) => setEditUserEmail(e.target.value)}
+            onValueChange={(e) => setEditUserEmail(e)}
           />
           <div className="mt-4 flex justify-end gap-2">
             <Button variant="text" onClick={userActions.closeDialog}>
@@ -2064,7 +2054,7 @@ export default function DataTableDemoPage() {
         title="Delete product?"
         description={`This will permanently delete ${productActions.selectedRow?.name ?? 'this product'}. This action cannot be undone.`}
         confirmLabel="Delete"
-        variant="danger"
+        tone="danger"
         onConfirm={() => {
           if (productActions.selectedRow) {
             setProductsData((prev) => prev.filter((p) => p.id !== productActions.selectedRow!.id));

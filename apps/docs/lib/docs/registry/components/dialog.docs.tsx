@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Button, Dialog } from "@unisane/ui";
-import { useState } from "react";
+import type { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Button } from '@unisane/ui/button';
+import { Dialog } from '@unisane/ui/dialog';
+import { Icon } from '@unisane/ui/icon';
+import { useState } from 'react';
 
 // ─── INTERACTIVE EXAMPLE ─────────────────────────────────────────────────────
 const DialogInteractiveExample = () => {
@@ -19,7 +21,7 @@ const DialogInteractiveExample = () => {
         onOpenChange={setOpen}
         title="Delete item?"
         description="This action cannot be undone. Are you sure you want to permanently delete this item?"
-        icon={<span className="material-symbols-outlined text-error">delete</span>}
+        icon={<Icon symbol="delete" className="text-error" />}
         actions={
           <>
             <Button variant="text" onClick={() => setOpen(false)}>
@@ -40,7 +42,7 @@ interface DialogSurfacePreviewProps {
   title: string;
   description: string;
   icon: string;
-  iconTone?: "error" | "primary" | "secondary";
+  iconTone?: 'error' | 'primary' | 'secondary';
   primaryAction: string;
   secondaryAction?: string;
   compact?: boolean;
@@ -51,59 +53,73 @@ const DialogSurfacePreview = ({
   title,
   description,
   icon,
-  iconTone = "primary",
+  iconTone = 'primary',
   primaryAction,
-  secondaryAction = "Cancel",
+  secondaryAction = 'Cancel',
   compact = false,
   showBody = true,
 }: DialogSurfacePreviewProps) => (
-  <div className="flex min-h-0 flex-col overflow-hidden rounded-lg border border-outline-variant bg-surface shadow-lg">
+  <div className="border-outline-variant bg-surface flex min-h-0 flex-col overflow-hidden rounded-lg border shadow-lg">
     <div
       className={`border-outline-variant bg-surface-container-low flex items-start border-b ${
-        compact ? "gap-2 px-3 py-2.5" : "gap-3 px-5 py-4"
+        compact ? 'gap-2 px-3 py-2.5' : 'gap-3 px-5 py-4'
       }`}
     >
       <div
-        className={`flex shrink-0 items-center justify-center rounded-md border border-outline-variant ${
-          compact ? "h-8 w-8" : "h-10 w-10"
+        className={`border-outline-variant flex shrink-0 items-center justify-center rounded-md border ${
+          compact ? 'h-8 w-8' : 'h-10 w-10'
         } ${
-          iconTone === "error"
-            ? "bg-error-container text-on-error-container"
-            : iconTone === "secondary"
-              ? "bg-secondary-container text-on-secondary-container"
-              : "bg-primary-container text-on-primary-container"
+          iconTone === 'error'
+            ? 'bg-error-container text-on-error-container'
+            : iconTone === 'secondary'
+              ? 'bg-secondary-container text-on-secondary-container'
+              : 'bg-primary-container text-on-primary-container'
         }`}
       >
-        <span className={`material-symbols-outlined ${compact ? "text-[18px]" : ""}`}>
-          {icon}
-        </span>
+        <Icon symbol={icon} size={compact ? 'sm' : 'md'} />
       </div>
       <div className="min-w-0 space-y-1">
-        <div className={compact ? "text-title-small text-on-surface" : "text-title-medium text-on-surface"}>
+        <div
+          className={
+            compact ? 'text-title-small text-on-surface' : 'text-title-medium text-on-surface'
+          }
+        >
           {title}
         </div>
-        <div className={compact ? "truncate text-label-small text-on-surface-variant" : "text-body-small text-on-surface-variant"}>
+        <div
+          className={
+            compact
+              ? 'text-label-small text-on-surface-variant truncate'
+              : 'text-body-small text-on-surface-variant'
+          }
+        >
           {description}
         </div>
       </div>
     </div>
     {showBody ? (
-      <div className={`min-h-0 flex-1 ${compact ? "px-3 py-2" : "px-5 py-4"}`}>
-        <div className="h-2 rounded-sm bg-surface-container-high" />
-        <div className="mt-2 h-2 w-4/5 rounded-sm bg-surface-container-high" />
-        <div className="mt-2 h-2 w-3/5 rounded-sm bg-surface-container-high" />
+      <div className={`min-h-0 flex-1 ${compact ? 'px-3 py-2' : 'px-5 py-4'}`}>
+        <div className="bg-surface-container-high h-2 rounded-sm" />
+        <div className="bg-surface-container-high mt-2 h-2 w-4/5 rounded-sm" />
+        <div className="bg-surface-container-high mt-2 h-2 w-3/5 rounded-sm" />
       </div>
     ) : null}
-    <div className={`border-outline-variant bg-surface-container-low flex justify-end gap-2 border-t ${compact ? "px-3 py-2" : "px-5 py-3"}`}>
-      <Button variant="text" size="sm">{secondaryAction}</Button>
-      <Button variant="filled" size="sm">{primaryAction}</Button>
+    <div
+      className={`border-outline-variant bg-surface-container-low flex justify-end gap-2 border-t ${compact ? 'px-3 py-2' : 'px-5 py-3'}`}
+    >
+      <Button variant="text" size="sm">
+        {secondaryAction}
+      </Button>
+      <Button variant="filled" size="sm">
+        {primaryAction}
+      </Button>
     </div>
   </div>
 );
 
 const DialogHeroVisual = () => (
   <HeroBackground tone="tertiary">
-    <div className="relative isolate h-56 w-84 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+    <div className="border-outline-variant bg-surface-container-high relative isolate h-56 w-84 overflow-hidden rounded-sm border">
       <div className="bg-scrim absolute inset-0" />
       <div className="relative z-10 flex h-full items-center justify-center p-4">
         <div className="w-full max-w-[19rem]">
@@ -122,7 +138,7 @@ const DialogHeroVisual = () => (
 
 // ─── PLACEMENT VISUALS ─────────────────────────────────────────────────────────
 const DialogPlacementBasic = () => (
-  <div className="relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-high">
+  <div className="border-outline-variant bg-surface-container-high relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border">
     <div className="bg-scrim absolute inset-0" />
     <div className="relative z-10 flex h-full items-center justify-center p-3">
       <div className="w-full max-w-[18rem]">
@@ -139,7 +155,7 @@ const DialogPlacementBasic = () => (
 );
 
 const DialogPlacementWithIcon = () => (
-  <div className="relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border border-outline-variant bg-surface-container-high">
+  <div className="border-outline-variant bg-surface-container-high relative isolate mx-auto h-56 w-80 overflow-hidden rounded-xl border">
     <div className="bg-scrim absolute inset-0" />
     <div className="relative z-10 flex h-full items-center justify-center p-3">
       <div className="w-full max-w-[18rem]">
@@ -157,7 +173,7 @@ const DialogPlacementWithIcon = () => (
 
 // ─── CHOOSING VISUALS ─────────────────────────────────────────────────────────
 const AlertDialogPreview = () => (
-  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+  <div className="border-outline-variant bg-surface-container-high relative isolate h-44 w-64 overflow-hidden rounded-sm border">
     <div className="bg-scrim absolute inset-0" />
     <div className="relative z-10 flex h-full items-center justify-center p-2">
       <div className="w-full max-w-[15rem]">
@@ -176,7 +192,7 @@ const AlertDialogPreview = () => (
 );
 
 const ConfirmDialogPreview = () => (
-  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+  <div className="border-outline-variant bg-surface-container-high relative isolate h-44 w-64 overflow-hidden rounded-sm border">
     <div className="bg-scrim absolute inset-0" />
     <div className="relative z-10 flex h-full items-center justify-center p-2">
       <div className="w-full max-w-[15rem]">
@@ -196,7 +212,7 @@ const ConfirmDialogPreview = () => (
 );
 
 const FormDialogPreview = () => (
-  <div className="relative isolate h-44 w-64 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-high">
+  <div className="border-outline-variant bg-surface-container-high relative isolate h-44 w-64 overflow-hidden rounded-sm border">
     <div className="bg-scrim absolute inset-0" />
     <div className="relative z-10 flex h-full items-center justify-center p-2">
       <div className="w-full max-w-[15rem]">
@@ -216,17 +232,17 @@ const FormDialogPreview = () => (
 
 export const dialogDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "dialog",
-  name: "Dialog",
+  slug: 'dialog',
+  name: 'Dialog',
   description:
-    "Dialogs provide important prompts in a user flow, requiring user input or confirmation.",
-  category: "containment",
-  status: "stable",
-  icon: "chat_bubble",
+    'Dialogs provide important prompts in a user flow, requiring user input or confirmation.',
+  category: 'containment',
+  status: 'stable',
+  icon: 'chat_bubble',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Dialog"],
+  importPath: '@/components/ui/dialog',
+  exports: ['Dialog', 'DialogProps', 'DialogTitle'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <DialogHeroVisual />,
@@ -234,9 +250,9 @@ export const dialogDoc: ComponentDoc = {
   // ─── INTERACTIVE EXAMPLES ─────────────────────────────────────────────────
   examples: [
     {
-      id: "basic",
-      title: "Basic Dialog",
-      description: "Click the button to open an interactive dialog.",
+      id: 'basic',
+      title: 'Basic Dialog',
+      description: 'Click the button to open an interactive dialog.',
       component: <DialogInteractiveExample />,
       code: `const [open, setOpen] = useState(false);
 
@@ -247,7 +263,7 @@ export const dialogDoc: ComponentDoc = {
   onOpenChange={setOpen}
   title="Delete item?"
   description="This action cannot be undone. Are you sure you want to permanently delete this item?"
-  icon={<span className="material-symbols-outlined">delete</span>}
+  icon={<Icon symbol="delete" />}
   actions={
     <>
       <Button variant="text" onClick={() => setOpen(false)}>Cancel</Button>
@@ -261,34 +277,33 @@ export const dialogDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Dialogs interrupt the user experience to deliver important information or request input. Use them sparingly for critical moments.",
+      'Dialogs interrupt the user experience to deliver important information or request input. Use them sparingly for critical moments.',
     columns: {
-      emphasis: "Type",
-      component: "Visual",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Type',
+      component: 'Visual',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Alert Dialog",
+        emphasis: 'Alert Dialog',
         component: <AlertDialogPreview />,
         rationale:
-          "Requires immediate attention and acknowledgment. User must respond before continuing.",
-        examples: "Delete confirmation, Error messages, Permission requests",
+          'Requires immediate attention and acknowledgment. User must respond before continuing.',
+        examples: 'Delete confirmation, Error messages, Permission requests',
       },
       {
-        emphasis: "Confirmation Dialog",
+        emphasis: 'Confirmation Dialog',
         component: <ConfirmDialogPreview />,
-        rationale:
-          "Asks user to confirm an action. Provides cancel and confirm options.",
-        examples: "Save changes, Discard draft, Log out",
+        rationale: 'Asks user to confirm an action. Provides cancel and confirm options.',
+        examples: 'Save changes, Discard draft, Log out',
       },
       {
-        emphasis: "Form Dialog",
+        emphasis: 'Form Dialog',
         component: <FormDialogPreview />,
         rationale:
-          "Collects user input in a focused context. Use when input is required before proceeding.",
-        examples: "Create item, Edit details, Add comment",
+          'Collects user input in a focused context. Use when input is required before proceeding.',
+        examples: 'Create item, Edit details, Add comment',
       },
     ],
   },
@@ -296,15 +311,15 @@ export const dialogDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Dialogs appear centered on the screen with a scrim overlay that dims the background content.",
+      'Dialogs appear centered on the screen with a scrim overlay that dims the background content.',
     examples: [
       {
-        title: "Basic dialog",
+        title: 'Basic dialog',
         visual: <DialogPlacementBasic />,
-        caption: "Centered with scrim overlay blocking interaction with background",
+        caption: 'Centered with scrim overlay blocking interaction with background',
       },
       {
-        title: "With icon",
+        title: 'With icon',
         visual: <DialogPlacementWithIcon />,
         caption: "Icon in header emphasizes the dialog's purpose",
       },
@@ -314,99 +329,120 @@ export const dialogDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "open",
-      type: "boolean",
-      description: "Controlled open state.",
+      name: 'open',
+      type: 'boolean',
+      description: 'Controlled open state.',
     },
     {
-      name: "defaultOpen",
-      type: "boolean",
-      default: "false",
-      description: "Initial open state when the dialog is uncontrolled.",
+      name: 'defaultOpen',
+      type: 'boolean',
+      default: 'false',
+      description: 'Initial open state when the dialog is uncontrolled.',
     },
     {
-      name: "onOpenChange",
-      type: "(open: boolean) => void",
-      description: "Callback fired when the dialog requests an open-state change.",
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: 'Callback fired when the dialog requests an open-state change.',
     },
     {
-      name: "title",
-      type: "ReactNode",
-      description: "The primary heading displayed in the dialog header.",
+      name: 'title',
+      type: 'ReactNode',
+      description: 'The primary heading displayed in the dialog header.',
     },
     {
-      name: "description",
-      type: "ReactNode",
-      description: "Optional supporting copy shown below the title.",
+      name: 'description',
+      type: 'ReactNode',
+      description: 'Optional supporting copy shown below the title.',
     },
     {
-      name: "children",
-      type: "ReactNode",
-      required: true,
-      description: "The content displayed in the dialog body.",
+      name: 'children',
+      type: 'ReactNode',
+      description: 'Optional complex content displayed in the dialog body.',
     },
     {
-      name: "actions",
-      type: "ReactNode",
-      description: "Action buttons displayed in the dialog footer.",
+      name: 'actions',
+      type: 'ReactNode',
+      description: 'Action buttons displayed in the dialog footer.',
     },
     {
-      name: "icon",
-      type: "ReactNode",
-      description: "Icon displayed next to the title in the header.",
+      name: 'icon',
+      type: 'ReactNode',
+      description: 'Icon displayed next to the title in the header.',
     },
     {
-      name: "contentClassName",
-      type: "string",
-      description: "Additional CSS classes for the padded dialog body container.",
+      name: 'contentClassName',
+      type: 'string',
+      description: 'Additional CSS classes for the padded dialog body container.',
     },
     {
-      name: "headerClassName",
-      type: "string",
-      description: "Additional CSS classes for the dialog header container.",
+      name: 'headerClassName',
+      type: 'string',
+      description: 'Additional CSS classes for the dialog header container.',
     },
     {
-      name: "footerClassName",
-      type: "string",
-      description: "Additional CSS classes for the dialog footer container.",
+      name: 'footerClassName',
+      type: 'string',
+      description: 'Additional CSS classes for the dialog footer container.',
     },
     {
-      name: "showCloseButton",
-      type: "boolean",
-      default: "auto",
-      description: "Controls whether the close button appears in the header.",
+      name: 'showCloseButton',
+      type: 'boolean',
+      default: 'auto',
+      description: 'Controls whether the close button appears in the header.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes for the dialog surface.",
+      name: 'aria-label',
+      type: 'string',
+      description: 'Required accessible name when no visible title is supplied.',
+    },
+    {
+      name: 'aria-describedby',
+      type: 'string',
+      description: 'IDs for additional concise descriptive content outside the dialog.',
+    },
+    {
+      name: 'role',
+      type: '"dialog" | "alertdialog"',
+      default: '"dialog"',
+      description: 'Modal semantic role. Recipes use alertdialog for interruptive decisions.',
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes for the dialog surface.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Dialog uses role=\"dialog\" and aria-modal=\"true\" for proper screen reader announcement.",
-      "Title is linked with aria-labelledby and content with aria-describedby.",
-      "Focus is trapped within the dialog while open.",
-      "Pressing Escape closes the dialog.",
+      'Dialog uses role="dialog" and aria-modal="true" for proper screen reader announcement.',
+      'A visible title is linked with aria-labelledby; otherwise aria-label is required.',
+      'Only the description prop and explicitly supplied IDs contribute aria-describedby; complex body content is not flattened into a description.',
+      'Focus is trapped within the dialog while open.',
+      'Pressing Escape closes the dialog.',
     ],
     keyboard: [
-      { key: "Escape", description: "Closes the dialog" },
-      { key: "Tab", description: "Moves focus to next focusable element within dialog" },
-      { key: "Shift + Tab", description: "Moves focus to previous focusable element within dialog" },
+      { key: 'Escape', description: 'Closes the dialog' },
+      { key: 'Tab', description: 'Moves focus to next focusable element within dialog' },
+      {
+        key: 'Shift + Tab',
+        description: 'Moves focus to previous focusable element within dialog',
+      },
     ],
     focus: [
-      "Focus is automatically moved to the first focusable element when dialog opens.",
-      "Focus is restored to the previously focused element when dialog closes.",
-      "Focus is trapped within the dialog (Tab cycles through dialog elements only).",
+      'Focus is automatically moved to the first focusable element when dialog opens.',
+      'Focus is restored to the previously focused element when dialog closes.',
+      'Focus is trapped within the dialog (Tab cycles through dialog elements only).',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Control the dialog with React state and provide action handlers.",
-    code: `import { Dialog, Button } from "@unisane/ui";
+    description: 'Control the dialog with React state and provide action handlers.',
+    code: `import { Button } from "@/components/ui/button";
+import { Dialog } from "@/components/ui/dialog";
+import { Icon } from "@/components/ui/icon";
 import { useState } from "react";
 
 function DeleteConfirmation() {
@@ -429,7 +465,7 @@ function DeleteConfirmation() {
         onOpenChange={setOpen}
         title="Delete item?"
         description="This action cannot be undone. Are you sure you want to permanently delete this item?"
-        icon={<span className="material-symbols-outlined">delete</span>}
+        icon={<Icon symbol="delete" />}
         actions={
           <>
             <Button variant="text" onClick={() => setOpen(false)}>
@@ -449,16 +485,16 @@ function DeleteConfirmation() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "sheet",
-      reason: "Use for supplementary content that slides in from the edge.",
+      slug: 'sheet',
+      reason: 'Use for supplementary content that slides in from the edge.',
     },
     {
-      slug: "snackbar",
-      reason: "Use for brief, non-blocking notifications.",
+      slug: 'snackbar',
+      reason: 'Use for brief, non-blocking notifications.',
     },
     {
-      slug: "popover",
-      reason: "Use for contextual information without blocking the page.",
+      slug: 'popover',
+      reason: 'Use for contextual information without blocking the page.',
     },
   ],
 };

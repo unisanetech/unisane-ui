@@ -19,16 +19,259 @@
       "default": "./dist/index.js"
     },
     "./styles.css": "./dist/index.css",
-    "./components/sidebar": {
+    "./action-cluster": {
+      "types": "./dist/layout/action-cluster.d.ts",
+      "import": "./dist/layout/action-cluster.js",
+      "default": "./dist/layout/action-cluster.js"
+    },
+    "./app-layout": {
+      "types": "./dist/layout/app-layout.d.ts",
+      "import": "./dist/layout/app-layout.js",
+      "default": "./dist/layout/app-layout.js"
+    },
+    "./card-grid": {
+      "types": "./dist/layout/card-grid.d.ts",
+      "import": "./dist/layout/card-grid.js",
+      "default": "./dist/layout/card-grid.js"
+    },
+    "./container": {
+      "types": "./dist/layout/container.d.ts",
+      "import": "./dist/layout/container.js",
+      "default": "./dist/layout/container.js"
+    },
+    "./focus-ring": {
+      "types": "./dist/primitives/focus-ring.d.ts",
+      "import": "./dist/primitives/focus-ring.js",
+      "default": "./dist/primitives/focus-ring.js"
+    },
+    "./input": {
+      "types": "./dist/primitives/input.d.ts",
+      "import": "./dist/primitives/input.js",
+      "default": "./dist/primitives/input.js"
+    },
+    "./label": {
+      "types": "./dist/primitives/label.d.ts",
+      "import": "./dist/primitives/label.js",
+      "default": "./dist/primitives/label.js"
+    },
+    "./menu": {
+      "types": "./dist/primitives/menu.d.ts",
+      "import": "./dist/primitives/menu.js",
+      "default": "./dist/primitives/menu.js"
+    },
+    "./mode-switcher": {
+      "types": "./dist/components/mode-switcher.d.ts",
+      "import": "./dist/components/mode-switcher.js",
+      "default": "./dist/components/mode-switcher.js"
+    },
+    "./navigation": {
+      "types": "./dist/types/navigation.d.ts",
+      "import": "./dist/types/navigation.js",
+      "default": "./dist/types/navigation.js"
+    },
+    "./navigation-bar": {
+      "types": "./dist/components/navigation-bar.d.ts",
+      "import": "./dist/components/navigation-bar.js",
+      "default": "./dist/components/navigation-bar.js"
+    },
+    "./navigation-drawer": {
+      "types": "./dist/components/navigation-drawer.d.ts",
+      "import": "./dist/components/navigation-drawer.js",
+      "default": "./dist/components/navigation-drawer.js"
+    },
+    "./navigation-rail": {
+      "types": "./dist/components/navigation-rail.d.ts",
+      "import": "./dist/components/navigation-rail.js",
+      "default": "./dist/components/navigation-rail.js"
+    },
+    "./page-section": {
+      "types": "./dist/layout/page-section.d.ts",
+      "import": "./dist/layout/page-section.js",
+      "default": "./dist/layout/page-section.js"
+    },
+    "./pane": {
+      "types": "./dist/layout/pane.d.ts",
+      "import": "./dist/layout/pane.js",
+      "default": "./dist/layout/pane.js"
+    },
+    "./preview-frame": {
+      "types": "./dist/layout/preview-frame.d.ts",
+      "import": "./dist/layout/preview-frame.js",
+      "default": "./dist/layout/preview-frame.js"
+    },
+    "./sidebar": {
       "types": "./dist/components/sidebar/index.d.ts",
       "import": "./dist/components/sidebar/index.js",
       "default": "./dist/components/sidebar/index.js"
     },
-    "./components/navigation": {
-      "types": "./dist/components/navigation/index.d.ts",
-      "import": "./dist/components/navigation/index.js",
-      "default": "./dist/components/navigation/index.js"
+    "./state-layer": {
+      "types": "./dist/primitives/state-layer.d.ts",
+      "import": "./dist/primitives/state-layer.js",
+      "default": "./dist/primitives/state-layer.js"
     },
+    "./surface": {
+      "types": "./dist/primitives/surface.d.ts",
+      "import": "./dist/primitives/surface.js",
+      "default": "./dist/primitives/surface.js"
+    },
+    "./text": {
+      "types": "./dist/primitives/text.d.ts",
+      "import": "./dist/primitives/text.js",
+      "default": "./dist/primitives/text.js"
+    },
+    "./textarea": {
+      "types": "./dist/primitives/textarea.d.ts",
+      "import": "./dist/primitives/textarea.js",
+      "default": "./dist/primitives/textarea.js"
+    },
+    "./appearance-provider": {
+      "types": "./dist/layout/appearance-provider.d.ts",
+      "import": "./dist/layout/appearance-provider.js",
+      "default": "./dist/layout/appearance-provider.js"
+    },
+    "./alert": {
+      "types": "./dist/components/alert.d.ts",
+      "import": "./dist/components/alert.js",
+      "default": "./dist/components/alert.js"
+    },
+    "./banner": {
+      "types": "./dist/components/banner.d.ts",
+      "import": "./dist/components/banner.js",
+      "default": "./dist/components/banner.js"
+    },
+    "./badge": {
+      "types": "./dist/components/badge.d.ts",
+      "import": "./dist/components/badge.js",
+      "default": "./dist/components/badge.js"
+    },
+    "./checkbox": {
+      "types": "./dist/components/checkbox.d.ts",
+      "import": "./dist/components/checkbox.js",
+      "default": "./dist/components/checkbox.js"
+    },
+    "./radio": {
+      "types": "./dist/components/radio.d.ts",
+      "import": "./dist/components/radio.js",
+      "default": "./dist/components/radio.js"
+    },
+    "./segmented-button": {
+      "types": "./dist/components/segmented-button.d.ts",
+      "import": "./dist/components/segmented-button.js",
+      "default": "./dist/components/segmented-button.js"
+    },
+    "./switch": {
+      "types": "./dist/components/switch.d.ts",
+      "import": "./dist/components/switch.js",
+      "default": "./dist/components/switch.js"
+    },
+    "./window-size-provider": {
+      "types": "./dist/layout/window-size-provider.d.ts",
+      "import": "./dist/layout/window-size-provider.js",
+      "default": "./dist/layout/window-size-provider.js"
+    },
+    "./button": {
+      "types": "./dist/components/button.d.ts",
+      "import": "./dist/components/button.js",
+      "default": "./dist/components/button.js"
+    },
+    "./calendar": {
+      "types": "./dist/components/calendar.d.ts",
+      "import": "./dist/components/calendar.js",
+      "default": "./dist/components/calendar.js"
+    },
+    "./date-input": {
+      "types": "./dist/components/date-input.d.ts",
+      "import": "./dist/components/date-input.js",
+      "default": "./dist/components/date-input.js"
+    },
+    "./date-picker": {
+      "types": "./dist/components/date-picker.d.ts",
+      "import": "./dist/components/date-picker.js",
+      "default": "./dist/components/date-picker.js"
+    },
+    "./dialog": {
+      "types": "./dist/components/dialog.d.ts",
+      "import": "./dist/components/dialog.js",
+      "default": "./dist/components/dialog.js"
+    },
+    "./divider": {
+      "types": "./dist/components/divider.d.ts",
+      "import": "./dist/components/divider.js",
+      "default": "./dist/components/divider.js"
+    },
+    "./confirm-dialog": {
+      "types": "./dist/components/confirm-dialog.d.ts",
+      "import": "./dist/components/confirm-dialog.js",
+      "default": "./dist/components/confirm-dialog.js"
+    },
+    "./field": {
+      "types": "./dist/components/field.d.ts",
+      "import": "./dist/components/field.js",
+      "default": "./dist/components/field.js"
+    },
+    "./icon": {
+      "types": "./dist/components/icon.d.ts",
+      "import": "./dist/components/icon.js",
+      "default": "./dist/components/icon.js"
+    },
+    "./list": {
+      "types": "./dist/components/list.d.ts",
+      "import": "./dist/components/list.js",
+      "default": "./dist/components/list.js"
+    },
+    "./select": {
+      "types": "./dist/components/select.d.ts",
+      "import": "./dist/components/select.js",
+      "default": "./dist/components/select.js"
+    },
+    "./select-field": {
+      "types": "./dist/components/select-field.d.ts",
+      "import": "./dist/components/select-field.js",
+      "default": "./dist/components/select-field.js"
+    },
+    "./toast": {
+      "types": "./dist/components/toast.d.ts",
+      "import": "./dist/components/toast.js",
+      "default": "./dist/components/toast.js"
+    },
+    "./components/icon": null,
+    "./components/alert": null,
+    "./components/banner": null,
+    "./components/badge": null,
+    "./components/checkbox": null,
+    "./components/radio": null,
+    "./components/segmented-button": null,
+    "./components/selection-controls": null,
+    "./components/switch": null,
+    "./selection-controls": null,
+    "./components/navigation": null,
+    "./components/navigation-bar": null,
+    "./components/navigation-drawer": null,
+    "./components/navigation-rail": null,
+    "./components/calendar": null,
+    "./components/date-input": null,
+    "./components/date-picker": null,
+    "./components/dialog": null,
+    "./components/divider": null,
+    "./components/confirm-dialog": null,
+    "./components/field": null,
+    "./components/list": null,
+    "./components/select": null,
+    "./components/select-field": null,
+    "./components/text-field": null,
+    "./components/toast": null,
+    "./primitives/icon": null,
+    "./text-field": {
+      "types": "./dist/components/text-field.d.ts",
+      "import": "./dist/components/text-field.js",
+      "default": "./dist/components/text-field.js"
+    },
+    "./*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js",
+      "default": "./dist/components/*.js"
+    },
+    "./components/sidebar": null,
     "./components/data-table": {
       "types": "./dist/components/data-table/index.d.ts",
       "import": "./dist/components/data-table/index.js",
@@ -63,20 +306,22 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "pnpm build:components && pnpm build:styles",
+    "build": "pnpm build:components && pnpm build:styles && pnpm check:runtime-exports",
     "build:registry": "node scripts/build-registry.mjs",
     "build:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
-    "build:components": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "build:components": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json --resolve-full-paths --resolve-full-extension .js",
     "check:contract": "node scripts/check-component-contract.mjs",
     "check:raw-colors": "node scripts/check-raw-colors.mjs",
+    "check:runtime-exports": "node scripts/check-runtime-exports.mjs",
     "check-types": "tsc --noEmit",
     "check-types:registry": "tsc --noEmit -p tsconfig.registry.json",
     "test": "vitest run --config vitest.config.ts",
+    "test:registry-contract": "node --test scripts/__tests__/registry-contract.test.mjs",
     "validate": "pnpm test && pnpm check-types && pnpm check:contract && pnpm check:raw-colors && pnpm validate:registry",
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "dev:components": "tsc --watch",
     "lint": "eslint src --max-warnings 0 && pnpm check:contract",
-    "validate:registry": "node scripts/validate-registry.mjs && pnpm check-types:registry"
+    "validate:registry": "node scripts/validate-registry.mjs && pnpm test:registry-contract && pnpm check-types:registry"
   },
   "peerDependencies": {
     "react": "^19",

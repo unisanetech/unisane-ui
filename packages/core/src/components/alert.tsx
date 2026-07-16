@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef, type ReactNode } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { Typography } from './typography';
 
-const alertVariants = cva('relative w-full rounded-sm p-4 flex items-start gap-3 border-l-4', {
+const alertVariants = cva('relative flex w-full items-start gap-3 rounded-sm border-l-4 p-4', {
   variants: {
     variant: {
       info: 'bg-info-container border-info text-on-info-container',
@@ -18,49 +18,73 @@ const alertVariants = cva('relative w-full rounded-sm p-4 flex items-start gap-3
   },
 });
 
-export type AlertProps = React.HTMLAttributes<HTMLDivElement> &
-  VariantProps<typeof alertVariants> & {
-    icon?: React.ReactNode | string;
-    title?: string;
-  };
+export type AlertVariant = NonNullable<VariantProps<typeof alertVariants>['variant']>;
 
-export const Alert: React.FC<AlertProps> = ({
-  variant,
-  icon,
-  title,
-  children,
-  className,
-  ...props
-}) => {
-  const defaultIcons: Record<string, string> = {
-    info: 'info',
-    error: 'error',
-    warning: 'warning',
-    success: 'check_circle',
-  };
+export interface AlertProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'>, VariantProps<typeof alertVariants> {
+  icon?: ReactNode | string | false;
+  title?: ReactNode;
+}
 
-  const iconNode =
-    typeof icon === 'string' || !icon ? (
-      <Icon
-        symbol={(icon as string) || defaultIcons[variant || 'info']}
-        size="sm"
-        className="opacity-80"
-      />
-    ) : (
-      icon
-    );
-
-  return (
-    <div className={cn(alertVariants({ variant, className }))} role="alert" {...props}>
-      <div className="size-icon-sm flex shrink-0 items-center justify-center">{iconNode}</div>
-      <div className="flex flex-1 flex-col gap-1">
-        {title && (
-          <Typography variant="labelMedium" className="text-inherit">
-            {title}
-          </Typography>
-        )}
-        <div className="text-body-small leading-snug opacity-90">{children}</div>
-      </div>
-    </div>
-  );
+const DEFAULT_ICONS: Record<AlertVariant, string> = {
+  info: 'info',
+  error: 'error',
+  warning: 'warning',
+  success: 'check_circle',
 };
+
+export const Alert = forwardRef<HTMLDivElement, AlertProps>(
+  (
+    {
+      variant = 'info',
+      icon,
+      title,
+      children,
+      className,
+      role,
+      'aria-live': ariaLive,
+      'aria-atomic': ariaAtomic,
+      ...props
+    },
+    ref,
+  ) => {
+    const resolvedVariant = variant ?? 'info';
+    const isAssertive = resolvedVariant === 'error' || resolvedVariant === 'warning';
+    const iconNode =
+      icon === false ? null : typeof icon === 'string' || icon === undefined ? (
+        <Icon symbol={icon ?? DEFAULT_ICONS[resolvedVariant]} size="sm" />
+      ) : (
+        icon
+      );
+
+    return (
+      <div
+        ref={ref}
+        className={cn(alertVariants({ variant: resolvedVariant, className }))}
+        role={role ?? (isAssertive ? 'alert' : 'status')}
+        aria-live={ariaLive ?? (isAssertive ? 'assertive' : 'polite')}
+        aria-atomic={ariaAtomic ?? true}
+        {...props}
+      >
+        {iconNode ? (
+          <div
+            aria-hidden="true"
+            className="size-icon-sm flex shrink-0 items-center justify-center opacity-80"
+          >
+            {iconNode}
+          </div>
+        ) : null}
+        <div className="flex flex-1 flex-col gap-1">
+          {title ? (
+            <Typography variant="labelMedium" className="text-inherit">
+              {title}
+            </Typography>
+          ) : null}
+          <div className="text-body-small leading-snug opacity-90">{children}</div>
+        </div>
+      </div>
+    );
+  },
+);
+
+Alert.displayName = 'Alert';

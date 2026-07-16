@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { cn } from "@unisane/ui/lib/utils";
-import { IconButton, Surface } from "@unisane/ui";
+import { useState } from 'react';
+import { cn } from '@unisane/ui/lib/utils';
+import { IconButton, Surface } from '@unisane/ui';
 
 interface CodeBlockProps {
   code: string;
@@ -23,25 +23,26 @@ export function CodeBlock({ code, language, className }: CodeBlockProps) {
     <Surface
       tone="surfaceContainerLow"
       rounded="sm"
-      className={cn("relative group p-5 overflow-x-auto", className)}
+      className={cn('group relative overflow-x-auto p-5', className)}
     >
       {/* Copy Button */}
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-short">
+      <div className="duration-short absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100">
         <IconButton
           variant="standard"
           size="sm"
-          aria-label={copied ? "Copied!" : "Copy code"}
+          aria-label={copied ? 'Copied!' : 'Copy code'}
           onClick={handleCopy}
-        >
-          <span className="material-symbols-outlined text-[20px]">
-            {copied ? "check" : "content_copy"}
-          </span>
-        </IconButton>
+          icon={
+            <span className="material-symbols-outlined text-[20px]">
+              {copied ? 'check' : 'content_copy'}
+            </span>
+          }
+        />
       </div>
 
       {/* Language Badge */}
       {language && (
-        <span className="absolute top-3 right-12 text-label-small text-on-surface-variant font-mono">
+        <span className="text-label-small text-on-surface-variant absolute top-3 right-12 font-mono">
           {language}
         </span>
       )}

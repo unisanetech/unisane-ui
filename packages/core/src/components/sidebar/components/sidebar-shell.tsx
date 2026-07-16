@@ -2,20 +2,10 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '../../../lib/utils';
-import { Icon } from '../../../primitives/icon';
+import { Icon } from '../../icon';
 import { useSidebar } from '../context/sidebar-provider';
 import type { SidebarTriggerVisibility } from '../model/sidebar.types';
 import { shouldRenderSidebarTrigger } from '../model/sidebar.state';
-
-function buildSidebarCssVars(sidebar: ReturnType<typeof useSidebar>) {
-  const vars: Record<string, string> = {
-    '--sidebar-rail-width': `${sidebar.railWidth}px`,
-    '--sidebar-drawer-width': `${sidebar.drawerWidth}px`,
-    '--sidebar-mobile-drawer-width': `${sidebar.mobileDrawerWidth}px`,
-  };
-
-  return vars;
-}
 
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -24,31 +14,38 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
   ({ children, className, style, ...props }, ref) => {
     const sidebar = useSidebar();
-    const shouldElevateStackingContext = sidebar.usesOverlayDrawer && sidebar.mobileOpen;
+    const registerContainer = sidebar.registerContainer;
+    const setRootRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        if (typeof ref === 'function') ref(node);
+        else if (ref) ref.current = node;
+        registerContainer(node);
+      },
+      [ref, registerContainer],
+    );
 
     return (
       <div
-        ref={(node) => {
-          if (typeof ref === 'function') {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-          sidebar.registerContainer(sidebar.containerMode === 'contained' ? node : null);
-        }}
+        ref={setRootRef}
         className={cn(
-          'unisane-sidebar relative isolate flex h-full',
-          shouldElevateStackingContext && 'z-[var(--z-drawer,1500)]',
+          'relative isolate flex h-full',
+          sidebar.isOverlay && sidebar.mobileOpen && 'z-[var(--z-drawer,1500)]',
           sidebar.side === 'right' && 'flex-row-reverse',
           className,
         )}
-        data-sidebar-side={sidebar.side}
-        data-sidebar-mode={sidebar.mode}
-        data-sidebar-behavior={sidebar.behavior}
-        style={{
-          ...buildSidebarCssVars(sidebar),
-          ...style,
-        }}
+        data-slot="sidebar"
+        data-side={sidebar.side}
+        data-mode={sidebar.mode}
+        data-behavior={sidebar.behavior}
+        data-state={sidebar.isDrawerVisible ? 'open' : 'closed'}
+        style={
+          {
+            '--sidebar-rail-width': `${sidebar.railWidth}px`,
+            '--sidebar-drawer-width': `${sidebar.drawerWidth}px`,
+            '--sidebar-mobile-drawer-width': `${sidebar.mobileDrawerWidth}px`,
+            ...style,
+          } as React.CSSProperties
+        }
         {...props}
       >
         {children}
@@ -59,92 +56,42 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
 Sidebar.displayName = 'Sidebar';
 
 export interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  'aria-label': string;
   children?: React.ReactNode;
   visibility?: SidebarTriggerVisibility;
 }
 
 export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>(
-  ({ children, className, onClick, visibility, ...props }, ref) => {
-    const {
-      triggerVisibility,
-      isDesktop,
-      isMobile,
-      isTablet,
-      usesOverlayDrawer,
-      expanded,
-      mobileOpen,
-      drawerEnabled,
-      toggle,
-    } = useSidebar();
-
-    const resolvedVisibility = visibility ?? triggerVisibility;
-
-    const shouldRender = shouldRenderSidebarTrigger({
-      visibility: resolvedVisibility,
-      drawerEnabled,
-      viewport: { isDesktop, isMobile, isTablet },
-    });
-
-    if (!shouldRender) {
+  ({ children, className, onClick, visibility = 'auto', ...props }, ref) => {
+    const sidebar = useSidebar();
+    if (
+      !shouldRenderSidebarTrigger({
+        visibility,
+        drawerEnabled: sidebar.drawerEnabled,
+        viewport: sidebar.viewport,
+      })
+    ) {
       return null;
     }
-
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-      toggle();
-      onClick?.(e);
-    };
 
     return (
       <button
         ref={ref}
-        onClick={handleClick}
+        type="button"
+        onClick={(event) => {
+          sidebar.toggle();
+          onClick?.(event);
+        }}
         className={cn(
-          'rounded-icon-button inline-flex h-10 w-10 items-center justify-center',
-          'text-on-surface-variant hover:bg-state-hover',
-          'duration-short transition-colors',
-          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
-          usesOverlayDrawer && 'bg-surface-container-low',
+          'rounded-icon-button text-on-surface-variant hover:bg-state-hover focus-visible:ring-primary inline-flex size-10 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:outline-none',
           className,
         )}
-        aria-label="Toggle sidebar"
-        aria-expanded={usesOverlayDrawer ? mobileOpen : expanded}
+        aria-expanded={sidebar.isOverlay ? sidebar.mobileOpen : sidebar.expanded}
         {...props}
       >
-        {children || <Icon symbol="menu" />}
+        {children ?? <Icon symbol="menu" />}
       </button>
     );
   },
 );
 SidebarTrigger.displayName = 'SidebarTrigger';
-
-export type SidebarBackdropProps = React.HTMLAttributes<HTMLDivElement>;
-
-export function SidebarBackdrop({ className, ...props }: SidebarBackdropProps) {
-  const { isDrawerVisible, expanded, mobileOpen, usesOverlayDrawer, close, drawerEnabled, mode } =
-    useSidebar();
-
-  if (!drawerEnabled) {
-    return null;
-  }
-
-  const isCollapsibleDrawer = mode === 'collapsible-drawer' && !usesOverlayDrawer;
-  const isVisible = usesOverlayDrawer
-    ? mobileOpen
-    : !isCollapsibleDrawer && isDrawerVisible && !expanded;
-
-  if (!isVisible) return null;
-
-  return (
-    <div
-      className={cn(
-        'bg-scrim-soft duration-medium ease-standard opacity-100 transition-opacity motion-reduce:transition-none',
-        usesOverlayDrawer ? 'fixed inset-0' : 'absolute inset-0',
-        usesOverlayDrawer ? 'z-[1605]' : 'z-20',
-        className,
-      )}
-      onClick={close}
-      aria-hidden="true"
-      {...props}
-    />
-  );
-}

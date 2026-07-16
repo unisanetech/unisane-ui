@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { SearchBar, IconButton } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { SearchBar, IconButton } from '@unisane/ui';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SearchBarHeroVisual = () => (
   <HeroBackground tone="tertiary">
     {/* Mock Search Interface */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border p-6 shadow-xl">
       {/* Search Bar */}
-      <div className="bg-surface-container-high rounded-sm h-10 flex items-center px-4 gap-3 mb-4 border border-outline-variant">
+      <div className="bg-surface-container-high border-outline-variant mb-4 flex h-10 items-center gap-3 rounded-sm border px-4">
         <span className="material-symbols-outlined text-on-surface">search</span>
         <span className="text-body-medium text-on-surface-variant flex-1">Search products...</span>
         <span className="material-symbols-outlined text-on-surface-variant">mic</span>
@@ -18,15 +18,21 @@ const SearchBarHeroVisual = () => (
       {/* Search suggestions */}
       <div className="space-y-2">
         <div className="flex items-center gap-3 py-2">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">history</span>
+          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+            history
+          </span>
           <span className="text-body-medium text-on-surface">Recent search 1</span>
         </div>
         <div className="flex items-center gap-3 py-2">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">history</span>
+          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+            history
+          </span>
           <span className="text-body-medium text-on-surface">Recent search 2</span>
         </div>
         <div className="flex items-center gap-3 py-2">
-          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">trending_up</span>
+          <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+            trending_up
+          </span>
           <span className="text-body-medium text-on-surface">Trending topic</span>
         </div>
       </div>
@@ -59,44 +65,42 @@ const SearchBarWithIconsExample = () => (
 
 export const searchBarDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "search-bar",
-  name: "Search Bar",
-  description:
-    "Search bars allow users to enter a search query and filter content.",
-  category: "text-inputs",
-  status: "stable",
-  icon: "search",
+  slug: 'search-bar',
+  name: 'Search Bar',
+  description: 'Search bars allow users to enter a search query and filter content.',
+  category: 'text-inputs',
+  status: 'stable',
+  icon: 'search',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["SearchBar"],
+  importPath: '@unisane/ui',
+  exports: ['SearchBar'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <SearchBarHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Search bars can have different configurations based on functionality.",
+    description: 'Search bars can have different configurations based on functionality.',
     columns: {
-      emphasis: "Type",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Type',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Basic",
+        emphasis: 'Basic',
         component: (
           <div className="w-56">
             <SearchBar placeholder="Search" />
           </div>
         ),
-        rationale: "Simple search without extra actions.",
-        examples: "Lists, Tables, Basic filtering",
+        rationale: 'Simple search without extra actions.',
+        examples: 'Lists, Tables, Basic filtering',
       },
       {
-        emphasis: "With voice",
+        emphasis: 'With voice',
         component: (
           <div className="w-56">
             <SearchBar
@@ -112,33 +116,32 @@ export const searchBarDoc: ComponentDoc = {
             />
           </div>
         ),
-        rationale: "When voice input is supported.",
-        examples: "Mobile apps, Accessibility features",
+        rationale: 'When voice input is supported.',
+        examples: 'Mobile apps, Accessibility features',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Search bars are commonly placed in app bars or at the top of content areas.",
+    description: 'Search bars are commonly placed in app bars or at the top of content areas.',
     previewDefaults: {
-      tone: "surfaceContainerLow",
-      minHeight: "sm",
-      padding: "none",
-      align: "start",
-      justify: "start",
+      tone: 'surfaceContainerLow',
+      minHeight: 'sm',
+      padding: 'none',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Basic search",
+        title: 'Basic search',
         visual: <SearchBarBasicExample />,
-        caption: "Simple search input",
+        caption: 'Simple search input',
       },
       {
-        title: "With trailing icon",
+        title: 'With trailing icon',
         visual: <SearchBarWithIconsExample />,
-        caption: "Search with voice input option",
+        caption: 'Search with voice input option',
       },
     ],
   },
@@ -146,46 +149,46 @@ export const searchBarDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "placeholder",
-      type: "string",
+      name: 'placeholder',
+      type: 'string',
       default: '"Search"',
-      description: "Placeholder text for the input.",
+      description: 'Placeholder text for the input.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg"',
       default: '"md"',
-      description: "Shared field size used for the search bar height and spacing.",
+      description: 'Shared field size used for the search bar height and spacing.',
     },
     {
-      name: "leadingIcon",
-      type: "ReactNode",
-      description: "Icon displayed at the start (defaults to search icon).",
+      name: 'leadingIcon',
+      type: 'ReactNode',
+      description: 'Icon displayed at the start (defaults to search icon).',
     },
     {
-      name: "trailingIcon",
-      type: "ReactNode",
-      description: "Icon or action at the end of the search bar.",
+      name: 'trailingIcon',
+      type: 'ReactNode',
+      description: 'Icon or action at the end of the search bar.',
     },
     {
-      name: "onTrailingIconClick",
-      type: "() => void",
-      description: "Click handler for trailing icon.",
+      name: 'onTrailingIconClick',
+      type: '() => void',
+      description: 'Click handler for trailing icon.',
     },
     {
-      name: "value",
-      type: "string",
-      description: "Controlled input value.",
+      name: 'value',
+      type: 'string',
+      description: 'Controlled input value.',
     },
     {
-      name: "onChange",
-      type: "(e: ChangeEvent) => void",
-      description: "Change handler for input.",
+      name: 'onChange',
+      type: '(e: ChangeEvent) => void',
+      description: 'Change handler for input.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes.',
     },
   ],
 
@@ -193,23 +196,20 @@ export const searchBarDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "Uses role='search' for proper semantics.",
-      "Input is labeled via placeholder.",
-      "Trailing actions have aria-labels.",
+      'Input is labeled via placeholder.',
+      'Trailing actions have aria-labels.',
     ],
     keyboard: [
-      { key: "Tab", description: "Focus the search input" },
-      { key: "Escape", description: "Clear search (if implemented)" },
-      { key: "Enter", description: "Submit search (if implemented)" },
+      { key: 'Tab', description: 'Focus the search input' },
+      { key: 'Escape', description: 'Clear search (if implemented)' },
+      { key: 'Enter', description: 'Submit search (if implemented)' },
     ],
-    focus: [
-      "Focus ring visible on input.",
-      "Container style changes on focus.",
-    ],
+    focus: ['Focus ring visible on input.', 'Container style changes on focus.'],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled value for search state.",
+    description: 'Use controlled value for search state.',
     code: `import { SearchBar } from "@unisane/ui";
 import { useState } from "react";
 
@@ -236,16 +236,16 @@ function ProductSearch() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "text-field",
-      reason: "Use for general text input.",
+      slug: 'text-field',
+      reason: 'Use for general text input.',
     },
     {
-      slug: "combobox",
-      reason: "Use when search needs dropdown suggestions.",
+      slug: 'combobox',
+      reason: 'Use when search needs dropdown suggestions.',
     },
     {
-      slug: "top-app-bar",
-      reason: "Common placement for search bars.",
+      slug: 'top-app-bar',
+      reason: 'Common placement for search bars.',
     },
   ],
 };

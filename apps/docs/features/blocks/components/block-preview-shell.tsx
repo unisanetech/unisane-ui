@@ -11,7 +11,8 @@ import React, {
 } from 'react';
 import type { DocsBlock, DocsBlockCanvasHeight, DocsBlockViewport } from '@/lib/docs/blocks/types';
 import { cn } from '@unisane/ui/lib/utils';
-import { SegmentedButton, SegmentedButtonItem, useTheme } from '@unisane/ui';
+import { useMode } from '@unisane/ui';
+import { SegmentedButton } from '@unisane/ui/segmented-button';
 import { BlockCodeExplorer } from './block-code-explorer';
 import { PreviewThemeScope } from './preview-theme-scope';
 
@@ -72,9 +73,9 @@ function getClampedViewportWidth(
 }
 
 export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) {
-  const { resolvedTheme } = useTheme();
+  const { resolvedMode } = useMode();
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
-  const [previewTheme, setPreviewTheme] = useState<'light' | 'dark'>(resolvedTheme);
+  const [previewTheme, setPreviewTheme] = useState<'light' | 'dark'>(resolvedMode);
   const previewShell = block.previewShell;
   const canvasHeight = previewShell?.canvasHeight ?? 'screen';
   const defaultViewport = previewShell?.defaultViewport ?? 'desktop';
@@ -290,12 +291,13 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
       <div className="flex flex-col gap-3 pb-4 @3xl:flex-row @3xl:items-center @3xl:justify-between">
         <div className="flex items-center">
           <SegmentedButton
+            aria-label="Preview mode"
             options={[
               { value: 'preview', label: 'Preview' },
               { value: 'code', label: 'Code' },
             ]}
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as 'preview' | 'code')}
+            onValueChange={setActiveTab}
             size="sm"
           />
         </div>
@@ -303,33 +305,32 @@ export function BlockPreviewShell({ block, className }: BlockPreviewShellProps) 
         {activeTab === 'preview' ? (
           <div className="flex flex-wrap items-center gap-3">
             {viewportOptions.length > 0 ? (
-              <SegmentedButton size="sm" className="shrink-0" aria-label="Preview viewport">
-                {viewportOptions.map((viewport) => {
-                  const isSelected = effectiveViewport === viewport;
-
-                  return (
-                    <SegmentedButtonItem
-                      key={viewport}
-                      active={isSelected}
-                      onClick={() => setViewportPreset(viewport)}
-                      className="min-w-11"
-                      aria-label={VIEWPORT_LABELS[viewport]}
-                    >
-                      <span className="material-symbols-outlined text-icon-sm" aria-hidden="true">
-                        {VIEWPORT_ICONS[viewport]}
-                      </span>
-                    </SegmentedButtonItem>
-                  );
-                })}
-              </SegmentedButton>
+              <SegmentedButton
+                aria-label="Preview viewport"
+                size="sm"
+                className="shrink-0"
+                options={viewportOptions.map((viewport) => ({
+                  value: viewport,
+                  label: <span className="sr-only">{VIEWPORT_LABELS[viewport]}</span>,
+                  icon: (
+                    <span className="material-symbols-outlined text-icon-sm" aria-hidden="true">
+                      {VIEWPORT_ICONS[viewport]}
+                    </span>
+                  ),
+                  className: 'min-w-11',
+                }))}
+                value={effectiveViewport}
+                onValueChange={setViewportPreset}
+              />
             ) : null}
             <SegmentedButton
+              aria-label="Preview theme"
               options={[
                 { value: 'light', label: 'Light' },
                 { value: 'dark', label: 'Dark' },
               ]}
               value={previewTheme}
-              onValueChange={(value) => setPreviewTheme(value as 'light' | 'dark')}
+              onValueChange={setPreviewTheme}
               size="sm"
             />
           </div>

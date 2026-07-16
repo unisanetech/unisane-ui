@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import {
+  useState } from "react";
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { Combobox, Select } from "@unisane/ui";
+import { Combobox,
+} from "@unisane/ui";
+import { SelectField } from "@unisane/ui/select-field";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ComboboxHeroVisual = () => (
@@ -128,7 +131,8 @@ export const comboboxDoc: ComponentDoc = {
         emphasis: "Select",
         component: (
           <div className="w-52">
-            <Select
+            <SelectField
+              aria-label="Option"
               options={[
                 { value: "one", label: "Option 1" },
                 { value: "two", label: "Option 2" },

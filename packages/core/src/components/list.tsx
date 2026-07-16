@@ -1,206 +1,317 @@
-import React, { isValidElement, cloneElement } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, focusRing, Slot } from '../lib/utils';
+import React, { forwardRef } from 'react';
+import { cva } from 'class-variance-authority';
+import { cn, focusRing } from '../lib/utils';
+import { Divider, type DividerProps } from './divider';
 import { Typography } from './typography';
 import { Ripple } from './ripple';
 
-export const List: React.FC<React.HTMLAttributes<HTMLDivElement>> = ({
-  className,
-  children,
-  ...props
-}) => {
-  return (
-    <div className={cn('bg-surface flex flex-col py-2', className)} role="list" {...props}>
-      {children}
-    </div>
-  );
-};
+export type ListProps = React.HTMLAttributes<HTMLUListElement>;
 
-export const ListSubheader: React.FC<{
-  children: React.ReactNode;
-  className?: string;
-}> = ({ children, className }) => (
-  <div className={cn('text-label-medium text-on-surface-variant px-4 py-2 font-medium', className)}>
-    {children}
-  </div>
+export const List = forwardRef<HTMLUListElement, ListProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <ul
+        ref={ref}
+        className={cn('bg-surface m-0 flex list-none flex-col py-2', className)}
+        {...props}
+      >
+        {children}
+      </ul>
+    );
+  },
 );
 
+List.displayName = 'List';
+
+export interface ListSubheaderProps extends React.HTMLAttributes<HTMLLIElement> {
+  children: React.ReactNode;
+}
+
+export const ListSubheader = forwardRef<HTMLLIElement, ListSubheaderProps>(
+  ({ children, className, role = 'presentation', ...props }, ref) => (
+    <li
+      ref={ref}
+      role={role}
+      className={cn('text-label-medium text-on-surface-variant px-4 py-2 font-medium', className)}
+      {...props}
+    >
+      {children}
+    </li>
+  ),
+);
+
+ListSubheader.displayName = 'ListSubheader';
+
+export type ListDividerProps = DividerProps;
+
+export const ListDivider = forwardRef<HTMLDivElement, ListDividerProps>((props, ref) => (
+  <li role="presentation">
+    <Divider ref={ref} {...props} />
+  </li>
+));
+
+ListDivider.displayName = 'ListDivider';
+
 const listItemVariants = cva(
-  'relative flex min-h-10 items-center px-4 py-2 gap-3 text-left transition-all duration-snappy ease-emphasized group overflow-hidden select-none',
+  'relative flex min-h-10 w-full items-center gap-3 overflow-hidden px-4 py-2 text-left transition-colors duration-snappy ease-emphasized select-none',
   {
     variants: {
-      active: {
+      interactive: {
+        true: cn('cursor-pointer hover:bg-state-hover', focusRing),
+        false: '',
+      },
+      selected: {
         true: 'bg-state-selected text-on-surface',
-        false: 'text-on-surface hover:bg-state-hover',
+        false: 'text-on-surface',
       },
       disabled: {
-        true: 'opacity-38 pointer-events-none grayscale',
+        true: 'pointer-events-none opacity-38 grayscale',
         false: '',
       },
     },
     defaultVariants: {
-      active: false,
+      interactive: false,
+      selected: false,
       disabled: false,
     },
   },
 );
 
-export interface ListItemProps
-  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof listItemVariants> {
-  headline?: string;
+type ListItemCommonProps = {
+  headline: React.ReactNode;
   supportingText?: React.ReactNode;
-  trailingSupportingText?: React.ReactNode;
-  leadingIcon?: React.ReactNode;
-  trailingIcon?: React.ReactNode;
-  onClick?: () => void;
-  href?: string;
-  asChild?: boolean;
+  leading?: React.ReactNode;
+  trailingText?: React.ReactNode;
+  trailing?: React.ReactNode;
+  selected?: boolean;
+  disabled?: boolean;
+  className?: string;
+};
+
+export type ListItemStaticProps = ListItemCommonProps &
+  Omit<React.HTMLAttributes<HTMLLIElement>, keyof ListItemCommonProps | 'children' | 'onClick'> & {
+    href?: never;
+    onClick?: never;
+    renderLink?: never;
+  };
+
+export type ListItemButtonProps = ListItemCommonProps &
+  Omit<
+    React.ButtonHTMLAttributes<HTMLButtonElement>,
+    keyof ListItemCommonProps | 'children' | 'href'
+  > & {
+    href?: never;
+    onClick: React.MouseEventHandler<HTMLButtonElement>;
+    renderLink?: never;
+  };
+
+export type ListItemRenderLinkProps = React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+  href: string;
+  children: React.ReactNode;
+};
+
+export type ListItemRenderLink = (props: ListItemRenderLinkProps) => React.ReactElement;
+
+export type ListItemLinkProps = ListItemCommonProps &
+  Omit<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    keyof ListItemCommonProps | 'children' | 'href'
+  > & {
+    href: string;
+    renderLink?: ListItemRenderLink;
+  };
+
+export type ListItemProps = ListItemStaticProps | ListItemButtonProps | ListItemLinkProps;
+
+function hasContent(value: React.ReactNode): boolean {
+  return value !== null && value !== undefined && value !== false;
 }
 
-export const ListItem: React.FC<ListItemProps> = ({
+function ListItemBody({
   headline,
   supportingText,
-  trailingSupportingText,
-  leadingIcon,
-  trailingIcon,
-  active,
+  leading,
+  trailingText,
+  trailing,
+  interactive,
   disabled,
-  className,
-  onClick,
-  children,
-  href,
-  asChild,
-  ...props
-}) => {
-  const isInteractive = (!!onClick || !!href || asChild) && !disabled;
-  const itemClasses = cn(
-    listItemVariants({ active, disabled, className }),
-    isInteractive && focusRing,
-  );
-
-  const headlineContent = headline ? (
+}: Pick<
+  ListItemCommonProps,
+  'headline' | 'supportingText' | 'leading' | 'trailingText' | 'trailing' | 'disabled'
+> & {
+  interactive: boolean;
+}) {
+  return (
     <>
-      {isInteractive && <Ripple />}
+      {interactive ? <Ripple disabled={disabled} /> : null}
 
-      {leadingIcon && (
-        <div className="size-icon-sm relative z-10 flex shrink-0 items-center justify-center text-inherit">
-          {leadingIcon}
-        </div>
-      )}
+      {hasContent(leading) ? (
+        <span className="size-icon-sm relative z-10 flex shrink-0 items-center justify-center text-inherit">
+          {leading}
+        </span>
+      ) : null}
 
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col justify-center">
-        <Typography variant="bodyLarge" className="truncate leading-none font-medium text-inherit">
+      <span className="relative z-10 flex min-w-0 flex-1 flex-col justify-center">
+        <Typography
+          component="span"
+          variant="bodyLarge"
+          className="truncate leading-none font-medium text-inherit"
+        >
           {headline}
         </Typography>
-        {supportingText && (
+        {hasContent(supportingText) ? (
           <Typography
+            component="span"
             variant="labelSmall"
             className="text-on-surface-variant mt-1.5 truncate leading-none opacity-60"
           >
             {supportingText}
           </Typography>
-        )}
-      </div>
+        ) : null}
+      </span>
 
-      {(trailingSupportingText || trailingIcon) && (
-        <div className="text-on-surface-variant relative z-10 flex shrink-0 items-center gap-2">
-          {trailingSupportingText && (
-            <Typography variant="labelSmall" className="font-medium tabular-nums">
-              {trailingSupportingText}
+      {hasContent(trailingText) || hasContent(trailing) ? (
+        <span className="text-on-surface-variant relative z-10 flex shrink-0 items-center gap-2">
+          {hasContent(trailingText) ? (
+            <Typography component="span" variant="labelSmall" className="font-medium tabular-nums">
+              {trailingText}
             </Typography>
-          )}
-          {trailingIcon && (
-            <div className="size-icon-sm flex items-center justify-center">{trailingIcon}</div>
-          )}
-        </div>
-      )}
-    </>
-  ) : (
-    <>
-      {isInteractive && <Ripple />}
-      {children}
+          ) : null}
+          {hasContent(trailing) ? (
+            <span className="size-icon-sm flex items-center justify-center">{trailing}</span>
+          ) : null}
+        </span>
+      ) : null}
     </>
   );
+}
 
-  if (asChild && children && isValidElement(children)) {
-    return (
-      <div role="listitem">
-        <Slot className={itemClasses}>
-          {cloneElement(children as React.ReactElement, {}, headlineContent)}
-        </Slot>
-      </div>
-    );
+export const ListItem = forwardRef<HTMLLIElement, ListItemProps>((props, ref) => {
+  const {
+    headline,
+    supportingText,
+    leading,
+    trailingText,
+    trailing,
+    selected = false,
+    disabled = false,
+    className,
+  } = props;
+
+  if ('href' in props && typeof props.href === 'string') {
+    const {
+      href,
+      renderLink,
+      onClick,
+      headline: _headline,
+      supportingText: _supportingText,
+      leading: _leading,
+      trailingText: _trailingText,
+      trailing: _trailing,
+      selected: _selected,
+      disabled: _disabled,
+      className: _className,
+      tabIndex,
+      ...anchorProps
+    } = props;
+    const linkProps: ListItemRenderLinkProps = {
+      ...anchorProps,
+      href,
+      tabIndex: disabled ? -1 : tabIndex,
+      'aria-disabled': disabled || undefined,
+      onClick: (event) => {
+        if (disabled) {
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+        onClick?.(event);
+      },
+      className: cn(listItemVariants({ interactive: true, selected, disabled }), className),
+      children: (
+        <ListItemBody
+          headline={headline}
+          supportingText={supportingText}
+          leading={leading}
+          trailingText={trailingText}
+          trailing={trailing}
+          interactive
+          disabled={disabled}
+        />
+      ),
+    };
+
+    return <li ref={ref}>{renderLink ? renderLink(linkProps) : <a {...linkProps} />}</li>;
   }
 
-  if (href && !disabled) {
-    return (
-      <div role="listitem">
-        <a href={href} className={itemClasses}>
-          {headlineContent}
-        </a>
-      </div>
-    );
-  }
+  if ('onClick' in props && typeof props.onClick === 'function') {
+    const {
+      onClick,
+      type = 'button',
+      headline: _headline,
+      supportingText: _supportingText,
+      leading: _leading,
+      trailingText: _trailingText,
+      trailing: _trailing,
+      selected: _selected,
+      disabled: _disabled,
+      className: _className,
+      ...buttonProps
+    } = props;
 
-  if (onClick && !disabled) {
     return (
-      <div role="listitem">
+      <li ref={ref}>
         <button
-          type="button"
-          className={itemClasses}
+          type={type}
+          disabled={disabled}
           onClick={onClick}
-          {...(props as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+          className={cn(listItemVariants({ interactive: true, selected, disabled }), className)}
+          {...buttonProps}
         >
-          {headlineContent}
+          <ListItemBody
+            headline={headline}
+            supportingText={supportingText}
+            leading={leading}
+            trailingText={trailingText}
+            trailing={trailing}
+            interactive
+            disabled={disabled}
+          />
         </button>
-      </div>
+      </li>
     );
   }
 
+  const {
+    headline: _headline,
+    supportingText: _supportingText,
+    leading: _leading,
+    trailingText: _trailingText,
+    trailing: _trailing,
+    selected: _selected,
+    disabled: _disabled,
+    className: _className,
+    ...itemProps
+  } = props;
+
   return (
-    <div className={itemClasses} role="listitem" {...props}>
-      {headlineContent}
-    </div>
+    <li
+      {...itemProps}
+      ref={ref}
+      aria-disabled={disabled || undefined}
+      className={cn(listItemVariants({ interactive: false, selected, disabled }), className)}
+    >
+      <ListItemBody
+        headline={headline}
+        supportingText={supportingText}
+        leading={leading}
+        trailingText={trailingText}
+        trailing={trailing}
+        interactive={false}
+        disabled={disabled}
+      />
+    </li>
   );
-};
+});
 
-export type ListItemContentProps = {
-  leading?: React.ReactNode;
-  children: React.ReactNode;
-  trailing?: React.ReactNode;
-  className?: string;
-};
-
-export const ListItemContent: React.FC<ListItemContentProps> = ({
-  leading,
-  children,
-  trailing,
-  className,
-}) => {
-  return (
-    <div className={cn('flex min-w-0 flex-1 items-center gap-3', className)}>
-      {leading && <div className="size-icon-sm flex items-center justify-center">{leading}</div>}
-      <div className="min-w-0 flex-1">{children}</div>
-      {trailing && <div className="flex items-center gap-2">{trailing}</div>}
-    </div>
-  );
-};
-
-export type ListItemTextProps = {
-  primary: React.ReactNode;
-  secondary?: React.ReactNode;
-  className?: string;
-};
-
-export const ListItemText: React.FC<ListItemTextProps> = ({ primary, secondary, className }) => {
-  return (
-    <div className={cn('flex flex-col', className)}>
-      <Typography variant="bodyLarge">{primary}</Typography>
-      {secondary && (
-        <Typography variant="bodyMedium" className="text-on-surface-variant">
-          {secondary}
-        </Typography>
-      )}
-    </div>
-  );
-};
+ListItem.displayName = 'ListItem';

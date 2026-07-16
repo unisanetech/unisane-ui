@@ -94,10 +94,12 @@ function validateSecondaryOrTertiarySection(value, filePath, path) {
   assertOptionalString(value.comment, filePath, `${path}.comment`);
 }
 
-function validateNeutralSection(value, filePath, path) {
+function validateNeutralSection(value, filePath, path, { allowPartial = false } = {}) {
   assertObject(value, filePath, path);
   assertNoExtraKeys(value, ["strategy", "tintFromPrimary", "comment"], filePath, path);
-  assertRequiredKeys(value, ["tintFromPrimary"], filePath, path);
+  if (!allowPartial) {
+    assertRequiredKeys(value, ["tintFromPrimary"], filePath, path);
+  }
 
   if ("strategy" in value) {
     assertString(value.strategy, filePath, `${path}.strategy`, { minLength: 1 });
@@ -107,13 +109,17 @@ function validateNeutralSection(value, filePath, path) {
   assertOptionalString(value.comment, filePath, `${path}.comment`);
 }
 
-function validateErrorSection(value, filePath, path) {
+function validateErrorSection(value, filePath, path, { allowPartial = false } = {}) {
   assertObject(value, filePath, path);
   assertNoExtraKeys(value, ["hue", "chroma", "comment"], filePath, path);
-  assertRequiredKeys(value, ["hue", "chroma"], filePath, path);
+  if (!allowPartial) {
+    assertRequiredKeys(value, ["hue", "chroma"], filePath, path);
+  } else if (!("hue" in value) && !("chroma" in value)) {
+    fail(filePath, path, "must include at least one of: hue, chroma");
+  }
 
-  assertNumber(value.hue, filePath, `${path}.hue`, { min: 0, max: 360 });
-  assertNumber(value.chroma, filePath, `${path}.chroma`, { min: 0, max: 1 });
+  if ("hue" in value) assertNumber(value.hue, filePath, `${path}.hue`, { min: 0, max: 360 });
+  if ("chroma" in value) assertNumber(value.chroma, filePath, `${path}.chroma`, { min: 0, max: 1 });
   assertOptionalString(value.comment, filePath, `${path}.comment`);
 }
 
@@ -173,7 +179,12 @@ export function validateThemeConfig(value, filePath) {
 
 export function validateThemeOverride(value, filePath) {
   assertObject(value, filePath, "$");
-  assertNoExtraKeys(value, ["$schema", "name", "description", "primary"], filePath, "$");
+  assertNoExtraKeys(
+    value,
+    ["$schema", "name", "description", "primary", "neutral", "error", "success", "warning", "info"],
+    filePath,
+    "$",
+  );
   assertRequiredKeys(value, ["name", "primary"], filePath, "$");
 
   validateSchemaReference(value, "./theme-override.schema.json", filePath);
@@ -184,4 +195,8 @@ export function validateThemeOverride(value, filePath) {
   }
 
   validatePrimarySection(value.primary, filePath, "$.primary", { allowPartial: true });
+  if (value.neutral) validateNeutralSection(value.neutral, filePath, "$.neutral", { allowPartial: true });
+  for (const section of ["error", "success", "warning", "info"]) {
+    if (value[section]) validateErrorSection(value[section], filePath, `$.${section}`, { allowPartial: true });
+  }
 }

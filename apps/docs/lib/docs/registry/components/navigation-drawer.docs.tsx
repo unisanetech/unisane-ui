@@ -1,325 +1,155 @@
 'use client';
 
-import { ComponentDoc } from '../types';
+import { useState } from 'react';
+import { NavigationDrawer } from '@unisane/ui/navigation-drawer';
+import type { NavigationItem } from '@unisane/ui/navigation';
 import { HeroBackground } from '../../runtime/hero-background';
 import { DesktopPreviewFrame } from '../../runtime/desktop-preview-frame';
-import {
-  NavigationDrawer,
-  NavigationDrawerItem,
-  NavigationDrawerHeadline,
-  NavigationDrawerDivider,
-} from '@unisane/ui';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
-const NavigationDrawerHeroVisual = () => (
-  <HeroBackground tone="surface" padding="sm">
-    <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
-      <div className="bg-surface border-outline-variant relative flex h-full w-full overflow-hidden rounded-sm border shadow-xl">
-        <div className="bg-surface-container border-outline-variant w-36 border-r p-3">
-          <div className="text-label-small text-on-surface-variant mb-3 px-2">Navigation</div>
-          <div className="space-y-1">
-            <div className="bg-secondary-container flex items-center gap-2 rounded-full px-3 py-2">
-              <span className="material-symbols-outlined text-primary text-[20px]">home</span>
-              <span className="text-label-medium text-primary">Home</span>
-            </div>
-            <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
-              <span className="material-symbols-outlined text-[20px]">inbox</span>
-              <span className="text-label-medium">Inbox</span>
-            </div>
-            <div className="text-on-surface-variant flex items-center gap-2 rounded-full px-3 py-2">
-              <span className="material-symbols-outlined text-[20px]">send</span>
-              <span className="text-label-medium">Sent</span>
-            </div>
-          </div>
-        </div>
-        <div className="flex-1 p-4">
-          <div className="space-y-3">
-            <div className="bg-surface-container-high h-4 w-full rounded-sm" />
-            <div className="bg-surface-container-high h-4 w-3/4 rounded-sm" />
-            <div className="bg-surface-container-high h-4 w-1/2 rounded-sm" />
-          </div>
-        </div>
-      </div>
-    </DesktopPreviewFrame>
-  </HeroBackground>
-);
+const items: NavigationItem[] = [
+  { id: 'home', label: 'Home', icon: 'home', href: '/' },
+  { id: 'inbox', label: 'Inbox', icon: 'inbox', badge: 24, href: '/inbox' },
+  { id: 'sent', label: 'Sent', icon: 'send', href: '/sent' },
+  { id: 'settings', label: 'Settings', icon: 'settings', href: '/settings' },
+];
 
-// ─── EXAMPLES ────────────────────────────────────────────────────────────────
-const NavigationDrawerBasicExample = () => (
-  <div className="bg-surface-container-low relative isolate h-full w-full overflow-hidden rounded-sm">
-    <div className="absolute inset-0 bg-surface-container-low" />
-    <div className="absolute inset-y-0 left-0 w-[min(320px,100%)] border-r border-outline-variant" />
-    <div className="absolute inset-y-0 right-0 w-[max(0px,calc(100%-min(320px,100%)))] p-4">
-      <div className="space-y-2">
-        <div className="h-2 rounded-sm bg-surface-container-high" />
-        <div className="h-2 w-4/5 rounded-sm bg-surface-container-high" />
-        <div className="h-2 w-3/5 rounded-sm bg-surface-container-high" />
+function NavigationDrawerExample() {
+  const [value, setValue] = useState<string | null>('home');
+  return (
+    <div className="bg-surface flex h-72 w-full max-w-xl overflow-hidden rounded-sm border border-outline-variant">
+      <NavigationDrawer
+        aria-label="Workspace navigation"
+        items={items}
+        value={value}
+        onValueChange={setValue}
+        headline="Workspace"
+        header={<div className="text-title-medium text-on-surface">My app</div>}
+        className="w-64 max-w-64"
+      />
+      <div className="bg-surface-container-low flex-1 p-5">
+        <div className="text-title-medium text-on-surface mb-4">{value ?? 'Workspace'}</div>
+        <div className="space-y-3">
+          <div className="bg-surface h-3 rounded-sm" />
+          <div className="bg-surface h-3 w-3/4 rounded-sm" />
+        </div>
       </div>
     </div>
-    <NavigationDrawer
-      open
-      modal={false}
-      className="!absolute !inset-y-0 !left-0 !h-full !w-[min(320px,100%)] !max-w-[85vw]"
-    >
-      <div className="p-4">
-        <div className="text-title-medium text-on-surface mb-4">My App</div>
-      </div>
-      <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
-      <NavigationDrawerItem icon="home" active>
-        Home
-      </NavigationDrawerItem>
-      <NavigationDrawerItem icon="inbox" badge="24">
-        Inbox
-      </NavigationDrawerItem>
-      <NavigationDrawerItem icon="send">Sent</NavigationDrawerItem>
-      <NavigationDrawerDivider />
-      <NavigationDrawerHeadline>Labels</NavigationDrawerHeadline>
-      <NavigationDrawerItem icon="label">Important</NavigationDrawerItem>
-      <NavigationDrawerItem icon="label">Work</NavigationDrawerItem>
-    </NavigationDrawer>
-  </div>
-);
+  );
+}
 
 export const navigationDrawerDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
   slug: 'navigation-drawer',
   name: 'Navigation Drawer',
   description:
-    'Navigation drawers provide standalone drawer-style access to destinations and app functionality in a sliding panel.',
+    'The labeled persistent or modal presentation of the shared navigation item and selection contract.',
   category: 'navigation',
   status: 'stable',
   icon: 'menu',
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
-  exports: [
-    'NavigationDrawer',
-    'NavigationDrawerItem',
-    'NavigationDrawerHeadline',
-    'NavigationDrawerDivider',
-  ],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
-  heroVisual: <NavigationDrawerHeroVisual />,
-  heroPreview: {
-    minHeight: 'xl',
-  },
-  docsLayout: {
-    hideChoosing: true,
-    hidePlacement: true,
-  },
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+  importPath: '@/components/ui/navigation-drawer',
+  exports: ['NavigationDrawer'],
+  heroVisual: (
+    <HeroBackground tone="surface" padding="sm">
+      <DesktopPreviewFrame designWidth={900} designHeight={520} className="max-w-3xl">
+        <NavigationDrawerExample />
+      </DesktopPreviewFrame>
+    </HeroBackground>
+  ),
+  heroPreview: { minHeight: 'xl' },
   choosing: {
     description:
-      'Choose drawer type based on screen size and whether you need a standalone nav surface or a full app-shell layout.',
+      'Use persistent mode inside a wide layout. Use modal mode on compact screens when navigation must overlay and isolate the current page.',
     columns: {
-      emphasis: 'Type',
+      emphasis: 'Variant',
       component: 'Preview',
       rationale: 'When to use',
       examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: 'Standard',
-        component: (
-          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
-            <div className="absolute inset-y-0 right-0 w-8 bg-surface-container-low" />
-            <NavigationDrawer open modal={false} className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none !border-r-0">
-              <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
-              <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
-              <NavigationDrawerItem icon="inbox">Inbox</NavigationDrawerItem>
-            </NavigationDrawer>
-          </div>
-        ),
-        rationale: 'Standalone persistent navigation on large screens.',
-        examples: 'Desktop apps, Admin dashboards',
-      },
-      {
-        emphasis: 'Modal',
-        component: (
-          <div className="relative isolate h-32 w-52 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
-            <div className="bg-scrim/35 absolute inset-0" />
-            <NavigationDrawer open modal className="!absolute !inset-y-0 !left-0 !h-full !w-44 !max-w-none">
-              <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
-              <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
-              <NavigationDrawerItem icon="settings">Settings</NavigationDrawerItem>
-            </NavigationDrawer>
-          </div>
-        ),
-        rationale: 'Standalone overlay navigation on mobile.',
-        examples: 'Mobile apps, Compact screens',
+        emphasis: 'Persistent',
+        component: <NavigationDrawerExample />,
+        rationale: 'The drawer participates in the normal app-shell layout.',
+        examples: 'Desktop workspaces, admin apps',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description: 'Navigation drawers appear from the left edge of the screen.',
-    previewDefaults: {
-      tone: 'surfaceContainerLow',
-      minHeight: '2xl',
-      padding: 'none',
-      align: 'start',
-      justify: 'start',
-    },
+    description: 'Persistent drawers sit in layout; modal drawers portal to the viewport start or end edge.',
+    previewDefaults: { tone: 'surfaceContainerLow', minHeight: '2xl', padding: 'none' },
     examples: [
       {
-        title: 'Standard drawer',
-        visual: <NavigationDrawerBasicExample />,
-        caption: 'Navigation drawer with items and sections',
+        title: 'Persistent drawer',
+        visual: <NavigationDrawerExample />,
+        caption: 'The same selected id and items can be handed to Bar or Rail.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
-    {
-      name: 'open',
-      type: 'boolean',
-      default: 'true',
-      description: 'Controls drawer visibility.',
-    },
-    {
-      name: 'modal',
-      type: 'boolean',
-      default: 'false',
-      description: 'Whether drawer overlays content.',
-    },
-    {
-      name: 'defaultOpen',
-      type: 'boolean',
-      default: 'true',
-      description: 'Initial open state for uncontrolled usage.',
-    },
-    {
-      name: 'onOpenChange',
-      type: '(open: boolean) => void',
-      description: 'Called whenever drawer open state changes.',
-    },
-    {
-      name: 'onClose',
-      type: '() => void',
-      description: 'Optional callback when drawer closes via Escape.',
-    },
-    {
-      name: 'children',
-      type: 'ReactNode',
-      required: true,
-      description: 'Navigation items and content.',
-    },
-    {
-      name: 'className',
-      type: 'string',
-      description: 'Additional CSS classes.',
-    },
+    { name: 'items', type: 'NavigationItem[]', required: true, description: 'Shared destination collection.' },
+    { name: 'value', type: 'string | null', description: 'Controlled selected item id.' },
+    { name: 'defaultValue', type: 'string | null', description: 'Initial uncontrolled selected id.' },
+    { name: 'onValueChange', type: '(id: string | null) => void', description: 'Selection callback.' },
+    { name: 'onItemSelect', type: '(item: NavigationItem) => void', description: 'Activation callback.' },
+    { name: 'renderLink', type: 'NavigationLinkRenderer', description: 'Framework-link renderer.' },
+    { name: 'aria-label', type: 'string', required: true, description: 'Navigation and modal accessible name.' },
+    { name: 'open', type: 'boolean', description: 'Controlled visibility.' },
+    { name: 'defaultOpen', type: 'boolean', default: 'true', description: 'Initial uncontrolled visibility.' },
+    { name: 'onOpenChange', type: '(open: boolean) => void', description: 'Visibility callback.' },
+    { name: 'variant', type: '"persistent" | "modal"', default: '"persistent"', description: 'Layout or modal presentation.' },
+    { name: 'side', type: '"start" | "end"', default: '"start"', description: 'Viewport or layout edge.' },
+    { name: 'triggerRef', type: 'RefObject<HTMLElement>', description: 'Focus-return owner for modal usage.' },
+    { name: 'headline', type: 'ReactNode', description: 'Optional destination-section heading.' },
+    { name: 'header', type: 'ReactNode', description: 'Content above the destination list.' },
+    { name: 'footer', type: 'ReactNode', description: 'Content below the destination list.' },
   ],
-
-  // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
-  subComponents: [
-    {
-      name: 'NavigationDrawerItem',
-      description: 'Navigation item within the drawer.',
-      props: [
-        { name: 'icon', type: 'ReactNode | string', description: 'Icon to display.' },
-        { name: 'active', type: 'boolean', description: 'Whether item is active.' },
-        { name: 'badge', type: 'string | number', description: 'Badge content.' },
-        { name: 'href', type: 'string', description: 'Link URL.' },
-        { name: 'asChild', type: 'boolean', description: 'Render as child element.' },
-      ],
-    },
-    {
-      name: 'NavigationDrawerHeadline',
-      description: 'Section headline within the drawer.',
-      props: [{ name: 'children', type: 'ReactNode', description: 'Headline text.' }],
-    },
-    {
-      name: 'NavigationDrawerDivider',
-      description: 'Visual divider between sections.',
-      props: [],
-    },
-  ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      'Uses semantic <aside> element.',
-      'Active item indicated via aria-current.',
-      'Modal drawer manages focus properly.',
+      'Persistent mode is a named navigation landmark.',
+      'Modal mode uses a named modal dialog containing the navigation landmark.',
+      'The selected destination exposes aria-current="page".',
     ],
     keyboard: [
-      { key: 'Tab', description: 'Navigate between items' },
-      { key: 'Enter/Space', description: 'Activate focused item' },
-      { key: 'Escape', description: 'Close modal drawer' },
+      { key: 'Tab / Shift+Tab', description: 'Move through items; modal mode contains focus.' },
+      { key: 'Enter / Space', description: 'Activate the focused destination.' },
+      { key: 'Escape', description: 'Dismiss modal mode and restore trigger focus.' },
     ],
-    focus: ['Focus visible on navigation items.', 'Focus trapped in modal drawer.'],
+    focus: [
+      'Modal mode enters the first enabled destination, isolates background content, and restores trigger focus.',
+      'Persistent mode leaves normal page focus order unchanged.',
+    ],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: 'Use with state or router for navigation.',
-    code: `import {
-  NavigationDrawer,
-  NavigationDrawerItem,
-  NavigationDrawerHeadline,
-} from "@unisane/ui";
-import { usePathname } from "next/navigation";
-import Link from "next/link";
+    description:
+      'The local modal presentation includes the shared overlay, scroll-lock, item, and action dependencies.',
+    code: `import { NavigationDrawer } from "@/components/ui/navigation-drawer";
+import type { NavigationItem } from "@/types/navigation";
 
-function AppNavigation() {
-  const pathname = usePathname();
+const items: NavigationItem[] = [
+  { id: "home", label: "Home", icon: "home", href: "/" },
+  { id: "settings", label: "Settings", icon: "settings", href: "/settings" },
+];
 
+export function DesktopNavigation() {
   return (
-    <NavigationDrawer>
-      <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
-
-      <NavigationDrawerItem
-        icon="home"
-        active={pathname === "/"}
-        asChild
-      >
-        <Link href="/">Home</Link>
-      </NavigationDrawerItem>
-
-      <NavigationDrawerItem
-        icon="inbox"
-        badge={5}
-        active={pathname === "/inbox"}
-        asChild
-      >
-        <Link href="/inbox">Inbox</Link>
-      </NavigationDrawerItem>
-
-      <NavigationDrawerItem
-        icon="settings"
-        active={pathname === "/settings"}
-        asChild
-      >
-        <Link href="/settings">Settings</Link>
-      </NavigationDrawerItem>
-    </NavigationDrawer>
+    <NavigationDrawer
+      aria-label="Primary navigation"
+      items={items}
+      headline="Workspace"
+      defaultValue="home"
+    />
   );
 }`,
   },
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  guidelines: [
+    { type: 'do', text: 'Use modal mode only when focus isolation and page blocking are intended.' },
+    { type: 'do', text: 'Pass the opening trigger ref so modal dismissal restores focus predictably.' },
+    { type: 'dont', text: 'Do not use Drawer for arbitrary non-navigation panels; use Sheet.' },
+  ],
   related: [
-    {
-      slug: 'sidebar',
-      reason:
-        'Use for full app-shell navigation that coordinates rail, drawer, backdrop, and content inset together.',
-    },
-    {
-      slug: 'navigation-rail',
-      reason: 'Use for compact standalone vertical navigation on larger screens.',
-    },
-    {
-      slug: 'navigation-bar',
-      reason: 'Bottom navigation for mobile.',
-    },
-    {
-      slug: 'sheet',
-      reason: 'Use for non-navigation content panels.',
-    },
+    { slug: 'navigation-rail', reason: 'Compact vertical presentation.' },
+    { slug: 'navigation-bar', reason: 'Mobile bottom presentation.' },
+    { slug: 'sidebar', reason: 'Responsive application-shell orchestration.' },
+    { slug: 'sheet', reason: 'Modal panels that are not navigation.' },
   ],
 };

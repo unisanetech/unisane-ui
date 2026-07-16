@@ -24,7 +24,7 @@ Keep implementation work aligned around two active improvement tracks:
 - [x] package and docs runtime utilities are not duplicated without intent
 - [x] field-family behavior is shared instead of reimplemented ad hoc where it reduces real duplication; intentional exceptions are documented
 - [x] status color tokens have an explicit system policy
-- [x] `ThemeProvider` has runtime behavior coverage
+- [x] `AppearanceProvider` has runtime behavior coverage
 - [x] high-traffic components have accessibility and interaction coverage
 - [x] major theme axes have matrix or visual regression coverage
 
@@ -132,28 +132,28 @@ Files to review:
 - `unisane-ui/packages/tokens/scripts/tokens-build/__snapshots__/blue.unisane.css`
 - `unisane-ui/packages/tokens/scripts/tokens-build/css/sections/*.mjs`
 
-### Phase 1: Add ThemeProvider Behavior Tests
+### Phase 1: Add AppearanceProvider Behavior Tests
 
 - [x] verify HTML attribute bootstrap behavior
-- [x] verify localStorage override behavior
-- [x] verify `storageKey={false}` disables persistence
+- [x] verify localStorage and cookie persistence behavior
+- [x] verify `persistence="none"` disables persistence
 - [x] verify `.dark` class and `color-scheme` application
 - [x] verify `system` mode reacts to `matchMedia` changes
 - [x] verify invalid stored values are ignored safely
 
 Files to review:
 
-- `unisane-ui/packages/core/src/layout/theme-provider.tsx`
+- `unisane-ui/packages/core/src/layout/appearance-provider.tsx`
 - `unisane-ui/packages/core/tests`
 
 Done means:
 
-- [x] `ThemeProvider` has dedicated runtime tests with DOM assertions
+- [x] `AppearanceProvider` has dedicated runtime tests with DOM assertions
 
 ### Phase 2: Add Token-Axis Matrix Tests
 
-- [x] cover representative `data-color-theme` values such as `blue`, `green`, `neutral`, and `black`
-- [x] cover `data-scheme` values `tonal`, `neutral`, and `monochrome`
+- [x] cover representative replace-in-place project color themes such as `blue`, `green`, `neutral`, and `black`
+- [x] prove project color selection emits semantic values without runtime preset selector layers
 - [x] cover `data-contrast` values `standard`, `medium`, and `high`
 - [x] cover light and dark mode
 - [x] smoke-test density, radius, and elevation axis behavior
@@ -236,7 +236,7 @@ Primary commands:
 
 - [x] fix token snapshot failure
 - [x] remove package and docs runtime utility duplication
-- [x] add `ThemeProvider` behavior tests
+- [x] add `AppearanceProvider` behavior tests
 - [x] add token-axis matrix tests
 - [x] extract shared field foundation
 - [x] add accessibility tests for the top-priority components

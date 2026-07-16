@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import { DocsShell } from "./docs-shell";
-import type { SidebarViewport } from "@unisane/ui";
+import React from 'react';
+import { usePathname } from 'next/navigation';
+import { DocsShell } from './docs-shell';
+import type { SidebarViewport } from '@unisane/ui/sidebar';
 
 export function ShellRouteLayout({
   children,
@@ -15,16 +15,16 @@ export function ShellRouteLayout({
   initialExpanded?: boolean;
 }) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
-  const isBlocks = pathname.startsWith("/docs/blocks");
+  const isHome = pathname === '/';
+  const isBlocks = pathname.startsWith('/docs/blocks');
 
   return (
     <DocsShell
       initialViewport={initialViewport}
       initialExpanded={initialExpanded}
       showHeader={!isHome}
-      contentWidth={isHome ? "fluid" : "constrained"}
-      contentInset={isHome || isBlocks ? "none" : "normal"}
+      contentWidth={isHome ? 'fluid' : 'constrained'}
+      contentInset={isHome || isBlocks ? 'none' : 'normal'}
     >
       {children}
     </DocsShell>

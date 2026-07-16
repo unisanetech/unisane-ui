@@ -17,6 +17,29 @@
         "hue": { "type": "number", "minimum": 0, "maximum": 360 },
         "chroma": { "type": "number", "minimum": 0, "maximum": 1 }
       }
+    },
+    "neutral": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "tintFromPrimary": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "error": { "$ref": "#/$defs/status" },
+    "success": { "$ref": "#/$defs/status" },
+    "warning": { "$ref": "#/$defs/status" },
+    "info": { "$ref": "#/$defs/status" }
+  },
+  "$defs": {
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "hue": { "type": "number", "minimum": 0, "maximum": 360 },
+        "chroma": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
     }
   }
 }

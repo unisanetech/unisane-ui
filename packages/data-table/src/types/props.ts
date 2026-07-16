@@ -464,7 +464,7 @@ export interface DataTableProps<T extends { id: string }> {
   // ─── Feedback ───
   /**
    * Enable feedback notifications (toasts and ARIA announcements).
-   * Requires a toast host (`<Toaster />` or `<ToastProvider />`) to be mounted in the app for toast display.
+   * Requires one `<Toaster />` host to be mounted in the app for toast display.
    * @default true
    */
   enableFeedback?: boolean;

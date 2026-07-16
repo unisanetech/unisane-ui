@@ -1,4 +1,5 @@
-import { Badge, Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { dataPatternMeta as meta } from './pattern-page-meta';
 
@@ -109,7 +110,8 @@ export const dataPatternPage: PatternPageDoc = {
               </Card.Footer>
             </Card>
           ),
-          code: `import { Badge, Button, Card, Pagination, Surface, Typography } from "@unisane/ui";
+          code: `import { Badge } from '@/components/ui/badge';
+import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
 
 export function ReviewQueueBlock() {
   return (

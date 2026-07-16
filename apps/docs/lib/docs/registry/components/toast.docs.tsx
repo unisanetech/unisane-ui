@@ -1,8 +1,9 @@
 "use client";
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Button, toast } from "@unisane/ui";
+import type { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Button } from '@unisane/ui/button';
+import { Toast, toast } from '@unisane/ui/toast';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ToastHeroVisual = () => (
@@ -17,15 +18,9 @@ const ToastHeroVisual = () => (
       <div className="p-4 text-body-medium text-on-surface-variant">
         Your content here...
       </div>
-      {/* Stacked Toasts */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2">
-        <div className="bg-surface rounded-md px-4 py-3 flex items-center gap-3 shadow-4 border border-outline-variant">
-          <span className="material-symbols-outlined text-primary text-[20px]">check_circle</span>
-          <span className="text-body-medium text-on-surface">Changes saved</span>
-        </div>
-        <div className="bg-inverse-surface rounded-md px-4 py-3 flex items-center gap-3 shadow-4">
-          <span className="text-body-medium text-inverse-on-surface">New message received</span>
-        </div>
+      <div className="absolute inset-x-4 bottom-4 flex flex-col gap-2">
+        <Toast message="Changes saved" tone="success" duration={0} dismissible={false} />
+        <Toast message="New message received" duration={0} dismissible={false} />
       </div>
     </div>
   </HeroBackground>
@@ -117,8 +112,8 @@ export const toastDoc: ComponentDoc = {
   icon: "notifications",
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["toast", "useToast", "Toaster", "ToastProvider"],
+  importPath: '@/components/ui/toast',
+  exports: ['Toast', 'Toaster', 'toast'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <ToastHeroVisual />,
@@ -126,16 +121,16 @@ export const toastDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose the toast variant based on the type of message.",
+      'Choose the toast tone based on the meaning of the message.',
     columns: {
-      emphasis: "Variant",
+      emphasis: 'Tone',
       component: "Preview",
       rationale: "When to use",
       examples: "Common uses",
     },
     rows: [
       {
-        emphasis: "Default",
+        emphasis: 'Neutral',
         component: <ToastDefaultExample />,
         rationale: "General informational messages.",
         examples: "Status updates, Confirmations",
@@ -147,7 +142,7 @@ export const toastDoc: ComponentDoc = {
         examples: "Save complete, Upload done",
       },
       {
-        emphasis: "Error",
+        emphasis: 'Danger',
         component: <ToastErrorExample />,
         rationale: "Failed operations or errors.",
         examples: "Save failed, Network error",
@@ -164,10 +159,10 @@ export const toastDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Click the buttons below to see different toast variants in action. Toasts stack when multiple are shown.",
+      'Click the buttons below to see different toast tones in action. Toasts stack when multiple are shown.',
     examples: [
       {
-        title: "Default toast",
+        title: 'Neutral toast',
         visual: <ToastDefaultExample />,
         caption: "Basic message toast",
       },
@@ -177,7 +172,7 @@ export const toastDoc: ComponentDoc = {
         caption: "For completed actions",
       },
       {
-        title: "Error toast",
+        title: 'Danger toast',
         visual: <ToastErrorExample />,
         caption: "For failed operations",
       },
@@ -213,25 +208,30 @@ export const toastDoc: ComponentDoc = {
   props: [
     {
       name: "message",
-      type: "string",
+      type: 'ReactNode',
       required: true,
       description: "The main message to display.",
     },
     {
       name: "description",
-      type: "string",
+      type: 'ReactNode',
       description: "Optional description text below the message.",
     },
     {
-      name: "variant",
-      type: '"default" | "success" | "error" | "warning" | "info"',
-      default: '"default"',
-      description: "The visual style of the toast.",
+      name: 'tone',
+      type: '"neutral" | "success" | "danger" | "warning" | "info"',
+      default: '"neutral"',
+      description: 'The semantic visual tone of the toast.',
+    },
+    {
+      name: 'priority',
+      type: '"polite" | "assertive"',
+      description: 'Announcement priority. Defaults to assertive for danger and polite otherwise.',
     },
     {
       name: "icon",
       type: "ReactNode",
-      description: "Custom icon. Defaults to variant-specific icon.",
+      description: 'Custom icon. Defaults to a tone-specific icon.',
     },
     {
       name: "action",
@@ -277,8 +277,8 @@ export const toastDoc: ComponentDoc = {
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role=\"status\" and aria-live=\"polite\" for announcements.",
-      "Messages are announced without interrupting current speech.",
+      'Uses a polite status by default and an assertive alert for danger.',
+      'Each notification is announced atomically.',
       "Action buttons are focusable and announced.",
     ],
     keyboard: [
@@ -288,6 +288,7 @@ export const toastDoc: ComponentDoc = {
     focus: [
       "Focus is not automatically moved to avoid disruption.",
       "Action and close buttons receive visible focus states.",
+      'Auto-dismiss pauses while a notification is hovered or contains focus.',
     ],
   },
 
@@ -295,7 +296,7 @@ export const toastDoc: ComponentDoc = {
   implementation: {
     description: "Add Toaster to your app root, then use the toast API anywhere.",
     code: `// 1. Add Toaster to your app layout
-import { Toaster } from "@unisane/ui";
+import { Toaster } from "@/components/ui/toast";
 
 export default function RootLayout({ children }) {
   return (
@@ -309,7 +310,8 @@ export default function RootLayout({ children }) {
 }
 
 // 2. Use the toast API in any component
-import { toast, Button } from "@unisane/ui";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/toast";
 
 function SaveButton() {
   const handleSave = async () => {
@@ -331,7 +333,7 @@ function SaveButton() {
 }
 
 // Available methods:
-toast.show({ message: "...", variant: "default" });
+toast.show({ message: "...", tone: "neutral" });
 toast.success("Success message");
 toast.error("Error message");
 toast.warning("Warning message");

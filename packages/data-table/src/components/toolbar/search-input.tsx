@@ -131,13 +131,15 @@ export function SearchInput({
         onClick={() => setIsOverlayOpen(true)}
         className={cn('relative @3xl:hidden', className)}
         selected={hasActiveSearch}
-      >
-        <Icon symbol="search" />
-        {/* Active search indicator */}
-        {hasActiveSearch && (
-          <span className="bg-primary absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
-        )}
-      </IconButton>
+        icon={
+          <>
+            <Icon symbol="search" />
+            {hasActiveSearch && (
+              <span className="bg-primary absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
+            )}
+          </>
+        }
+      />
 
       {/* Search overlay (takes full toolbar width) - visible when isOverlayOpen */}
       {isOverlayOpen && (

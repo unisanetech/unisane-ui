@@ -13,9 +13,8 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { loadThemeConfig } from '../../tokens/scripts/tokens-build/theme-config.mjs';
-import { generateMergedTokenCss } from '../../tokens/scripts/tokens-build/css-generators.mjs';
-import { rewriteSourceImportsToRegistry } from './registry-imports.mjs';
+import { generateRegistryStyleArtifacts } from './registry-styles.mjs';
+import { resolveInternalSourcePath, rewriteSourceImportsToRegistry } from './registry-imports.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,6 +22,10 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.join(__dirname, '..');
 const srcDir = path.join(rootDir, 'src');
 const registryDir = path.join(rootDir, 'registry');
+const packageJsonPath = path.join(rootDir, 'package.json');
+
+const PEER_PACKAGES = new Set(['react', 'react-dom']);
+const MODULE_SPECIFIER_REGEX = /(?:\bfrom\s+|\bimport\s+)(["'])([^"']+)\1/g;
 
 // Component type detection based on folder
 function getComponentType(folder) {
@@ -32,6 +35,7 @@ function getComponentType(folder) {
     layout: 'layout:ui',
     hooks: 'hooks:ui',
     lib: 'lib:util',
+    types: 'types:ui',
   };
   return types[folder] || 'components:ui';
 }
@@ -53,23 +57,116 @@ function fileToName(filename) {
     .join('');
 }
 
-// Auto-detect registry dependencies from imports
-async function detectDependencies(filePath, relativeFilePath) {
-  try {
-    const content = await fs.readFile(filePath, 'utf-8');
-    const deps = new Set();
+function getModuleSpecifiers(content) {
+  return Array.from(content.matchAll(MODULE_SPECIFIER_REGEX), (match) => match[2]);
+}
 
-    rewriteSourceImportsToRegistry(content, relativeFilePath).replace(
-      /(?:from\s+|import\s+)(["'])@\/(components\/ui|primitives|layout)\/([^"']+)\1/g,
-      (_match, _quote, _folder, pathPart) => {
-        deps.add(fileToKey(path.posix.basename(pathPart)));
-        return _match;
-      },
-    );
+function getPackageName(specifier) {
+  if (specifier.startsWith('.') || specifier.startsWith('@ui/') || specifier.startsWith('@/')) {
+    return null;
+  }
 
-    return Array.from(deps);
-  } catch {
-    return [];
+  if (specifier.startsWith('@')) {
+    const [scope, name] = specifier.split('/');
+    return scope && name ? `${scope}/${name}` : null;
+  }
+
+  return specifier.split('/')[0] || null;
+}
+
+function resolveOwnedSourcePath(sourcePath, sourceFileOwners) {
+  const candidates = [
+    sourcePath,
+    `${sourcePath}.ts`,
+    `${sourcePath}.tsx`,
+    `${sourcePath}/index.ts`,
+    `${sourcePath}/index.tsx`,
+  ];
+
+  return candidates.find((candidate) => sourceFileOwners.has(candidate)) ?? null;
+}
+
+function mergeComponentGroups(groups) {
+  const candidatesByKey = new Map();
+
+  for (const group of groups) {
+    for (const [key, item] of Object.entries(group)) {
+      const candidates = candidatesByKey.get(key) ?? [];
+      candidates.push(item);
+      candidatesByKey.set(key, candidates);
+    }
+  }
+
+  const componentMetadata = {};
+  const sourceFileOwners = new Map();
+
+  for (const [key, candidates] of candidatesByKey) {
+    for (const candidate of candidates) {
+      for (const file of candidate.files) {
+        sourceFileOwners.set(file, key);
+      }
+    }
+
+    if (candidates.length === 1) {
+      componentMetadata[key] = candidates[0];
+      continue;
+    }
+
+    const sources = candidates.flatMap((candidate) => candidate.files).join(', ');
+    throw new Error(`Duplicate registry key "${key}" has multiple source owners: ${sources}`);
+  }
+
+  return { componentMetadata, sourceFileOwners };
+}
+
+async function addDependencyMetadata(componentMetadata, sourceFileOwners) {
+  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf8'));
+  const packageDependencies = packageJson.dependencies ?? {};
+
+  for (const [key, item] of Object.entries(componentMetadata)) {
+    const registryDependencies = new Set();
+    const dependencies = new Set();
+
+    for (const relativeFilePath of item.files) {
+      const filePath = path.join(srcDir, relativeFilePath);
+      const content = await fs.readFile(filePath, 'utf8');
+
+      for (const specifier of getModuleSpecifiers(content)) {
+        const internalSourcePath = resolveInternalSourcePath(specifier, relativeFilePath);
+
+        if (internalSourcePath) {
+          const ownedSourcePath = resolveOwnedSourcePath(internalSourcePath, sourceFileOwners);
+          if (!ownedSourcePath) {
+            throw new Error(
+              `Registry import has no source owner: ${relativeFilePath} -> ${specifier}`,
+            );
+          }
+
+          const dependencyOwner = sourceFileOwners.get(ownedSourcePath);
+          if (dependencyOwner && dependencyOwner !== key) {
+            registryDependencies.add(dependencyOwner);
+          }
+          continue;
+        }
+
+        const packageName = getPackageName(specifier);
+        if (!packageName || PEER_PACKAGES.has(packageName)) {
+          continue;
+        }
+
+        const version = packageDependencies[packageName];
+        if (!version) {
+          throw new Error(
+            `External import is not declared by @unisane/ui: ${relativeFilePath} -> ${specifier}`,
+          );
+        }
+
+        dependencies.add(`${packageName}@${version}`);
+      }
+    }
+
+    item.registryDependencies = Array.from(registryDependencies).sort();
+    item.dependencies = Array.from(dependencies).sort();
   }
 }
 
@@ -96,17 +193,13 @@ async function scanDirectory(dir, folder) {
       const key = fileToKey(entry.name);
       const name = fileToName(entry.name);
       const relativeFilePath = `${folder}/${entry.name}`;
-      const registryDeps = (await detectDependencies(entryPath, relativeFilePath)).filter(
-        (dependency) => dependency !== key,
-      );
-
       components[key] = {
         name,
         type: getComponentType(folder),
         description: `${name} component`,
         files: [relativeFilePath],
         dependencies: [],
-        registryDependencies: registryDeps,
+        registryDependencies: [],
       };
     }
   } catch (error) {
@@ -122,8 +215,6 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
 
   try {
     const componentFiles = [];
-    const allDeps = new Set();
-
     const collectFiles = async (currentDir, relativePath = '') => {
       const entries = await fs.readdir(currentDir, { withFileTypes: true });
 
@@ -150,8 +241,6 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
 
         const sourceRelativePath = `${parentFolder}/${subfolderName}/${nextRelativePath}`;
         componentFiles.push(sourceRelativePath);
-        const deps = await detectDependencies(entryPath, sourceRelativePath);
-        deps.forEach((dep) => allDeps.add(dep));
       }
     };
 
@@ -161,16 +250,13 @@ async function scanSubdirectory(dir, parentFolder, subfolderName) {
       const key = fileToKey(subfolderName);
       const name = fileToName(subfolderName);
 
-      // Remove self-references from dependencies
-      allDeps.delete(key);
-
       components[key] = {
         name,
         type: getComponentType(parentFolder),
         description: `${name} component`,
         files: componentFiles,
         dependencies: [],
-        registryDependencies: Array.from(allDeps),
+        registryDependencies: [],
       };
     }
   } catch (error) {
@@ -240,6 +326,36 @@ async function scanHooksDirectory(dir) {
   return hooks;
 }
 
+async function scanTypesDirectory(dir) {
+  const types = {};
+
+  try {
+    const files = await fs.readdir(dir);
+
+    for (const file of files) {
+      if (!file.endsWith('.ts') && !file.endsWith('.tsx')) continue;
+      if (file === 'index.ts' || file === 'index.tsx') continue;
+
+      const baseKey = fileToKey(file);
+      const key = `${baseKey}-types`;
+      const name = `${fileToName(file)}Types`;
+
+      types[key] = {
+        name,
+        type: 'types:ui',
+        description: `${name} definitions`,
+        files: [`types/${file}`],
+        dependencies: [],
+        registryDependencies: [],
+      };
+    }
+  } catch (error) {
+    console.warn(`⚠️  Could not scan types: ${error.message}`);
+  }
+
+  return types;
+}
+
 async function copySupportDirectory(folder) {
   const sourceFolderPath = path.join(srcDir, folder);
   const targetFolderPath = path.join(registryDir, folder);
@@ -295,13 +411,12 @@ async function copySupportDirectory(folder) {
 async function copyToRegistry() {
   console.log('📦 Building registry...\n');
 
-  // Create registry directories
-  await fs.mkdir(path.join(registryDir, 'components'), { recursive: true });
-  await fs.mkdir(path.join(registryDir, 'primitives'), { recursive: true });
-  await fs.mkdir(path.join(registryDir, 'layout'), { recursive: true });
-  await fs.mkdir(path.join(registryDir, 'lib'), { recursive: true });
-  await fs.mkdir(path.join(registryDir, 'hooks'), { recursive: true });
-  await fs.mkdir(path.join(registryDir, 'types'), { recursive: true });
+  const generatedSourceFolders = ['components', 'primitives', 'layout', 'lib', 'hooks', 'types'];
+  for (const folder of generatedSourceFolders) {
+    const target = path.join(registryDir, folder);
+    await fs.rm(target, { recursive: true, force: true });
+    await fs.mkdir(target, { recursive: true });
+  }
 
   let rewriteCount = 0;
 
@@ -344,7 +459,14 @@ async function generateSchema() {
             name: { type: 'string' },
             type: {
               type: 'string',
-              enum: ['components:ui', 'primitives:ui', 'layout:ui', 'hooks:ui', 'lib:util'],
+              enum: [
+                'components:ui',
+                'primitives:ui',
+                'layout:ui',
+                'hooks:ui',
+                'lib:util',
+                'types:ui',
+              ],
             },
             description: { type: 'string' },
             files: { type: 'array', items: { type: 'string' } },
@@ -381,12 +503,19 @@ async function generateSchema() {
 // Copy styles to registry
 async function copyStyles() {
   const stylesDir = path.join(registryDir, 'styles');
+  await fs.rm(stylesDir, { recursive: true, force: true });
   await fs.mkdir(stylesDir, { recursive: true });
 
   try {
-    const css = generateMergedTokenCss(loadThemeConfig());
-    await fs.writeFile(path.join(stylesDir, 'unisane.css'), css);
-    console.log('✅ Generated styles/unisane.css');
+    const { globalsCss, themes } = await generateRegistryStyleArtifacts(
+      path.join(srcDir, 'styles.css'),
+    );
+    await fs.writeFile(path.join(stylesDir, 'globals.css'), globalsCss);
+    await fs.mkdir(path.join(stylesDir, 'themes'), { recursive: true });
+    for (const [themeName, themeCss] of themes) {
+      await fs.writeFile(path.join(stylesDir, 'themes', `${themeName}.css`), themeCss);
+    }
+    console.log(`✅ Generated styles/globals.css and ${themes.size} replace-in-place themes`);
   } catch (error) {
     console.warn(`⚠️  Could not generate styles: ${error.message}`);
   }
@@ -403,15 +532,17 @@ async function main() {
     const layout = await scanDirectory(path.join(srcDir, 'layout'), 'layout');
     const lib = await scanLibDirectory(path.join(srcDir, 'lib'));
     const hooks = await scanHooksDirectory(path.join(srcDir, 'hooks'));
+    const types = await scanTypesDirectory(path.join(srcDir, 'types'));
 
-    // Merge all component metadata
-    const componentMetadata = {
-      ...lib,
-      ...hooks,
-      ...primitives,
-      ...layout,
-      ...components,
-    };
+    const { componentMetadata, sourceFileOwners } = mergeComponentGroups([
+      lib,
+      hooks,
+      types,
+      primitives,
+      layout,
+      components,
+    ]);
+    await addDependencyMetadata(componentMetadata, sourceFileOwners);
 
     console.log(`📊 Found ${Object.keys(componentMetadata).length} items:`);
     console.log(`   - Components: ${Object.keys(components).length}`);
@@ -419,6 +550,7 @@ async function main() {
     console.log(`   - Layout: ${Object.keys(layout).length}`);
     console.log(`   - Lib: ${Object.keys(lib).length}`);
     console.log(`   - Hooks: ${Object.keys(hooks).length}\n`);
+    console.log(`   - Types: ${Object.keys(types).length}\n`);
 
     await copyToRegistry();
     await copyStyles();

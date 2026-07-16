@@ -2,7 +2,7 @@
 
 import React, { useState, useId } from 'react';
 import { cn } from '../lib/utils';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { Ripple } from './ripple';
 
 interface AccordionContextValue {

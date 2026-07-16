@@ -1,265 +1,214 @@
 'use client';
 
-import React, { useState, useRef, useLayoutEffect, useId, useCallback } from 'react';
+import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
-import { type FieldSize } from '../lib/field-size';
-import { useControllableState } from '../lib/use-controllable-state';
-import { type FieldShellVariant } from '../lib/field-shell';
 import { getPortalLayerStyle } from '../lib/portal-layer';
+import { useAnchoredOverlayPosition } from '../lib/use-anchored-overlay-position';
+import { useControllableState } from '../lib/use-controllable-state';
+import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 import { Calendar } from './calendar';
-import { DateInput } from './date-input';
+import { DateInput, type DateInputProps } from './date-input';
+import { Icon } from './icon';
+import { IconButton } from './icon-button';
 
-// ─── M3 DOCKED DATE PICKER (HeroUI-STYLE SEGMENTS) ───────────────────────────
-// Combines HeroUI's segment-based input with Material Design 3 styling
-// - Each date unit (month, day, year) is individually focusable and editable
-// - Calendar popover for visual date selection
-// - Full keyboard navigation support
-
-export type DatePickerProps = {
-  variant?: FieldShellVariant;
-  /** The selected date value */
-  value?: Date;
-  /** The default date value for uncontrolled usage */
-  defaultValue?: Date;
-  /** Callback when date changes */
-  onValueChange?: (date: Date | undefined) => void;
-  /** Controlled open state for the calendar popover */
+export interface DatePickerProps extends Omit<DateInputProps, 'onKeyDown' | 'trailingIcon'> {
   open?: boolean;
-  /** Default open state for uncontrolled usage */
   defaultOpen?: boolean;
-  /** Callback when the calendar popover opens or closes */
   onOpenChange?: (open: boolean) => void;
-  /** Label text for the input field */
-  label?: string;
-  /** Whether the date picker is disabled */
-  disabled?: boolean;
-  /** Whether to show error state */
-  error?: boolean;
-  /** Helper text displayed below the input */
-  helperText?: string;
-  /** Additional class name */
-  className?: string;
-  /** Locale used by segmented input ordering */
-  locale?: string;
-  /** Optional date format pattern (e.g. dd/MM/yyyy, MM/dd/yyyy) */
-  format?: string;
-  /** Minimum selectable date */
-  min?: Date;
-  /** Maximum selectable date */
-  max?: Date;
-  /** Background color class for the label (outlined variant) */
-  labelBg?: string;
-  /** Whether to show the calendar button */
   showCalendarButton?: boolean;
-  /** Shared control size */
-  size?: FieldSize;
-};
+  portal?: boolean;
+  calendarLabel?: string;
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+}
 
-export const DatePicker: React.FC<DatePickerProps> = ({
-  value,
-  defaultValue,
-  onValueChange,
-  open,
-  defaultOpen = false,
-  onOpenChange,
-  label = 'Date',
-  disabled = false,
-  error = false,
-  helperText,
-  className,
-  variant = 'outlined',
-  locale,
-  format,
-  min,
-  max,
-  labelBg,
-  showCalendarButton = true,
-  size = 'md',
-}) => {
-  const [selectedValue, setSelectedValue] = useControllableState<Date | undefined>({
-    value,
-    defaultValue,
-    onChange: onValueChange,
-  });
-  const [openState, setOpenState] = useControllableState<boolean>({
-    value: open,
-    defaultValue: defaultOpen,
-    onChange: onOpenChange,
-  });
-  const isOpen = openState ?? false;
-  const containerRef = useRef<HTMLDivElement>(null);
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const popoverId = useId();
-  const [popoverPosition, setPopoverPosition] = useState({
-    top: 0,
-    left: 0,
-    width: 320,
-  });
-  const [isPositioned, setIsPositioned] = useState(false);
-
-  const updatePopoverPosition = useCallback(() => {
-    if (!containerRef.current || typeof window === 'undefined') return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const preferredWidth = Math.max(rect.width, 320);
-    const maxWidth = Math.max(240, viewportWidth - 16);
-    const width = Math.min(preferredWidth, maxWidth);
-    const left = Math.min(Math.max(8, rect.left), viewportWidth - width - 8);
-    const popoverHeight = popoverRef.current?.offsetHeight ?? 360;
-    const preferredTop = rect.bottom + 8;
-    const shouldOpenUp =
-      preferredTop + popoverHeight > viewportHeight - 8 && rect.top - popoverHeight > 8;
-    const top = shouldOpenUp
-      ? Math.max(8, rect.top - popoverHeight - 8)
-      : Math.min(preferredTop, Math.max(8, viewportHeight - popoverHeight - 8));
-
-    setPopoverPosition({
-      top,
-      left,
-      width,
+export const DatePicker = React.forwardRef<HTMLDivElement, DatePickerProps>(
+  (
+    {
+      value,
+      defaultValue,
+      onValueChange,
+      open,
+      defaultOpen = false,
+      onOpenChange,
+      label,
+      hideLabel = false,
+      disabled = false,
+      required = false,
+      invalid = false,
+      description,
+      errorMessage,
+      className,
+      variant = 'outlined',
+      locale,
+      format,
+      min,
+      max,
+      name,
+      showCalendarButton = true,
+      portal = true,
+      calendarLabel = 'Choose date',
+      weekStartsOn = 0,
+      onFocus,
+      onBlur,
+      id,
+      size = 'md',
+    },
+    forwardedRef,
+  ) => {
+    const [selectedValue, setSelectedValue] = useControllableState<Date | undefined>({
+      value,
+      defaultValue,
+      onChange: onValueChange,
     });
-  }, []);
+    const [openState, setOpenState] = useControllableState<boolean>({
+      value: open,
+      defaultValue: defaultOpen,
+      onChange: onOpenChange,
+    });
+    const isOpen = Boolean(openState) && !disabled;
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const triggerRef = React.useRef<HTMLButtonElement>(null);
+    const contentRef = React.useRef<HTMLDivElement>(null);
+    const popoverId = React.useId();
+    const position = useAnchoredOverlayPosition({
+      open: isOpen,
+      anchorRef: containerRef,
+      contentRef,
+      portal,
+      minimumWidth: 320,
+      estimatedHeight: 360,
+    });
 
-  // Handle date selection from calendar
-  const handleDateSelect = useCallback(
-    (date: Date) => {
-      setSelectedValue(date);
-      setOpenState(false);
-    },
-    [setOpenState, setSelectedValue],
-  );
+    const setRefs = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        containerRef.current = node;
+        if (typeof forwardedRef === 'function') forwardedRef(node);
+        else if (forwardedRef) forwardedRef.current = node;
+      },
+      [forwardedRef],
+    );
+    const closePicker = React.useCallback(() => setOpenState(false), [setOpenState]);
+    const openPicker = React.useCallback(() => {
+      if (!disabled) setOpenState(true);
+    }, [disabled, setOpenState]);
 
-  // Calendar toggle button handler
-  const handleCalendarButtonClick = useCallback(
-    (e: React.MouseEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!disabled) {
-        setOpenState(!isOpen);
-      }
-    },
-    [disabled, isOpen, setOpenState],
-  );
+    useOverlayBehavior({
+      open: isOpen,
+      contentRef,
+      rootRef: containerRef,
+      triggerRef,
+      onDismiss: closePicker,
+      modal: false,
+      dismissOnEscape: true,
+      dismissOnInteractOutside: true,
+      initialFocus: false,
+      restoreFocus: true,
+    });
 
-  // Handle click outside to close
-  useLayoutEffect(() => {
-    if (!isOpen) {
-      setIsPositioned(false);
-      return;
-    }
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (containerRef.current?.contains(target)) return;
-      if (popoverRef.current?.contains(target)) return;
-      setOpenState(false);
-    };
+    React.useEffect(() => {
+      if (disabled && openState) setOpenState(false);
+    }, [disabled, openState, setOpenState]);
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setOpenState(false);
-      }
-    };
-
-    const updatePosition = () => {
-      updatePopoverPosition();
-      setIsPositioned(true);
-    };
-
-    setIsPositioned(false);
-    updatePosition();
-    const rafId = window.requestAnimationFrame(updatePosition);
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition, true);
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', updatePosition);
-      window.removeEventListener('scroll', updatePosition, true);
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, setOpenState, updatePopoverPosition]);
-
-  // Calendar button icon
-  const calendarButton = showCalendarButton ? (
-    <button
-      type="button"
-      disabled={disabled}
-      onClick={handleCalendarButtonClick}
-      aria-label="Open calendar"
-      aria-expanded={isOpen}
-      aria-haspopup="dialog"
-      aria-controls={popoverId}
-      tabIndex={-1}
-      className={cn(
-        'rounded-icon-button -mr-1 p-1 transition-colors',
-        'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
-        error ? 'text-error' : 'text-on-surface-variant',
-      )}
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
-      </svg>
-    </button>
-  ) : undefined;
-
-  return (
-    <div className={cn('relative w-full', className)} ref={containerRef}>
-      <DateInput
-        value={selectedValue}
-        onValueChange={setSelectedValue}
-        label={label}
+    const calendarButton = showCalendarButton ? (
+      <IconButton
+        ref={triggerRef}
+        type="button"
+        size="sm"
+        icon={<Icon symbol="calendar_today" />}
         disabled={disabled}
-        error={error}
-        helperText={helperText}
-        variant={variant ?? 'outlined'}
-        locale={locale}
-        format={format}
-        min={min}
-        max={max}
-        labelBg={labelBg}
-        trailingIcon={calendarButton}
-        size={size}
+        aria-label="Open calendar"
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
+        aria-controls={isOpen ? popoverId : undefined}
+        className="-mr-1"
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setOpenState(!isOpen);
+        }}
       />
+    ) : undefined;
 
-      {/* Dropdown calendar */}
-      {isOpen && typeof document !== 'undefined'
-        ? createPortal(
-            <div
-              ref={popoverRef}
-              id={popoverId}
-              role="dialog"
-              aria-modal="true"
-              aria-label="Choose date"
-              className={cn('fixed z-[var(--z-popover,2000)] transition-none')}
-              style={{
-                top: popoverPosition.top,
-                left: popoverPosition.left,
-                width: popoverPosition.width,
-                visibility: isPositioned ? 'visible' : 'hidden',
+    const content = isOpen ? (
+      <div
+        ref={contentRef}
+        id={popoverId}
+        role="dialog"
+        aria-label={calendarLabel}
+        data-side={position.side}
+        className={cn(
+          'z-[var(--z-popover,2000)] transition-none',
+          portal ? 'fixed' : 'absolute top-[calc(100%+var(--spacing-2))] left-0 w-full min-w-80',
+        )}
+        style={
+          portal
+            ? {
+                top: position.top,
+                left: position.left,
+                width: position.width,
+                visibility: position.positioned ? 'visible' : 'hidden',
                 ...getPortalLayerStyle(containerRef.current),
-              }}
-            >
-              <div className="animate-surface-enter">
-                <Calendar
-                  className="max-w-none"
-                  selectedDate={selectedValue}
-                  onDateSelect={handleDateSelect}
-                  min={min}
-                  max={max}
-                />
-              </div>
-            </div>,
-            document.body,
-          )
-        : null}
-    </div>
-  );
-};
+              }
+            : undefined
+        }
+      >
+        <div className="animate-surface-enter">
+          <Calendar
+            selectedDate={selectedValue}
+            onDateSelect={(date) => {
+              setSelectedValue(date);
+              closePicker();
+            }}
+            min={min}
+            max={max}
+            locale={locale}
+            weekStartsOn={weekStartsOn}
+            autoFocus
+            aria-label={calendarLabel}
+            className="max-w-none"
+          />
+        </div>
+      </div>
+    ) : null;
+
+    return (
+      <div ref={setRefs} className={cn('relative w-full', className)}>
+        <DateInput
+          value={selectedValue}
+          onValueChange={setSelectedValue}
+          label={label}
+          hideLabel={hideLabel}
+          disabled={disabled}
+          required={required}
+          invalid={invalid}
+          description={description}
+          errorMessage={errorMessage}
+          variant={variant}
+          locale={locale}
+          format={format}
+          min={min}
+          max={max}
+          name={name}
+          trailingIcon={calendarButton}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onKeyDown={(event) => {
+            if (event.altKey && event.key === 'ArrowDown') {
+              event.preventDefault();
+              openPicker();
+            }
+          }}
+          id={id}
+          size={size}
+        />
+
+        {portal && content && typeof document !== 'undefined'
+          ? createPortal(content, document.body)
+          : content}
+      </div>
+    );
+  },
+);
 
 DatePicker.displayName = 'DatePicker';

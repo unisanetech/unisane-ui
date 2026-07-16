@@ -1,57 +1,25 @@
+'use client';
+
 export { SidebarProvider, useSidebar } from './context/sidebar-provider';
+export { Sidebar, SidebarTrigger } from './components/sidebar-shell';
+export { SidebarRail } from './components/sidebar-rail';
+export { SidebarDrawer } from './components/sidebar-drawer';
+export { SidebarInset } from './components/sidebar-inset';
+
 export type {
-  SidebarState,
   SidebarProviderProps,
+  SidebarContextValue,
   SidebarSide,
   SidebarMode,
   SidebarBehavior,
-  SidebarLegacyBehavior,
-  SidebarBehaviorInput,
+  SidebarBehaviorConfig,
+  SidebarResponsiveBehavior,
   SidebarContainerMode,
   SidebarTriggerVisibility,
-  SidebarActiveDescendantDrawerBehavior,
-  SidebarVisualPreset,
   SidebarViewport,
   SidebarBreakpoints,
-  SidebarVisualTokens,
 } from './model/sidebar.types';
-
-export {
-  Sidebar,
-  SidebarRail,
-  SidebarRailItem,
-  SidebarDrawer,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarNavItem,
-  SidebarTrigger,
-  SidebarBackdrop,
-  SidebarInset,
-  SidebarCollapsibleGroup,
-} from './sidebar';
-
-export type {
-  SidebarProps,
-  SidebarRailProps,
-  SidebarRailItemProps,
-  SidebarDrawerProps,
-  SidebarHeaderProps,
-  SidebarFooterProps,
-  SidebarContentProps,
-  SidebarGroupProps,
-  SidebarGroupLabelProps,
-  SidebarMenuProps,
-  SidebarMenuItemProps,
-  SidebarMenuButtonProps,
-  SidebarNavItemProps,
-  SidebarTriggerProps,
-  SidebarBackdropProps,
-  SidebarInsetProps,
-  SidebarCollapsibleGroupProps,
-} from './sidebar';
+export type { SidebarProps, SidebarTriggerProps } from './components/sidebar-shell';
+export type { SidebarRailProps } from './components/sidebar-rail';
+export type { SidebarDrawerProps } from './components/sidebar-drawer';
+export type { SidebarInsetProps } from './components/sidebar-inset';

@@ -1,4 +1,7 @@
-import { Button, Card, Checkbox, Select, TextField } from '@unisane/ui';
+import { Button, Card } from '@unisane/ui';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { SelectField } from '@unisane/ui/select-field';
+import { TextField } from '@unisane/ui/text-field';
 import type { PatternPageDoc } from './types';
 import { formsPatternMeta as meta } from './pattern-page-meta';
 
@@ -6,7 +9,7 @@ const heroVisual = (
   <div className="grid gap-3">
     <TextField id="forms-pattern-name" label="Workspace name" placeholder="Northstar" size="sm" />
     <div className="grid grid-cols-2 gap-3">
-      <Select
+      <SelectField
         id="forms-pattern-plan"
         label="Plan"
         size="sm"
@@ -64,7 +67,7 @@ export const formsPatternPage: PatternPageDoc = {
                   size="sm"
                 />
                 <div className="grid grid-cols-2 gap-3">
-                  <Select
+                  <SelectField
                     id="pattern-workspace-plan"
                     label="Plan"
                     size="sm"
@@ -93,7 +96,11 @@ export const formsPatternPage: PatternPageDoc = {
               </Card.Footer>
             </Card>
           ),
-          code: `import { Button, Card, Checkbox, Select, TextField } from "@unisane/ui";
+          code: `import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select } from "@/components/ui/select";
+import { TextField } from "@/components/ui/text-field";
 
 export function WorkspaceSetupForm() {
   return (
@@ -107,7 +114,7 @@ export function WorkspaceSetupForm() {
       <Card.Content className="space-y-3">
         <TextField id="workspace-name" label="Workspace name" placeholder="Northstar" size="sm" />
         <div className="grid grid-cols-2 gap-3">
-          <Select
+          <SelectField
             id="workspace-plan"
             label="Plan"
             size="sm"
@@ -147,7 +154,7 @@ export function WorkspaceSetupForm() {
                     placeholder="Search accounts"
                     size="sm"
                   />
-                  <Select
+                  <SelectField
                     id="pattern-filter-status"
                     label="Status"
                     size="sm"
@@ -158,7 +165,7 @@ export function WorkspaceSetupForm() {
                       { value: 'blocked', label: 'Blocked' },
                     ]}
                   />
-                  <Select
+                  <SelectField
                     id="pattern-filter-owner"
                     label="Owner"
                     size="sm"
@@ -179,7 +186,11 @@ export function WorkspaceSetupForm() {
               </Card.Content>
             </Card>
           ),
-          code: `import { Button, Card, Checkbox, Select, TextField } from "@unisane/ui";
+          code: `import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select } from "@/components/ui/select";
+import { TextField } from "@/components/ui/text-field";
 
 export function ReviewFilterBar() {
   return (
@@ -187,7 +198,7 @@ export function ReviewFilterBar() {
       <Card.Content className="space-y-3">
         <div className="grid grid-cols-[minmax(0,1.5fr)_1fr_1fr] gap-3">
           <TextField id="filter-search" label="Search" placeholder="Search accounts" size="sm" />
-          <Select
+          <SelectField
             id="filter-status"
             label="Status"
             size="sm"
@@ -198,7 +209,7 @@ export function ReviewFilterBar() {
               { value: "blocked", label: "Blocked" },
             ]}
           />
-          <Select
+          <SelectField
             id="filter-owner"
             label="Owner"
             size="sm"

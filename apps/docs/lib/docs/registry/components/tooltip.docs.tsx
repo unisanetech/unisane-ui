@@ -1,33 +1,53 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Tooltip, IconButton, Button } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Tooltip, IconButton, Button } from '@unisane/ui';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const TooltipHeroVisual = () => (
   <HeroBackground tone="tertiary">
     {/* Mock Toolbar Card */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Toolbar</span>
       </div>
       <div className="p-5">
         <div className="flex items-center justify-center gap-2">
           <Tooltip label="Undo (Ctrl+Z)">
-            <IconButton variant="standard" aria-label="Undo" icon={<span className="material-symbols-outlined">undo</span>} />
+            <IconButton
+              variant="standard"
+              aria-label="Undo"
+              icon={<span className="material-symbols-outlined">undo</span>}
+            />
           </Tooltip>
           <Tooltip label="Redo (Ctrl+Y)">
-            <IconButton variant="standard" aria-label="Redo" icon={<span className="material-symbols-outlined">redo</span>} />
+            <IconButton
+              variant="standard"
+              aria-label="Redo"
+              icon={<span className="material-symbols-outlined">redo</span>}
+            />
           </Tooltip>
           <Tooltip label="Copy">
-            <IconButton variant="standard" aria-label="Copy" icon={<span className="material-symbols-outlined">content_copy</span>} />
+            <IconButton
+              variant="standard"
+              aria-label="Copy"
+              icon={<span className="material-symbols-outlined">content_copy</span>}
+            />
           </Tooltip>
           <Tooltip label="Paste">
-            <IconButton variant="standard" aria-label="Paste" icon={<span className="material-symbols-outlined">content_paste</span>} />
+            <IconButton
+              variant="standard"
+              aria-label="Paste"
+              icon={<span className="material-symbols-outlined">content_paste</span>}
+            />
           </Tooltip>
           <Tooltip label="Delete" variant="rich" subhead="Warning">
-            <IconButton variant="standard" aria-label="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
+            <IconButton
+              variant="standard"
+              aria-label="Delete"
+              icon={<span className="material-symbols-outlined">delete</span>}
+            />
           </Tooltip>
         </div>
       </div>
@@ -37,97 +57,109 @@ const TooltipHeroVisual = () => (
 
 export const tooltipDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "tooltip",
-  name: "Tooltip",
+  slug: 'tooltip',
+  name: 'Tooltip',
   description:
-    "Tooltips display informative text when users hover over, focus on, or tap an element.",
-  category: "containment",
-  status: "stable",
-  icon: "help",
+    'Tooltips display informative text when users hover over, focus on, or tap an element.',
+  category: 'containment',
+  status: 'stable',
+  icon: 'help',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Tooltip"],
+  importPath: '@unisane/ui',
+  exports: ['Tooltip'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <TooltipHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Tooltips come in plain and rich variants for different information density.",
+    description: 'Tooltips come in plain and rich variants for different information density.',
     columns: {
-      emphasis: "Variant",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Variant',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Plain",
+        emphasis: 'Plain',
         component: (
           <Tooltip label="Save changes">
-            <Button variant="filled" size="sm">Hover me</Button>
+            <Button variant="filled" size="sm">
+              Hover me
+            </Button>
           </Tooltip>
         ),
-        rationale:
-          "Simple, single-line hints for buttons and icons.",
-        examples: "Icon buttons, Truncated text, Keyboard shortcuts",
+        rationale: 'Simple, single-line hints for buttons and icons.',
+        examples: 'Icon buttons, Truncated text, Keyboard shortcuts',
       },
       {
-        emphasis: "Rich",
+        emphasis: 'Rich',
         component: (
-          <Tooltip variant="rich" label="This action cannot be undone. Make sure you have saved your work." subhead="Warning">
-            <Button variant="tonal" size="sm">Hover me</Button>
+          <Tooltip
+            variant="rich"
+            label="This action cannot be undone. Make sure you have saved your work."
+            subhead="Warning"
+          >
+            <Button variant="tonal" size="sm">
+              Hover me
+            </Button>
           </Tooltip>
         ),
-        rationale:
-          "Detailed information with subheading for context.",
-        examples: "Complex actions, Feature explanations, Warnings",
+        rationale: 'Detailed information with subheading for context.',
+        examples: 'Complex actions, Feature explanations, Warnings',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Tooltips can appear on different sides of the trigger element.",
+    description: 'Tooltips can appear on different sides of the trigger element.',
     items: [
       {
         component: (
           <Tooltip label="Top" side="top">
-            <Button variant="outlined" size="sm">Top</Button>
+            <Button variant="outlined" size="sm">
+              Top
+            </Button>
           </Tooltip>
         ),
-        title: "Top",
-        subtitle: "Default position",
+        title: 'Top',
+        subtitle: 'Default position',
       },
       {
         component: (
           <Tooltip label="Bottom" side="bottom">
-            <Button variant="outlined" size="sm">Bottom</Button>
+            <Button variant="outlined" size="sm">
+              Bottom
+            </Button>
           </Tooltip>
         ),
-        title: "Bottom",
-        subtitle: "Below trigger",
+        title: 'Bottom',
+        subtitle: 'Below trigger',
       },
       {
         component: (
           <Tooltip label="Left" side="left">
-            <Button variant="outlined" size="sm">Left</Button>
+            <Button variant="outlined" size="sm">
+              Left
+            </Button>
           </Tooltip>
         ),
-        title: "Left",
-        subtitle: "Left side",
+        title: 'Left',
+        subtitle: 'Left side',
       },
       {
         component: (
           <Tooltip label="Right" side="right">
-            <Button variant="outlined" size="sm">Right</Button>
+            <Button variant="outlined" size="sm">
+              Right
+            </Button>
           </Tooltip>
         ),
-        title: "Right",
-        subtitle: "Right side",
+        title: 'Right',
+        subtitle: 'Right side',
       },
     ],
   },
@@ -135,47 +167,71 @@ export const tooltipDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Tooltips are commonly used on icon buttons, truncated text, and interactive elements that need explanation.",
+      'Tooltips are commonly used on icon buttons, truncated text, and interactive elements that need explanation.',
     previewDefaults: {
-      overflow: "visible",
-      minHeight: "lg",
-      align: "start",
-      justify: "start",
+      overflow: 'visible',
+      minHeight: 'lg',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Toolbar icons",
+        title: 'Toolbar icons',
         visual: (
           <div className="flex items-center gap-1">
             <Tooltip label="Bold (Ctrl+B)">
-              <IconButton variant="standard" aria-label="Bold" icon={<span className="material-symbols-outlined">format_bold</span>} />
+              <IconButton
+                variant="standard"
+                aria-label="Bold"
+                icon={<span className="material-symbols-outlined">format_bold</span>}
+              />
             </Tooltip>
             <Tooltip label="Italic (Ctrl+I)">
-              <IconButton variant="standard" aria-label="Italic" icon={<span className="material-symbols-outlined">format_italic</span>} />
+              <IconButton
+                variant="standard"
+                aria-label="Italic"
+                icon={<span className="material-symbols-outlined">format_italic</span>}
+              />
             </Tooltip>
             <Tooltip label="Underline (Ctrl+U)">
-              <IconButton variant="standard" aria-label="Underline" icon={<span className="material-symbols-outlined">format_underlined</span>} />
+              <IconButton
+                variant="standard"
+                aria-label="Underline"
+                icon={<span className="material-symbols-outlined">format_underlined</span>}
+              />
             </Tooltip>
           </div>
         ),
-        caption: "Tooltips on formatting toolbar buttons",
+        caption: 'Tooltips on formatting toolbar buttons',
       },
       {
-        title: "Action buttons",
+        title: 'Action buttons',
         visual: (
           <div className="flex items-center gap-2">
             <Tooltip label="Edit item">
-              <IconButton variant="tonal" aria-label="Edit" icon={<span className="material-symbols-outlined">edit</span>} />
+              <IconButton
+                variant="tonal"
+                aria-label="Edit"
+                icon={<span className="material-symbols-outlined">edit</span>}
+              />
             </Tooltip>
             <Tooltip label="Share item">
-              <IconButton variant="tonal" aria-label="Share" icon={<span className="material-symbols-outlined">share</span>} />
+              <IconButton
+                variant="tonal"
+                aria-label="Share"
+                icon={<span className="material-symbols-outlined">share</span>}
+              />
             </Tooltip>
             <Tooltip variant="rich" label="This will permanently remove the item" subhead="Delete">
-              <IconButton variant="tonal" aria-label="Delete" icon={<span className="material-symbols-outlined">delete</span>} />
+              <IconButton
+                variant="tonal"
+                aria-label="Delete"
+                icon={<span className="material-symbols-outlined">delete</span>}
+              />
             </Tooltip>
           </div>
         ),
-        caption: "Tooltips explaining button actions",
+        caption: 'Tooltips explaining button actions',
       },
     ],
   },
@@ -183,61 +239,61 @@ export const tooltipDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "label",
-      type: "string",
+      name: 'label',
+      type: 'string',
       required: true,
-      description: "The tooltip text content.",
+      description: 'The tooltip text content.',
     },
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "The trigger element that shows the tooltip.",
+      description: 'The trigger element that shows the tooltip.',
     },
     {
-      name: "variant",
+      name: 'variant',
       type: '"plain" | "rich"',
       default: '"plain"',
-      description: "Visual style of the tooltip.",
+      description: 'Visual style of the tooltip.',
     },
     {
-      name: "subhead",
-      type: "string",
-      description: "Subheading for rich tooltips.",
+      name: 'subhead',
+      type: 'string',
+      description: 'Subheading for rich tooltips.',
     },
     {
-      name: "side",
+      name: 'side',
       type: '"top" | "bottom" | "left" | "right"',
       default: '"top"',
-      description: "Position relative to the trigger.",
+      description: 'Position relative to the trigger.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes to apply.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Tooltips use aria-describedby to associate content with trigger.",
+      'Tooltips use aria-describedby to associate content with trigger.',
       "role='tooltip' is applied for proper semantics.",
-      "Content is announced when trigger is focused.",
+      'Content is announced when trigger is focused.',
     ],
     keyboard: [
-      { key: "Focus", description: "Shows tooltip on keyboard focus" },
-      { key: "Tab", description: "Moves focus, hiding tooltip on blur" },
+      { key: 'Focus', description: 'Shows tooltip on keyboard focus' },
+      { key: 'Tab', description: 'Moves focus, hiding tooltip on blur' },
     ],
     focus: [
-      "Tooltips appear on both hover and keyboard focus.",
-      "Tooltips do not block keyboard navigation.",
+      'Tooltips appear on both hover and keyboard focus.',
+      'Tooltips do not block keyboard navigation.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Wrap any element with Tooltip to add hover hints.",
+    description: 'Wrap any element with Tooltip to add hover hints.',
     code: `import { Tooltip, IconButton, Button } from "@unisane/ui";
 
 function Toolbar() {
@@ -277,16 +333,16 @@ function Toolbar() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "popover",
-      reason: "Use for interactive content, not just informational.",
+      slug: 'popover',
+      reason: 'Use for interactive content, not just informational.',
     },
     {
-      slug: "icon-button",
-      reason: "Commonly paired with tooltips for accessibility.",
+      slug: 'icon-button',
+      reason: 'Commonly paired with tooltips for accessibility.',
     },
     {
-      slug: "dropdown-menu",
-      reason: "Use for actionable menus rather than informational tips.",
+      slug: 'dropdown-menu',
+      reason: 'Use for actionable menus rather than informational tips.',
     },
   ],
 };

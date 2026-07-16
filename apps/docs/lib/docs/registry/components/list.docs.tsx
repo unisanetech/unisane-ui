@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { List, ListItem, ListSubheader, Card, Avatar } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Avatar, Card } from '@unisane/ui';
+import { List, ListItem, ListSubheader } from '@unisane/ui/list';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ListHeroVisual = () => (
   <HeroBackground tone="surface">
     {/* Mock List */}
-    <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-4 py-2 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-72 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-4 py-2">
         <span className="text-label-medium text-on-surface-variant">Recent</span>
       </div>
       <div className="py-2">
-        <div className="flex items-center gap-4 px-4 py-2 hover:bg-state-hover">
-          <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+        <div className="hover:bg-state-hover flex items-center gap-4 px-4 py-2">
+          <div className="bg-primary-container flex h-10 w-10 items-center justify-center rounded-full">
             <span className="text-title-small text-on-primary-container">JD</span>
           </div>
           <div className="flex-1">
@@ -22,8 +23,8 @@ const ListHeroVisual = () => (
             <div className="text-label-small text-on-surface-variant">john@example.com</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 px-4 py-2 bg-state-selected">
-          <div className="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center">
+        <div className="bg-state-selected flex items-center gap-4 px-4 py-2">
+          <div className="bg-tertiary-container flex h-10 w-10 items-center justify-center rounded-full">
             <span className="text-title-small text-on-tertiary-container">AS</span>
           </div>
           <div className="flex-1">
@@ -31,8 +32,8 @@ const ListHeroVisual = () => (
             <div className="text-label-small text-on-surface-variant">alice@example.com</div>
           </div>
         </div>
-        <div className="flex items-center gap-4 px-4 py-2 hover:bg-state-hover">
-          <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+        <div className="hover:bg-state-hover flex items-center gap-4 px-4 py-2">
+          <div className="bg-secondary-container flex h-10 w-10 items-center justify-center rounded-full">
             <span className="text-title-small text-on-secondary-container">BJ</span>
           </div>
           <div className="flex-1">
@@ -47,34 +48,32 @@ const ListHeroVisual = () => (
 
 export const listDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "list",
-  name: "List",
-  description:
-    "Lists are continuous, vertical indexes of text and images.",
-  category: "containment",
-  status: "stable",
-  icon: "list",
+  slug: 'list',
+  name: 'List',
+  description: 'Lists are continuous, vertical indexes of text and images.',
+  category: 'containment',
+  status: 'stable',
+  icon: 'list',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["List", "ListItem", "ListSubheader", "ListItemContent", "ListItemText"],
+  importPath: '@/components/ui/list',
+  exports: ['List', 'ListItem', 'ListSubheader', 'ListDivider'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <ListHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "List items can include various content configurations.",
+    description: 'List items can include various content configurations.',
     columns: {
-      emphasis: "Type",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Type',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "One-line",
+        emphasis: 'One-line',
         component: (
           <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
             <List>
@@ -82,12 +81,11 @@ export const listDoc: ComponentDoc = {
             </List>
           </Card>
         ),
-        rationale:
-          "For simple text-only items.",
-        examples: "Menu items, Simple options",
+        rationale: 'For simple text-only items.',
+        examples: 'Menu items, Simple options',
       },
       {
-        emphasis: "Two-line",
+        emphasis: 'Two-line',
         component: (
           <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
             <List>
@@ -95,33 +93,30 @@ export const listDoc: ComponentDoc = {
             </List>
           </Card>
         ),
-        rationale:
-          "For items with supporting text.",
-        examples: "Contact lists, Email previews",
+        rationale: 'For items with supporting text.',
+        examples: 'Contact lists, Email previews',
       },
       {
-        emphasis: "With icons",
+        emphasis: 'With icons',
         component: (
           <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
             <List>
               <ListItem
                 headline="With leading icon"
-                leadingIcon={<span className="material-symbols-outlined">person</span>}
+                leading={<span className="material-symbols-outlined">person</span>}
               />
             </List>
           </Card>
         ),
-        rationale:
-          "For visual identification.",
-        examples: "Settings, Navigation",
+        rationale: 'For visual identification.',
+        examples: 'Settings, Navigation',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "List items support various content slots for flexible layouts.",
+    description: 'List items support various content slots for flexible layouts.',
     items: [
       {
         component: (
@@ -131,77 +126,70 @@ export const listDoc: ComponentDoc = {
             </List>
           </Card>
         ),
-        title: "Single line",
-        subtitle: "Text only",
+        title: 'Single line',
+        subtitle: 'Text only',
       },
       {
         component: (
           <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
             <List>
-              <ListItem
-                headline="With support"
-                supportingText="Helper text"
-              />
+              <ListItem headline="With support" supportingText="Helper text" />
             </List>
           </Card>
         ),
-        title: "Two-line",
-        subtitle: "With description",
+        title: 'Two-line',
+        subtitle: 'With description',
       },
       {
         component: (
           <Card variant="outlined" padding="none" className="w-56 overflow-hidden">
             <List>
-              <ListItem
-                headline="With trailing"
-                trailingSupportingText="100+"
-              />
+              <ListItem headline="With trailing" trailingText="100+" />
             </List>
           </Card>
         ),
-        title: "With metadata",
-        subtitle: "Trailing text",
+        title: 'With metadata',
+        subtitle: 'Trailing text',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Lists are used for navigation, selection, and displaying grouped content.",
+    description: 'Lists are used for navigation, selection, and displaying grouped content.',
     previewDefaults: {
-      tone: "surfaceContainerLow",
-      minHeight: "lg",
-      padding: "sm",
-      align: "start",
-      justify: "start",
+      tone: 'surfaceContainerLow',
+      minHeight: 'lg',
+      padding: 'sm',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Navigation list",
+        title: 'Navigation list',
         visual: (
           <Card variant="outlined" padding="none" className="w-full overflow-hidden">
             <List>
               <ListItem
                 headline="Dashboard"
-                leadingIcon={<span className="material-symbols-outlined">dashboard</span>}
-                active
+                leading={<span className="material-symbols-outlined">dashboard</span>}
+                selected
               />
               <ListItem
                 headline="Settings"
-                leadingIcon={<span className="material-symbols-outlined">settings</span>}
+                leading={<span className="material-symbols-outlined">settings</span>}
               />
               <ListItem
                 headline="Profile"
-                leadingIcon={<span className="material-symbols-outlined">person</span>}
+                leading={<span className="material-symbols-outlined">person</span>}
               />
             </List>
           </Card>
         ),
-        caption: "Navigation with icons and active state",
+        caption: 'Navigation with rich leading content and selected state',
       },
       {
-        title: "Contact list",
+        title: 'Contact list',
         visual: (
           <Card variant="outlined" padding="none" className="w-full overflow-hidden">
             <List>
@@ -209,17 +197,17 @@ export const listDoc: ComponentDoc = {
               <ListItem
                 headline="John Doe"
                 supportingText="john@example.com"
-                leadingIcon={<Avatar size="sm" fallback="JD" />}
+                leading={<Avatar size="sm" fallback="JD" />}
               />
               <ListItem
                 headline="Jane Smith"
                 supportingText="jane@example.com"
-                leadingIcon={<Avatar size="sm" fallback="JS" />}
+                leading={<Avatar size="sm" fallback="JS" />}
               />
             </List>
           </Card>
         ),
-        caption: "List with avatars and subheader",
+        caption: 'List with avatars and subheader',
       },
     ],
   },
@@ -227,58 +215,67 @@ export const listDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "List items to display.",
+      description: 'List items to display.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes.',
     },
   ],
 
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
   subComponents: [
     {
-      name: "ListItem",
-      description: "Individual list item with flexible content slots.",
+      name: 'ListItem',
+      description: 'Individual list item with flexible content slots.',
       props: [
-        { name: "headline", type: "string", description: "Primary text content." },
-        { name: "supportingText", type: "ReactNode", description: "Secondary text below headline." },
-        { name: "leadingIcon", type: "ReactNode", description: "Icon or element at the start." },
-        { name: "trailingIcon", type: "ReactNode", description: "Icon or element at the end." },
-        { name: "trailingSupportingText", type: "ReactNode", description: "Supporting text at the end." },
-        { name: "active", type: "boolean", description: "Whether item is in active state." },
-        { name: "disabled", type: "boolean", description: "Whether item is disabled." },
-        { name: "onClick", type: "() => void", description: "Click handler." },
-        { name: "href", type: "string", description: "Link URL for navigation items." },
-        { name: "asChild", type: "boolean", description: "Render as child element (e.g., Link)." },
+        { name: 'headline', type: 'ReactNode', required: true, description: 'Primary content.' },
+        {
+          name: 'supportingText',
+          type: 'ReactNode',
+          description: 'Secondary text below headline.',
+        },
+        { name: 'leading', type: 'ReactNode', description: 'Content at the start.' },
+        { name: 'trailing', type: 'ReactNode', description: 'Content at the end.' },
+        {
+          name: 'trailingText',
+          type: 'ReactNode',
+          description: 'Supporting text at the end.',
+        },
+        { name: 'selected', type: 'boolean', description: 'Whether item uses selected styling.' },
+        { name: 'disabled', type: 'boolean', description: 'Whether item is disabled.' },
+        { name: 'onClick', type: '() => void', description: 'Click handler.' },
+        { name: 'href', type: 'string', description: 'Link URL for navigation items.' },
+        {
+          name: 'renderLink',
+          type: '(props) => ReactElement',
+          description: 'Optional framework-router link renderer used with href.',
+        },
       ],
     },
     {
-      name: "ListSubheader",
-      description: "Section header for grouping list items.",
-      props: [
-        { name: "children", type: "ReactNode", required: true, description: "Header text." },
-      ],
+      name: 'ListSubheader',
+      description: 'Section header for grouping list items.',
+      props: [{ name: 'children', type: 'ReactNode', required: true, description: 'Header text.' }],
     },
     {
-      name: "ListItemContent",
-      description: "Flexible content container with leading, center, and trailing slots.",
+      name: 'ListDivider',
+      description: 'Valid presentational list child for inset row separation.',
       props: [
-        { name: "leading", type: "ReactNode", description: "Leading content." },
-        { name: "children", type: "ReactNode", required: true, description: "Main content." },
-        { name: "trailing", type: "ReactNode", description: "Trailing content." },
-      ],
-    },
-    {
-      name: "ListItemText",
-      description: "Text wrapper with primary and secondary text.",
-      props: [
-        { name: "primary", type: "ReactNode", required: true, description: "Primary text." },
-        { name: "secondary", type: "ReactNode", description: "Secondary text." },
+        {
+          name: 'inset',
+          type: '"none" | "start" | "both"',
+          description: 'Divider inset inside the list.',
+        },
+        {
+          name: 'decorative',
+          type: 'boolean',
+          description: 'Whether the divider is hidden from assistive technology.',
+        },
       ],
     },
   ],
@@ -286,24 +283,25 @@ export const listDoc: ComponentDoc = {
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "List has role='list' for proper screen reader navigation.",
-      "Interactive items render as semantic buttons or links.",
-      "Non-interactive items remain plain list items.",
+      'List and ListItem use native ul and li semantics.',
+      'Interactive items render as semantic buttons or links.',
+      'Non-interactive items remain plain list items.',
     ],
     keyboard: [
-      { key: "Tab", description: "Moves focus to next interactive item" },
-      { key: "Enter / Space", description: "Activates the focused item" },
+      { key: 'Tab', description: 'Moves focus to next interactive item' },
+      { key: 'Enter / Space', description: 'Activates the focused item' },
     ],
     focus: [
-      "Interactive items have visible focus ring.",
-      "Focus follows tab order through list items.",
+      'Interactive items have visible focus ring.',
+      'Focus follows tab order through list items.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Compose lists with ListItem and optional subheaders.",
-    code: `import { List, ListItem, ListSubheader, Avatar } from "@unisane/ui";
+    description: 'Compose lists with ListItem and optional subheaders.',
+    code: `import { List, ListItem, ListSubheader } from "@/components/ui/list";
+import { Avatar } from "@/components/ui/avatar";
 
 function ContactList({ contacts }) {
   return (
@@ -314,14 +312,14 @@ function ContactList({ contacts }) {
           key={contact.id}
           headline={contact.name}
           supportingText={contact.email}
-          leadingIcon={
+          leading={
             <Avatar
               src={contact.avatar}
               fallback={contact.initials}
               size="sm"
             />
           }
-          trailingSupportingText={contact.lastSeen}
+          trailingText={contact.lastSeen}
           onClick={() => selectContact(contact)}
         />
       ))}
@@ -336,8 +334,8 @@ function NavigationList({ items, activeItem }) {
         <ListItem
           key={item.id}
           headline={item.label}
-          leadingIcon={<Icon symbol={item.icon} />}
-          active={item.id === activeItem}
+          leading={<Icon symbol={item.icon} />}
+          selected={item.id === activeItem}
           href={item.href}
         />
       ))}
@@ -349,16 +347,16 @@ function NavigationList({ items, activeItem }) {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "navigation-drawer",
-      reason: "Use for app-wide navigation in a drawer.",
+      slug: 'navigation-drawer',
+      reason: 'Use for app-wide navigation in a drawer.',
     },
     {
-      slug: "dropdown-menu",
-      reason: "Use for action menus in popovers.",
+      slug: 'dropdown-menu',
+      reason: 'Use for action menus in popovers.',
     },
     {
-      slug: "table",
-      reason: "Use for tabular data with columns.",
+      slug: 'table',
+      reason: 'Use for tabular data with columns.',
     },
   ],
 };

@@ -32,25 +32,18 @@ const typographyVariants = cva('text-on-surface', {
   },
 });
 
-export type TypographyVariant = NonNullable<VariantProps<typeof typographyVariants>['variant']>;
+export type TypographyScale = NonNullable<VariantProps<typeof typographyVariants>['variant']>;
+export type TypographyVariant = TypographyScale | TypographyRole;
 
 type BaseTypographyProps = React.HTMLAttributes<HTMLElement> & {
   component?: React.ElementType;
 };
 
-type VariantTypographyProps = BaseTypographyProps & {
+export type TypographyProps = BaseTypographyProps & {
   variant?: TypographyVariant;
-  typeRole?: never;
 };
 
-type RoleTypographyProps = BaseTypographyProps & {
-  typeRole: TypographyRole;
-  variant?: never;
-};
-
-export type TypographyProps = VariantTypographyProps | RoleTypographyProps;
-
-const defaultTags: Record<TypographyVariant, React.ElementType> = {
+const defaultTags: Record<TypographyScale, React.ElementType> = {
   displayLarge: 'h1',
   displayMedium: 'h2',
   displaySmall: 'h3',
@@ -68,24 +61,28 @@ const defaultTags: Record<TypographyVariant, React.ElementType> = {
   labelSmall: 'span',
 };
 
+function isTypographyRole(variant: TypographyVariant): variant is TypographyRole {
+  return variant in typographyRoleClasses;
+}
+
 export const Typography: React.FC<TypographyProps> = ({
-  variant,
-  typeRole,
+  variant = 'bodyLarge',
   component,
   className,
   children,
   ...props
 }) => {
-  const resolvedVariant = variant ?? 'bodyLarge';
+  const role = isTypographyRole(variant) ? variant : undefined;
+  const scale: TypographyScale | undefined = role ? undefined : (variant as TypographyScale);
   const Component =
     component ||
-    (typeRole ? typographyRoleDefaultTags[typeRole] : defaultTags[resolvedVariant]) ||
+    (role ? typographyRoleDefaultTags[role] : defaultTags[scale ?? 'bodyLarge']) ||
     'p';
   return (
     <Component
       className={cn(
-        typeRole ? 'text-on-surface' : typographyVariants({ variant: resolvedVariant }),
-        typeRole && typographyRoleClasses[typeRole],
+        role ? 'text-on-surface' : typographyVariants({ variant: scale }),
+        role && typographyRoleClasses[role],
         className,
       )}
       {...props}

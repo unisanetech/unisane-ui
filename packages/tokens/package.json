@@ -10,6 +10,7 @@
   "exports": {
     ".": "./dist/unisane.css",
     "./unisane.css": "./dist/unisane.css",
+    "./preview-themes.css": "./dist/preview-themes.css",
     "./meta": "./unisane.meta.json"
   },
   "scripts": {

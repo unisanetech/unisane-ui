@@ -1,8 +1,20 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent, DropdownMenuCheckboxItem, Button, IconButton } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuCheckboxItem,
+  Button,
+  IconButton,
+} from '@unisane/ui';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DropdownMenuHeroVisual = () => (
@@ -11,37 +23,47 @@ const DropdownMenuHeroVisual = () => (
     <div className="relative">
       <div className="relative">
         {/* Avatar trigger */}
-        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary text-title-medium cursor-pointer ring-2 ring-focus-ring">
+        <div className="bg-primary text-on-primary text-title-medium ring-focus-ring flex h-10 w-10 cursor-pointer items-center justify-center rounded-full ring-2">
           JD
         </div>
         {/* Simulated profile menu */}
-        <div className="absolute top-[calc(100%+4px)] right-0 bg-surface rounded-sm shadow-4 py-2 border border-outline-variant min-w-56">
+        <div className="bg-surface shadow-4 border-outline-variant absolute top-[calc(100%+4px)] right-0 min-w-56 rounded-sm border py-2">
           {/* Profile header */}
-          <div className="px-4 py-3 flex items-center gap-3 border-b border-outline-variant mb-1">
-            <div className="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container text-title-medium">
+          <div className="border-outline-variant mb-1 flex items-center gap-3 border-b px-4 py-3">
+            <div className="bg-secondary-container text-on-secondary-container text-title-medium flex h-10 w-10 items-center justify-center rounded-full">
               JD
             </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-body-medium text-on-surface font-medium truncate">John Doe</div>
-              <div className="text-body-small text-on-surface-variant truncate">john@example.com</div>
+            <div className="min-w-0 flex-1">
+              <div className="text-body-medium text-on-surface truncate font-medium">John Doe</div>
+              <div className="text-body-small text-on-surface-variant truncate">
+                john@example.com
+              </div>
             </div>
           </div>
           {/* Menu items */}
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant">person</span>
+          <div className="text-body-medium text-on-surface hover:bg-state-hover mx-1 flex cursor-pointer items-center gap-3 rounded-md px-3 py-2">
+            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+              person
+            </span>
             View profile
           </div>
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant">settings</span>
+          <div className="text-body-medium text-on-surface hover:bg-state-hover mx-1 flex cursor-pointer items-center gap-3 rounded-md px-3 py-2">
+            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+              settings
+            </span>
             Settings
           </div>
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant">help</span>
+          <div className="text-body-medium text-on-surface hover:bg-state-hover mx-1 flex cursor-pointer items-center gap-3 rounded-md px-3 py-2">
+            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+              help
+            </span>
             Help & support
           </div>
-          <div className="h-px bg-outline-muted my-1" />
-          <div className="px-3 py-2 text-body-medium text-on-surface hover:bg-state-hover cursor-pointer flex items-center gap-3 rounded-md mx-1">
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant">logout</span>
+          <div className="bg-outline-muted my-1 h-px" />
+          <div className="text-body-medium text-on-surface hover:bg-state-hover mx-1 flex cursor-pointer items-center gap-3 rounded-md px-3 py-2">
+            <span className="material-symbols-outlined text-on-surface-variant text-[20px]">
+              logout
+            </span>
             Sign out
           </div>
         </div>
@@ -52,42 +74,53 @@ const DropdownMenuHeroVisual = () => (
 
 export const dropdownMenuDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "dropdown-menu",
-  name: "Dropdown Menu",
-  description:
-    "Dropdown menus display a list of choices on a temporary surface.",
-  category: "containment",
-  status: "stable",
-  icon: "menu",
+  slug: 'dropdown-menu',
+  name: 'Dropdown Menu',
+  description: 'Dropdown menus display a list of choices on a temporary surface.',
+  category: 'containment',
+  status: 'stable',
+  icon: 'menu',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuSeparator", "DropdownMenuCheckboxItem", "DropdownMenuRadioItem", "DropdownMenuSub", "DropdownMenuSubTrigger", "DropdownMenuSubContent"],
+  importPath: '@unisane/ui',
+  exports: [
+    'DropdownMenu',
+    'DropdownMenuTrigger',
+    'DropdownMenuContent',
+    'DropdownMenuItem',
+    'DropdownMenuSeparator',
+    'DropdownMenuCheckboxItem',
+    'DropdownMenuRadioItem',
+    'DropdownMenuSub',
+    'DropdownMenuSubTrigger',
+    'DropdownMenuSubContent',
+  ],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <DropdownMenuHeroVisual />,
   examplesPreview: {
-    overflow: "visible",
-    minHeight: "lg",
+    overflow: 'visible',
+    minHeight: 'lg',
   },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Dropdown menus can contain various item types for different interactions.",
+    description: 'Dropdown menus can contain various item types for different interactions.',
     columns: {
-      emphasis: "Item Type",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Item Type',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Action Item",
+        emphasis: 'Action Item',
         component: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outlined" size="sm">Actions</Button>
+              <Button variant="outlined" size="sm">
+                Actions
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Edit</DropdownMenuItem>
@@ -95,16 +128,17 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        rationale:
-          "Standard menu items that perform actions.",
-        examples: "Edit, Delete, Share, Copy",
+        rationale: 'Standard menu items that perform actions.',
+        examples: 'Edit, Delete, Share, Copy',
       },
       {
-        emphasis: "Checkbox Item",
+        emphasis: 'Checkbox Item',
         component: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outlined" size="sm">View</Button>
+              <Button variant="outlined" size="sm">
+                View
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuCheckboxItem checked>Show Grid</DropdownMenuCheckboxItem>
@@ -112,16 +146,17 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        rationale:
-          "Toggle options on/off.",
-        examples: "Settings toggles, View options",
+        rationale: 'Toggle options on/off.',
+        examples: 'Settings toggles, View options',
       },
       {
-        emphasis: "Separator",
+        emphasis: 'Separator',
         component: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outlined" size="sm">File</Button>
+              <Button variant="outlined" size="sm">
+                File
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Rename</DropdownMenuItem>
@@ -130,23 +165,23 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        rationale:
-          "Group related items visually.",
-        examples: "Before destructive actions, Section breaks",
+        rationale: 'Group related items visually.',
+        examples: 'Before destructive actions, Section breaks',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Menus can be aligned to different edges of the trigger.",
+    description: 'Menus can be aligned to different edges of the trigger.',
     items: [
       {
         component: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outlined" size="sm">Start</Button>
+              <Button variant="outlined" size="sm">
+                Start
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
               <DropdownMenuItem>Option 1</DropdownMenuItem>
@@ -154,14 +189,16 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        title: "Start Aligned",
-        subtitle: "Opens to the left",
+        title: 'Start Aligned',
+        subtitle: 'Opens to the left',
       },
       {
         component: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outlined" size="sm">End</Button>
+              <Button variant="outlined" size="sm">
+                End
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>Option 1</DropdownMenuItem>
@@ -169,29 +206,32 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        title: "End Aligned",
-        subtitle: "Opens to the right",
+        title: 'End Aligned',
+        subtitle: 'Opens to the right',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Dropdown menus are commonly used for contextual actions and settings.",
+    description: 'Dropdown menus are commonly used for contextual actions and settings.',
     previewDefaults: {
-      overflow: "visible",
-      minHeight: "xl",
-      align: "start",
-      justify: "start",
+      overflow: 'visible',
+      minHeight: 'xl',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Actions menu",
+        title: 'Actions menu',
         visual: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <IconButton variant="tonal" aria-label="More options" icon={<span className="material-symbols-outlined">more_vert</span>} />
+              <IconButton
+                variant="tonal"
+                aria-label="More options"
+                icon={<span className="material-symbols-outlined">more_vert</span>}
+              />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuItem>Edit</DropdownMenuItem>
@@ -201,14 +241,19 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        caption: "Menu with action items and separator",
+        caption: 'Menu with action items and separator',
       },
       {
-        title: "Button with menu",
+        title: 'Button with menu',
         visual: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="filled" trailingIcon={<span className="material-symbols-outlined text-[18px]">expand_more</span>}>
+              <Button
+                variant="filled"
+                trailingIcon={
+                  <span className="material-symbols-outlined text-[18px]">expand_more</span>
+                }
+              >
                 Options
               </Button>
             </DropdownMenuTrigger>
@@ -219,34 +264,73 @@ export const dropdownMenuDoc: ComponentDoc = {
             </DropdownMenuContent>
           </DropdownMenu>
         ),
-        caption: "Button that opens a dropdown menu",
+        caption: 'Button that opens a dropdown menu',
       },
       {
-        title: "Custom styling with submenu",
+        title: 'Custom styling with submenu',
         visual: (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="tonal">
-                File
-              </Button>
+              <Button variant="tonal">File</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="rounded-sm px-2">
-              <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">content_copy</span>}>Make a copy</DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-md"
+                icon={<span className="material-symbols-outlined text-[20px]">content_copy</span>}
+              >
+                Make a copy
+              </DropdownMenuItem>
               <DropdownMenuSub>
-                <DropdownMenuSubTrigger className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">add</span>}>
+                <DropdownMenuSubTrigger
+                  className="rounded-md"
+                  icon={<span className="material-symbols-outlined text-[20px]">add</span>}
+                >
                   Create
                 </DropdownMenuSubTrigger>
                 <DropdownMenuSubContent className="rounded-sm px-2">
-                  <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">description</span>}>Document</DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">image</span>}>Image</DropdownMenuItem>
-                  <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">slideshow</span>}>Slides</DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-md"
+                    icon={
+                      <span className="material-symbols-outlined text-[20px]">description</span>
+                    }
+                  >
+                    Document
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-md"
+                    icon={<span className="material-symbols-outlined text-[20px]">image</span>}
+                  >
+                    Image
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    className="rounded-md"
+                    icon={<span className="material-symbols-outlined text-[20px]">slideshow</span>}
+                  >
+                    Slides
+                  </DropdownMenuItem>
                 </DropdownMenuSubContent>
               </DropdownMenuSub>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="rounded-md" selected icon={<span className="material-symbols-outlined text-[20px]">cloud_off</span>}>Offline mode</DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-md"
+                selected
+                icon={<span className="material-symbols-outlined text-[20px]">cloud_off</span>}
+              >
+                Offline mode
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">share</span>}>Share</DropdownMenuItem>
-              <DropdownMenuItem className="rounded-md" icon={<span className="material-symbols-outlined text-[20px]">download</span>}>Download</DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-md"
+                icon={<span className="material-symbols-outlined text-[20px]">share</span>}
+              >
+                Share
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="rounded-md"
+                icon={<span className="material-symbols-outlined text-[20px]">download</span>}
+              >
+                Download
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         ),
@@ -258,92 +342,140 @@ export const dropdownMenuDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "DropdownMenuTrigger and DropdownMenuContent components.",
+      description: 'DropdownMenuTrigger and DropdownMenuContent components.',
     },
     {
-      name: "open",
-      type: "boolean",
-      description: "Controlled open state.",
+      name: 'open',
+      type: 'boolean',
+      description: 'Controlled open state.',
     },
     {
-      name: "defaultOpen",
-      type: "boolean",
+      name: 'defaultOpen',
+      type: 'boolean',
       default: '"false"',
-      description: "Initial open state when the menu is uncontrolled.",
+      description: 'Initial open state when the menu is uncontrolled.',
     },
     {
-      name: "onOpenChange",
-      type: "(open: boolean) => void",
-      description: "Callback when the root menu requests an open-state change.",
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: 'Callback when the root menu requests an open-state change.',
     },
   ],
 
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
   subComponents: [
     {
-      name: "DropdownMenuTrigger",
-      description: "The element that opens the menu.",
+      name: 'DropdownMenuTrigger',
+      description: 'The element that opens the menu.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Trigger element (button, icon button, etc.)." },
-        { name: "asChild", type: "boolean", description: "Use child as trigger element." },
+        {
+          name: 'children',
+          type: 'ReactNode',
+          required: true,
+          description: 'Trigger element (button, icon button, etc.).',
+        },
+        { name: 'asChild', type: 'boolean', description: 'Use child as trigger element.' },
       ],
     },
     {
-      name: "DropdownMenuContent",
-      description: "Container for menu items.",
+      name: 'DropdownMenuContent',
+      description: 'Container for menu items.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Menu items." },
-        { name: "align", type: '"start" | "center" | "end"', default: '"start"', description: "Alignment relative to trigger." },
-        { name: "side", type: '"top" | "bottom" | "left" | "right"', default: '"bottom"', description: "Preferred side for the menu." },
-        { name: "portal", type: "boolean", default: "true", description: "Render the menu into document.body for safer layering. Set false only when local inline containment is required." },
-        { name: "closeOnSelect", type: "boolean", default: "false", description: "Close the menu after selecting a menu item." },
-        { name: "className", type: "string", description: "Custom classes for padding, radius, etc." },
+        { name: 'children', type: 'ReactNode', required: true, description: 'Menu items.' },
+        {
+          name: 'align',
+          type: '"start" | "center" | "end"',
+          default: '"start"',
+          description: 'Alignment relative to trigger.',
+        },
+        {
+          name: 'side',
+          type: '"top" | "bottom" | "left" | "right"',
+          default: '"bottom"',
+          description: 'Preferred side for the menu.',
+        },
+        {
+          name: 'portal',
+          type: 'boolean',
+          default: 'true',
+          description:
+            'Render the menu into document.body for safer layering. Set false only when local inline containment is required.',
+        },
+        {
+          name: 'closeOnSelect',
+          type: 'boolean',
+          default: 'false',
+          description: 'Close the menu after selecting a menu item.',
+        },
+        {
+          name: 'className',
+          type: 'string',
+          description: 'Custom classes for padding, radius, etc.',
+        },
       ],
     },
     {
-      name: "DropdownMenuItem",
-      description: "A clickable menu item.",
+      name: 'DropdownMenuItem',
+      description: 'A clickable menu item.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Item content." },
-        { name: "onClick", type: "() => void", description: "Click handler." },
-        { name: "disabled", type: "boolean", description: "Disable the item." },
-        { name: "className", type: "string", description: "Custom classes for padding, styling." },
+        { name: 'children', type: 'ReactNode', required: true, description: 'Item content.' },
+        { name: 'onClick', type: '() => void', description: 'Click handler.' },
+        { name: 'disabled', type: 'boolean', description: 'Disable the item.' },
+        { name: 'className', type: 'string', description: 'Custom classes for padding, styling.' },
       ],
     },
     {
-      name: "DropdownMenuSeparator",
-      description: "Visual divider between menu items.",
+      name: 'DropdownMenuSeparator',
+      description: 'Visual divider between menu items.',
       props: [],
     },
     {
-      name: "DropdownMenuSub",
-      description: "Container for a submenu.",
+      name: 'DropdownMenuSub',
+      description: 'Container for a submenu.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "SubTrigger and SubContent components." },
-        { name: "open", type: "boolean", description: "Controlled open state for the submenu." },
-        { name: "defaultOpen", type: "boolean", default: '"false"', description: "Initial open state when the submenu is uncontrolled." },
-        { name: "onOpenChange", type: "(open: boolean) => void", description: "Callback when the submenu requests an open-state change." },
+        {
+          name: 'children',
+          type: 'ReactNode',
+          required: true,
+          description: 'SubTrigger and SubContent components.',
+        },
+        { name: 'open', type: 'boolean', description: 'Controlled open state for the submenu.' },
+        {
+          name: 'defaultOpen',
+          type: 'boolean',
+          default: '"false"',
+          description: 'Initial open state when the submenu is uncontrolled.',
+        },
+        {
+          name: 'onOpenChange',
+          type: '(open: boolean) => void',
+          description: 'Callback when the submenu requests an open-state change.',
+        },
       ],
     },
     {
-      name: "DropdownMenuSubTrigger",
-      description: "Menu item that opens a submenu on hover.",
+      name: 'DropdownMenuSubTrigger',
+      description: 'Menu item that opens a submenu on hover.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Trigger label." },
-        { name: "icon", type: "ReactNode", description: "Leading icon." },
-        { name: "disabled", type: "boolean", description: "Disable the trigger." },
-        { name: "className", type: "string", description: "Custom classes for styling." },
+        { name: 'children', type: 'ReactNode', required: true, description: 'Trigger label.' },
+        { name: 'icon', type: 'ReactNode', description: 'Leading icon.' },
+        { name: 'disabled', type: 'boolean', description: 'Disable the trigger.' },
+        { name: 'className', type: 'string', description: 'Custom classes for styling.' },
       ],
     },
     {
-      name: "DropdownMenuSubContent",
-      description: "Container for submenu items.",
+      name: 'DropdownMenuSubContent',
+      description: 'Container for submenu items.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Submenu items." },
-        { name: "className", type: "string", description: "Custom classes for padding, radius, etc." },
+        { name: 'children', type: 'ReactNode', required: true, description: 'Submenu items.' },
+        {
+          name: 'className',
+          type: 'string',
+          description: 'Custom classes for padding, radius, etc.',
+        },
       ],
     },
   ],
@@ -356,20 +488,21 @@ export const dropdownMenuDoc: ComponentDoc = {
       "Items have role='menuitem' for proper navigation.",
     ],
     keyboard: [
-      { key: "Enter / Space", description: "Opens menu or activates item" },
-      { key: "Arrow Down", description: "Opens menu or moves to next item" },
-      { key: "Arrow Up", description: "Moves to previous item" },
-      { key: "Escape", description: "Closes the menu" },
+      { key: 'Enter / Space', description: 'Opens menu or activates item' },
+      { key: 'Arrow Down', description: 'Opens menu or moves to next item' },
+      { key: 'Arrow Up', description: 'Moves to previous item' },
+      { key: 'Escape', description: 'Closes the menu' },
     ],
     focus: [
-      "Focus moves to first item when menu opens.",
-      "Focus returns to trigger when menu closes.",
+      'Focus moves to first item when menu opens.',
+      'Focus returns to trigger when menu closes.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Compose dropdown menus with trigger and content components. Use className for custom styling.",
+    description:
+      'Compose dropdown menus with trigger and content components. Use className for custom styling.',
     code: `import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -409,16 +542,16 @@ function ItemActions({ onEdit, onDuplicate, onDelete }) {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "popover",
-      reason: "Use for rich content, not just menu items.",
+      slug: 'popover',
+      reason: 'Use for rich content, not just menu items.',
     },
     {
-      slug: "select",
-      reason: "Use for form value selection.",
+      slug: 'select',
+      reason: 'Use for form value selection.',
     },
     {
-      slug: "icon-button",
-      reason: "Common trigger for dropdown menus.",
+      slug: 'icon-button',
+      reason: 'Common trigger for dropdown menus.',
     },
   ],
 };

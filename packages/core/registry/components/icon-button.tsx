@@ -12,7 +12,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from '@/components/ui/ripple';
 import { cn, Slot } from '@/lib/utils';
 import { getIconFrameSizeClass, iconButtonSizeClasses } from '@/lib/action-size';
-import { Icon, type IconProps } from '@/primitives/icon';
+import { Icon, type IconProps } from '@/components/ui/icon';
 import {
   ActionSpinner,
   ActionStateLayer,
@@ -81,17 +81,29 @@ const iconButtonVariants = cva(
   },
 );
 
-export interface IconButtonProps
-  extends
-    Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'aria-label'>,
-    VariantProps<typeof iconButtonVariants> {
-  'aria-label': string;
+type IconButtonBaseProps = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  'aria-label' | 'children'
+> &
+  VariantProps<typeof iconButtonVariants> & {
+    'aria-label': string;
+    loading?: boolean;
+    iconSize?: NonNullable<IconProps['size']>;
+  };
+
+type NativeIconButtonProps = IconButtonBaseProps & {
+  asChild?: false;
+  icon: ReactNode;
+  children?: never;
+};
+
+type SlottedIconButtonProps = IconButtonBaseProps & {
+  asChild: true;
+  children: ReactElement;
   icon?: ReactNode;
-  loading?: boolean;
-  iconSize?: NonNullable<IconProps['size']>;
-  asChild?: boolean;
-  children?: ReactNode;
-}
+};
+
+export type IconButtonProps = NativeIconButtonProps | SlottedIconButtonProps;
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
   (
@@ -100,7 +112,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       children,
       variant = 'standard',
       size = 'md',
-      selected = false,
+      selected,
       disabled = false,
       loading = false,
       iconSize,
@@ -112,11 +124,12 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     },
     ref,
   ) => {
+    const isSelected = selected ?? false;
     const isDisabled = getActionDisabledState(disabled, loading);
     const canRenderAsChild = asChild && isValidElement(children);
     const resolvedIconSize: NonNullable<IconProps['size']> =
       iconSize ?? (size === 'sm' ? 'sm' : 'md');
-    const resolvedContent = normalizeIconNode(children ?? icon, resolvedIconSize);
+    const resolvedContent = normalizeIconNode(icon, resolvedIconSize);
     const renderContent = (content: ReactNode) => {
       const sizeClass = getIconFrameSizeClass(resolvedIconSize);
       const normalizedContent = normalizeIconNode(content, resolvedIconSize);
@@ -163,8 +176,9 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       return (
         <Slot
           ref={ref as Ref<HTMLElement>}
-          className={cn(iconButtonVariants({ variant, size, selected }), className)}
+          className={cn(iconButtonVariants({ variant, size, selected: isSelected }), className)}
           aria-label={ariaLabel}
+          aria-pressed={selected === undefined ? undefined : isSelected}
         >
           {cloneElement(
             childElement,
@@ -179,9 +193,10 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       <button
         ref={ref}
         type={type}
-        className={cn(iconButtonVariants({ variant, size, selected }), className)}
+        className={cn(iconButtonVariants({ variant, size, selected: isSelected }), className)}
         disabled={isDisabled}
         aria-label={ariaLabel}
+        aria-pressed={selected === undefined ? undefined : isSelected}
         {...getActionStateAttributes(isDisabled, loading)}
         {...props}
       >

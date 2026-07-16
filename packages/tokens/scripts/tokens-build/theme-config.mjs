@@ -29,6 +29,11 @@ export function loadThemeConfig(themeName = "blue") {
     const themeOverride = parseJsonFile(themePath);
     validateThemeOverride(themeOverride, themePath);
     baseConfig.primary = { ...baseConfig.primary, ...themeOverride.primary };
+    for (const section of ['neutral', 'error', 'success', 'warning', 'info']) {
+      if (themeOverride[section]) {
+        baseConfig[section] = { ...baseConfig[section], ...themeOverride[section] };
+      }
+    }
     baseConfig.name = themeOverride.name || baseConfig.name;
   }
 

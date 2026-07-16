@@ -1,4 +1,5 @@
-import { Badge, IconButton, Surface, Typography } from '@unisane/ui';
+import { IconButton, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { navigationPatternMeta as meta } from './pattern-page-meta';
 
@@ -69,12 +70,20 @@ export const navigationPatternPage: PatternPageDoc = {
                   <div className="flex items-center justify-between gap-3">
                     <Typography variant="titleLarge">Workspace</Typography>
                     <div className="flex gap-2">
-                      <IconButton size="sm" aria-label="Search">
-                        <span className="material-symbols-outlined text-[18px]">search</span>
-                      </IconButton>
-                      <IconButton size="sm" aria-label="Notifications">
-                        <span className="material-symbols-outlined text-[18px]">notifications</span>
-                      </IconButton>
+                      <IconButton
+                        size="sm"
+                        aria-label="Search"
+                        icon={<span className="material-symbols-outlined text-[18px]">search</span>}
+                      />
+                      <IconButton
+                        size="sm"
+                        aria-label="Notifications"
+                        icon={
+                          <span className="material-symbols-outlined text-[18px]">
+                            notifications
+                          </span>
+                        }
+                      />
                     </div>
                   </div>
                   <div className="bg-surface-container-low h-24 rounded-sm" />
@@ -140,17 +149,22 @@ export function RailShellBlock() {
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <IconButton size="sm" aria-label="Search">
-                    <span className="material-symbols-outlined text-[18px]">search</span>
-                  </IconButton>
-                  <IconButton size="sm" aria-label="More">
-                    <span className="material-symbols-outlined text-[18px]">more_vert</span>
-                  </IconButton>
+                  <IconButton
+                    size="sm"
+                    aria-label="Search"
+                    icon={<span className="material-symbols-outlined text-[18px]">search</span>}
+                  />
+                  <IconButton
+                    size="sm"
+                    aria-label="More"
+                    icon={<span className="material-symbols-outlined text-[18px]">more_vert</span>}
+                  />
                 </div>
               </div>
             </Surface>
           ),
-          code: `import { Badge, IconButton, Surface, Typography } from "@unisane/ui";
+          code: `import { Badge } from '@/components/ui/badge';
+import { IconButton, Surface, Typography } from '@unisane/ui';
 
 export function ContextHeader() {
   return (

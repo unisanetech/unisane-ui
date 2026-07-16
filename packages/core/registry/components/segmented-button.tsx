@@ -1,56 +1,77 @@
 'use client';
 
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@/lib/utils';
+import * as React from 'react';
 import { actionFrameHeightClasses, actionFramePaddingXClasses } from '@/lib/action-size';
+import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { Icon, type IconProps } from '@/primitives/icon';
+import { Icon, type IconProps } from '@/components/ui/icon';
 import { Ripple } from '@/components/ui/ripple';
 
-export interface SegmentedButtonOption {
-  value: string;
-  label?: string;
+export interface SegmentedButtonOption<Value extends string = string> {
+  value: Value;
+  label: React.ReactNode;
   icon?: React.ReactNode;
   disabled?: boolean;
+  className?: string;
 }
 
-type SegmentedButtonValue = string | string[];
-type SegmentedButtonSize = 'sm' | 'md' | 'lg';
+export type SegmentedButtonSize = 'sm' | 'md' | 'lg';
 
-const SegmentedButtonSizeContext = React.createContext<SegmentedButtonSize>('md');
-const SegmentedButtonIconSizeContext = React.createContext<NonNullable<IconProps['size']>>('sm');
+type AccessibleGroupName =
+  | { 'aria-label': string; 'aria-labelledby'?: string }
+  | { 'aria-label'?: string; 'aria-labelledby': string };
+
+type SegmentedButtonCommonProps<Value extends string = string> = Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children' | 'defaultValue' | 'onChange' | 'onSelect' | 'role'
+> &
+  AccessibleGroupName & {
+    iconSize?: NonNullable<IconProps['size']>;
+    options: readonly SegmentedButtonOption<Value>[];
+    size?: SegmentedButtonSize;
+  };
+
+export type SegmentedButtonSingleProps<Value extends string = string> =
+  SegmentedButtonCommonProps<Value> & {
+    selectionMode?: 'single';
+    value?: NoInfer<Value> | null;
+    defaultValue?: NoInfer<Value> | null;
+    onValueChange?: (value: NoInfer<Value>) => void;
+  };
+
+export type SegmentedButtonMultipleProps<Value extends string = string> =
+  SegmentedButtonCommonProps<Value> & {
+    selectionMode: 'multiple';
+    value?: NoInfer<Value>[];
+    defaultValue?: NoInfer<Value>[];
+    onValueChange?: (value: NoInfer<Value>[]) => void;
+  };
+
+export type SegmentedButtonProps<Value extends string = string> =
+  | SegmentedButtonSingleProps<Value>
+  | SegmentedButtonMultipleProps<Value>;
+
+type SegmentedButtonRootProps<Value extends string = string> = SegmentedButtonCommonProps<Value> & {
+  forwardedRef: React.ForwardedRef<HTMLDivElement>;
+  isSelected: (value: Value) => boolean;
+  onOptionSelect: (value: Value) => void;
+  selectionMode: 'single' | 'multiple';
+};
 
 function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {
   return React.isValidElement(node) && node.type === Icon;
-}
-
-function getDefaultIconSize(size: SegmentedButtonSize): NonNullable<IconProps['size']> {
-  switch (size) {
-    case 'lg':
-      return 'md';
-    case 'sm':
-    case 'md':
-    default:
-      return 'sm';
-  }
 }
 
 function normalizeIconNode(
   node: React.ReactNode,
   size: NonNullable<IconProps['size']>,
 ): React.ReactNode {
-  if (!isIconElement(node) || node.props.size !== undefined) {
-    return node;
-  }
+  if (!isIconElement(node) || node.props.size !== undefined) return node;
   return React.cloneElement(node, { size });
 }
 
-function normalizeIconChildren(
-  children: React.ReactNode,
-  size: NonNullable<IconProps['size']>,
-): React.ReactNode {
-  return React.Children.map(children, (child) => normalizeIconNode(child, size));
+function getDefaultIconSize(size: SegmentedButtonSize): NonNullable<IconProps['size']> {
+  return size === 'lg' ? 'md' : 'sm';
 }
 
 function getSegmentedButtonSizeStyles(size: SegmentedButtonSize) {
@@ -66,133 +87,101 @@ function getSegmentedButtonSizeStyles(size: SegmentedButtonSize) {
   };
 }
 
-export interface SegmentedButtonProps {
-  options?: SegmentedButtonOption[];
-  value?: string | string[];
-  defaultValue?: string | string[];
-  onValueChange?: (value: string | string[]) => void;
-  multiSelect?: boolean;
-  className?: string;
-  'aria-label'?: string;
-  size?: SegmentedButtonSize;
-  iconSize?: NonNullable<IconProps['size']>;
-  children?: React.ReactNode;
+function getDirection(event: React.KeyboardEvent<HTMLButtonElement>): 'ltr' | 'rtl' {
+  const localDirection = event.currentTarget.closest('[dir]')?.getAttribute('dir');
+  const documentDirection = document.documentElement.getAttribute('dir');
+  return localDirection === 'rtl' || documentDirection === 'rtl' ? 'rtl' : 'ltr';
 }
 
-export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
-  options,
-  value,
-  defaultValue,
-  onValueChange,
-  multiSelect = false,
-  className,
+function SegmentedButtonRoot<Value extends string>({
   'aria-label': ariaLabel,
-  size = 'md',
+  'aria-labelledby': ariaLabelledBy,
+  className,
+  forwardedRef,
   iconSize,
-  children,
-}) => {
+  isSelected,
+  onOptionSelect,
+  options,
+  selectionMode,
+  size = 'md',
+  ...groupProps
+}: SegmentedButtonRootProps<Value>) {
   const sizeStyles = getSegmentedButtonSizeStyles(size);
   const resolvedIconSize = iconSize ?? getDefaultIconSize(size);
-  const [currentValue, setCurrentValue] = useControllableState<SegmentedButtonValue>({
-    value,
-    defaultValue: multiSelect ? (defaultValue ?? []) : defaultValue,
-    onChange: onValueChange,
-  });
   const buttonRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+  const selectedIndex = options.findIndex((option) => !option.disabled && isSelected(option.value));
+  const firstEnabledIndex = options.findIndex((option) => !option.disabled);
+  const [tabStopIndex, setTabStopIndex] = React.useState(
+    selectedIndex === -1 ? firstEnabledIndex : selectedIndex,
+  );
 
-  if (!options) {
-    return (
-      <SegmentedButtonSizeContext.Provider value={size}>
-        <SegmentedButtonIconSizeContext.Provider value={resolvedIconSize}>
-          <div
-            className={cn(
-              'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
-              sizeStyles.containerHeight,
-              className,
-            )}
-            aria-label={ariaLabel}
-            role="group"
-          >
-            {children}
-          </div>
-        </SegmentedButtonIconSizeContext.Provider>
-      </SegmentedButtonSizeContext.Provider>
-    );
-  }
-
-  const selectedValue = currentValue ?? (multiSelect ? [] : undefined);
-
-  const isSelected = (optionValue: string) => {
-    if (multiSelect) {
-      return Array.isArray(selectedValue) && selectedValue.includes(optionValue);
+  React.useEffect(() => {
+    if (selectionMode === 'single') {
+      setTabStopIndex(selectedIndex === -1 ? firstEnabledIndex : selectedIndex);
     }
-    return selectedValue === optionValue;
-  };
+  }, [firstEnabledIndex, selectedIndex, selectionMode]);
 
-  const focusItem = (index: number) => {
+  const resolvedTabStopIndex = options[tabStopIndex]?.disabled
+    ? selectedIndex === -1
+      ? firstEnabledIndex
+      : selectedIndex
+    : tabStopIndex;
+
+  const getNextEnabledIndex = React.useCallback(
+    (startIndex: number, direction: 1 | -1) => {
+      if (options.length === 0) return -1;
+      let index = startIndex;
+      for (let attempt = 0; attempt < options.length; attempt += 1) {
+        index = (index + direction + options.length) % options.length;
+        if (!options[index]?.disabled) return index;
+      }
+      return -1;
+    },
+    [options],
+  );
+
+  const moveFocus = (index: number) => {
+    if (index === -1) return;
+    setTabStopIndex(index);
     buttonRefs.current[index]?.focus();
-  };
-
-  const getNextEnabledIndex = (startIndex: number, direction: 1 | -1) => {
-    if (!options.length) return -1;
-
-    let index = startIndex;
-    for (let attempt = 0; attempt < options.length; attempt += 1) {
-      index = (index + direction + options.length) % options.length;
-      if (!options[index]?.disabled) return index;
+    if (selectionMode === 'single') {
+      const value = options[index]?.value;
+      if (value !== undefined) onOptionSelect(value);
     }
-
-    return -1;
-  };
-
-  const handleSelect = (optionValue: string) => {
-    const option = options.find((item) => item.value === optionValue);
-    if (option?.disabled) return;
-
-    if (multiSelect) {
-      const values = Array.isArray(selectedValue) ? selectedValue : [];
-      const nextValue = values.includes(optionValue)
-        ? values.filter((item) => item !== optionValue)
-        : [...values, optionValue];
-      setCurrentValue(nextValue);
-      return;
-    }
-
-    setCurrentValue(optionValue);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const direction = getDirection(event);
     switch (event.key) {
       case 'ArrowRight':
-      case 'ArrowDown': {
         event.preventDefault();
-        const nextIndex = getNextEnabledIndex(index, 1);
-        if (nextIndex !== -1) focusItem(nextIndex);
+        moveFocus(getNextEnabledIndex(index, direction === 'rtl' ? -1 : 1));
         break;
-      }
       case 'ArrowLeft':
-      case 'ArrowUp': {
         event.preventDefault();
-        const nextIndex = getNextEnabledIndex(index, -1);
-        if (nextIndex !== -1) focusItem(nextIndex);
+        moveFocus(getNextEnabledIndex(index, direction === 'rtl' ? 1 : -1));
         break;
-      }
-      case 'Home': {
+      case 'ArrowDown':
         event.preventDefault();
-        const nextIndex = getNextEnabledIndex(-1, 1);
-        if (nextIndex !== -1) focusItem(nextIndex);
+        moveFocus(getNextEnabledIndex(index, 1));
         break;
-      }
-      case 'End': {
+      case 'ArrowUp':
         event.preventDefault();
-        const nextIndex = getNextEnabledIndex(0, -1);
-        if (nextIndex !== -1) focusItem(nextIndex);
+        moveFocus(getNextEnabledIndex(index, -1));
         break;
-      }
+      case 'Home':
+        event.preventDefault();
+        moveFocus(getNextEnabledIndex(-1, 1));
+        break;
+      case 'End':
+        event.preventDefault();
+        moveFocus(getNextEnabledIndex(0, -1));
+        break;
       case ' ':
       case 'Enter': {
         event.preventDefault();
-        handleSelect(options[index]?.value ?? '');
+        const value = options[index]?.value;
+        if (value !== undefined) onOptionSelect(value);
         break;
       }
       default:
@@ -201,151 +190,159 @@ export const SegmentedButton: React.FC<SegmentedButtonProps> = ({
   };
 
   return (
-    <SegmentedButtonSizeContext.Provider value={size}>
-      <SegmentedButtonIconSizeContext.Provider value={resolvedIconSize}>
-        <div
-          className={cn(
-            'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
-            sizeStyles.containerHeight,
-            className,
-          )}
-          aria-label={ariaLabel}
-          role={multiSelect ? 'group' : 'radiogroup'}
-          aria-multiselectable={multiSelect}
-        >
-          {options.map((option, index) => {
-            const selected = isSelected(option.value);
-            const isLast = index === options.length - 1;
+    <div
+      {...groupProps}
+      ref={forwardedRef}
+      className={cn(
+        'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
+        sizeStyles.containerHeight,
+        className,
+      )}
+      role={selectionMode === 'single' ? 'radiogroup' : 'group'}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+    >
+      {options.map((option, index) => {
+        const selected = isSelected(option.value);
+        const isLast = index === options.length - 1;
 
-            return (
-              <button
-                key={option.value}
-                ref={(node) => {
-                  buttonRefs.current[index] = node;
-                }}
-                type="button"
-                disabled={option.disabled}
-                onClick={() => handleSelect(option.value)}
-                onKeyDown={(event) => handleKeyDown(event, index)}
-                role={multiSelect ? 'checkbox' : 'radio'}
-                aria-checked={selected}
-                aria-disabled={option.disabled}
+        return (
+          <button
+            key={option.value}
+            ref={(node) => {
+              buttonRefs.current[index] = node;
+            }}
+            type="button"
+            disabled={option.disabled}
+            tabIndex={index === resolvedTabStopIndex ? 0 : -1}
+            role={selectionMode === 'single' ? 'radio' : 'checkbox'}
+            aria-checked={selected}
+            onFocus={() => setTabStopIndex(index)}
+            onClick={() => onOptionSelect(option.value)}
+            onKeyDown={(event) => handleKeyDown(event, index)}
+            className={cn(
+              'focus-visible:outline-focus-ring relative flex h-full min-w-fit flex-1 items-center justify-center leading-none font-medium whitespace-nowrap transition-all select-none focus-visible:z-10 focus-visible:outline-2',
+              sizeStyles.itemGap,
+              sizeStyles.itemPaddingX,
+              sizeStyles.itemText,
+              !isLast && 'border-outline-strong border-r',
+              option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
+              selected && !option.disabled
+                ? 'bg-secondary-container text-on-secondary-container'
+                : 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
+              option.className,
+            )}
+          >
+            <Ripple disabled={option.disabled} />
+            <span
+              aria-hidden="true"
+              className={cn(
+                'duration-medium ease-emphasized flex items-center justify-center overflow-hidden transition-all',
+                selected ? `${sizeStyles.checkWidth} opacity-100` : 'w-0 opacity-0',
+              )}
+            >
+              <svg
+                className={sizeStyles.checkClass}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={sizeStyles.checkStrokeWidth}
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+
+            {option.icon && !selected ? (
+              <span
+                aria-hidden="true"
                 className={cn(
-                  'focus-visible:outline-primary relative flex h-full min-w-fit flex-1 items-center justify-center leading-none font-medium whitespace-nowrap transition-all select-none focus-visible:z-10 focus-visible:outline-2',
-                  sizeStyles.itemGap,
-                  sizeStyles.itemPaddingX,
-                  sizeStyles.itemText,
-                  !isLast && 'border-outline-strong border-r',
-                  option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
-                  selected && !option.disabled
-                    ? 'bg-secondary-container text-on-secondary-container'
-                    : 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
+                  'relative z-10 flex items-center justify-center',
+                  sizeStyles.iconClass,
                 )}
               >
-                <Ripple disabled={option.disabled} />
-                <div
-                  className={cn(
-                    'duration-medium ease-emphasized flex items-center justify-center overflow-hidden transition-all',
-                    selected ? `${sizeStyles.checkWidth} opacity-100` : 'w-0 opacity-0',
-                  )}
-                >
-                  <svg
-                    className={sizeStyles.checkClass}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth={sizeStyles.checkStrokeWidth}
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                </div>
+                {normalizeIconNode(option.icon, resolvedIconSize)}
+              </span>
+            ) : null}
 
-                {option.icon && !selected && (
-                  <span
-                    className={cn(
-                      'relative z-10 flex items-center justify-center',
-                      sizeStyles.iconClass,
-                    )}
-                  >
-                    {normalizeIconNode(option.icon, resolvedIconSize)}
-                  </span>
-                )}
-
-                <span className="relative z-10 truncate leading-none">{option.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </SegmentedButtonIconSizeContext.Provider>
-    </SegmentedButtonSizeContext.Provider>
+            <span className="relative z-10 truncate leading-none">{option.label}</span>
+          </button>
+        );
+      })}
+    </div>
   );
-};
+}
 
-const segmentedButtonItemVariants = cva(
-  'relative flex h-full min-w-fit flex-1 items-center justify-center whitespace-nowrap font-medium leading-none transition-all select-none',
-  {
-    variants: {
-      active: {
-        true: 'bg-secondary-container text-on-secondary-container',
-        false: 'text-on-surface-variant bg-surface hover:bg-surface-container-high',
-      },
-      disabled: {
-        true: 'opacity-38 cursor-not-allowed',
-        false: 'cursor-pointer',
-      },
-      size: {
-        sm: `${getSegmentedButtonSizeStyles('sm').itemGap} ${getSegmentedButtonSizeStyles('sm').itemPaddingX} ${getSegmentedButtonSizeStyles('sm').itemText}`,
-        md: `${getSegmentedButtonSizeStyles('md').itemGap} ${getSegmentedButtonSizeStyles('md').itemPaddingX} ${getSegmentedButtonSizeStyles('md').itemText}`,
-        lg: `${getSegmentedButtonSizeStyles('lg').itemGap} ${getSegmentedButtonSizeStyles('lg').itemPaddingX} ${getSegmentedButtonSizeStyles('lg').itemText}`,
-      },
+function SegmentedButtonSingle<Value extends string>({
+  defaultValue,
+  onValueChange,
+  selectionMode: _selectionMode,
+  value,
+  forwardedRef,
+  ...commonProps
+}: SegmentedButtonSingleProps<Value> & { forwardedRef: React.ForwardedRef<HTMLDivElement> }) {
+  const [currentValue, setCurrentValue] = useControllableState<Value | null>({
+    value,
+    defaultValue,
+    onChange: (nextValue) => {
+      if (nextValue !== null) onValueChange?.(nextValue);
     },
-    defaultVariants: {
-      active: false,
-      disabled: false,
-      size: 'md',
-    },
+  });
+
+  return (
+    <SegmentedButtonRoot
+      {...commonProps}
+      forwardedRef={forwardedRef}
+      selectionMode="single"
+      isSelected={(optionValue) => currentValue === optionValue}
+      onOptionSelect={setCurrentValue}
+    />
+  );
+}
+
+function SegmentedButtonMultiple<Value extends string>({
+  defaultValue = [],
+  onValueChange,
+  selectionMode: _selectionMode,
+  value,
+  forwardedRef,
+  ...commonProps
+}: SegmentedButtonMultipleProps<Value> & { forwardedRef: React.ForwardedRef<HTMLDivElement> }) {
+  const [currentValue = [], setCurrentValue] = useControllableState<Value[]>({
+    value,
+    defaultValue,
+    onChange: onValueChange,
+  });
+
+  return (
+    <SegmentedButtonRoot
+      {...commonProps}
+      forwardedRef={forwardedRef}
+      selectionMode="multiple"
+      isSelected={(optionValue) => currentValue.includes(optionValue)}
+      onOptionSelect={(optionValue) => {
+        setCurrentValue(
+          currentValue.includes(optionValue)
+            ? currentValue.filter((item) => item !== optionValue)
+            : [...currentValue, optionValue],
+        );
+      }}
+    />
+  );
+}
+
+const SegmentedButtonBase = React.forwardRef<HTMLDivElement, SegmentedButtonProps>(
+  (props, forwardedRef) => {
+    if (props.selectionMode === 'multiple') {
+      return <SegmentedButtonMultiple {...props} forwardedRef={forwardedRef} />;
+    }
+    return <SegmentedButtonSingle {...props} forwardedRef={forwardedRef} />;
   },
 );
 
-export type SegmentedButtonItemProps = VariantProps<typeof segmentedButtonItemVariants> & {
-  children: React.ReactNode;
-  active?: boolean;
-  disabled?: boolean;
-  onClick?: () => void;
-  className?: string;
-  size?: SegmentedButtonSize;
-  iconSize?: NonNullable<IconProps['size']>;
-};
+SegmentedButtonBase.displayName = 'SegmentedButton';
 
-export const SegmentedButtonItem: React.FC<SegmentedButtonItemProps> = ({
-  children,
-  active,
-  disabled,
-  onClick,
-  className,
-  size,
-  iconSize,
-}) => {
-  const groupSize = React.useContext(SegmentedButtonSizeContext);
-  const groupIconSize = React.useContext(SegmentedButtonIconSizeContext);
-  const resolvedSize = size ?? groupSize;
-  const resolvedIconSize = iconSize ?? groupIconSize;
+type SegmentedButtonComponent = <Value extends string = string>(
+  props: SegmentedButtonProps<Value> & React.RefAttributes<HTMLDivElement>,
+) => React.ReactElement | null;
 
-  return (
-    <button
-      type="button"
-      className={cn(
-        segmentedButtonItemVariants({ active, disabled, size: resolvedSize, className }),
-      )}
-      onClick={disabled ? undefined : onClick}
-      disabled={disabled}
-      role="button"
-      aria-pressed={active}
-    >
-      <Ripple disabled={disabled} />
-      <span className="relative z-10 inline-flex items-center justify-center gap-1.5 leading-none">
-        {normalizeIconChildren(children, resolvedIconSize)}
-      </span>
-    </button>
-  );
-};
+export const SegmentedButton = SegmentedButtonBase as SegmentedButtonComponent;

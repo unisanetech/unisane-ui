@@ -1,34 +1,45 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Badge, Card, IconButton } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Card, IconButton } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const BadgeHeroVisual = () => (
   <HeroBackground tone="surface">
     {/* Mock Notification Panel */}
-    <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
+    <div className="bg-surface border-outline-variant relative w-72 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant flex items-center justify-between border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Dashboard</span>
         <div className="relative">
-          <IconButton variant="standard" aria-label="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
+          <IconButton
+            variant="standard"
+            aria-label="Notifications"
+            icon={<span className="material-symbols-outlined">notifications</span>}
+          />
           <div className="absolute -top-1 -right-1">
-            <Badge color="error" size="sm">3</Badge>
+            <Badge color="error" size="sm">
+              3
+            </Badge>
           </div>
         </div>
       </div>
-      <div className="p-4 space-y-3">
+      <div className="space-y-3 p-4">
         <div className="flex items-center gap-3">
           <Badge color="success">Active</Badge>
           <span className="text-body-small text-on-surface-variant">Server Status</span>
         </div>
         <div className="flex items-center gap-3">
-          <Badge color="error" variant="tonal">5 Critical</Badge>
+          <Badge color="error" variant="tonal">
+            5 Critical
+          </Badge>
           <span className="text-body-small text-on-surface-variant">Issues</span>
         </div>
         <div className="flex items-center gap-3">
-          <Badge color="primary" variant="outlined">v2.1.0</Badge>
+          <Badge color="primary" variant="outlined">
+            v2.1.0
+          </Badge>
           <span className="text-body-small text-on-surface-variant">Version</span>
         </div>
       </div>
@@ -38,17 +49,16 @@ const BadgeHeroVisual = () => (
 
 export const badgeDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "badge",
-  name: "Badge",
-  description:
-    "Badges convey dynamic information, such as counts or status indicators.",
-  category: "communication",
-  status: "stable",
-  icon: "new_releases",
+  slug: 'badge',
+  name: 'Badge',
+  description: 'Badges convey dynamic information, such as counts or status indicators.',
+  category: 'communication',
+  status: 'stable',
+  icon: 'new_releases',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Badge"],
+  importPath: '@/components/ui/badge',
+  exports: ['Badge'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <BadgeHeroVisual />,
@@ -56,116 +66,135 @@ export const badgeDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Badges come in different variants and colors. Choose based on the visual hierarchy needed.",
+      'Badges come in different variants and colors. Choose based on the visual hierarchy needed.',
     columns: {
-      emphasis: "Variant",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Variant',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Filled",
+        emphasis: 'Filled',
         component: (
-          <Badge variant="filled" color="primary">New</Badge>
+          <Badge variant="filled" color="primary">
+            New
+          </Badge>
         ),
-        rationale:
-          "High emphasis for important status information.",
-        examples: "Notifications, New items, Important counts",
+        rationale: 'High emphasis for important status information.',
+        examples: 'Notifications, New items, Important counts',
       },
       {
-        emphasis: "Tonal",
+        emphasis: 'Tonal',
         component: (
-          <Badge variant="tonal" color="primary">Active</Badge>
+          <Badge variant="tonal" color="primary">
+            Active
+          </Badge>
         ),
-        rationale:
-          "Medium emphasis that blends with the UI.",
-        examples: "Status labels, Categories, Tags",
+        rationale: 'Medium emphasis that blends with the UI.',
+        examples: 'Status labels, Categories, Tags',
       },
       {
-        emphasis: "Outlined",
+        emphasis: 'Outlined',
         component: (
-          <Badge variant="outlined" color="primary">v1.0</Badge>
+          <Badge variant="outlined" color="primary">
+            v1.0
+          </Badge>
         ),
-        rationale:
-          "Low emphasis for supplementary information.",
-        examples: "Version numbers, Secondary status, Metadata",
+        rationale: 'Low emphasis for supplementary information.',
+        examples: 'Version numbers, Secondary status, Metadata',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Badges support multiple colors for different semantic meanings.",
+    description: 'Badges support multiple colors for different semantic meanings.',
     items: [
       {
         component: <Badge color="primary">Primary</Badge>,
-        title: "Primary",
-        subtitle: "Default actions",
+        title: 'Primary',
+        subtitle: 'Default actions',
       },
       {
         component: <Badge color="error">Error</Badge>,
-        title: "Error",
-        subtitle: "Alerts & warnings",
+        title: 'Error',
+        subtitle: 'Alerts & warnings',
       },
       {
         component: <Badge color="success">Success</Badge>,
-        title: "Success",
-        subtitle: "Positive status",
+        title: 'Success',
+        subtitle: 'Positive status',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Badges are commonly used for notification counts, status indicators, and labels.",
+    description: 'Badges are commonly used for notification counts, status indicators, and labels.',
     examples: [
       {
-        title: "Notification badge",
+        title: 'Notification badge',
         visual: (
-          <Card variant="outlined" padding="lg" className="max-w-52 mx-auto">
+          <Card variant="outlined" padding="lg" className="mx-auto max-w-52">
             <div className="flex items-center justify-center gap-6">
               <div className="relative">
-                <IconButton variant="standard" aria-label="Mail" icon={<span className="material-symbols-outlined">mail</span>} />
+                <IconButton
+                  variant="standard"
+                  aria-label="Mail"
+                  icon={<span className="material-symbols-outlined">mail</span>}
+                />
                 <div className="absolute -top-1 -right-1">
-                  <Badge color="error" size="sm">12</Badge>
+                  <Badge color="error" size="sm">
+                    12
+                  </Badge>
                 </div>
               </div>
               <div className="relative">
-                <IconButton variant="standard" aria-label="Notifications" icon={<span className="material-symbols-outlined">notifications</span>} />
+                <IconButton
+                  variant="standard"
+                  aria-label="Notifications"
+                  icon={<span className="material-symbols-outlined">notifications</span>}
+                />
                 <div className="absolute -top-1 -right-1">
-                  <Badge color="error" size="sm">3</Badge>
+                  <Badge color="error" size="sm">
+                    3
+                  </Badge>
                 </div>
               </div>
             </div>
           </Card>
         ),
-        caption: "Badges on icon buttons for notification counts",
+        caption: 'Badges on icon buttons for notification counts',
       },
       {
-        title: "Status labels",
+        title: 'Status labels',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-4">Orders</div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="text-body-medium text-on-surface">Order #1234</span>
-                <Badge color="success" variant="tonal">Delivered</Badge>
+                <Badge color="success" variant="tonal">
+                  Delivered
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-body-medium text-on-surface">Order #1235</span>
-                <Badge color="primary" variant="tonal">Shipping</Badge>
+                <Badge color="primary" variant="tonal">
+                  Shipping
+                </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-body-medium text-on-surface">Order #1236</span>
-                <Badge color="secondary" variant="tonal">Processing</Badge>
+                <Badge color="secondary" variant="tonal">
+                  Processing
+                </Badge>
               </div>
             </div>
           </Card>
         ),
-        caption: "Status badges in a list",
+        caption: 'Status badges in a list',
       },
     ],
   },
@@ -173,56 +202,51 @@ export const badgeDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "The content displayed inside the badge.",
+      description: 'The content displayed inside the badge.',
     },
     {
-      name: "variant",
+      name: 'variant',
       type: '"filled" | "tonal" | "outlined"',
       default: '"filled"',
-      description: "The visual style of the badge.",
+      description: 'The visual style of the badge.',
     },
     {
-      name: "color",
-      type: '"primary" | "secondary" | "tertiary" | "error" | "success"',
+      name: 'color',
+      type: '"primary" | "secondary" | "tertiary" | "error" | "success" | "warning" | "info"',
       default: '"primary"',
-      description: "The color of the badge.",
+      description: 'The color of the badge.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg"',
       default: '"md"',
-      description: "The size of the badge.",
+      description: 'The size of the badge.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes to apply.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role='status' for screen reader announcements.",
-      "Content is read as part of the badge text.",
-      "Consider adding aria-label for icon-only badges.",
+      'Badges are passive text by default and do not create unexpected live-region announcements.',
+      "Add role='status' and aria-live only when a dynamic update must be announced.",
+      'Use visible text or an accessible label when the visual content alone is ambiguous.',
     ],
-    keyboard: [
-      { key: "N/A", description: "Badges are not interactive" },
-    ],
-    focus: [
-      "Badges do not receive focus.",
-      "When used on buttons, the button receives focus.",
-    ],
+    keyboard: [{ key: 'N/A', description: 'Badges are not interactive' }],
+    focus: ['Badges do not receive focus.', 'When used on buttons, the button receives focus.'],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use badges to display counts and status information.",
-    code: `import { Badge } from "@unisane/ui";
+    description: 'Use badges to display counts and status information.',
+    code: `import { Badge } from "@/components/ui/badge";
 
 function NotificationBell({ count }: { count: number }) {
   return (
@@ -264,16 +288,16 @@ function StatusBadge({ status }: { status: string }) {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "chip",
-      reason: "Use for interactive labels and filters.",
+      slug: 'chip',
+      reason: 'Use for interactive labels and filters.',
     },
     {
-      slug: "icon-button",
-      reason: "Often combined with badges for notifications.",
+      slug: 'icon-button',
+      reason: 'Often combined with badges for notifications.',
     },
     {
-      slug: "avatar",
-      reason: "Can include status badges.",
+      slug: 'avatar',
+      reason: 'Can include status badges.',
     },
   ],
 };

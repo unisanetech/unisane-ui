@@ -23,7 +23,8 @@
               "primitives:ui",
               "layout:ui",
               "hooks:ui",
-              "lib:util"
+              "lib:util",
+              "types:ui"
             ]
           },
           "description": {

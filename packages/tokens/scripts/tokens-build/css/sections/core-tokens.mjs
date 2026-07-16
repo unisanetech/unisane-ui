@@ -492,5 +492,15 @@ export function generateCoreTokensSection(config) {
 }
 `;
 
+  css = css
+    .replace(
+      /\/\* ============================================================\n   THEMING SYSTEM[\s\S]*?  \/\* === SCALING KNOBS === \*\//,
+      `:root {\n  /* === FOUNDATION SCALING === */`,
+    )
+    .replace(
+      /  \/\* === TONE MAPPING LAYER[\s\S]*?  --color-scrim-soft: color-mix\(in oklab, var\(--color-scrim\) 30%, transparent\);/,
+      `  --color-scrim: rgba(0, 0, 0, 0.32);\n  --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);`,
+    );
+
   return css;
 }

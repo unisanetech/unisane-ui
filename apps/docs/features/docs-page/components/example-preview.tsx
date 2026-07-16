@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import type { ExampleDef, PreviewStageConfig } from '@/lib/docs/registry/types';
 import { cn } from '@unisane/ui/lib/utils';
-import { SegmentedButton, Surface, Typography } from '@unisane/ui';
+import { Surface, Typography } from '@unisane/ui';
+import { SegmentedButton } from '@unisane/ui/segmented-button';
 import { PreviewStage, mergePreviewStageConfig } from './preview-stage';
 import { CodeBlock } from './code-block';
 
@@ -39,12 +40,13 @@ export function ExamplePreview({ example, previewDefaults, className }: ExampleP
         {/* Tab Buttons */}
         {example.code && (
           <SegmentedButton
+            aria-label="Example view"
             options={[
               { value: 'preview', label: 'Preview' },
               { value: 'code', label: 'Code' },
             ]}
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as 'preview' | 'code')}
+            onValueChange={setActiveTab}
             size="sm"
           />
         )}

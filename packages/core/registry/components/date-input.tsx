@@ -1,21 +1,16 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import {
   fieldContainerVariants,
   getFieldAffixClasses,
-  getFieldHelperTextClasses,
   getFieldLabelClasses,
   type FieldShellVariant,
 } from '@/lib/field-shell';
-import { useFieldState } from '@/lib/use-field-state';
-
-// ─── SEGMENT-BASED DATE INPUT ────────────────────────────────────────────────
-// HeroUI-style segment-based date input with M3 styling
-// Each date unit (month, day, year) is an individually focusable and editable segment
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 
 type DateSegment = 'month' | 'day' | 'year';
 
@@ -25,315 +20,289 @@ interface DateSegmentValue {
   year: number | null;
 }
 
-export type DateInputProps = {
+export interface DateInputProps {
   variant?: FieldShellVariant;
-  /** The selected date value */
   value?: Date;
-  /** The default date value for uncontrolled usage */
   defaultValue?: Date;
-  /** Callback when date changes */
   onValueChange?: (date: Date | undefined) => void;
-  /** Label text for the input field */
-  label?: string;
-  /** Whether the date input is disabled */
+  label: string;
+  hideLabel?: boolean;
   disabled?: boolean;
-  /** Whether to show error state */
-  error?: boolean;
-  /** Helper text displayed below the input */
-  helperText?: string;
-  /** Additional class name */
+  required?: boolean;
+  invalid?: boolean;
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
   className?: string;
-  /** Locale used to resolve segment order when format is not provided */
   locale?: string;
-  /** Optional date format pattern (e.g. dd/MM/yyyy, MM/dd/yyyy) */
   format?: string;
-  /** Minimum selectable date */
   min?: Date;
-  /** Maximum selectable date */
   max?: Date;
-  /** Background color class for the label (outlined variant) */
-  labelBg?: string;
-  /** Trailing icon/element */
+  name?: string;
   trailingIcon?: React.ReactNode;
-  /** Called when a segment receives focus */
-  onFocus?: () => void;
-  /** Called when all segments lose focus */
-  onBlur?: () => void;
-  /** Custom ID for the input */
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
+  onKeyDown?: React.KeyboardEventHandler<HTMLDivElement>;
   id?: string;
-  /** Shared control size */
   size?: FieldSize;
-};
-
-// Get max days for a given month/year
-const getMaxDays = (month: number | null, year: number | null): number => {
-  if (month === null) return 31;
-  const y = year ?? 2024; // Use leap year as default
-  return new Date(y, month, 0).getDate();
-};
+}
 
 const DEFAULT_SEGMENT_ORDER: DateSegment[] = ['month', 'day', 'year'];
+
+function toDateOnly(date: Date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function isSameDay(left: Date | undefined, right: Date | undefined) {
+  if (!left || !right) return left === right;
+  return (
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  );
+}
+
+function serializeDate(date: Date | undefined) {
+  if (!date) return '';
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+    date.getDate(),
+  ).padStart(2, '0')}`;
+}
+
+function getMaxDays(month: number | null, year: number | null) {
+  if (month === null) return 31;
+  return new Date(year ?? 2024, month, 0).getDate();
+}
 
 function resolveFormatSegmentOrder(format?: string): DateSegment[] | null {
   const pattern = format?.trim();
   if (!pattern) return null;
 
-  const monthIndex = pattern.indexOf('M');
-  const dayIndex = pattern.toLowerCase().indexOf('d');
-  const yearIndex = pattern.toLowerCase().indexOf('y');
+  const monthIndex = pattern.search(/M/i);
+  const dayIndex = pattern.search(/d/i);
+  const yearIndex = pattern.search(/y/i);
   if (monthIndex < 0 || dayIndex < 0 || yearIndex < 0) return null;
 
-  const indexed: Array<{ segment: DateSegment; index: number }> = [
-    { segment: 'month', index: monthIndex },
-    { segment: 'day', index: dayIndex },
-    { segment: 'year', index: yearIndex },
-  ];
-
-  indexed.sort((a, b) => a.index - b.index);
-  return indexed.map((entry) => entry.segment);
+  return [
+    { segment: 'month' as const, index: monthIndex },
+    { segment: 'day' as const, index: dayIndex },
+    { segment: 'year' as const, index: yearIndex },
+  ]
+    .sort((left, right) => left.index - right.index)
+    .map((entry) => entry.segment);
 }
 
 function resolveLocaleSegmentOrder(locale?: string): DateSegment[] {
   try {
-    const parts = new Intl.DateTimeFormat(locale || 'en-US', {
+    const order = new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
-    }).formatToParts(new Date(2006, 10, 22));
-    const order = parts
+    })
+      .formatToParts(new Date(2006, 10, 22))
       .filter((part) => part.type === 'day' || part.type === 'month' || part.type === 'year')
       .map((part) => part.type as DateSegment);
     if (order.length === 3) return order;
   } catch {
-    // fallback to default
+    return DEFAULT_SEGMENT_ORDER;
   }
   return DEFAULT_SEGMENT_ORDER;
 }
 
-function resolveSegmentOrder(locale?: string, format?: string): DateSegment[] {
+function resolveSegmentOrder(locale?: string, format?: string) {
   return resolveFormatSegmentOrder(format) ?? resolveLocaleSegmentOrder(locale);
 }
 
-function resolveSegmentSeparator(locale?: string, format?: string): string {
+function resolveSegmentSeparator(locale?: string, format?: string) {
   const pattern = format?.trim();
   if (pattern) {
-    const match = pattern.match(/[^dMy]+/);
-    if (match?.[0]) return match[0];
+    const literal = pattern.match(/[^dmy]+/i)?.[0];
+    if (literal) return literal;
   }
 
   try {
-    const parts = new Intl.DateTimeFormat(locale || 'en-US', {
+    const literal = new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
-    }).formatToParts(new Date(2006, 10, 22));
-    const literal = parts.find((part) => part.type === 'literal')?.value?.trim();
+    })
+      .formatToParts(new Date(2006, 10, 22))
+      .find((part) => part.type === 'literal')
+      ?.value.trim();
     if (literal) return literal;
   } catch {
-    // fallback to slash
+    return '/';
   }
   return '/';
 }
 
-function resolveSegmentPlaceholder(segment: DateSegment): string {
+function resolveSegmentPlaceholder(segment: DateSegment) {
   if (segment === 'month') return 'MM';
   if (segment === 'day') return 'DD';
   return 'YYYY';
 }
 
-// Segment component
+function resolveDate(segments: DateSegmentValue, min?: Date, max?: Date) {
+  if (segments.month === null || segments.day === null || segments.year === null) return undefined;
+  const date = new Date(segments.year, segments.month - 1, segments.day);
+  if (
+    date.getFullYear() !== segments.year ||
+    date.getMonth() !== segments.month - 1 ||
+    date.getDate() !== segments.day
+  ) {
+    return undefined;
+  }
+  const normalized = toDateOnly(date);
+  if (min && normalized < toDateOnly(min)) return undefined;
+  if (max && normalized > toDateOnly(max)) return undefined;
+  return normalized;
+}
+
 interface SegmentProps {
   type: DateSegment;
   value: number | null;
   onChange: (value: number | null) => void;
   onNext: () => void;
-  onPrev: () => void;
-  disabled?: boolean;
+  onPrevious: () => void;
+  disabled: boolean;
   placeholder: string;
-  min?: number;
-  max?: number;
+  min: number;
+  max: number;
   inputRef: React.RefObject<HTMLInputElement | null>;
-  isFocused: boolean;
-  onFocusChange: (focused: boolean) => void;
+  focused: boolean;
+  onFocusedChange: (focused: boolean) => void;
   id?: string;
   describedBy?: string;
+  label: string;
+  required: boolean;
+  invalid: boolean;
   size: FieldSize;
 }
 
-const Segment: React.FC<SegmentProps> = ({
+function Segment({
   type,
   value,
   onChange,
   onNext,
-  onPrev,
+  onPrevious,
   disabled,
   placeholder,
-  min = 1,
+  min,
   max,
   inputRef,
-  isFocused,
-  onFocusChange,
+  focused,
+  onFocusedChange,
   id,
   describedBy,
+  label,
+  required,
+  invalid,
   size,
-}) => {
+}: SegmentProps) {
   const fieldSize = getFieldSizeStyles(size);
-  const [enteredDigits, setEnteredDigits] = useState('');
-  const maxValue = max ?? (type === 'month' ? 12 : type === 'day' ? 31 : 9999);
-  const minValue = min;
+  const [enteredDigits, setEnteredDigits] = React.useState('');
+  const enteredDigitsRef = React.useRef('');
   const digitCount = type === 'year' ? 4 : 2;
 
-  // Format display value
-  const getDisplayValue = () => {
-    if (isFocused && enteredDigits) {
-      // Show what user is typing without padding (like HeroUI)
-      return enteredDigits;
-    }
-    if (value !== null) {
-      return value.toString().padStart(digitCount, '0');
-    }
-    return placeholder;
-  };
+  const updateEnteredDigits = React.useCallback((nextDigits: string) => {
+    enteredDigitsRef.current = nextDigits;
+    setEnteredDigits(nextDigits);
+  }, []);
 
-  // Reset entered digits when focus changes
-  useEffect(() => {
-    if (!isFocused) {
-      setEnteredDigits('');
-    }
-  }, [isFocused]);
+  React.useEffect(() => {
+    if (!focused) updateEnteredDigits('');
+  }, [focused, updateEnteredDigits]);
 
-  const commitValue = (digits: string) => {
-    if (!digits) {
-      onChange(null);
+  const commitValue = React.useCallback(
+    (digits: string) => {
+      if (!digits) {
+        onChange(null);
+        return;
+      }
+      const parsed = Number.parseInt(digits, 10);
+      onChange(Math.max(min, Math.min(max, parsed)));
+      updateEnteredDigits('');
+    },
+    [max, min, onChange, updateEnteredDigits],
+  );
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (disabled || event.altKey || event.ctrlKey || event.metaKey) return;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        event.preventDefault();
+        updateEnteredDigits('');
+        onChange(value === null ? min : value >= max ? min : value + 1);
+        return;
+      case 'ArrowDown':
+        event.preventDefault();
+        updateEnteredDigits('');
+        onChange(value === null ? max : value <= min ? max : value - 1);
+        return;
+      case 'ArrowLeft':
+        event.preventDefault();
+        if (enteredDigits) commitValue(enteredDigits);
+        onPrevious();
+        return;
+      case 'ArrowRight':
+        event.preventDefault();
+        if (enteredDigits) commitValue(enteredDigits);
+        onNext();
+        return;
+      case 'Tab':
+        if (enteredDigits) commitValue(enteredDigits);
+        return;
+      case 'Backspace': {
+        event.preventDefault();
+        if (enteredDigits) {
+          updateEnteredDigits(enteredDigits.slice(0, -1));
+          return;
+        }
+        if (value === null) {
+          onPrevious();
+          return;
+        }
+        const remaining = String(value).slice(0, -1);
+        if (!remaining) {
+          onChange(null);
+          return;
+        }
+        onChange(Number.parseInt(remaining, 10));
+        updateEnteredDigits(remaining);
+        return;
+      }
+      case 'Delete':
+        event.preventDefault();
+        onChange(null);
+        updateEnteredDigits('');
+        return;
+      default:
+        if (!/^[0-9]$/.test(event.key)) return;
+    }
+
+    event.preventDefault();
+    const nextDigits = enteredDigits + event.key;
+    if (nextDigits.length >= digitCount) {
+      commitValue(nextDigits);
+      onNext();
       return;
     }
-    const numVal = parseInt(digits, 10);
-    const clampedVal = Math.max(minValue, Math.min(maxValue, numVal));
-    onChange(clampedVal);
-    setEnteredDigits('');
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (disabled) return;
-
-    switch (e.key) {
-      case 'ArrowUp':
-        e.preventDefault();
-        setEnteredDigits('');
-        if (value === null) {
-          onChange(minValue);
-        } else {
-          onChange(value >= maxValue ? minValue : value + 1);
-        }
-        break;
-
-      case 'ArrowDown':
-        e.preventDefault();
-        setEnteredDigits('');
-        if (value === null) {
-          onChange(maxValue);
-        } else {
-          onChange(value <= minValue ? maxValue : value - 1);
-        }
-        break;
-
-      case 'ArrowLeft':
-        e.preventDefault();
-        if (enteredDigits) {
-          commitValue(enteredDigits);
-        }
-        onPrev();
-        break;
-
-      case 'ArrowRight':
-        e.preventDefault();
-        if (enteredDigits) {
-          commitValue(enteredDigits);
-        }
-        onNext();
-        break;
-
-      case 'Tab':
-        // Commit any entered digits before tabbing
-        if (enteredDigits) {
-          commitValue(enteredDigits);
-        }
-        // Let default tab behavior work
-        break;
-
-      case 'Backspace':
-        e.preventDefault();
-        if (enteredDigits) {
-          // Remove last entered digit while typing
-          setEnteredDigits(enteredDigits.slice(0, -1));
-        } else if (value !== null) {
-          // Convert current value to string and remove last digit
-          const strVal = value.toString();
-          if (strVal.length > 1) {
-            // Remove last digit (e.g., 2026 -> 202)
-            const newVal = parseInt(strVal.slice(0, -1), 10);
-            onChange(newVal);
-            // Put remaining digits into enteredDigits so user can continue editing
-            setEnteredDigits(strVal.slice(0, -1));
-          } else {
-            // Only one digit left, clear it
-            onChange(null);
-          }
-        } else {
-          // Already empty, move to previous segment
-          onPrev();
-        }
-        break;
-
-      case 'Delete':
-        e.preventDefault();
-        onChange(null);
-        setEnteredDigits('');
-        break;
-
-      default:
-        // Handle numeric input
-        if (/^[0-9]$/.test(e.key)) {
-          e.preventDefault();
-
-          // Start fresh or append
-          const newDigits = enteredDigits + e.key;
-
-          // Check if we've completed entering all digits
-          if (newDigits.length >= digitCount) {
-            commitValue(newDigits);
-            onNext();
-          } else {
-            // Check if we should auto-advance (e.g., typing "5" for month)
-            const numVal = parseInt(newDigits, 10);
-            const multiplier = Math.pow(10, digitCount - newDigits.length);
-            const minPossibleFinal = numVal * multiplier;
-
-            if (minPossibleFinal > maxValue) {
-              // Can't possibly make a valid number, commit now
-              commitValue(newDigits);
-              onNext();
-            } else {
-              // Keep building
-              setEnteredDigits(newDigits);
-            }
-          }
-        }
+    const parsed = Number.parseInt(nextDigits, 10);
+    const minimumPossibleValue = parsed * 10 ** (digitCount - nextDigits.length);
+    if (minimumPossibleValue > max) {
+      commitValue(nextDigits);
+      onNext();
+      return;
     }
+    updateEnteredDigits(nextDigits);
   };
 
-  const handleFocus = () => {
-    onFocusChange(true);
-    setEnteredDigits('');
-  };
-
-  const handleBlur = () => {
-    // Commit any entered digits
-    if (enteredDigits) {
-      commitValue(enteredDigits);
-    }
-    onFocusChange(false);
-  };
+  const displayValue =
+    focused && enteredDigits
+      ? enteredDigits
+      : value === null
+        ? placeholder
+        : String(value).padStart(digitCount, '0');
 
   return (
     <input
@@ -342,11 +311,17 @@ const Segment: React.FC<SegmentProps> = ({
       type="text"
       inputMode="numeric"
       role="spinbutton"
-      value={getDisplayValue()}
-      onChange={() => {}} // Controlled by keydown
+      value={displayValue}
+      onChange={() => undefined}
       onKeyDown={handleKeyDown}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
+      onFocus={() => {
+        updateEnteredDigits('');
+        onFocusedChange(true);
+      }}
+      onBlur={() => {
+        if (enteredDigitsRef.current) commitValue(enteredDigitsRef.current);
+        onFocusedChange(false);
+      }}
       disabled={disabled}
       className={cn(
         'border-none bg-transparent text-center caret-transparent outline-none select-none focus:ring-0',
@@ -354,17 +329,18 @@ const Segment: React.FC<SegmentProps> = ({
         fieldSize.segmentText,
         type === 'year' ? fieldSize.segmentYearWidth : fieldSize.segmentWidth,
         value === null && !enteredDigits && 'text-on-surface-variant',
-        isFocused && 'bg-state-selected rounded-xs',
+        focused && 'bg-state-selected rounded-xs',
       )}
-      aria-label={type}
+      aria-label={`${label}, ${type}`}
       aria-valuenow={value ?? undefined}
-      aria-valuemin={minValue}
-      aria-valuemax={maxValue}
+      aria-valuemin={min}
+      aria-valuemax={max}
       aria-describedby={describedBy}
-      readOnly={disabled}
+      aria-invalid={invalid || undefined}
+      aria-required={required || undefined}
     />
   );
-};
+}
 
 export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
   (
@@ -372,265 +348,221 @@ export const DateInput = React.forwardRef<HTMLDivElement, DateInputProps>(
       value,
       defaultValue,
       onValueChange,
-      label = 'Date',
+      label,
+      hideLabel = false,
       disabled = false,
-      error = false,
-      helperText,
+      required = false,
+      invalid = false,
+      description,
+      errorMessage,
       className,
       variant = 'outlined',
       locale,
       format,
       min,
       max,
-      labelBg,
+      name,
       trailingIcon,
       onFocus,
       onBlur,
+      onKeyDown,
       id,
       size = 'md',
     },
-    ref,
+    forwardedRef,
   ) => {
     const [currentValue, setCurrentValue] = useControllableState<Date | undefined>({
       value,
       defaultValue,
       onChange: onValueChange,
     });
-    const containerRef = useRef<HTMLDivElement>(null);
-    const monthRef = useRef<HTMLInputElement>(null);
-    const dayRef = useRef<HTMLInputElement>(null);
-    const yearRef = useRef<HTMLInputElement>(null);
+    const generatedId = React.useId();
+    const fieldId = id ?? `date-input-${generatedId}`;
+    const descriptionId = description ? `${fieldId}-description` : undefined;
+    const errorId = errorMessage ? `${fieldId}-error` : undefined;
+    const messageId = errorMessage ? errorId : descriptionId;
+    const resolvedInvalid = invalid || Boolean(errorMessage);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+    const monthRef = React.useRef<HTMLInputElement>(null);
+    const dayRef = React.useRef<HTMLInputElement>(null);
+    const yearRef = React.useRef<HTMLInputElement>(null);
     const fieldSize = getFieldSizeStyles(size);
-    const segmentOrder = useMemo(() => resolveSegmentOrder(locale, format), [locale, format]);
-    const segmentSeparator = useMemo(
+    const segmentOrder = React.useMemo(() => resolveSegmentOrder(locale, format), [format, locale]);
+    const segmentSeparator = React.useMemo(
       () => resolveSegmentSeparator(locale, format),
-      [locale, format],
+      [format, locale],
     );
-
-    const [focusedSegment, setFocusedSegment] = useState<DateSegment | null>(null);
-    const [segments, setSegments] = useState<DateSegmentValue>(() => ({
+    const [focusedSegment, setFocusedSegment] = React.useState<DateSegment | null>(null);
+    const [segments, setSegments] = React.useState<DateSegmentValue>(() => ({
       month: currentValue ? currentValue.getMonth() + 1 : null,
       day: currentValue ? currentValue.getDate() : null,
       year: currentValue ? currentValue.getFullYear() : null,
     }));
-    const { fieldId: inputId, helperId, isFloating } = useFieldState({
-      id,
-      idPrefix: 'dateinput',
-      helperText,
-      active: focusedSegment !== null,
-      forceFloating: true,
-    });
+    const segmentsRef = React.useRef(segments);
 
-    // Sync with external value
-    useEffect(() => {
-      if (currentValue) {
-        setSegments({
-          month: currentValue.getMonth() + 1,
-          day: currentValue.getDate(),
-          year: currentValue.getFullYear(),
-        });
-      } else {
-        setSegments({ month: null, day: null, year: null });
-      }
+    React.useEffect(() => {
+      const nextSegments = {
+        month: currentValue ? currentValue.getMonth() + 1 : null,
+        day: currentValue ? currentValue.getDate() : null,
+        year: currentValue ? currentValue.getFullYear() : null,
+      };
+      segmentsRef.current = nextSegments;
+      setSegments(nextSegments);
     }, [currentValue]);
 
-    // Handle focus/blur callbacks
-    useEffect(() => {
-      if (focusedSegment !== null) {
-        onFocus?.();
-      }
-    }, [focusedSegment, onFocus]);
-
-    const handleContainerBlur = useCallback(
-      (e: React.FocusEvent) => {
-        // Check if focus is moving outside the container
-        if (!containerRef.current?.contains(e.relatedTarget as Node)) {
-          setFocusedSegment(null);
-          onBlur?.();
-
-          // Validate and emit date on blur
-          if (segments.month !== null && segments.day !== null && segments.year !== null) {
-            const date = new Date(segments.year, segments.month - 1, segments.day);
-            // Validate the date is real (handles invalid dates like Feb 30)
-            if (
-              date.getFullYear() === segments.year &&
-              date.getMonth() === segments.month - 1 &&
-              date.getDate() === segments.day
-            ) {
-              // Check min/max constraints
-              if (min && date < min) {
-                setCurrentValue(undefined);
-                return;
-              }
-              if (max && date > max) {
-                setCurrentValue(undefined);
-                return;
-              }
-              setCurrentValue(date);
-            }
-          } else if (segments.month === null && segments.day === null && segments.year === null) {
-            setCurrentValue(undefined);
-          }
-        }
+    const setRefs = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        containerRef.current = node;
+        if (typeof forwardedRef === 'function') forwardedRef(node);
+        else if (forwardedRef) forwardedRef.current = node;
       },
-      [segments, onBlur, min, max, setCurrentValue],
+      [forwardedRef],
     );
 
-    const updateSegment = useCallback((segment: DateSegment, newValue: number | null) => {
-      setSegments((prev) => {
-        const updated = { ...prev, [segment]: newValue };
-
-        // Auto-correct day if it exceeds month's max days
-        if (segment === 'month' || segment === 'year') {
-          const maxDays = getMaxDays(updated.month, updated.year);
-          if (updated.day !== null && updated.day > maxDays) {
-            updated.day = maxDays;
-          }
-        }
-
-        return updated;
-      });
+    const getSegmentRef = React.useCallback((segment: DateSegment) => {
+      if (segment === 'month') return monthRef;
+      if (segment === 'day') return dayRef;
+      return yearRef;
     }, []);
 
-    const getSegmentRef = useCallback(
-      (segment: DateSegment) => {
-        if (segment === 'month') return monthRef;
-        if (segment === 'day') return dayRef;
-        return yearRef;
-      },
-      [monthRef, dayRef, yearRef],
-    );
-
-    const focusSegment = useCallback(
-      (segment: DateSegment) => {
-        getSegmentRef(segment).current?.focus();
-      },
+    const focusSegment = React.useCallback(
+      (segment: DateSegment) => getSegmentRef(segment).current?.focus(),
       [getSegmentRef],
     );
 
-    const handleContainerClick = () => {
-      if (!disabled && focusedSegment === null) {
-        focusSegment(segmentOrder[0] ?? 'month');
+    const updateSegment = React.useCallback((segment: DateSegment, nextValue: number | null) => {
+      const next = { ...segmentsRef.current, [segment]: nextValue };
+      if (segment === 'month' || segment === 'year') {
+        const maxDays = getMaxDays(next.month, next.year);
+        if (next.day !== null && next.day > maxDays) next.day = maxDays;
       }
+      segmentsRef.current = next;
+      setSegments(next);
+    }, []);
+
+    const commitSegments = React.useCallback(() => {
+      const currentSegments = segmentsRef.current;
+      const allEmpty = Object.values(currentSegments).every((segment) => segment === null);
+      const nextValue = allEmpty ? undefined : resolveDate(currentSegments, min, max);
+      if (!isSameDay(currentValue, nextValue)) setCurrentValue(nextValue);
+    }, [currentValue, max, min, setCurrentValue]);
+
+    const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
+      if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
+      setFocusedSegment(null);
+      commitSegments();
+      onBlur?.(event);
     };
 
-    // Combine refs
-    const setRefs = useCallback(
-      (node: HTMLDivElement | null) => {
-        (containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
-        if (typeof ref === 'function') {
-          ref(node);
-        } else if (ref) {
-          ref.current = node;
-        }
-      },
-      [ref],
-    );
-
     return (
-      <div className={cn('relative w-full', className)} ref={setRefs}>
-        <div className="relative inline-flex w-full flex-col">
+      <Field ref={setRefs} className={className} invalid={resolvedInvalid}>
+        <div
+          className={cn(
+            fieldContainerVariants({ variant, error: resolvedInvalid, disabled }),
+            fieldSize.containerHeight,
+            'items-center',
+          )}
+          onBlur={handleBlur}
+          onFocus={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) onFocus?.(event);
+          }}
+          onKeyDown={onKeyDown}
+          onClick={(event) => {
+            if (disabled) return;
+            const target = event.target;
+            if (target instanceof Element && target.closest('input, button, a, [role="button"]'))
+              return;
+            focusSegment(segmentOrder[0] ?? 'month');
+          }}
+        >
           <div
             className={cn(
-              fieldContainerVariants({ variant, error, disabled }),
-              fieldSize.containerHeight,
-              'items-center',
+              'relative flex h-full min-w-0 flex-1 items-center gap-0.5',
+              fieldSize.horizontalPadding,
             )}
-            onClick={handleContainerClick}
-            onBlur={handleContainerBlur}
           >
-            <div
-              className={cn(
-                'relative flex h-full min-w-0 flex-1 items-center gap-0.5',
-                fieldSize.horizontalPadding,
-              )}
+            {segmentOrder.map((segment, index) => {
+              const previousSegment = segmentOrder[index - 1];
+              const nextSegment = segmentOrder[index + 1];
+              const segmentMax =
+                segment === 'month'
+                  ? 12
+                  : segment === 'day'
+                    ? getMaxDays(segments.month, segments.year)
+                    : 9999;
+
+              return (
+                <React.Fragment key={segment}>
+                  <Segment
+                    type={segment}
+                    value={segments[segment]}
+                    onChange={(nextValue) => updateSegment(segment, nextValue)}
+                    onNext={() => nextSegment && focusSegment(nextSegment)}
+                    onPrevious={() => previousSegment && focusSegment(previousSegment)}
+                    disabled={disabled}
+                    placeholder={resolveSegmentPlaceholder(segment)}
+                    min={1}
+                    max={segmentMax}
+                    inputRef={getSegmentRef(segment)}
+                    focused={focusedSegment === segment}
+                    onFocusedChange={(focused) => setFocusedSegment(focused ? segment : null)}
+                    label={label}
+                    required={required}
+                    invalid={resolvedInvalid}
+                    size={size}
+                    describedBy={messageId}
+                    {...(index === 0 ? { id: fieldId } : {})}
+                  />
+                  {index < segmentOrder.length - 1 ? (
+                    <span className={cn('text-on-surface-variant', fieldSize.segmentText)}>
+                      {segmentSeparator}
+                    </span>
+                  ) : null}
+                </React.Fragment>
+              );
+            })}
+
+            <FieldLabel
+              htmlFor={fieldId}
+              required={required}
+              className={
+                hideLabel
+                  ? 'sr-only'
+                  : getFieldLabelClasses({
+                      size,
+                      variant,
+                      floating: true,
+                      error: resolvedInvalid,
+                      active: focusedSegment !== null,
+                    })
+              }
             >
-              {segmentOrder.map((segment, index) => {
-                const previousSegment = segmentOrder[index - 1];
-                const nextSegment = segmentOrder[index + 1];
-                const maxValue =
-                  segment === 'month'
-                    ? 12
-                    : segment === 'day'
-                      ? getMaxDays(segments.month, segments.year)
-                      : 9999;
-
-                return (
-                  <React.Fragment key={segment}>
-                    <Segment
-                      type={segment}
-                      value={segments[segment]}
-                      onChange={(v) => updateSegment(segment, v)}
-                      onNext={() => {
-                        if (nextSegment) focusSegment(nextSegment);
-                      }}
-                      onPrev={() => {
-                        if (previousSegment) focusSegment(previousSegment);
-                      }}
-                      disabled={disabled}
-                      placeholder={resolveSegmentPlaceholder(segment)}
-                      min={1}
-                      max={maxValue}
-                      inputRef={getSegmentRef(segment)}
-                      isFocused={focusedSegment === segment}
-                      onFocusChange={(f) => setFocusedSegment(f ? segment : null)}
-                      size={size}
-                      {...(index === 0 ? { id: inputId } : {})}
-                      {...(index === 0 && helperText ? { describedBy: helperId } : {})}
-                    />
-                    {index < segmentOrder.length - 1 ? (
-                      <span className={cn('text-on-surface-variant', fieldSize.segmentText)}>
-                        {segmentSeparator}
-                      </span>
-                    ) : null}
-                  </React.Fragment>
-                );
-              })}
-
-              {/* Floating label */}
-              <label
-                htmlFor={inputId}
-                className={getFieldLabelClasses({
-                  size,
-                  variant,
-                  floating: isFloating,
-                  error,
-                  active: focusedSegment !== null,
-                  labelBg,
-                })}
-              >
-                {label}
-              </label>
-            </div>
-
-            {/* Trailing icon */}
-            {trailingIcon && (
-              <span
-                className={getFieldAffixClasses({
-                  size,
-                  error,
-                  active: focusedSegment !== null,
-                  side: 'trailing',
-                })}
-              >
-                <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
-                  {trailingIcon}
-                </div>
-              </span>
-            )}
+              {label}
+            </FieldLabel>
           </div>
 
-          {/* Helper text */}
-          {helperText && (
+          {trailingIcon ? (
             <span
-              id={helperId}
-              className={getFieldHelperTextClasses(size, error)}
+              className={getFieldAffixClasses({
+                size,
+                error: resolvedInvalid,
+                active: focusedSegment !== null,
+                side: 'trailing',
+              })}
             >
-              {helperText}
+              <span className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
+                {trailingIcon}
+              </span>
             </span>
-          )}
+          ) : null}
         </div>
-      </div>
+
+        {errorMessage ? <FieldError id={errorId}>{errorMessage}</FieldError> : null}
+        {!errorMessage && description ? (
+          <FieldDescription id={descriptionId}>{description}</FieldDescription>
+        ) : null}
+        {name ? <input type="hidden" name={name} value={serializeDate(currentValue)} /> : null}
+      </Field>
     );
   },
 );

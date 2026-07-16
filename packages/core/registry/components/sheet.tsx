@@ -4,6 +4,7 @@ import React, { forwardRef, useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
+import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 import { useScrollLock } from '@/hooks/use-scroll-lock';
 import { Text } from '@/primitives/text';
 import { IconButton, type IconButtonProps } from '@/components/ui/icon-button';
@@ -32,18 +33,6 @@ export interface SheetProps {
   closeButtonSize?: IconButtonProps['size'];
   closeButtonIconSize?: IconButtonProps['iconSize'];
   closeLabel?: string;
-}
-
-function getFocusableElements(root: HTMLElement | null) {
-  if (!root) {
-    return [];
-  }
-
-  return Array.from(
-    root.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
-    ),
-  ).filter((element) => !element.hasAttribute('disabled') && !element.getAttribute('aria-hidden'));
 }
 
 const closeIcon = (
@@ -87,7 +76,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     ref,
   ) => {
     const panelRef = useRef<HTMLDivElement>(null);
-    const previousActiveElement = useRef<HTMLElement | null>(null);
+    const overlayRootRef = useRef<HTMLDivElement>(null);
     const timerRef = useRef<number | null>(null);
     const [isOpen = false, setIsOpen] = useControllableState<boolean>({
       value: open,
@@ -109,6 +98,13 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
     const CLOSE_DURATION = 220;
 
     useScrollLock(isOpen);
+    useOverlayBehavior({
+      open: isOpen,
+      contentRef: panelRef,
+      rootRef: overlayRootRef,
+      onDismiss: () => setIsOpen(false),
+      modal: true,
+    });
 
     useEffect(() => {
       if (isOpen) {
@@ -135,68 +131,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
         }
       };
     }, [isOpen]);
-
-    useEffect(() => {
-      if (!isOpen) {
-        return;
-      }
-
-      const panelNode = panelRef.current;
-      previousActiveElement.current = document.activeElement as HTMLElement;
-
-      const timer = window.setTimeout(() => {
-        const focusableElements = getFocusableElements(panelNode);
-        (focusableElements[0] ?? panelNode)?.focus();
-      }, 0);
-
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') {
-          event.preventDefault();
-          setIsOpen(false);
-          return;
-        }
-
-        if (event.key !== 'Tab') {
-          return;
-        }
-
-        const focusableElements = getFocusableElements(panelNode);
-        if (focusableElements.length === 0) {
-          event.preventDefault();
-          return;
-        }
-
-        const first = focusableElements[0];
-        const last = focusableElements[focusableElements.length - 1];
-        const activeElement = document.activeElement as HTMLElement | null;
-
-        if (!first || !last) {
-          event.preventDefault();
-          return;
-        }
-
-        if (event.shiftKey) {
-          if (activeElement === first || activeElement === panelNode) {
-            event.preventDefault();
-            last.focus();
-          }
-          return;
-        }
-
-        if (activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
-      };
-
-      document.addEventListener('keydown', handleKeyDown);
-
-      return () => {
-        window.clearTimeout(timer);
-        document.removeEventListener('keydown', handleKeyDown);
-        previousActiveElement.current?.focus();
-      };
-    }, [isOpen, setIsOpen]);
 
     if (!shouldRender || typeof document === 'undefined') {
       return null;
@@ -230,6 +164,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     return createPortal(
       <div
+        ref={overlayRootRef}
         className={cn(
           'fixed inset-0 z-[var(--z-modal,3000)] flex overflow-hidden',
           isBottom

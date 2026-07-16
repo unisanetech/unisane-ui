@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import { Icon, Badge } from "@unisane/ui";
-import type { Column, RowContextMenuItemOrSeparator } from "@unisane/data-table";
-import { createActionsColumn } from "@unisane/data-table/components";
-import type { InventoryItem, InventoryStatus } from "./types";
-import { inventoryCategories, inventoryStatuses, warehouseLocations } from "./types";
+import { Icon } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import type { Column, RowContextMenuItemOrSeparator } from '@unisane/data-table';
+import { createActionsColumn } from '@unisane/data-table/components';
+import type { InventoryItem, InventoryStatus } from './types';
+import { inventoryCategories, inventoryStatuses, warehouseLocations } from './types';
 
 // ─── INVENTORY ACTION ITEMS ───────────────────────────────────────────────────
 
@@ -14,49 +15,49 @@ export function createInventoryActionItems(
   onRestock: (item: InventoryItem) => void,
   onAdjustStock: (item: InventoryItem) => void,
   onViewHistory: (item: InventoryItem) => void,
-  onDelete: (item: InventoryItem) => void
+  onDelete: (item: InventoryItem) => void,
 ): RowContextMenuItemOrSeparator<InventoryItem>[] {
   return [
     {
-      key: "view",
-      label: "View details",
-      icon: "visibility",
-      onClick: onView
+      key: 'view',
+      label: 'View details',
+      icon: 'visibility',
+      onClick: onView,
     },
     {
-      key: "edit",
-      label: "Edit item",
-      icon: "edit",
-      onClick: onEdit
+      key: 'edit',
+      label: 'Edit item',
+      icon: 'edit',
+      onClick: onEdit,
     },
-    { type: "separator" },
+    { type: 'separator' },
     {
-      key: "restock",
-      label: "Create restock order",
-      icon: "add_shopping_cart",
+      key: 'restock',
+      label: 'Create restock order',
+      icon: 'add_shopping_cart',
       onClick: onRestock,
-      visible: (row) => row.status !== "discontinued"
+      visible: (row) => row.status !== 'discontinued',
     },
     {
-      key: "adjust",
-      label: "Adjust stock",
-      icon: "inventory_2",
-      onClick: onAdjustStock
+      key: 'adjust',
+      label: 'Adjust stock',
+      icon: 'inventory_2',
+      onClick: onAdjustStock,
     },
     {
-      key: "history",
-      label: "View stock history",
-      icon: "history",
-      onClick: onViewHistory
+      key: 'history',
+      label: 'View stock history',
+      icon: 'history',
+      onClick: onViewHistory,
     },
-    { type: "separator" },
+    { type: 'separator' },
     {
-      key: "delete",
-      label: "Delete item",
-      icon: "delete",
-      variant: "danger",
+      key: 'delete',
+      label: 'Delete item',
+      icon: 'delete',
+      variant: 'danger',
       onClick: onDelete,
-      disabled: (row) => row.currentStock > 0
+      disabled: (row) => row.currentStock > 0,
     },
   ];
 }
@@ -69,7 +70,7 @@ export function createInventoryActionsColumn(
   onRestock: (item: InventoryItem) => void,
   onAdjustStock: (item: InventoryItem) => void,
   onViewHistory: (item: InventoryItem) => void,
-  onDelete: (item: InventoryItem) => void
+  onDelete: (item: InventoryItem) => void,
 ): Column<InventoryItem> {
   return createActionsColumn<InventoryItem>({
     items: createInventoryActionItems(
@@ -78,9 +79,9 @@ export function createInventoryActionsColumn(
       onRestock,
       onAdjustStock,
       onViewHistory,
-      onDelete
+      onDelete,
     ),
-    pinned: "right",
+    pinned: 'right',
   });
 }
 
@@ -88,17 +89,31 @@ export function createInventoryActionsColumn(
 
 function StatusBadge({ status }: { status: InventoryStatus }) {
   const config: Record<InventoryStatus, { label: string; color: string; icon: string }> = {
-    in_stock: { label: "In Stock", color: "bg-state-selected text-primary", icon: "check_circle" },
-    low_stock: { label: "Low Stock", color: "bg-tertiary-container text-tertiary", icon: "warning" },
-    out_of_stock: { label: "Out of Stock", color: "bg-error-container text-error", icon: "error" },
-    discontinued: { label: "Discontinued", color: "bg-outline-weak text-on-surface-variant", icon: "block" },
-    on_order: { label: "On Order", color: "bg-secondary-container text-secondary", icon: "local_shipping" },
+    in_stock: { label: 'In Stock', color: 'bg-state-selected text-primary', icon: 'check_circle' },
+    low_stock: {
+      label: 'Low Stock',
+      color: 'bg-tertiary-container text-tertiary',
+      icon: 'warning',
+    },
+    out_of_stock: { label: 'Out of Stock', color: 'bg-error-container text-error', icon: 'error' },
+    discontinued: {
+      label: 'Discontinued',
+      color: 'bg-outline-weak text-on-surface-variant',
+      icon: 'block',
+    },
+    on_order: {
+      label: 'On Order',
+      color: 'bg-secondary-container text-secondary',
+      icon: 'local_shipping',
+    },
   };
 
   const { label, color, icon } = config[status];
 
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-label-small ${color}`}>
+    <span
+      className={`text-label-small inline-flex items-center gap-1 rounded-full px-2 py-0.5 ${color}`}
+    >
       <Icon symbol={icon} className="text-[14px]" />
       {label}
     </span>
@@ -113,18 +128,20 @@ function StockLevelIndicator({ current, min, max }: { current: number; min: numb
   const isCritical = current === 0;
 
   return (
-    <div className="flex items-center gap-2 min-w-[120px]">
-      <div className="flex-1 h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+    <div className="flex min-w-[120px] items-center gap-2">
+      <div className="bg-surface-container-highest h-1.5 flex-1 overflow-hidden rounded-full">
         <div
           className={`h-full rounded-full transition-all ${
-            isCritical ? "bg-error" : isLow ? "bg-tertiary" : "bg-primary"
+            isCritical ? 'bg-error' : isLow ? 'bg-tertiary' : 'bg-primary'
           }`}
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className={`text-label-small font-mono min-w-[40px] text-right ${
-        isCritical ? "text-error" : isLow ? "text-tertiary" : "text-on-surface"
-      }`}>
+      <span
+        className={`text-label-small min-w-[40px] text-right font-mono ${
+          isCritical ? 'text-error' : isLow ? 'text-tertiary' : 'text-on-surface'
+        }`}
+      >
         {current}
       </span>
     </div>
@@ -133,18 +150,26 @@ function StockLevelIndicator({ current, min, max }: { current: number; min: numb
 
 // ─── PRICE CELL ───────────────────────────────────────────────────────────────
 
-function PriceCell({ cost, selling, mrp, discount }: { cost: number; selling: number; mrp: number; discount: number }) {
-  const margin = ((selling - cost) / cost * 100).toFixed(1);
+function PriceCell({
+  cost,
+  selling,
+  mrp,
+  discount,
+}: {
+  cost: number;
+  selling: number;
+  mrp: number;
+  discount: number;
+}) {
+  const margin = (((selling - cost) / cost) * 100).toFixed(1);
 
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-1">
-        <span className="font-mono text-on-surface font-medium">₹{selling.toLocaleString()}</span>
-        {discount > 0 && (
-          <span className="text-label-small text-primary">-{discount}%</span>
-        )}
+        <span className="text-on-surface font-mono font-medium">₹{selling.toLocaleString()}</span>
+        {discount > 0 && <span className="text-label-small text-primary">-{discount}%</span>}
       </div>
-      <div className="flex items-center gap-2 text-label-small text-on-surface-variant">
+      <div className="text-label-small text-on-surface-variant flex items-center gap-2">
         <span className="line-through">₹{mrp.toLocaleString()}</span>
         <span className="text-primary">+{margin}%</span>
       </div>
@@ -156,22 +181,24 @@ function PriceCell({ cost, selling, mrp, discount }: { cost: number; selling: nu
 
 export const inventoryColumns: Column<InventoryItem>[] = [
   {
-    key: "sku",
-    header: "SKU",
+    key: 'sku',
+    header: 'SKU',
     sortable: true,
     filterable: true,
     pinnable: true,
     width: 130,
     render: (row) => (
       <div className="flex flex-col">
-        <span className="font-mono text-on-surface font-medium">{row.sku}</span>
-        <span className="text-label-small text-on-surface-variant font-mono">{row.barcode.slice(0, 8)}...</span>
+        <span className="text-on-surface font-mono font-medium">{row.sku}</span>
+        <span className="text-label-small text-on-surface-variant font-mono">
+          {row.barcode.slice(0, 8)}...
+        </span>
       </div>
     ),
   },
   {
-    key: "name",
-    header: "Product Name",
+    key: 'name',
+    header: 'Product Name',
     sortable: true,
     filterable: true,
     editable: true,
@@ -179,17 +206,17 @@ export const inventoryColumns: Column<InventoryItem>[] = [
     minWidth: 180,
     render: (row) => (
       <div className="flex flex-col">
-        <span className="text-on-surface font-medium truncate">{row.name}</span>
+        <span className="text-on-surface truncate font-medium">{row.name}</span>
         <span className="text-label-small text-on-surface-variant">{row.brand}</span>
       </div>
     ),
   },
   {
-    key: "category",
-    header: "Category",
+    key: 'category',
+    header: 'Category',
     sortable: true,
     filterable: true,
-    filterType: "select",
+    filterType: 'select',
     filterOptions: inventoryCategories.map((c) => ({ label: c, value: c })),
     groupable: true,
     width: 150,
@@ -201,102 +228,111 @@ export const inventoryColumns: Column<InventoryItem>[] = [
     ),
   },
   {
-    key: "currentStock",
-    header: "Stock Level",
+    key: 'currentStock',
+    header: 'Stock Level',
     sortable: true,
     width: 160,
-    align: "center",
-    summary: "sum",
+    align: 'center',
+    summary: 'sum',
     render: (row) => (
-      <StockLevelIndicator current={row.currentStock} min={row.minStockLevel} max={row.maxStockLevel} />
+      <StockLevelIndicator
+        current={row.currentStock}
+        min={row.minStockLevel}
+        max={row.maxStockLevel}
+      />
     ),
   },
   {
-    key: "unit",
-    header: "Unit",
+    key: 'unit',
+    header: 'Unit',
     sortable: true,
     filterable: true,
-    filterType: "select",
+    filterType: 'select',
     filterOptions: [
-      { label: "Piece", value: "Piece" },
-      { label: "Kg", value: "Kg" },
-      { label: "Liter", value: "Liter" },
-      { label: "Box", value: "Box" },
-      { label: "Pack", value: "Pack" },
+      { label: 'Piece', value: 'Piece' },
+      { label: 'Kg', value: 'Kg' },
+      { label: 'Liter', value: 'Liter' },
+      { label: 'Box', value: 'Box' },
+      { label: 'Pack', value: 'Pack' },
     ],
     width: 80,
-    align: "center",
+    align: 'center',
     hideable: true,
   },
   {
-    key: "sellingPrice",
-    header: "Price",
+    key: 'sellingPrice',
+    header: 'Price',
     sortable: true,
     width: 140,
-    align: "end",
+    align: 'end',
     render: (row) => (
-      <PriceCell cost={row.costPrice} selling={row.sellingPrice} mrp={row.mrp} discount={row.discount} />
+      <PriceCell
+        cost={row.costPrice}
+        selling={row.sellingPrice}
+        mrp={row.mrp}
+        discount={row.discount}
+      />
     ),
   },
   {
-    key: "costPrice",
-    header: "Cost",
+    key: 'costPrice',
+    header: 'Cost',
     sortable: true,
     editable: true,
-    inputType: "number",
+    inputType: 'number',
     width: 100,
-    align: "end",
+    align: 'end',
     hideable: true,
-    summary: "average",
-    render: (row) => <span className="font-mono text-on-surface-variant">₹{row.costPrice.toLocaleString()}</span>,
-  },
-  {
-    key: "taxRate",
-    header: "Tax %",
-    sortable: true,
-    filterable: true,
-    filterType: "select",
-    filterOptions: [
-      { label: "5%", value: "5" },
-      { label: "12%", value: "12" },
-      { label: "18%", value: "18" },
-      { label: "28%", value: "28" },
-    ],
-    width: 80,
-    align: "center",
-    hideable: true,
+    summary: 'average',
     render: (row) => (
-      <span className="font-mono text-on-surface-variant">{row.taxRate}%</span>
+      <span className="text-on-surface-variant font-mono">₹{row.costPrice.toLocaleString()}</span>
     ),
   },
   {
-    key: "hsnCode",
-    header: "HSN",
+    key: 'taxRate',
+    header: 'Tax %',
+    sortable: true,
+    filterable: true,
+    filterType: 'select',
+    filterOptions: [
+      { label: '5%', value: '5' },
+      { label: '12%', value: '12' },
+      { label: '18%', value: '18' },
+      { label: '28%', value: '28' },
+    ],
+    width: 80,
+    align: 'center',
+    hideable: true,
+    render: (row) => <span className="text-on-surface-variant font-mono">{row.taxRate}%</span>,
+  },
+  {
+    key: 'hsnCode',
+    header: 'HSN',
     sortable: true,
     filterable: true,
     width: 90,
-    align: "center",
+    align: 'center',
     hideable: true,
-    render: (row) => <span className="font-mono text-on-surface-variant">{row.hsnCode}</span>,
+    render: (row) => <span className="text-on-surface-variant font-mono">{row.hsnCode}</span>,
   },
   {
-    key: "status",
-    header: "Status",
+    key: 'status',
+    header: 'Status',
     sortable: true,
     filterable: true,
-    filterType: "select",
+    filterType: 'select',
     filterOptions: inventoryStatuses.map((s) => ({
-      label: s.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+      label: s.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
       value: s,
     })),
     width: 140,
-    align: "center",
+    align: 'center',
     pinnable: true,
     render: (row) => <StatusBadge status={row.status} />,
   },
   {
-    key: "supplierName",
-    header: "Supplier",
+    key: 'supplierName',
+    header: 'Supplier',
     sortable: true,
     filterable: true,
     groupable: true,
@@ -305,67 +341,80 @@ export const inventoryColumns: Column<InventoryItem>[] = [
     render: (row) => (
       <div className="flex flex-col">
         <span className="text-on-surface truncate">{row.supplierName}</span>
-        <span className="text-label-small text-on-surface-variant">{row.leadTimeDays} days lead time</span>
+        <span className="text-label-small text-on-surface-variant">
+          {row.leadTimeDays} days lead time
+        </span>
       </div>
     ),
   },
   {
-    key: "warehouseLocation",
-    header: "Location",
+    key: 'warehouseLocation',
+    header: 'Location',
     sortable: true,
     filterable: true,
-    filterType: "select",
+    filterType: 'select',
     filterOptions: warehouseLocations.map((w) => ({ label: w, value: w })),
     groupable: true,
     width: 160,
     hideable: true,
     render: (row) => (
       <div className="flex items-center gap-2">
-        <Icon symbol="location_on" className="text-[16px] text-on-surface-variant" />
+        <Icon symbol="location_on" className="text-on-surface-variant text-[16px]" />
         <div className="flex flex-col">
-          <span className="text-on-surface text-label-medium truncate">{row.warehouseLocation}</span>
+          <span className="text-on-surface text-label-medium truncate">
+            {row.warehouseLocation}
+          </span>
           <span className="text-label-small text-on-surface-variant">Shelf {row.shelfNumber}</span>
         </div>
       </div>
     ),
   },
   {
-    key: "totalSold",
-    header: "Units Sold",
+    key: 'totalSold',
+    header: 'Units Sold',
     sortable: true,
     width: 100,
-    align: "end",
+    align: 'end',
     hideable: true,
-    aggregation: "sum",
-    summary: "sum",
-    render: (row) => <span className="font-mono text-on-surface">{row.totalSold.toLocaleString()}</span>,
+    aggregation: 'sum',
+    summary: 'sum',
+    render: (row) => (
+      <span className="text-on-surface font-mono">{row.totalSold.toLocaleString()}</span>
+    ),
   },
   {
-    key: "totalRevenue",
-    header: "Revenue",
+    key: 'totalRevenue',
+    header: 'Revenue',
     sortable: true,
     width: 120,
-    align: "end",
+    align: 'end',
     hideable: true,
-    aggregation: "sum",
-    summary: "sum",
-    render: (row) => <span className="font-mono text-primary font-medium">₹{row.totalRevenue.toLocaleString()}</span>,
+    aggregation: 'sum',
+    summary: 'sum',
+    render: (row) => (
+      <span className="text-primary font-mono font-medium">
+        ₹{row.totalRevenue.toLocaleString()}
+      </span>
+    ),
   },
   {
-    key: "lastRestockDate",
-    header: "Last Restock",
+    key: 'lastRestockDate',
+    header: 'Last Restock',
     sortable: true,
     width: 120,
     hideable: true,
     render: (row) => (
       <span className="text-on-surface-variant">
-        {new Date(row.lastRestockDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+        {new Date(row.lastRestockDate).toLocaleDateString('en-IN', {
+          day: 'numeric',
+          month: 'short',
+        })}
       </span>
     ),
   },
   {
-    key: "expiryDate",
-    header: "Expiry",
+    key: 'expiryDate',
+    header: 'Expiry',
     sortable: true,
     width: 110,
     hideable: true,
@@ -379,10 +428,12 @@ export const inventoryColumns: Column<InventoryItem>[] = [
       const isExpired = daysUntil < 0;
 
       return (
-        <span className={`${isExpired ? "text-error" : isExpiringSoon ? "text-tertiary" : "text-on-surface-variant"}`}>
-          {expiry.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "2-digit" })}
+        <span
+          className={`${isExpired ? 'text-error' : isExpiringSoon ? 'text-tertiary' : 'text-on-surface-variant'}`}
+        >
+          {expiry.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: '2-digit' })}
           {isExpiringSoon && !isExpired && (
-            <Icon symbol="warning" className="text-[14px] ml-1 inline" />
+            <Icon symbol="warning" className="ml-1 inline text-[14px]" />
           )}
         </span>
       );

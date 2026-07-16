@@ -1,7 +1,7 @@
 // ─── FEEDBACK SYSTEM TYPES ──────────────────────────────────────────────────
 // Types for the DataTable feedback system that handles toasts and ARIA announcements
 
-import type { ToastVariant } from "@unisane/ui";
+import type { ToastTone } from "@unisane/ui/toast";
 
 /**
  * Feedback notification options
@@ -11,8 +11,8 @@ export interface FeedbackOptions {
   message: string;
   /** Optional description with more details */
   description?: string;
-  /** Visual variant for toast */
-  variant?: ToastVariant;
+  /** Semantic tone for toast */
+  tone?: ToastTone;
   /** Duration in ms (0 = persistent). Default: 5000 */
   duration?: number;
   /** Whether to show as toast. Default: true */

@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
-import { Icon } from '@/primitives/icon';
+import { Icon } from '@/components/ui/icon';
 import { IconButton } from '@/components/ui/icon-button';
 import { Pane, PaneLayout } from '@/layout/pane';
 

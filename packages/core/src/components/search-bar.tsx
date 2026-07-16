@@ -2,7 +2,7 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 import { cn } from '../lib/utils';
-import { Icon, type IconProps } from '../primitives/icon';
+import { Icon, type IconProps } from './icon';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 
 function isIconElement(node: React.ReactNode): node is React.ReactElement<IconProps> {

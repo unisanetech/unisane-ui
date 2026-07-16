@@ -347,12 +347,13 @@ function DataTableRowInner<T extends { id: string }>({
                 selected={isExpanded}
                 aria-expanded={isExpanded}
                 aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
-              >
-                <Icon
-                  symbol={isExpanded ? 'expand_less' : 'expand_more'}
-                  className={cn(iconTextClass, 'transition-transform')}
-                />
-              </IconButton>
+                icon={
+                  <Icon
+                    symbol={isExpanded ? 'expand_less' : 'expand_more'}
+                    className={cn(iconTextClass, 'transition-transform')}
+                  />
+                }
+              />
             )}
           </td>
         )}

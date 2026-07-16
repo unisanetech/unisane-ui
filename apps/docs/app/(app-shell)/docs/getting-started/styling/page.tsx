@@ -28,7 +28,8 @@ export default function StylingPage() {
           <div className="grid grid-cols-1 gap-6 @xl:grid-cols-2">
             <CodeBlock
               title="Adding custom styles"
-              code={`import { Button, Card } from "@unisane/ui";
+              code={`import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 // Add spacing, sizing, and colors
 <Button className="px-8 py-4">
@@ -184,7 +185,8 @@ export default function StylingPage() {
 
           <CodeBlock
             title="Using variants"
-            code={`import { Button, Card } from "@unisane/ui";
+            code={`import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 // Button variants
 <Button variant="filled">Filled action</Button>
@@ -299,7 +301,7 @@ export default function StylingPage() {
       <DocSection
         id="dark-mode"
         title="Dark Mode"
-        description="Unisane UI automatically supports dark mode through CSS custom properties and the ThemeProvider."
+        description="The generated semantic colors support dark mode; a local AppearanceProvider is optional for user-controlled switching."
       >
         <div className="space-y-8">
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
@@ -308,16 +310,16 @@ export default function StylingPage() {
           </Typography>
 
           <CodeBlock
-            title="ThemeProvider setup"
-            code={`import { ThemeProvider } from "@unisane/ui";
+            title="AppearanceProvider setup"
+            code={`import { AppearanceProvider } from "@/components/ui/appearance-provider";
 
 export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <ThemeProvider>
+        <AppearanceProvider enabledAxes={["mode"]}>
           {children}
-        </ThemeProvider>
+        </AppearanceProvider>
       </body>
     </html>
   );

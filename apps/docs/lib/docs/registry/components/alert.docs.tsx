@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Alert, Card } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Card } from '@unisane/ui';
+import { Alert } from '@unisane/ui/alert';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const AlertHeroVisual = () => (
@@ -27,127 +28,131 @@ const AlertHeroVisual = () => (
 
 export const alertDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "alert",
-  name: "Alert",
-  description:
-    "Alerts display brief messages with different severity levels.",
-  category: "communication",
-  status: "stable",
-  icon: "error",
+  slug: 'alert',
+  name: 'Alert',
+  description: 'Alerts display brief messages with different severity levels.',
+  category: 'communication',
+  status: 'stable',
+  icon: 'error',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Alert"],
+  importPath: '@/components/ui/alert',
+  exports: ['Alert'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <AlertHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Alerts come in different variants to convey the severity and type of message.",
+    description: 'Alerts come in different variants to convey the severity and type of message.',
     columns: {
-      emphasis: "Variant",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Variant',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Success",
+        emphasis: 'Success',
         component: (
           <Alert variant="success" title="Success" className="max-w-52">
             Operation completed
           </Alert>
         ),
-        rationale:
-          "Confirm successful actions or positive outcomes.",
-        examples: "Form submitted, Item saved, Payment complete",
+        rationale: 'Confirm successful actions or positive outcomes.',
+        examples: 'Form submitted, Item saved, Payment complete',
       },
       {
-        emphasis: "Error",
+        emphasis: 'Error',
         component: (
           <Alert variant="error" title="Error" className="max-w-52">
             Something went wrong
           </Alert>
         ),
-        rationale:
-          "Communicate failures or critical problems.",
-        examples: "Validation errors, Connection failed, Access denied",
+        rationale: 'Communicate failures or critical problems.',
+        examples: 'Validation errors, Connection failed, Access denied',
       },
       {
-        emphasis: "Warning",
+        emphasis: 'Warning',
         component: (
           <Alert variant="warning" title="Warning" className="max-w-52">
             Please review this
           </Alert>
         ),
-        rationale:
-          "Alert users to potential issues or required attention.",
-        examples: "Session expiring, Unsaved changes, Deprecated feature",
+        rationale: 'Alert users to potential issues or required attention.',
+        examples: 'Session expiring, Unsaved changes, Deprecated feature',
       },
       {
-        emphasis: "Info",
+        emphasis: 'Info',
         component: (
           <Alert variant="info" title="Info" className="max-w-52">
             New update available
           </Alert>
         ),
-        rationale:
-          "Provide neutral information or announcements.",
-        examples: "Updates available, Tips, Announcements",
+        rationale: 'Provide neutral information or announcements.',
+        examples: 'Updates available, Tips, Announcements',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Alerts can include titles, custom icons, and detailed descriptions.",
+    description: 'Alerts can include titles, custom icons, and detailed descriptions.',
     items: [
       {
-        component: <Alert variant="info" className="w-40">Simple message</Alert>,
-        title: "Simple",
-        subtitle: "Message only",
+        component: (
+          <Alert variant="info" className="w-40">
+            Simple message
+          </Alert>
+        ),
+        title: 'Simple',
+        subtitle: 'Message only',
       },
       {
-        component: <Alert variant="info" title="Title" className="w-40">With description</Alert>,
-        title: "With Title",
-        subtitle: "Title + message",
+        component: (
+          <Alert variant="info" title="Title" className="w-40">
+            With description
+          </Alert>
+        ),
+        title: 'With Title',
+        subtitle: 'Title + message',
       },
       {
-        component: <Alert variant="info" icon="lightbulb" className="w-40">Custom icon</Alert>,
-        title: "Custom Icon",
-        subtitle: "Override default",
+        component: (
+          <Alert variant="info" icon="lightbulb" className="w-40">
+            Custom icon
+          </Alert>
+        ),
+        title: 'Custom Icon',
+        subtitle: 'Override default',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Alerts are typically placed at the top of the content area or inline with forms.",
+    description: 'Alerts are typically placed at the top of the content area or inline with forms.',
     examples: [
       {
-        title: "Form validation",
+        title: 'Form validation',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-3">Create Account</div>
             <Alert variant="error" title="Validation Error" className="mb-4">
               Please correct the errors below.
             </Alert>
             <div className="space-y-3">
-              <div className="h-10 bg-error-container border border-error rounded-sm" />
-              <div className="h-10 bg-surface-container-high rounded-sm" />
+              <div className="bg-error-container border-error h-10 rounded-sm border" />
+              <div className="bg-surface-container-high h-10 rounded-sm" />
             </div>
           </Card>
         ),
-        caption: "Alert showing form validation errors",
+        caption: 'Alert showing form validation errors',
       },
       {
-        title: "Status messages",
+        title: 'Status messages',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-3">System Status</div>
             <div className="space-y-2">
               <Alert variant="success" title="Database">
@@ -159,7 +164,7 @@ export const alertDoc: ComponentDoc = {
             </div>
           </Card>
         ),
-        caption: "Multiple alerts for system status",
+        caption: 'Multiple alerts for system status',
       },
     ],
   },
@@ -167,54 +172,52 @@ export const alertDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "variant",
+      name: 'variant',
       type: '"info" | "success" | "warning" | "error"',
       default: '"info"',
-      description: "The severity/type of the alert.",
+      description: 'The severity/type of the alert.',
     },
     {
-      name: "title",
-      type: "string",
-      description: "Optional title displayed above the message.",
+      name: 'title',
+      type: 'ReactNode',
+      description: 'Optional rich title displayed above the message.',
     },
     {
-      name: "icon",
-      type: "ReactNode | string",
-      description: "Custom icon to display. Defaults based on variant.",
+      name: 'icon',
+      type: 'ReactNode | string | false',
+      description: 'Overrides the semantic icon, or suppresses it with false.',
     },
     {
-      name: "children",
-      type: "ReactNode",
+      name: 'children',
+      type: 'ReactNode',
       required: true,
-      description: "The alert message content.",
+      description: 'The alert message content.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes to apply.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role='alert' for important announcements.",
-      "Screen readers announce alert content immediately.",
-      "Title and message are read in sequence.",
+      'Error and warning use an assertive alert; info and success use a polite status.',
+      'Native role and aria-live props override the semantic defaults when needed.',
+      'Title and message are read in sequence.',
     ],
-    keyboard: [
-      { key: "N/A", description: "Alerts are not interactive by default" },
-    ],
+    keyboard: [{ key: 'N/A', description: 'Alerts are not interactive by default' }],
     focus: [
-      "Alerts do not receive focus unless interactive.",
-      "Consider using live regions for dynamic alerts.",
+      'Alerts do not receive focus unless interactive.',
+      'Consider using live regions for dynamic alerts.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use alerts to communicate status and feedback to users.",
-    code: `import { Alert } from "@unisane/ui";
+    description: 'Use alerts to communicate status and feedback to users.',
+    code: `import { Alert } from "@/components/ui/alert";
 
 function FormWithValidation() {
   const [error, setError] = useState<string | null>(null);
@@ -270,16 +273,16 @@ function SystemStatus() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "snackbar",
-      reason: "Use for temporary, non-blocking notifications.",
+      slug: 'snackbar',
+      reason: 'Use for temporary, non-blocking notifications.',
     },
     {
-      slug: "banner",
-      reason: "Use for persistent, page-level announcements.",
+      slug: 'banner',
+      reason: 'Use for persistent, page-level announcements.',
     },
     {
-      slug: "dialog",
-      reason: "Use when user acknowledgment is required.",
+      slug: 'dialog',
+      reason: 'Use when user acknowledgment is required.',
     },
   ],
 };

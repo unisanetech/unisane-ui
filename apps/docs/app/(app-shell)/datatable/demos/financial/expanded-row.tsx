@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Badge, Typography } from "@unisane/ui";
-import type { Transaction } from "./types";
+import React from 'react';
+import { Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import type { Transaction } from './types';
 
 interface TransactionExpandedRowProps {
   row: Transaction;
@@ -12,16 +13,16 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
   const isPositive = row.amount >= 0;
 
   return (
-    <div className="p-4 bg-surface-container-low rounded-lg">
-      <Typography variant="titleSmall" className="mb-3 text-on-surface">
+    <div className="bg-surface-container-low rounded-lg p-4">
+      <Typography variant="titleSmall" className="text-on-surface mb-3">
         Transaction Details
       </Typography>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <div>
           <Typography variant="labelSmall" className="text-on-surface-variant">
             Reference
           </Typography>
-          <code className="text-body-medium bg-surface-container-low px-2 py-1 rounded block mt-1">
+          <code className="text-body-medium bg-surface-container-low mt-1 block rounded px-2 py-1">
             {row.reference}
           </code>
         </div>
@@ -31,12 +32,12 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
           </Typography>
           <Typography
             variant="bodyMedium"
-            className={`font-medium mt-1 ${isPositive ? "text-success" : "text-error"}`}
+            className={`mt-1 font-medium ${isPositive ? 'text-success' : 'text-error'}`}
           >
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-              signDisplay: "always",
+            {new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              signDisplay: 'always',
             }).format(row.amount)}
           </Typography>
         </div>
@@ -48,13 +49,13 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
             <Badge
               variant="tonal"
               color={
-                row.status === "completed"
-                  ? "success"
-                  : row.status === "pending"
-                    ? "tertiary"
-                    : row.status === "failed"
-                      ? "error"
-                      : "secondary"
+                row.status === 'completed'
+                  ? 'success'
+                  : row.status === 'pending'
+                    ? 'tertiary'
+                    : row.status === 'failed'
+                      ? 'error'
+                      : 'secondary'
               }
             >
               {row.status.charAt(0).toUpperCase() + row.status.slice(1)}
@@ -72,7 +73,7 @@ export function TransactionExpandedRow({ row }: TransactionExpandedRowProps) {
       </div>
 
       {row.notes && (
-        <div className="mt-4 rounded-lg border border-tertiary-container bg-tertiary-container p-3">
+        <div className="border-tertiary-container bg-tertiary-container mt-4 rounded-lg border p-3">
           <div className="flex items-center gap-2">
             <span className="material-symbols-rounded text-tertiary">flag</span>
             <Typography variant="labelMedium" className="text-tertiary">

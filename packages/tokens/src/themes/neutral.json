@@ -1,0 +1,11 @@
+{
+  "$schema": "./theme-override.schema.json",
+  "name": "Neutral",
+  "primary": { "hue": 230, "chroma": 0.06 },
+  "neutral": { "tintFromPrimary": 0.008 },
+  "error": { "chroma": 0.135 },
+  "success": { "chroma": 0.135 },
+  "warning": { "chroma": 0.12 },
+  "info": { "chroma": 0.12 },
+  "description": "Low-chroma product theme with restrained status colors"
+}

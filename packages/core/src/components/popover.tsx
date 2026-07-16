@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useRef, useEffect, useId, useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useRef, useId, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getPortalLayerStyle } from '../lib/portal-layer';
 import { cn } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
+import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 
 type PopoverAlign = 'start' | 'center' | 'end';
 type PopoverSide = 'top' | 'bottom' | 'left' | 'right';
@@ -77,6 +78,14 @@ export const Popover: React.FC<PopoverProps> = ({
     [setIsOpen],
   );
 
+  useOverlayBehavior({
+    open: isOpen,
+    contentRef,
+    triggerRef,
+    onDismiss: () => handleOpenChange(false),
+    dismissOnInteractOutside: true,
+  });
+
   useLayoutEffect(() => {
     if (!isOpen) {
       setIsPositioned(!portal);
@@ -125,42 +134,7 @@ export const Popover: React.FC<PopoverProps> = ({
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [
-    align,
-    alignOffset,
-    avoidCollisions,
-    isOpen,
-    normalizedPadding,
-    portal,
-    side,
-    sideOffset,
-  ]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (containerRef.current?.contains(target)) return;
-      if (contentRef.current?.contains(target)) return;
-      handleOpenChange(false);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        handleOpenChange(false);
-        triggerRef.current?.focus();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('keydown', handleKeyDown);
-    }
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, handleOpenChange]);
+  }, [align, alignOffset, avoidCollisions, isOpen, normalizedPadding, portal, side, sideOffset]);
 
   const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -187,19 +161,21 @@ export const Popover: React.FC<PopoverProps> = ({
         {trigger}
       </button>
 
-      {isOpen ? renderPopoverContent({
-        align,
-        className,
-        computedPlacement,
-        content,
-        contentRef,
-        id: popoverId,
-        isPositioned,
-        portal,
-        position,
-        side,
-        trigger: triggerRef.current,
-      }) : null}
+      {isOpen
+        ? renderPopoverContent({
+            align,
+            className,
+            computedPlacement,
+            content,
+            contentRef,
+            id: popoverId,
+            isPositioned,
+            portal,
+            position,
+            side,
+            trigger: triggerRef.current,
+          })
+        : null}
     </div>
   );
 };
@@ -240,9 +216,7 @@ function renderPopoverContent({
         (side === 'top' || side === 'bottom') && align === 'center' && 'left-1/2 -translate-x-1/2',
         (side === 'top' || side === 'bottom') && align === 'start' && 'left-0',
         (side === 'top' || side === 'bottom') && align === 'end' && 'right-0',
-        (side === 'left' || side === 'right') &&
-          align === 'center' &&
-          'top-1/2 -translate-y-1/2',
+        (side === 'left' || side === 'right') && align === 'center' && 'top-1/2 -translate-y-1/2',
         (side === 'left' || side === 'right') && align === 'start' && 'top-0',
         (side === 'left' || side === 'right') && align === 'end' && 'bottom-0',
       );
@@ -252,7 +226,6 @@ function renderPopoverContent({
       ref={contentRef}
       id={id}
       role="dialog"
-      aria-modal="true"
       data-side={computedPlacement.side}
       data-align={computedPlacement.align}
       className={wrapperClassName}

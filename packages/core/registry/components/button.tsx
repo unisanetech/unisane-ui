@@ -12,7 +12,7 @@ import {
 } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Ripple } from '@/components/ui/ripple';
-import { Icon, type IconProps } from '@/primitives/icon';
+import { Icon, type IconProps } from '@/components/ui/icon';
 import { cn, Slot } from '@/lib/utils';
 import { actionButtonSizeClasses, getIconFrameSizeClass } from '@/lib/action-size';
 import {
@@ -73,7 +73,7 @@ export interface ButtonProps
   variant?: 'filled' | 'tonal' | 'outlined' | 'text' | 'elevated';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
-  icon?: ReactNode;
+  leadingIcon?: ReactNode;
   trailingIcon?: ReactNode;
   iconSize?: NonNullable<IconProps['size']>;
   asChild?: boolean;
@@ -87,7 +87,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       size = 'md',
       disabled = false,
       loading = false,
-      icon,
+      leadingIcon,
       trailingIcon,
       iconSize,
       className = '',
@@ -103,7 +103,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const resolvedIconSize: NonNullable<IconProps['size']> =
       iconSize ?? (size === 'lg' ? 'md' : 'sm');
     const iconSizeClass = getIconFrameSizeClass(resolvedIconSize);
-    const resolvedIcon = normalizeIconNode(icon, resolvedIconSize);
+    const resolvedIcon = normalizeIconNode(leadingIcon, resolvedIconSize);
     const resolvedTrailingIcon = normalizeIconNode(trailingIcon, resolvedIconSize);
     const iconOpticalClass = shouldOpticallyAlignIcon(resolvedIcon) ? '-translate-y-px' : '';
     const trailingIconOpticalClass = shouldOpticallyAlignIcon(resolvedTrailingIcon)

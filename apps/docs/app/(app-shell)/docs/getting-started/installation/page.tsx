@@ -53,10 +53,10 @@ export default function InstallationPage() {
           <div className="space-y-4">
             <StepHeader number={1} title="Initialize Unisane UI" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Run the init command to set up your project. This will install dependencies, configure Tailwind CSS,
-              and create the necessary configuration files.
+              Run the init command to install the complete generated baseline in your global stylesheet and add the
+              local utility used by components. Choose a project color theme now or replace it later.
             </Typography>
-            <CliCommand command="unisane ui init" />
+            <CliCommand command="unisane ui init --theme blue" />
           </div>
 
           {/* Step 2: Add Components */}
@@ -75,7 +75,8 @@ export default function InstallationPage() {
               Import the components from your components directory and start building.
             </Typography>
             <CodeBlock
-              code={`import { Button, Card } from "@unisane/ui";
+              code={`import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export function MyComponent() {
   return (
@@ -93,7 +94,7 @@ export function MyComponent() {
       <DocSection
         id="manual"
         title="Manual Installation"
-        description="If you prefer to set things up manually, follow these steps."
+        description="Use the same local-source and single-stylesheet contract when integrating another supported React setup."
       >
         <Tabs defaultValue="nextjs" className="w-full">
           <TabsList>
@@ -140,8 +141,10 @@ export default config;`}
             >
               <CodeBlock
                 code={`@import "tailwindcss";
+@source "../**/*.{ts,tsx,mdx}";
 
-/* Your custom styles here */`}
+/* Generated semantic theme, component baseline, and utilities */
+/* App-owned styles follow the generated baseline */`}
                 language="css"
               />
             </ManualStep>
@@ -267,6 +270,18 @@ export default defineConfig({
             </div>
             <div className="pl-6">
               <FileItem name="utils.ts" description="Utility functions (cn)" />
+            </div>
+            <div className="flex items-center gap-2 mt-3">
+              <span className="material-symbols-outlined text-[18px] text-secondary">description</span>
+              <span className="text-on-surface">app/globals.css</span>
+              <span className="text-outline">—</span>
+              <span>One complete generated baseline plus app-owned styles</span>
+            </div>
+            <div className="flex items-center gap-2 mt-3">
+              <span className="material-symbols-outlined text-[18px] text-secondary">settings</span>
+              <span className="text-on-surface">unisane-ui.json</span>
+              <span className="text-outline">—</span>
+              <span>Selected theme and explicit runtime appearance capabilities</span>
             </div>
           </div>
         </Card>

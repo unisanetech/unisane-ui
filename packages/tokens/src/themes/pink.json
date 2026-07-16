@@ -1,0 +1,6 @@
+{
+  "$schema": "./theme-override.schema.json",
+  "name": "Pink",
+  "primary": { "hue": 340, "chroma": 0.15 },
+  "description": "Warm expressive pink theme"
+}

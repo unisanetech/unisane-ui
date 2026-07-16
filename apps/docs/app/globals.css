@@ -1,5 +1,6 @@
 /* Import package runtime/token CSS first, then compile docs-local Tailwind utilities after it. */
 @import '@unisane/ui/styles.css';
+@import '@unisane/tokens/preview-themes.css';
 @import 'tailwindcss';
 
 /* Source paths for Tailwind class scanning */

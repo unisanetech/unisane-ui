@@ -65,7 +65,7 @@ export function SelectionBar({
         disabled={isDisabled}
         variant="text"
         size="sm"
-        icon={
+        leadingIcon={
           typeof action.icon === 'string' ? (
             <Icon symbol={action.icon} className="text-[20px]" />
           ) : action.icon ? (

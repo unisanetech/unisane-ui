@@ -1,7 +1,9 @@
 'use client';
 
 import { DocLayout, DocSection, CliCommand } from '@/features/docs-page';
-import { Card, Typography, Button, IconButton, TextField, Checkbox } from '@unisane/ui';
+import { Card, Typography, Button, IconButton } from '@unisane/ui';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { TextField } from '@unisane/ui/text-field';
 import { useState } from 'react';
 
 const TOC_ITEMS = [
@@ -37,7 +39,8 @@ export default function QuickStartPage() {
           <div className="grid grid-cols-1 gap-6 @xl:grid-cols-2">
             <CodeBlock
               title="app/page.tsx"
-              code={`import { Button, Card } from "@unisane/ui";
+              code={`import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 export default function Page() {
   return (
@@ -84,7 +87,9 @@ export default function Page() {
               code={`"use client";
 
 import { useState } from "react";
-import { Button, Card, IconButton } from "@unisane/ui";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { IconButton } from "@/components/ui/icon-button";
 
 export function Counter() {
   const [count, setCount] = useState(0);
@@ -147,9 +152,10 @@ export function Counter() {
               code={`"use client";
 
 import { useState } from "react";
-import {
-  Button, Card, TextField, Checkbox
-} from "@unisane/ui";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TextField } from "@/components/ui/text-field";
 
 export function SignUpForm() {
   const [agreed, setAgreed] = useState(false);
@@ -246,12 +252,18 @@ function CounterDemo() {
     <Card className="p-6 text-center">
       <p className="text-on-surface mb-4 text-4xl font-bold">{count}</p>
       <div className="flex justify-center gap-2">
-        <IconButton variant="tonal" onClick={() => setCount((c) => c - 1)} aria-label="Decrease">
-          <span className="material-symbols-outlined">remove</span>
-        </IconButton>
-        <IconButton variant="tonal" onClick={() => setCount((c) => c + 1)} aria-label="Increase">
-          <span className="material-symbols-outlined">add</span>
-        </IconButton>
+        <IconButton
+          variant="tonal"
+          onClick={() => setCount((c) => c - 1)}
+          aria-label="Decrease"
+          icon={<span className="material-symbols-outlined">remove</span>}
+        />
+        <IconButton
+          variant="tonal"
+          onClick={() => setCount((c) => c + 1)}
+          aria-label="Increase"
+          icon={<span className="material-symbols-outlined">add</span>}
+        />
       </div>
       <Button variant="text" onClick={() => setCount(0)} className="mt-4">
         Reset

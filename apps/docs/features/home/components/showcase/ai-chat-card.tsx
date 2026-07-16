@@ -1,24 +1,22 @@
-"use client";
+'use client';
 
-import { Button, Card, Surface, TextField, Typography } from "@unisane/ui";
+import { Button, Card, Surface, Typography } from '@unisane/ui';
+import { TextField } from '@unisane/ui/text-field';
 
-const prompts = [
-  "What is causing this error?",
-  "Is contrast strong enough?",
-] as const;
+const prompts = ['What is causing this error?', 'Is contrast strong enough?'] as const;
 
-const tools = ["attach_file", "language", "lightbulb", "more_horiz"] as const;
+const tools = ['attach_file', 'language', 'lightbulb', 'more_horiz'] as const;
 
 export function AiChatCard() {
   return (
-    <Card variant="low" className="h-full bg-surface">
+    <Card variant="low" className="bg-surface h-full">
       <Card.Content className="flex h-full flex-col px-5 py-5">
         <div className="flex flex-1 flex-col justify-between gap-5">
           <div className="flex flex-1 items-center justify-center">
             <Typography
               variant="headlineMedium"
               component="p"
-              className="max-w-[11ch] text-center leading-tight text-on-surface"
+              className="text-on-surface max-w-[11ch] text-center leading-tight"
             >
               What can I help with?
             </Typography>
@@ -27,17 +25,8 @@ export function AiChatCard() {
           <div className="space-y-3.5">
             <div className="grid grid-cols-2 gap-2.5">
               {prompts.map((prompt) => (
-                <Surface
-                  key={prompt}
-                  tone="surfaceContainerLow"
-                  rounded="sm"
-                  className="p-3.5"
-                >
-                  <Typography
-                    variant="bodySmall"
-                    component="p"
-                    className="text-on-surface"
-                  >
+                <Surface key={prompt} tone="surfaceContainerLow" rounded="sm" className="p-3.5">
+                  <Typography variant="bodySmall" component="p" className="text-on-surface">
                     {prompt}
                   </Typography>
                 </Surface>
@@ -61,7 +50,7 @@ export function AiChatCard() {
                       rounded="full"
                       className="flex h-8 w-8 items-center justify-center"
                     >
-                      <span className="material-symbols-outlined text-[16px] text-on-surface-variant">
+                      <span className="material-symbols-outlined text-on-surface-variant text-[16px]">
                         {icon}
                       </span>
                     </Surface>
@@ -82,7 +71,7 @@ export function AiChatCard() {
             <Typography
               variant="bodySmall"
               component="p"
-              className="px-1 text-center text-on-surface-variant"
+              className="text-on-surface-variant px-1 text-center"
             >
               AI can make mistakes. Please double-check responses.
             </Typography>

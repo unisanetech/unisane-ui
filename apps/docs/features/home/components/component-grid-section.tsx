@@ -1,22 +1,22 @@
-"use client";
+'use client';
 
-import Link from "next/link";
+import Link from 'next/link';
 import {
   Avatar,
-  Badge,
   Button,
   Card,
-  Checkbox,
   Chip,
   Fab,
   Progress,
   Slider,
   Surface,
-  Switch,
-  TextField,
   Typography,
-} from "@unisane/ui";
-import { HeroBackground } from "@/lib/docs/runtime/hero-background";
+} from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { Switch } from '@unisane/ui/switch';
+import { TextField } from '@unisane/ui/text-field';
+import { HeroBackground } from '@/lib/docs/runtime/hero-background';
 
 function BentoCard({
   title,
@@ -29,16 +29,16 @@ function BentoCard({
 }) {
   return (
     <Link href={href} className="group block">
-      <div className="h-full overflow-hidden rounded-lg border border-outline-weak bg-surface-container-low transition-colors hover:border-outline-muted">
+      <div className="border-outline-weak bg-surface-container-low hover:border-outline-muted h-full overflow-hidden rounded-lg border transition-colors">
         <div className="h-[180px]">{children}</div>
-        <div className="flex items-center justify-between border-t border-outline-weak p-4">
+        <div className="border-outline-weak flex items-center justify-between border-t p-4">
           <Typography
             variant="titleMedium"
-            className="text-on-surface transition-colors group-hover:text-primary"
+            className="text-on-surface group-hover:text-primary transition-colors"
           >
             {title}
           </Typography>
-          <span className="material-symbols-outlined text-[18px] text-on-surface-variant transition-all group-hover:translate-x-0.5 group-hover:text-primary">
+          <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary text-[18px] transition-all group-hover:translate-x-0.5">
             arrow_forward
           </span>
         </div>
@@ -168,10 +168,7 @@ function ComponentBentoGrid() {
               aria-label="Add"
               size="sm"
             />
-            <Fab
-              icon={<span className="material-symbols-outlined">edit</span>}
-              aria-label="Edit"
-            />
+            <Fab icon={<span className="material-symbols-outlined">edit</span>} aria-label="Edit" />
             <Fab
               icon={<span className="material-symbols-outlined">navigation</span>}
               aria-label="Navigate"
@@ -190,14 +187,11 @@ export function ComponentGridSection() {
     <>
       <Typography
         variant="headlineMedium"
-        className="mb-4 text-on-surface @3xl:text-headline-large"
+        className="text-on-surface @3xl:text-headline-large mb-4"
       >
         Components for every need
       </Typography>
-      <Typography
-        variant="titleMedium"
-        className="mb-12 max-w-2xl text-on-surface-variant"
-      >
+      <Typography variant="titleMedium" className="text-on-surface-variant mb-12 max-w-2xl">
         From buttons to complex layouts, everything you need to build
       </Typography>
 

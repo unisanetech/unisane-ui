@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import * as React from 'react';
+import { Field, FieldDescription, FieldError, FieldLabel } from '@/components/ui/field';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import {
@@ -10,206 +11,259 @@ import {
   getFieldLabelClasses,
   type FieldShellVariant,
 } from '@/lib/field-shell';
-import { useFieldState } from '@/lib/use-field-state';
 
-export type TextFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> &
-  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> & {
-    variant?: FieldShellVariant;
-    error?: boolean;
-    label: string;
-    helperText?: string;
-    leadingIcon?: React.ReactNode;
-    trailingIcon?: React.ReactNode;
+type TextFieldControl = HTMLInputElement | HTMLTextAreaElement;
+
+type TextFieldCommonProps = {
+  autoResize?: boolean;
+  autoResizeMaxHeight?: number;
+  className?: string;
+  defaultValue?: string | number;
+  description?: React.ReactNode;
+  errorMessage?: React.ReactNode;
+  hideLabel?: boolean;
+  invalid?: boolean;
+  label: React.ReactNode;
+  leadingIcon?: React.ReactNode;
+  onValueChange?: (value: string) => void;
+  size?: FieldSize;
+  trailingIcon?: React.ReactNode;
+  value?: string | number;
+  variant?: FieldShellVariant;
+};
+
+type ReplacedNativeProps =
+  | 'children'
+  | 'className'
+  | 'defaultValue'
+  | 'onChange'
+  | 'size'
+  | 'value';
+
+type TextFieldEvents = Omit<
+  React.DOMAttributes<TextFieldControl>,
+  'children' | 'dangerouslySetInnerHTML' | 'onChange'
+>;
+
+type TextFieldInputAttributes = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  ReplacedNativeProps | keyof React.DOMAttributes<HTMLInputElement>
+>;
+
+type TextFieldTextareaAttributes = Omit<
+  React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  ReplacedNativeProps | keyof React.DOMAttributes<HTMLTextAreaElement>
+>;
+
+export type TextFieldProps = TextFieldCommonProps &
+  TextFieldEvents &
+  (TextFieldInputAttributes | TextFieldTextareaAttributes) & {
     multiline?: boolean;
-    autoResize?: boolean;
-    autoResizeMaxHeight?: number;
-    labelClassName?: string;
-    labelBg?: string;
-    size?: FieldSize;
   };
 
-export const TextField = React.forwardRef<HTMLInputElement | HTMLTextAreaElement, TextFieldProps>(
-  (
-    {
-      label,
-      variant = 'outlined',
-      error,
-      helperText,
-      leadingIcon,
-      trailingIcon,
-      className,
-      labelClassName,
-      labelBg,
-      size = 'md',
-      id,
-      multiline = false,
+export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
+  (props, forwardedRef) => {
+    const {
       autoResize = false,
       autoResizeMaxHeight = 360,
-      disabled,
+      className,
+      defaultValue = '',
+      description,
+      errorMessage,
+      hideLabel = false,
+      invalid = false,
+      label,
+      leadingIcon,
+      multiline = false,
+      onValueChange,
+      size = 'md',
+      trailingIcon,
       value,
-      defaultValue,
-      onFocus,
-      onBlur,
-      onChange,
-      ...props
-    },
-    ref,
-  ) => {
-    const internalRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+      variant = 'outlined',
+      ...nativeControlProps
+    } = props;
+    const inputProps = nativeControlProps as TextFieldInputAttributes & TextFieldEvents;
+    const textareaProps = nativeControlProps as TextFieldTextareaAttributes & TextFieldEvents;
+    const id = nativeControlProps.id;
+    const disabled = nativeControlProps.disabled;
+    const placeholder = nativeControlProps.placeholder;
+    const required = nativeControlProps.required;
+    const externalDescribedBy = nativeControlProps['aria-describedby'];
+    const generatedId = React.useId();
+    const fieldId = id ?? `textfield-${generatedId}`;
+    const descriptionId = description ? `${fieldId}-description` : undefined;
+    const errorId = errorMessage ? `${fieldId}-error` : undefined;
+    const resolvedInvalid = invalid || Boolean(errorMessage);
+    const messageId = errorMessage ? errorId : descriptionId;
+    const describedBy = mergeIds(externalDescribedBy, messageId);
     const fieldSize = getFieldSizeStyles(size);
-    const [isFocused, setIsFocused] = useState(false);
-    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
+    const internalRef = React.useRef<TextFieldControl | null>(null);
+    const [isFocused, setIsFocused] = React.useState(false);
+    const [uncontrolledValue, setUncontrolledValue] = React.useState(String(defaultValue));
+    const currentValue = value === undefined ? uncontrolledValue : String(value);
+    const hasValue = currentValue.length > 0;
+    const isFloating = hideLabel || Boolean(placeholder) || isFocused || hasValue;
 
-    useEffect(() => {
-      if (value !== undefined) setInternalValue(value);
-    }, [value]);
+    const setControlRef = React.useCallback(
+      (node: TextFieldControl | null) => {
+        internalRef.current = node;
+        if (typeof forwardedRef === 'function') {
+          forwardedRef(node);
+        } else if (forwardedRef) {
+          forwardedRef.current = node;
+        }
+      },
+      [forwardedRef],
+    );
 
-    useLayoutEffect(() => {
+    React.useLayoutEffect(() => {
       if (!multiline || !autoResize) return;
       resizeTextarea(internalRef.current, autoResizeMaxHeight);
-    }, [autoResize, autoResizeMaxHeight, internalValue, multiline]);
+    }, [autoResize, autoResizeMaxHeight, currentValue, multiline]);
 
-    const handleFocus = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setIsFocused(true);
-      onFocus?.(e as React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>);
-    };
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setIsFocused(false);
-      onBlur?.(e as React.FocusEvent<HTMLInputElement> & React.FocusEvent<HTMLTextAreaElement>);
-    };
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setInternalValue(e.target.value);
-      if (multiline && autoResize) resizeTextarea(e.currentTarget, autoResizeMaxHeight);
-      onChange?.(e as React.ChangeEvent<HTMLInputElement> & React.ChangeEvent<HTMLTextAreaElement>);
-    };
-
-    const hasValue = internalValue !== undefined && internalValue !== null && internalValue !== '';
-    const { fieldId, helperId, isFloating } = useFieldState({
-      id,
-      idPrefix: 'textfield',
-      helperText,
-      active: isFocused,
-      hasValue,
-    });
-
-    useEffect(() => {
-      if (ref) {
-        if (typeof ref === 'function') {
-          ref(internalRef.current);
-        } else {
-          (ref as React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement | null>).current =
-            internalRef.current;
-        }
+    function handleValueChange(nextValue: string) {
+      if (value === undefined) {
+        setUncontrolledValue(nextValue);
       }
-    }, [ref]);
+      onValueChange?.(nextValue);
+    }
+
+    const controlClasses = cn(
+      'unisane-text-field-control text-on-surface caret-primary h-full w-full border-none bg-transparent outline-none focus:ring-0',
+      'placeholder:text-on-surface-variant',
+      fieldSize.horizontalPadding,
+      fieldSize.valueText,
+      variant === 'filled' ? fieldSize.filledInputPadding : '',
+    );
 
     return (
-      <div className={cn('relative inline-flex w-full flex-col', className)}>
+      <Field className={className} invalid={resolvedInvalid}>
         <div
           className={cn(
-            fieldContainerVariants({ variant, error, disabled }),
+            fieldContainerVariants({ variant, error: resolvedInvalid, disabled }),
             multiline ? 'items-start py-0' : ['items-center', fieldSize.containerHeight],
           )}
         >
-          {leadingIcon && (
+          {leadingIcon ? (
             <span
               className={getFieldAffixClasses({
                 size,
-                error: Boolean(error),
+                error: resolvedInvalid,
                 active: isFocused,
                 multiline,
                 side: 'leading',
               })}
             >
-              <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
+              <span className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
                 {leadingIcon}
-              </div>
+              </span>
             </span>
-          )}
+          ) : null}
           <div className="relative h-full min-w-0 flex-1">
             {multiline ? (
               <textarea
-                ref={internalRef as React.RefObject<HTMLTextAreaElement>}
+                {...textareaProps}
+                ref={setControlRef as React.RefCallback<HTMLTextAreaElement>}
                 id={fieldId}
-                {...(value !== undefined ? { value } : { defaultValue })}
-                disabled={disabled}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                aria-describedby={helperId}
+                value={value}
+                defaultValue={value === undefined ? defaultValue : undefined}
+                aria-describedby={describedBy}
+                aria-invalid={resolvedInvalid || undefined}
                 className={cn(
-                  'unisane-text-field-control text-on-surface caret-primary h-full min-h-24 w-full resize-none border-none bg-transparent placeholder-transparent outline-none focus:ring-0',
-                  fieldSize.horizontalPadding,
+                  controlClasses,
+                  'min-h-24 resize-none',
                   fieldSize.multilinePaddingY,
-                  fieldSize.valueText,
                   variant === 'filled' ? fieldSize.filledTextareaPadding : '',
                 )}
-                placeholder=" "
-                {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
+                onBlur={(event) => {
+                  setIsFocused(false);
+                  textareaProps.onBlur?.(event);
+                }}
+                onChange={(event) => {
+                  handleValueChange(event.currentTarget.value);
+                  if (autoResize) resizeTextarea(event.currentTarget, autoResizeMaxHeight);
+                }}
+                onFocus={(event) => {
+                  setIsFocused(true);
+                  textareaProps.onFocus?.(event);
+                }}
               />
             ) : (
               <input
-                ref={internalRef as React.RefObject<HTMLInputElement>}
+                {...inputProps}
+                ref={setControlRef as React.RefCallback<HTMLInputElement>}
                 id={fieldId}
-                {...(value !== undefined ? { value } : { defaultValue })}
-                disabled={disabled}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                onChange={handleChange}
-                aria-describedby={helperId}
-                className={cn(
-                  'unisane-text-field-control text-on-surface caret-primary h-full w-full border-none bg-transparent placeholder-transparent outline-none focus:ring-0',
-                  fieldSize.horizontalPadding,
-                  fieldSize.valueText,
-                  variant === 'filled' ? fieldSize.filledInputPadding : '',
-                )}
-                placeholder=" "
-                {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
+                value={value}
+                defaultValue={value === undefined ? defaultValue : undefined}
+                aria-describedby={describedBy}
+                aria-invalid={resolvedInvalid || undefined}
+                className={controlClasses}
+                onBlur={(event) => {
+                  setIsFocused(false);
+                  inputProps.onBlur?.(event);
+                }}
+                onChange={(event) => handleValueChange(event.currentTarget.value)}
+                onFocus={(event) => {
+                  setIsFocused(true);
+                  inputProps.onFocus?.(event);
+                }}
               />
             )}
-            <label
+            <FieldLabel
               htmlFor={fieldId}
-              className={getFieldLabelClasses({
-                size,
-                variant,
-                floating: isFloating,
-                error: Boolean(error),
-                active: isFocused,
-                multiline,
-                labelBg,
-                labelClassName,
-              })}
+              required={required}
+              className={
+                hideLabel
+                  ? 'sr-only'
+                  : getFieldLabelClasses({
+                      size,
+                      variant,
+                      floating: isFloating,
+                      error: resolvedInvalid,
+                      active: isFocused,
+                      multiline,
+                    })
+              }
             >
               {label}
-            </label>
+            </FieldLabel>
           </div>
-          {trailingIcon && (
+          {trailingIcon ? (
             <span
               className={getFieldAffixClasses({
                 size,
-                error: Boolean(error),
+                error: resolvedInvalid,
                 multiline,
                 side: 'trailing',
               })}
             >
-              <div className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
+              <span className={cn(fieldSize.iconSize, 'flex items-center justify-center')}>
                 {trailingIcon}
-              </div>
+              </span>
             </span>
-          )}
+          ) : null}
         </div>
-        {helperText && (
-          <span id={helperId} className={getFieldHelperTextClasses(size, Boolean(error))}>
-            {helperText}
-          </span>
-        )}
-      </div>
+        {errorMessage ? (
+          <FieldError id={errorId} className={getFieldHelperTextClasses(size, true)}>
+            {errorMessage}
+          </FieldError>
+        ) : description ? (
+          <FieldDescription id={descriptionId} className={getFieldHelperTextClasses(size)}>
+            {description}
+          </FieldDescription>
+        ) : null}
+      </Field>
     );
   },
 );
 TextField.displayName = 'TextField';
 
-function resizeTextarea(field: HTMLInputElement | HTMLTextAreaElement | null, maxHeight: number) {
+function mergeIds(...ids: Array<string | undefined>) {
+  const merged = ids.filter(Boolean).join(' ');
+  return merged || undefined;
+}
+
+function resizeTextarea(field: TextFieldControl | null, maxHeight: number) {
   if (!(field instanceof HTMLTextAreaElement)) return;
 
   field.style.height = 'auto';

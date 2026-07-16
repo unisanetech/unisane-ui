@@ -1,34 +1,29 @@
-"use client";
+'use client';
 
-import { memo } from "react";
-import { cn } from "@unisane/ui";
-import { useI18n } from "../../i18n";
-import { SearchInput } from "./search-input";
-import {
-  ActionButton,
-  ToolbarTextButton,
-  SegmentedIconButton,
-  CompactIconButton,
-} from "./buttons";
+import { memo } from 'react';
+import { cn } from '@unisane/ui';
+import { useI18n } from '../../i18n';
+import { SearchInput } from './search-input';
+import { ActionButton, ToolbarTextButton, SegmentedIconButton, CompactIconButton } from './buttons';
 import {
   ColumnVisibilityDropdown,
   DensityDropdown,
   MoreActionsDropdown,
   LabeledDropdown,
-} from "./dropdowns";
-import { ExportDropdown } from "./export-dropdown";
+} from './dropdowns';
+import { ExportDropdown } from './export-dropdown';
 import {
   SelectionBar,
   TitleBar,
   ActiveFiltersBar,
   GroupingPillsBar,
   FrozenColumnsIndicator,
-} from "./sections";
-import type { DataTableToolbarProps } from "./types";
+} from './sections';
+import type { DataTableToolbarProps } from './types';
 
 // Re-export types and sub-components for direct use
-export * from "./types";
-export { SearchInput } from "./search-input";
+export * from './types';
+export { SearchInput } from './search-input';
 export {
   ToolbarDropdownButton,
   ToolbarTextButton,
@@ -36,25 +31,22 @@ export {
   SegmentedIconButton,
   ActionButton,
   CompactIconButton,
-} from "./buttons";
+} from './buttons';
 export {
   ColumnVisibilityDropdown,
   DensityDropdown,
   MoreActionsDropdown,
   LabeledDropdown,
-} from "./dropdowns";
-export { ExportDropdown, type ExportDropdownProps } from "./export-dropdown";
+} from './dropdowns';
+export { ExportDropdown, type ExportDropdownProps } from './export-dropdown';
 export {
   SelectionBar,
   TitleBar,
   ActiveFiltersBar,
   GroupingPillsBar,
   FrozenColumnsIndicator,
-} from "./sections";
-export type {
-  GroupingPillsBarProps,
-  FrozenColumnsIndicatorProps,
-} from "./sections";
+} from './sections';
+export type { GroupingPillsBarProps, FrozenColumnsIndicatorProps } from './sections';
 
 // ─── TOOLBAR COMPONENT ──────────────────────────────────────────────────────
 
@@ -69,7 +61,7 @@ function DataTableToolbarInner<T extends { id: string }>({
   printHandler,
   onRefresh,
   refreshing = false,
-  density = "standard",
+  density = 'standard',
   onDensityChange,
   startItem,
   endItem,
@@ -105,14 +97,14 @@ function DataTableToolbarInner<T extends { id: string }>({
 
   // Calculate segmented button positions
   const segmentedItems: Array<{
-    type: "filter" | "columns" | "density" | "export" | "print" | "refresh";
+    type: 'filter' | 'columns' | 'density' | 'export' | 'print' | 'refresh';
   }> = [];
-  if (showFilter) segmentedItems.push({ type: "filter" });
-  if (showColumnToggle) segmentedItems.push({ type: "columns" });
-  if (showDensityToggle) segmentedItems.push({ type: "density" });
-  if (hasExport) segmentedItems.push({ type: "export" });
-  if (hasPrint) segmentedItems.push({ type: "print" });
-  if (onRefresh) segmentedItems.push({ type: "refresh" });
+  if (showFilter) segmentedItems.push({ type: 'filter' });
+  if (showColumnToggle) segmentedItems.push({ type: 'columns' });
+  if (showDensityToggle) segmentedItems.push({ type: 'density' });
+  if (hasExport) segmentedItems.push({ type: 'export' });
+  if (hasPrint) segmentedItems.push({ type: 'print' });
+  if (onRefresh) segmentedItems.push({ type: 'refresh' });
 
   const getSegmentedPosition = (type: string) => {
     const index = segmentedItems.findIndex((item) => item.type === type);
@@ -136,9 +128,9 @@ function DataTableToolbarInner<T extends { id: string }>({
   // Add print action
   if (printHandler) {
     overflowActions.push({
-      key: "print",
-      label: t("print"),
-      icon: "print",
+      key: 'print',
+      label: t('print'),
+      icon: 'print',
       onClick: printHandler.onPrint,
       disabled: printHandler.isPrinting,
     });
@@ -147,9 +139,9 @@ function DataTableToolbarInner<T extends { id: string }>({
   // Add refresh action
   if (onRefresh) {
     overflowActions.push({
-      key: "refresh",
-      label: t("refresh"),
-      icon: "refresh",
+      key: 'refresh',
+      label: t('refresh'),
+      icon: 'refresh',
       onClick: onRefresh,
       disabled: refreshing,
     });
@@ -160,7 +152,7 @@ function DataTableToolbarInner<T extends { id: string }>({
     overflowActions.push({
       key: action.key,
       label: action.label,
-      icon: action.icon || "more_horiz",
+      icon: action.icon || 'more_horiz',
       onClick: action.onClick,
       disabled: action.disabled,
     });
@@ -171,7 +163,7 @@ function DataTableToolbarInner<T extends { id: string }>({
     overflowActions.push({
       key: action.key,
       label: action.label,
-      icon: action.icon || "more_horiz",
+      icon: action.icon || 'more_horiz',
       onClick: action.onClick,
       disabled: action.disabled,
     });
@@ -180,18 +172,17 @@ function DataTableToolbarInner<T extends { id: string }>({
   return (
     <>
       {/* Container query wrapper for responsive toolbar */}
-      <div className="@container w-full shrink-0 relative">
+      <div className="@container relative w-full shrink-0">
         {/* Main toolbar row */}
         <div
           className={cn(
             // z-10: Within table context, below sticky zone (z-20) and sidebar (z-30)
-            "relative flex items-center justify-between gap-2 @md:gap-3 px-2 @md:px-3 min-h-12 bg-surface border-b border-outline-subtle transition-shadow z-10",
-            hasSelection && "shadow-1"
+            'bg-surface border-outline-subtle relative z-10 flex min-h-12 items-center justify-between gap-2 border-b px-2 transition-shadow @md:gap-3 @md:px-3',
+            hasSelection && 'shadow-1',
           )}
-         
         >
           {/* Left section */}
-          <div className="flex items-center gap-2 @md:gap-3 min-w-0 flex-1">
+          <div className="flex min-w-0 flex-1 items-center gap-2 @md:gap-3">
             {hasSelection ? (
               <SelectionBar
                 selectedCount={selectedCount}
@@ -212,16 +203,12 @@ function DataTableToolbarInner<T extends { id: string }>({
                 )}
 
                 {/* Custom left content - visible @md+ */}
-                {leftContent && (
-                  <div className="hidden @md:flex items-center">
-                    {leftContent}
-                  </div>
-                )}
+                {leftContent && <div className="hidden items-center @md:flex">{leftContent}</div>}
 
                 {/* Frozen columns indicator - visible @lg+ */}
                 {hasFrozenColumns && (
-                  <div className="hidden @lg:flex items-center gap-3">
-                    <div className="h-6 w-px bg-outline-soft" />
+                  <div className="hidden items-center gap-3 @lg:flex">
+                    <div className="bg-outline-soft h-6 w-px" />
                     <FrozenColumnsIndicator
                       frozenLeftCount={frozenLeftCount}
                       frozenRightCount={frozenRightCount}
@@ -232,14 +219,12 @@ function DataTableToolbarInner<T extends { id: string }>({
 
                 {/* Action buttons - visible @xl+ */}
                 {hasActions && (
-                  <div className="hidden @xl:flex items-center gap-2">
-                    <div className="h-6 w-px bg-outline-soft" />
+                  <div className="hidden items-center gap-2 @xl:flex">
+                    <div className="bg-outline-soft h-6 w-px" />
                     {actions.map((action) => (
                       <ActionButton key={action.key} action={action} />
                     ))}
-                    {moreActions.length > 0 && (
-                      <MoreActionsDropdown actions={moreActions} />
-                    )}
+                    {moreActions.length > 0 && <MoreActionsDropdown actions={moreActions} />}
                   </div>
                 )}
               </>
@@ -247,17 +232,13 @@ function DataTableToolbarInner<T extends { id: string }>({
           </div>
 
           {/* Right section - progressive disclosure based on container width */}
-          <div className="flex items-center gap-1 @md:gap-2 shrink-0">
+          <div className="flex shrink-0 items-center gap-1 @md:gap-2">
             {/* Custom right content - visible @lg+ */}
-            {rightContent && (
-              <div className="hidden @lg:flex items-center">
-                {rightContent}
-              </div>
-            )}
+            {rightContent && <div className="hidden items-center @lg:flex">{rightContent}</div>}
 
             {/* Labeled dropdowns - visible @xl+ */}
             {hasDropdowns && !hasSelection && (
-              <div className="hidden @xl:flex items-center gap-2">
+              <div className="hidden items-center gap-2 @xl:flex">
                 {dropdowns.map((dropdown) => (
                   <LabeledDropdown key={dropdown.key} dropdown={dropdown} />
                 ))}
@@ -275,7 +256,7 @@ function DataTableToolbarInner<T extends { id: string }>({
                 <div className="@xl:hidden">
                   <CompactIconButton
                     icon="filter_list"
-                    label={t("filtersLabel")}
+                    label={t('filtersLabel')}
                     onClick={onFilterClick}
                     active={filtersActive}
                   />
@@ -294,11 +275,7 @@ function DataTableToolbarInner<T extends { id: string }>({
             {/* Density dropdown - hidden on mobile (compact is forced), visible @md to @xl as icon */}
             {showDensityToggle && !hasSelection && (
               <div className="hidden @md:block @xl:hidden">
-                <DensityDropdown
-                  density={density}
-                  onDensityChange={onDensityChange}
-                  compact
-                />
+                <DensityDropdown density={density} onDensityChange={onDensityChange} compact />
               </div>
             )}
 
@@ -312,76 +289,73 @@ function DataTableToolbarInner<T extends { id: string }>({
             {/* Group expand/collapse toggle - visible on all sizes */}
             {isGrouped && !hasSelection && onToggleAllGroups && (
               <CompactIconButton
-                icon={allGroupsExpanded ? "unfold_less" : "unfold_more"}
-                label={allGroupsExpanded ? t("collapseAllGroups") : t("expandAllGroups")}
+                icon={allGroupsExpanded ? 'unfold_less' : 'unfold_more'}
+                label={allGroupsExpanded ? t('collapseAllGroups') : t('expandAllGroups')}
                 onClick={onToggleAllGroups}
               />
             )}
 
             {/* Divider before secondary controls - visible @xl+ */}
             {(hasExport || hasPrint || onRefresh) && (
-              <div className="h-6 w-px bg-outline-soft hidden @xl:block" />
+              <div className="bg-outline-soft hidden h-6 w-px @xl:block" />
             )}
 
             {/* SECONDARY ACTIONS - In overflow on small, inline with text on @xl+ */}
 
             {/* @xl+: Secondary actions with text labels */}
             {segmentedControls ? (
-              <div className="hidden @xl:flex items-center">
+              <div className="hidden items-center @xl:flex">
                 {showFilter && (
                   <SegmentedIconButton
                     icon="filter_list"
-                    label={t("filter")}
+                    label={t('filter')}
                     onClick={onFilterClick}
                     active={filtersActive}
-                    {...getSegmentedPosition("filter")}
+                    {...getSegmentedPosition('filter')}
                   />
                 )}
                 {showColumnToggle && (
-                  <ColumnVisibilityDropdown
-                    segmented
-                    {...getSegmentedPosition("columns")}
-                  />
+                  <ColumnVisibilityDropdown segmented {...getSegmentedPosition('columns')} />
                 )}
                 {showDensityToggle && (
                   <DensityDropdown
                     density={density}
                     onDensityChange={onDensityChange}
                     segmented
-                    {...getSegmentedPosition("density")}
+                    {...getSegmentedPosition('density')}
                   />
                 )}
                 {exportHandler && (
                   <ExportDropdown
                     handler={exportHandler}
                     segmented
-                    {...getSegmentedPosition("export")}
+                    {...getSegmentedPosition('export')}
                   />
                 )}
                 {printHandler && (
                   <SegmentedIconButton
                     icon="print"
-                    label={t("print")}
+                    label={t('print')}
                     onClick={printHandler.onPrint}
                     disabled={printHandler.isPrinting}
-                    {...getSegmentedPosition("print")}
+                    {...getSegmentedPosition('print')}
                   />
                 )}
                 {onRefresh && (
                   <SegmentedIconButton
                     icon="refresh"
-                    label={t("refresh")}
+                    label={t('refresh')}
                     onClick={onRefresh}
                     disabled={refreshing}
-                    {...getSegmentedPosition("refresh")}
+                    {...getSegmentedPosition('refresh')}
                   />
                 )}
               </div>
             ) : (
-              <div className="hidden @xl:flex items-center gap-2">
+              <div className="hidden items-center gap-2 @xl:flex">
                 {showFilter && (
                   <ToolbarTextButton
-                    label={t("filtersLabel")}
+                    label={t('filtersLabel')}
                     icon="filter_list"
                     onClick={onFilterClick}
                     active={filtersActive}
@@ -389,17 +363,12 @@ function DataTableToolbarInner<T extends { id: string }>({
                 )}
                 {showColumnToggle && <ColumnVisibilityDropdown />}
                 {showDensityToggle && (
-                  <DensityDropdown
-                    density={density}
-                    onDensityChange={onDensityChange}
-                  />
+                  <DensityDropdown density={density} onDensityChange={onDensityChange} />
                 )}
-                {exportHandler && (
-                  <ExportDropdown handler={exportHandler} />
-                )}
+                {exportHandler && <ExportDropdown handler={exportHandler} />}
                 {printHandler && (
                   <ToolbarTextButton
-                    label={t("print")}
+                    label={t('print')}
                     icon="print"
                     onClick={printHandler.onPrint}
                     disabled={printHandler.isPrinting}
@@ -407,7 +376,7 @@ function DataTableToolbarInner<T extends { id: string }>({
                 )}
                 {onRefresh && (
                   <ToolbarTextButton
-                    label={t("refresh")}
+                    label={t('refresh')}
                     icon="refresh"
                     onClick={onRefresh}
                     disabled={refreshing}
@@ -425,7 +394,7 @@ function DataTableToolbarInner<T extends { id: string }>({
 
             {/* Custom icon actions - visible @md+ */}
             {hasIconActions && (
-              <div className="hidden @md:flex items-center gap-1">
+              <div className="hidden items-center gap-1 @md:flex">
                 {iconActions.map((action) => (
                   <CompactIconButton
                     key={action.key}
@@ -447,6 +416,4 @@ function DataTableToolbarInner<T extends { id: string }>({
   );
 }
 
-export const DataTableToolbar = memo(
-  DataTableToolbarInner
-) as typeof DataTableToolbarInner;
+export const DataTableToolbar = memo(DataTableToolbarInner) as typeof DataTableToolbarInner;

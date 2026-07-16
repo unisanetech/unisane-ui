@@ -340,7 +340,7 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
                 aria-describedby={helperId}
                 aria-invalid={effectiveError || undefined}
                 className={cn(
-                  'unisane-text-field-control text-on-surface caret-primary min-w-24 flex-1 border-none bg-transparent outline-none placeholder:text-on-surface-variant focus:ring-0 disabled:cursor-not-allowed',
+                  'unisane-text-field-control text-on-surface caret-primary placeholder:text-on-surface-variant min-w-24 flex-1 border-none bg-transparent outline-none focus:ring-0 disabled:cursor-not-allowed',
                   fieldSize.valueText,
                   inputClassName,
                 )}

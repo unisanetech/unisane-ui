@@ -1,25 +1,21 @@
-"use client";
+'use client';
 
-import {
-  Badge,
-  Card,
-  Checkbox,
-  Select,
-  Surface,
-  TextField,
-  Typography,
-} from "@unisane/ui";
+import { Card, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@unisane/ui/badge';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { SelectField } from '@unisane/ui/select-field';
+import { TextField } from '@unisane/ui/text-field';
 
 const planOptions = [
-  { value: "starter", label: "Starter" },
-  { value: "growth", label: "Growth" },
-  { value: "enterprise", label: "Enterprise" },
+  { value: 'starter', label: 'Starter' },
+  { value: 'growth', label: 'Growth' },
+  { value: 'enterprise', label: 'Enterprise' },
 ];
 
 const ownerOptions = [
-  { value: "ops", label: "Operations" },
-  { value: "design", label: "Design" },
-  { value: "product", label: "Product" },
+  { value: 'ops', label: 'Operations' },
+  { value: 'design', label: 'Design' },
+  { value: 'product', label: 'Product' },
 ];
 
 export function WorkspaceSetupCard() {
@@ -46,9 +42,7 @@ export function WorkspaceSetupCard() {
           placeholder="Northstar"
           size="sm"
           leadingIcon={
-            <span className="material-symbols-outlined text-[16px] leading-none">
-              domain
-            </span>
+            <span className="material-symbols-outlined text-[16px] leading-none">domain</span>
           }
           className="pointer-events-none"
         />
@@ -65,7 +59,7 @@ export function WorkspaceSetupCard() {
           className="pointer-events-none"
         />
         <div className="grid grid-cols-2 gap-3">
-          <Select
+          <SelectField
             id="home-hero-plan"
             label="Plan"
             size="sm"
@@ -74,7 +68,7 @@ export function WorkspaceSetupCard() {
             portal={false}
             className="pointer-events-none"
           />
-          <Select
+          <SelectField
             id="home-hero-owner"
             label="Owner"
             size="sm"
@@ -94,7 +88,7 @@ export function WorkspaceSetupCard() {
           <Typography
             variant="bodySmall"
             component="p"
-            className="mt-1 pl-13 text-on-surface-variant"
+            className="text-on-surface-variant mt-1 pl-13"
           >
             Alert owners for approvals and handoffs.
           </Typography>

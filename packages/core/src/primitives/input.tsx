@@ -11,7 +11,7 @@ export type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size
 /**
  * Input primitive - a basic styled input element.
  *
- * For most cases, use TextField which includes a label and follows Material 3 guidelines.
+ * For most cases, use TextField which includes the canonical label and validation contract.
  * Use this Input primitive when you need lower-level control or custom compositions.
  */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(

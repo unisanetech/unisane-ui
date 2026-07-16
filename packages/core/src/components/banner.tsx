@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { forwardRef, type MouseEventHandler, type ReactNode } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
 import { Surface } from '../primitives/surface';
 import { Text } from '../primitives/text';
 import { Button } from './button';
 import { IconButton } from './icon-button';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 
 const bannerVariants = cva(
-  'relative w-full flex items-start gap-4 p-4 border-b border-outline-subtle transition-all duration-medium ease-standard',
+  'relative flex w-full items-start gap-4 border-b border-outline-subtle p-4 transition-all duration-medium ease-standard',
   {
     variants: {
       variant: {
         default: 'bg-surface text-on-surface',
         info: 'bg-info-container text-on-info-container',
+        success: 'bg-success-container text-on-success-container',
         warning: 'bg-warning-container text-on-warning-container',
         error: 'bg-error-container text-on-error-container',
       },
@@ -24,98 +25,141 @@ const bannerVariants = cva(
   },
 );
 
-export type BannerProps = VariantProps<typeof bannerVariants> & {
-  open: boolean;
-  onClose: () => void;
-  icon?: React.ReactNode;
-  title?: string;
-  message: string;
-  actions?: Array<{
-    label: string;
-    onClick: () => void;
-  }>;
-  className?: string;
+export type BannerVariant = NonNullable<VariantProps<typeof bannerVariants>['variant']>;
+
+export interface BannerAction {
+  id: string;
+  label: ReactNode;
+  onClick: MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
+}
+
+export interface BannerProps
+  extends
+    Omit<React.HTMLAttributes<HTMLDivElement>, 'children' | 'title'>,
+    VariantProps<typeof bannerVariants> {
+  children: ReactNode;
+  open?: boolean;
+  onDismiss?: () => void;
+  dismissLabel?: string;
+  icon?: ReactNode | string | false;
+  title?: ReactNode;
+  actions?: BannerAction[];
+}
+
+const DEFAULT_ICONS: Record<BannerVariant, string> = {
+  default: 'info',
+  info: 'info',
+  success: 'check_circle',
+  warning: 'warning',
+  error: 'error',
 };
 
-export const Banner: React.FC<BannerProps> = ({
-  open,
-  onClose,
-  icon,
-  title,
-  message,
-  actions,
-  className,
-  variant = 'default',
-}) => {
-  if (!open) return null;
+export const Banner = forwardRef<HTMLDivElement, BannerProps>(
+  (
+    {
+      children,
+      open = true,
+      onDismiss,
+      dismissLabel = 'Dismiss banner',
+      icon,
+      title,
+      actions,
+      className,
+      variant = 'default',
+      role,
+      'aria-live': ariaLive,
+      'aria-atomic': ariaAtomic,
+      ...props
+    },
+    ref,
+  ) => {
+    if (!open) return null;
 
-  const role = variant === 'error' ? 'alert' : variant === 'warning' ? 'alert' : 'status';
-  const isDefaultVariant = variant === 'default';
+    const resolvedVariant = variant ?? 'default';
+    const isAssertive = resolvedVariant === 'error' || resolvedVariant === 'warning';
+    const isDefaultVariant = resolvedVariant === 'default';
+    const iconNode =
+      icon === false ? null : typeof icon === 'string' || icon === undefined ? (
+        <Icon symbol={icon ?? DEFAULT_ICONS[resolvedVariant]} size="sm" />
+      ) : (
+        icon
+      );
 
-  return (
-    <Surface
-      tone="surface"
-      className={cn(bannerVariants({ variant, className }))}
-      role={role}
-      aria-live={variant === 'error' || variant === 'warning' ? 'assertive' : 'polite'}
-    >
-      {icon && (
-        <div
-          className={cn(
-            'size-icon-sm mt-0.5 flex shrink-0 items-center justify-center',
-            isDefaultVariant ? 'text-primary' : 'text-inherit',
-          )}
-        >
-          {icon}
-        </div>
-      )}
-
-      <div className="min-w-0 flex-1">
-        {title && (
-          <Text
-            variant="titleSmall"
-            className={cn('mb-1', isDefaultVariant ? 'text-on-surface' : 'text-inherit')}
+    return (
+      <Surface
+        ref={ref}
+        tone="surface"
+        className={cn(bannerVariants({ variant: resolvedVariant, className }))}
+        role={role ?? (isAssertive ? 'alert' : 'status')}
+        aria-live={ariaLive ?? (isAssertive ? 'assertive' : 'polite')}
+        aria-atomic={ariaAtomic ?? true}
+        {...props}
+      >
+        {iconNode ? (
+          <div
+            aria-hidden="true"
+            className={cn(
+              'size-icon-sm mt-0.5 flex shrink-0 items-center justify-center',
+              isDefaultVariant ? 'text-primary' : 'text-inherit',
+            )}
           >
-            {title}
-          </Text>
-        )}
-        <div
-          className={cn(
-            'text-body-small leading-relaxed',
-            isDefaultVariant ? 'text-on-surface-variant' : 'text-inherit opacity-90',
-          )}
-        >
-          {message}
+            {iconNode}
+          </div>
+        ) : null}
+
+        <div className="min-w-0 flex-1">
+          {title ? (
+            <Text
+              variant="titleSmall"
+              className={cn('mb-1', isDefaultVariant ? 'text-on-surface' : 'text-inherit')}
+            >
+              {title}
+            </Text>
+          ) : null}
+          <div
+            className={cn(
+              'text-body-small leading-relaxed',
+              isDefaultVariant ? 'text-on-surface-variant' : 'text-inherit opacity-90',
+            )}
+          >
+            {children}
+          </div>
+
+          {actions?.length ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {actions.map((action) => (
+                <Button
+                  key={action.id}
+                  variant="text"
+                  size="sm"
+                  disabled={action.disabled}
+                  onClick={action.onClick}
+                  className={cn('font-medium', isDefaultVariant ? 'text-primary' : 'text-inherit')}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </div>
+          ) : null}
         </div>
 
-        {actions && actions.length > 0 && (
-          <div className="mt-4 flex gap-2">
-            {actions.map((action, index) => (
-              <Button
-                key={index}
-                variant="text"
-                size="sm"
-                onClick={action.onClick}
-                className={cn('font-medium', isDefaultVariant ? 'text-primary' : 'text-inherit')}
-              >
-                {action.label}
-              </Button>
-            ))}
-          </div>
-        )}
-      </div>
+        {onDismiss ? (
+          <IconButton
+            icon={<Icon symbol="close" size="sm" />}
+            onClick={onDismiss}
+            className={cn(
+              'hover:bg-state-hover ml-2 shrink-0',
+              isDefaultVariant
+                ? 'text-on-surface-variant'
+                : 'text-inherit opacity-80 hover:opacity-100',
+            )}
+            aria-label={dismissLabel}
+          />
+        ) : null}
+      </Surface>
+    );
+  },
+);
 
-      <IconButton
-        icon={<Icon symbol="close" size="sm" />}
-        onClick={onClose}
-        className={cn(
-          'hover:bg-state-hover ml-2 shrink-0',
-          isDefaultVariant
-            ? 'text-on-surface-variant'
-            : 'text-inherit opacity-80 hover:opacity-100',
-        )}
-        aria-label="Close banner"
-      />
-    </Surface>
-  );
-};
+Banner.displayName = 'Banner';

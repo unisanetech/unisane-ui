@@ -1,414 +1,253 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { DateInput, DatePicker } from "@unisane/ui";
+import { useState } from 'react';
+import { DateInput } from '@unisane/ui/date-input';
+import { DatePicker } from '@unisane/ui/date-picker';
+import { Icon } from '@unisane/ui/icon';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DateInputHeroVisual = () => (
   <HeroBackground tone="primary">
-    {/* Mock Segment-based Date Input */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
-      <div className="text-label-small text-primary mb-1 px-1">Date</div>
-      <div className="bg-surface border-2 border-primary rounded-sm px-4 py-3 flex items-center gap-1">
-        <span className="bg-state-selected text-on-surface text-body-large font-medium px-1 rounded-xs">12</span>
-        <span className="text-on-surface-variant text-body-large">/</span>
-        <span className="text-on-surface text-body-large font-medium px-1">25</span>
-        <span className="text-on-surface-variant text-body-large">/</span>
-        <span className="text-on-surface text-body-large font-medium px-1">2024</span>
-        <span className="material-symbols-outlined text-on-surface-variant ml-auto">calendar_today</span>
-      </div>
-      {/* Keyboard hint */}
-      <div className="mt-4 flex items-center gap-2 text-label-small text-on-surface-variant">
-        <div className="flex gap-1">
-          <span className="px-1.5 py-0.5 bg-surface-container rounded text-[10px]">↑</span>
-          <span className="px-1.5 py-0.5 bg-surface-container rounded text-[10px]">↓</span>
-        </div>
-        <span>to adjust</span>
-        <div className="flex gap-1">
-          <span className="px-1.5 py-0.5 bg-surface-container rounded text-[10px]">←</span>
-          <span className="px-1.5 py-0.5 bg-surface-container rounded text-[10px]">→</span>
-        </div>
-        <span>to navigate</span>
-      </div>
+    <div className="w-full max-w-sm">
+      <DateInput
+        label="Delivery date"
+        defaultValue={new Date(2026, 6, 13)}
+        description="Use arrow keys or enter each segment."
+      />
     </div>
   </HeroBackground>
 );
 
-// ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
-const DateInputBasicExample = () => {
-  const [date, setDate] = useState<Date | undefined>();
+function DateInputBasicExample() {
+  const [date, setDate] = useState<Date>();
   return (
-    <div className="w-full max-w-xs">
-      <DateInput
-        label="Date of Birth"
-        value={date}
-        onValueChange={setDate}
-      />
-      {date && (
-        <p className="text-label-small text-on-surface-variant mt-2">
+    <div className="w-full max-w-xs space-y-2">
+      <DateInput label="Birth date" value={date} onValueChange={setDate} format="dd/MM/yyyy" />
+      {date ? (
+        <p className="text-label-small text-on-surface-variant">
           Selected: {date.toLocaleDateString()}
         </p>
-      )}
+      ) : null}
     </div>
   );
-};
+}
 
-const DateInputVariantsExample = () => {
-  const [date1, setDate1] = useState<Date | undefined>();
-  const [date2, setDate2] = useState<Date | undefined>();
+function DateInputStatesExample() {
   return (
-    <div className="flex flex-col gap-4 w-full max-w-xs">
-      <DateInput
-        label="Outlined"
-        variant="outlined"
-        value={date1}
-        onValueChange={setDate1}
-      />
-      <DateInput
-        label="Filled"
-        variant="filled"
-        value={date2}
-        onValueChange={setDate2}
-      />
+    <div className="flex w-full max-w-xs flex-col gap-4">
+      <DateInput label="Start date" description="Enter day, month, and year." />
+      <DateInput label="End date" errorMessage="End date must follow the start date." invalid />
+      <DateInput label="Archived date" disabled defaultValue={new Date(2026, 2, 13)} />
     </div>
   );
-};
-
-const DateInputWithIconExample = () => {
-  const [date, setDate] = useState<Date | undefined>();
-  return (
-    <div className="w-full max-w-xs">
-      <DateInput
-        label="Event Date"
-        value={date}
-        onValueChange={setDate}
-        trailingIcon={
-          <span className="material-symbols-outlined text-[20px]">event</span>
-        }
-      />
-    </div>
-  );
-};
-
-const DateInputStatesExample = () => {
-  const [errorDate, setErrorDate] = useState<Date | undefined>();
-  return (
-    <div className="flex flex-col gap-4 w-full max-w-xs">
-      <DateInput
-        label="With Helper Text"
-        helperText="Enter your date of birth"
-      />
-      <DateInput
-        label="Error State"
-        error
-        helperText="Please enter a valid date"
-        value={errorDate}
-        onValueChange={setErrorDate}
-      />
-      <DateInput
-        label="Disabled"
-        disabled
-        value={new Date(2024, 11, 25)}
-      />
-    </div>
-  );
-};
-
-const DateInputConstraintsExample = () => {
-  const today = new Date();
-  const minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const maxDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDate());
-  const [date, setDate] = useState<Date | undefined>();
-
-  return (
-    <div className="w-full max-w-xs">
-      <DateInput
-        label="Appointment Date"
-        value={date}
-        onValueChange={setDate}
-        min={minDate}
-        max={maxDate}
-        helperText="Select a date within the next 3 months"
-      />
-    </div>
-  );
-};
+}
 
 export const dateInputDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "date-input",
-  name: "Date Input",
+  slug: 'date-input',
+  name: 'Date Input',
   description:
-    "A segment-based date input where each part (month, day, year) is individually editable with keyboard support.",
-  category: "text-inputs",
-  status: "stable",
-  icon: "edit_calendar",
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["DateInput"],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
+    'A keyboard-first date field where day, month, and year are individually editable segments.',
+  category: 'text-inputs',
+  status: 'stable',
+  icon: 'edit_calendar',
+  importPath: '@/components/ui/date-input',
+  exports: ['DateInput'],
   heroVisual: <DateInputHeroVisual />,
-  examplesPreview: {
-    overflow: "visible",
-    minHeight: "lg",
-  },
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+  examplesPreview: { overflow: 'visible', minHeight: 'lg' },
   choosing: {
     description:
-      "Choose between segment-based date input and date picker based on user interaction preference.",
+      'Choose DateInput for known dates and DatePicker when visual exploration also matters.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Component',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Date Input",
+        emphasis: 'Date Input',
         component: (
           <div className="w-56">
-            <DateInput value={new Date(2024, 11, 25)} label="Date" />
+            <DateInput label="Date" defaultValue={new Date(2026, 6, 13)} />
           </div>
         ),
-        rationale: "Fast keyboard-driven input without leaving the field.",
-        examples: "Forms, Quick date entry, Known dates",
+        rationale: 'The user already knows the date and keyboard speed matters.',
+        examples: 'Birth dates, document dates, exact records',
       },
       {
-        emphasis: "Date Picker",
+        emphasis: 'Date Picker',
         component: (
           <div className="w-56">
-            <DatePicker value={new Date(2024, 11, 25)} label="Date" />
+            <DatePicker label="Date" defaultValue={new Date(2026, 6, 13)} />
           </div>
         ),
-        rationale: "Visual calendar selection for exploring dates.",
-        examples: "Booking, Event scheduling, Date ranges",
+        rationale: 'The user benefits from month context and visual availability.',
+        examples: 'Appointments, bookings, scheduling',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Date inputs are ideal for forms where users know the date they want to enter.",
+    description: 'Align DateInput with other fields and always provide an accessible label.',
     examples: [
       {
-        title: "Basic Usage",
+        title: 'Direct entry',
         visual: <DateInputBasicExample />,
-        caption: "Type numbers or use arrow keys to adjust segments",
+        caption: 'Explicit format controls segment order and separators.',
       },
       {
-        title: "Variants",
-        visual: <DateInputVariantsExample />,
-        caption: "Outlined (default) and filled variants",
-      },
-      {
-        title: "With Trailing Icon",
-        visual: <DateInputWithIconExample />,
-        caption: "Add a trailing icon for visual context",
-      },
-      {
-        title: "States",
+        title: 'Guidance and validation',
         visual: <DateInputStatesExample />,
-        caption: "Helper text, error, and disabled states",
+        caption: 'Description and errorMessage have separate semantic roles.',
       },
       {
-        title: "Min/Max Constraints",
-        visual: <DateInputConstraintsExample />,
-        caption: "Constrain selectable dates to a range",
+        title: 'Trailing content',
+        visual: (
+          <div className="w-full max-w-xs">
+            <DateInput label="Review date" trailingIcon={<Icon symbol="event" size="sm" />} />
+          </div>
+        ),
+        caption: 'Use the trailing slot for contextual or interactive project-owned content.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
+    { name: 'value', type: 'Date | undefined', description: 'Controlled local calendar date.' },
+    { name: 'defaultValue', type: 'Date | undefined', description: 'Initial uncontrolled date.' },
     {
-      name: "value",
-      type: "Date | undefined",
-      description: "The currently selected date value.",
+      name: 'onValueChange',
+      type: '(date: Date | undefined) => void',
+      description: 'Called after a complete valid edit or clear.',
     },
     {
-      name: "defaultValue",
-      type: "Date | undefined",
-      description: "The default date for uncontrolled usage.",
+      name: 'label',
+      type: 'string',
+      required: true,
+      description: 'Accessible name shared by every segment.',
     },
     {
-      name: "onValueChange",
-      type: "(date: Date | undefined) => void",
-      description: "Callback fired when the date changes.",
+      name: 'hideLabel',
+      type: 'boolean',
+      default: 'false',
+      description: 'Visually hides but preserves the field label.',
+    },
+    { name: 'description', type: 'ReactNode', description: 'Guidance linked to all segments.' },
+    {
+      name: 'errorMessage',
+      type: 'ReactNode',
+      description: 'Alert content linked to all segments.',
     },
     {
-      name: "label",
-      type: "string",
-      default: '"Date"',
-      description: "Label text displayed above the input.",
+      name: 'invalid',
+      type: 'boolean',
+      default: 'false',
+      description: 'Marks every segment invalid.',
     },
     {
-      name: "variant",
+      name: 'required',
+      type: 'boolean',
+      default: 'false',
+      description: 'Marks every segment and label required.',
+    },
+    {
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Disables every segment and trailing action.',
+    },
+    {
+      name: 'variant',
       type: '"outlined" | "filled"',
       default: '"outlined"',
-      description: "Visual style variant of the input.",
+      description: 'Field presentation.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg"',
       default: '"md"',
-      description: "Shared field size used for height and horizontal spacing.",
+      description: 'Field density size.',
+    },
+    { name: 'locale', type: 'string', description: 'Locale-derived segment order and separator.' },
+    { name: 'format', type: 'string', description: 'Explicit pattern such as yyyy-MM-dd.' },
+    { name: 'min', type: 'Date', description: 'Earliest allowed local calendar day.' },
+    { name: 'max', type: 'Date', description: 'Latest allowed local calendar day.' },
+    { name: 'name', type: 'string', description: 'Adds a YYYY-MM-DD hidden form value.' },
+    {
+      name: 'trailingIcon',
+      type: 'ReactNode',
+      description: 'Contextual or interactive trailing content.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Whether the input is disabled.",
+      name: 'onFocus',
+      type: 'FocusEventHandler<HTMLDivElement>',
+      description: 'Called once when focus enters the field.',
     },
     {
-      name: "error",
-      type: "boolean",
-      default: "false",
-      description: "Whether to show error styling.",
+      name: 'onBlur',
+      type: 'FocusEventHandler<HTMLDivElement>',
+      description: 'Called once when focus leaves the field.',
     },
-    {
-      name: "helperText",
-      type: "string",
-      description: "Helper or error text displayed below the input.",
-    },
-    {
-      name: "min",
-      type: "Date",
-      description: "Minimum allowed date. Dates before this are invalid.",
-    },
-    {
-      name: "max",
-      type: "Date",
-      description: "Maximum allowed date. Dates after this are invalid.",
-    },
-    {
-      name: "trailingIcon",
-      type: "ReactNode",
-      description: "Icon or element displayed at the end of the input.",
-    },
-    {
-      name: "labelBg",
-      type: "string",
-      description: "Background color class for the floating label (outlined variant).",
-    },
-    {
-      name: "onFocus",
-      type: "() => void",
-      description: "Callback when a segment receives focus.",
-    },
-    {
-      name: "onBlur",
-      type: "() => void",
-      description: "Callback when all segments lose focus.",
-    },
-    {
-      name: "id",
-      type: "string",
-      description: "Custom ID for the input element.",
-    },
-    {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes for the container.",
-    },
+    { name: 'id', type: 'string', description: 'ID for the first segment and associated label.' },
+    { name: 'className', type: 'string', description: 'Project-owned layout classes.' },
   ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Each segment has proper aria-label (month, day, year).",
-      "Segments use spinbutton role with aria-valuenow, aria-valuemin, aria-valuemax.",
-      "Helper text is linked via aria-describedby.",
-      "Label is associated with the first segment via htmlFor.",
+      'Each segment is a spinbutton named with the field label and its date part.',
+      'Current, minimum, maximum, required, disabled, and invalid states are exposed per segment.',
+      'Description or error content is linked to every segment.',
     ],
     keyboard: [
-      { key: "Tab", description: "Move between segments and other form fields" },
-      { key: "Arrow Up/Down", description: "Increment/decrement the focused segment value" },
-      { key: "Arrow Left/Right", description: "Move between segments" },
-      { key: "0-9", description: "Type numbers directly into the segment" },
-      { key: "Backspace", description: "Delete last digit or clear segment" },
-      { key: "Delete", description: "Clear the entire segment" },
+      { key: 'Tab', description: 'Move between segments and onward through the form.' },
+      { key: 'Arrow Up / Down', description: 'Increment or decrement the focused segment.' },
+      { key: 'Arrow Left / Right', description: 'Move between date segments.' },
+      { key: '0–9', description: 'Enter a segment directly and advance when complete.' },
+      { key: 'Backspace / Delete', description: 'Edit or clear the focused segment.' },
     ],
     focus: [
-      "Visible focus ring on the input container.",
-      "Focused segment is highlighted with primary color background.",
-      "Focus moves logically between segments with arrow keys.",
+      'The active segment is visually distinct inside the field focus treatment.',
+      'Clicking the field surface focuses the first locale-ordered segment.',
+      'Interactive trailing content keeps its own focus target.',
     ],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description:
-      "The DateInput component uses segment-based editing for precise keyboard control. Each segment (month, day, year) is individually focusable and accepts numeric input.",
-    code: `import { DateInput } from "@unisane/ui";
+    description: 'Install DateInput as local source and keep the Date value in application state.',
+    code: `import { DateInput } from "@/components/ui/date-input";
 import { useState } from "react";
 
-function BirthDateForm() {
+export function BirthDateField() {
   const [birthDate, setBirthDate] = useState<Date>();
-  const [error, setError] = useState(false);
-
-  const validateAge = (date: Date | undefined) => {
-    if (!date) {
-      setError(false);
-      setBirthDate(undefined);
-      return;
-    }
-
-    const age = new Date().getFullYear() - date.getFullYear();
-    if (age < 18) {
-      setError(true);
-    } else {
-      setError(false);
-    }
-    setBirthDate(date);
-  };
+  const tooRecent = birthDate ? birthDate > new Date(2008, 0, 1) : false;
 
   return (
     <DateInput
-      label="Date of Birth"
+      label="Birth date"
       value={birthDate}
-      onValueChange={validateAge}
-      error={error}
-      helperText={error ? "You must be 18 or older" : "MM/DD/YYYY format"}
-      max={new Date()} // Can't be born in the future
+      onValueChange={setBirthDate}
+      errorMessage={tooRecent ? "You must be at least 18." : undefined}
+      description={tooRecent ? undefined : "Use day, month, and year."}
+      max={new Date()}
     />
   );
 }`,
   },
-
-  // ─── GUIDELINES ──────────────────────────────────────────────────────────────
   guidelines: [
-    { type: "do", text: "Use for known dates where users can type directly (birthdays, specific events)." },
-    { type: "do", text: "Provide clear helper text about the expected format." },
-    { type: "do", text: "Use min/max constraints to prevent invalid date selection." },
-    { type: "do", text: "Combine with a calendar icon button if users might want visual selection too." },
-    { type: "dont", text: "Don't use when users need to explore or browse dates visually." },
-    { type: "dont", text: "Avoid for date ranges - use two separate inputs or a date range picker." },
-    { type: "dont", text: "Don't disable without providing context why." },
+    {
+      type: 'do',
+      text: 'Use explicit format when product requirements must override locale order.',
+    },
+    { type: 'do', text: 'Treat min and max as local calendar days rather than timestamps.' },
+    {
+      type: 'do',
+      text: 'Use errorMessage only for validation and description for normal guidance.',
+    },
+    { type: 'dont', text: 'Do not use DateInput for month-only or date-range values.' },
   ],
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "date-picker",
-      reason: "Use when users need a visual calendar to select dates.",
+      slug: 'date-picker',
+      reason: 'Adds visual calendar selection to the same segmented entry model.',
     },
-    {
-      slug: "calendar",
-      reason: "Use for inline date display and selection.",
-    },
-    {
-      slug: "time-picker",
-      reason: "Use alongside date input for datetime selection.",
-    },
-    {
-      slug: "text-field",
-      reason: "Base input styling that date input extends.",
-    },
+    { slug: 'calendar', reason: 'Use for an always-visible month grid.' },
+    { slug: 'month-picker', reason: 'Use for month/year precision.' },
   ],
 };

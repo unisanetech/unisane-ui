@@ -1,33 +1,33 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Radio } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Radio } from '@unisane/ui/radio';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const RadioHeroVisual = () => (
   <HeroBackground tone="secondary">
     {/* Mock Settings Card */}
-    <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-72 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Select Plan</span>
       </div>
-      <div className="p-4 space-y-1">
-        <div className="flex items-center justify-between py-2 px-2 rounded-sm hover:bg-surface-container-low">
+      <div className="space-y-1 p-4">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-2">
           <div>
             <div className="text-body-medium text-on-surface">Basic</div>
             <div className="text-body-small text-on-surface-variant">$9/month</div>
           </div>
           <Radio name="plan" />
         </div>
-        <div className="flex items-center justify-between py-2 px-2 rounded-sm bg-primary-container">
+        <div className="bg-primary-container flex items-center justify-between rounded-sm px-2 py-2">
           <div>
             <div className="text-body-medium text-on-surface">Pro</div>
             <div className="text-body-small text-on-surface-variant">$29/month</div>
           </div>
           <Radio name="plan" defaultChecked />
         </div>
-        <div className="flex items-center justify-between py-2 px-2 rounded-sm hover:bg-surface-container-low">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-2">
           <div>
             <div className="text-body-medium text-on-surface">Enterprise</div>
             <div className="text-body-small text-on-surface-variant">Custom</div>
@@ -41,17 +41,17 @@ const RadioHeroVisual = () => (
 
 export const radioDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "radio",
-  name: "Radio",
+  slug: 'radio',
+  name: 'Radio',
   description:
-    "Radio buttons let users select one option from a set of mutually exclusive choices.",
-  category: "selection",
-  status: "stable",
-  icon: "radio_button_checked",
+    'Radio buttons let users select one option from a set of mutually exclusive choices.',
+  category: 'selection',
+  status: 'stable',
+  icon: 'radio_button_checked',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Radio"],
+  importPath: '@/components/ui/radio',
+  exports: ['Radio'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <RadioHeroVisual />,
@@ -59,72 +59,59 @@ export const radioDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Radio buttons have two states. Only one option in a group can be selected at a time.",
+      'Radio buttons have two states. Only one option in a group can be selected at a time.',
     columns: {
-      emphasis: "State",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'State',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Unselected",
-        component: (
-          <Radio readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Default state indicating an option is available but not chosen.",
-        examples: "Available options, Default state",
+        emphasis: 'Unselected',
+        component: <Radio readOnly className="pointer-events-none" />,
+        rationale: 'Default state indicating an option is available but not chosen.',
+        examples: 'Available options, Default state',
       },
       {
-        emphasis: "Selected",
-        component: (
-          <Radio defaultChecked readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Indicates the currently selected option in the group.",
-        examples: "Current selection, Active choice",
+        emphasis: 'Selected',
+        component: <Radio defaultChecked readOnly className="pointer-events-none" />,
+        rationale: 'Indicates the currently selected option in the group.',
+        examples: 'Current selection, Active choice',
       },
       {
-        emphasis: "Error",
-        component: (
-          <Radio error readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Shows when selection is required but not made.",
-        examples: "Required fields, Validation errors",
+        emphasis: 'Error',
+        component: <Radio invalid readOnly className="pointer-events-none" />,
+        rationale: 'Shows when selection is required but not made.',
+        examples: 'Required fields, Validation errors',
       },
       {
-        emphasis: "Disabled",
-        component: (
-          <Radio disabled readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Option is visible but cannot be selected.",
-        examples: "Unavailable options, Premium features",
+        emphasis: 'Disabled',
+        component: <Radio disabled readOnly className="pointer-events-none" />,
+        rationale: 'Option is visible but cannot be selected.',
+        examples: 'Unavailable options, Premium features',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Radio buttons can be used standalone or with labels for clear identification.",
+    description: 'Radio buttons can be used standalone or with labels for clear identification.',
     items: [
       {
         component: <Radio label="With label" defaultChecked />,
-        title: "With label",
-        subtitle: "Most common usage",
+        title: 'With label',
+        subtitle: 'Most common usage',
       },
       {
         component: <Radio defaultChecked />,
-        title: "Without label",
-        subtitle: "When context is clear",
+        title: 'Without label',
+        subtitle: 'When context is clear',
       },
       {
         component: <Radio label="Disabled" disabled />,
-        title: "Disabled",
-        subtitle: "Non-interactive",
+        title: 'Disabled',
+        subtitle: 'Non-interactive',
       },
     ],
   },
@@ -132,10 +119,10 @@ export const radioDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Radio buttons are commonly used in forms and settings where only one choice is allowed.",
+      'Radio buttons are commonly used in forms and settings where only one choice is allowed.',
     examples: [
       {
-        title: "Vertical radio group",
+        title: 'Vertical radio group',
         visual: (
           <div className="space-y-3">
             <Radio name="shipping" label="Standard (5-7 days)" defaultChecked />
@@ -143,21 +130,24 @@ export const radioDoc: ComponentDoc = {
             <Radio name="shipping" label="Overnight" />
           </div>
         ),
-        caption: "Vertical list for single selection",
+        caption: 'Vertical list for single selection',
       },
       {
-        title: "Card selection",
+        title: 'Card selection',
         visual: (
-          <div className="w-full max-w-xs border border-outline-variant rounded-sm overflow-hidden">
-            {["Small", "Medium", "Large"].map((size, i) => (
-              <div key={size} className={`flex items-center gap-3 px-4 py-3 border-b border-outline-variant last:border-0 ${i === 1 ? "bg-primary-container" : "bg-surface"}`}>
+          <div className="border-outline-variant w-full max-w-xs overflow-hidden rounded-sm border">
+            {['Small', 'Medium', 'Large'].map((size, i) => (
+              <div
+                key={size}
+                className={`border-outline-variant flex items-center gap-3 border-b px-4 py-3 last:border-0 ${i === 1 ? 'bg-primary-container' : 'bg-surface'}`}
+              >
                 <Radio name="size" defaultChecked={i === 1} />
                 <span className="text-body-medium text-on-surface">{size}</span>
               </div>
             ))}
           </div>
         ),
-        caption: "Radio buttons in list items",
+        caption: 'Radio buttons in list items',
       },
     ],
   },
@@ -165,73 +155,74 @@ export const radioDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "label",
-      type: "string",
-      description: "Text label displayed next to the radio button.",
+      name: 'label',
+      type: 'ReactNode',
+      description: 'Rich label content displayed next to the radio button.',
     },
     {
-      name: "checked",
-      type: "boolean",
-      description: "Whether the radio button is selected.",
+      name: 'checked',
+      type: 'boolean',
+      description: 'Whether the radio button is selected.',
     },
     {
-      name: "name",
-      type: "string",
-      description: "Groups radio buttons together. Only one in a group can be selected.",
+      name: 'name',
+      type: 'string',
+      description: 'Groups radio buttons together. Only one in a group can be selected.',
     },
     {
-      name: "value",
-      type: "string",
-      description: "The value submitted with form data.",
+      name: 'value',
+      type: 'string',
+      description: 'The value submitted with form data.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "If true, the radio button is disabled.",
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'If true, the radio button is disabled.',
     },
     {
-      name: "error",
-      type: "boolean",
-      default: "false",
-      description: "If true, displays the radio in an error state.",
+      name: 'invalid',
+      type: 'boolean',
+      default: 'false',
+      description: 'Publishes aria-invalid and displays the radio in an invalid state.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md"',
       default: '"md"',
-      description: "Controls the interactive frame size. Use sm for dense selection lists or tables.",
+      description:
+        'Controls the interactive frame size. Use sm for dense selection lists or tables.',
     },
     {
-      name: "onChange",
-      type: "(event: ChangeEvent) => void",
-      description: "Callback fired when the selection changes.",
+      name: 'onChange',
+      type: '(event: ChangeEvent) => void',
+      description: 'Callback fired when the selection changes.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses native radio input for full screen reader support.",
-      "Label is properly associated with the input.",
-      "Group name creates logical grouping for screen readers.",
-      "Disabled and error states are announced.",
+      'Uses native radio input for full screen reader support.',
+      'Label is properly associated with the input.',
+      'Group name creates logical grouping for screen readers.',
+      'Disabled and invalid states are announced.',
     ],
     keyboard: [
-      { key: "Space", description: "Selects the focused radio button" },
-      { key: "Arrow Up/Down", description: "Moves focus within the radio group" },
-      { key: "Tab", description: "Moves focus to the next element outside the group" },
+      { key: 'Space', description: 'Selects the focused radio button' },
+      { key: 'Arrow Up/Down', description: 'Moves focus within the radio group' },
+      { key: 'Tab', description: 'Moves focus to the next element outside the group' },
     ],
     focus: [
-      "Focus ring is clearly visible around the radio button.",
-      "Arrow keys move focus within the same radio group.",
+      'Focus ring is clearly visible around the radio button.',
+      'Arrow keys move focus within the same radio group.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state to manage radio button selection.",
-    code: `import { Radio } from "@unisane/ui";
+    description: 'Use controlled state to manage radio button selection.',
+    code: `import { Radio } from "@/components/ui/radio";
 import { useState } from "react";
 
 function ShippingOptions() {
@@ -268,16 +259,16 @@ function ShippingOptions() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "checkbox",
-      reason: "Use when multiple options can be selected.",
+      slug: 'checkbox',
+      reason: 'Use when multiple options can be selected.',
     },
     {
-      slug: "select",
-      reason: "Use for single selection with many options.",
+      slug: 'select',
+      reason: 'Use for single selection with many options.',
     },
     {
-      slug: "switch",
-      reason: "Use for binary on/off toggles.",
+      slug: 'switch',
+      reason: 'Use for binary on/off toggles.',
     },
   ],
 };

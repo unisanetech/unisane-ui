@@ -1,6 +1,8 @@
 'use client';
 
-import { Button, Checkbox, Surface, TextField, Typography } from '@unisane/ui';
+import { Button, Surface, Typography } from '@unisane/ui';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { TextField } from '@unisane/ui/text-field';
 
 export function AuthCenteredBlock() {
   return (

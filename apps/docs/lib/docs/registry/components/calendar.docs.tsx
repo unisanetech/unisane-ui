@@ -1,190 +1,172 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Calendar, DatePicker } from "@unisane/ui";
+import { useState } from 'react';
+import { Calendar } from '@unisane/ui/calendar';
+import { DatePicker } from '@unisane/ui/date-picker';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CalendarHeroVisual = () => (
   <HeroBackground tone="secondary">
-    {/* Mock Calendar */}
-    <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant flex items-center justify-between">
-        <span className="material-symbols-outlined text-on-surface-variant">chevron_left</span>
-        <span className="text-title-medium text-on-surface">December 2024</span>
-        <span className="material-symbols-outlined text-on-surface-variant">chevron_right</span>
-      </div>
-      <div className="p-4">
-        <div className="grid grid-cols-7 gap-1 mb-2">
-          {["S", "M", "T", "W", "T", "F", "S"].map((day, i) => (
-            <div key={i} className="text-label-small text-on-surface-variant text-center py-1">{day}</div>
-          ))}
-        </div>
-        <div className="grid grid-cols-7 gap-1">
-          {Array.from({ length: 31 }).map((_, i) => (
-            <div
-              key={i}
-              className={`aspect-square rounded-full flex items-center justify-center text-body-small ${
-                i === 14
-                  ? "bg-primary text-on-primary"
-                  : "text-on-surface hover:bg-state-hover"
-              }`}
-            >
-              {i + 1}
-            </div>
-          ))}
-        </div>
-      </div>
+    <div className="w-full max-w-sm">
+      <Calendar selectedDate={new Date(2026, 2, 13)} />
     </div>
   </HeroBackground>
 );
 
-// ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
-const CalendarBasicExample = () => {
-  const [date, setDate] = useState<Date | undefined>(new Date());
+function CalendarBasicExample() {
+  const [date, setDate] = useState<Date>(new Date(2026, 2, 13));
   return (
     <Calendar
       selectedDate={date}
       onDateSelect={setDate}
+      min={new Date(2026, 2, 5)}
+      max={new Date(2026, 3, 25)}
       className="max-w-xs"
     />
   );
-};
+}
 
 export const calendarDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "calendar",
-  name: "Calendar",
-  description:
-    "Calendar allows users to select a date from a grid of days, with navigation between months.",
-  category: "selection",
-  status: "stable",
-  icon: "calendar_month",
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Calendar"],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
+  slug: 'calendar',
+  name: 'Calendar',
+  description: 'A localized single-date grid with month navigation and bounded keyboard movement.',
+  category: 'selection',
+  status: 'stable',
+  icon: 'calendar_month',
+  importPath: '@/components/ui/calendar',
+  exports: ['Calendar'],
   heroVisual: <CalendarHeroVisual />,
-  examplesPreview: {
-    overflow: "visible",
-    minHeight: "lg",
-  },
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+  examplesPreview: { overflow: 'visible', minHeight: 'lg' },
   choosing: {
     description:
-      "Choose between calendar and date picker based on the use case.",
+      'Use Calendar when month context is primary and DatePicker when the grid is secondary.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Component',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Calendar",
+        emphasis: 'Calendar',
         component: (
-          <div className="w-48">
-            <Calendar selectedDate={new Date(2024, 11, 15)} />
+          <div className="w-64">
+            <Calendar selectedDate={new Date(2026, 2, 13)} />
           </div>
         ),
-        rationale: "When users need to see the full month context.",
-        examples: "Event scheduling, Date range selection",
+        rationale: 'Users should see a month grid without opening another surface.',
+        examples: 'Availability, scheduling, date dashboards',
       },
       {
-        emphasis: "Date Picker",
+        emphasis: 'Date Picker',
         component: (
-          <div className="w-48">
-            <DatePicker value={new Date(2024, 11, 15)} label="Date" />
+          <div className="w-56">
+            <DatePicker label="Date" defaultValue={new Date(2026, 2, 13)} />
           </div>
         ),
-        rationale: "When space is limited or date entry is secondary.",
-        examples: "Forms, Filters, Quick date entry",
+        rationale: 'The date belongs in a compact form field.',
+        examples: 'Forms, filters, record editors',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Calendars can be inline or shown in dialogs/popovers.",
+      'Give inline calendars enough width for seven stable columns and visible focus rings.',
     examples: [
       {
-        title: "Inline calendar",
+        title: 'Bounded single-date selection',
         visual: <CalendarBasicExample />,
-        caption: "Calendar displayed inline for date selection",
+        caption: 'Unavailable days and unreachable months are disabled from one min/max contract.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
+    { name: 'selectedDate', type: 'Date', description: 'Selected local calendar day.' },
     {
-      name: "selectedDate",
-      type: "Date",
-      description: "The currently selected date.",
+      name: 'onDateSelect',
+      type: '(date: Date) => void',
+      description: 'Called when an enabled day is selected.',
+    },
+    { name: 'min', type: 'Date', description: 'Earliest selectable local calendar day.' },
+    { name: 'max', type: 'Date', description: 'Latest selectable local calendar day.' },
+    {
+      name: 'locale',
+      type: 'string',
+      description: 'Locale for month, weekday, and full-date labels.',
     },
     {
-      name: "onDateSelect",
-      type: "(date: Date) => void",
-      description: "Callback fired when a date is selected.",
+      name: 'weekStartsOn',
+      type: '0 | 1 | 2 | 3 | 4 | 5 | 6',
+      default: '0',
+      description: 'First weekday column.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply.",
+      name: 'autoFocus',
+      type: 'boolean',
+      default: 'false',
+      description: 'Moves focus to the selected or nearest enabled date after mount.',
     },
+    { name: 'aria-label', type: 'string', description: 'Optional date-grid accessible name.' },
+    { name: 'className', type: 'string', description: 'Project-owned layout classes.' },
   ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role='application' for proper screen reader context.",
-      "Month and year are announced via aria-live.",
-      "Each date button has descriptive aria-label.",
-      "Selected state is communicated via aria-selected.",
+      'The month is exposed as one grid with weekday column headers.',
+      'Each date is a gridcell with a localized full-date name.',
+      'Selected dates use aria-selected and today uses aria-current="date".',
+      'Unavailable dates and month navigation are natively disabled.',
     ],
     keyboard: [
-      { key: "Arrow Keys", description: "Navigate between days" },
-      { key: "Enter / Space", description: "Select the focused date" },
-      { key: "Tab", description: "Move focus to navigation buttons" },
+      { key: 'Arrow keys', description: 'Move by one day or one week, including across months.' },
+      { key: 'Home / End', description: 'Move to the start or end of the current week.' },
+      {
+        key: 'Page Up / Page Down',
+        description: 'Move to the corresponding date in the previous or next month.',
+      },
+      { key: 'Enter / Space', description: 'Select the focused date.' },
+      {
+        key: 'Tab',
+        description: 'Move between month controls, the date-grid tab stop, and surrounding UI.',
+      },
     ],
     focus: [
-      "Focus ring visible on all interactive elements.",
-      "Tab navigation follows logical order.",
+      'Only one date participates in the grid tab sequence.',
+      'Arrow movement preserves focus as the visible month changes.',
+      'Month-button activation keeps focus on the activated button.',
     ],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state to manage selected date.",
-    code: `import { Calendar } from "@unisane/ui";
+    description: 'Install and import the project-owned Calendar source directly.',
+    code: `import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 
-function DateSelector() {
-  const [selectedDate, setSelectedDate] = useState<Date>();
+export function AvailabilityCalendar() {
+  const [date, setDate] = useState<Date>();
 
   return (
     <Calendar
-      selectedDate={selectedDate}
-      onDateSelect={setSelectedDate}
+      selectedDate={date}
+      onDateSelect={setDate}
+      locale="en-GB"
+      weekStartsOn={1}
+      min={new Date()}
     />
   );
 }`,
   },
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  guidelines: [
+    { type: 'do', text: 'Use Calendar for one exact day when month context is always relevant.' },
+    { type: 'do', text: 'Set locale and weekStartsOn from the same product localization policy.' },
+    { type: 'do', text: 'Use min and max to prevent impossible navigation as well as selection.' },
+    { type: 'dont', text: 'Do not imply range selection; this foundation selects one Date.' },
+  ],
   related: [
+    { slug: 'date-picker', reason: 'Composes Calendar into a segmented form field.' },
     {
-      slug: "date-picker",
-      reason: "Use for compact date input with popover calendar.",
+      slug: 'date-input',
+      reason: 'Use for keyboard-first date entry without a visible month grid.',
     },
-    {
-      slug: "time-picker",
-      reason: "Use for time selection alongside date.",
-    },
+    { slug: 'time-picker', reason: 'Use for time-of-day selection.' },
   ],
 };

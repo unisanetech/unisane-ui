@@ -1,57 +1,25 @@
+'use client';
+
 export { SidebarProvider, useSidebar } from '@/components/ui/sidebar/context/sidebar-provider';
+export { Sidebar, SidebarTrigger } from '@/components/ui/sidebar/components/sidebar-shell';
+export { SidebarRail } from '@/components/ui/sidebar/components/sidebar-rail';
+export { SidebarDrawer } from '@/components/ui/sidebar/components/sidebar-drawer';
+export { SidebarInset } from '@/components/ui/sidebar/components/sidebar-inset';
+
 export type {
-  SidebarState,
   SidebarProviderProps,
+  SidebarContextValue,
   SidebarSide,
   SidebarMode,
   SidebarBehavior,
-  SidebarLegacyBehavior,
-  SidebarBehaviorInput,
+  SidebarBehaviorConfig,
+  SidebarResponsiveBehavior,
   SidebarContainerMode,
   SidebarTriggerVisibility,
-  SidebarActiveDescendantDrawerBehavior,
-  SidebarVisualPreset,
   SidebarViewport,
   SidebarBreakpoints,
-  SidebarVisualTokens,
 } from '@/components/ui/sidebar/model/sidebar.types';
-
-export {
-  Sidebar,
-  SidebarRail,
-  SidebarRailItem,
-  SidebarDrawer,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarNavItem,
-  SidebarTrigger,
-  SidebarBackdrop,
-  SidebarInset,
-  SidebarCollapsibleGroup,
-} from '@/components/ui/sidebar/sidebar';
-
-export type {
-  SidebarProps,
-  SidebarRailProps,
-  SidebarRailItemProps,
-  SidebarDrawerProps,
-  SidebarHeaderProps,
-  SidebarFooterProps,
-  SidebarContentProps,
-  SidebarGroupProps,
-  SidebarGroupLabelProps,
-  SidebarMenuProps,
-  SidebarMenuItemProps,
-  SidebarMenuButtonProps,
-  SidebarNavItemProps,
-  SidebarTriggerProps,
-  SidebarBackdropProps,
-  SidebarInsetProps,
-  SidebarCollapsibleGroupProps,
-} from '@/components/ui/sidebar/sidebar';
+export type { SidebarProps, SidebarTriggerProps } from '@/components/ui/sidebar/components/sidebar-shell';
+export type { SidebarRailProps } from '@/components/ui/sidebar/components/sidebar-rail';
+export type { SidebarDrawerProps } from '@/components/ui/sidebar/components/sidebar-drawer';
+export type { SidebarInsetProps } from '@/components/ui/sidebar/components/sidebar-inset';

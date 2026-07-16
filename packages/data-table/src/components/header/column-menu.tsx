@@ -94,9 +94,12 @@ export function ColumnMenu<T>({
     <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <IconButton variant="standard" size="sm" aria-label={t('actions')}>
-            <Icon symbol="more_vert" className={iconTextClass} />
-          </IconButton>
+          <IconButton
+            variant="standard"
+            size="sm"
+            aria-label={t('actions')}
+            icon={<Icon symbol="more_vert" className={iconTextClass} />}
+          />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" portal className="min-w-48">
           {/* Filter options */}

@@ -1,0 +1,11 @@
+{
+  "$schema": "./theme-override.schema.json",
+  "name": "Black",
+  "primary": { "hue": 0, "chroma": 0 },
+  "neutral": { "tintFromPrimary": 0 },
+  "error": { "chroma": 0 },
+  "success": { "chroma": 0 },
+  "warning": { "chroma": 0 },
+  "info": { "chroma": 0 },
+  "description": "Fully monochrome theme with semantic roles preserved"
+}

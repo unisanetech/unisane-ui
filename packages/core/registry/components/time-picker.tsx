@@ -4,7 +4,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
-import { Icon } from '@/primitives/icon';
+import { Icon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 
@@ -222,7 +222,12 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen} title="" contentClassName="p-0 gap-0">
+    <Dialog
+      open={isOpen}
+      onOpenChange={setIsOpen}
+      aria-label="Time picker"
+      contentClassName="p-0 gap-0"
+    >
       <div className="flex w-full flex-col items-center pb-4">
         <div className="w-full px-6 pt-6 pb-4">
           <span className="text-label-medium text-on-surface-variant font-medium">

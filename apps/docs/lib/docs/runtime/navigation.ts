@@ -1,4 +1,4 @@
-import type { NavigationItem } from '@unisane/ui';
+import type { NavigationItem } from '@unisane/ui/navigation';
 import { getAllComponents } from '../registry/selectors';
 import { getAllFoundationPages } from '../content/foundations/selectors';
 import {

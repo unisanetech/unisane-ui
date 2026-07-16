@@ -1,42 +1,45 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Switch, Card } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Card } from '@unisane/ui';
+import { Switch } from '@unisane/ui/switch';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SwitchHeroVisual = () => (
   <HeroBackground tone="secondary">
     {/* Mock Settings Card */}
-    <div className="relative bg-surface w-72 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-72 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Quick Settings</span>
       </div>
-      <div className="p-4 space-y-1">
-        <div className="flex items-center justify-between py-3 px-2 rounded-sm hover:bg-surface-container-low">
+      <div className="space-y-1 p-4">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-3">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-on-surface-variant">wifi</span>
             <span className="text-body-medium text-on-surface">Wi-Fi</span>
           </div>
           <Switch defaultChecked readOnly />
         </div>
-        <div className="flex items-center justify-between py-3 px-2 rounded-sm hover:bg-surface-container-low">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-3">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-on-surface-variant">bluetooth</span>
             <span className="text-body-medium text-on-surface">Bluetooth</span>
           </div>
           <Switch defaultChecked readOnly />
         </div>
-        <div className="flex items-center justify-between py-3 px-2 rounded-sm hover:bg-surface-container-low">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-3">
           <div className="flex items-center gap-3">
             <span className="material-symbols-outlined text-on-surface-variant">dark_mode</span>
             <span className="text-body-medium text-on-surface">Dark mode</span>
           </div>
           <Switch />
         </div>
-        <div className="flex items-center justify-between py-3 px-2 rounded-sm hover:bg-surface-container-low">
+        <div className="hover:bg-surface-container-low flex items-center justify-between rounded-sm px-2 py-3">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-on-surface-variant">do_not_disturb_on</span>
+            <span className="material-symbols-outlined text-on-surface-variant">
+              do_not_disturb_on
+            </span>
             <span className="text-body-medium text-on-surface">Do not disturb</span>
           </div>
           <Switch />
@@ -48,100 +51,86 @@ const SwitchHeroVisual = () => (
 
 export const switchDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "switch",
-  name: "Switch",
+  slug: 'switch',
+  name: 'Switch',
   description:
-    "Switches toggle the state of a single item on or off, providing immediate visual feedback.",
-  category: "selection",
-  status: "stable",
-  icon: "toggle_on",
+    'Switches toggle the state of a single item on or off, providing immediate visual feedback.',
+  category: 'selection',
+  status: 'stable',
+  icon: 'toggle_on',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Switch"],
+  importPath: '@/components/ui/switch',
+  exports: ['Switch'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <SwitchHeroVisual />,
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Switches have two primary states. The visual feedback is immediate when toggled.",
+    description: 'Switches have two primary states. The visual feedback is immediate when toggled.',
     columns: {
-      emphasis: "State",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'State',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Off",
-        component: (
-          <Switch className="pointer-events-none" />
-        ),
-        rationale:
-          "Default state indicating the feature is disabled or inactive.",
-        examples: "Disabled settings, Inactive features",
+        emphasis: 'Off',
+        component: <Switch className="pointer-events-none" />,
+        rationale: 'Default state indicating the feature is disabled or inactive.',
+        examples: 'Disabled settings, Inactive features',
       },
       {
-        emphasis: "On",
-        component: (
-          <Switch defaultChecked readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Indicates the feature is enabled and actively applied.",
-        examples: "Enabled settings, Active features",
+        emphasis: 'On',
+        component: <Switch defaultChecked readOnly className="pointer-events-none" />,
+        rationale: 'Indicates the feature is enabled and actively applied.',
+        examples: 'Enabled settings, Active features',
       },
       {
-        emphasis: "With Icons",
-        component: (
-          <Switch defaultChecked icons readOnly className="pointer-events-none" />
-        ),
-        rationale:
-          "Adds visual clarity with check/close icons for state.",
-        examples: "Important toggles, Confirmation required",
+        emphasis: 'With Icons',
+        component: <Switch defaultChecked showIcons readOnly className="pointer-events-none" />,
+        rationale: 'Adds visual clarity with check/close icons for state.',
+        examples: 'Important toggles, Confirmation required',
       },
       {
-        emphasis: "Disabled",
-        component: (
-          <Switch disabled className="pointer-events-none" />
-        ),
-        rationale:
-          "Shows that the option exists but cannot be changed.",
-        examples: "Locked settings, Unavailable features",
+        emphasis: 'Disabled',
+        component: <Switch disabled className="pointer-events-none" />,
+        rationale: 'Shows that the option exists but cannot be changed.',
+        examples: 'Locked settings, Unavailable features',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Switches can be used standalone or paired with labels for clarity.",
+    description: 'Switches can be used standalone or paired with labels for clarity.',
     items: [
       {
         component: <Switch label="With label" defaultChecked readOnly />,
-        title: "With label",
-        subtitle: "Most common usage",
+        title: 'With label',
+        subtitle: 'Most common usage',
       },
       {
         component: <Switch defaultChecked readOnly />,
-        title: "Without label",
-        subtitle: "When context is clear",
+        title: 'Without label',
+        subtitle: 'When context is clear',
       },
       {
-        component: <Switch defaultChecked icons readOnly />,
-        title: "With icons",
-        subtitle: "Visual confirmation",
+        component: <Switch defaultChecked showIcons readOnly />,
+        title: 'With icons',
+        subtitle: 'Visual confirmation',
       },
       {
-        component: <Switch icons readOnly />,
-        title: "Icons (off)",
-        subtitle: "Unchecked state with icon",
+        component: <Switch showIcons readOnly />,
+        title: 'Icons (off)',
+        subtitle: 'Unchecked state with icon',
       },
       {
-        component: <Switch defaultChecked icons disabled readOnly />,
-        title: "Icons disabled",
-        subtitle: "Read-only status display",
+        component: <Switch defaultChecked showIcons disabled readOnly />,
+        title: 'Icons disabled',
+        subtitle: 'Read-only status display',
       },
     ],
   },
@@ -149,26 +138,29 @@ export const switchDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Switches are commonly used in settings pages and list items for toggling options.",
+      'Switches are commonly used in settings pages and list items for toggling options.',
     examples: [
       {
-        title: "Settings list",
+        title: 'Settings list',
         visual: (
-          <Card variant="outlined" padding="none" className="max-w-72 mx-auto overflow-hidden">
-            {["Notifications", "Auto-update", "Analytics"].map((item, i) => (
-              <div key={i} className="flex items-center justify-between px-4 py-3 border-b border-outline-variant last:border-0">
+          <Card variant="outlined" padding="none" className="mx-auto max-w-72 overflow-hidden">
+            {['Notifications', 'Auto-update', 'Analytics'].map((item, i) => (
+              <div
+                key={i}
+                className="border-outline-variant flex items-center justify-between border-b px-4 py-3 last:border-0"
+              >
                 <span className="text-body-medium text-on-surface">{item}</span>
                 <Switch defaultChecked={i === 0} readOnly />
               </div>
             ))}
           </Card>
         ),
-        caption: "Inline switches in list items for quick toggles",
+        caption: 'Inline switches in list items for quick toggles',
       },
       {
-        title: "Form with switches",
+        title: 'Form with switches',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-4">Privacy</div>
             <div className="space-y-4">
               <Switch label="Share usage data" />
@@ -177,21 +169,21 @@ export const switchDoc: ComponentDoc = {
             </div>
           </Card>
         ),
-        caption: "Vertical list with labels for form settings",
+        caption: 'Vertical list with labels for form settings',
       },
       {
-        title: "Status toggles with icons",
+        title: 'Status toggles with icons',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-4">Automation</div>
             <div className="space-y-4">
-              <Switch label="Auto backup" defaultChecked icons readOnly />
-              <Switch label="Auto sync" icons readOnly />
-              <Switch label="Safe mode" defaultChecked icons disabled readOnly />
+              <Switch label="Auto backup" defaultChecked showIcons readOnly />
+              <Switch label="Auto sync" showIcons readOnly />
+              <Switch label="Safe mode" defaultChecked showIcons disabled readOnly />
             </div>
           </Card>
         ),
-        caption: "Icon switches for quick state scanning in settings panels",
+        caption: 'Icon switches for quick state scanning in settings panels',
       },
     ],
   },
@@ -199,61 +191,67 @@ export const switchDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "label",
-      type: "string",
-      description: "Text label displayed next to the switch.",
+      name: 'label',
+      type: 'ReactNode',
+      description: 'Rich label content displayed next to the switch.',
     },
     {
-      name: "checked",
-      type: "boolean",
-      description: "Whether the switch is in the on position.",
+      name: 'checked',
+      type: 'boolean',
+      description: 'Whether the switch is in the on position.',
     },
     {
-      name: "icons",
-      type: "boolean",
-      default: "false",
-      description: "Shows check/close icons for visual state indication.",
+      name: 'showIcons',
+      type: 'boolean',
+      default: 'false',
+      description: 'Shows check/close state icons without changing switch semantics.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "If true, the switch is disabled and cannot be toggled.",
+      name: 'invalid',
+      type: 'boolean',
+      default: 'false',
+      description: 'Publishes aria-invalid and displays the switch in an invalid state.',
     },
     {
-      name: "onChange",
-      type: "(event: ChangeEvent) => void",
-      description: "Callback fired when the switch value changes.",
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'If true, the switch is disabled and cannot be toggled.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply to the switch container.",
+      name: 'onChange',
+      type: '(event: ChangeEvent) => void',
+      description: 'Callback fired when the switch value changes.',
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes to apply to the switch container.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role=\"switch\" for proper screen reader announcement.",
-      "aria-checked reflects the current on/off state.",
-      "Label is properly associated via htmlFor/id connection.",
-      "Disabled state is communicated via aria-disabled.",
+      'Uses role="switch" for proper screen reader announcement.',
+      'aria-checked reflects the current on/off state.',
+      'Label is properly associated via htmlFor/id connection.',
+      'Disabled state is communicated via aria-disabled.',
     ],
     keyboard: [
-      { key: "Space", description: "Toggles the switch on/off" },
-      { key: "Tab", description: "Moves focus to the next focusable element" },
+      { key: 'Space', description: 'Toggles the switch on/off' },
+      { key: 'Tab', description: 'Moves focus to the next focusable element' },
     ],
     focus: [
-      "Focus ring is clearly visible around the switch track.",
-      "Focus state uses primary color for visibility.",
+      'Focus ring is clearly visible around the switch track.',
+      'Focus state uses primary color for visibility.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state to manage switch values.",
-    code: `import { Switch } from "@unisane/ui";
+    description: 'Use controlled state to manage switch values.',
+    code: `import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 
 function SettingsPanel() {
@@ -283,7 +281,7 @@ function SettingsPanel() {
         label="Auto-save"
         checked={settings.autoSave}
         onChange={() => handleToggle("autoSave")}
-        icons
+        showIcons
       />
     </div>
   );
@@ -293,16 +291,16 @@ function SettingsPanel() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "checkbox",
-      reason: "Use for multiple selections or when form submission is required.",
+      slug: 'checkbox',
+      reason: 'Use for multiple selections or when form submission is required.',
     },
     {
-      slug: "radio",
-      reason: "Use when only one option can be selected from a group.",
+      slug: 'radio',
+      reason: 'Use when only one option can be selected from a group.',
     },
     {
-      slug: "chip",
-      reason: "Use for filter selections with visual tags.",
+      slug: 'chip',
+      reason: 'Use for filter selections with visual tags.',
     },
   ],
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing } from '../lib/utils';
-import { Icon } from '../primitives/icon';
+import { Icon } from './icon';
 import { Text } from '../primitives/text';
 import { Ripple } from './ripple';
 

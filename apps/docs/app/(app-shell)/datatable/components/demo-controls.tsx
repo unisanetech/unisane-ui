@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import { Typography, Switch, Chip } from "@unisane/ui";
-import type { Density } from "@unisane/data-table";
-import type { PartialDataTableLocale } from "@unisane/data-table/i18n";
+import { Typography, Chip } from '@unisane/ui';
+import { Switch } from '@unisane/ui/switch';
+import type { Density } from '@unisane/data-table';
+import type { PartialDataTableLocale } from '@unisane/data-table/i18n';
 
 // ─── LOCALE OPTIONS ──────────────────────────────────────────────────────────
 
-export type LocaleKey = "en" | "hi";
+export type LocaleKey = 'en' | 'hi';
 
 export interface LocaleOption {
   label: string;
@@ -23,7 +24,7 @@ interface FeatureToggleProps {
 
 export function FeatureToggle({ label, checked, onChange }: FeatureToggleProps) {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
+    <label className="flex cursor-pointer items-center gap-2">
       <Switch checked={checked} onChange={(e) => onChange(e.target.checked)} />
       <span className="text-body-medium">{label}</span>
     </label>
@@ -54,7 +55,7 @@ export function DemoControls({
   localeOptions,
 }: DemoControlsProps) {
   return (
-    <div className="border-b border-outline-variant -mx-4 medium:-mx-6 expanded:-mx-12 px-4 medium:px-6 expanded:px-12 py-4">
+    <div className="border-outline-variant medium:-mx-6 expanded:-mx-12 medium:px-6 expanded:px-12 -mx-4 border-b px-4 py-4">
       <Typography variant="titleMedium" className="text-on-surface mb-4">
         Feature Toggles
       </Typography>
@@ -69,13 +70,13 @@ export function DemoControls({
         ))}
       </div>
 
-      <div className="mt-4 flex items-center gap-4 flex-wrap">
+      <div className="mt-4 flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-4">
           <Typography variant="labelMedium" className="text-on-surface-variant">
             Density:
           </Typography>
           <div className="flex gap-2">
-            {(["compact", "dense", "standard", "comfortable"] as const).map((d) => (
+            {(['compact', 'dense', 'standard', 'comfortable'] as const).map((d) => (
               <Chip
                 key={d}
                 variant="filter"
@@ -89,7 +90,7 @@ export function DemoControls({
 
         {localeKey && onLocaleChange && localeOptions && (
           <>
-            <div className="h-6 w-px bg-outline-variant hidden sm:block" />
+            <div className="bg-outline-variant hidden h-6 w-px sm:block" />
             <div className="flex items-center gap-4">
               <Typography variant="labelMedium" className="text-on-surface-variant">
                 Locale (i18n):

@@ -8,7 +8,8 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { toast } from "@unisane/ui";
+import { toast } from "@unisane/ui/toast";
+import type { ToastTone } from "@unisane/ui/toast";
 import { useI18n } from "../i18n";
 import type {
   FeedbackContextValue,
@@ -17,7 +18,6 @@ import type {
   FeedbackParams,
   FeedbackOptions,
 } from "./types";
-import type { ToastVariant } from "@unisane/ui";
 
 // ─── CONTEXT ────────────────────────────────────────────────────────────────
 
@@ -88,87 +88,87 @@ export function FeedbackProvider({
     }
   }, [announcement]);
 
-  // Get message and variant for a feedback type
+  // Get message and tone for a feedback type
   const getFeedbackConfig = useCallback(
     (
       type: FeedbackType,
       params: FeedbackParams = {}
-    ): { message: string; variant: ToastVariant; srMessage?: string } => {
+    ): { message: string; tone: ToastTone; srMessage?: string } => {
       switch (type) {
         // ─── Clipboard Operations ───
         case "copy":
           return {
             message: t("srCellsCopied", { count: params.count ?? 1 }),
-            variant: "success",
+            tone: "success",
           };
         case "copyFailed":
           return {
             message: t("pasteFailed"),
-            variant: "error",
+            tone: "danger",
           };
         case "paste":
           return {
             message: t("pasteSuccess", { count: params.count ?? 1 }),
-            variant: "success",
+            tone: "success",
             srMessage: t("srCellsPasted", { count: params.count ?? 1 }),
           };
         case "pasteFailed":
           return {
             message: t("pasteFailed"),
-            variant: "error",
+            tone: "danger",
           };
         case "pasteValidationError":
           return {
             message: t("pasteValidationError", { count: params.count ?? 1 }),
-            variant: "warning",
+            tone: "warning",
           };
 
         // ─── Export Operations ───
         case "exportStarted":
           return {
             message: t("exportStarted", { format: params.format ?? "file" }),
-            variant: "info",
+            tone: "info",
           };
         case "exportSuccess":
           return {
             message: t("exportSuccess", { format: params.format ?? "file" }),
-            variant: "success",
+            tone: "success",
           };
         case "exportFailed":
           return {
             message: t("exportFailed"),
-            variant: "error",
+            tone: "danger",
           };
 
         // ─── Selection Operations ───
         case "rowSelected":
           return {
             message: t("srRowSelected", { id: params.id ?? "" }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srRowSelected", { id: params.id ?? "" }),
           };
         case "rowDeselected":
           return {
             message: t("srRowDeselected", { id: params.id ?? "" }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srRowDeselected", { id: params.id ?? "" }),
           };
         case "allSelected":
           return {
             message: t("srAllSelected", { count: params.count ?? 0 }),
-            variant: "success",
+            tone: "success",
             srMessage: t("srAllSelected", { count: params.count ?? 0 }),
           };
         case "allDeselected":
           return {
             message: t("srAllDeselected"),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srAllDeselected"),
           };
         case "selectionCleared":
           return {
             message: t("srAllDeselected"),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srAllDeselected"),
           };
 
@@ -176,25 +176,25 @@ export function FeedbackProvider({
         case "sortApplied":
           return {
             message: t("srSortedAsc", { column: params.column ?? "" }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srSortedAsc", { column: params.column ?? "" }),
           };
         case "sortCleared":
           return {
             message: t("srNotSorted"),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srNotSorted"),
           };
         case "filterApplied":
           return {
             message: t("srFilterApplied", { count: params.count ?? 1 }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srFilterApplied", { count: params.count ?? 1 }),
           };
         case "filterCleared":
           return {
             message: t("srFilterCleared"),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srFilterCleared"),
           };
 
@@ -202,23 +202,23 @@ export function FeedbackProvider({
         case "groupApplied":
           return {
             message: t("groupApplied", { column: params.column ?? "" }),
-            variant: "default",
+            tone: "neutral",
           };
         case "groupRemoved":
           return {
             message: t("removeGrouping"),
-            variant: "default",
+            tone: "neutral",
           };
         case "groupExpanded":
           return {
             message: t("srGroupExpanded", { label: params.label ?? "" }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srGroupExpanded", { label: params.label ?? "" }),
           };
         case "groupCollapsed":
           return {
             message: t("srGroupCollapsed", { label: params.label ?? "" }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srGroupCollapsed", { label: params.label ?? "" }),
           };
 
@@ -229,7 +229,7 @@ export function FeedbackProvider({
               from: params.from ?? 0,
               to: params.to ?? 0,
             }),
-            variant: "success",
+            tone: "success",
             srMessage: t("srRowMoved", {
               from: params.from ?? 0,
               to: params.to ?? 0,
@@ -238,12 +238,12 @@ export function FeedbackProvider({
         case "rowEdited":
           return {
             message: t("cellUpdated"),
-            variant: "success",
+            tone: "success",
           };
         case "rowDeleted":
           return {
             message: t("rowDeleted"),
-            variant: "success",
+            tone: "success",
           };
 
         // ─── Undo/Redo Operations ───
@@ -252,7 +252,7 @@ export function FeedbackProvider({
             message: t("srUndone", {
               description: params.description ?? "change",
             }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srUndone", {
               description: params.description ?? "change",
             }),
@@ -262,7 +262,7 @@ export function FeedbackProvider({
             message: t("srRedone", {
               description: params.description ?? "change",
             }),
-            variant: "default",
+            tone: "neutral",
             srMessage: t("srRedone", {
               description: params.description ?? "change",
             }),
@@ -270,59 +270,59 @@ export function FeedbackProvider({
         case "nothingToUndo":
           return {
             message: t("nothingToUndo"),
-            variant: "info",
+            tone: "info",
           };
         case "nothingToRedo":
           return {
             message: t("nothingToRedo"),
-            variant: "info",
+            tone: "info",
           };
 
         // ─── Preset Operations ───
         case "presetSaved":
           return {
             message: t("presetSaved", { name: params.name ?? "" }),
-            variant: "success",
+            tone: "success",
             srMessage: t("srPresetSaved", { name: params.name ?? "" }),
           };
         case "presetApplied":
           return {
             message: t("presetApplied", { name: params.name ?? "" }),
-            variant: "success",
+            tone: "success",
             srMessage: t("srPresetApplied", { name: params.name ?? "" }),
           };
         case "presetDeleted":
           return {
             message: t("presetDeleted", { name: params.name ?? "" }),
-            variant: "success",
+            tone: "success",
           };
 
         // ─── General ───
         case "success":
           return {
             message: params.description ?? "Success",
-            variant: "success",
+            tone: "success",
           };
         case "error":
           return {
             message: params.description ?? "Error",
-            variant: "error",
+            tone: "danger",
           };
         case "info":
           return {
             message: params.description ?? "Info",
-            variant: "info",
+            tone: "info",
           };
         case "warning":
           return {
             message: params.description ?? "Warning",
-            variant: "warning",
+            tone: "warning",
           };
 
         default:
           return {
             message: "Unknown action",
-            variant: "default",
+            tone: "neutral",
           };
       }
     },
@@ -355,7 +355,7 @@ export function FeedbackProvider({
       if (!disableToasts) {
         toast.show({
           message: config.message,
-          variant: config.variant,
+          tone: config.tone,
           duration: 3000,
         });
       }
@@ -376,7 +376,7 @@ export function FeedbackProvider({
       const {
         message,
         description,
-        variant = "default",
+        tone = "neutral",
         duration = 5000,
         showToast = true,
         announce: shouldAnnounce = true,
@@ -389,7 +389,7 @@ export function FeedbackProvider({
         toast.show({
           message,
           description,
-          variant,
+          tone,
           duration,
           action,
         });

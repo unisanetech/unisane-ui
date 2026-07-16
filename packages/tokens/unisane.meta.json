@@ -13,6 +13,7 @@
   "docs": [],
   "exports": [
     ".",
+    "./preview-themes.css",
     "./unisane.css"
   ]
 }

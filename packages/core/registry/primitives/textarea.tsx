@@ -11,8 +11,8 @@ export type TextareaProps = Omit<React.TextareaHTMLAttributes<HTMLTextAreaElemen
 /**
  * Textarea primitive - a basic styled textarea element.
  *
- * For most cases, use TextField with multiline={true} which includes a label
- * and follows Material 3 guidelines.
+ * For most cases, use TextField with multiline which includes the canonical
+ * label and validation contract.
  * Use this Textarea primitive when you need lower-level control or custom compositions.
  */
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(

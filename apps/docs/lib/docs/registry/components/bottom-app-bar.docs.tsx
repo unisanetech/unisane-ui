@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from "../types";
 import { HeroBackground } from "../../runtime/hero-background";
-import { BottomAppBar, BottomAppBarAction, Fab, NavigationBar } from "@unisane/ui";
+import { BottomAppBar, BottomAppBarAction, Fab } from "@unisane/ui";
+import { NavigationBar } from "@unisane/ui/navigation-bar";
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const BottomAppBarHeroVisual = () => (
@@ -113,17 +114,15 @@ export const bottomAppBarDoc: ComponentDoc = {
         emphasis: "Navigation Bar",
         component: (
           <div className="relative h-20 w-44 overflow-hidden rounded-sm border border-outline-variant">
-            <NavigationBar className="absolute inset-x-0 bottom-0">
-              <NavigationBar.Item
-                icon={<span className="material-symbols-outlined">home</span>}
-                label="Home"
-                active
-              />
-              <NavigationBar.Item
-                icon={<span className="material-symbols-outlined">search</span>}
-                label="Search"
-              />
-            </NavigationBar>
+            <NavigationBar
+              aria-label="Primary navigation"
+              className="absolute inset-x-0 bottom-0"
+              items={[
+                { id: "home", icon: "home", label: "Home" },
+                { id: "search", icon: "search", label: "Search" },
+              ]}
+              defaultValue="home"
+            />
           </div>
         ),
         rationale: "For primary navigation between sections.",

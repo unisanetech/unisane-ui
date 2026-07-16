@@ -63,7 +63,7 @@ function addViolation(filePath, line, message) {
 
 function checkBannedPropPatterns(filePath, content) {
   const relativePath = path.relative(rootDir, filePath);
-  const isThemeProvider = relativePath === 'src/layout/theme-provider.tsx';
+  const isAppearanceOwner = relativePath === 'src/layout/appearance-provider.tsx';
 
   const patterns = [
     {
@@ -76,18 +76,21 @@ function checkBannedPropPatterns(filePath, content) {
     },
     {
       regex: /\bshowSupportingMobile\b/g,
-      message: "Legacy supporting-pane prop 'showSupportingMobile' is no longer part of the contract.",
+      message:
+        "Legacy supporting-pane prop 'showSupportingMobile' is no longer part of the contract.",
     },
     {
       regex: /\bonToggleSupporting\b/g,
-      message: "Legacy supporting-pane prop 'onToggleSupporting' is no longer part of the contract.",
+      message:
+        "Legacy supporting-pane prop 'onToggleSupporting' is no longer part of the contract.",
     },
   ];
 
-  if (!isThemeProvider) {
+  if (!isAppearanceOwner) {
     patterns.push({
       regex: /\bdensity\??\s*:/g,
-      message: "Component-local 'density' props are not allowed. Use global theme density and component 'size' instead.",
+      message:
+        "Component-local 'density' props are not allowed. Use global theme density and component 'size' instead.",
     });
   }
 
@@ -145,7 +148,9 @@ async function main() {
 
   console.error('Component contract drift detected:\n');
   for (const violation of violations) {
-    console.error(`- ${path.relative(rootDir, violation.filePath)}:${violation.line} ${violation.message}`);
+    console.error(
+      `- ${path.relative(rootDir, violation.filePath)}:${violation.line} ${violation.message}`,
+    );
   }
   process.exitCode = 1;
 }

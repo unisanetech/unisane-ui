@@ -6,7 +6,7 @@
 @source "./**/*.{ts,tsx}";
 
 /* Dark mode variant */
-@custom-variant dark (&:is(.dark *):not([data-theme-scope="light"] *));
+@custom-variant dark (&:is(.dark *));
 
 /* Expanded variant - 840px breakpoint for sidebar desktop mode */
 @custom-variant expanded (@media (min-width: 840px));

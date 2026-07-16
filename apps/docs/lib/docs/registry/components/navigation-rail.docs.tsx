@@ -1,383 +1,141 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { NavigationRail, Fab, NavigationDrawer, NavigationDrawerHeadline, NavigationDrawerItem, NavigationBar } from "@unisane/ui";
+import { useState } from 'react';
+import { Fab } from '@unisane/ui';
+import { NavigationRail } from '@unisane/ui/navigation-rail';
+import type { NavigationItem } from '@unisane/ui/navigation';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
-const NavigationRailHeroVisual = () => (
-  <HeroBackground tone="surface">
-    <div className="relative isolate h-full min-h-64 w-full max-w-3xl overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
-      <div className="flex h-full w-full">
-        <NavigationRail
-          items={[
-            { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox", badge: 3 },
-            { value: "sent", label: "Sent", icon: "send", activeIcon: "send" },
-            { value: "drafts", label: "Drafts", icon: "drafts", activeIcon: "drafts" },
-          ]}
-          value="inbox"
-          className="h-full !w-20"
-          header={
-            <Fab
-              size="md"
-              variant="tertiary"
-              icon={<span className="material-symbols-outlined">edit</span>}
-              aria-label="Compose"
-            />
-          }
-        />
-        <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
-          <div className="border-outline-variant border-b px-4 py-3">
-            <div className="text-title-small text-on-surface">Inbox</div>
-            <div className="text-body-small text-on-surface-variant">3 unread messages</div>
-          </div>
-          <div className="space-y-3 p-4">
-            <div className="rounded-sm border border-outline-variant bg-surface p-3">
-              <div className="mb-1 h-2 w-2/3 rounded-sm bg-surface-container-high" />
-              <div className="h-2 w-5/6 rounded-sm bg-surface-container-high" />
-            </div>
-            <div className="rounded-sm border border-outline-variant bg-surface p-3">
-              <div className="mb-1 h-2 w-1/2 rounded-sm bg-surface-container-high" />
-              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </HeroBackground>
-);
+const items: NavigationItem[] = [
+  { id: 'inbox', label: 'Inbox', icon: 'inbox', activeIcon: 'inbox', badge: 3 },
+  { id: 'sent', label: 'Sent', icon: 'send' },
+  { id: 'drafts', label: 'Drafts', icon: 'drafts' },
+  { id: 'settings', label: 'Settings', icon: 'settings' },
+];
 
-// ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
-const NavigationRailBasicExample = () => {
-  const [active, setActive] = useState("inbox");
-
+function NavigationRailExample({ labels = 'always' }: { labels?: 'always' | 'selected' | 'hidden' }) {
+  const [value, setValue] = useState<string | null>('inbox');
   return (
-    <div className="relative isolate flex h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <div className="bg-surface flex h-80 w-full max-w-lg overflow-hidden rounded-sm border border-outline-variant">
       <NavigationRail
-        items={[
-          { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox", badge: 3 },
-          { value: "sent", label: "Sent", icon: "send", activeIcon: "send" },
-          { value: "drafts", label: "Drafts", icon: "drafts", activeIcon: "drafts" },
-          { value: "trash", label: "Trash", icon: "delete", activeIcon: "delete" },
-        ]}
-        value={active}
-        onValueChange={setActive}
-        header={
-          <Fab
-            size="md"
-            variant="tertiary"
-            icon={<span className="material-symbols-outlined">edit</span>}
-            aria-label="Compose"
-          />
-        }
-        className="h-full"
+        aria-label="Mailbox navigation"
+        items={items}
+        value={value}
+        onValueChange={setValue}
+        labelVisibility={labels}
+        header={<Fab size="md" variant="tertiary" icon="edit" aria-label="Compose" />}
       />
-      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
-        <div className="border-outline-variant border-b px-4 py-3">
-          <div className="text-title-small text-on-surface">Mail workspace</div>
-          <div className="text-body-small text-on-surface-variant">
-            Selected: <span className="font-medium text-on-surface">{active}</span>
-          </div>
-        </div>
-        <div className="space-y-2 p-4">
-          <div className="h-3 rounded-sm bg-surface-container-high" />
-          <div className="h-3 w-3/4 rounded-sm bg-surface-container-high" />
-          <div className="h-3 w-1/2 rounded-sm bg-surface-container-high" />
+      <div className="bg-surface-container-low flex-1 p-5">
+        <div className="text-title-medium text-on-surface mb-4">{value ?? 'Mailbox'}</div>
+        <div className="space-y-3">
+          <div className="bg-surface h-12 rounded-sm border border-outline-variant" />
+          <div className="bg-surface h-12 rounded-sm border border-outline-variant" />
         </div>
       </div>
     </div>
   );
-};
-
-const NavigationRailIconOnlyExample = () => {
-  const [active, setActive] = useState("dashboard");
-
-  return (
-    <div className="relative isolate flex h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
-      <NavigationRail
-        items={[
-          { value: "dashboard", label: "Dashboard", icon: "dashboard", activeIcon: "dashboard", tooltip: "Dashboard" },
-          { value: "analytics", label: "Analytics", icon: "insights", activeIcon: "insights", tooltip: "Analytics" },
-          { value: "customers", label: "Customers", icon: "group", activeIcon: "group", tooltip: "Customers" },
-          { value: "settings", label: "Settings", icon: "settings", activeIcon: "settings", tooltip: "Settings" },
-        ]}
-        value={active}
-        onValueChange={setActive}
-        labelVisibility="hidden"
-        className="h-full"
-      />
-      <div className="flex min-w-0 flex-1 flex-col bg-surface-container-low">
-        <div className="border-outline-variant border-b px-4 py-3">
-          <div className="text-title-small text-on-surface">Icon-only rail</div>
-          <div className="text-body-small text-on-surface-variant">Hover icons to see tooltips.</div>
-        </div>
-        <div className="space-y-2 p-4">
-          <div className="h-3 rounded-sm bg-surface-container-high" />
-          <div className="h-3 w-3/4 rounded-sm bg-surface-container-high" />
-          <div className="h-3 w-1/2 rounded-sm bg-surface-container-high" />
-        </div>
-      </div>
-    </div>
-  );
-};
+}
 
 export const navigationRailDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "navigation-rail",
-  name: "Navigation Rail",
+  slug: 'navigation-rail',
+  name: 'Navigation Rail',
   description:
-    "Navigation rail provides compact standalone vertical navigation for tablet and desktop screens.",
-  category: "navigation",
-  status: "stable",
-  icon: "view_sidebar",
-
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["NavigationRail"],
-
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
-  heroVisual: <NavigationRailHeroVisual />,
-  heroPreview: {
-    minHeight: "xl",
-  },
-  examplesPreview: {
-    tone: "surfaceContainerLow",
-    minHeight: "xl",
-    padding: "none",
-    align: "start",
-    justify: "start",
-  },
-
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
+    'The compact vertical presentation of the shared navigation item and selection contract.',
+  category: 'navigation',
+  status: 'stable',
+  icon: 'view_sidebar',
+  importPath: '@/components/ui/navigation-rail',
+  exports: ['NavigationRail'],
+  heroVisual: (
+    <HeroBackground tone="surface">
+      <NavigationRailExample />
+    </HeroBackground>
+  ),
+  heroPreview: { minHeight: '2xl' },
   choosing: {
     description:
-      "Choose navigation based on whether you need a standalone widget or a full app-shell system.",
+      'Use the Rail when destinations fit a compact vertical surface and the shell does not need Sidebar orchestration.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Labels',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Navigation Rail",
-        component: (
-          <div className="relative isolate h-36 w-28 overflow-hidden rounded-sm border border-outline-variant bg-surface">
-            <NavigationRail
-              items={[
-                { value: "inbox", label: "Inbox", icon: "inbox", activeIcon: "inbox" },
-                { value: "sent", label: "Sent", icon: "send", activeIcon: "send" },
-              ]}
-              value="inbox"
-              header={
-                <Fab
-                  size="sm"
-                  variant="tertiary"
-                  icon={<span className="material-symbols-outlined">edit</span>}
-                  aria-label="Compose"
-                />
-              }
-              className="h-full !w-full !border-r-0"
-            />
-          </div>
-        ),
-        rationale: "Compact standalone vertical navigation for larger screens.",
-        examples: "Desktop apps, Tablet apps, Admin panels",
+        emphasis: 'Always visible',
+        component: <NavigationRailExample />,
+        rationale: 'Destination names should remain visible.',
+        examples: 'Tablet workspaces, admin tools',
       },
       {
-        emphasis: "Navigation Drawer",
-        component: (
-          <div className="relative isolate h-36 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface">
-            <NavigationDrawer
-              open
-              modal={false}
-              className="!absolute !inset-y-0 !left-0 !z-10 !h-full !w-44 !border-r !border-outline-variant !shadow-none"
-            >
-              <NavigationDrawerHeadline>Main</NavigationDrawerHeadline>
-              <NavigationDrawerItem icon="home" active>Home</NavigationDrawerItem>
-              <NavigationDrawerItem icon="inbox">Inbox</NavigationDrawerItem>
-            </NavigationDrawer>
-            <div className="ml-44 space-y-2 p-3">
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
-            </div>
-          </div>
-        ),
-        rationale: "Standalone drawer navigation with labels always visible.",
-        examples: "Complex apps, Many destinations",
-      },
-      {
-        emphasis: "Navigation Bar",
-        component: (
-          <div className="relative isolate h-24 w-56 overflow-hidden rounded-sm border border-outline-variant bg-surface-container-low">
-            <div className="space-y-2 p-3">
-              <div className="h-2 rounded-sm bg-surface-container-high" />
-              <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
-            </div>
-            <NavigationBar className="absolute inset-x-0 bottom-0">
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">home</span>} label="Home" active />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">search</span>} label="Search" />
-              <NavigationBar.Item icon={<span className="material-symbols-outlined">person</span>} label="Profile" />
-            </NavigationBar>
-          </div>
-        ),
-        rationale: "Bottom navigation for mobile screens.",
-        examples: "Mobile apps, Phone interfaces",
+        emphasis: 'Icon only',
+        component: <NavigationRailExample labels="hidden" />,
+        rationale: 'Space is constrained and every item has an accessible name and tooltip.',
+        examples: 'Dense desktop shells',
       },
     ],
   },
-
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Navigation rails are placed at the left edge of the screen on larger devices.",
-    previewDefaults: {
-      tone: "surfaceContainerLow",
-      minHeight: "2xl",
-      padding: "none",
-      align: "start",
-      justify: "start",
-    },
+    description: 'Place the Rail at the start edge of the app-shell content region.',
+    previewDefaults: { tone: 'surfaceContainerLow', minHeight: '2xl', padding: 'none' },
     examples: [
       {
-        title: "With header FAB",
-        visual: <NavigationRailBasicExample />,
-        caption: "Click items to navigate",
-      },
-      {
-        title: "Icon-only with tooltip",
-        visual: <NavigationRailIconOnlyExample />,
-        caption: "Use labelVisibility='hidden' and per-item tooltip for compact rails.",
+        title: 'Rail with header action',
+        visual: <NavigationRailExample />,
+        caption: 'Selection uses the same item ids as Bar and Drawer.',
       },
     ],
   },
-
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
-    {
-      name: "items",
-      type: "RailItem[]",
-      required: true,
-      description: "Array of navigation items.",
-    },
-    {
-      name: "value",
-      type: "string",
-      description: "Currently active item value.",
-    },
-    {
-      name: "defaultValue",
-      type: "string",
-      description: "Initial active item for uncontrolled usage.",
-    },
-    {
-      name: "onValueChange",
-      type: "(value: string) => void",
-      description: "Callback when active item changes.",
-    },
-    {
-      name: "header",
-      type: "ReactNode",
-      description: "Content at top of rail (usually a FAB).",
-    },
-    {
-      name: "footer",
-      type: "ReactNode",
-      description: "Content at bottom of rail.",
-    },
-    {
-      name: "alignment",
-      type: '"start" | "center" | "end"',
-      default: '"start"',
-      description: "Vertical alignment of items.",
-    },
-    {
-      name: "labelVisibility",
-      type: '"always" | "selected" | "hidden"',
-      default: '"always"',
-      description: "Controls rail label display for all items.",
-    },
-    {
-      name: "onItemHover",
-      type: "(value: string) => void",
-      description: "Callback when item is hovered.",
-    },
-    {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes for the rail container.",
-    },
+    { name: 'items', type: 'NavigationItem[]', required: true, description: 'Shared destination collection.' },
+    { name: 'value', type: 'string | null', description: 'Controlled selected item id.' },
+    { name: 'defaultValue', type: 'string | null', description: 'Initial uncontrolled selected id.' },
+    { name: 'onValueChange', type: '(id: string | null) => void', description: 'Selection callback.' },
+    { name: 'onItemSelect', type: '(item: NavigationItem) => void', description: 'Activation callback.' },
+    { name: 'renderLink', type: 'NavigationLinkRenderer', description: 'Framework-link renderer.' },
+    { name: 'aria-label', type: 'string', required: true, description: 'Navigation landmark name.' },
+    { name: 'labelVisibility', type: '"always" | "selected" | "hidden"', default: '"always"', description: 'Label visibility policy.' },
+    { name: 'alignment', type: '"start" | "center" | "end"', default: '"start"', description: 'Vertical item alignment.' },
+    { name: 'onItemHover', type: '(id: string) => void', description: 'Optional presentation hover signal.' },
+    { name: 'header', type: 'ReactNode', description: 'Content above destinations.' },
+    { name: 'footer', type: 'ReactNode', description: 'Content below destinations.' },
   ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses semantic <nav> element with aria-label.",
-      "Active item indicated via aria-current.",
-      "Badges are announced for notifications.",
+      'Uses a named navigation landmark.',
+      'Hidden visual labels become action aria-labels and native tooltips.',
+      'The selected destination exposes aria-current="page".',
     ],
     keyboard: [
-      { key: "Tab", description: "Navigate between items" },
-      { key: "Enter/Space", description: "Activate focused item" },
+      { key: 'Tab', description: 'Move among enabled destinations.' },
+      { key: 'Enter / Space', description: 'Activate the focused destination.' },
     ],
-    focus: [
-      "Focus ring visible on rail items.",
-      "Active state clearly distinguished.",
-    ],
+    focus: ['Native links and buttons retain visible focus and disabled semantics.'],
   },
-
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use with controlled state or router.",
-    code: `import { NavigationRail, Fab } from "@unisane/ui";
-import { usePathname, useRouter } from "next/navigation";
+    description: 'Use the same local item collection used by other responsive presentations.',
+    code: `import { NavigationRail } from "@/components/ui/navigation-rail";
+import type { NavigationItem } from "@/types/navigation";
 
-function SideNav() {
-  const pathname = usePathname();
-  const router = useRouter();
+const items: NavigationItem[] = [
+  { id: "home", label: "Home", icon: "home", href: "/" },
+  { id: "inbox", label: "Inbox", icon: "inbox", href: "/inbox", badge: 5 },
+];
 
-  const items = [
-    { value: "/", label: "Home", icon: "home", activeIcon: "home" },
-    { value: "/inbox", label: "Inbox", icon: "inbox", badge: 12 },
-    { value: "/sent", label: "Sent", icon: "send" },
-    { value: "/settings", label: "Settings", icon: "settings" },
-  ];
-
-  return (
-    <NavigationRail
-      items={items}
-      value={pathname}
-      onValueChange={(path) => router.push(path)}
-      header={
-        <Fab
-          icon={<span className="material-symbols-outlined">edit</span>}
-          onClick={() => router.push("/compose")}
-          aria-label="Compose"
-        />
-      }
-    />
-  );
+export function DesktopNavigation() {
+  return <NavigationRail aria-label="Primary navigation" items={items} defaultValue="home" />;
 }`,
   },
-
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
+  guidelines: [
+    { type: 'do', text: 'Provide aria-label whenever visual labels are hidden.' },
+    { type: 'do', text: 'Keep destination identity stable across Bar, Rail, and Drawer.' },
+    { type: 'dont', text: 'Do not put app-shell persistence or drawer orchestration in Rail.' },
+  ],
   related: [
-    {
-      slug: "sidebar",
-      reason: "Use for full app-shell navigation with responsive rail, drawer, and content inset behavior.",
-    },
-    {
-      slug: "navigation-drawer",
-      reason: "Use for standalone drawer navigation with labels always visible.",
-    },
-    {
-      slug: "navigation-bar",
-      reason: "Use for mobile bottom navigation.",
-    },
-    {
-      slug: "fab",
-      reason: "Often placed in rail header.",
-    },
+    { slug: 'navigation-bar', reason: 'Mobile bottom presentation.' },
+    { slug: 'navigation-drawer', reason: 'Labeled vertical presentation.' },
+    { slug: 'sidebar', reason: 'Responsive application-shell orchestration.' },
   ],
 };

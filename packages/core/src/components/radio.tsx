@@ -1,82 +1,100 @@
 'use client';
 
-import { type InputHTMLAttributes, useId, forwardRef } from 'react';
-import { Ripple } from './ripple';
+import * as React from 'react';
 import { cn } from '../lib/utils';
-import { type SelectionControlSize, selectionControlSizeClasses } from '../lib/selection-control-size';
+import {
+  type SelectionControlSize,
+  selectionControlSizeClasses,
+} from '../lib/selection-control-size';
+import { Ripple } from './ripple';
 
-interface RadioProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-  label?: string;
-  disabled?: boolean;
-  error?: boolean;
+export interface RadioProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'type'
+> {
+  invalid?: boolean;
+  label?: React.ReactNode;
   size?: SelectionControlSize;
-  className?: string;
 }
 
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(
+export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
   (
-    { label, disabled = false, error = false, size = 'md', className = '', id: providedId, ...props },
-    ref,
+    {
+      'aria-invalid': ariaInvalid,
+      className,
+      disabled = false,
+      id: providedId,
+      invalid = false,
+      label,
+      size = 'md',
+      ...inputProps
+    },
+    forwardedRef,
   ) => {
-    const generatedId = useId();
-    const id = providedId || generatedId;
+    const generatedId = React.useId();
+    const id = providedId ?? generatedId;
     const sizeClasses = selectionControlSizeClasses[size];
+    const resolvedInvalid = invalid || ariaInvalid === true || ariaInvalid === 'true';
 
     return (
       <label
         htmlFor={id}
         className={cn(
           'group relative inline-flex cursor-pointer items-center gap-3 select-none',
-          disabled && 'pointer-events-none cursor-not-allowed opacity-38',
+          disabled && 'cursor-not-allowed opacity-38',
           className,
         )}
       >
-        <div className={cn('relative flex items-center justify-center', sizeClasses.frame)}>
-          <div
+        <span
+          className={cn('relative flex shrink-0 items-center justify-center', sizeClasses.frame)}
+        >
+          <span
+            aria-hidden="true"
             className={cn(
               'absolute inset-0 z-0 overflow-hidden rounded-full transition-colors',
               'group-hover:bg-state-hover',
-              error && 'group-hover:bg-state-error',
+              resolvedInvalid && 'group-hover:bg-state-error',
             )}
           >
             <Ripple
               center
               disabled={disabled}
-              className={cn(error ? 'text-error' : 'text-primary')}
+              className={resolvedInvalid ? 'text-error' : 'text-primary'}
             />
-          </div>
+          </span>
 
           <input
-            ref={ref}
-            type="radio"
+            {...inputProps}
+            ref={forwardedRef}
             id={id}
+            type="radio"
             disabled={disabled}
+            aria-invalid={resolvedInvalid || undefined}
             className="peer sr-only"
-            {...props}
           />
 
-          <div
+          <span
+            aria-hidden="true"
             className={cn(
-              'bg-surface relative z-10 rounded-full border-2',
+              'bg-surface relative z-10 flex items-center justify-center rounded-full border-2',
               sizeClasses.control,
-              'duration-snappy ease-emphasized flex items-center justify-center transition-colors',
-              !error && 'border-outline group-hover:border-on-surface',
-              !error && 'peer-checked:border-primary',
-              error && 'border-error peer-checked:border-error',
-              'peer-focus-visible:ring-primary peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
+              'duration-snappy ease-emphasized transition-colors',
+              resolvedInvalid
+                ? 'border-error peer-checked:border-error'
+                : 'border-outline group-hover:border-on-surface peer-checked:border-primary',
+              'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
               "after:duration-snappy after:ease-emphasized after:block after:scale-0 after:rounded-full after:transition-transform after:content-['']",
               sizeClasses.radioDot,
-              !error && 'after:bg-primary peer-checked:after:scale-100',
-              error && 'after:bg-error peer-checked:after:scale-100',
+              resolvedInvalid
+                ? 'after:bg-error peer-checked:after:scale-100'
+                : 'after:bg-primary peer-checked:after:scale-100',
             )}
           />
-        </div>
+        </span>
 
-        {label && (
-          <span className="text-body-small text-on-surface pt-0.5 leading-none font-medium">
-            {label}
-          </span>
-        )}
+        {label !== undefined && label !== null ? (
+          <span className="text-body-medium text-on-surface leading-none font-medium">{label}</span>
+        ) : null}
       </label>
     );
   },

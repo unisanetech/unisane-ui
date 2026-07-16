@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { cn } from "@/lib/utils";
+import * as React from 'react';
+import { cn } from '@/lib/utils';
 
 export type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement> & {
   required?: boolean;
@@ -18,14 +18,18 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     <label
       ref={ref}
       className={cn(
-        "text-label-large font-medium text-on-surface leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-38",
-        className
+        'text-label-large text-on-surface leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-38',
+        className,
       )}
       {...props}
     >
       {children}
-      {required && <span className="text-error ml-1">*</span>}
+      {required && (
+        <span aria-hidden="true" className="text-error ml-1">
+          *
+        </span>
+      )}
     </label>
-  )
+  ),
 );
-Label.displayName = "Label";
+Label.displayName = 'Label';

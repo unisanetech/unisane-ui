@@ -1,0 +1,6 @@
+{
+  "$schema": "./theme-override.schema.json",
+  "name": "Yellow",
+  "primary": { "hue": 85, "chroma": 0.14 },
+  "description": "Bright warm yellow theme"
+}

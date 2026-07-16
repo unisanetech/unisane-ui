@@ -1,14 +1,26 @@
 'use client';
 
-import React, { createContext, useContext, useCallback, useState, useEffect } from 'react';
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FocusEvent,
+  type HTMLAttributes,
+  type PointerEvent,
+  type ReactNode,
+} from 'react';
 import { createPortal } from 'react-dom';
 import { cva } from 'class-variance-authority';
 import { cn } from '../lib/utils';
-import { Icon } from '../primitives/icon';
 import { Button } from './button';
-import { Ripple } from './ripple';
+import { Icon } from './icon';
+import { IconButton } from './icon-button';
 
-export type ToastVariant = 'default' | 'success' | 'error' | 'warning' | 'info';
+export type ToastTone = 'neutral' | 'success' | 'danger' | 'warning' | 'info';
+export type ToastPriority = 'polite' | 'assertive';
 export type ToastPosition =
   | 'bottom-right'
   | 'bottom-left'
@@ -18,208 +30,331 @@ export type ToastPosition =
   | 'top-center';
 
 export interface ToastAction {
-  label: string;
+  label: ReactNode;
   onClick: () => void;
 }
 
-export interface Toast {
-  id: string;
-  message: string;
-  description?: string;
-  variant?: ToastVariant;
-  icon?: React.ReactNode;
+export interface ToastOptions {
+  message: ReactNode;
+  description?: ReactNode;
+  tone?: ToastTone;
+  priority?: ToastPriority;
+  icon?: ReactNode;
   action?: ToastAction;
   duration?: number;
   dismissible?: boolean;
 }
 
-export interface ToastOptions {
-  message: string;
-  description?: string | undefined;
-  variant?: ToastVariant;
-  icon?: React.ReactNode;
-  action?: ToastAction;
-  duration?: number | undefined;
-  dismissible?: boolean | undefined;
+export interface ToastProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'role'>, ToastOptions {
+  onDismiss?: () => void;
 }
 
-const toastVariants = cva(
-  'pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-md shadow-4 min-w-72 max-w-100 border transition-all duration-medium ease-emphasized',
+interface ToastRecord extends ToastOptions {
+  id: string;
+}
+
+const toastRecipe = cva(
+  'pointer-events-auto flex w-full min-w-0 max-w-100 items-start gap-3 rounded-md border px-4 py-3 shadow-4 transition-all duration-medium ease-emphasized sm:min-w-72',
   {
     variants: {
-      variant: {
-        default: 'bg-inverse-surface text-inverse-on-surface border-transparent',
+      tone: {
+        neutral: 'border-transparent bg-inverse-surface text-inverse-on-surface',
         success:
-          'bg-success-container text-on-success-container border-success [&_.toast-icon]:text-on-success-container',
-        error:
-          'bg-error-container text-on-error-container border-error [&_.toast-icon]:text-on-error-container',
+          'border-success bg-success-container text-on-success-container [&_.toast-icon]:text-on-success-container',
+        danger:
+          'border-error bg-error-container text-on-error-container [&_.toast-icon]:text-on-error-container',
         warning:
-          'bg-warning-container text-on-warning-container border-warning [&_.toast-icon]:text-on-warning-container',
-        info: 'bg-info-container text-on-info-container border-info [&_.toast-icon]:text-on-info-container',
+          'border-warning bg-warning-container text-on-warning-container [&_.toast-icon]:text-on-warning-container',
+        info: 'border-info bg-info-container text-on-info-container [&_.toast-icon]:text-on-info-container',
       },
     },
     defaultVariants: {
-      variant: 'default',
+      tone: 'neutral',
     },
   },
 );
 
 const positionClasses: Record<ToastPosition, string> = {
-  'bottom-right': 'bottom-6 right-6 items-end',
-  'bottom-left': 'bottom-6 left-6 items-start',
-  'bottom-center': 'bottom-6 left-1/2 -translate-x-1/2 items-center',
-  'top-right': 'top-6 right-6 items-end',
-  'top-left': 'top-6 left-6 items-start',
-  'top-center': 'top-6 left-1/2 -translate-x-1/2 items-center',
+  'bottom-right':
+    'inset-x-4 bottom-4 items-stretch sm:inset-x-auto sm:right-6 sm:bottom-6 sm:items-end',
+  'bottom-left':
+    'inset-x-4 bottom-4 items-stretch sm:inset-x-auto sm:bottom-6 sm:left-6 sm:items-start',
+  'bottom-center':
+    'inset-x-4 bottom-4 items-stretch sm:inset-x-auto sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 sm:items-center',
+  'top-right': 'inset-x-4 top-4 items-stretch sm:inset-x-auto sm:top-6 sm:right-6 sm:items-end',
+  'top-left': 'inset-x-4 top-4 items-stretch sm:inset-x-auto sm:top-6 sm:left-6 sm:items-start',
+  'top-center':
+    'inset-x-4 top-4 items-stretch sm:inset-x-auto sm:top-6 sm:left-1/2 sm:-translate-x-1/2 sm:items-center',
 };
 
-const defaultIcons: Record<ToastVariant, React.ReactNode> = {
-  default: null,
+const defaultIcons: Record<ToastTone, ReactNode> = {
+  neutral: null,
   success: <Icon symbol="check_circle" size="sm" />,
-  error: <Icon symbol="error" size="sm" />,
+  danger: <Icon symbol="error" size="sm" />,
   warning: <Icon symbol="warning" size="sm" />,
   info: <Icon symbol="info" size="sm" />,
 };
 
-interface ToastContextValue {
-  toasts: Toast[];
-  toast: (options: ToastOptions) => string;
-  dismiss: (id: string) => void;
-  dismissAll: () => void;
-}
+const emptySnapshot: readonly ToastRecord[] = [];
+const listeners = new Set<() => void>();
+let snapshot: readonly ToastRecord[] = emptySnapshot;
+let nextToastId = 0;
 
-const ToastContext = createContext<ToastContextValue | null>(null);
-
-export function useToast() {
-  const context = useContext(ToastContext);
-  if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+function emitStoreChange() {
+  for (const listener of listeners) {
+    listener();
   }
-  return context;
 }
 
-interface ToastItemProps {
-  toast: Toast;
-  onDismiss: (id: string) => void;
-}
+const toastStore = {
+  getSnapshot: () => snapshot,
+  getServerSnapshot: () => emptySnapshot,
+  subscribe(listener: () => void) {
+    listeners.add(listener);
+    return () => listeners.delete(listener);
+  },
+  show(options: ToastOptions) {
+    nextToastId += 1;
+    const id = `toast-${nextToastId}`;
+    snapshot = [...snapshot, { id, ...options }];
+    emitStoreChange();
+    return id;
+  },
+  dismiss(id: string) {
+    const nextSnapshot = snapshot.filter((item) => item.id !== id);
+    if (nextSnapshot.length === snapshot.length) return;
+    snapshot = nextSnapshot;
+    emitStoreChange();
+  },
+  dismissAll() {
+    if (snapshot.length === 0) return;
+    snapshot = emptySnapshot;
+    emitStoreChange();
+  },
+};
 
-function ToastItem({ toast, onDismiss }: ToastItemProps) {
-  const {
-    id,
-    message,
-    description,
-    variant = 'default',
-    icon,
-    action,
-    duration = 5000,
-    dismissible = true,
-  } = toast;
+function useAutoDismiss(duration: number, onDismiss: () => void) {
+  const onDismissRef = useRef(onDismiss);
+  const remainingRef = useRef(duration);
+  const startedAtRef = useRef(0);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pauseReasonsRef = useRef(new Set<'pointer' | 'focus' | 'visibility'>());
+
+  onDismissRef.current = onDismiss;
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current === null) return;
+    clearTimeout(timerRef.current);
+    timerRef.current = null;
+    remainingRef.current = Math.max(0, remainingRef.current - (Date.now() - startedAtRef.current));
+  }, []);
+
+  const startTimer = useCallback(() => {
+    if (duration <= 0 || pauseReasonsRef.current.size > 0 || timerRef.current !== null) return;
+    if (remainingRef.current <= 0) {
+      onDismissRef.current();
+      return;
+    }
+    startedAtRef.current = Date.now();
+    timerRef.current = setTimeout(() => {
+      timerRef.current = null;
+      remainingRef.current = 0;
+      onDismissRef.current();
+    }, remainingRef.current);
+  }, [duration]);
+
+  const pause = useCallback(
+    (reason: 'pointer' | 'focus' | 'visibility') => {
+      pauseReasonsRef.current.add(reason);
+      clearTimer();
+    },
+    [clearTimer],
+  );
+
+  const resume = useCallback(
+    (reason: 'pointer' | 'focus' | 'visibility') => {
+      pauseReasonsRef.current.delete(reason);
+      startTimer();
+    },
+    [startTimer],
+  );
 
   useEffect(() => {
-    if (duration <= 0) return;
+    remainingRef.current = duration;
+    pauseReasonsRef.current.clear();
 
-    const timer = setTimeout(() => {
-      onDismiss(id);
-    }, duration);
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        pause('visibility');
+      } else {
+        resume('visibility');
+      }
+    };
 
-    return () => clearTimeout(timer);
-  }, [id, duration, onDismiss]);
+    if (document.hidden) {
+      pauseReasonsRef.current.add('visibility');
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    startTimer();
 
-  const displayIcon = icon ?? defaultIcons[variant];
-  const isInverse = variant === 'default';
-  const isAlert = variant === 'error' || variant === 'warning';
+    return () => {
+      clearTimer();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [clearTimer, duration, pause, resume, startTimer]);
 
-  return (
-    <div
-      className={cn(toastVariants({ variant }), 'animate-toast-enter')}
-      role={isAlert ? 'alert' : 'status'}
-      aria-live={isAlert ? 'assertive' : 'polite'}
-    >
-      {displayIcon && (
-        <div className="toast-icon size-icon-sm flex shrink-0 items-center justify-center">
-          {displayIcon}
-        </div>
-      )}
+  return { pause, resume };
+}
 
-      <div className="min-w-0 flex-1">
-        <p
-          className={cn(
-            'text-body-medium leading-tight font-medium',
-            isInverse ? 'text-inverse-on-surface' : 'text-inherit',
-          )}
-        >
-          {message}
-        </p>
-        {description && (
+export const Toast = forwardRef<HTMLDivElement, ToastProps>(
+  (
+    {
+      message,
+      description,
+      tone = 'neutral',
+      priority = tone === 'danger' ? 'assertive' : 'polite',
+      icon,
+      action,
+      duration = 5000,
+      dismissible = true,
+      onDismiss,
+      className,
+      onPointerEnter,
+      onPointerLeave,
+      onFocusCapture,
+      onBlurCapture,
+      ...props
+    },
+    ref,
+  ) => {
+    const dismiss = onDismiss ?? (() => undefined);
+    const { pause, resume } = useAutoDismiss(duration, dismiss);
+    const displayIcon = icon ?? defaultIcons[tone];
+    const isNeutral = tone === 'neutral';
+
+    const handlePointerEnter = (event: PointerEvent<HTMLDivElement>) => {
+      onPointerEnter?.(event);
+      if (!event.defaultPrevented) pause('pointer');
+    };
+
+    const handlePointerLeave = (event: PointerEvent<HTMLDivElement>) => {
+      onPointerLeave?.(event);
+      if (!event.defaultPrevented) resume('pointer');
+    };
+
+    const handleFocusCapture = (event: FocusEvent<HTMLDivElement>) => {
+      onFocusCapture?.(event);
+      if (!event.defaultPrevented) pause('focus');
+    };
+
+    const handleBlurCapture = (event: FocusEvent<HTMLDivElement>) => {
+      onBlurCapture?.(event);
+      if (
+        !event.defaultPrevented &&
+        !(event.relatedTarget instanceof Node && event.currentTarget.contains(event.relatedTarget))
+      ) {
+        resume('focus');
+      }
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          toastRecipe({ tone }),
+          'animate-toast-enter motion-reduce:animate-none',
+          className,
+        )}
+        role={priority === 'assertive' ? 'alert' : 'status'}
+        aria-live={priority}
+        aria-atomic="true"
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onFocusCapture={handleFocusCapture}
+        onBlurCapture={handleBlurCapture}
+        {...props}
+      >
+        {displayIcon && (
+          <div className="toast-icon size-icon-sm flex shrink-0 items-center justify-center">
+            {displayIcon}
+          </div>
+        )}
+
+        <div className="min-w-0 flex-1">
           <p
             className={cn(
-              'text-body-small mt-1 leading-snug',
-              isInverse ? 'text-inverse-on-surface opacity-70' : 'text-inherit opacity-80',
+              'text-body-medium leading-tight font-medium',
+              isNeutral ? 'text-inverse-on-surface' : 'text-inherit',
             )}
           >
-            {description}
+            {message}
           </p>
-        )}
-      </div>
-
-      <div className="flex shrink-0 items-center gap-2">
-        {action && (
-          <Button
-            variant="text"
-            size="sm"
-            onClick={() => {
-              action.onClick();
-              onDismiss(id);
-            }}
-            className={cn(
-              'h-8 px-3 font-medium',
-              isInverse
-                ? 'text-inverse-primary hover:bg-state-focus'
-                : 'hover:bg-state-hover text-inherit',
-            )}
-          >
-            {action.label}
-          </Button>
-        )}
-
-        {dismissible && (
-          <button
-            onClick={() => onDismiss(id)}
-            className={cn(
-              'group rounded-icon-button relative overflow-hidden p-1 transition-colors',
-              isInverse
-                ? 'text-inverse-on-surface opacity-50 hover:opacity-100'
-                : 'text-inherit opacity-70 hover:opacity-100',
-            )}
-            aria-label="Dismiss"
-          >
-            <Ripple />
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              className="relative z-10"
+          {description && (
+            <p
+              className={cn(
+                'text-body-small mt-1 leading-snug',
+                isNeutral ? 'text-inverse-on-surface opacity-70' : 'text-inherit opacity-80',
+              )}
             >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
-        )}
+              {description}
+            </p>
+          )}
+        </div>
+
+        <div className="flex shrink-0 items-center gap-1">
+          {action && (
+            <Button
+              variant="text"
+              size="sm"
+              onClick={() => {
+                action.onClick();
+                dismiss();
+              }}
+              className={cn(
+                'h-8 px-3 font-medium',
+                isNeutral
+                  ? 'text-inverse-primary hover:bg-state-focus'
+                  : 'hover:bg-state-hover text-inherit',
+              )}
+            >
+              {action.label}
+            </Button>
+          )}
+
+          {dismissible && onDismiss && (
+            <IconButton
+              aria-label="Dismiss notification"
+              icon={<Icon symbol="close" />}
+              size="sm"
+              onClick={dismiss}
+              className={cn(
+                isNeutral
+                  ? 'text-inverse-on-surface opacity-70 hover:opacity-100'
+                  : 'text-inherit opacity-70 hover:opacity-100',
+              )}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  },
+);
+
+Toast.displayName = 'Toast';
 
 export interface ToasterProps {
   position?: ToastPosition;
   maxToasts?: number;
+  className?: string;
 }
 
-function ToasterPortal({ position = 'bottom-right', maxToasts = 5 }: ToasterProps) {
-  const { toasts, dismiss } = useToast();
+export function Toaster({ position = 'bottom-right', maxToasts = 5, className }: ToasterProps) {
+  const toasts = useSyncExternalStore(
+    toastStore.subscribe,
+    toastStore.getSnapshot,
+    toastStore.getServerSnapshot,
+  );
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -228,181 +363,40 @@ function ToasterPortal({ position = 'bottom-right', maxToasts = 5 }: ToasterProp
 
   if (!mounted) return null;
 
-  const visibleToasts = toasts.slice(-maxToasts);
-  const isTop = position.startsWith('top');
+  const visibleCount = Math.max(0, Math.floor(maxToasts));
+  const visibleToasts = visibleCount === 0 ? [] : toasts.slice(-visibleCount);
+  const orderedToasts = position.startsWith('top') ? [...visibleToasts].reverse() : visibleToasts;
 
   return createPortal(
     <div
+      role="region"
+      aria-label="Notifications"
       className={cn(
         'pointer-events-none fixed z-5000 flex flex-col gap-2',
         positionClasses[position],
+        className,
       )}
     >
-      {(isTop ? visibleToasts.reverse() : visibleToasts).map((toast) => (
-        <ToastItem key={toast.id} toast={toast} onDismiss={dismiss} />
+      {orderedToasts.map((item) => (
+        <Toast key={item.id} {...item} onDismiss={() => toastStore.dismiss(item.id)} />
       ))}
     </div>,
     document.body,
   );
 }
 
-export interface ToastProviderProps {
-  children: React.ReactNode;
-  position?: ToastPosition;
-  maxToasts?: number;
-}
-
-export function ToastProvider({
-  children,
-  position = 'bottom-right',
-  maxToasts = 5,
-}: ToastProviderProps) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
-
-  const toast = useCallback((options: ToastOptions): string => {
-    const id = Math.random().toString(36).substring(2, 9);
-    const newToast: Toast = {
-      id,
-      ...options,
-    };
-    setToasts((prev) => [...prev, newToast]);
-    return id;
-  }, []);
-
-  const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
-  const dismissAll = useCallback(() => {
-    setToasts([]);
-  }, []);
-
-  useEffect(() => {
-    const host = { toastFunc: toast, dismissFunc: dismiss, dismissAllFunc: dismissAll };
-    activeToastHost = host;
-    setToastFunctions(host.toastFunc, host.dismissFunc, host.dismissAllFunc);
-    return () => {
-      if (activeToastHost === host) {
-        activeToastHost = null;
-        toastFn = null;
-        dismissFn = null;
-        dismissAllFn = null;
-      }
-    };
-  }, [toast, dismiss, dismissAll]);
-
-  return (
-    <ToastContext.Provider value={{ toasts, toast, dismiss, dismissAll }}>
-      {children}
-      <ToasterPortal position={position} maxToasts={maxToasts} />
-    </ToastContext.Provider>
-  );
-}
-
-let toastFn: ((options: ToastOptions) => string) | null = null;
-let dismissFn: ((id: string) => void) | null = null;
-let dismissAllFn: (() => void) | null = null;
-let activeToastHost: {
-  toastFunc: (options: ToastOptions) => string;
-  dismissFunc: (id: string) => void;
-  dismissAllFunc: () => void;
-} | null = null;
-
-export function setToastFunctions(
-  toastFunc: (options: ToastOptions) => string,
-  dismissFunc: (id: string) => void,
-  dismissAllFunc: () => void,
-) {
-  toastFn = toastFunc;
-  dismissFn = dismissFunc;
-  dismissAllFn = dismissAllFunc;
-}
+type ToastShortcutOptions = Omit<ToastOptions, 'message' | 'tone'>;
 
 export const toast = {
-  show: (options: ToastOptions) => {
-    if (!toastFn) {
-      console.warn('Toast: no host mounted. Mount <Toaster /> or <ToastProvider>.');
-      return '';
-    }
-    return toastFn(options);
-  },
-  success: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
-    return toast.show({ message, variant: 'success', ...options });
-  },
-  error: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
-    return toast.show({ message, variant: 'error', ...options });
-  },
-  warning: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
-    return toast.show({ message, variant: 'warning', ...options });
-  },
-  info: (message: string, options?: Omit<ToastOptions, 'message' | 'variant'>) => {
-    return toast.show({ message, variant: 'info', ...options });
-  },
-  dismiss: (id: string) => {
-    dismissFn?.(id);
-  },
-  dismissAll: () => {
-    dismissAllFn?.();
-  },
+  show: (options: ToastOptions) => toastStore.show(options),
+  success: (message: ReactNode, options?: ToastShortcutOptions) =>
+    toastStore.show({ message, tone: 'success', ...options }),
+  error: (message: ReactNode, options?: ToastShortcutOptions) =>
+    toastStore.show({ message, tone: 'danger', ...options }),
+  warning: (message: ReactNode, options?: ToastShortcutOptions) =>
+    toastStore.show({ message, tone: 'warning', ...options }),
+  info: (message: ReactNode, options?: ToastShortcutOptions) =>
+    toastStore.show({ message, tone: 'info', ...options }),
+  dismiss: (id: string) => toastStore.dismiss(id),
+  dismissAll: () => toastStore.dismissAll(),
 };
-
-export function Toaster({ position = 'bottom-right', maxToasts = 5 }: ToasterProps) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
-
-  const toastFnInternal = useCallback((options: ToastOptions): string => {
-    const id = Math.random().toString(36).substring(2, 9);
-    const newToast: Toast = { id, ...options };
-    setToasts((prev) => [...prev, newToast]);
-    return id;
-  }, []);
-
-  const dismissInternal = useCallback((id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
-  }, []);
-
-  const dismissAllInternal = useCallback(() => {
-    setToasts([]);
-  }, []);
-
-  useEffect(() => {
-    const host = {
-      toastFunc: toastFnInternal,
-      dismissFunc: dismissInternal,
-      dismissAllFunc: dismissAllInternal,
-    };
-    activeToastHost = host;
-    setToastFunctions(host.toastFunc, host.dismissFunc, host.dismissAllFunc);
-    return () => {
-      if (activeToastHost === host) {
-        activeToastHost = null;
-        toastFn = null;
-        dismissFn = null;
-        dismissAllFn = null;
-      }
-    };
-  }, [toastFnInternal, dismissInternal, dismissAllInternal]);
-
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
-
-  const visibleToasts = toasts.slice(-maxToasts);
-  const isTop = position.startsWith('top');
-
-  return createPortal(
-    <div
-      className={cn(
-        'pointer-events-none fixed z-5000 flex flex-col gap-2',
-        positionClasses[position],
-      )}
-    >
-      {(isTop ? visibleToasts.reverse() : visibleToasts).map((t) => (
-        <ToastItem key={t.id} toast={t} onDismiss={dismissInternal} />
-      ))}
-    </div>,
-    document.body,
-  );
-}

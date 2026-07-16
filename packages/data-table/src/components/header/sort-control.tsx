@@ -55,13 +55,16 @@ export function SortControl({
       onClick={onClick}
       aria-label={ariaLabel ?? 'Sort'}
       selected={isSorted}
-    >
-      <Icon symbol={iconSymbol} className={iconTextClass} />
-      {hasPriority && (
-        <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full text-[10px] leading-none font-semibold">
-          {sortPriority}
-        </span>
-      )}
-    </IconButton>
+      icon={
+        <>
+          <Icon symbol={iconSymbol} className={iconTextClass} />
+          {hasPriority && (
+            <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full text-[10px] leading-none font-semibold">
+              {sortPriority}
+            </span>
+          )}
+        </>
+      }
+    />
   );
 }

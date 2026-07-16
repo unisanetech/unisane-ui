@@ -1,6 +1,10 @@
 import type { DocsBlockCodeExample } from './types';
 
-function createSingleFileCodeExample(path: string, language: string, code: string): DocsBlockCodeExample {
+function createSingleFileCodeExample(
+  path: string,
+  language: string,
+  code: string,
+): DocsBlockCodeExample {
   return {
     entryFile: path,
     files: [
@@ -19,7 +23,11 @@ export function getCodeExampleEntryCode(codeExample: DocsBlockCodeExample): stri
     return codeExample.files[0]?.code ?? '';
   }
 
-  return codeExample.files.find((file) => file.path === entryFile)?.code ?? codeExample.files[0]?.code ?? '';
+  return (
+    codeExample.files.find((file) => file.path === entryFile)?.code ??
+    codeExample.files[0]?.code ??
+    ''
+  );
 }
 
 export const APP_SHELL_CODE_EXAMPLE: DocsBlockCodeExample = {
@@ -28,30 +36,23 @@ export const APP_SHELL_CODE_EXAMPLE: DocsBlockCodeExample = {
     {
       path: 'blocks/app-shell/app-shell-block.tsx',
       language: 'tsx',
-      code: `import {
-  SearchBar,
+      code: `import { SearchBar } from "@/components/ui/search-bar";
+import { TopAppBar } from "@/components/ui/top-app-bar";
+import {
   Sidebar,
-  SidebarContent,
   SidebarDrawer,
-  SidebarHeader,
   SidebarInset,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarNavItem,
   SidebarProvider,
   SidebarRail,
-  SidebarRailItem,
-  TopAppBar,
-  Typography,
-} from "@unisane/ui";
-import { navigationItems, workspaceChildIds } from "./navigation-items";
+} from "@/components/ui/sidebar";
+import { navigationItems } from "./navigation-items";
 import { WorkspaceContent } from "./workspace-content";
 
 export function AppShellBlock() {
   return (
     <SidebarProvider
       items={navigationItems}
-      defaultActiveId="overview"
+      defaultValue="overview"
       defaultExpanded
       persist={false}
       containerMode="contained"
@@ -59,37 +60,8 @@ export function AppShellBlock() {
     >
       <div className="h-full w-full overflow-hidden rounded-sm border border-outline-soft">
         <Sidebar className="h-full">
-          <SidebarRail>
-            <SidebarRailItem
-              id="workspace"
-              label="Workspace"
-              icon="space_dashboard"
-              childIds={workspaceChildIds}
-            />
-            <SidebarRailItem id="queue" label="Queue" icon="inbox" />
-            <SidebarRailItem id="reports" label="Reports" icon="bar_chart" />
-            <SidebarRailItem id="settings-root" label="Settings" icon="settings" />
-          </SidebarRail>
-
-          <SidebarDrawer>
-            <SidebarHeader>
-              <Typography variant="labelLarge" className="text-on-surface-variant">
-                Workspace
-              </Typography>
-            </SidebarHeader>
-            <SidebarContent>
-              <SidebarMenu>
-                {workspaceChildIds.map((id) => (
-                  <SidebarMenuItem key={id}>
-                    <SidebarNavItem
-                      id={id}
-                      label={id.charAt(0).toUpperCase() + id.slice(1)}
-                    />
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarContent>
-          </SidebarDrawer>
+          <SidebarRail aria-label="App navigation" />
+          <SidebarDrawer aria-label="App navigation" overlayHeadline="Navigation" />
 
           <SidebarInset className="h-full">
             <TopAppBar
@@ -116,9 +88,7 @@ export function AppShellBlock() {
     {
       path: 'blocks/app-shell/navigation-items.ts',
       language: 'ts',
-      code: `import type { NavigationItem } from "@unisane/ui";
-
-export const workspaceChildIds = ["overview", "team", "billing", "settings"];
+      code: `import type { NavigationItem } from "@/types/navigation";
 
 export const navigationItems: NavigationItem[] = [
   {
@@ -187,7 +157,11 @@ export function SupportingPaneBlock() {
 export const AUTH_SPLIT_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/auth/auth-split-block.tsx',
   'tsx',
-  `import { Button, Checkbox, Surface, TextField, Typography } from "@unisane/ui";
+  `import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Surface } from "@/components/ui/surface";
+import { TextField } from "@/components/ui/text-field";
+import { Typography } from "@/components/ui/typography";
 
 export function AuthSplitBlock() {
   return (
@@ -211,7 +185,11 @@ export function AuthSplitBlock() {
 export const AUTH_CENTERED_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/auth/auth-centered-block.tsx',
   'tsx',
-  `import { Button, Checkbox, Surface, TextField, Typography } from "@unisane/ui";
+  `import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Surface } from "@/components/ui/surface";
+import { TextField } from "@/components/ui/text-field";
+import { Typography } from "@/components/ui/typography";
 
 export function AuthCenteredBlock() {
   return (
@@ -231,7 +209,8 @@ export function AuthCenteredBlock() {
 export const REVIEW_QUEUE_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/review-queue/review-queue-block.tsx',
   'tsx',
-  `import { Badge, Button, Card, Pagination, Surface, Typography } from "@unisane/ui";
+  `import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Badge } from '@/components/ui/badge';
 
 export function ReviewQueueBlock() {
   return (
@@ -263,7 +242,10 @@ export function ReviewQueueBlock() {
 export const AI_CHAT_WORKSPACE_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/ai-chat-workspace/ai-chat-workspace-block.tsx',
   'tsx',
-  `import { Button, Surface, TextField, Typography } from "@unisane/ui";
+  `import { Button } from "@/components/ui/button";
+import { Surface } from "@/components/ui/surface";
+import { TextField } from "@/components/ui/text-field";
+import { Typography } from "@/components/ui/typography";
 
 export function AiChatWorkspaceBlock() {
   return (

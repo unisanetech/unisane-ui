@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Surface, TextField, Typography } from '@unisane/ui';
+import { Button, Surface, Typography } from '@unisane/ui';
+import { TextField } from '@unisane/ui/text-field';
 
 export function AiChatWorkspaceBlock() {
   return (
