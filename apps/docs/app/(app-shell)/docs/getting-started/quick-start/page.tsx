@@ -1,7 +1,10 @@
 'use client';
 
 import { DocLayout, DocSection, CliCommand } from '@/features/docs-page';
-import { Card, Typography, Button, IconButton } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
+import { Typography } from '@unisane/ui/typography';
+import { Button } from '@unisane/ui/button';
+import { IconButton } from '@unisane/ui/icon-button';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { TextField } from '@unisane/ui/text-field';
 import { useState } from 'react';

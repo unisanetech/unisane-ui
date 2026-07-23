@@ -1,6 +1,8 @@
 'use client';
 
-import { Card, Surface, Typography } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { SelectField } from '@unisane/ui/select-field';

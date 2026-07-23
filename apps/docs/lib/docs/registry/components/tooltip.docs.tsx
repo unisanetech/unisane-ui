@@ -2,7 +2,9 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { Tooltip, IconButton, Button } from '@unisane/ui';
+import { Tooltip } from '@unisane/ui/tooltip';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Button } from '@unisane/ui/button';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const TooltipHeroVisual = () => (
@@ -66,7 +68,7 @@ export const tooltipDoc: ComponentDoc = {
   icon: 'help',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/tooltip',
   exports: ['Tooltip'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
@@ -294,7 +296,9 @@ export const tooltipDoc: ComponentDoc = {
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
     description: 'Wrap any element with Tooltip to add hover hints.',
-    code: `import { Tooltip, IconButton, Button } from "@unisane/ui";
+    code: `import { Tooltip } from "@/components/ui/tooltip";
+import { IconButton } from "@/components/ui/icon-button";
+import { Button } from "@/components/ui/button";
 
 function Toolbar() {
   return (

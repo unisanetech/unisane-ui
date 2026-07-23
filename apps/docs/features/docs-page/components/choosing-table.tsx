@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import type { ChoosingTableDef } from "@/lib/docs/registry/types";
-import { Surface, Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import type { ChoosingTableDef } from '@/lib/docs/registry/types';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface ChoosingTableProps {
   choosing: ChoosingTableDef;
@@ -30,21 +31,17 @@ interface ColumnLabels {
  */
 export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
   const columns: ColumnLabels = {
-    emphasis: choosing.columns?.emphasis || "Level of emphasis",
-    component: choosing.columns?.component || "Component",
-    rationale: choosing.columns?.rationale || "Rationale",
-    examples: choosing.columns?.examples || "Example actions",
+    emphasis: choosing.columns?.emphasis || 'Level of emphasis',
+    component: choosing.columns?.component || 'Component',
+    rationale: choosing.columns?.rationale || 'Rationale',
+    examples: choosing.columns?.examples || 'Example actions',
   };
 
   const hasExamples = choosing.rows.some((row) => row.examples);
 
   return (
-    <div className={cn("w-full", className)}>
-      <Surface
-        tone="surfaceContainerLow"
-        rounded="sm"
-        className="@2xl:hidden overflow-visible"
-      >
+    <div className={cn('w-full', className)}>
+      <Surface tone="surfaceContainerLow" rounded="sm" className="overflow-visible @2xl:hidden">
         {choosing.rows.map((row, index) => (
           <ChoosingCard
             key={index}
@@ -60,22 +57,22 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
       <Surface
         tone="surfaceContainerLow"
         rounded="sm"
-        className="hidden @2xl:block overflow-visible"
+        className="hidden overflow-visible @2xl:block"
       >
-        <table className="w-full text-body-medium">
+        <table className="text-body-medium w-full">
           <thead>
-            <tr className="bg-surface-container-low border-b border-outline-variant">
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+            <tr className="bg-surface-container-low border-outline-variant border-b">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 {columns.emphasis}
               </th>
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 {columns.component}
               </th>
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 {columns.rationale}
               </th>
               {hasExamples && (
-                <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                   {columns.examples}
                 </th>
               )}
@@ -85,19 +82,19 @@ export function ChoosingTable({ choosing, className }: ChoosingTableProps) {
             {choosing.rows.map((row, index) => (
               <tr
                 key={index}
-                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
+                className="border-outline-variant hover:bg-surface-container-low border-b transition-colors last:border-none"
               >
-                <td className="px-5 py-4 text-body-medium font-medium text-on-surface">
+                <td className="text-body-medium text-on-surface px-5 py-4 font-medium">
                   {row.emphasis}
                 </td>
                 <td className="px-5 py-4">
                   <div className="max-w-full overflow-visible">{row.component}</div>
                 </td>
-                <td className="px-5 py-4 text-body-small text-on-surface-variant leading-relaxed">
+                <td className="text-body-small text-on-surface-variant px-5 py-4 leading-relaxed">
                   {row.rationale}
                 </td>
                 {hasExamples && (
-                  <td className="px-5 py-4 text-body-small text-on-surface-variant font-medium">
+                  <td className="text-body-small text-on-surface-variant px-5 py-4 font-medium">
                     {row.examples}
                   </td>
                 )}
@@ -125,21 +122,12 @@ function ChoosingCard({
   isLast: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "py-4 @sm:px-5 @sm:py-5",
-        !isLast && "border-b border-outline-variant"
-      )}
-    >
+    <div className={cn('py-4 @sm:px-5 @sm:py-5', !isLast && 'border-outline-variant border-b')}>
       <div className="mb-3 @sm:mb-4">
         <Typography variant="labelSmall" component="p" className="text-on-surface-variant">
           {columns.emphasis}
         </Typography>
-        <Typography
-          variant="titleSmall"
-          component="p"
-          className="mt-1 text-primary"
-        >
+        <Typography variant="titleSmall" component="p" className="text-primary mt-1">
           {row.emphasis}
         </Typography>
       </div>
@@ -148,19 +136,19 @@ function ChoosingCard({
         <Typography variant="labelSmall" component="p" className="text-on-surface-variant">
           {columns.component}
         </Typography>
-        <div className="mt-1 max-w-full overflow-visible text-body-medium text-on-surface">
+        <div className="text-body-medium text-on-surface mt-1 max-w-full overflow-visible">
           {row.component}
         </div>
       </div>
 
-      <div className={hasExamples && row.examples ? "mb-3 @sm:mb-4" : ""}>
+      <div className={hasExamples && row.examples ? 'mb-3 @sm:mb-4' : ''}>
         <Typography variant="labelSmall" component="p" className="text-on-surface-variant">
           {columns.rationale}
         </Typography>
         <Typography
           variant="bodySmall"
           component="p"
-          className="mt-1 text-on-surface-variant leading-relaxed"
+          className="text-on-surface-variant mt-1 leading-relaxed"
         >
           {row.rationale}
         </Typography>
@@ -174,7 +162,7 @@ function ChoosingCard({
           <Typography
             variant="bodySmall"
             component="p"
-            className="mt-1 text-on-surface-variant font-medium"
+            className="text-on-surface-variant mt-1 font-medium"
           >
             {row.examples}
           </Typography>

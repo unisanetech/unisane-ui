@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { BLOCK_REGISTRY } from '@/lib/docs/blocks/block-registry';
 import {
   BLOCK_CATEGORY_META,
@@ -86,7 +87,10 @@ function BlocksSegmentSection({
           <Typography variant="headlineMedium" component="h2">
             {segmentMeta.label}
           </Typography>
-          <Link href={getBlockSegmentHref(segment)} className="text-label-large text-primary hover:underline">
+          <Link
+            href={getBlockSegmentHref(segment)}
+            className="text-label-large text-primary hover:underline"
+          >
             View all
           </Link>
         </div>
@@ -109,7 +113,7 @@ function BlocksSegmentSection({
       {blocks.length > 0 ? (
         <BlockGrid blocks={blocks} />
       ) : (
-        <div className="text-on-surface-variant text-body-large rounded-sm border border-dashed border-outline-variant p-6">
+        <div className="text-on-surface-variant text-body-large border-outline-variant rounded-sm border border-dashed p-6">
           No blocks are published in this segment yet.
         </div>
       )}
@@ -151,7 +155,7 @@ function BlocksCategorySection({
       {blocks.length > 0 ? (
         <BlockGrid blocks={blocks} />
       ) : (
-        <div className="text-on-surface-variant text-body-large rounded-sm border border-dashed border-outline-variant p-6">
+        <div className="text-on-surface-variant text-body-large border-outline-variant rounded-sm border border-dashed p-6">
           No blocks are published in this category yet.
         </div>
       )}

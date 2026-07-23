@@ -175,6 +175,7 @@ async function checkComponentDrift() {
 
     // Check for files in registry but not in src (orphaned)
     for (const file of regFiles) {
+      if (folder === 'components' && file.startsWith(`data-table${path.sep}`)) continue;
       if (!srcFiles.includes(file)) {
         orphanedCount++;
         warn(`Orphaned in registry (not in src): ${folder}/${file}`);

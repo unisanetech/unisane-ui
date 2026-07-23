@@ -1,37 +1,38 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { DesktopPreviewFrame } from "../../runtime/desktop-preview-frame";
-import { ListDetailLayout, PaneGroup } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { DesktopPreviewFrame } from '../../runtime/desktop-preview-frame';
+import { ListDetailLayout } from '@unisane/ui/canonical-layouts';
+import { PaneGroup } from '@unisane/ui/pane-group';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const PaneGroupHeroVisual = () => (
   <HeroBackground tone="surface" padding="sm">
     <DesktopPreviewFrame designWidth={960} designHeight={560} className="max-w-3xl">
-      <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface shadow-xl">
+      <div className="border-outline-variant bg-surface relative isolate h-full w-full overflow-hidden rounded-sm border shadow-xl">
         <div className="flex h-full w-full">
-          <div className="w-72 shrink-0 border-r border-outline-variant bg-surface">
+          <div className="border-outline-variant bg-surface w-72 shrink-0 border-r">
             <div className="space-y-2 p-3">
               <div className="text-label-small text-on-surface-variant">Mailboxes</div>
-              <div className="rounded-sm bg-secondary-container p-2 text-label-small text-primary">
+              <div className="bg-secondary-container text-label-small text-primary rounded-sm p-2">
                 Inbox
               </div>
-              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              <div className="bg-surface-container-high text-label-small text-on-surface rounded-sm p-2">
                 Sent
               </div>
-              <div className="rounded-sm bg-surface-container-high p-2 text-label-small text-on-surface">
+              <div className="bg-surface-container-high text-label-small text-on-surface rounded-sm p-2">
                 Drafts
               </div>
             </div>
           </div>
-          <div className="min-w-0 flex-1 bg-surface-container-low">
+          <div className="bg-surface-container-low min-w-0 flex-1">
             <div className="space-y-3 p-4">
               <div className="text-title-small text-on-surface">Inbox</div>
-              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+              <div className="border-outline-variant bg-surface text-body-small text-on-surface rounded-sm border p-2">
                 Welcome to your new workspace.
               </div>
-              <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface-variant">
+              <div className="border-outline-variant bg-surface text-body-small text-on-surface-variant rounded-sm border p-2">
                 Team update posted 2h ago.
               </div>
             </div>
@@ -44,27 +45,26 @@ const PaneGroupHeroVisual = () => (
 
 // ─── EXAMPLES ────────────────────────────────────────────────────────────────
 const BasicPaneGroupExample = () => (
-  <div className="relative isolate h-full w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+  <div className="border-outline-variant bg-surface relative isolate h-full w-full overflow-hidden rounded-sm border">
     <PaneGroup
-      isRoot
-      list={
+      sidebar={
         <div className="space-y-2 p-3">
           <div className="text-label-small text-on-surface-variant">Folders</div>
-          <div className="rounded-sm bg-secondary-container p-2 text-label-medium text-primary">
+          <div className="bg-secondary-container text-label-medium text-primary rounded-sm p-2">
             Inbox
           </div>
-          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Sent</div>
-          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Drafts</div>
-          <div className="rounded-sm p-2 text-label-medium text-on-surface-variant">Trash</div>
+          <div className="text-label-medium text-on-surface-variant rounded-sm p-2">Sent</div>
+          <div className="text-label-medium text-on-surface-variant rounded-sm p-2">Drafts</div>
+          <div className="text-label-medium text-on-surface-variant rounded-sm p-2">Trash</div>
         </div>
       }
       detail={
         <div className="space-y-2 p-4">
           <div className="text-title-medium text-on-surface">Inbox</div>
-          <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+          <div className="border-outline-variant bg-surface text-body-small text-on-surface rounded-sm border p-2">
             Welcome to your inbox
           </div>
-          <div className="rounded-sm border border-outline-variant bg-surface p-2 text-body-small text-on-surface">
+          <div className="border-outline-variant bg-surface text-body-small text-on-surface rounded-sm border p-2">
             New message from Alice
           </div>
         </div>
@@ -75,39 +75,38 @@ const BasicPaneGroupExample = () => (
 
 const ResponsivePaneGroupExample = () => (
   <div className="w-full space-y-4">
-    <div className="relative isolate h-44 w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <div className="border-outline-variant bg-surface relative isolate h-44 w-full overflow-hidden rounded-sm border">
       <PaneGroup
-        isRoot
-        list={
+        sidebar={
           <div className="space-y-1 p-2">
             <div className="text-label-small text-on-surface-variant">Desktop</div>
-            <div className="h-6 rounded-md bg-secondary-container" />
-            <div className="h-6 rounded-md bg-surface-container-high" />
-            <div className="h-6 rounded-md bg-surface-container-high" />
+            <div className="bg-secondary-container h-6 rounded-md" />
+            <div className="bg-surface-container-high h-6 rounded-md" />
+            <div className="bg-surface-container-high h-6 rounded-md" />
           </div>
         }
         detail={
           <div className="space-y-1 p-3">
-            <div className="h-3 w-1/3 rounded-sm bg-outline-muted" />
-            <div className="h-2 rounded-sm bg-surface-container-high" />
-            <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+            <div className="bg-outline-muted h-3 w-1/3 rounded-sm" />
+            <div className="bg-surface-container-high h-2 rounded-sm" />
+            <div className="bg-surface-container-high h-2 w-3/4 rounded-sm" />
           </div>
         }
       />
     </div>
-    <div className="relative isolate h-36 w-56 max-w-full overflow-hidden rounded-sm border border-outline-variant bg-surface">
+    <div className="border-outline-variant bg-surface relative isolate h-36 w-56 max-w-full overflow-hidden rounded-sm border">
       <ListDetailLayout
         isRoot
         showDetailMobile={false}
         list={
           <div className="space-y-1 p-2">
             <div className="text-label-small text-on-surface-variant">Mobile list</div>
-            <div className="h-8 rounded-md bg-secondary-container" />
-            <div className="h-8 rounded-md bg-surface-container-high" />
-            <div className="h-8 rounded-md bg-surface-container-high" />
+            <div className="bg-secondary-container h-8 rounded-md" />
+            <div className="bg-surface-container-high h-8 rounded-md" />
+            <div className="bg-surface-container-high h-8 rounded-md" />
           </div>
         }
-        detail={<div className="p-2 text-body-small text-on-surface-variant">Detail</div>}
+        detail={<div className="text-body-small text-on-surface-variant p-2">Detail</div>}
       />
     </div>
   </div>
@@ -115,22 +114,22 @@ const ResponsivePaneGroupExample = () => (
 
 export const paneGroupDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "pane-group",
-  name: "Pane Group",
+  slug: 'pane-group',
+  name: 'Pane Group',
   description:
-    "A simple two-pane layout component for list/detail patterns. Automatically handles responsive behavior with mobile-first approach.",
-  category: "layout",
-  status: "stable",
-  icon: "view_sidebar",
+    'A simple two-pane layout component for list/detail patterns. Automatically handles responsive behavior with mobile-first approach.',
+  category: 'layout',
+  status: 'stable',
+  icon: 'view_sidebar',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["PaneGroup"],
+  importPath: '@/components/ui/pane-group',
+  exports: ['PaneGroup'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <PaneGroupHeroVisual />,
   heroPreview: {
-    minHeight: "xl",
+    minHeight: 'xl',
   },
   docsLayout: {
     hideChoosing: true,
@@ -139,62 +138,60 @@ export const paneGroupDoc: ComponentDoc = {
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
-    description:
-      "Choose between PaneGroup and Canonical Layouts based on your needs.",
+    description: 'Choose between PaneGroup and Canonical Layouts based on your needs.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Component',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "PaneGroup",
+        emphasis: 'PaneGroup',
         component: (
-          <div className="relative isolate h-32 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+          <div className="border-outline-variant bg-surface relative isolate h-32 w-60 overflow-hidden rounded-sm border">
             <PaneGroup
-              isRoot
-              list={
+              sidebar={
                 <div className="space-y-2 p-2">
-                  <div className="h-6 rounded-sm bg-secondary-container" />
-                  <div className="h-6 rounded-sm bg-surface-container-high" />
+                  <div className="bg-secondary-container h-6 rounded-sm" />
+                  <div className="bg-surface-container-high h-6 rounded-sm" />
                 </div>
               }
               detail={
                 <div className="space-y-2 p-3">
-                  <div className="h-2 rounded-sm bg-surface-container-high" />
-                  <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+                  <div className="bg-surface-container-high h-2 rounded-sm" />
+                  <div className="bg-surface-container-high h-2 w-3/4 rounded-sm" />
                 </div>
               }
             />
           </div>
         ),
-        rationale: "Simple two-pane layout with basic responsive behavior.",
-        examples: "Settings, Simple sidebar",
+        rationale: 'Simple two-pane layout with basic responsive behavior.',
+        examples: 'Settings, Simple sidebar',
       },
       {
-        emphasis: "ListDetailLayout",
+        emphasis: 'ListDetailLayout',
         component: (
-          <div className="relative isolate h-32 w-60 overflow-hidden rounded-sm border border-outline-variant bg-surface">
+          <div className="border-outline-variant bg-surface relative isolate h-32 w-60 overflow-hidden rounded-sm border">
             <ListDetailLayout
               isRoot
               list={
                 <div className="space-y-2 p-2">
-                  <div className="h-6 rounded-sm bg-secondary-container" />
-                  <div className="h-6 rounded-sm bg-surface-container-high" />
+                  <div className="bg-secondary-container h-6 rounded-sm" />
+                  <div className="bg-surface-container-high h-6 rounded-sm" />
                 </div>
               }
               detail={
                 <div className="space-y-2 p-3">
-                  <div className="h-2 rounded-sm bg-surface-container-high" />
-                  <div className="h-2 w-3/4 rounded-sm bg-surface-container-high" />
+                  <div className="bg-surface-container-high h-2 rounded-sm" />
+                  <div className="bg-surface-container-high h-2 w-3/4 rounded-sm" />
                 </div>
               }
             />
           </div>
         ),
-        rationale: "Full-featured layout with back button and mobile transitions.",
-        examples: "Email, Chat, File explorer",
+        rationale: 'Full-featured layout with back button and mobile transitions.',
+        examples: 'Email, Chat, File explorer',
       },
     ],
   },
@@ -202,24 +199,24 @@ export const paneGroupDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "PaneGroup works best as a content container within your app shell. It handles the list/detail split automatically.",
+      'PaneGroup works best as a content container within your app shell. It handles the list/detail split automatically.',
     previewDefaults: {
-      tone: "surfaceContainerLow",
-      minHeight: "xl",
-      padding: "none",
-      align: "start",
-      justify: "start",
+      tone: 'surfaceContainerLow',
+      minHeight: 'xl',
+      padding: 'none',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Basic two-pane layout",
+        title: 'Basic two-pane layout',
         visual: <BasicPaneGroupExample />,
-        caption: "List pane with navigation and detail content area",
+        caption: 'List pane with navigation and detail content area',
       },
       {
-        title: "Responsive behavior",
+        title: 'Responsive behavior',
         visual: <ResponsivePaneGroupExample />,
-        caption: "Shows list or detail based on screen size and showDetailMobile prop",
+        caption: 'Shows list or detail based on screen size and showDetailMobile prop',
       },
     ],
   },
@@ -227,50 +224,50 @@ export const paneGroupDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "list",
-      type: "ReactNode",
+      name: 'sidebar',
+      type: 'ReactNode',
       required: true,
-      description: "Content for the list pane.",
+      description: 'Content for the list pane.',
     },
     {
-      name: "detail",
-      type: "ReactNode",
+      name: 'detail',
+      type: 'ReactNode',
       required: true,
-      description: "Content for the detail/main pane.",
+      description: 'Content for the detail/main pane.',
     },
     {
-      name: "showDetailMobile",
-      type: "boolean",
-      default: "false",
-      description: "On mobile, shows detail pane instead of list when true.",
+      name: 'showDetail',
+      type: 'boolean',
+      default: 'false',
+      description: 'On mobile, shows detail pane instead of list when true.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes for the container.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes for the container.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses semantic div structure for layout.",
-      "Content in each pane maintains proper heading hierarchy.",
-      "Hidden panes are visually hidden but accessible to screen readers on mobile.",
+      'Uses semantic div structure for layout.',
+      'Content in each pane maintains proper heading hierarchy.',
+      'Hidden panes are visually hidden but accessible to screen readers on mobile.',
     ],
     keyboard: [
-      { key: "Tab", description: "Navigate between interactive elements in visible pane" },
+      { key: 'Tab', description: 'Navigate between interactive elements in visible pane' },
     ],
     focus: [
-      "Focus remains in the visible pane on mobile.",
-      "Transitions include duration for smooth animation.",
+      'Focus remains in the visible pane on mobile.',
+      'Transitions include duration for smooth animation.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use PaneGroup with state to control mobile detail visibility.",
-    code: `import { PaneGroup } from "@unisane/ui";
+    description: 'Use PaneGroup with state to control the mobile detail visibility.',
+    code: `import { PaneGroup } from "@/components/ui/pane-group";
 import { useState } from "react";
 
 function SettingsPage() {
@@ -278,7 +275,7 @@ function SettingsPage() {
 
   return (
     <PaneGroup
-      list={
+      sidebar={
         <nav className="p-4 space-y-2">
           <h2 className="text-title-medium mb-4">Settings</h2>
           <button
@@ -311,7 +308,7 @@ function SettingsPage() {
           )}
         </div>
       }
-      showDetailMobile={!!selectedSection}
+      showDetail={!!selectedSection}
       className="h-screen"
     />
   );
@@ -321,16 +318,16 @@ function SettingsPage() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "canonical-layouts",
-      reason: "More feature-rich layouts with back buttons and mobile transitions.",
+      slug: 'canonical-layouts',
+      reason: 'More feature-rich layouts with back buttons and mobile transitions.',
     },
     {
-      slug: "sidebar",
-      reason: "App-level navigation sidebar with rail and drawer patterns.",
+      slug: 'sidebar',
+      reason: 'App-level navigation sidebar with rail and drawer patterns.',
     },
     {
-      slug: "navigation-drawer",
-      reason: "Use for modal navigation overlay patterns.",
+      slug: 'navigation-drawer',
+      reason: 'Use for modal navigation overlay patterns.',
     },
   ],
 };

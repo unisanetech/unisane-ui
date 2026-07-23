@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import {
   BLOCK_CATEGORY_META,
   BLOCK_SEGMENT_CATEGORY_ORDER,
@@ -50,10 +51,12 @@ export function BlocksSegmentPage({ segment }: { segment: DocsBlockSegment }) {
         <Surface
           tone={heroVisuals.tone}
           rounded="md"
-          className="px-7 py-9 @sm:px-9 @sm:py-11 expanded:px-14 expanded:py-14"
+          className="expanded:px-14 expanded:py-14 px-7 py-9 @sm:px-9 @sm:py-11"
         >
           <div className="space-y-5">
-            <div className={`flex flex-wrap items-center gap-3 text-sm font-medium tracking-[0.02em] ${heroVisuals.supportingClassName}`}>
+            <div
+              className={`flex flex-wrap items-center gap-3 text-sm font-medium tracking-[0.02em] ${heroVisuals.supportingClassName}`}
+            >
               <span>Blocks</span>
               <span aria-hidden="true" className="text-current/40">
                 /
@@ -119,7 +122,7 @@ export function BlocksSegmentCategoryPage({
         <Surface
           tone={heroVisuals.tone}
           rounded="md"
-          className="px-7 py-9 @sm:px-9 @sm:py-11 expanded:px-14 expanded:py-14"
+          className="expanded:px-14 expanded:py-14 px-7 py-9 @sm:px-9 @sm:py-11"
         >
           <div className="space-y-6">
             <div
@@ -129,7 +132,9 @@ export function BlocksSegmentCategoryPage({
               <span aria-hidden="true" className="text-current/40">
                 /
               </span>
-              <span>{blocks.length} {blocks.length === 1 ? 'block' : 'blocks'}</span>
+              <span>
+                {blocks.length} {blocks.length === 1 ? 'block' : 'blocks'}
+              </span>
             </div>
 
             <div className="space-y-3">
@@ -158,7 +163,7 @@ export function BlocksSegmentCategoryPage({
               <section
                 key={`${segment}-${category}-${block.slug}`}
                 id={block.slug}
-                className="scroll-mt-24 border-b border-outline-weak last:border-b-0"
+                className="border-outline-weak scroll-mt-24 border-b last:border-b-0"
               >
                 <BlockShowcaseSection block={block} />
               </section>

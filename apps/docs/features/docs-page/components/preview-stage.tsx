@@ -1,7 +1,7 @@
 'use client';
 
-import { Surface } from '@unisane/ui';
-import { cn } from '@unisane/ui/lib/utils';
+import { Surface } from '@unisane/ui/surface';
+import { cn } from '@unisane/ui/utils';
 import type { PreviewStageConfig } from '@/lib/docs/registry/types';
 
 interface PreviewStageProps {
@@ -72,7 +72,7 @@ export function PreviewStage({ children, config, className }: PreviewStageProps)
         className,
       )}
     >
-      <div className="relative h-full w-full min-h-0 min-w-0 max-w-full">{children}</div>
+      <div className="relative h-full min-h-0 w-full max-w-full min-w-0">{children}</div>
     </Surface>
   );
 }

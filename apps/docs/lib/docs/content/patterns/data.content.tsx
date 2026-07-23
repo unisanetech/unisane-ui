@@ -1,4 +1,8 @@
-import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Pagination } from '@unisane/ui/pagination';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { dataPatternMeta as meta } from './pattern-page-meta';
@@ -111,7 +115,11 @@ export const dataPatternPage: PatternPageDoc = {
             </Card>
           ),
           code: `import { Badge } from '@/components/ui/badge';
-import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Pagination } from '@/components/ui/pagination';
+import { Surface } from '@/components/ui/surface';
+import { Typography } from '@/components/ui/typography';
 
 export function ReviewQueueBlock() {
   return (
@@ -170,7 +178,8 @@ export function ReviewQueueBlock() {
               ))}
             </div>
           ),
-          code: `import { Card, Typography } from "@unisane/ui";
+          code: `import { Card } from "@/components/ui/card";
+import { Typography } from "@/components/ui/typography";
 
 export function SummaryCardCluster() {
   return (

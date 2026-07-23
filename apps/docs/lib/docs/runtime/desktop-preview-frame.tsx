@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { cn } from "@unisane/ui/lib/utils";
+import { useEffect, useRef, useState } from 'react';
+import { cn } from '@unisane/ui/utils';
 
 interface DesktopPreviewFrameProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ export function DesktopPreviewFrame({
 
   useEffect(() => {
     const host = hostRef.current;
-    if (!host || typeof ResizeObserver === "undefined") {
+    if (!host || typeof ResizeObserver === 'undefined') {
       return;
     }
 
@@ -41,7 +41,7 @@ export function DesktopPreviewFrame({
   const scaledHeight = Math.max(1, Math.round(designHeight * scale));
 
   return (
-    <div ref={hostRef} className={cn("w-full", className)}>
+    <div ref={hostRef} className={cn('w-full', className)}>
       <div
         className="mx-auto"
         style={{ width: Math.max(1, Math.round(designWidth * scale)), height: scaledHeight }}

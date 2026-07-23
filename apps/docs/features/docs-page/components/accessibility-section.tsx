@@ -1,18 +1,16 @@
-"use client";
+'use client';
 
-import type { AccessibilityDef } from "@/lib/docs/registry/types";
-import { Surface, Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import type { AccessibilityDef } from '@/lib/docs/registry/types';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface AccessibilityInfoProps {
   accessibility: AccessibilityDef;
   className?: string;
 }
 
-export function AccessibilityInfo({
-  accessibility,
-  className,
-}: AccessibilityInfoProps) {
+export function AccessibilityInfo({ accessibility, className }: AccessibilityInfoProps) {
   const hasContent =
     accessibility.keyboard?.length ||
     accessibility.screenReader?.length ||
@@ -26,7 +24,7 @@ export function AccessibilityInfo({
 
   if (isSimpleFormat && accessibility.screenReader?.length) {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn('space-y-4', className)}>
         <Typography
           variant="bodyLarge"
           component="p"
@@ -35,12 +33,9 @@ export function AccessibilityInfo({
           {accessibility.screenReader[0]}
         </Typography>
         {accessibility.screenReader.length > 1 && (
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             {accessibility.screenReader.slice(1).map((item, index) => (
-              <li
-                key={index}
-                className="text-body-medium text-on-surface-variant leading-relaxed"
-              >
+              <li key={index} className="text-body-medium text-on-surface-variant leading-relaxed">
                 {item}
               </li>
             ))}
@@ -51,46 +46,37 @@ export function AccessibilityInfo({
   }
 
   return (
-    <div className={cn("space-y-8", className)}>
+    <div className={cn('space-y-8', className)}>
       {/* Keyboard Navigation */}
       {accessibility.keyboard?.length && (
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px]! text-primary">
-              keyboard
-            </span>
+            <span className="material-symbols-outlined text-primary text-[20px]!">keyboard</span>
             <Typography variant="titleMedium" component="h4">
               Keyboard Navigation
             </Typography>
           </div>
-          <Surface
-            tone="surfaceContainerLow"
-            rounded="sm"
-            className="overflow-x-auto"
-          >
-            <table className="w-full text-body-small">
+          <Surface tone="surfaceContainerLow" rounded="sm" className="overflow-x-auto">
+            <table className="text-body-small w-full">
               <thead>
-                <tr className="bg-surface-container-low border-b border-outline-variant">
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface w-1/3">
+                <tr className="bg-surface-container-low border-outline-variant border-b">
+                  <th className="text-label-medium text-on-surface w-1/3 px-5 py-4 text-left font-semibold">
                     Key
                   </th>
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                  <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
                 {accessibility.keyboard.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-outline-variant last:border-none"
-                  >
+                  <tr key={index} className="border-outline-variant border-b last:border-none">
                     <td className="px-5 py-4">
-                      <kbd className="inline-flex items-center gap-1 px-2 py-1 bg-surface-container rounded-sm text-label-medium font-mono font-medium text-on-surface border border-outline-variant">
+                      <kbd className="bg-surface-container text-label-medium text-on-surface border-outline-variant inline-flex items-center gap-1 rounded-sm border px-2 py-1 font-mono font-medium">
                         {item.key}
                       </kbd>
                     </td>
-                    <td className="px-5 py-4 text-on-surface-variant font-medium">
+                    <td className="text-on-surface-variant px-5 py-4 font-medium">
                       {item.description}
                     </td>
                   </tr>
@@ -105,9 +91,7 @@ export function AccessibilityInfo({
       {accessibility.screenReader?.length && (
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px]! text-primary">
-              hearing
-            </span>
+            <span className="material-symbols-outlined text-primary text-[20px]!">hearing</span>
             <Typography variant="titleMedium" component="h4">
               Screen Reader Support
             </Typography>
@@ -120,7 +104,7 @@ export function AccessibilityInfo({
                   rounded="sm"
                   className="flex items-start gap-3 p-5"
                 >
-                  <span className="material-symbols-outlined text-[16px]! text-primary shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-primary mt-0.5 shrink-0 text-[16px]!">
                     check
                   </span>
                   <Typography
@@ -141,7 +125,7 @@ export function AccessibilityInfo({
       {accessibility.focus?.length && (
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[20px]! text-primary">
+            <span className="material-symbols-outlined text-primary text-[20px]!">
               center_focus_strong
             </span>
             <Typography variant="titleMedium" component="h4">
@@ -156,7 +140,7 @@ export function AccessibilityInfo({
                   rounded="sm"
                   className="flex items-start gap-3 p-5"
                 >
-                  <span className="material-symbols-outlined text-[16px]! text-primary shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-primary mt-0.5 shrink-0 text-[16px]!">
                     check
                   </span>
                   <Typography

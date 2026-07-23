@@ -110,7 +110,7 @@ export const navigationItems: NavigationItem[] = [
     {
       path: 'blocks/app-shell/workspace-content.tsx',
       language: 'tsx',
-      code: `import { Surface } from "@unisane/ui";
+      code: `import { Surface } from "@/components/ui/surface";
 
 export function WorkspaceContent() {
   return (
@@ -133,7 +133,9 @@ export function WorkspaceContent() {
 export const SUPPORTING_PANE_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/supporting-pane/supporting-pane-block.tsx',
   'tsx',
-  `import { Button, Surface, Typography } from "@unisane/ui";
+  `import { Button } from "@/components/ui/button";
+import { Surface } from "@/components/ui/surface";
+import { Typography } from "@/components/ui/typography";
 
 export function SupportingPaneBlock() {
   return (
@@ -209,7 +211,11 @@ export function AuthCenteredBlock() {
 export const REVIEW_QUEUE_CODE_EXAMPLE = createSingleFileCodeExample(
   'blocks/review-queue/review-queue-block.tsx',
   'tsx',
-  `import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+  `import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Pagination } from '@/components/ui/pagination';
+import { Surface } from '@/components/ui/surface';
+import { Typography } from '@/components/ui/typography';
 import { Badge } from '@/components/ui/badge';
 
 export function ReviewQueueBlock() {

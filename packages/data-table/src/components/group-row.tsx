@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import { cn, Icon, Checkbox } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { Checkbox } from '@unisane/ui/checkbox';
 import type { RowGroup, GroupHeaderProps, Column } from '../types/index';
 import {
   DENSITY_CELL_TEXT_STYLES,

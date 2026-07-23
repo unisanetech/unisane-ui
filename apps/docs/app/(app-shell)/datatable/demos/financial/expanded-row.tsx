@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Typography } from '@unisane/ui';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import type { Transaction } from './types';
 

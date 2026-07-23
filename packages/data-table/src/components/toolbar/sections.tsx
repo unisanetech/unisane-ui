@@ -1,16 +1,16 @@
 'use client';
 
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { Button } from '@unisane/ui/button';
+import { Chip } from '@unisane/ui/chip';
+import { IconButton } from '@unisane/ui/icon-button';
 import {
-  cn,
-  Icon,
-  Button,
-  Chip,
-  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from '@unisane/ui';
+} from '@unisane/ui/dropdown-menu';
 import type { BulkAction } from '../../types';
 import { useFiltering, useColumns, useGrouping, usePagination } from '../../context';
 import { useI18n } from '../../i18n';

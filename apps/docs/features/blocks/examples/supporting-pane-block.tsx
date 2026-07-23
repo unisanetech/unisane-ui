@@ -1,7 +1,9 @@
 'use client';
 
-import { cn } from '@unisane/ui/lib/utils';
-import { Button, Surface, Typography } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Button } from '@unisane/ui/button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import type { DocsBlockViewport } from '@/lib/docs/blocks/types';
 
 interface SupportingPaneBlockProps {

@@ -1,4 +1,5 @@
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import type { FoundationPageDoc } from './types';
 import { colorsFoundationMeta as meta } from './foundation-page-meta';
 
@@ -60,9 +61,9 @@ export const colorsFoundationPage: FoundationPageDoc = {
             shade. The theme system handles the actual tone mapping.
           </Typography>
           <Typography variant="bodyLarge" className="text-on-surface-variant leading-relaxed">
-            Secondary and tertiary roles are supporting accents, not guaranteed alternate brand hues.
-            In Material-style tonal systems, secondary can stay close to the primary hue family while
-            reducing chroma and emphasis.
+            Secondary and tertiary roles are supporting accents, not guaranteed alternate brand
+            hues. In Material-style tonal systems, secondary can stay close to the primary hue
+            family while reducing chroma and emphasis.
           </Typography>
         </div>
       ),
@@ -90,7 +91,8 @@ export const colorsFoundationPage: FoundationPageDoc = {
         },
         {
           title: 'Secondary / tertiary containers',
-          description: 'Supportive emphasis and visual variety that stay related to the main theme instead of competing with it.',
+          description:
+            'Supportive emphasis and visual variety that stay related to the main theme instead of competing with it.',
           icon: 'auto_awesome',
         },
         {

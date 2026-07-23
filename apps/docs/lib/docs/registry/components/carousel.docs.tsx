@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { Carousel, CarouselSlide, IconButton } from '@unisane/ui';
+import { Carousel, CarouselSlide } from '@unisane/ui/carousel';
+import { IconButton } from '@unisane/ui/icon-button';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const CarouselHeroVisual = () => (
@@ -44,7 +45,7 @@ const CarouselHeroVisual = () => (
 // ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
 const CarouselBasicExample = () => (
   <div className="h-52 w-full max-w-xs">
-    <Carousel showControls showIndicators>
+    <Carousel aria-label="Featured slides" showControls showIndicators>
       <CarouselSlide>
         <div className="bg-primary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-primary-container">Slide 1</span>
@@ -66,7 +67,12 @@ const CarouselBasicExample = () => (
 
 const CarouselAutoPlayExample = () => (
   <div className="h-52 w-full max-w-xs">
-    <Carousel autoPlay interval={3000} showIndicators>
+    <Carousel
+      aria-label="Automatically rotating featured slides"
+      autoPlay
+      autoPlayInterval={3000}
+      showIndicators
+    >
       <CarouselSlide>
         <div className="bg-tertiary-container flex h-full w-full items-center justify-center rounded-sm">
           <span className="text-title-large text-on-tertiary-container">Auto 1</span>
@@ -88,7 +94,7 @@ const CarouselAutoPlayExample = () => (
 
 const CarouselMinimalExample = () => (
   <div className="h-52 w-full max-w-xs">
-    <Carousel showControls={false} showIndicators={false}>
+    <Carousel aria-label="Swipeable gallery" showControls={false} showIndicators={false}>
       <CarouselSlide>
         <div className="bg-surface-container border-outline-variant flex h-full w-full items-center justify-center rounded-sm border">
           <span className="text-title-large text-on-surface">Minimal</span>
@@ -108,13 +114,13 @@ export const carouselDoc: ComponentDoc = {
   slug: 'carousel',
   name: 'Carousel',
   description:
-    'Carousels display a collection of items that can be navigated through horizontally.',
+    'Carousels present a controlled or uncontrolled sequence with accessible controls, orientation-aware navigation, and pointer gestures.',
   category: 'containment',
   status: 'stable',
   icon: 'view_carousel',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/carousel',
   exports: ['Carousel', 'CarouselSlide'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
@@ -134,7 +140,7 @@ export const carouselDoc: ComponentDoc = {
         emphasis: 'With Controls',
         component: (
           <div className="h-24 w-44">
-            <Carousel showControls showIndicators={false}>
+            <Carousel aria-label="Manual feature preview" showControls showIndicators={false}>
               <CarouselSlide>
                 <div className="bg-primary-container h-full w-full rounded-sm" />
               </CarouselSlide>
@@ -151,7 +157,13 @@ export const carouselDoc: ComponentDoc = {
         emphasis: 'Auto-play',
         component: (
           <div className="h-24 w-44">
-            <Carousel autoPlay interval={3000} showControls={false} showIndicators>
+            <Carousel
+              aria-label="Automatic feature preview"
+              autoPlay
+              autoPlayInterval={3000}
+              showControls={false}
+              showIndicators
+            >
               <CarouselSlide>
                 <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
@@ -168,7 +180,11 @@ export const carouselDoc: ComponentDoc = {
         emphasis: 'Minimal',
         component: (
           <div className="h-24 w-44">
-            <Carousel showControls={false} showIndicators={false}>
+            <Carousel
+              aria-label="Minimal feature preview"
+              showControls={false}
+              showIndicators={false}
+            >
               <CarouselSlide>
                 <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
@@ -178,7 +194,7 @@ export const carouselDoc: ComponentDoc = {
             </Carousel>
           </div>
         ),
-        rationale: 'For clean, swipe-only interfaces.',
+        rationale: 'For clean interfaces that use pointer gestures or external navigation.',
         examples: 'Onboarding, Mobile galleries',
       },
     ],
@@ -191,7 +207,7 @@ export const carouselDoc: ComponentDoc = {
       {
         component: (
           <div className="h-24 w-44">
-            <Carousel showControls showIndicators>
+            <Carousel aria-label="Full controls preview" showControls showIndicators>
               <CarouselSlide>
                 <div className="bg-primary-container h-full w-full rounded-sm" />
               </CarouselSlide>
@@ -210,7 +226,7 @@ export const carouselDoc: ComponentDoc = {
       {
         component: (
           <div className="h-24 w-44">
-            <Carousel showControls={false} showIndicators>
+            <Carousel aria-label="Indicators preview" showControls={false} showIndicators>
               <CarouselSlide>
                 <div className="bg-secondary-container h-full w-full rounded-sm" />
               </CarouselSlide>
@@ -226,7 +242,11 @@ export const carouselDoc: ComponentDoc = {
       {
         component: (
           <div className="h-24 w-44">
-            <Carousel showControls={false} showIndicators={false}>
+            <Carousel
+              aria-label="Pointer gesture preview"
+              showControls={false}
+              showIndicators={false}
+            >
               <CarouselSlide>
                 <div className="bg-surface-container border-outline-variant h-full w-full rounded-sm border" />
               </CarouselSlide>
@@ -237,7 +257,7 @@ export const carouselDoc: ComponentDoc = {
           </div>
         ),
         title: 'Minimal',
-        subtitle: 'Swipe/touch only',
+        subtitle: 'Pointer gestures or external state',
       },
     ],
   },
@@ -250,15 +270,15 @@ export const carouselDoc: ComponentDoc = {
       {
         title: 'With controls',
         visual: <CarouselBasicExample />,
-        caption: 'Use arrow keys or click controls to navigate',
+        caption: 'Use the tab indicators, pointer gestures, or arrow controls to navigate',
       },
       {
         title: 'Auto-play',
         visual: <CarouselAutoPlayExample />,
-        caption: 'Automatically advances slides, pauses on hover',
+        caption: 'Includes explicit rotation control and stops when keyboard focus enters',
       },
       {
-        title: 'Minimal (swipe only)',
+        title: 'Minimal',
         visual: <CarouselMinimalExample />,
         caption: 'Clean interface for touch/swipe navigation',
       },
@@ -277,13 +297,41 @@ export const carouselDoc: ComponentDoc = {
       name: 'autoPlay',
       type: 'boolean',
       default: 'false',
-      description: 'Automatically advance slides.',
+      description: 'Offer automatic rotation with an explicit start/stop control.',
     },
     {
-      name: 'interval',
+      name: 'autoPlayInterval',
       type: 'number',
       default: '5000',
-      description: 'Auto-play interval in milliseconds.',
+      description: 'Delay between automatic rotations in milliseconds (minimum 1000).',
+    },
+    {
+      name: 'index',
+      type: 'number',
+      description: 'Controlled active slide index.',
+    },
+    {
+      name: 'defaultIndex',
+      type: 'number',
+      default: '0',
+      description: 'Initial active slide for uncontrolled usage.',
+    },
+    {
+      name: 'onIndexChange',
+      type: '(index: number) => void',
+      description: 'Called when navigation requests a different active slide.',
+    },
+    {
+      name: 'orientation',
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: 'Sets layout, keyboard navigation, and pointer gesture direction.',
+    },
+    {
+      name: 'loop',
+      type: 'boolean',
+      default: 'true',
+      description: 'Wrap navigation from the last slide to the first and vice versa.',
     },
     {
       name: 'showControls',
@@ -298,10 +346,27 @@ export const carouselDoc: ComponentDoc = {
       description: 'Show dot indicators for slides.',
     },
     {
+      name: 'labels',
+      type: 'Partial<CarouselLabels>',
+      description: 'Localizes controls, indicator list, slides, and indicator names.',
+    },
+    {
+      name: 'role',
+      type: '"group" | "region"',
+      default: '"group"',
+      description: 'Use region when the carousel is an important page landmark.',
+    },
+    {
       name: 'aria-label',
       type: 'string',
-      default: '"Image carousel"',
-      description: 'Accessible label for the carousel.',
+      required: true,
+      description:
+        'Accessible carousel name; use aria-labelledby instead when visible text exists.',
+    },
+    {
+      name: 'aria-labelledby',
+      type: 'string',
+      description: 'References a visible accessible name instead of aria-label.',
     },
   ],
 
@@ -317,6 +382,11 @@ export const carouselDoc: ComponentDoc = {
           required: true,
           description: 'Content to display in the slide.',
         },
+        {
+          name: 'aria-label',
+          type: 'string',
+          description: 'Optional slide name; a localized positional label is used by default.',
+        },
         { name: 'className', type: 'string', description: 'Additional CSS classes.' },
       ],
     },
@@ -325,37 +395,38 @@ export const carouselDoc: ComponentDoc = {
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses role='region' with aria-roledescription='carousel'.",
-      'Current slide position announced via aria-live.',
-      "Each slide has proper role='tabpanel' semantics.",
+      "Uses role='group' or role='region' with aria-roledescription='carousel' and a required accessible name.",
+      'Uses a polite live region only while automatic rotation is stopped.',
+      'Uses complete tab/tabpanel wiring with indicators and grouped slide semantics without them.',
     ],
     keyboard: [
-      { key: 'Arrow Left', description: 'Go to previous slide' },
-      { key: 'Arrow Right', description: 'Go to next slide' },
-      { key: 'Home', description: 'Go to first slide' },
-      { key: 'End', description: 'Go to last slide' },
+      { key: 'Arrow Left / Right', description: 'Move between horizontal indicators' },
+      { key: 'Arrow Up / Down', description: 'Move between vertical indicators' },
+      { key: 'Home', description: 'Move to the first indicator' },
+      { key: 'End', description: 'Move to the last indicator' },
     ],
     focus: [
-      'Carousel is focusable for keyboard navigation.',
-      'Auto-play pauses on hover for accessibility.',
+      'Indicators use one tab stop; inactive slides are hidden and inert.',
+      'Automatic rotation stops when focus enters and pauses while the pointer hovers.',
+      'Reduced-motion preference prevents automatic rotation from starting.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
     description: 'Wrap content in CarouselSlide components.',
-    code: `import { Carousel, CarouselSlide } from "@unisane/ui";
+    code: `import { Carousel, CarouselSlide } from "@/components/ui/carousel";
 
 function ImageGallery() {
   return (
-    <Carousel autoPlay interval={4000}>
-      <CarouselSlide>
+    <Carousel aria-label="Portfolio gallery" autoPlay autoPlayInterval={4000}>
+      <CarouselSlide aria-label="Project one">
         <img src="/image1.jpg" alt="Gallery image 1" />
       </CarouselSlide>
-      <CarouselSlide>
+      <CarouselSlide aria-label="Project two">
         <img src="/image2.jpg" alt="Gallery image 2" />
       </CarouselSlide>
-      <CarouselSlide>
+      <CarouselSlide aria-label="Project three">
         <img src="/image3.jpg" alt="Gallery image 3" />
       </CarouselSlide>
     </Carousel>

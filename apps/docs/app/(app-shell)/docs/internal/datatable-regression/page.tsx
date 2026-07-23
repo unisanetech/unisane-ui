@@ -1,7 +1,8 @@
 'use client';
 
 import { DataTable, type Column } from '@unisane/data-table';
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 
 type RegressionRow = {
   id: string;
@@ -87,19 +88,15 @@ export default function DataTableRegressionPage() {
         <Typography variant="headlineMedium" component="h1" className="text-on-surface">
           Data Table Regression Fixtures
         </Typography>
-        <Typography variant="bodyLarge" component="p" className="max-w-4xl text-on-surface-variant">
+        <Typography variant="bodyLarge" component="p" className="text-on-surface-variant max-w-4xl">
           Hidden browser-proof surface for sticky header, pinned columns, virtualization, and the
           custom horizontal scrollbar. Keep this route deterministic so Playwright can verify the
           active unified table shell instead of the public demo page.
         </Typography>
       </div>
 
-      <Surface
-        tone="surfaceContainerLow"
-        rounded="xl"
-        className="border border-outline-subtle p-5"
-      >
-        <div className="mb-4 flex flex-wrap items-center gap-4 text-on-surface-variant">
+      <Surface tone="surfaceContainerLow" rounded="xl" className="border-outline-subtle border p-5">
+        <div className="text-on-surface-variant mb-4 flex flex-wrap items-center gap-4">
           <Typography variant="titleMedium" component="h2" className="text-on-surface">
             Virtualized Inventory Fixture
           </Typography>
@@ -111,7 +108,7 @@ export default function DataTableRegressionPage() {
 
         <div
           data-testid="datatable-regression-fixture"
-          className="h-[680px] min-h-0 overflow-hidden rounded-xl border border-outline-subtle bg-surface"
+          className="border-outline-subtle bg-surface h-[680px] min-h-0 overflow-hidden rounded-xl border"
         >
           <DataTable
             data={FIXTURE_ROWS}
@@ -127,22 +124,20 @@ export default function DataTableRegressionPage() {
         </div>
       </Surface>
 
-      <Surface
-        tone="surfaceContainerLow"
-        rounded="xl"
-        className="border border-outline-subtle p-5"
-      >
-        <div className="mb-4 flex flex-wrap items-center gap-4 text-on-surface-variant">
+      <Surface tone="surfaceContainerLow" rounded="xl" className="border-outline-subtle border p-5">
+        <div className="text-on-surface-variant mb-4 flex flex-wrap items-center gap-4">
           <Typography variant="titleMedium" component="h2" className="text-on-surface">
             Expanded Row Virtualization Fixture
           </Typography>
           <Typography variant="bodySmall">Variable-height expansion content</Typography>
-          <Typography variant="bodySmall">Verifies measured virtual items remount cleanly</Typography>
+          <Typography variant="bodySmall">
+            Verifies measured virtual items remount cleanly
+          </Typography>
         </div>
 
         <div
           data-testid="datatable-regression-expanded-fixture"
-          className="h-[680px] min-h-0 overflow-hidden rounded-xl border border-outline-subtle bg-surface"
+          className="border-outline-subtle bg-surface h-[680px] min-h-0 overflow-hidden rounded-xl border"
         >
           <DataTable
             data={FIXTURE_ROWS}
@@ -164,9 +159,10 @@ export default function DataTableRegressionPage() {
                     {row.productName}
                   </Typography>
                   <Typography variant="bodySmall" component="p" className="text-on-surface-variant">
-                    Supplier {row.supplier} ships this SKU through {row.warehouse} for the {row.region}{' '}
-                    region. This block intentionally wraps across multiple lines so virtualization has
-                    to measure a taller expanded item instead of assuming a fixed row height.
+                    Supplier {row.supplier} ships this SKU through {row.warehouse} for the{' '}
+                    {row.region} region. This block intentionally wraps across multiple lines so
+                    virtualization has to measure a taller expanded item instead of assuming a fixed
+                    row height.
                   </Typography>
                 </div>
                 <div className="space-y-2">

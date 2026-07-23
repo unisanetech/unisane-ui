@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { ReactNode } from 'react';
-import { Icon } from '@unisane/ui';
+import { Icon } from '@unisane/ui/icon';
 import type {
   Column,
   PinPosition,

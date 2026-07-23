@@ -2,7 +2,8 @@
 
 import React, { memo } from 'react';
 import type { ReactNode } from 'react';
-import { cn, Icon } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
 import type { Column, PinPosition, ColumnMetaMap } from '../types/index';
 import {
   DENSITY_ICON_TEXT_STYLES,

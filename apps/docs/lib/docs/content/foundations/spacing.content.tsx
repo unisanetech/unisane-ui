@@ -1,4 +1,4 @@
-import { Typography } from '@unisane/ui';
+import { Typography } from '@unisane/ui/typography';
 import type { FoundationPageDoc } from './types';
 import { spacingFoundationMeta as meta } from './foundation-page-meta';
 

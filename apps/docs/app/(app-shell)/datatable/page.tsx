@@ -25,18 +25,13 @@ import { exportData, type ExportFormat } from '@unisane/data-table/export';
 import { enStrings, hiStrings } from '@unisane/data-table/i18n';
 import { usePrint } from '@unisane/data-table/print';
 import { getNestedValue } from '@unisane/data-table/utils';
-import {
-  Typography,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  Icon,
-  Sheet,
-  Button,
-  Tooltip,
-  cn,
-} from '@unisane/ui';
+import { Typography } from '@unisane/ui/typography';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@unisane/ui/tabs';
+import { Icon } from '@unisane/ui/icon';
+import { Sheet } from '@unisane/ui/sheet';
+import { Button } from '@unisane/ui/button';
+import { Tooltip } from '@unisane/ui/tooltip';
+import { cn } from '@unisane/ui/utils';
 import { Dialog } from '@unisane/ui/dialog';
 import { ConfirmDialog } from '@unisane/ui/confirm-dialog';
 import { TextField } from '@unisane/ui/text-field';

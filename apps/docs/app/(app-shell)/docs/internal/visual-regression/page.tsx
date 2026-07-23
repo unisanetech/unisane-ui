@@ -1,25 +1,60 @@
 'use client';
 
 import { Alert } from '@unisane/ui/alert';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@unisane/ui/accordion';
+import { Avatar, AvatarGroup } from '@unisane/ui/avatar';
 import { Banner } from '@unisane/ui/banner';
 import { Badge } from '@unisane/ui/badge';
 import { Button } from '@unisane/ui/button';
+import { BottomAppBar, BottomAppBarAction } from '@unisane/ui/bottom-app-bar';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@unisane/ui/breadcrumb';
 import { Calendar } from '@unisane/ui/calendar';
+import { Carousel, CarouselSlide } from '@unisane/ui/carousel';
 import { Checkbox } from '@unisane/ui/checkbox';
+import {
+  Command,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandShortcut,
+} from '@unisane/ui/command';
 import { DateInput } from '@unisane/ui/date-input';
 import { DatePicker } from '@unisane/ui/date-picker';
 import { Divider } from '@unisane/ui/divider';
 import { Field, FieldDescription, FieldError, FieldLabel } from '@unisane/ui/field';
+import { FabMenu } from '@unisane/ui/fab-menu';
 import { Icon } from '@unisane/ui/icon';
 import { IconButton } from '@unisane/ui/icon-button';
 import { Input } from '@unisane/ui/input';
 import { List, ListDivider, ListItem, ListSubheader } from '@unisane/ui/list';
+import { ModeSwitcher } from '@unisane/ui/mode-switcher';
 import type { NavigationItem } from '@unisane/ui/navigation';
 import { NavigationBar } from '@unisane/ui/navigation-bar';
 import { NavigationDrawer } from '@unisane/ui/navigation-drawer';
 import { NavigationRail } from '@unisane/ui/navigation-rail';
+import { Pagination } from '@unisane/ui/pagination';
+import { PaneGroup } from '@unisane/ui/pane-group';
+import { Progress } from '@unisane/ui/progress';
 import { Radio } from '@unisane/ui/radio';
+import { Rating } from '@unisane/ui/rating';
+import { ScrollArea } from '@unisane/ui/scroll-area';
 import { SegmentedButton } from '@unisane/ui/segmented-button';
+import { Skeleton, SkeletonAvatar, SkeletonText } from '@unisane/ui/skeleton';
+import { Slider } from '@unisane/ui/slider';
+import { StatCard, StatGrid } from '@unisane/ui/stat-card';
+import { Stepper } from '@unisane/ui/stepper';
 import {
   Sidebar,
   SidebarDrawer,
@@ -31,9 +66,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { SelectField } from '@unisane/ui/select-field';
 import { Surface } from '@unisane/ui/surface';
 import { Switch } from '@unisane/ui/switch';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@unisane/ui/table';
 import { TextField } from '@unisane/ui/text-field';
 import { Toast } from '@unisane/ui/toast';
+import { TopAppBar } from '@unisane/ui/top-app-bar';
 import { Typography } from '@unisane/ui/typography';
+import { AppearanceProvider } from '@unisane/ui/appearance-provider';
 import { buttonDoc } from '@/lib/docs/registry/components/button.docs';
 import { selectDoc } from '@/lib/docs/registry/components/select.docs';
 import { tabsDoc } from '@/lib/docs/registry/components/tabs.docs';
@@ -495,6 +533,149 @@ function CoreFixtures() {
       </FixtureSection>
 
       <FixtureSection
+        title="Completed public component fleet"
+        description="Application chrome, disclosure, collections, feedback, data display, appearance selection, and responsive recipes retain one semantic token system across every appearance axis."
+        testId="completed-public-fleet"
+      >
+        <div
+          className="grid items-start gap-6 lg:grid-cols-2"
+          data-testid="completed-public-fleet-grid"
+        >
+          <div className="space-y-4">
+            <TopAppBar
+              title="Workspace"
+              navigationIcon={<IconButton aria-label="Menu" icon={<Icon symbol="menu" />} />}
+              actions={<IconButton aria-label="Search" icon={<Icon symbol="search" />} />}
+              className="border-outline-variant overflow-hidden rounded-sm border"
+            />
+            <div className="border-outline-variant relative h-24 overflow-hidden rounded-sm border">
+              <BottomAppBar className="absolute!" aria-label="Document actions">
+                <BottomAppBarAction label="Home" active icon={<Icon symbol="home" />} />
+                <BottomAppBarAction label="Search" icon={<Icon symbol="search" />} />
+              </BottomAppBar>
+            </div>
+            <Breadcrumb>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#fleet">Workspace</BreadcrumbLink>
+                <BreadcrumbSeparator />
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <BreadcrumbPage>Overview</BreadcrumbPage>
+              </BreadcrumbItem>
+            </Breadcrumb>
+            <Accordion defaultValue={['details']}>
+              <AccordionItem value="details">
+                <AccordionTrigger>Workspace details</AccordionTrigger>
+                <AccordionContent>
+                  Shared disclosure states remain legible and keyboard reachable.
+                </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="activity">
+                <AccordionTrigger>Recent activity</AccordionTrigger>
+                <AccordionContent>Activity content</AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            <Command className="border-outline-variant border">
+              <CommandInput aria-label="Search commands" placeholder="Search commands…" />
+              <CommandList>
+                <CommandGroup heading="Workspace">
+                  <CommandItem value="new">
+                    New document<CommandShortcut>⌘N</CommandShortcut>
+                  </CommandItem>
+                  <CommandItem value="settings">
+                    Settings<CommandShortcut>⌘,</CommandShortcut>
+                  </CommandItem>
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </div>
+          <div className="space-y-5">
+            <div className="flex flex-wrap items-center gap-4">
+              <Avatar fallback="Ada" />
+              <AvatarGroup max={2}>
+                <Avatar fallback="A" />
+                <Avatar fallback="B" />
+                <Avatar fallback="C" />
+              </AvatarGroup>
+              <Rating defaultValue={4} showValue />
+            </div>
+            <AppearanceProvider enabledAxes={['mode']} persistence="none">
+              <ModeSwitcher size="sm" />
+            </AppearanceProvider>
+            <Slider aria-label="Completion" defaultValue={64} showValue withTicks step={25} />
+            <div className="flex items-center gap-4">
+              <Progress value={64} />
+              <Progress variant="circular" value={64} className="size-12" />
+            </div>
+            <StatGrid columns={2}>
+              <StatCard label="Revenue" value="$24.8k" trend={{ value: 12, direction: 'up' }} />
+              <StatCard label="Conversion" value="7.4%" description="Last 30 days" />
+            </StatGrid>
+            <div className="flex items-center gap-3">
+              <SkeletonAvatar />
+              <div className="flex-1">
+                <SkeletonText lines={2} />
+              </div>
+              <Skeleton className="h-9 w-20" />
+            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Project</TableHead>
+                  <TableHead>Status</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Northstar</TableCell>
+                  <TableCell>Healthy</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Atlas</TableCell>
+                  <TableCell>Review</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
+          <div className="border-outline-variant h-48 overflow-hidden rounded-sm border lg:col-span-2">
+            <PaneGroup
+              sidebar={
+                <div className="space-y-2 p-3">
+                  <Typography variant="labelMedium">Documents</Typography>
+                  <div className="bg-secondary-container rounded-sm p-2">Quarterly report</div>
+                </div>
+              }
+              detail={
+                <div className="p-4">
+                  <Typography variant="titleMedium">Quarterly report</Typography>
+                  <Typography variant="bodySmall" className="text-on-surface-variant">
+                    Preview content
+                  </Typography>
+                </div>
+              }
+            />
+          </div>
+          <div className="relative min-h-40 lg:col-span-2">
+            <FabMenu
+              defaultOpen
+              actions={[
+                {
+                  label: 'Create document',
+                  icon: <Icon symbol="description" />,
+                  onClick: () => undefined,
+                },
+                {
+                  label: 'Invite member',
+                  icon: <Icon symbol="person_add" />,
+                  onClick: () => undefined,
+                },
+              ]}
+            />
+          </div>
+        </div>
+      </FixtureSection>
+
+      <FixtureSection
         title="Date foundations and recipe"
         description="Actual DateInput, Calendar, and DatePicker surfaces prove field semantics, date-grid states, and composed overlay presentation across every appearance axis."
         testId="date-family"
@@ -505,6 +686,113 @@ function CoreFixtures() {
               {fixture}
             </div>
           ))}
+        </div>
+      </FixtureSection>
+
+      <FixtureSection
+        title="Carousel composite"
+        description="The controlled sequence, complete indicator semantics, inert inactive slides, logical controls, and semantic tokens should remain stable across every appearance axis."
+        testId="carousel-composite"
+      >
+        <div className="h-56 max-w-xl" data-testid="carousel-fixture">
+          <Carousel aria-label="Featured workspace updates" defaultIndex={1} autoPlay={false}>
+            <CarouselSlide aria-label="Analytics update">
+              <div className="bg-primary-container text-on-primary-container flex h-full items-center justify-center rounded-sm">
+                <Typography variant="headlineSmall">Analytics</Typography>
+              </div>
+            </CarouselSlide>
+            <CarouselSlide aria-label="Collaboration update">
+              <div className="bg-secondary-container text-on-secondary-container flex h-full items-center justify-center rounded-sm">
+                <Typography variant="headlineSmall">Collaboration</Typography>
+              </div>
+            </CarouselSlide>
+            <CarouselSlide aria-label="Automation update">
+              <div className="bg-tertiary-container text-on-tertiary-container flex h-full items-center justify-center rounded-sm">
+                <Typography variant="headlineSmall">Automation</Typography>
+              </div>
+            </CarouselSlide>
+          </Carousel>
+        </div>
+      </FixtureSection>
+
+      <FixtureSection
+        title="Native scroll boundary"
+        description="One focusable native viewport owns overflow, focus, semantic tokens, and the shared themed scrollbar across every appearance axis."
+        testId="scroll-area-boundary"
+      >
+        <ScrollArea
+          role="region"
+          aria-label="Recent activity"
+          className="bg-surface border-outline-variant h-48 max-w-xl rounded-sm border"
+          data-testid="scroll-area-fixture"
+        >
+          <div className="space-y-3 p-4">
+            {Array.from({ length: 8 }, (_, index) => (
+              <div
+                key={index}
+                className="bg-surface-container text-on-surface flex items-center justify-between gap-4 rounded-sm px-4 py-3"
+              >
+                <Typography variant="bodyMedium">Activity {index + 1}</Typography>
+                <Badge color={index % 2 === 0 ? 'success' : 'info'}>
+                  {index % 2 === 0 ? 'Complete' : 'Queued'}
+                </Badge>
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      </FixtureSection>
+
+      <FixtureSection
+        title="Pagination boundary"
+        description="The normalized current page, semantic ellipses, bounded controls, focus treatment, and page-link presentation should remain stable across every appearance axis."
+        testId="pagination-boundary"
+      >
+        <div
+          className="bg-surface border-outline-variant inline-flex max-w-full rounded-sm border p-3"
+          data-testid="pagination-fixture"
+        >
+          <Pagination
+            aria-label="Visual result pages"
+            currentPage={6}
+            totalPages={18}
+            getPageHref={(page) => `?visual-page=${page}`}
+          />
+        </div>
+      </FixtureSection>
+
+      <FixtureSection
+        title="Stepper boundary"
+        description="Stable current/completed states, native button interaction, rich descriptions, and horizontal/vertical connector geometry should remain legible across every appearance axis."
+        testId="stepper-boundary"
+      >
+        <div
+          className="grid max-w-3xl items-start gap-6 lg:grid-cols-2"
+          data-testid="stepper-fixture"
+        >
+          <div className="bg-surface border-outline-variant rounded-sm border p-4">
+            <Stepper
+              aria-label="Horizontal setup progress"
+              steps={[
+                { value: 'account', label: 'Account', description: 'Create login' },
+                { value: 'profile', label: 'Profile', description: 'Add details' },
+                { value: 'confirm', label: 'Confirm', description: 'Review setup', disabled: true },
+              ]}
+              value="profile"
+              onValueChange={() => {}}
+            />
+          </div>
+          <div className="bg-surface border-outline-variant rounded-sm border p-4">
+            <Stepper
+              aria-label="Vertical setup progress"
+              orientation="vertical"
+              steps={[
+                { value: 'account', label: 'Account', description: 'Create login' },
+                { value: 'profile', label: 'Profile', description: 'Add details' },
+                { value: 'confirm', label: 'Confirm', description: 'Review setup' },
+              ]}
+              value="profile"
+            />
+          </div>
         </div>
       </FixtureSection>
 

@@ -8,7 +8,10 @@ import React, {
   type ReactNode,
   type CSSProperties,
 } from 'react';
-import { cn, Icon, Checkbox, IconButton } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { Checkbox } from '@unisane/ui/checkbox';
+import { IconButton } from '@unisane/ui/icon-button';
 import type {
   Column,
   PinPosition,

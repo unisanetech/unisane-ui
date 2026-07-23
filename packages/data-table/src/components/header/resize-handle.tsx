@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useCallback, useRef, useEffect } from "react";
-import { cn } from "@unisane/ui";
-import { useI18n } from "../../i18n";
+import { useCallback, useRef, useEffect } from 'react';
+import { cn } from '@unisane/ui/utils';
+import { useI18n } from '../../i18n';
 
 /** Resize step in pixels for keyboard navigation */
 const RESIZE_STEP = 10;
@@ -50,8 +50,8 @@ export function ResizeHandle({
       // Set cursor and prevent text selection during resize
       const prevCursor = document.body.style.cursor;
       const prevUserSelect = document.body.style.userSelect;
-      document.body.style.cursor = "col-resize";
-      document.body.style.userSelect = "none";
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
 
       const handleMouseMove = (moveEvent: MouseEvent) => {
         const delta = moveEvent.clientX - startX;
@@ -63,8 +63,8 @@ export function ResizeHandle({
         // Restore cursor and user select
         document.body.style.cursor = prevCursor;
         document.body.style.userSelect = prevUserSelect;
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
+        document.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mouseup', handleMouseUp);
         cleanupRef.current = null;
       };
 
@@ -75,10 +75,10 @@ export function ResizeHandle({
       // Store cleanup so it can be called on unmount
       cleanupRef.current = cleanup;
 
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
     },
-    [columnKey, currentWidth, minWidth, maxWidth, onResize]
+    [columnKey, currentWidth, minWidth, maxWidth, onResize],
   );
 
   // Keyboard support for resizing: Arrow Left/Right to adjust width
@@ -87,29 +87,29 @@ export function ResizeHandle({
       const step = e.shiftKey ? RESIZE_STEP_LARGE : RESIZE_STEP;
 
       switch (e.key) {
-        case "ArrowRight":
+        case 'ArrowRight':
           e.preventDefault();
           e.stopPropagation();
           onResize(columnKey, Math.min(maxWidth, currentWidth + step));
           break;
-        case "ArrowLeft":
+        case 'ArrowLeft':
           e.preventDefault();
           e.stopPropagation();
           onResize(columnKey, Math.max(minWidth, currentWidth - step));
           break;
-        case "Home":
+        case 'Home':
           e.preventDefault();
           e.stopPropagation();
           onResize(columnKey, minWidth);
           break;
-        case "End":
+        case 'End':
           e.preventDefault();
           e.stopPropagation();
           onResize(columnKey, maxWidth);
           break;
       }
     },
-    [columnKey, currentWidth, minWidth, maxWidth, onResize]
+    [columnKey, currentWidth, minWidth, maxWidth, onResize],
   );
 
   return (
@@ -119,18 +119,18 @@ export function ResizeHandle({
       aria-valuenow={currentWidth}
       aria-valuemin={minWidth}
       aria-valuemax={maxWidth}
-      aria-label={t("resizeColumn")}
+      aria-label={t('resizeColumn')}
       tabIndex={0}
       onMouseDown={handleMouseDown}
       onKeyDown={handleKeyDown}
       onClick={(e) => e.stopPropagation()}
       className={cn(
-        "absolute right-0 top-0 bottom-0 w-2 cursor-col-resize",
-        "hover:w-3 hover:bg-state-hover active:bg-state-pressed transition-all",
-        "focus:outline-none focus:w-3 focus:bg-state-focus focus-visible:ring-2 focus-visible:ring-focus-ring",
-        "z-10"
+        'absolute top-0 right-0 bottom-0 w-2 cursor-col-resize',
+        'hover:bg-state-hover active:bg-state-pressed transition-all hover:w-3',
+        'focus:bg-state-focus focus-visible:ring-focus-ring focus:w-3 focus:outline-none focus-visible:ring-2',
+        'z-10',
       )}
-      title={t("resizeColumn")}
+      title={t('resizeColumn')}
     />
   );
 }

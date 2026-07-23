@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { Card, IconButton } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
+import { IconButton } from '@unisane/ui/icon-button';
 import { Badge } from '@unisane/ui/badge';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────

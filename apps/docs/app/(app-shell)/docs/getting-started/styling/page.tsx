@@ -1,7 +1,9 @@
 'use client';
 
 import { DocLayout, DocSection } from '@/features/docs-page';
-import { Card, Typography, Button } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
+import { Typography } from '@unisane/ui/typography';
+import { Button } from '@unisane/ui/button';
 
 const TOC_ITEMS = [
   { id: 'tailwind-classes', label: 'Tailwind Classes' },

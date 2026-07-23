@@ -1,8 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { cn } from '@unisane/ui/lib/utils';
-import { IconButton, Surface, Tabs, TabsList, TabsTrigger } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Surface } from '@unisane/ui/surface';
+import { Tabs, TabsList, TabsTrigger } from '@unisane/ui/tabs';
 
 type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun';
 

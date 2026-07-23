@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import { getRowInteractionBackgroundClass } from './row-state';
 
 // ─── TABLE ──────────────────────────────────────────────────────────────────

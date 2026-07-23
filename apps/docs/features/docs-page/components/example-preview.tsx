@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import type { ExampleDef, PreviewStageConfig } from '@/lib/docs/registry/types';
-import { cn } from '@unisane/ui/lib/utils';
-import { Surface, Typography } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { SegmentedButton } from '@unisane/ui/segmented-button';
 import { PreviewStage, mergePreviewStageConfig } from './preview-stage';
 import { CodeBlock } from './code-block';

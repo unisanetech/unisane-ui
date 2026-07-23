@@ -1,4 +1,5 @@
-import { Button, Card } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { SelectField } from '@unisane/ui/select-field';
 import { TextField } from '@unisane/ui/text-field';

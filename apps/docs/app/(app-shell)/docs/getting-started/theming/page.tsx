@@ -2,14 +2,10 @@
 
 import { DocLayout, DocSection } from '@/features/docs-page';
 import { ColorThemePreviewGrid } from '@/features/docs-page/components/color-theme-preview-grid';
-import {
-  Button,
-  Card,
-  Typography,
-  useAppearancePreference,
-  useDensity,
-  useMode,
-} from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Typography } from '@unisane/ui/typography';
+import { useAppearancePreference, useDensity, useMode } from '@unisane/ui/appearance-provider';
 
 const TOC_ITEMS = [
   { id: 'color-themes', label: 'Project Color Theme' },

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { COLOR_THEME_OPTIONS, getColorThemeSwatch } from '@/lib/theme/color-theme-options';
-import { Typography } from '@unisane/ui';
+import { Typography } from '@unisane/ui/typography';
 
 export function ColorThemePreviewGrid() {
   const [selectedTheme, setSelectedTheme] = useState(COLOR_THEME_OPTIONS[0]?.value ?? 'blue');

@@ -1,7 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn, Typography, Surface } from "@unisane/ui";
+import React from 'react';
+import { cn } from '@unisane/ui/utils';
+import { Typography } from '@unisane/ui/typography';
+import { Surface } from '@unisane/ui/surface';
 
 interface ComponentPreviewProps {
   children: React.ReactNode;
@@ -9,19 +11,18 @@ interface ComponentPreviewProps {
   title?: string;
 }
 
-export function ComponentPreview({
-  children,
-  className,
-  title,
-}: ComponentPreviewProps) {
+export function ComponentPreview({ children, className, title }: ComponentPreviewProps) {
   return (
-    <div className={cn("my-6", className)}>
+    <div className={cn('my-6', className)}>
       {title && (
-        <Typography variant="labelMedium" className="mb-2 text-on-surface-variant">
+        <Typography variant="labelMedium" className="text-on-surface-variant mb-2">
           {title}
         </Typography>
       )}
-      <Surface elevation={0} className="p-5 rounded-sm bg-surface-container flex items-center justify-center min-h-[120px]">
+      <Surface
+        elevation={0}
+        className="bg-surface-container flex min-h-[120px] items-center justify-center rounded-sm p-5"
+      >
         {children}
       </Surface>
     </div>

@@ -1,195 +1,183 @@
-import React from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
+import React, { forwardRef } from 'react';
 import { cn, focusRing } from '../lib/utils';
-import { Icon } from './icon';
 import { Text } from '../primitives/text';
+import { Icon } from './icon';
 import { Ripple } from './ripple';
 
-interface Step {
-  label: string;
-  description?: string;
+export interface StepperStep {
+  value: string;
+  label: React.ReactNode;
+  description?: React.ReactNode;
+  completed?: boolean;
+  disabled?: boolean;
 }
 
-export interface StepperProps {
-  steps?: Step[];
-  activeStep?: number;
-  children?: React.ReactNode;
-  className?: string;
+export interface StepperLabels {
+  step: (position: number, total: number) => string;
+  completed: string;
 }
 
-export const Stepper: React.FC<StepperProps> = ({ steps, activeStep = 0, children, className }) => {
-  if (!steps || steps.length === 0) {
-    return (
-      <div className={cn('flex w-full items-center justify-between', className)}>{children}</div>
-    );
-  }
+export interface StepperProps extends Omit<
+  React.OlHTMLAttributes<HTMLOListElement>,
+  'children' | 'onChange'
+> {
+  steps: StepperStep[];
+  value: string;
+  onValueChange?: (value: string) => void;
+  orientation?: 'horizontal' | 'vertical';
+  labels?: Partial<StepperLabels>;
+}
 
-  return (
-    <div className={cn('flex w-full items-start gap-0', className)}>
-      {steps.map((step, index) => {
-        const isCompleted = index < activeStep;
-        const isActive = index === activeStep;
-        const isLast = index === steps.length - 1;
-
-        return (
-          <div
-            key={`${step.label}-${index}`}
-            className={cn('relative flex flex-col items-center', isLast ? 'flex-none' : 'flex-1')}
-          >
-            {!isLast && (
-              <div
-                className={cn(
-                  'duration-medium absolute top-4 left-1/2 z-0 h-0.5 w-full transition-colors',
-                  isCompleted ? 'bg-primary' : 'bg-outline-subtle',
-                )}
-              />
-            )}
-
-            <div
-              className={cn(
-                'text-label-small duration-emphasized rounded-button z-10 flex h-8 w-8 items-center justify-center border-2 font-medium transition-all',
-                isActive && 'bg-primary border-primary text-on-primary scale-110',
-                isCompleted && 'bg-primary border-primary text-on-primary',
-                !isActive &&
-                  !isCompleted &&
-                  'bg-surface border-outline-subtle text-on-surface-variant',
-              )}
-            >
-              {isCompleted ? <Icon symbol="check" size="sm" strokeWidth={4} /> : index + 1}
-            </div>
-
-            <div className="mt-4 max-w-30 px-2 text-center">
-              <span
-                className={cn(
-                  'text-label-small block font-medium transition-colors',
-                  isActive ? 'text-on-surface' : 'text-on-surface-variant',
-                )}
-              >
-                {step.label}
-              </span>
-              {step.description && (
-                <span className="text-label-small text-on-surface-variant mt-1 hidden leading-none font-medium @md:block">
-                  {step.description}
-                </span>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
+const defaultLabels: StepperLabels = {
+  step: (position, total) => `Step ${position} of ${total}`,
+  completed: 'Completed',
 };
 
-const stepVariants = cva(
-  'relative flex items-center gap-3 cursor-pointer select-none overflow-hidden rounded-button',
-  {
-    variants: {
-      orientation: {
-        horizontal: 'flex-row',
-        vertical: 'flex-col',
-      },
-      active: {
-        true: '',
-        false: '',
-      },
-      completed: {
-        true: '',
-        false: '',
-      },
-    },
-    defaultVariants: {
-      orientation: 'horizontal',
-      active: false,
-      completed: false,
-    },
+function resolveActiveIndex(steps: StepperStep[], value: string) {
+  const requestedIndex = steps.findIndex((step) => step.value === value && !step.disabled);
+  if (requestedIndex >= 0) return requestedIndex;
+
+  const firstAvailableIndex = steps.findIndex((step) => !step.disabled);
+  return firstAvailableIndex >= 0 ? firstAvailableIndex : 0;
+}
+
+export const Stepper = forwardRef<HTMLOListElement, StepperProps>(
+  (
+    { steps, value, onValueChange, orientation = 'horizontal', labels, className, ...props },
+    ref,
+  ) => {
+    if (steps.length === 0) return null;
+
+    const activeIndex = resolveActiveIndex(steps, value);
+    const resolvedLabels = { ...defaultLabels, ...labels };
+    const interactive = onValueChange !== undefined;
+
+    return (
+      <ol
+        {...props}
+        ref={ref}
+        className={cn(
+          'm-0 flex w-full list-none p-0',
+          orientation === 'horizontal' ? 'items-start' : 'flex-col',
+          className,
+        )}
+      >
+        {steps.map((step, index) => {
+          const current = index === activeIndex;
+          const completed = !current && (step.completed ?? index < activeIndex);
+          const last = index === steps.length - 1;
+          const positionLabel = resolvedLabels.step(index + 1, steps.length);
+          const content = (
+            <>
+              {interactive && !step.disabled && <Ripple />}
+              <span
+                aria-hidden="true"
+                className={cn(
+                  'duration-medium ease-standard rounded-button relative z-10 flex h-8 w-8 shrink-0 items-center justify-center border-2 transition-all',
+                  current && 'border-primary bg-primary text-on-primary scale-110',
+                  completed &&
+                    'border-primary-container bg-primary-container text-on-primary-container',
+                  !current &&
+                    !completed &&
+                    'border-outline-subtle bg-surface text-on-surface-variant',
+                )}
+              >
+                {completed ? (
+                  <Icon symbol="check" size="sm" />
+                ) : (
+                  <Text variant="labelLarge">{index + 1}</Text>
+                )}
+              </span>
+
+              <span
+                className={cn(
+                  'relative z-10 min-w-0',
+                  orientation === 'horizontal' ? 'mt-3 max-w-30 px-2 text-center' : 'flex-1',
+                )}
+              >
+                <span className="sr-only">
+                  {positionLabel}
+                  {completed ? `, ${resolvedLabels.completed}` : ''}.{' '}
+                </span>
+                <Text
+                  as="span"
+                  variant="labelLarge"
+                  className={cn(
+                    'block font-medium',
+                    current ? 'text-on-surface' : 'text-on-surface-variant',
+                  )}
+                >
+                  {step.label}
+                </Text>
+                {step.description !== undefined && (
+                  <Text
+                    as="span"
+                    variant="labelSmall"
+                    className="text-on-surface-variant mt-1 block"
+                  >
+                    {step.description}
+                  </Text>
+                )}
+              </span>
+            </>
+          );
+          const actionClassName = cn(
+            'relative flex min-w-0 overflow-hidden rounded-button',
+            orientation === 'horizontal'
+              ? 'flex-col items-center'
+              : 'w-full flex-row items-start gap-3 text-left',
+            step.disabled && 'opacity-38',
+            interactive && !step.disabled && cn('cursor-pointer', focusRing),
+          );
+
+          return (
+            <li
+              key={step.value}
+              className={cn(
+                'relative min-w-0',
+                orientation === 'horizontal'
+                  ? last
+                    ? 'flex-none'
+                    : 'flex-1'
+                  : 'w-full pb-6 last:pb-0',
+              )}
+            >
+              {!last && (
+                <span
+                  aria-hidden="true"
+                  className={cn(
+                    'duration-medium absolute z-0 transition-colors',
+                    orientation === 'horizontal'
+                      ? 'top-4 left-1/2 h-0.5 w-full'
+                      : 'top-8 bottom-0 left-[15px] w-0.5',
+                    completed ? 'bg-primary' : 'bg-outline-subtle',
+                  )}
+                />
+              )}
+
+              {interactive ? (
+                <button
+                  type="button"
+                  className={actionClassName}
+                  disabled={step.disabled}
+                  aria-current={current ? 'step' : undefined}
+                  onClick={() => {
+                    if (!current) onValueChange?.(step.value);
+                  }}
+                >
+                  {content}
+                </button>
+              ) : (
+                <div className={actionClassName} aria-current={current ? 'step' : undefined}>
+                  {content}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    );
   },
 );
 
-export type StepProps = VariantProps<typeof stepVariants> & {
-  stepNumber: number;
-  active?: boolean;
-  completed?: boolean;
-  children: React.ReactNode;
-  onClick?: () => void;
-  className?: string;
-};
-
-export const Step: React.FC<StepProps> = ({
-  stepNumber,
-  active,
-  completed,
-  orientation,
-  children,
-  onClick,
-  className,
-}) => {
-  const content = (
-    <>
-      <Ripple />
-      <div
-        className={cn(
-          'duration-medium ease-standard rounded-button flex h-8 w-8 items-center justify-center transition-colors',
-          active
-            ? 'bg-primary text-on-primary'
-            : completed
-              ? 'bg-primary-container text-on-primary-container'
-              : 'bg-surface-variant text-on-surface-variant',
-        )}
-      >
-        <Text variant="labelLarge">{completed ? '✓' : stepNumber}</Text>
-      </div>
-
-      <div className={cn('flex-1', orientation === 'vertical' && 'mt-2 ml-0')}>{children}</div>
-    </>
-  );
-
-  if (onClick) {
-    return (
-      <button
-        type="button"
-        className={cn(stepVariants({ orientation, active, completed, className }), focusRing)}
-        onClick={onClick}
-        aria-current={active ? 'step' : undefined}
-      >
-        {content}
-      </button>
-    );
-  }
-
-  return (
-    <div
-      className={cn(stepVariants({ orientation, active, completed, className }))}
-      aria-current={active ? 'step' : undefined}
-    >
-      {content}
-    </div>
-  );
-};
-
-export type StepLabelProps = {
-  children: React.ReactNode;
-  className?: string;
-};
-
-export const StepLabel: React.FC<StepLabelProps> = ({ children, className }) => {
-  return (
-    <div className={className}>
-      <Text variant="bodyLarge">{children}</Text>
-    </div>
-  );
-};
-
-export type StepDescriptionProps = {
-  children: React.ReactNode;
-  className?: string;
-};
-
-export const StepDescription: React.FC<StepDescriptionProps> = ({ children, className }) => {
-  return (
-    <div className={className}>
-      <Text variant="bodyMedium" className="text-on-surface-variant">
-        {children}
-      </Text>
-    </div>
-  );
-};
+Stepper.displayName = 'Stepper';

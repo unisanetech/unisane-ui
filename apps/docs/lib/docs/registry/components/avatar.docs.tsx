@@ -1,18 +1,19 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Avatar, AvatarGroup, Card } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Avatar, AvatarGroup } from '@unisane/ui/avatar';
+import { Card } from '@unisane/ui/card';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const AvatarHeroVisual = () => (
   <HeroBackground tone="surface">
     {/* Mock Team Card */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Project Team</span>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="space-y-4 p-4">
         <div className="flex items-center gap-3">
           <Avatar fallback="JD" size="md" />
           <div>
@@ -27,7 +28,7 @@ const AvatarHeroVisual = () => (
             <div className="text-body-small text-on-surface-variant">Developer</div>
           </div>
         </div>
-        <div className="pt-2 border-t border-outline-variant">
+        <div className="border-outline-variant border-t pt-2">
           <div className="text-label-small text-on-surface-variant mb-2">Team Members</div>
           <AvatarGroup max={4}>
             <Avatar fallback="A" size="sm" />
@@ -45,16 +46,16 @@ const AvatarHeroVisual = () => (
 
 export const avatarDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "avatar",
-  name: "Avatar",
-  description: "Avatars display user profile images, initials, or icons.",
-  category: "data-display",
-  status: "stable",
-  icon: "account_circle",
+  slug: 'avatar',
+  name: 'Avatar',
+  description: 'Avatars display user profile images, initials, or icons.',
+  category: 'data-display',
+  status: 'stable',
+  icon: 'account_circle',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Avatar", "AvatarGroup"],
+  importPath: '@/components/ui/avatar',
+  exports: ['Avatar', 'AvatarGroup'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <AvatarHeroVisual />,
@@ -62,89 +63,81 @@ export const avatarDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Avatars can display images, initials, or fallback icons. Choose based on available data.",
+      'Avatars can display images, initials, or fallback icons. Choose based on available data.',
     columns: {
-      emphasis: "Type",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Type',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "With Image",
-        component: (
-          <Avatar src="https://i.pravatar.cc/150?img=1" alt="User" />
-        ),
-        rationale:
-          "Display user's profile photo when available.",
-        examples: "User profiles, Comments, Messages",
+        emphasis: 'With Image',
+        component: <Avatar src="https://i.pravatar.cc/150?img=1" alt="User" />,
+        rationale: "Display user's profile photo when available.",
+        examples: 'User profiles, Comments, Messages',
       },
       {
-        emphasis: "With Initials",
-        component: (
-          <Avatar fallback="JD" />
-        ),
-        rationale:
-          "Show initials when no image is available.",
-        examples: "New users, Loading state, Anonymous",
+        emphasis: 'With Initials',
+        component: <Avatar fallback="JD" />,
+        rationale: 'Show initials when no image is available.',
+        examples: 'New users, Loading state, Anonymous',
       },
       {
-        emphasis: "Fallback",
-        component: (
-          <Avatar />
-        ),
-        rationale:
-          "Default icon when no information is available.",
-        examples: "Unknown user, Placeholder, System",
+        emphasis: 'Fallback',
+        component: <Avatar />,
+        rationale: 'Default icon when no information is available.',
+        examples: 'Unknown user, Placeholder, System',
       },
     ],
   },
 
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
-    description:
-      "Avatars come in multiple sizes to fit different contexts.",
+    description: 'Avatars come in multiple sizes to fit different contexts.',
     items: [
       {
         component: <Avatar fallback="SM" size="sm" />,
-        title: "Small",
-        subtitle: "32px - Lists, comments",
+        title: 'Small',
+        subtitle: '32px - Lists, comments',
       },
       {
         component: <Avatar fallback="MD" size="md" />,
-        title: "Medium",
-        subtitle: "40px - Default size",
+        title: 'Medium',
+        subtitle: '40px - Default size',
       },
       {
         component: <Avatar fallback="LG" size="lg" />,
-        title: "Large",
-        subtitle: "48px - Profiles, cards",
+        title: 'Large',
+        subtitle: '48px - Profiles, cards',
       },
       {
         component: <Avatar fallback="XL" size="xl" />,
-        title: "Extra Large",
-        subtitle: "56px - Hero sections",
+        title: 'Extra Large',
+        subtitle: '56px - Hero sections',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Avatars are commonly used in user lists, comments, and profile sections.",
+    description: 'Avatars are commonly used in user lists, comments, and profile sections.',
     examples: [
       {
-        title: "User list",
+        title: 'User list',
         visual: (
-          <Card variant="outlined" padding="none" className="max-w-72 mx-auto overflow-hidden">
+          <Card variant="outlined" padding="none" className="mx-auto max-w-72 overflow-hidden">
             {[
-              { name: "Alice Johnson", role: "Designer", initials: "AJ" },
-              { name: "Bob Smith", role: "Developer", initials: "BS" },
-              { name: "Carol White", role: "Manager", initials: "CW" },
+              { name: 'Alice Johnson', role: 'Designer', initials: 'AJ' },
+              { name: 'Bob Smith', role: 'Developer', initials: 'BS' },
+              { name: 'Carol White', role: 'Manager', initials: 'CW' },
             ].map((user) => (
-              <div key={user.name} className="flex items-center gap-3 px-4 py-3 border-b border-outline-variant last:border-0">
+              <div
+                key={user.name}
+                className="border-outline-variant flex items-center gap-3 border-b px-4 py-3 last:border-0"
+              >
                 <Avatar fallback={user.initials} size="sm" />
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="text-body-medium text-on-surface truncate">{user.name}</div>
                   <div className="text-body-small text-on-surface-variant">{user.role}</div>
                 </div>
@@ -152,12 +145,12 @@ export const avatarDoc: ComponentDoc = {
             ))}
           </Card>
         ),
-        caption: "Avatars in a user list with details",
+        caption: 'Avatars in a user list with details',
       },
       {
-        title: "Avatar group",
+        title: 'Avatar group',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-72 mx-auto">
+          <Card variant="outlined" padding="md" className="mx-auto max-w-72">
             <div className="text-title-small text-on-surface mb-3">Shared with</div>
             <AvatarGroup max={4}>
               <Avatar fallback="A" />
@@ -168,7 +161,7 @@ export const avatarDoc: ComponentDoc = {
             </AvatarGroup>
           </Card>
         ),
-        caption: "Stacked avatars showing multiple users",
+        caption: 'Stacked avatars showing multiple users',
       },
     ],
   },
@@ -176,48 +169,58 @@ export const avatarDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "src",
-      type: "string",
-      description: "URL of the avatar image.",
+      name: 'src',
+      type: 'string',
+      description: 'URL of the avatar image.',
     },
     {
-      name: "alt",
-      type: "string",
-      description: "Alt text for the image for accessibility.",
+      name: 'alt',
+      type: 'string',
+      description: 'Alt text for the image for accessibility.',
     },
     {
-      name: "fallback",
-      type: "string",
-      description: "Text to display when no image (first character is used).",
+      name: 'fallback',
+      type: 'string',
+      description: 'Text to display when no image (first character is used).',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg" | "xl"',
       default: '"md"',
-      description: "The size of the avatar.",
+      description: 'The size of the avatar.',
     },
     {
-      name: "variant",
+      name: 'variant',
       type: '"circular" | "rounded" | "square"',
       default: '"circular"',
-      description: "The shape of the avatar.",
+      description: 'The shape of the avatar.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes to apply.",
+      name: 'className',
+      type: 'string',
+      description: 'Additional CSS classes to apply.',
     },
   ],
 
   // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
   subComponents: [
     {
-      name: "AvatarGroup",
-      description: "Displays multiple avatars in a stacked layout.",
+      name: 'AvatarGroup',
+      description: 'Displays multiple avatars in a stacked layout.',
       props: [
-        { name: "children", type: "ReactNode", required: true, description: "Avatar components to display." },
-        { name: "max", type: "number", default: "5", description: "Maximum avatars to show before +N indicator." },
-        { name: "className", type: "string", description: "Additional CSS classes." },
+        {
+          name: 'children',
+          type: 'ReactNode',
+          required: true,
+          description: 'Avatar components to display.',
+        },
+        {
+          name: 'max',
+          type: 'number',
+          default: '5',
+          description: 'Maximum avatars to show before +N indicator.',
+        },
+        { name: 'className', type: 'string', description: 'Additional CSS classes.' },
       ],
     },
   ],
@@ -226,22 +229,20 @@ export const avatarDoc: ComponentDoc = {
   accessibility: {
     screenReader: [
       "Uses role='img' with aria-label for screen readers.",
-      "Image alt text is announced when present.",
-      "Fallback text is used as label when no image.",
+      'Image alt text is announced when present.',
+      'Fallback text is used as label when no image.',
     ],
-    keyboard: [
-      { key: "N/A", description: "Avatars are not interactive by default" },
-    ],
+    keyboard: [{ key: 'N/A', description: 'Avatars are not interactive by default' }],
     focus: [
-      "Avatars do not receive focus unless made interactive.",
-      "When used as buttons, focus ring is visible.",
+      'Avatars do not receive focus unless made interactive.',
+      'When used as buttons, focus ring is visible.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Display user avatars with image or fallback initials.",
-    code: `import { Avatar, AvatarGroup } from "@unisane/ui";
+    description: 'Display user avatars with image or fallback initials.',
+    code: `import { Avatar, AvatarGroup } from "@/components/ui/avatar";
 
 function UserProfile({ user }) {
   return (
@@ -282,16 +283,16 @@ function TeamMembers({ members }) {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "badge",
-      reason: "Use to add status indicators to avatars.",
+      slug: 'badge',
+      reason: 'Use to add status indicators to avatars.',
     },
     {
-      slug: "list",
-      reason: "Often used with avatars for user lists.",
+      slug: 'list',
+      reason: 'Often used with avatars for user lists.',
     },
     {
-      slug: "card",
-      reason: "Avatars commonly appear in card headers.",
+      slug: 'card',
+      reason: 'Avatars commonly appear in card headers.',
     },
   ],
 };

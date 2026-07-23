@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { TopAppBar, IconButton } from '@unisane/ui';
+import { TopAppBar } from '@unisane/ui/top-app-bar';
+import { IconButton } from '@unisane/ui/icon-button';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const TopAppBarHeroVisual = () => (
@@ -92,7 +93,7 @@ export const topAppBarDoc: ComponentDoc = {
   icon: 'web_asset',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/top-app-bar',
   exports: ['TopAppBar'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
@@ -282,7 +283,8 @@ export const topAppBarDoc: ComponentDoc = {
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
     description: 'Place at the top of your layout.',
-    code: `import { TopAppBar, IconButton } from "@unisane/ui";
+    code: `import { TopAppBar } from "@/components/ui/top-app-bar";
+import { IconButton } from "@/components/ui/icon-button";
 
 function AppHeader() {
   return (

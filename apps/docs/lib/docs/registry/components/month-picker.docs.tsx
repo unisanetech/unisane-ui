@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
 import { DatePicker } from '@unisane/ui/date-picker';
-import { MonthPicker } from '@unisane/ui';
+import { MonthPicker } from '@unisane/ui/month-picker';
 
 const MonthPickerHeroVisual = () => (
   <HeroBackground tone="secondary">
@@ -58,7 +58,7 @@ export const monthPickerDoc: ComponentDoc = {
   category: 'text-inputs',
   status: 'stable',
   icon: 'calendar_month',
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/month-picker',
   exports: ['MonthPicker'],
   heroVisual: <MonthPickerHeroVisual />,
   examplesPreview: {
@@ -188,7 +188,7 @@ export const monthPickerDoc: ComponentDoc = {
   },
   implementation: {
     description: 'Use controlled state for month values stored as YYYY-MM.',
-    code: `import { MonthPicker } from "@unisane/ui";
+    code: `import { MonthPicker } from "@/components/ui/month-picker";
 import { useState } from "react";
 
 function TimelineForm() {

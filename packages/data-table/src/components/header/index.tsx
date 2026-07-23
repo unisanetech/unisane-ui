@@ -1,7 +1,8 @@
 'use client';
 
 import React, { memo } from 'react';
-import { cn, Checkbox } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Checkbox } from '@unisane/ui/checkbox';
 import type {
   Column,
   ColumnGroup,

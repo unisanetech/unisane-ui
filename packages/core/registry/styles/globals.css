@@ -1032,6 +1032,10 @@
   }
 }
 
+/* Compile the complete first-party runtime baseline once. Consumers never scan package source. */
+@source "./**/*.{ts,tsx}";
+@source "../../data-table/src/**/*.{ts,tsx}";
+
 /* Dark mode variant */
 @custom-variant dark (&:is(.dark *));
 
@@ -1050,6 +1054,15 @@
   to {
     opacity: 0;
     transform: scale(2);
+  }
+}
+
+@keyframes progress-indeterminate {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
   }
 }
 

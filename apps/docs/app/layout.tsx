@@ -5,9 +5,9 @@ import '@material-symbols/font-400/outlined.css';
 import type { Metadata } from 'next';
 import { cookies, headers } from 'next/headers';
 import { Inter, Sora } from 'next/font/google';
-import { AppearanceProvider, AppearanceScript } from '@unisane/ui';
+import { AppearanceProvider, AppearanceScript } from '@unisane/ui/appearance-provider';
 import { Toaster } from '@unisane/ui/toast';
-import type { SidebarViewport } from '@unisane/ui';
+import type { SidebarViewport } from '@unisane/ui/sidebar';
 import { ShellRouteLayout } from '@/features/shell';
 import { DOCS_SIDEBAR_EXPANDED_COOKIE } from '@/features/shell/lib/sidebar-persistence';
 import {

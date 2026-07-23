@@ -1,173 +1,243 @@
-import React, { isValidElement } from 'react';
-import { cva, type VariantProps } from 'class-variance-authority';
-import { cn, Slot } from '../lib/utils';
+import React, { forwardRef } from 'react';
 import { paginationButtonClass } from '../lib/action-size';
+import { cn, focusRing } from '../lib/utils';
 import { Text } from '../primitives/text';
-import { IconButton } from './icon-button';
+import { Icon } from './icon';
 import { Ripple } from './ripple';
 
-const paginationVariants = cva('flex items-center gap-2', {
-  variants: {
-    variant: {
-      default: '',
-    },
-  },
-  defaultVariants: {
-    variant: 'default',
-  },
-});
+export interface PaginationLabels {
+  navigation: string;
+  previous: string;
+  next: string;
+  page: (page: number) => string;
+}
 
-export type PaginationProps = VariantProps<typeof paginationVariants> & {
+export interface PaginationLinkProps extends Omit<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+> {
+  href: string;
+  children: React.ReactNode;
+}
+
+export type PaginationLinkRenderer = (
+  page: number,
+  props: PaginationLinkProps,
+) => React.ReactElement;
+
+type PaginationCommonProps = Omit<React.ComponentPropsWithoutRef<'nav'>, 'children'> & {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
-  className?: string;
-  getPageHref?: (page: number) => string;
-  renderLink?: (page: number, children: React.ReactNode) => React.ReactNode;
+  siblingCount?: number;
+  labels?: Partial<PaginationLabels>;
 };
 
-export const Pagination: React.FC<PaginationProps> = ({
-  currentPage,
-  totalPages,
+export type PaginationButtonProps = PaginationCommonProps & {
+  onPageChange: (page: number) => void;
+  getPageHref?: never;
+  renderLink?: never;
+};
+
+export type PaginationNavigationProps = PaginationCommonProps & {
+  getPageHref: (page: number) => string;
+  renderLink?: PaginationLinkRenderer;
+  onPageChange?: (page: number) => void;
+};
+
+export type PaginationProps = PaginationButtonProps | PaginationNavigationProps;
+
+type PaginationRangeItem = number | 'start-ellipsis' | 'end-ellipsis';
+
+const defaultLabels: PaginationLabels = {
+  navigation: 'Pagination',
+  previous: 'Previous page',
+  next: 'Next page',
+  page: (page) => `Page ${page}`,
+};
+
+function normalizeInteger(value: number, fallback: number, minimum: number) {
+  return Number.isFinite(value) ? Math.max(minimum, Math.trunc(value)) : fallback;
+}
+
+function range(start: number, end: number) {
+  return Array.from({ length: Math.max(0, end - start + 1) }, (_, index) => start + index);
+}
+
+function getPaginationRange(
+  currentPage: number,
+  totalPages: number,
+  siblingCount: number,
+): PaginationRangeItem[] {
+  const completeRangeSize = siblingCount * 2 + 5;
+
+  if (totalPages <= completeRangeSize) {
+    return range(1, totalPages);
+  }
+
+  if (currentPage <= siblingCount + 3) {
+    const end = siblingCount * 2 + 3;
+    return [...range(1, end), 'end-ellipsis', totalPages];
+  }
+
+  if (currentPage >= totalPages - siblingCount - 2) {
+    const start = totalPages - siblingCount * 2 - 2;
+    return [1, 'start-ellipsis', ...range(start, totalPages)];
+  }
+
+  return [
+    1,
+    'start-ellipsis',
+    ...range(currentPage - siblingCount, currentPage + siblingCount),
+    'end-ellipsis',
+    totalPages,
+  ];
+}
+
+interface PaginationActionProps {
+  page: number;
+  current?: boolean;
+  disabled?: boolean;
+  label: string;
+  onPageChange?: (page: number) => void;
+  getPageHref?: (page: number) => string;
+  renderLink?: PaginationLinkRenderer;
+  children: React.ReactNode;
+}
+
+function PaginationAction({
+  page,
+  current = false,
+  disabled = false,
+  label,
   onPageChange,
-  className,
   getPageHref,
   renderLink,
-}) => {
-  const getPageNumbers = () => {
-    const pages = [];
-    const maxVisible = 5;
+  children,
+}: PaginationActionProps) {
+  const className = cn(
+    paginationButtonClass,
+    focusRing,
+    current ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-state-hover',
+    disabled && 'cursor-default opacity-38',
+  );
+  const content = (
+    <>
+      {!disabled && <Ripple />}
+      <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
+    </>
+  );
 
-    if (totalPages <= maxVisible) {
-      for (let i = 1; i <= totalPages; i++) {
-        pages.push(i);
-      }
-    } else {
-      pages.push(1);
+  if (!disabled && getPageHref) {
+    const linkProps: PaginationLinkProps = {
+      href: getPageHref(page),
+      className,
+      'aria-current': current ? 'page' : undefined,
+      'aria-label': label,
+      onClick: () => onPageChange?.(page),
+      children: content,
+    };
 
-      if (currentPage > 3) {
-        pages.push('...');
-      }
-
-      const start = Math.max(2, currentPage - 1);
-      const end = Math.min(totalPages - 1, currentPage + 1);
-
-      for (let i = start; i <= end; i++) {
-        pages.push(i);
-      }
-
-      if (currentPage < totalPages - 2) {
-        pages.push('...');
-      }
-
-      pages.push(totalPages);
-    }
-
-    return pages;
-  };
-
-  const pageNumbers = getPageNumbers();
-
-  const renderPageButton = (page: number) => {
-    const isCurrent = page === currentPage;
-    const buttonClasses = cn(
-      paginationButtonClass,
-      isCurrent ? 'bg-primary text-on-primary' : 'text-on-surface-variant hover:bg-state-hover',
-    );
-
-    const innerContent = (
-      <>
-        <Ripple />
-        <Text variant="bodyMedium" className="relative z-10">
-          {page}
-        </Text>
-      </>
-    );
-
-    if (renderLink) {
-      const customLink = renderLink(page, innerContent);
-      if (isValidElement(customLink)) {
-        return (
-          <Slot
-            className={buttonClasses}
-            aria-current={isCurrent ? 'page' : undefined}
-            aria-label={`Page ${page}`}
-          >
-            {customLink}
-          </Slot>
-        );
-      }
-    }
-
-    if (getPageHref) {
-      return (
-        <a
-          href={getPageHref(page)}
-          className={buttonClasses}
-          onClick={(e) => {
-            e.preventDefault();
-            onPageChange(page);
-          }}
-          aria-current={isCurrent ? 'page' : undefined}
-          aria-label={`Page ${page}`}
-        >
-          {innerContent}
-        </a>
-      );
-    }
-
-    return (
-      <button
-        type="button"
-        className={buttonClasses}
-        onClick={() => onPageChange(page)}
-        aria-current={isCurrent ? 'page' : undefined}
-        aria-label={`Page ${page}`}
-      >
-        {innerContent}
-      </button>
-    );
-  };
+    return renderLink ? renderLink(page, linkProps) : <a {...linkProps} />;
+  }
 
   return (
-    <nav className={cn(paginationVariants({ className }))} aria-label="Pagination">
-      <IconButton
-        icon={
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-          </svg>
-        }
-        onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-        disabled={currentPage === 1}
-        aria-label="Previous page"
-        className="text-on-surface-variant"
-      />
-
-      <div className="flex items-center gap-1">
-        {pageNumbers.map((page, index) => (
-          <React.Fragment key={index}>
-            {page === '...' ? (
-              <Text variant="bodyMedium" className="text-on-surface-variant px-2">
-                ...
-              </Text>
-            ) : (
-              renderPageButton(page as number)
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-
-      <IconButton
-        icon={
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-          </svg>
-        }
-        onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-        disabled={currentPage === totalPages}
-        aria-label="Next page"
-        className="text-on-surface-variant"
-      />
-    </nav>
+    <button
+      type="button"
+      className={className}
+      disabled={disabled}
+      aria-current={current ? 'page' : undefined}
+      aria-label={label}
+      onClick={() => onPageChange?.(page)}
+    >
+      {content}
+    </button>
   );
-};
+}
+
+export const Pagination = forwardRef<HTMLElement, PaginationProps>(
+  (
+    {
+      currentPage,
+      totalPages,
+      siblingCount = 1,
+      labels,
+      onPageChange,
+      getPageHref,
+      renderLink,
+      className,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledBy,
+      ...props
+    },
+    ref,
+  ) => {
+    const pageCount = normalizeInteger(totalPages, 0, 0);
+    if (pageCount === 0) return null;
+
+    const activePage = Math.min(normalizeInteger(currentPage, 1, 1), pageCount);
+    const visibleSiblingCount = normalizeInteger(siblingCount, 1, 0);
+    const resolvedLabels = { ...defaultLabels, ...labels };
+    const pageRange = getPaginationRange(activePage, pageCount, visibleSiblingCount);
+
+    return (
+      <nav
+        {...props}
+        ref={ref}
+        aria-label={ariaLabel ?? (ariaLabelledBy ? undefined : resolvedLabels.navigation)}
+        aria-labelledby={ariaLabelledBy}
+        className={cn('flex items-center gap-2', className)}
+      >
+        <PaginationAction
+          page={activePage - 1}
+          disabled={activePage === 1}
+          label={resolvedLabels.previous}
+          onPageChange={onPageChange}
+          getPageHref={getPageHref}
+          renderLink={renderLink}
+        >
+          <Icon symbol="chevron_left" className="rtl:rotate-180" />
+        </PaginationAction>
+
+        <div className="flex items-center gap-1">
+          {pageRange.map((item) =>
+            typeof item === 'number' ? (
+              <PaginationAction
+                key={item}
+                page={item}
+                current={item === activePage}
+                label={resolvedLabels.page(item)}
+                onPageChange={onPageChange}
+                getPageHref={getPageHref}
+                renderLink={renderLink}
+              >
+                <Text variant="bodyMedium">{item}</Text>
+              </PaginationAction>
+            ) : (
+              <Text
+                key={item}
+                aria-hidden="true"
+                variant="bodyMedium"
+                className="text-on-surface-variant px-2"
+              >
+                …
+              </Text>
+            ),
+          )}
+        </div>
+
+        <PaginationAction
+          page={activePage + 1}
+          disabled={activePage === pageCount}
+          label={resolvedLabels.next}
+          onPageChange={onPageChange}
+          getPageHref={getPageHref}
+          renderLink={renderLink}
+        >
+          <Icon symbol="chevron_right" className="rtl:rotate-180" />
+        </PaginationAction>
+      </nav>
+    );
+  },
+);
+
+Pagination.displayName = 'Pagination';

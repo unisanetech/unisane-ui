@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import type {
   StaticDocGridItem,
   StaticDocLinkItem,

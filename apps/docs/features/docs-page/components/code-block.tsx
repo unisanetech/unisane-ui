@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { cn } from '@unisane/ui/lib/utils';
-import { IconButton, Surface } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Surface } from '@unisane/ui/surface';
 
 interface CodeBlockProps {
   code: string;

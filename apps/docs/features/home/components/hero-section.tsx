@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Button, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { UnisaneLogo } from '@/features/branding';
 import { getComponentCount } from '@/lib/docs/registry/selectors';
 import { HeroShowcase } from './hero-showcase';

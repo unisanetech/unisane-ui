@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Chip } from "@unisane/ui";
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Chip } from '@unisane/ui/chip';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ChipHeroVisual = () => (
   <HeroBackground tone="surface">
     {/* Mock Filter Card */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant">
-      <div className="px-5 py-4 border-b border-outline-variant">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border shadow-xl">
+      <div className="border-outline-variant border-b px-5 py-4">
         <span className="text-title-medium text-on-surface">Filter Products</span>
       </div>
       <div className="p-4">
@@ -33,17 +33,17 @@ const ChipHeroVisual = () => (
 
 export const chipDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "chip",
-  name: "Chip",
+  slug: 'chip',
+  name: 'Chip',
   description:
-    "Chips help people enter information, make selections, filter content, or trigger actions.",
-  category: "selection",
-  status: "stable",
-  icon: "label",
+    'Chips help people enter information, make selections, filter content, or trigger actions.',
+  category: 'selection',
+  status: 'stable',
+  icon: 'label',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Chip"],
+  importPath: '@/components/ui/chip',
+  exports: ['Chip'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <ChipHeroVisual />,
@@ -51,49 +51,53 @@ export const chipDoc: ComponentDoc = {
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Chips come in different variants for different use cases. Choose based on the interaction type.",
+      'Chips come in different variants for different use cases. Choose based on the interaction type.',
     columns: {
-      emphasis: "Variant",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Variant',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Assist",
+        emphasis: 'Assist',
         component: (
-          <Chip variant="assist" label="Add event" icon={<span className="material-symbols-outlined text-[18px]">add</span>} className="pointer-events-none" />
+          <Chip
+            variant="assist"
+            label="Add event"
+            icon={<span className="material-symbols-outlined text-[18px]">add</span>}
+            className="pointer-events-none"
+          />
         ),
-        rationale:
-          "Represent smart or automated actions that can appear dynamically.",
-        examples: "Smart suggestions, Quick actions, Contextual help",
+        rationale: 'Represent smart or automated actions that can appear dynamically.',
+        examples: 'Smart suggestions, Quick actions, Contextual help',
       },
       {
-        emphasis: "Filter",
+        emphasis: 'Filter',
         component: (
           <Chip variant="filter" label="Active" selected className="pointer-events-none" />
         ),
-        rationale:
-          "Allow users to filter content using tags. Can be toggled on/off.",
-        examples: "Search filters, Category selection, Multi-select",
+        rationale: 'Allow users to filter content using tags. Can be toggled on/off.',
+        examples: 'Search filters, Category selection, Multi-select',
       },
       {
-        emphasis: "Input",
+        emphasis: 'Input',
         component: (
-          <Chip variant="input" label="john@email.com" onDelete={() => {}} className="pointer-events-none" />
+          <Chip
+            variant="input"
+            label="john@email.com"
+            onDelete={() => {}}
+            className="pointer-events-none"
+          />
         ),
-        rationale:
-          "Represent user-entered information that can be removed.",
-        examples: "Email recipients, Tags, Selected items",
+        rationale: 'Represent user-entered information that can be removed.',
+        examples: 'Email recipients, Tags, Selected items',
       },
       {
-        emphasis: "Suggestion",
-        component: (
-          <Chip variant="suggestion" label="Try this" className="pointer-events-none" />
-        ),
-        rationale:
-          "Offer dynamic suggestions to help users complete tasks.",
-        examples: "Search suggestions, Auto-complete, Recent items",
+        emphasis: 'Suggestion',
+        component: <Chip variant="suggestion" label="Try this" className="pointer-events-none" />,
+        rationale: 'Offer dynamic suggestions to help users complete tasks.',
+        examples: 'Search suggestions, Auto-complete, Recent items',
       },
     ],
   },
@@ -101,33 +105,38 @@ export const chipDoc: ComponentDoc = {
   // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
     description:
-      "Chips can include icons for visual context and delete buttons for removable items.",
+      'Chips can include icons for visual context and delete buttons for removable items.',
     items: [
       {
         component: <Chip variant="filter" label="Selected" selected />,
-        title: "Selected",
-        subtitle: "Active filter state",
+        title: 'Selected',
+        subtitle: 'Active filter state',
       },
       {
-        component: <Chip variant="assist" label="With icon" icon={<span className="material-symbols-outlined text-[18px]">star</span>} />,
-        title: "With icon",
-        subtitle: "Visual context",
+        component: (
+          <Chip
+            variant="assist"
+            label="With icon"
+            icon={<span className="material-symbols-outlined text-[18px]">star</span>}
+          />
+        ),
+        title: 'With icon',
+        subtitle: 'Visual context',
       },
       {
         component: <Chip variant="input" label="Removable" onDelete={() => {}} />,
-        title: "With delete",
-        subtitle: "User-entered input",
+        title: 'With delete',
+        subtitle: 'User-entered input',
       },
     ],
   },
 
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
-    description:
-      "Chips are commonly used in filter bars, tag inputs, and selection groups.",
+    description: 'Chips are commonly used in filter bars, tag inputs, and selection groups.',
     examples: [
       {
-        title: "Filter bar",
+        title: 'Filter bar',
         visual: (
           <div className="flex flex-wrap gap-2">
             <Chip variant="filter" label="All" selected />
@@ -136,17 +145,17 @@ export const chipDoc: ComponentDoc = {
             <Chip variant="filter" label="Archived" />
           </div>
         ),
-        caption: "Horizontal chip group for filtering content",
+        caption: 'Horizontal chip group for filtering content',
       },
       {
-        title: "Tag input",
+        title: 'Tag input',
         visual: (
-          <div className="flex flex-wrap gap-2 p-3 border border-outline-variant rounded-sm min-h-12 w-full max-w-xs bg-surface-container-low">
+          <div className="border-outline-variant bg-surface-container-low flex min-h-12 w-full max-w-xs flex-wrap gap-2 rounded-sm border p-3">
             <Chip variant="input" label="alice@mail.com" onDelete={() => {}} />
             <Chip variant="input" label="bob@mail.com" onDelete={() => {}} />
           </div>
         ),
-        caption: "Input chips in a text field for multiple values",
+        caption: 'Input chips in a text field for multiple values',
       },
     ],
   },
@@ -154,68 +163,68 @@ export const chipDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "label",
-      type: "string",
+      name: 'label',
+      type: 'string',
       required: true,
-      description: "The text content of the chip.",
+      description: 'The text content of the chip.',
     },
     {
-      name: "variant",
+      name: 'variant',
       type: '"assist" | "filter" | "input" | "suggestion"',
       default: '"assist"',
-      description: "The visual style and behavior of the chip.",
+      description: 'The visual style and behavior of the chip.',
     },
     {
-      name: "selected",
-      type: "boolean",
-      default: "false",
-      description: "Whether the chip is in a selected state (for filter chips).",
+      name: 'selected',
+      type: 'boolean',
+      default: 'false',
+      description: 'Whether the chip is in a selected state (for filter chips).',
     },
     {
-      name: "icon",
-      type: "ReactNode",
-      description: "Icon displayed at the start of the chip.",
+      name: 'icon',
+      type: 'ReactNode',
+      description: 'Icon displayed at the start of the chip.',
     },
     {
-      name: "onDelete",
-      type: "() => void",
-      description: "Callback when the delete button is clicked. Shows delete button when provided.",
+      name: 'onDelete',
+      type: '() => void',
+      description: 'Callback when the delete button is clicked. Shows delete button when provided.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "If true, the chip is disabled and non-interactive.",
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'If true, the chip is disabled and non-interactive.',
     },
     {
-      name: "onClick",
-      type: "(event: MouseEvent) => void",
-      description: "Callback fired when the primary chip action is clicked.",
+      name: 'onClick',
+      type: '(event: MouseEvent) => void',
+      description: 'Callback fired when the primary chip action is clicked.',
     },
   ],
 
   // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Pressable chips render native buttons when they do not also include a trailing remove action.",
-      "Chips with both a primary action and a trailing remove action keep button semantics on the wrapper.",
-      "Filter chips use aria-pressed to indicate selection state.",
-      "Delete button is separately focusable with clear label.",
+      'Pressable chips render native buttons when they do not also include a trailing remove action.',
+      'Chips with both a primary action and a trailing remove action keep button semantics on the wrapper.',
+      'Filter chips use aria-pressed to indicate selection state.',
+      'Delete button is separately focusable with clear label.',
     ],
     keyboard: [
-      { key: "Enter / Space", description: "Activates the chip (click action)" },
-      { key: "Tab", description: "Moves focus between chips and delete button" },
+      { key: 'Enter / Space', description: 'Activates the chip (click action)' },
+      { key: 'Tab', description: 'Moves focus between chips and delete button' },
     ],
     focus: [
-      "Focus ring clearly indicates the focused chip.",
-      "Delete button has separate focus state.",
+      'Focus ring clearly indicates the focused chip.',
+      'Delete button has separate focus state.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use chips for filtering, tagging, and selections.",
-    code: `import { Chip } from "@unisane/ui";
+    description: 'Use chips for filtering, tagging, and selections.',
+    code: `import { Chip } from "@/components/ui/chip";
 import { useState } from "react";
 
 function FilterChips() {
@@ -248,16 +257,16 @@ function FilterChips() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "checkbox",
-      reason: "Use for form-based multi-selection with labels.",
+      slug: 'checkbox',
+      reason: 'Use for form-based multi-selection with labels.',
     },
     {
-      slug: "badge",
-      reason: "Use for status indicators without interaction.",
+      slug: 'badge',
+      reason: 'Use for status indicators without interaction.',
     },
     {
-      slug: "button",
-      reason: "Use for primary actions instead of suggestions.",
+      slug: 'button',
+      reason: 'Use for primary actions instead of suggestions.',
     },
   ],
 };

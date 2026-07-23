@@ -12,9 +12,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
   DropdownMenuCheckboxItem,
-  Button,
-  IconButton,
-} from '@unisane/ui';
+} from '@unisane/ui/dropdown-menu';
+import { Button } from '@unisane/ui/button';
+import { IconButton } from '@unisane/ui/icon-button';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const DropdownMenuHeroVisual = () => (
@@ -82,7 +82,7 @@ export const dropdownMenuDoc: ComponentDoc = {
   icon: 'menu',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/dropdown-menu',
   exports: [
     'DropdownMenu',
     'DropdownMenuTrigger',
@@ -503,14 +503,8 @@ export const dropdownMenuDoc: ComponentDoc = {
   implementation: {
     description:
       'Compose dropdown menus with trigger and content components. Use className for custom styling.',
-    code: `import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  IconButton,
-} from "@unisane/ui";
+    code: `import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { IconButton } from "@/components/ui/icon-button";
 
 function ItemActions({ onEdit, onDuplicate, onDelete }) {
   return (

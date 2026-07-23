@@ -23,6 +23,9 @@ const rootDir = path.join(__dirname, '..');
 const srcDir = path.join(rootDir, 'src');
 const registryDir = path.join(rootDir, 'registry');
 const packageJsonPath = path.join(rootDir, 'package.json');
+const dataTableDir = path.resolve(rootDir, '../data-table');
+const dataTableSrcDir = path.join(dataTableDir, 'src');
+const dataTablePackageJsonPath = path.join(dataTableDir, 'package.json');
 
 const PEER_PACKAGES = new Set(['react', 'react-dom']);
 const MODULE_SPECIFIER_REGEX = /(?:\bfrom\s+|\bimport\s+)(["'])([^"']+)\1/g;
@@ -407,6 +410,72 @@ async function copySupportDirectory(folder) {
   return rewriteCount;
 }
 
+async function collectDataTableFiles(directory, relativePath = '') {
+  const files = [];
+  for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+    const nextRelativePath = relativePath ? `${relativePath}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      if (entry.name === '__tests__') continue;
+      files.push(
+        ...(await collectDataTableFiles(path.join(directory, entry.name), nextRelativePath)),
+      );
+      continue;
+    }
+    if (!entry.name.endsWith('.ts') && !entry.name.endsWith('.tsx')) continue;
+    if (/\.(?:test|spec)\.tsx?$/.test(entry.name)) continue;
+    files.push(nextRelativePath);
+  }
+  return files;
+}
+
+function rewriteDataTableImports(content, importerRelativePath, uiDependencies) {
+  return content.replace(MODULE_SPECIFIER_REGEX, (match, quote, specifier) => {
+    if (specifier.startsWith('@unisane/ui/')) {
+      const owner = specifier.slice('@unisane/ui/'.length);
+      uiDependencies.add(owner === 'navigation' ? 'navigation-types' : owner);
+      const target = owner === 'utils' ? '@/lib/utils' : `@/components/ui/${owner}`;
+      return match.replace(`${quote}${specifier}${quote}`, `${quote}${target}${quote}`);
+    }
+    if (!specifier.startsWith('.')) return match;
+    const resolved = path.posix.normalize(
+      path.posix.join(path.posix.dirname(importerRelativePath), specifier),
+    );
+    const target = `@/components/ui/data-table/${resolved}`;
+    return match.replace(`${quote}${specifier}${quote}`, `${quote}${target}${quote}`);
+  });
+}
+
+async function addDataTableRegistryItem(componentMetadata) {
+  const sourceFiles = await collectDataTableFiles(dataTableSrcDir);
+  const targetRoot = path.join(registryDir, 'components', 'data-table');
+  const uiDependencies = new Set();
+  await fs.mkdir(targetRoot, { recursive: true });
+
+  for (const relativeFilePath of sourceFiles) {
+    const sourcePath = path.join(dataTableSrcDir, relativeFilePath);
+    const targetPath = path.join(targetRoot, relativeFilePath);
+    const content = rewriteDataTableImports(
+      await fs.readFile(sourcePath, 'utf8'),
+      relativeFilePath,
+      uiDependencies,
+    );
+    await fs.mkdir(path.dirname(targetPath), { recursive: true });
+    await fs.writeFile(targetPath, content);
+  }
+
+  const dataTablePackage = JSON.parse(await fs.readFile(dataTablePackageJsonPath, 'utf8'));
+  componentMetadata['data-table'] = {
+    name: 'DataTable',
+    type: 'components:ui',
+    description: 'Feature-rich DataTable composite with grouped configuration',
+    files: sourceFiles.map((file) => `components/data-table/${file}`),
+    dependencies: Object.entries(dataTablePackage.dependencies ?? {})
+      .map(([name, version]) => `${name}@${version}`)
+      .sort(),
+    registryDependencies: Array.from(uiDependencies).sort(),
+  };
+}
+
 // Copy files to registry with import path rewriting
 async function copyToRegistry() {
   console.log('📦 Building registry...\n');
@@ -553,6 +622,7 @@ async function main() {
     console.log(`   - Types: ${Object.keys(types).length}\n`);
 
     await copyToRegistry();
+    await addDataTableRegistryItem(componentMetadata);
     await copyStyles();
     await generateRegistry(componentMetadata);
     await generateSchema();

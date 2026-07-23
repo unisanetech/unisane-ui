@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 

@@ -1,9 +1,9 @@
-"use client";
-/* eslint-disable react/prop-types */
+'use client';
 
-import type { PropDef } from "@/lib/docs/registry/types";
-import { Surface, Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import type { PropDef } from '@/lib/docs/registry/types';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface SubComponent {
   name: string;
@@ -21,14 +21,11 @@ interface SubComponentsSectionProps {
  * - Cards on mobile (< @2xl / 672px)
  * - Tables on larger screens
  */
-export function SubComponentsSection({
-  subComponents,
-  className,
-}: SubComponentsSectionProps) {
+export function SubComponentsSection({ subComponents, className }: SubComponentsSectionProps) {
   if (!subComponents.length) return null;
 
   return (
-    <div className={cn("space-y-4 @sm:space-y-6", className)}>
+    <div className={cn('space-y-4 @sm:space-y-6', className)}>
       {subComponents.map((sub) => (
         <SubComponentCard key={sub.name} subComponent={sub} />
       ))}
@@ -44,15 +41,12 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
 
   return (
     <Surface tone="surfaceContainerLow" rounded="sm" className="overflow-hidden">
-      <div className="flex flex-col @lg:flex-row @lg:items-center @lg:justify-between gap-1.5 @sm:gap-2 py-3 @sm:px-5 @sm:py-4 bg-surface-container-low">
-        <code className="text-body-large font-semibold text-primary font-mono">
-          {"<"}{name} {"/>"}
+      <div className="bg-surface-container-low flex flex-col gap-1.5 py-3 @sm:gap-2 @sm:px-5 @sm:py-4 @lg:flex-row @lg:items-center @lg:justify-between">
+        <code className="text-body-large text-primary font-mono font-semibold">
+          {'<'}
+          {name} {'/>'}
         </code>
-        <Typography
-          variant="bodySmall"
-          component="span"
-          className="text-on-surface-variant"
-        >
+        <Typography variant="bodySmall" component="span" className="text-on-surface-variant">
           {description}
         </Typography>
       </div>
@@ -61,7 +55,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
       {props && props.length > 0 && (
         <div>
           {/* ─── Mobile: Card Layout ───────────────────────────────────────── */}
-          <div className="@2xl:hidden flex flex-col">
+          <div className="flex flex-col @2xl:hidden">
             {props.map((prop, index) => (
               <SubComponentPropCard
                 key={prop.name}
@@ -73,19 +67,19 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
 
           {/* ─── Desktop: Table Layout ─────────────────────────────────────── */}
           <div className="hidden @2xl:block">
-            <table className="w-full text-body-small">
+            <table className="text-body-small w-full">
               <thead>
-                <tr className="border-b border-outline-variant bg-surface-container-low">
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                <tr className="border-outline-variant bg-surface-container-low border-b">
+                  <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                     Prop
                   </th>
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                  <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                     Type
                   </th>
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                  <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                     Default
                   </th>
-                  <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+                  <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                     Description
                   </th>
                 </tr>
@@ -94,7 +88,7 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
                 {props.map((prop) => (
                   <tr
                     key={prop.name}
-                    className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
+                    className="border-outline-variant hover:bg-surface-container-low border-b transition-colors last:border-none"
                   >
                     <td className="px-5 py-4 align-top">
                       <code className="text-primary font-mono font-medium">
@@ -103,18 +97,18 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
                       </code>
                     </td>
                     <td className="px-5 py-4 align-top">
-                      <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
+                      <code className="text-tertiary text-label-small bg-surface-variant rounded-sm px-2 py-1 font-mono">
                         {prop.type}
                       </code>
                     </td>
-                    <td className="px-5 py-4 align-top text-on-surface-variant">
+                    <td className="text-on-surface-variant px-5 py-4 align-top">
                       {prop.default ? (
-                        <code className="font-mono text-label-small">{prop.default}</code>
+                        <code className="text-label-small font-mono">{prop.default}</code>
                       ) : (
                         <span className="text-on-surface-variant">—</span>
                       )}
                     </td>
-                    <td className="px-5 py-4 align-top text-on-surface-variant font-medium">
+                    <td className="text-on-surface-variant px-5 py-4 align-top font-medium">
                       {prop.description}
                     </td>
                   </tr>
@@ -131,39 +125,25 @@ function SubComponentCard({ subComponent }: { subComponent: SubComponent }) {
 /**
  * Individual prop card for mobile view within sub-component
  */
-function SubComponentPropCard({
-  prop,
-  isLast,
-}: {
-  prop: PropDef;
-  isLast: boolean;
-}) {
+function SubComponentPropCard({ prop, isLast }: { prop: PropDef; isLast: boolean }) {
   return (
     <div
       className={cn(
-        "py-3 @sm:px-5 @sm:py-4 bg-surface-container-low",
-        !isLast && "border-b border-outline-variant"
+        'bg-surface-container-low py-3 @sm:px-5 @sm:py-4',
+        !isLast && 'border-outline-variant border-b',
       )}
     >
-      <div className="flex items-center gap-2 mb-2">
-        <code className="text-primary font-mono text-body-medium font-semibold">
-          {prop.name}
-        </code>
-        {prop.required && (
-          <span className="text-label-small text-error font-medium">required</span>
-        )}
+      <div className="mb-2 flex items-center gap-2">
+        <code className="text-primary text-body-medium font-mono font-semibold">{prop.name}</code>
+        {prop.required && <span className="text-label-small text-error font-medium">required</span>}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 mb-2.5 @sm:mb-3">
-        <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
+      <div className="mb-2.5 flex flex-wrap items-center gap-2 @sm:mb-3">
+        <code className="text-tertiary text-label-small bg-surface-variant rounded-sm px-2 py-1 font-mono">
           {prop.type}
         </code>
         {prop.default && (
-          <Typography
-            variant="labelSmall"
-            component="span"
-            className="text-on-surface-variant"
-          >
+          <Typography variant="labelSmall" component="span" className="text-on-surface-variant">
             = <code className="font-mono">{prop.default}</code>
           </Typography>
         )}

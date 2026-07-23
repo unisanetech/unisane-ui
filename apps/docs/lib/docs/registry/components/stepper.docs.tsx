@@ -1,343 +1,225 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Stepper, Card } from "@unisane/ui";
+import { Card } from '@unisane/ui/card';
+import { Stepper } from '@unisane/ui/stepper';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
+const setupSteps = [
+  { value: 'account', label: 'Account', description: 'Create login' },
+  { value: 'profile', label: 'Profile', description: 'Add details' },
+  { value: 'confirm', label: 'Confirm', description: 'Review setup' },
+];
+
 const StepperHeroVisual = () => (
   <HeroBackground tone="tertiary">
-    {/* Mock Stepper */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
-      <div className="flex items-start gap-0 w-full">
-        {/* Step 1 - Completed */}
-        <div className="flex flex-col items-center relative flex-1">
-          <div className="absolute top-4 left-1/2 w-full h-0.5 bg-primary z-0" />
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center text-label-small font-medium bg-primary border-2 border-primary text-on-primary z-10">
-            <span className="material-symbols-outlined text-[18px]">check</span>
-          </div>
-          <div className="mt-3 text-center">
-            <span className="text-label-small font-medium text-on-surface-variant">Details</span>
-          </div>
-        </div>
-        {/* Step 2 - Active */}
-        <div className="flex flex-col items-center relative flex-1">
-          <div className="absolute top-4 left-1/2 w-full h-0.5 bg-outline-subtle z-0" />
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center text-label-small font-medium bg-primary border-2 border-primary text-on-primary z-10 scale-110">
-            2
-          </div>
-          <div className="mt-3 text-center">
-            <span className="text-label-small font-medium text-on-surface">Payment</span>
-          </div>
-        </div>
-        {/* Step 3 - Pending */}
-        <div className="flex flex-col items-center relative flex-none">
-          <div className="w-8 h-8 rounded-sm flex items-center justify-center text-label-small font-medium bg-surface border-2 border-outline-variant text-on-surface-variant z-10">
-            3
-          </div>
-          <div className="mt-3 text-center">
-            <span className="text-label-small font-medium text-on-surface-variant">Confirm</span>
-          </div>
-        </div>
-      </div>
+    <div className="bg-surface border-outline-variant w-80 rounded-sm border p-6 shadow-xl">
+      <Stepper aria-label="Setup progress" steps={setupSteps} value="profile" />
     </div>
   </HeroBackground>
 );
 
 export const stepperDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "stepper",
-  name: "Stepper",
+  slug: 'stepper',
+  name: 'Stepper',
   description:
-    "Steppers guide users through multi-step processes, showing progress and remaining steps.",
-  category: "navigation",
-  status: "stable",
-  icon: "linear_scale",
+    'Stepper presents one controlled process sequence with passive progress or optional native step selection.',
+  category: 'navigation',
+  status: 'stable',
+  icon: 'linear_scale',
 
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Stepper", "Step", "StepLabel", "StepDescription"],
+  importPath: '@/components/ui/stepper',
+  exports: ['Stepper'],
 
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <StepperHeroVisual />,
 
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Stepper steps have three states: completed, active, and pending.",
+      'Use passive mode to report progress. Add onValueChange only when users may select available steps directly.',
     columns: {
-      emphasis: "State",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Mode',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Completed",
-        component: (
-          <Stepper
-            steps={[
-              { label: "Details" },
-              { label: "Payment" },
-              { label: "Confirm" },
-            ]}
-            activeStep={1}
-          />
-        ),
-        rationale:
-          "Previous steps that have been finished.",
-        examples: "Validated form sections, Previous stages",
+        emphasis: 'Passive progress',
+        component: <Stepper steps={setupSteps} value="profile" />,
+        rationale: 'The surrounding workflow owns next and back actions.',
+        examples: 'Linear forms, Checkout, Onboarding',
       },
       {
-        emphasis: "Active",
+        emphasis: 'Selectable steps',
         component: (
           <Stepper
-            steps={[
-              { label: "Details" },
-              { label: "Payment" },
-              { label: "Confirm" },
-            ]}
-            activeStep={1}
+            steps={[setupSteps[0]!, setupSteps[1]!, { ...setupSteps[2]!, disabled: true }]}
+            value="profile"
+            onValueChange={() => {}}
           />
         ),
-        rationale:
-          "The current step user is working on.",
-        examples: "Current form section, Active stage",
-      },
-      {
-        emphasis: "Pending",
-        component: (
-          <Stepper
-            steps={[
-              { label: "Details" },
-              { label: "Payment" },
-              { label: "Confirm" },
-            ]}
-            activeStep={0}
-          />
-        ),
-        rationale:
-          "Future steps not yet reached.",
-        examples: "Upcoming sections, Future stages",
+        rationale: 'Completed or otherwise available stages can be revisited directly.',
+        examples: 'Editable setup, Non-linear review',
       },
     ],
   },
 
-  // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
     description:
-      "Steppers can be horizontal or vertical based on layout needs.",
+      'Value identifies one current step; earlier completion derives by order unless a step explicitly overrides it.',
     items: [
+      {
+        component: <Stepper steps={setupSteps} value="account" />,
+        title: 'Current',
+        subtitle: 'Exactly one resolved step uses aria-current="step"',
+      },
+      {
+        component: <Stepper steps={setupSteps} value="confirm" />,
+        title: 'Completed',
+        subtitle: 'Earlier steps derive completion and expose localized status',
+      },
       {
         component: (
           <Stepper
             steps={[
-              { label: "One" },
-              { label: "Two" },
-              { label: "Three" },
+              { ...setupSteps[0]!, completed: false },
+              setupSteps[1]!,
+              { ...setupSteps[2]!, completed: true },
             ]}
-            activeStep={1}
+            value="profile"
           />
         ),
-        title: "Horizontal",
-        subtitle: "Default layout",
-      },
-      {
-        component: (
-          <div className="w-24">
-            <Stepper
-              steps={[
-                { label: "One" },
-                { label: "Two" },
-                { label: "Three" },
-              ]}
-              activeStep={2}
-            />
-          </div>
-        ),
-        title: "Vertical",
-        subtitle: "For narrow spaces",
+        title: 'Explicit completion',
+        subtitle: 'Non-linear processes can override completion without conflicting current state',
       },
     ],
   },
 
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Steppers are placed at the top of multi-step forms or wizards.",
+      'Horizontal orientation fits short sequences above content; vertical orientation fits narrow or description-heavy layouts.',
     examples: [
       {
-        title: "Checkout flow",
+        title: 'Horizontal process',
         visual: (
-          <Card variant="outlined" padding="lg" className="max-w-80 mx-auto">
-            <Stepper
-              steps={[
-                { label: "Cart" },
-                { label: "Shipping" },
-                { label: "Payment" },
-              ]}
-              activeStep={1}
-            />
+          <Card variant="outlined" padding="lg" className="mx-auto max-w-md">
+            <Stepper aria-label="Checkout progress" steps={setupSteps} value="profile" />
           </Card>
         ),
-        caption: "Three-step checkout process",
+        caption: 'A passive sequence above workflow content',
       },
       {
-        title: "With descriptions",
+        title: 'Vertical process',
         visual: (
-          <Card variant="outlined" padding="lg" className="max-w-80 mx-auto">
+          <Card variant="outlined" padding="lg" className="mx-auto max-w-80">
             <Stepper
-              steps={[
-                { label: "Account", description: "Create login" },
-                { label: "Profile", description: "Add details" },
-                { label: "Complete", description: "All done" },
-              ]}
-              activeStep={0}
+              aria-label="Account setup progress"
+              orientation="vertical"
+              steps={setupSteps}
+              value="profile"
+              onValueChange={() => {}}
             />
           </Card>
         ),
-        caption: "Steps with descriptive subtitles",
+        caption: 'The entire sequence and connectors use vertical geometry',
       },
     ],
   },
 
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "steps",
-      type: "Array<{ label: string; description?: string }>",
-      description: "Array of step definitions with labels and optional descriptions.",
+      name: 'steps',
+      type: 'StepperStep[]',
+      required: true,
+      description:
+        'Stable-value step catalog with rich labels, descriptions, completion overrides, and disabled state.',
     },
     {
-      name: "activeStep",
-      type: "number",
-      default: "0",
-      description: "Index of the currently active step (0-indexed).",
+      name: 'value',
+      type: 'string',
+      required: true,
+      description:
+        'Controlled current step value. Missing or disabled values resolve to the first available step.',
     },
     {
-      name: "children",
-      type: "ReactNode",
-      description: "Alternative to steps prop for custom step rendering.",
+      name: 'onValueChange',
+      type: '(value: string) => void',
+      description:
+        'Enables native button selection for available steps. Omit it for passive progress.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
+      name: 'orientation',
+      type: '"horizontal" | "vertical"',
+      default: '"horizontal"',
+      description: 'Controls the entire sequence layout, alignment, and connector geometry.',
+    },
+    {
+      name: 'labels',
+      type: 'Partial<StepperLabels>',
+      description: 'Localizes positional and completed status text.',
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: 'Classes applied to the native ordered-list boundary.',
     },
   ],
 
-  // ─── SUB-COMPONENTS ─────────────────────────────────────────────────────────
-  subComponents: [
-    {
-      name: "Step",
-      description: "Individual step component for custom rendering.",
-      props: [
-        { name: "stepNumber", type: "number", required: true, description: "The step number to display." },
-        { name: "active", type: "boolean", description: "Whether this step is currently active." },
-        { name: "completed", type: "boolean", description: "Whether this step is completed." },
-        { name: "orientation", type: '"horizontal" | "vertical"', description: "Layout orientation." },
-        { name: "onClick", type: "() => void", description: "Click handler for interactive steps." },
-      ],
-    },
-    {
-      name: "StepLabel",
-      description: "Label wrapper for step titles.",
-      props: [
-        { name: "children", type: "ReactNode", required: true, description: "Step title text." },
-      ],
-    },
-    {
-      name: "StepDescription",
-      description: "Description text below step labels.",
-      props: [
-        { name: "children", type: "ReactNode", required: true, description: "Description text." },
-      ],
-    },
-  ],
-
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Steps are announced with their number and label.",
-      "Active step uses aria-current='step'.",
-      "Completed steps indicate their status.",
+      'The root is an ordered list and every step is a native list item.',
+      'Exactly one resolved item uses aria-current="step".',
+      'Position and completed status are localized; disabled interactive steps use native disabled semantics.',
     ],
     keyboard: [
-      { key: "Tab", description: "Moves focus between interactive steps" },
-      { key: "Enter / Space", description: "Activates step if clickable" },
+      { key: 'Tab', description: 'Moves through available step buttons only in selectable mode' },
+      { key: 'Enter / Space', description: 'Activates a focused available step button' },
     ],
     focus: [
-      "Interactive steps have visible focus ring.",
-      "Active step is visually emphasized.",
+      'Passive progress adds no false focus stops or pointer affordances.',
+      'Selectable steps use native buttons and the shared visible focus treatment.',
     ],
   },
 
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state to manage step progression.",
-    code: `import { Stepper, Button, Card } from "@unisane/ui";
+    description:
+      'Keep process content and next/back actions in the application; Stepper owns only progress presentation and optional step selection.',
+    code: `import { Stepper } from "@/components/ui/stepper";
 import { useState } from "react";
 
-function CheckoutWizard() {
-  const [activeStep, setActiveStep] = useState(0);
+const steps = [
+  { value: "cart", label: "Cart", description: "Review items" },
+  { value: "shipping", label: "Shipping", description: "Enter address" },
+  { value: "payment", label: "Payment", description: "Add payment" },
+  { value: "confirm", label: "Confirm", description: "Place order", disabled: true },
+];
 
-  const steps = [
-    { label: "Cart", description: "Review items" },
-    { label: "Shipping", description: "Enter address" },
-    { label: "Payment", description: "Add payment" },
-    { label: "Confirm", description: "Place order" },
-  ];
-
-  const handleNext = () => {
-    setActiveStep((prev) => Math.min(prev + 1, steps.length - 1));
-  };
-
-  const handleBack = () => {
-    setActiveStep((prev) => Math.max(prev - 1, 0));
-  };
+function CheckoutProgress() {
+  const [value, setValue] = useState("shipping");
 
   return (
-    <Card>
-      <Stepper steps={steps} activeStep={activeStep} />
-
-      <div className="mt-8">
-        {/* Step content based on activeStep */}
-        {activeStep === 0 && <CartReview />}
-        {activeStep === 1 && <ShippingForm />}
-        {activeStep === 2 && <PaymentForm />}
-        {activeStep === 3 && <OrderConfirmation />}
-      </div>
-
-      <div className="flex justify-between mt-6">
-        <Button
-          variant="outlined"
-          onClick={handleBack}
-          disabled={activeStep === 0}
-        >
-          Back
-        </Button>
-        <Button variant="filled" onClick={handleNext}>
-          {activeStep === steps.length - 1 ? "Place Order" : "Continue"}
-        </Button>
-      </div>
-    </Card>
+    <Stepper
+      aria-label="Checkout progress"
+      steps={steps}
+      value={value}
+      onValueChange={setValue}
+    />
   );
 }`,
   },
 
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "progress",
-      reason: "Use for continuous progress indication.",
+      slug: 'progress',
+      reason: 'Use Progress when numbered stages and direct step identity are unnecessary.',
     },
     {
-      slug: "tabs",
-      reason: "Use for non-linear content navigation.",
+      slug: 'tabs',
+      reason: 'Use Tabs for peer content views rather than ordered process stages.',
     },
     {
-      slug: "card",
-      reason: "Container for step content sections.",
+      slug: 'button',
+      reason: 'Applications own next, back, submit, and workflow actions outside Stepper.',
     },
   ],
 };

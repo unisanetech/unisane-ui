@@ -1,6 +1,4 @@
-'use client';
-
-import React, { useEffect } from 'react';
+import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../lib/utils';
 
@@ -37,26 +35,6 @@ export const Progress: React.FC<ProgressProps> = ({
   indeterminate = false,
   className,
 }) => {
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    const styleId = 'unisane-progress-indeterminate';
-    if (document.getElementById(styleId)) return;
-
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.textContent = `
-      @keyframes indeterminate {
-        0% {
-          transform: translateX(-100%);
-        }
-        100% {
-          transform: translateX(300%);
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }, []);
-
   const clampedValue = Math.max(0, Math.min(100, value));
 
   if (variant === 'circular') {
@@ -126,7 +104,7 @@ export const Progress: React.FC<ProgressProps> = ({
         }}
       >
         {indeterminate && (
-          <div className="bg-primary h-full w-1/3 animate-[indeterminate_1.5s_ease-in-out_infinite]" />
+          <div className="bg-primary h-full w-1/3 animate-[progress-indeterminate_1.5s_ease-in-out_infinite]" />
         )}
       </div>
     </div>

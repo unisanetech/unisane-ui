@@ -1,9 +1,9 @@
-"use client";
-/* eslint-disable react/prop-types */
+'use client';
 
-import type { PropDef } from "@/lib/docs/registry/types";
-import { Surface, Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import type { PropDef } from '@/lib/docs/registry/types';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface PropsTableProps {
   props: PropDef[];
@@ -19,18 +19,10 @@ export function PropsTable({ props, className }: PropsTableProps) {
   if (!props.length) return null;
 
   return (
-    <div className={cn("w-full", className)}>
-      <Surface
-        tone="surfaceContainerLow"
-        rounded="sm"
-        className="@2xl:hidden overflow-hidden"
-      >
+    <div className={cn('w-full', className)}>
+      <Surface tone="surfaceContainerLow" rounded="sm" className="overflow-hidden @2xl:hidden">
         {props.map((prop, index) => (
-          <PropCard
-            key={prop.name}
-            prop={prop}
-            isLast={index === props.length - 1}
-          />
+          <PropCard key={prop.name} prop={prop} isLast={index === props.length - 1} />
         ))}
       </Surface>
 
@@ -38,21 +30,21 @@ export function PropsTable({ props, className }: PropsTableProps) {
       <Surface
         tone="surfaceContainerLow"
         rounded="sm"
-        className="hidden @2xl:block overflow-x-auto"
+        className="hidden overflow-x-auto @2xl:block"
       >
-        <table className="w-full text-body-small">
+        <table className="text-body-small w-full">
           <thead>
-            <tr className="bg-surface-container-low border-b border-outline-variant">
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+            <tr className="bg-surface-container-low border-outline-variant border-b">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 Prop
               </th>
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 Type
               </th>
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 Default
               </th>
-              <th className="px-5 py-4 text-left text-label-medium font-semibold text-on-surface">
+              <th className="text-label-medium text-on-surface px-5 py-4 text-left font-semibold">
                 Description
               </th>
             </tr>
@@ -61,27 +53,27 @@ export function PropsTable({ props, className }: PropsTableProps) {
             {props.map((prop) => (
               <tr
                 key={prop.name}
-                className="border-b border-outline-variant last:border-none hover:bg-surface-container-low transition-colors"
+                className="border-outline-variant hover:bg-surface-container-low border-b transition-colors last:border-none"
               >
                 <td className="px-5 py-4 align-top">
-                  <code className="text-primary font-mono text-body-small font-medium">
+                  <code className="text-primary text-body-small font-mono font-medium">
                     {prop.name}
                     {prop.required && <span className="text-error ml-1">*</span>}
                   </code>
                 </td>
                 <td className="px-5 py-4 align-top">
-                  <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm break-all">
+                  <code className="text-tertiary text-label-small bg-surface-variant rounded-sm px-2 py-1 font-mono break-all">
                     {prop.type}
                   </code>
                 </td>
-                <td className="px-5 py-4 align-top text-on-surface-variant">
+                <td className="text-on-surface-variant px-5 py-4 align-top">
                   {prop.default ? (
-                    <code className="font-mono text-label-small">{prop.default}</code>
+                    <code className="text-label-small font-mono">{prop.default}</code>
                   ) : (
                     <span className="text-on-surface-variant">—</span>
                   )}
                 </td>
-                <td className="px-5 py-4 align-top text-on-surface-variant font-medium">
+                <td className="text-on-surface-variant px-5 py-4 align-top font-medium">
                   {prop.description}
                 </td>
               </tr>
@@ -96,39 +88,20 @@ export function PropsTable({ props, className }: PropsTableProps) {
 /**
  * Individual prop card for mobile view
  */
-function PropCard({
-  prop,
-  isLast,
-}: {
-  prop: PropDef;
-  isLast: boolean;
-}) {
+function PropCard({ prop, isLast }: { prop: PropDef; isLast: boolean }) {
   return (
-    <div
-      className={cn(
-        "py-4 @sm:px-5 @sm:py-5",
-        !isLast && "border-b border-outline-variant"
-      )}
-    >
-      <div className="flex items-center gap-2 mb-2.5 @sm:mb-3">
-        <code className="text-primary font-mono text-body-medium font-semibold">
-          {prop.name}
-        </code>
-        {prop.required && (
-          <span className="text-label-small text-error font-medium">required</span>
-        )}
+    <div className={cn('py-4 @sm:px-5 @sm:py-5', !isLast && 'border-outline-variant border-b')}>
+      <div className="mb-2.5 flex items-center gap-2 @sm:mb-3">
+        <code className="text-primary text-body-medium font-mono font-semibold">{prop.name}</code>
+        {prop.required && <span className="text-label-small text-error font-medium">required</span>}
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 mb-3 @sm:mb-4">
-        <code className="text-tertiary font-mono text-label-small bg-surface-variant px-2 py-1 rounded-sm">
+      <div className="mb-3 flex flex-wrap items-center gap-2 @sm:mb-4">
+        <code className="text-tertiary text-label-small bg-surface-variant rounded-sm px-2 py-1 font-mono">
           {prop.type}
         </code>
         {prop.default && (
-          <Typography
-            variant="labelSmall"
-            component="span"
-            className="text-on-surface-variant"
-          >
+          <Typography variant="labelSmall" component="span" className="text-on-surface-variant">
             = <code className="font-mono">{prop.default}</code>
           </Typography>
         )}

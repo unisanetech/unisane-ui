@@ -1,17 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import {
-  Avatar,
-  Button,
-  Card,
-  Chip,
-  Fab,
-  Progress,
-  Slider,
-  Surface,
-  Typography,
-} from '@unisane/ui';
+import { Avatar } from '@unisane/ui/avatar';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Chip } from '@unisane/ui/chip';
+import { Fab } from '@unisane/ui/fab';
+import { Progress } from '@unisane/ui/progress';
+import { Slider } from '@unisane/ui/slider';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { Switch } from '@unisane/ui/switch';

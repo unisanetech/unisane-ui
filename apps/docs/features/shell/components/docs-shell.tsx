@@ -3,7 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { TopAppBar, IconButton } from '@unisane/ui';
+import { TopAppBar } from '@unisane/ui/top-app-bar';
+import { IconButton } from '@unisane/ui/icon-button';
 import {
   SidebarProvider,
   Sidebar,
@@ -12,7 +13,7 @@ import {
   SidebarDrawer,
   SidebarInset,
 } from '@unisane/ui/sidebar';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import type { SidebarViewport } from '@unisane/ui/sidebar';
 import { DOCS_NAVIGATION, getActiveNavigationId } from '@/lib/docs/runtime/navigation';
 import { UnisaneLogo, UnisaneWordmark } from '@/features/branding';

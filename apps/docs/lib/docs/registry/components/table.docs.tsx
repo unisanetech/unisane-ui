@@ -2,16 +2,9 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Card,
-  Checkbox,
-} from '@unisane/ui';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@unisane/ui/table';
+import { Card } from '@unisane/ui/card';
+import { Checkbox } from '@unisane/ui/checkbox';
 import { Badge } from '@unisane/ui/badge';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
@@ -71,7 +64,7 @@ export const tableDoc: ComponentDoc = {
   icon: 'table',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/table',
   exports: ['Table', 'TableHeader', 'TableBody', 'TableRow', 'TableHead', 'TableCell'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
@@ -412,7 +405,7 @@ export const tableDoc: ComponentDoc = {
   implementation: {
     description: 'Compose tables with header, body, rows, and cells.',
     code: `import { Badge } from '@/components/ui/badge';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@unisane/ui';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
 
 function UserTable({ users }) {
   return (

@@ -8,7 +8,7 @@ const paneVariants = cva(
   'relative h-full overflow-hidden transition-all duration-long ease-emphasized bg-surface',
   {
     variants: {
-      role: {
+      kind: {
         list: 'border-r border-outline-subtle z-0',
         main: 'flex-1 z-0',
         supporting: 'border-l border-outline-subtle z-10 bg-surface-container-low',
@@ -19,14 +19,14 @@ const paneVariants = cva(
       },
     },
     defaultVariants: {
-      role: 'main',
+      kind: 'main',
       isActive: true,
     },
   },
 );
 
 export interface PaneProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'role'>, VariantProps<typeof paneVariants> {
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof paneVariants> {
   width?: string | number;
   showScrollbar?: boolean;
   scrollable?: boolean;
@@ -34,25 +34,36 @@ export interface PaneProps
 
 export const Pane = React.forwardRef<HTMLDivElement, PaneProps>(
   (
-    { className, role, isActive, width, style, children, showScrollbar, scrollable, ...props },
+    {
+      className,
+      kind = 'main',
+      isActive,
+      width,
+      style,
+      children,
+      showScrollbar,
+      scrollable,
+      ...props
+    },
     ref,
   ) => {
     let widthClass = '';
     if (!width) {
-      if (role === 'list')
+      if (kind === 'list')
         widthClass = 'w-full medium:w-(--width-pane-list,var(--spacing-90)) shrink-0';
-      if (role === 'supporting')
+      if (kind === 'supporting')
         widthClass = 'w-full medium:w-(--width-pane-supporting,var(--spacing-100)) shrink-0';
-      if (role === 'main') widthClass = 'w-full flex-1 min-w-0';
+      if (kind === 'main') widthClass = 'w-full flex-1 min-w-0';
     }
 
     const shouldScroll = scrollable ?? true;
-    const shouldShowScrollbar = shouldScroll ? (showScrollbar ?? role === 'main') : false;
+    const shouldShowScrollbar = shouldScroll ? (showScrollbar ?? kind === 'main') : false;
 
     return (
       <div
         ref={ref}
-        className={cn(paneVariants({ role, isActive }), widthClass, className)}
+        className={cn(paneVariants({ kind, isActive }), widthClass, className)}
+        data-pane={kind}
         style={{
           ...style,
           ...(width ? { width } : {}),

@@ -1,4 +1,6 @@
-import { IconButton, Surface, Typography } from '@unisane/ui';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { navigationPatternMeta as meta } from './pattern-page-meta';
@@ -91,7 +93,9 @@ export const navigationPatternPage: PatternPageDoc = {
               </div>
             </Surface>
           ),
-          code: `import { IconButton, Surface, Typography } from "@unisane/ui";
+          code: `import { IconButton } from "@/components/ui/icon-button";
+import { Surface } from "@/components/ui/surface";
+import { Typography } from "@/components/ui/typography";
 
 export function RailShellBlock() {
   return (
@@ -164,7 +168,9 @@ export function RailShellBlock() {
             </Surface>
           ),
           code: `import { Badge } from '@/components/ui/badge';
-import { IconButton, Surface, Typography } from '@unisane/ui';
+import { IconButton } from '@/components/ui/icon-button';
+import { Surface } from '@/components/ui/surface';
+import { Typography } from '@/components/ui/typography';
 
 export function ContextHeader() {
   return (

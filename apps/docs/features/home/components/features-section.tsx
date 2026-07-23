@@ -1,6 +1,10 @@
 'use client';
 
-import { Card, Icon, Surface, Typography, cn } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
+import { Icon } from '@unisane/ui/icon';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 import { HOME_FEATURES } from '../model/home.constants';
 
 type FeatureTitle = (typeof HOME_FEATURES)[number]['title'];
@@ -17,7 +21,9 @@ const COLOR_SWATCHES = ['bg-secondary', 'bg-tertiary', 'bg-success'] as const;
 
 const ACCESSIBILITY_SIGNALS = ['ARIA-LABEL', 'ROLES', 'TAB-INDEX'] as const;
 
-const CODE_SAMPLE = `import { Card, Button, Typography } from "@unisane/ui";
+const CODE_SAMPLE = `import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Typography } from "@/components/ui/typography";
 
 export function ProductPanel() {
   return (

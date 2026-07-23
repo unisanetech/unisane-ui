@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Typography } from "@unisane/ui";
+import { Typography } from '@unisane/ui/typography';
 
 interface DemoHeaderProps {
   title: string;
@@ -9,7 +9,7 @@ interface DemoHeaderProps {
 
 export function DemoHeader({ title, description }: DemoHeaderProps) {
   return (
-    <div className="border-b border-outline-variant -mx-4 medium:-mx-6 expanded:-mx-12 px-4 medium:px-6 expanded:px-12 py-8">
+    <div className="border-outline-variant medium:-mx-6 expanded:-mx-12 medium:px-6 expanded:px-12 -mx-4 border-b px-4 py-8">
       <Typography variant="headlineLarge" className="text-on-surface mb-2">
         {title}
       </Typography>

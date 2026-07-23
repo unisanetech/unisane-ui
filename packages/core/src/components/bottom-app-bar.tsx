@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { cn, focusRing } from '../lib/utils';
 import { Surface } from '../primitives/surface';
@@ -18,27 +18,34 @@ const bottomAppBarVariants = cva(
   },
 );
 
-export type BottomAppBarProps = VariantProps<typeof bottomAppBarVariants> & {
-  children: React.ReactNode;
-  fab?: React.ReactNode;
-  className?: string;
-};
+export type BottomAppBarProps = VariantProps<typeof bottomAppBarVariants> &
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> & {
+    children: React.ReactNode;
+    fab?: React.ReactNode;
+  };
 
-export const BottomAppBar: React.FC<BottomAppBarProps> = ({ children, fab, className }) => {
-  return (
+export const BottomAppBar = forwardRef<HTMLDivElement, BottomAppBarProps>(
+  (
+    { children, fab, className, variant, ['aria-label']: ariaLabel = 'Bottom actions', ...props },
+    ref,
+  ) => (
     <Surface
+      ref={ref}
       tone="surface"
       elevation={3}
-      className={cn(bottomAppBarVariants({ className }))}
+      className={cn(bottomAppBarVariants({ variant, className }))}
       role="toolbar"
-      aria-label="Bottom navigation"
+      aria-label={ariaLabel}
+      {...props}
     >
       <div className="flex flex-1 items-center gap-2">{children}</div>
 
       {fab && <div className="absolute -top-8 left-1/2 -translate-x-1/2">{fab}</div>}
     </Surface>
-  );
-};
+  ),
+);
+
+BottomAppBar.displayName = 'BottomAppBar';
 
 const bottomAppBarActionVariants = cva(
   'relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-icon-button select-none transition-colors duration-short disabled:pointer-events-none disabled:opacity-38',
@@ -62,16 +69,10 @@ export type BottomAppBarActionProps = VariantProps<typeof bottomAppBarActionVari
   className?: string;
 } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>;
 
-export const BottomAppBarAction: React.FC<BottomAppBarActionProps> = ({
-  icon,
-  label,
-  active,
-  className,
-  type = 'button',
-  ...props
-}) => {
-  return (
+export const BottomAppBarAction = forwardRef<HTMLButtonElement, BottomAppBarActionProps>(
+  ({ icon, label, active, className, type = 'button', ...props }, ref) => (
     <button
+      ref={ref}
       type={type}
       className={cn(bottomAppBarActionVariants({ active, className }), focusRing)}
       aria-label={props['aria-label'] ?? label}
@@ -81,5 +82,7 @@ export const BottomAppBarAction: React.FC<BottomAppBarActionProps> = ({
       <Ripple />
       <div className="size-icon-sm relative z-10 flex items-center justify-center">{icon}</div>
     </button>
-  );
-};
+  ),
+);
+
+BottomAppBarAction.displayName = 'BottomAppBarAction';

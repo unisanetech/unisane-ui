@@ -1,7 +1,7 @@
 'use client';
 
 import { memo } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import { useI18n } from '../../i18n';
 import { SearchInput } from './search-input';
 import { ActionButton, ToolbarTextButton, SegmentedIconButton, CompactIconButton } from './buttons';

@@ -1,0 +1,63 @@
+"use client";
+
+import { useCallback } from "react";
+import { useInlineEditing } from "@/components/ui/data-table/hooks/features/use-inline-editing";
+import { useFeedback } from "@/components/ui/data-table/feedback";
+import type { UseInlineEditingOptions, InlineEditingController } from "@/components/ui/data-table/types";
+
+export interface UseInlineEditingWithFeedbackOptions<T extends { id: string }>
+  extends UseInlineEditingOptions<T> {
+  /**
+   * Show toast notification on cell edit operations.
+   * @default true
+   */
+  showFeedback?: boolean;
+}
+
+export type UseInlineEditingWithFeedbackReturn<T extends { id: string }> =
+  InlineEditingController<T>;
+
+/**
+ * Enhanced inline editing hook with integrated feedback notifications.
+ *
+ * This is a convenience wrapper around useInlineEditing that automatically
+ * triggers toast notifications and ARIA announcements for edit operations.
+ *
+ * @example
+ * ```tsx
+ * const inlineEditing = useInlineEditingWithFeedback({
+ *   data: rows,
+ *   onCellChange: async (rowId, columnKey, value) => {
+ *     await api.updateCell(rowId, columnKey, value);
+ *   },
+ * });
+ *
+ * // Successful edits will automatically show feedback
+ * <DataTable inlineEditing={inlineEditing} ... />
+ * ```
+ */
+export function useInlineEditingWithFeedback<T extends { id: string }>({
+  showFeedback = true,
+  onCellChange: userOnCellChange,
+  ...options
+}: UseInlineEditingWithFeedbackOptions<T>): UseInlineEditingWithFeedbackReturn<T> {
+  const { feedback } = useFeedback();
+
+  // Wrap onCellChange to add feedback
+  const onCellChange = useCallback(
+    async (rowId: string, columnKey: string, value: unknown, row: T) => {
+      await userOnCellChange?.(rowId, columnKey, value, row);
+      if (showFeedback) {
+        feedback("rowEdited");
+      }
+    },
+    [userOnCellChange, feedback, showFeedback]
+  );
+
+  return useInlineEditing({
+    ...options,
+    onCellChange,
+  });
+}
+
+export default useInlineEditingWithFeedback;

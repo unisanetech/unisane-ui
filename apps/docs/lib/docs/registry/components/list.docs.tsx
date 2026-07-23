@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { Avatar, Card } from '@unisane/ui';
+import { Avatar } from '@unisane/ui/avatar';
+import { Card } from '@unisane/ui/card';
 import { List, ListItem, ListSubheader } from '@unisane/ui/list';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────

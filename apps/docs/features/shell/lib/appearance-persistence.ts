@@ -7,7 +7,7 @@ import type {
   Density,
   Elevation,
   RadiusTheme,
-} from '@unisane/ui';
+} from '@unisane/ui/appearance-provider';
 
 export const DOCS_APPEARANCE_COOKIE = 'unisane-docs-appearance';
 

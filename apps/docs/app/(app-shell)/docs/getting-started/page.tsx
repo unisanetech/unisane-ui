@@ -1,5 +1,6 @@
-import { DocLayout } from "@/features/docs-page";
-import { Typography, Card } from "@unisane/ui";
+import { DocLayout } from '@/features/docs-page';
+import { Typography } from '@unisane/ui/typography';
+import { Card } from '@unisane/ui/card';
 
 export default function GettingStartedPage() {
   return (
@@ -7,7 +8,7 @@ export default function GettingStartedPage() {
       title="Get Started"
       description="Learn how to install and configure Unisane UI in your React project."
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <QuickLinkCard
           icon="download"
           title="Installation"
@@ -52,14 +53,18 @@ function QuickLinkCard({
     <a href={href} className="group block">
       <Card
         variant="outlined"
-        className="p-6 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all duration-200 hover:shadow-1"
+        className="bg-surface-container-low hover:bg-surface-container hover:shadow-1 rounded-xl p-6 transition-all duration-200"
       >
-        <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center mb-4">
+        <div className="bg-primary-container mb-4 flex h-12 w-12 items-center justify-center rounded-full">
           <span className="material-symbols-outlined text-on-primary-container text-[24px]!">
             {icon}
           </span>
         </div>
-        <Typography variant="titleLarge" component="h3" className="mb-2 group-hover:text-primary transition-colors">
+        <Typography
+          variant="titleLarge"
+          component="h3"
+          className="group-hover:text-primary mb-2 transition-colors"
+        >
           {title}
         </Typography>
         <Typography variant="bodyMedium" className="text-on-surface-variant">

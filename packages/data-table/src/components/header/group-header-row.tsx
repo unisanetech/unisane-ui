@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import type { Column, ColumnGroup } from '../../types';
 import { isColumnGroup } from '../../types';
 import {

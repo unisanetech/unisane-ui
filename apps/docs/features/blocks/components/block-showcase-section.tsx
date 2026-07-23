@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { Button, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Typography } from '@unisane/ui/typography';
 import type { DocsBlock } from '@/lib/docs/blocks/types';
 import { BlockPreviewShell } from './block-preview-shell';
 

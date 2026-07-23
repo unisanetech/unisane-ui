@@ -1,5 +1,170 @@
 # Unisane UI migration notes
 
+## Final distribution and import hard cut (`0.1.x`)
+
+Unisane UI now has one authoring source and two audience-specific delivery modes. They expose the same component APIs but must never be mixed in one project.
+
+First-party Unisane workspace applications consume explicit flat runtime modules and one compiled CSS baseline:
+
+```tsx
+import { Button } from '@unisane/ui/button';
+import { DataTable, type DataTableProps } from '@unisane/data-table';
+```
+
+```css
+@import '@unisane/ui/styles.css';
+@import 'tailwindcss';
+
+@source "../../src/**/*.{js,ts,jsx,tsx,mdx}";
+```
+
+The root `@unisane/ui` barrel, wildcard modules, category-deep modules such as `components/*`, `primitives/*`, `layout/*`, `hooks/*`, and `lib/*`, direct `@unisane/tokens` CSS, and consumer scans of UI package source were removed. There are no compatibility aliases or fallback exports.
+
+External projects own installed source and local CSS. Initialize once, then add only the components the project needs:
+
+```bash
+unisane ui init --theme blue
+unisane ui add button dialog data-table
+```
+
+```tsx
+import { Button } from '@/components/ui/button';
+import { Dialog } from '@/components/ui/dialog';
+import { DataTable, type DataTableProps } from '@/components/ui/data-table';
+```
+
+Installed files contain no Unisane runtime import. `data-table` installs as one dependency-complete local composite rather than a second package-owned runtime. Its public `DataTableProps` is the exact grouped contract rendered by `DataTable`; the competing flat prop family was deleted.
+
+Color selection remains replace-in-place project configuration:
+
+```bash
+unisane ui theme green
+```
+
+This changes only the managed semantic theme region in local `globals.css`, creates a backup, and preserves app-owned CSS. Runtime mode, density, contrast, radius, action shape, and elevation remain optional capabilities that can be enabled later without introducing another theme layer:
+
+```bash
+unisane ui appearance enable --axes mode,density,contrast --persistence localStorage
+```
+
+`Ripple`, focus/state layers, overlay helpers, navigation helpers, and action-control helpers are private support. Installers resolve them transitively; application code does not import them as public components.
+
+## Stepper API hard cut (`0.1.x`)
+
+Stepper now has one stable-value step catalog and one controlled current-step contract. External source-installed projects own and import the local file:
+
+```tsx
+import { Stepper } from '@/components/ui/stepper';
+```
+
+First-party Unisane apps use the matching flat runtime subpath:
+
+```tsx
+import { Stepper } from '@unisane/ui/stepper';
+```
+
+Replace index-based `activeStep` state with a stable string `value`. Add `onValueChange` only when users may select available steps; omitting it produces passive progress with no false focus or pointer affordance.
+
+```tsx
+// Before
+<Stepper steps={[{ label: 'Account' }, { label: 'Profile' }]} activeStep={1} />
+
+// After: passive progress
+<Stepper
+  aria-label="Account setup progress"
+  steps={[
+    { value: 'account', label: 'Account' },
+    { value: 'profile', label: 'Profile' },
+  ]}
+  value="profile"
+/>
+```
+
+`Step`, `StepLabel`, `StepDescription`, free-form children, `stepNumber`, and independently authored active/completed state were removed without aliases. Put rich labels, descriptions, disabled state, and optional completion overrides in each step definition. `orientation="horizontal" | "vertical"` now controls the complete ordered sequence and its connectors. Missing or disabled current values resolve deterministically to the first available step, and `labels` localizes positional and completion announcements.
+
+## Pagination API hard cut (`0.1.x`)
+
+Pagination now has one deterministic normalized page range and an explicit button-or-link navigation contract. External source-installed projects own and import the local file:
+
+```tsx
+import { Pagination } from '@/components/ui/pagination';
+```
+
+First-party Unisane apps use the matching flat runtime subpath:
+
+```tsx
+import { Pagination } from '@unisane/ui/pagination';
+```
+
+Button mode requires `onPageChange`. Link mode requires `getPageHref`; it renders page, previous, and next destinations as real anchors and never prevents native activation. `onPageChange` is optional observation in link mode rather than navigation ownership.
+
+```tsx
+// Button mode
+<Pagination currentPage={page} totalPages={pageCount} onPageChange={setPage} />
+
+// Native or framework-link mode
+<Pagination
+  currentPage={page}
+  totalPages={pageCount}
+  getPageHref={(nextPage) => `/results?page=${nextPage}`}
+  renderLink={(_page, props) => <Link {...props} />}
+/>
+```
+
+The no-behavior `variant` prop and old `renderLink(page, children)` signature were removed without aliases. Framework renderers now receive complete anchor props and must return a React element. `siblingCount` controls nearby range density; first/last pages and semantic ellipses remain automatic. Zero or invalid totals render nothing, and a shrinking/out-of-range current page is truncated and clamped. Native nav attributes/ref and `labels` provide landmark and localization control.
+
+## ScrollArea API hard cut (`0.1.x`)
+
+ScrollArea is now one native scrolling viewport. Native div props, focus, scroll events, forwarded refs, and programmatic `scrollTop`/`scrollLeft` access all target the visible overflow element.
+
+External source-installed projects own and import the local file:
+
+```tsx
+import { ScrollArea } from '@/components/ui/scroll-area';
+```
+
+First-party Unisane apps use the matching flat runtime subpath:
+
+```tsx
+import { ScrollArea } from '@unisane/ui/scroll-area';
+```
+
+The private inner viewport and `scrollbarClassName` prop were removed without aliases. Put layout and local overrides on `className`; the shared global stylesheet remains the scrollbar color and size owner. `orientation="vertical" | "horizontal" | "both"` is unchanged.
+
+The viewport uses `tabIndex={0}` by default so native scrolling is sequentially keyboard reachable. Consumers may override the native `tabIndex`. Do not add landmark semantics to every overflow container; use `role="region"` with `aria-label` or `aria-labelledby` only when the content deserves a named region.
+
+## Carousel API hard cut (`0.1.x`)
+
+Carousel keeps the high-level `Carousel` and `CarouselSlide` authoring model while adding one explicit controlled/uncontrolled state contract. External source-installed projects own and import the local file:
+
+```tsx
+import { Carousel, CarouselSlide } from '@/components/ui/carousel';
+```
+
+First-party Unisane apps use the matching flat runtime subpath:
+
+```tsx
+import { Carousel, CarouselSlide } from '@unisane/ui/carousel';
+```
+
+Replace `interval` with `autoPlayInterval`. The no-behavior `variant` prop was removed. No aliases or fallback behavior remain.
+
+```tsx
+// Before
+<Carousel autoPlay interval={4000} variant="default">
+  {slides}
+</Carousel>
+
+// After
+<Carousel aria-label="Portfolio gallery" autoPlay autoPlayInterval={4000}>
+  {slides}
+</Carousel>
+```
+
+Every carousel now requires either `aria-label` or `aria-labelledby`. Use `index` and `onIndexChange` for controlled state or `defaultIndex` for uncontrolled state. `orientation="horizontal" | "vertical"` governs indicator keys, pointer gestures, and control placement; `loop={false}` bounds navigation. The `labels` object localizes controls and positional announcements.
+
+Automatic rotation has an explicit start/stop control, stops when keyboard focus enters, pauses on hover, honors reduced motion, and disables live announcements while rotating. Indicators use complete tab/tabpanel wiring. Without indicators, slides use grouped slide semantics. Inactive slides are both hidden and inert so their descendants cannot remain keyboard reachable.
+
 ## Data-display API hard cut (`0.1.x`)
 
 Badge, Divider, and List keep their visual richness while using passive or native semantics by default. External source-installed projects import their local files:

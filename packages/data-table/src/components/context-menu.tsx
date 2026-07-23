@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import { cn, DropdownMenuItem, DropdownMenuSeparator } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { DropdownMenuItem, DropdownMenuSeparator } from '@unisane/ui/dropdown-menu';
 import type { DataTableContextMenuAction, DataTableContextMenuContext } from '../types';
 
 export type DataTableContextMenuState<T> = {

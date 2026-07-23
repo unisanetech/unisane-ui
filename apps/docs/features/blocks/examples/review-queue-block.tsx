@@ -1,6 +1,10 @@
 'use client';
 
-import { Button, Card, Pagination, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Pagination } from '@unisane/ui/pagination';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 
 export function ReviewQueueBlock() {

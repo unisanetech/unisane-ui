@@ -1,6 +1,7 @@
-"use client";
+'use client';
 
-import { Icon, Typography } from "@unisane/ui";
+import { Icon } from '@unisane/ui/icon';
+import { Typography } from '@unisane/ui/typography';
 
 interface FeatureCardProps {
   icon: string;
@@ -10,9 +11,9 @@ interface FeatureCardProps {
 
 export function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="flex gap-4 p-4 rounded-lg border border-outline-variant">
-      <div className="w-10 h-10 rounded-lg bg-state-selected flex items-center justify-center shrink-0">
-        <Icon symbol={icon} className="w-5 h-5 text-primary" />
+    <div className="border-outline-variant flex gap-4 rounded-lg border p-4">
+      <div className="bg-state-selected flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
+        <Icon symbol={icon} className="text-primary h-5 w-5" />
       </div>
       <div>
         <Typography variant="titleSmall" className="text-on-surface mb-1">

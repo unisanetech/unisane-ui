@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Button, Typography } from "@unisane/ui";
-import { UnisaneLogo } from "@/features/branding";
+import Link from 'next/link';
+import { Button } from '@unisane/ui/button';
+import { Typography } from '@unisane/ui/typography';
+import { UnisaneLogo } from '@/features/branding';
 
 export function CtaSection() {
   return (
@@ -10,11 +11,11 @@ export function CtaSection() {
       <UnisaneLogo size={48} className="mb-6" />
       <Typography
         variant="headlineMedium"
-        className="mb-4 text-on-surface @3xl:text-headline-large"
+        className="text-on-surface @3xl:text-headline-large mb-4"
       >
         Ready to get started?
       </Typography>
-      <Typography variant="titleMedium" className="mb-8 text-on-surface-variant">
+      <Typography variant="titleMedium" className="text-on-surface-variant mb-8">
         Add Unisane UI to your project in seconds
       </Typography>
       <div className="flex flex-wrap gap-4">

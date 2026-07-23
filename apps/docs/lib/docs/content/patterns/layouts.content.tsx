@@ -1,4 +1,6 @@
-import { Button, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import type { PatternPageDoc } from './types';
 import { layoutsPatternMeta as meta } from './pattern-page-meta';
@@ -92,7 +94,9 @@ export const layoutsPatternPage: PatternPageDoc = {
             </Surface>
           ),
           code: `import { Badge } from '@/components/ui/badge';
-import { Button, Surface, Typography } from '@unisane/ui';
+import { Button } from '@/components/ui/button';
+import { Surface } from '@/components/ui/surface';
+import { Typography } from '@/components/ui/typography';
 
 export function ListDetailWorkspace() {
   return (
@@ -170,7 +174,8 @@ export function ListDetailWorkspace() {
               </div>
             </Surface>
           ),
-          code: `import { Surface, Typography } from "@unisane/ui";
+          code: `import { Surface } from "@/components/ui/surface";
+import { Typography } from "@/components/ui/typography";
 
 export function SupportingPaneLayout() {
   return (

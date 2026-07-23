@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { IconButton, Surface, Typography } from '@unisane/ui';
-import { cn } from '@unisane/ui/lib/utils';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 import type { DocsBlockCodeExample, DocsBlockCodeFile } from '@/lib/docs/blocks/types';
 
 interface BlockCodeExplorerProps {

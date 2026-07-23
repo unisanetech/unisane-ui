@@ -1,4 +1,5 @@
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import type { FoundationPageDoc } from './types';
 import { motionFoundationMeta as meta } from './foundation-page-meta';
 

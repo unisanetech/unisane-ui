@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import { cn, Icon, IconButton } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { IconButton } from '@unisane/ui/icon-button';
 import { useI18n } from '../i18n';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────

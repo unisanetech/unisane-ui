@@ -1,8 +1,9 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Surface, Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import Link from 'next/link';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface PageLink {
   slug: string;
@@ -25,38 +26,26 @@ export function PageNavigation({ previous, next, className }: PageNavigationProp
   if (!previous && !next) return null;
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-1 @md:grid-cols-2 gap-3 @md:gap-4 auto-rows-fr",
-        className
-      )}
-    >
+    <div className={cn('grid auto-rows-fr grid-cols-1 gap-3 @md:grid-cols-2 @md:gap-4', className)}>
       {/* Previous */}
       {previous ? (
-        <Link
-          href={`/docs/components/${previous.slug}`}
-          className="group block h-full"
-        >
+        <Link href={`/docs/components/${previous.slug}`} className="group block h-full">
           <Surface
             tone="surfaceContainerLow"
             rounded="sm"
-            className="h-full p-5 hover:bg-surface-container transition-colors flex items-center gap-4"
+            className="hover:bg-surface-container flex h-full items-center gap-4 p-5 transition-colors"
           >
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary transition-colors shrink-0">
+            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary shrink-0 text-[20px] transition-colors">
               arrow_back
             </span>
-            <div className="flex flex-col min-w-0">
-              <Typography
-                variant="labelSmall"
-                component="span"
-                className="text-on-surface-variant"
-              >
+            <div className="flex min-w-0 flex-col">
+              <Typography variant="labelSmall" component="span" className="text-on-surface-variant">
                 Previous
               </Typography>
               <Typography
                 variant="titleSmall"
                 component="span"
-                className="text-on-surface group-hover:text-primary transition-colors truncate"
+                className="text-on-surface group-hover:text-primary truncate transition-colors"
               >
                 {previous.name}
               </Typography>
@@ -69,32 +58,25 @@ export function PageNavigation({ previous, next, className }: PageNavigationProp
 
       {/* Next */}
       {next ? (
-        <Link
-          href={`/docs/components/${next.slug}`}
-          className="group block h-full"
-        >
+        <Link href={`/docs/components/${next.slug}`} className="group block h-full">
           <Surface
             tone="surfaceContainerLow"
             rounded="sm"
-            className="h-full p-5 hover:bg-surface-container transition-colors flex items-center justify-end gap-4"
+            className="hover:bg-surface-container flex h-full items-center justify-end gap-4 p-5 transition-colors"
           >
-            <div className="flex flex-col items-end min-w-0">
-              <Typography
-                variant="labelSmall"
-                component="span"
-                className="text-on-surface-variant"
-              >
+            <div className="flex min-w-0 flex-col items-end">
+              <Typography variant="labelSmall" component="span" className="text-on-surface-variant">
                 Up next
               </Typography>
               <Typography
                 variant="titleSmall"
                 component="span"
-                className="text-on-surface group-hover:text-primary transition-colors truncate"
+                className="text-on-surface group-hover:text-primary truncate transition-colors"
               >
                 {next.name}
               </Typography>
             </div>
-            <span className="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:text-primary transition-colors shrink-0">
+            <span className="material-symbols-outlined text-on-surface-variant group-hover:text-primary shrink-0 text-[20px] transition-colors">
               arrow_forward
             </span>
           </Surface>

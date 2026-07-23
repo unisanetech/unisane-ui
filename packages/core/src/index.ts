@@ -25,7 +25,7 @@ export type {
 export { ModeSwitcher } from './components/mode-switcher';
 export type { ModeSwitcherProps } from './components/mode-switcher';
 export { Container } from './layout/container';
-export { AppLayout, AppLayout as Scaffold } from './layout/app-layout';
+export { AppLayout } from './layout/app-layout';
 export { Pane, PaneLayout, PaneDivider } from './layout/pane';
 export { PageSection } from './layout/page-section';
 export type { PageSectionProps } from './layout/page-section';
@@ -39,8 +39,6 @@ export type { PreviewFrameProps } from './layout/preview-frame';
 export { Text } from './primitives/text';
 export type { TextProps } from './primitives/text';
 export { Surface } from './primitives/surface';
-export { StateLayer } from './primitives/state-layer';
-export { FocusRing } from './primitives/focus-ring';
 export { Label } from './primitives/label';
 export type { LabelProps } from './primitives/label';
 export { Input } from './primitives/input';
@@ -72,7 +70,12 @@ export {
 export { Calendar } from './components/calendar';
 export type { CalendarProps } from './components/calendar';
 export { Carousel, CarouselSlide } from './components/carousel';
-export type { CarouselProps, CarouselSlideProps } from './components/carousel';
+export type {
+  CarouselLabels,
+  CarouselOrientation,
+  CarouselProps,
+  CarouselSlideProps,
+} from './components/carousel';
 export { DateInput } from './components/date-input';
 export type { DateInputProps } from './components/date-input';
 export { DatePicker } from './components/date-picker';
@@ -104,12 +107,18 @@ export type {
   ListItemRenderLinkProps,
 } from './components/list';
 export { Pagination } from './components/pagination';
-export type { PaginationProps } from './components/pagination';
+export type {
+  PaginationButtonProps,
+  PaginationLabels,
+  PaginationLinkProps,
+  PaginationLinkRenderer,
+  PaginationNavigationProps,
+  PaginationProps,
+} from './components/pagination';
 export { Progress } from './components/progress';
 export type { ProgressProps } from './components/progress';
 export { Rating } from './components/rating';
 export type { RatingProps } from './components/rating';
-export { Ripple } from './components/ripple';
 export { SegmentedButton } from './components/segmented-button';
 export type {
   SegmentedButtonMultipleProps,
@@ -122,8 +131,8 @@ export { Skeleton, SkeletonText, SkeletonAvatar, SkeletonCard } from './componen
 export type { SkeletonProps } from './components/skeleton';
 export { Slider } from './components/slider';
 export type { SliderProps } from './components/slider';
-export { Stepper, Step, StepLabel, StepDescription } from './components/stepper';
-export type { StepperProps, StepProps, StepLabelProps } from './components/stepper';
+export { Stepper } from './components/stepper';
+export type { StepperLabels, StepperProps, StepperStep } from './components/stepper';
 export { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from './components/table';
 export { Button, buttonVariants } from './components/button';
 export type { ButtonProps } from './components/button';
@@ -250,12 +259,9 @@ export { ConfirmDialog } from './components/confirm-dialog';
 export type { ConfirmDialogProps } from './components/confirm-dialog';
 export { Combobox } from './components/combobox';
 export type { ComboboxProps, ComboboxOption } from './components/combobox';
-export {
-  SupportingPaneLayout,
-  ListDetailLayout,
-  FeedLayout,
-  PaneGroup,
-} from './components/canonical-layouts';
+export { SupportingPaneLayout, ListDetailLayout, FeedLayout } from './components/canonical-layouts';
+export { PaneGroup } from './components/pane-group';
+export type { PaneGroupProps } from './components/pane-group';
 
 // Sidebar - Rail + Drawer navigation system
 export {

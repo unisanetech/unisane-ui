@@ -1,7 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { Button, Card, Icon, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Icon } from '@unisane/ui/icon';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import { Divider } from '@unisane/ui/divider';
 

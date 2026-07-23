@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { cn, Icon, IconButton } from '@unisane/ui';
+import { Icon } from '@unisane/ui/icon';
+import { IconButton } from '@unisane/ui/icon-button';
 import type { SortDirection } from '../../types';
 import { DENSITY_ICON_TEXT_STYLES, type Density } from '../../constants';
 

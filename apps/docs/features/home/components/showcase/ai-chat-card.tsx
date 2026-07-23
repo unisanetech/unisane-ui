@@ -1,6 +1,9 @@
 'use client';
 
-import { Button, Card, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { TextField } from '@unisane/ui/text-field';
 
 const prompts = ['What is causing this error?', 'Is contrast strong enough?'] as const;

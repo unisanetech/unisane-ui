@@ -1,30 +1,30 @@
-"use client";
+'use client';
 
-import {
-  useState } from "react";
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Combobox,
-} from "@unisane/ui";
-import { SelectField } from "@unisane/ui/select-field";
+import { useState } from 'react';
+import { ComponentDoc } from '../types';
+import { HeroBackground } from '../../runtime/hero-background';
+import { Combobox } from '@unisane/ui/combobox';
+import { SelectField } from '@unisane/ui/select-field';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const ComboboxHeroVisual = () => (
   <HeroBackground tone="secondary">
     {/* Mock Combobox */}
-    <div className="relative bg-surface w-80 rounded-sm shadow-xl overflow-hidden border border-outline-variant p-6">
+    <div className="bg-surface border-outline-variant relative w-80 overflow-hidden rounded-sm border p-6 shadow-xl">
       <div className="text-label-medium text-on-surface-variant mb-2">Select Country</div>
-      <div className="bg-surface-container-high rounded-sm px-4 py-3 flex items-center justify-between border-2 border-primary">
+      <div className="bg-surface-container-high border-primary flex items-center justify-between rounded-sm border-2 px-4 py-3">
         <span className="text-body-medium text-on-surface">Uni</span>
-        <span className="material-symbols-outlined text-on-surface-variant rotate-180">arrow_drop_down</span>
+        <span className="material-symbols-outlined text-on-surface-variant rotate-180">
+          arrow_drop_down
+        </span>
       </div>
-      <div className="mt-2 bg-surface-container-high rounded-sm shadow-2 overflow-hidden">
-        <div className="px-4 py-3 bg-state-selected text-primary font-medium flex items-center justify-between">
+      <div className="bg-surface-container-high shadow-2 mt-2 overflow-hidden rounded-sm">
+        <div className="bg-state-selected text-primary flex items-center justify-between px-4 py-3 font-medium">
           United States
           <span className="material-symbols-outlined text-primary text-[18px]">check</span>
         </div>
-        <div className="px-4 py-3 text-on-surface hover:bg-state-hover">United Kingdom</div>
-        <div className="px-4 py-3 text-on-surface hover:bg-state-hover">United Arab Emirates</div>
+        <div className="text-on-surface hover:bg-state-hover px-4 py-3">United Kingdom</div>
+        <div className="text-on-surface hover:bg-state-hover px-4 py-3">United Arab Emirates</div>
       </div>
     </div>
   </HeroBackground>
@@ -32,13 +32,13 @@ const ComboboxHeroVisual = () => (
 
 // ─── INTERACTIVE EXAMPLES ────────────────────────────────────────────────────
 const ComboboxBasicExample = () => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const options = [
-    { value: "react", label: "React" },
-    { value: "vue", label: "Vue" },
-    { value: "angular", label: "Angular" },
-    { value: "svelte", label: "Svelte" },
-    { value: "solid", label: "Solid" },
+    { value: 'react', label: 'React' },
+    { value: 'vue', label: 'Vue' },
+    { value: 'angular', label: 'Angular' },
+    { value: 'svelte', label: 'Svelte' },
+    { value: 'solid', label: 'Solid' },
   ];
 
   return (
@@ -56,11 +56,11 @@ const ComboboxBasicExample = () => {
 };
 
 const ComboboxNonSearchableExample = () => {
-  const [value, setValue] = useState("medium");
+  const [value, setValue] = useState('medium');
   const options = [
-    { value: "small", label: "Small" },
-    { value: "medium", label: "Medium" },
-    { value: "large", label: "Large" },
+    { value: 'small', label: 'Small' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'large', label: 'Large' },
   ];
 
   return (
@@ -79,72 +79,72 @@ const ComboboxNonSearchableExample = () => {
 
 export const comboboxDoc: ComponentDoc = {
   // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "combobox",
-  name: "Combobox",
+  slug: 'combobox',
+  name: 'Combobox',
   description:
-    "Combobox combines a text input with a dropdown list, allowing users to filter options by typing.",
-  category: "text-inputs",
-  status: "stable",
-  icon: "search",
+    'Combobox combines a text input with a dropdown list, allowing users to filter options by typing.',
+  category: 'text-inputs',
+  status: 'stable',
+  icon: 'search',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Combobox"],
+  importPath: '@/components/ui/combobox',
+  exports: ['Combobox'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <ComboboxHeroVisual />,
   examplesPreview: {
-    overflow: "visible",
-    minHeight: "lg",
+    overflow: 'visible',
+    minHeight: 'lg',
   },
 
   // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Choose between Combobox and Select based on the number of options and need for filtering.",
+      'Choose between Combobox and Select based on the number of options and need for filtering.',
     columns: {
-      emphasis: "Component",
-      component: "Preview",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Component',
+      component: 'Preview',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Combobox",
+        emphasis: 'Combobox',
         component: (
           <div className="w-52">
             <Combobox
               options={[
-                { value: "us", label: "United States" },
-                { value: "uk", label: "United Kingdom" },
-                { value: "ae", label: "United Arab Emirates" },
+                { value: 'us', label: 'United States' },
+                { value: 'uk', label: 'United Kingdom' },
+                { value: 'ae', label: 'United Arab Emirates' },
               ]}
               value="us"
               placeholder="Search country..."
             />
           </div>
         ),
-        rationale: "When options list is long or filtering is helpful.",
-        examples: "Country selector, User picker, Tag input",
+        rationale: 'When options list is long or filtering is helpful.',
+        examples: 'Country selector, User picker, Tag input',
       },
       {
-        emphasis: "Select",
+        emphasis: 'Select',
         component: (
           <div className="w-52">
             <SelectField
               aria-label="Option"
               options={[
-                { value: "one", label: "Option 1" },
-                { value: "two", label: "Option 2" },
-                { value: "three", label: "Option 3" },
+                { value: 'one', label: 'Option 1' },
+                { value: 'two', label: 'Option 2' },
+                { value: 'three', label: 'Option 3' },
               ]}
               value="one"
               placeholder="Choose option"
             />
           </div>
         ),
-        rationale: "When options list is short and well-known.",
-        examples: "Theme selector, Sort order, Simple filters",
+        rationale: 'When options list is short and well-known.',
+        examples: 'Theme selector, Sort order, Simple filters',
       },
     ],
   },
@@ -152,23 +152,23 @@ export const comboboxDoc: ComponentDoc = {
   // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Comboboxes are used in forms where users need to select from a large list of options.",
+      'Comboboxes are used in forms where users need to select from a large list of options.',
     previewDefaults: {
-      overflow: "visible",
-      minHeight: "xl",
-      align: "start",
-      justify: "start",
+      overflow: 'visible',
+      minHeight: 'xl',
+      align: 'start',
+      justify: 'start',
     },
     examples: [
       {
-        title: "Searchable combobox",
+        title: 'Searchable combobox',
         visual: <ComboboxBasicExample />,
-        caption: "Type to filter the options list",
+        caption: 'Type to filter the options list',
       },
       {
-        title: "Non-searchable",
+        title: 'Non-searchable',
         visual: <ComboboxNonSearchableExample />,
-        caption: "Click to open dropdown without search",
+        caption: 'Click to open dropdown without search',
       },
     ],
   },
@@ -176,81 +176,82 @@ export const comboboxDoc: ComponentDoc = {
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "options",
-      type: "ComboboxOption[]",
+      name: 'options',
+      type: 'ComboboxOption[]',
       required: true,
-      description: "Array of options with value and label.",
+      description: 'Array of options with value and label.',
     },
     {
-      name: "value",
-      type: "string",
-      description: "The controlled selected value.",
+      name: 'value',
+      type: 'string',
+      description: 'The controlled selected value.',
     },
     {
-      name: "defaultValue",
-      type: "string",
-      description: "The default selected value for uncontrolled usage.",
+      name: 'defaultValue',
+      type: 'string',
+      description: 'The default selected value for uncontrolled usage.',
     },
     {
-      name: "onValueChange",
-      type: "(value: string) => void",
-      description: "Callback fired when selection changes.",
+      name: 'onValueChange',
+      type: '(value: string) => void',
+      description: 'Callback fired when selection changes.',
     },
     {
-      name: "placeholder",
-      type: "string",
+      name: 'placeholder',
+      type: 'string',
       default: '"Search or select..."',
-      description: "Placeholder text for the input.",
+      description: 'Placeholder text for the input.',
     },
     {
-      name: "label",
-      type: "string",
-      description: "Label displayed above the combobox.",
+      name: 'label',
+      type: 'string',
+      description: 'Label displayed above the combobox.',
     },
     {
-      name: "open",
-      type: "boolean",
-      description: "Controlled open state of the listbox.",
+      name: 'open',
+      type: 'boolean',
+      description: 'Controlled open state of the listbox.',
     },
     {
-      name: "defaultOpen",
-      type: "boolean",
-      default: "false",
-      description: "Initial open state for uncontrolled usage.",
+      name: 'defaultOpen',
+      type: 'boolean',
+      default: 'false',
+      description: 'Initial open state for uncontrolled usage.',
     },
     {
-      name: "onOpenChange",
-      type: "(open: boolean) => void",
-      description: "Callback fired when the listbox opens or closes.",
+      name: 'onOpenChange',
+      type: '(open: boolean) => void',
+      description: 'Callback fired when the listbox opens or closes.',
     },
     {
-      name: "size",
+      name: 'size',
       type: '"sm" | "md" | "lg"',
       default: '"md"',
-      description: "Shared field size used for trigger and option sizing.",
+      description: 'Shared field size used for trigger and option sizing.',
     },
     {
-      name: "searchable",
-      type: "boolean",
-      default: "true",
-      description: "Enable text filtering of options.",
+      name: 'searchable',
+      type: 'boolean',
+      default: 'true',
+      description: 'Enable text filtering of options.',
     },
     {
-      name: "disabled",
-      type: "boolean",
-      default: "false",
-      description: "Disable the combobox.",
+      name: 'disabled',
+      type: 'boolean',
+      default: 'false',
+      description: 'Disable the combobox.',
     },
     {
-      name: "portal",
-      type: "boolean",
-      default: "true",
-      description: "Render the listbox into document.body for safer layering in dialogs, sheets, and clipped shells.",
+      name: 'portal',
+      type: 'boolean',
+      default: 'true',
+      description:
+        'Render the listbox into document.body for safer layering in dialogs, sheets, and clipped shells.',
     },
     {
-      name: "onSearchChange",
-      type: "(query: string) => void",
-      description: "Callback fired when the search query changes.",
+      name: 'onSearchChange',
+      type: '(query: string) => void',
+      description: 'Callback fired when the search query changes.',
     },
   ],
 
@@ -259,26 +260,26 @@ export const comboboxDoc: ComponentDoc = {
     screenReader: [
       "Uses role='combobox' for proper semantics.",
       "Options use role='listbox' and role='option'.",
-      "aria-expanded indicates dropdown state.",
-      "aria-activedescendant tracks focused option.",
+      'aria-expanded indicates dropdown state.',
+      'aria-activedescendant tracks focused option.',
     ],
     keyboard: [
-      { key: "Arrow Down", description: "Open dropdown / Move to next option" },
-      { key: "Arrow Up", description: "Move to previous option" },
-      { key: "Enter", description: "Select focused option" },
-      { key: "Escape", description: "Close dropdown" },
-      { key: "Home / End", description: "Jump to first/last option" },
+      { key: 'Arrow Down', description: 'Open dropdown / Move to next option' },
+      { key: 'Arrow Up', description: 'Move to previous option' },
+      { key: 'Enter', description: 'Select focused option' },
+      { key: 'Escape', description: 'Close dropdown' },
+      { key: 'Home / End', description: 'Jump to first/last option' },
     ],
     focus: [
-      "Input receives focus when component is focused.",
-      "Options highlight on keyboard navigation.",
+      'Input receives focus when component is focused.',
+      'Options highlight on keyboard navigation.',
     ],
   },
 
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Provide options array and handle selection.",
-    code: `import { Combobox } from "@unisane/ui";
+    description: 'Provide options array and handle selection.',
+    code: `import { Combobox } from "@/components/ui/combobox";
 import { useState } from "react";
 
 function CountrySelector() {
@@ -307,12 +308,12 @@ function CountrySelector() {
   // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "select",
-      reason: "Use for shorter option lists without filtering.",
+      slug: 'select',
+      reason: 'Use for shorter option lists without filtering.',
     },
     {
-      slug: "text-field",
-      reason: "Use for free-form text input.",
+      slug: 'text-field',
+      reason: 'Use for free-form text input.',
     },
   ],
 };

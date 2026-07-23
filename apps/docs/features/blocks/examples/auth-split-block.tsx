@@ -1,6 +1,8 @@
 'use client';
 
-import { Button, Surface, Typography } from '@unisane/ui';
+import { Button } from '@unisane/ui/button';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { TextField } from '@unisane/ui/text-field';
 

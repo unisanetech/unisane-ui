@@ -1,7 +1,8 @@
 'use client';
 
 import React, { memo, useMemo } from 'react';
-import { Icon, IconButton } from '@unisane/ui';
+import { Icon } from '@unisane/ui/icon';
+import { IconButton } from '@unisane/ui/icon-button';
 import { usePagination } from '../context';
 import { useI18n } from '../i18n';
 

@@ -1,13 +1,15 @@
-"use client";
+'use client';
 
-import { DocLayout, DocSection, CliCommand } from "@/features/docs-page";
-import { Card, Typography, Tabs, TabsList, TabsTrigger, TabsContent } from "@unisane/ui";
+import { DocLayout, DocSection, CliCommand } from '@/features/docs-page';
+import { Card } from '@unisane/ui/card';
+import { Typography } from '@unisane/ui/typography';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@unisane/ui/tabs';
 
 const TOC_ITEMS = [
-  { id: "requirements", label: "Requirements" },
-  { id: "automatic", label: "Automatic Installation" },
-  { id: "manual", label: "Manual Installation" },
-  { id: "project-structure", label: "Project Structure" },
+  { id: 'requirements', label: 'Requirements' },
+  { id: 'automatic', label: 'Automatic Installation' },
+  { id: 'manual', label: 'Manual Installation' },
+  { id: 'project-structure', label: 'Project Structure' },
 ];
 
 export default function InstallationPage() {
@@ -23,7 +25,7 @@ export default function InstallationPage() {
         title="Requirements"
         description="Before you begin, make sure your development environment meets these requirements."
       >
-        <div className="grid grid-cols-1 @lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 @lg:grid-cols-3">
           <RequirementCard
             icon="code"
             title="React 18+"
@@ -53,8 +55,9 @@ export default function InstallationPage() {
           <div className="space-y-4">
             <StepHeader number={1} title="Initialize Unisane UI" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Run the init command to install the complete generated baseline in your global stylesheet and add the
-              local utility used by components. Choose a project color theme now or replace it later.
+              Run the init command to install the complete generated baseline in your global
+              stylesheet and add the local utility used by components. Choose a project color theme
+              now or replace it later.
             </Typography>
             <CliCommand command="unisane ui init --theme blue" />
           </div>
@@ -63,7 +66,8 @@ export default function InstallationPage() {
           <div className="space-y-4">
             <StepHeader number={2} title="Add components" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Add the components you need to your project. You can add them one at a time or all at once.
+              Add the components you need to your project. You can add them one at a time or all at
+              once.
             </Typography>
             <CliCommand command="unisane ui add button card" />
           </div>
@@ -201,10 +205,7 @@ export default defineConfig({
               title="Import Tailwind"
               description="Add Tailwind to your main CSS file."
             >
-              <CodeBlock
-                code={`@import "tailwindcss";`}
-                language="css"
-              />
+              <CodeBlock code={`@import "tailwindcss";`} language="css" />
             </ManualStep>
           </TabsContent>
 
@@ -247,38 +248,40 @@ export default defineConfig({
         title="Project Structure"
         description="After installation, your project will have the following structure for Unisane UI components."
       >
-        <Card variant="filled" className="p-6 font-mono text-body-small">
-          <div className="space-y-1 text-on-surface-variant">
+        <Card variant="filled" className="text-body-small p-6 font-mono">
+          <div className="text-on-surface-variant space-y-1">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[18px] text-primary">folder</span>
+              <span className="material-symbols-outlined text-primary text-[18px]">folder</span>
               <span className="text-on-surface font-medium">components/</span>
             </div>
-            <div className="pl-6 space-y-1">
+            <div className="space-y-1 pl-6">
               <div className="flex items-center gap-2">
-                <span className="material-symbols-outlined text-[18px] text-primary">folder</span>
+                <span className="material-symbols-outlined text-primary text-[18px]">folder</span>
                 <span className="text-on-surface font-medium">ui/</span>
               </div>
-              <div className="pl-6 space-y-1">
+              <div className="space-y-1 pl-6">
                 <FileItem name="button.tsx" description="Button component" />
                 <FileItem name="card.tsx" description="Card component" />
                 <FileItem name="index.ts" description="Barrel exports" />
               </div>
             </div>
-            <div className="flex items-center gap-2 mt-3">
-              <span className="material-symbols-outlined text-[18px] text-secondary">folder</span>
+            <div className="mt-3 flex items-center gap-2">
+              <span className="material-symbols-outlined text-secondary text-[18px]">folder</span>
               <span className="text-on-surface font-medium">lib/</span>
             </div>
             <div className="pl-6">
               <FileItem name="utils.ts" description="Utility functions (cn)" />
             </div>
-            <div className="flex items-center gap-2 mt-3">
-              <span className="material-symbols-outlined text-[18px] text-secondary">description</span>
+            <div className="mt-3 flex items-center gap-2">
+              <span className="material-symbols-outlined text-secondary text-[18px]">
+                description
+              </span>
               <span className="text-on-surface">app/globals.css</span>
               <span className="text-outline">—</span>
               <span>One complete generated baseline plus app-owned styles</span>
             </div>
-            <div className="flex items-center gap-2 mt-3">
-              <span className="material-symbols-outlined text-[18px] text-secondary">settings</span>
+            <div className="mt-3 flex items-center gap-2">
+              <span className="material-symbols-outlined text-secondary text-[18px]">settings</span>
               <span className="text-on-surface">unisane-ui.json</span>
               <span className="text-outline">—</span>
               <span>Selected theme and explicit runtime appearance capabilities</span>
@@ -286,14 +289,16 @@ export default defineConfig({
           </div>
         </Card>
 
-        <div className="mt-8 p-4 rounded-lg bg-primary-container border border-primary">
+        <div className="bg-primary-container border-primary mt-8 rounded-lg border p-4">
           <div className="flex gap-3">
             <span className="material-symbols-outlined text-primary shrink-0">lightbulb</span>
             <div>
-              <Typography variant="titleSmall" className="mb-1">Pro tip</Typography>
+              <Typography variant="titleSmall" className="mb-1">
+                Pro tip
+              </Typography>
               <Typography variant="bodySmall" className="text-on-surface-variant">
-                The CLI automatically handles component dependencies. When you add a component that depends on others,
-                they will be installed automatically.
+                The CLI automatically handles component dependencies. When you add a component that
+                depends on others, they will be installed automatically.
               </Typography>
             </div>
           </div>
@@ -305,14 +310,28 @@ export default defineConfig({
 
 // Helper Components
 
-function RequirementCard({ icon, title, description }: { icon: string; title: string; description: string }) {
+function RequirementCard({
+  icon,
+  title,
+  description,
+}: {
+  icon: string;
+  title: string;
+  description: string;
+}) {
   return (
     <Card variant="outlined" className="p-5">
-      <div className="w-10 h-10 rounded-lg bg-secondary-container flex items-center justify-center mb-3">
-        <span className="material-symbols-outlined text-on-secondary-container text-[20px]">{icon}</span>
+      <div className="bg-secondary-container mb-3 flex h-10 w-10 items-center justify-center rounded-lg">
+        <span className="material-symbols-outlined text-on-secondary-container text-[20px]">
+          {icon}
+        </span>
       </div>
-      <Typography variant="titleMedium" className="mb-1">{title}</Typography>
-      <Typography variant="bodySmall" className="text-on-surface-variant">{description}</Typography>
+      <Typography variant="titleMedium" className="mb-1">
+        {title}
+      </Typography>
+      <Typography variant="bodySmall" className="text-on-surface-variant">
+        {description}
+      </Typography>
     </Card>
   );
 }
@@ -320,7 +339,7 @@ function RequirementCard({ icon, title, description }: { icon: string; title: st
 function StepHeader({ number, title }: { number: number; title: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
+      <div className="bg-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
         <span className="text-label-large text-on-primary font-medium">{number}</span>
       </div>
       <Typography variant="titleLarge">{title}</Typography>
@@ -328,7 +347,17 @@ function StepHeader({ number, title }: { number: number; title: string }) {
   );
 }
 
-function ManualStep({ number, title, description, children }: { number: number; title: string; description: string; children: React.ReactNode }) {
+function ManualStep({
+  number,
+  title,
+  description,
+  children,
+}: {
+  number: number;
+  title: string;
+  description: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className="space-y-4">
       <StepHeader number={number} title={title} />
@@ -342,9 +371,9 @@ function ManualStep({ number, title, description, children }: { number: number; 
 
 function CodeBlock({ code }: { code: string; language?: string }) {
   return (
-    <div className="rounded-lg overflow-hidden border border-outline-variant bg-surface-container-low">
-      <pre className="p-4 overflow-x-auto">
-        <code className="text-body-small font-mono text-on-surface">{code}</code>
+    <div className="border-outline-variant bg-surface-container-low overflow-hidden rounded-lg border">
+      <pre className="overflow-x-auto p-4">
+        <code className="text-body-small text-on-surface font-mono">{code}</code>
       </pre>
     </div>
   );
@@ -353,7 +382,7 @@ function CodeBlock({ code }: { code: string; language?: string }) {
 function FileItem({ name, description }: { name: string; description: string }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="material-symbols-outlined text-[16px] text-outline">description</span>
+      <span className="material-symbols-outlined text-outline text-[16px]">description</span>
       <span className="text-on-surface">{name}</span>
       <span className="text-outline">—</span>
       <span>{description}</span>

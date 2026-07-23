@@ -1,7 +1,10 @@
 'use client';
 
-import { cn } from '@unisane/ui/lib/utils';
-import { IconButton, SearchBar, TopAppBar, Surface } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { IconButton } from '@unisane/ui/icon-button';
+import { SearchBar } from '@unisane/ui/search-bar';
+import { TopAppBar } from '@unisane/ui/top-app-bar';
+import { Surface } from '@unisane/ui/surface';
 import {
   Sidebar,
   SidebarDrawer,

@@ -1,5 +1,4 @@
-export { DataTable } from './components/data-table';
-export type { DataTableProps } from './types';
+export { DataTable, type DataTableProps } from './components/data-table';
 
 export type {
   Brand,

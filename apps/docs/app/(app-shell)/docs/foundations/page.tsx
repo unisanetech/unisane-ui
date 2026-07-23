@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { DocLayout } from '@/features/docs-page';
 import { getAllFoundationPages } from '@/lib/docs/content/foundations/selectors';
 

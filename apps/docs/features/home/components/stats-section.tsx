@@ -1,6 +1,7 @@
 'use client';
 
-import { Surface, Typography } from '@unisane/ui';
+import { Surface } from '@unisane/ui/surface';
+import { Typography } from '@unisane/ui/typography';
 import { getComponentCount } from '@/lib/docs/registry/selectors';
 import { HOME_STATS } from '../model/home.constants';
 

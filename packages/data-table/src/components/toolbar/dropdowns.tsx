@@ -1,17 +1,17 @@
 'use client';
 
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { Button } from '@unisane/ui/button';
+import { IconButton } from '@unisane/ui/icon-button';
 import {
-  cn,
-  Icon,
-  Button,
-  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuCheckboxItem,
   DropdownMenuRadioItem,
-} from '@unisane/ui';
+} from '@unisane/ui/dropdown-menu';
 import type { Density } from '../../types';
 import { useColumns } from '../../context';
 import { ToolbarDropdownButton, SegmentedDropdownButton } from './buttons';

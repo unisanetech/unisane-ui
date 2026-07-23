@@ -1,7 +1,8 @@
 'use client';
 
 import React, { forwardRef } from 'react';
-import { cn, Icon } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
 import { useI18n } from '../i18n';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────

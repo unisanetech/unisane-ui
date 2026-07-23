@@ -27,7 +27,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
   return (
     <PaneLayout className={cn(!isRoot && 'border-outline-subtle rounded-sm border', className)}>
       <Pane
-        role="list"
+        kind="list"
         isActive={!showDetailMobile}
         className="duration-long ease-emphasized transition-transform"
       >
@@ -35,6 +35,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
       </Pane>
 
       <Pane
+        kind="main"
         role="main"
         isActive={showDetailMobile}
         className="bg-surface-container-low duration-long ease-standard relative transition-opacity"

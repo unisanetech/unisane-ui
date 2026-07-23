@@ -1,264 +1,229 @@
-"use client";
+'use client';
 
-import { ComponentDoc } from "../types";
-import { HeroBackground } from "../../runtime/hero-background";
-import { Pagination, Card } from "@unisane/ui";
+import { Card } from '@unisane/ui/card';
+import { Pagination } from '@unisane/ui/pagination';
+import { HeroBackground } from '../../runtime/hero-background';
+import type { ComponentDoc } from '../types';
 
-// ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const PaginationHeroVisual = () => (
   <HeroBackground tone="surface">
-    {/* Mock Pagination */}
-    <div className="relative bg-surface px-4 py-3 rounded-sm shadow-xl border border-outline-variant">
-      <div className="flex items-center gap-2">
-        <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant">
-          <span className="material-symbols-outlined">chevron_left</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">1</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">2</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center bg-primary text-on-primary">3</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">4</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant">...</div>
-          <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant hover:bg-state-hover">12</div>
-        </div>
-        <div className="w-10 h-10 rounded-sm flex items-center justify-center text-on-surface-variant">
-          <span className="material-symbols-outlined">chevron_right</span>
-        </div>
-      </div>
+    <div className="bg-surface border-outline-variant rounded-sm border px-4 py-3 shadow-xl">
+      <Pagination currentPage={5} totalPages={12} onPageChange={() => {}} />
     </div>
   </HeroBackground>
 );
 
 export const paginationDoc: ComponentDoc = {
-  // ─── BASIC INFO ─────────────────────────────────────────────────────────────
-  slug: "pagination",
-  name: "Pagination",
+  slug: 'pagination',
+  name: 'Pagination',
   description:
-    "Pagination allows users to navigate through large sets of content split across multiple pages.",
-  category: "navigation",
-  status: "stable",
-  icon: "more_horiz",
+    'Pagination provides deterministic page ranges with either button actions or real page links.',
+  category: 'navigation',
+  status: 'stable',
+  icon: 'more_horiz',
 
-  // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: "@unisane/ui",
-  exports: ["Pagination"],
+  importPath: '@/components/ui/pagination',
+  exports: ['Pagination'],
 
-  // ─── HERO VISUAL ───────────────────────────────────────────────────────────
   heroVisual: <PaginationHeroVisual />,
 
-  // ─── CHOOSING SECTION ──────────────────────────────────────────────────────
   choosing: {
     description:
-      "Pagination displays page numbers with smart ellipsis for large page counts.",
+      'Choose button mode for client-owned state and link mode when every page must remain a real destination.',
     columns: {
-      emphasis: "Scenario",
-      component: "Example",
-      rationale: "When to use",
-      examples: "Common uses",
+      emphasis: 'Mode',
+      component: 'Example',
+      rationale: 'When to use',
+      examples: 'Common uses',
     },
     rows: [
       {
-        emphasis: "Few pages",
-        component: (
-          <Pagination currentPage={1} totalPages={3} onPageChange={() => {}} />
-        ),
-        rationale:
-          "Shows all pages when total is small.",
-        examples: "Small data sets, Settings pages",
+        emphasis: 'Button actions',
+        component: <Pagination currentPage={2} totalPages={5} onPageChange={() => {}} />,
+        rationale: 'The current view owns page state without a destination URL.',
+        examples: 'Client-filtered results, Embedded collections',
       },
       {
-        emphasis: "Many pages",
+        emphasis: 'Page links',
         component: (
-          <Pagination currentPage={5} totalPages={12} onPageChange={() => {}} />
+          <Pagination currentPage={5} totalPages={12} getPageHref={(page) => `?page=${page}`} />
         ),
-        rationale:
-          "Ellipsis collapses distant pages.",
-        examples: "Search results, Large catalogs",
+        rationale: 'Every page, previous, and next control preserves native hyperlink behavior.',
+        examples: 'Search results, Catalogs, Server-rendered indexes',
       },
     ],
   },
 
-  // ─── HIERARCHY SECTION ─────────────────────────────────────────────────────
   hierarchy: {
     description:
-      "Pagination consists of navigation arrows and page buttons.",
+      'Previous, numbered pages, semantic ellipses, and next share one navigation mode and one normalized current page.',
     items: [
       {
-        component: (
-          <Pagination currentPage={2} totalPages={5} onPageChange={() => {}} />
-        ),
-        title: "Previous",
-        subtitle: "Navigate back",
+        component: <Pagination currentPage={1} totalPages={3} onPageChange={() => {}} />,
+        title: 'Bounded controls',
+        subtitle: 'Unavailable previous or next actions are disabled',
+      },
+      {
+        component: <Pagination currentPage={6} totalPages={12} onPageChange={() => {}} />,
+        title: 'Current page',
+        subtitle: 'Exactly one page uses aria-current="page"',
       },
       {
         component: (
-          <Pagination currentPage={3} totalPages={5} onPageChange={() => {}} />
+          <Pagination currentPage={10} totalPages={20} siblingCount={2} onPageChange={() => {}} />
         ),
-        title: "Current",
-        subtitle: "Active page",
-      },
-      {
-        component: (
-          <Pagination currentPage={4} totalPages={5} onPageChange={() => {}} />
-        ),
-        title: "Next",
-        subtitle: "Navigate forward",
+        title: 'Range density',
+        subtitle: 'siblingCount reveals nearby pages without changing the boundary model',
       },
     ],
   },
 
-  // ─── PLACEMENT SECTION ─────────────────────────────────────────────────────
   placement: {
     description:
-      "Pagination is typically placed below content or tables.",
+      'Place pagination next to result context and give repeated landmarks distinct accessible names.',
     examples: [
       {
-        title: "Below table",
+        title: 'Below results',
         visual: (
-          <Card variant="outlined" padding="md" className="max-w-80 mx-auto">
-            <div className="text-label-small text-on-surface-variant mb-3">Showing 21-30 of 120 items</div>
+          <Card variant="outlined" padding="md" className="mx-auto max-w-96">
+            <div className="text-label-small text-on-surface-variant mb-3">
+              Showing 21–30 of 120 items
+            </div>
             <Pagination
+              aria-label="Catalog result pages"
               currentPage={3}
               totalPages={12}
+              getPageHref={(page) => `?page=${page}`}
+            />
+          </Card>
+        ),
+        caption: 'A native link boundary paired with result context',
+      },
+      {
+        title: 'Compact controlled collection',
+        visual: (
+          <Card variant="outlined" padding="md" className="mx-auto max-w-96">
+            <Pagination
+              className="justify-center"
+              currentPage={2}
+              totalPages={5}
+              siblingCount={0}
               onPageChange={() => {}}
             />
           </Card>
         ),
-        caption: "Pagination with item count context",
-      },
-      {
-        title: "Centered layout",
-        visual: (
-          <Card variant="outlined" padding="md" className="max-w-80 mx-auto">
-            <div className="flex justify-center">
-              <Pagination
-                currentPage={1}
-                totalPages={5}
-                onPageChange={() => {}}
-              />
-            </div>
-          </Card>
-        ),
-        caption: "Centered pagination for smaller page counts",
+        caption: 'Button mode with a compact sibling range',
       },
     ],
   },
 
-  // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
     {
-      name: "currentPage",
-      type: "number",
+      name: 'currentPage',
+      type: 'number',
       required: true,
-      description: "The currently active page (1-indexed).",
+      description:
+        'Controlled 1-indexed page. It is truncated and clamped when a collection shrinks.',
     },
     {
-      name: "totalPages",
-      type: "number",
+      name: 'totalPages',
+      type: 'number',
       required: true,
-      description: "Total number of pages.",
+      description: 'Total page count. Zero, negative, or non-finite values render nothing.',
     },
     {
-      name: "onPageChange",
-      type: "(page: number) => void",
-      required: true,
-      description: "Callback fired when page changes.",
+      name: 'siblingCount',
+      type: 'number',
+      default: '1',
+      description: 'Number of visible pages on each side of the current page.',
     },
     {
-      name: "getPageHref",
-      type: "(page: number) => string",
-      description: "Function to generate href for each page (for SEO-friendly links).",
+      name: 'onPageChange',
+      type: '(page: number) => void',
+      description:
+        'Required in button mode. Optional observation callback in link mode; it does not replace navigation.',
     },
     {
-      name: "renderLink",
-      type: "(page: number, children: ReactNode) => ReactNode",
-      description: "Custom link renderer for framework routing (Next.js Link, etc.).",
+      name: 'getPageHref',
+      type: '(page: number) => string',
+      description:
+        'Enables link mode and supplies a real destination for page, previous, and next links.',
     },
     {
-      name: "className",
-      type: "string",
-      description: "Additional CSS classes.",
+      name: 'renderLink',
+      type: '(page: number, props: PaginationLinkProps) => ReactElement',
+      description:
+        'Optional framework-link renderer. It receives the complete anchor contract including href, labels, current state, click observation, className, and children.',
+    },
+    {
+      name: 'labels',
+      type: 'Partial<PaginationLabels>',
+      description: 'Localizes the navigation, previous, next, and per-page accessible names.',
+    },
+    {
+      name: 'className',
+      type: 'string',
+      description: 'Classes applied to the native nav boundary.',
     },
   ],
 
-  // ─── ACCESSIBILITY ──────────────────────────────────────────────────────────
   accessibility: {
     screenReader: [
-      "Uses nav element with aria-label='Pagination'.",
-      "Current page marked with aria-current='page'.",
-      "Each button has aria-label describing the page number.",
+      'The root is a named navigation landmark; use aria-label or aria-labelledby to distinguish repeated pagination sets.',
+      'Exactly one normalized page uses aria-current="page".',
+      'Previous, next, and page names are localizable; ellipses are presentation-only.',
     ],
     keyboard: [
-      { key: "Tab", description: "Moves focus between page buttons" },
-      { key: "Enter / Space", description: "Activates the focused page button" },
+      { key: 'Tab', description: 'Moves through available page destinations in document order' },
+      { key: 'Enter', description: 'Activates a focused button or link' },
+      { key: 'Space', description: 'Activates a focused button in button mode' },
     ],
     focus: [
-      "Page buttons have visible focus ring.",
-      "Current page is visually distinct.",
+      'Every available action uses the shared visible focus treatment.',
+      'Disabled boundary buttons leave the active destination set unambiguous.',
     ],
   },
 
-  // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
-    description: "Use controlled state to manage current page.",
-    code: `import { Pagination } from "@unisane/ui";
-import { useState } from "react";
+    description:
+      'Use button mode for controlled local state, or supply getPageHref for native/framework link navigation.',
+    code: `import { Pagination } from "@/components/ui/pagination";
+import Link from "next/link";
 
-function PaginatedList({ items, itemsPerPage = 10 }) {
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentItems = items.slice(startIndex, startIndex + itemsPerPage);
-
+function ControlledResults({ currentPage, totalPages, setCurrentPage }) {
   return (
-    <div>
-      <ul>
-        {currentItems.map((item) => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
-
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-sm text-on-surface-variant">
-          Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, items.length)} of {items.length}
-        </span>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </div>
-    </div>
+    <Pagination
+      aria-label="Filtered result pages"
+      currentPage={currentPage}
+      totalPages={totalPages}
+      onPageChange={setCurrentPage}
+    />
   );
 }
 
-// With Next.js Link for SEO
-function SEOPagination() {
+function LinkedResults({ currentPage, totalPages }) {
   return (
     <Pagination
-      currentPage={3}
-      totalPages={10}
-      onPageChange={(page) => router.push(\`/items?page=\${page}\`)}
-      getPageHref={(page) => \`/items?page=\${page}\`}
+      aria-label="Search result pages"
+      currentPage={currentPage}
+      totalPages={totalPages}
+      getPageHref={(page) => \`/search?page=\${page}\`}
+      renderLink={(_page, props) => <Link {...props} />}
     />
   );
 }`,
   },
 
-  // ─── RELATED COMPONENTS ─────────────────────────────────────────────────────
   related: [
     {
-      slug: "table",
-      reason: "Often used together for paginated data tables.",
+      slug: 'table',
+      reason:
+        'Pair with paged table results while keeping data-fetching ownership outside Pagination.',
     },
     {
-      slug: "list",
-      reason: "Use with lists for paginated content.",
-    },
-    {
-      slug: "icon-button",
-      reason: "Used for prev/next navigation buttons.",
+      slug: 'list',
+      reason:
+        'Pair with paged collections while keeping result count and page size as app concerns.',
     },
   ],
 };

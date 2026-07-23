@@ -3,24 +3,17 @@
 import Link from 'next/link';
 import { HeroBackground } from '@/lib/docs/runtime/hero-background';
 import { COMPONENT_REGISTRY } from '@/lib/docs/registry/selectors';
-import {
-  Avatar,
-  Button,
-  Card,
-  Chip,
-  Fab,
-  IconButton,
-  Pagination,
-  Progress,
-  SearchBar,
-  Slider,
-  Surface,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  Typography,
-} from '@unisane/ui';
+import { Avatar } from '@unisane/ui/avatar';
+import { Button } from '@unisane/ui/button';
+import { Card } from '@unisane/ui/card';
+import { Chip } from '@unisane/ui/chip';
+import { IconButton } from '@unisane/ui/icon-button';
+import { Pagination } from '@unisane/ui/pagination';
+import { Progress } from '@unisane/ui/progress';
+import { SearchBar } from '@unisane/ui/search-bar';
+import { Surface } from '@unisane/ui/surface';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@unisane/ui/tabs';
+import { Typography } from '@unisane/ui/typography';
 import { Badge } from '@unisane/ui/badge';
 import { Checkbox } from '@unisane/ui/checkbox';
 import { Switch } from '@unisane/ui/switch';

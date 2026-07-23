@@ -1,7 +1,7 @@
 'use client';
 
 import type { PropsWithChildren } from 'react';
-import { cn } from '@unisane/ui/lib/utils';
+import { cn } from '@unisane/ui/utils';
 
 interface PreviewThemeScopeProps extends PropsWithChildren {
   theme: 'light' | 'dark';

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { SearchBar, IconButton } from '@unisane/ui';
+import { SearchBar } from '@unisane/ui/search-bar';
+import { IconButton } from '@unisane/ui/icon-button';
 import { UnisaneLogo, UnisaneWordmark } from '@/features/branding';
 
 export function AppHeader() {

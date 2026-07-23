@@ -1,6 +1,7 @@
 'use client';
 
-import { Icon, Button } from '@unisane/ui';
+import { Icon } from '@unisane/ui/icon';
+import { Button } from '@unisane/ui/button';
 import { Divider } from '@unisane/ui/divider';
 import type { InventoryItem } from './types';
 

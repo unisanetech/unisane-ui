@@ -2,7 +2,7 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { Card } from '@unisane/ui';
+import { Card } from '@unisane/ui/card';
 import { Divider } from '@unisane/ui/divider';
 import { List, ListDivider, ListItem } from '@unisane/ui/list';
 

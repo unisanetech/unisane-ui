@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Typography } from "@unisane/ui";
-import { cn } from "@unisane/ui/lib/utils";
+import { useEffect, useState } from 'react';
+import { Typography } from '@unisane/ui/typography';
+import { cn } from '@unisane/ui/utils';
 
 interface TocItem {
   id: string;
@@ -23,17 +23,15 @@ export function TableOfContents({ title, items }: TableOfContentsProps) {
         const visibleEntries = entries.filter((entry) => entry.isIntersecting);
         if (visibleEntries.length > 0) {
           const closest = visibleEntries.reduce((prev, curr) => {
-            return prev.boundingClientRect.top < curr.boundingClientRect.top
-              ? prev
-              : curr;
+            return prev.boundingClientRect.top < curr.boundingClientRect.top ? prev : curr;
           });
           setActiveId(closest.target.id);
         }
       },
       {
-        rootMargin: "-80px 0px -70% 0px",
+        rootMargin: '-80px 0px -70% 0px',
         threshold: 0,
-      }
+      },
     );
 
     items.forEach((item) => {
@@ -49,9 +47,9 @@ export function TableOfContents({ title, items }: TableOfContentsProps) {
     const element = document.getElementById(id);
     if (!element) return;
 
-    element.scrollIntoView({ behavior: "smooth" });
+    element.scrollIntoView({ behavior: 'smooth' });
     setActiveId(id);
-    window.history.pushState(null, "", `#${id}`);
+    window.history.pushState(null, '', `#${id}`);
   };
 
   return (
@@ -60,15 +58,11 @@ export function TableOfContents({ title, items }: TableOfContentsProps) {
         <Typography
           variant="labelMedium"
           component="span"
-          className="mb-2 block text-on-surface-variant"
+          className="text-on-surface-variant mb-2 block"
         >
           On this page
         </Typography>
-        <Typography
-          variant="headlineMedium"
-          component="h4"
-          className="mb-6 text-on-surface"
-        >
+        <Typography variant="headlineMedium" component="h4" className="text-on-surface mb-6">
           {title}
         </Typography>
         <nav className="flex flex-col gap-1">
@@ -80,10 +74,10 @@ export function TableOfContents({ title, items }: TableOfContentsProps) {
                 href={`#${item.id}`}
                 onClick={(event) => handleClick(event, item.id)}
                 className={cn(
-                  "block rounded-lg border px-3 py-2 text-left text-body-medium transition-all duration-short",
+                  'text-body-medium duration-short block rounded-lg border px-3 py-2 text-left transition-all',
                   isActive
-                    ? "border-outline-variant font-medium text-on-surface"
-                    : "border-transparent text-on-surface-variant hover:bg-state-hover hover:text-on-surface"
+                    ? 'border-outline-variant text-on-surface font-medium'
+                    : 'text-on-surface-variant hover:bg-state-hover hover:text-on-surface border-transparent',
                 )}
               >
                 {item.label}

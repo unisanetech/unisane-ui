@@ -1,40 +1,28 @@
-const requiredExports = new Map([
-  ['@unisane/ui/appearance-provider', ['AppearanceProvider', 'AppearanceScript']],
-  ['@unisane/ui/alert', ['Alert']],
-  ['@unisane/ui/banner', ['Banner']],
-  ['@unisane/ui/badge', ['Badge']],
-  ['@unisane/ui/button', ['Button']],
-  ['@unisane/ui/calendar', ['Calendar']],
-  ['@unisane/ui/checkbox', ['Checkbox']],
-  ['@unisane/ui/confirm-dialog', ['ConfirmDialog']],
-  ['@unisane/ui/dialog', ['Dialog']],
-  ['@unisane/ui/divider', ['Divider']],
-  ['@unisane/ui/date-input', ['DateInput']],
-  ['@unisane/ui/date-picker', ['DatePicker']],
-  ['@unisane/ui/field', ['Field', 'FieldLabel', 'FieldDescription', 'FieldError']],
-  ['@unisane/ui/icon', ['Icon']],
-  ['@unisane/ui/list', ['List', 'ListDivider', 'ListItem', 'ListSubheader']],
-  ['@unisane/ui/navigation-bar', ['NavigationBar']],
-  ['@unisane/ui/navigation-drawer', ['NavigationDrawer']],
-  ['@unisane/ui/navigation-rail', ['NavigationRail']],
-  ['@unisane/ui/radio', ['Radio']],
-  ['@unisane/ui/segmented-button', ['SegmentedButton']],
-  ['@unisane/ui/select', ['Select', 'SelectTrigger', 'SelectValue', 'SelectContent', 'SelectItem']],
-  ['@unisane/ui/select-field', ['SelectField']],
-  ['@unisane/ui/sidebar', ['Sidebar', 'SidebarProvider']],
-  ['@unisane/ui/surface', ['Surface']],
-  ['@unisane/ui/switch', ['Switch']],
-  ['@unisane/ui/text-field', ['TextField']],
-  ['@unisane/ui/toast', ['Toast', 'Toaster', 'toast']],
-]);
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-for (const [specifier, expectedNames] of requiredExports) {
-  const module = await import(specifier);
-  for (const name of expectedNames) {
-    if (!(name in module)) {
-      throw new Error(`${specifier} does not export ${name}`);
-    }
+const packageDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const packageJson = JSON.parse(await readFile(path.join(packageDir, 'package.json'), 'utf8'));
+const runtimeSubpaths = Object.entries(packageJson.exports)
+  .filter(([, target]) => typeof target === 'object' && typeof target.import === 'string')
+  .map(([subpath]) => subpath.slice(2))
+  .sort();
+
+for (const subpath of runtimeSubpaths) {
+  const module = await import(`@unisane/ui/${subpath}`);
+  if (subpath !== 'navigation' && Object.keys(module).length === 0) {
+    throw new Error(`@unisane/ui/${subpath} has no runtime exports`);
   }
 }
 
-console.log(`Runtime export check passed for ${requiredExports.size} flat subpaths.`);
+if (packageJson.exports['.']) {
+  throw new Error('The retired @unisane/ui root runtime export is still public.');
+}
+if (Object.keys(packageJson.exports).some((subpath) => subpath.includes('*'))) {
+  throw new Error('Wildcard UI runtime exports are not allowed.');
+}
+
+console.log(
+  `Runtime export check passed for all ${runtimeSubpaths.length} explicit flat subpaths.`,
+);

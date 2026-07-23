@@ -49,6 +49,21 @@ test('registry records complete representative local and npm dependency closure'
     'use-controllable-state',
     'utils',
   ]);
+  assert.deepEqual(registry.components.pagination.dependencies, []);
+  assert.deepEqual(registry.components.pagination.registryDependencies, [
+    'action-size',
+    'icon',
+    'ripple',
+    'text',
+    'utils',
+  ]);
+  assert.deepEqual(registry.components.stepper.dependencies, []);
+  assert.deepEqual(registry.components.stepper.registryDependencies, [
+    'icon',
+    'ripple',
+    'text',
+    'utils',
+  ]);
   assert.deepEqual(registry.components.divider.registryDependencies, ['utils']);
   assert.deepEqual(registry.components.list.registryDependencies, [
     'divider',
@@ -182,65 +197,38 @@ test('icon has one canonical component owner', () => {
 });
 
 test('runtime package exposes canonical flat component subpaths', () => {
-  for (const subpath of [
-    './appearance-provider',
-    './alert',
-    './banner',
-    './badge',
-    './button',
-    './calendar',
-    './checkbox',
-    './confirm-dialog',
-    './dialog',
-    './divider',
-    './date-input',
-    './date-picker',
-    './field',
-    './icon',
-    './list',
-    './navigation',
-    './navigation-bar',
-    './navigation-drawer',
-    './navigation-rail',
-    './radio',
-    './segmented-button',
-    './select',
-    './select-field',
-    './sidebar',
-    './surface',
-    './switch',
-    './text-field',
-    './toast',
-  ]) {
-    assert.ok(packageJson.exports[subpath], `missing flat runtime export ${subpath}`);
+  const subpaths = Object.keys(packageJson.exports);
+  assert.equal(packageJson.exports['.'], undefined);
+  assert.equal(
+    subpaths.some((subpath) => subpath.includes('*')),
+    false,
+  );
+  assert.equal(
+    subpaths.some((subpath) => /^\.\/(components|primitives|layout|hooks|lib)\//.test(subpath)),
+    false,
+  );
+  for (const owner of Object.keys(registry.components)) {
+    if (
+      registry.components[owner].type === 'components:ui' &&
+      owner !== 'ripple' &&
+      owner !== 'data-table'
+    ) {
+      assert.ok(packageJson.exports[`./${owner}`], `missing flat runtime export ./${owner}`);
+    }
   }
+  assert.equal(packageJson.exports['./ripple'], undefined);
+});
 
-  assert.equal(packageJson.exports['./components/icon'], null);
-  assert.equal(packageJson.exports['./components/alert'], null);
-  assert.equal(packageJson.exports['./components/banner'], null);
-  assert.equal(packageJson.exports['./components/badge'], null);
-  assert.equal(packageJson.exports['./components/checkbox'], null);
-  assert.equal(packageJson.exports['./components/radio'], null);
-  assert.equal(packageJson.exports['./components/segmented-button'], null);
-  assert.equal(packageJson.exports['./components/selection-controls'], null);
-  assert.equal(packageJson.exports['./components/switch'], null);
-  assert.equal(packageJson.exports['./selection-controls'], null);
-  assert.equal(packageJson.exports['./components/navigation'], null);
-  assert.equal(packageJson.exports['./components/navigation-bar'], null);
-  assert.equal(packageJson.exports['./components/navigation-drawer'], null);
-  assert.equal(packageJson.exports['./components/navigation-rail'], null);
-  assert.equal(packageJson.exports['./components/sidebar'], null);
-  assert.equal(packageJson.exports['./components/calendar'], null);
-  assert.equal(packageJson.exports['./components/date-input'], null);
-  assert.equal(packageJson.exports['./components/date-picker'], null);
-  assert.equal(packageJson.exports['./components/dialog'], null);
-  assert.equal(packageJson.exports['./components/divider'], null);
-  assert.equal(packageJson.exports['./components/confirm-dialog'], null);
-  assert.equal(packageJson.exports['./components/field'], null);
-  assert.equal(packageJson.exports['./components/list'], null);
-  assert.equal(packageJson.exports['./components/select'], null);
-  assert.equal(packageJson.exports['./components/select-field'], null);
-  assert.equal(packageJson.exports['./components/text-field'], null);
-  assert.equal(packageJson.exports['./components/toast'], null);
-  assert.equal(packageJson.exports['./primitives/icon'], null);
+test('DataTable installs as one dependency-complete local composite', () => {
+  const dataTable = registry.components['data-table'];
+  assert.equal(dataTable.type, 'components:ui');
+  assert.ok(dataTable.files.includes('components/data-table/index.ts'));
+  assert.ok(dataTable.files.includes('components/data-table/components/data-table.tsx'));
+  assert.ok(dataTable.files.length > 100);
+  assert.ok(dataTable.registryDependencies.includes('button'));
+  assert.ok(dataTable.registryDependencies.includes('icon'));
+  assert.ok(dataTable.registryDependencies.includes('utils'));
+  assert.ok(
+    dataTable.dependencies.some((dependency) => dependency.startsWith('@tanstack/react-virtual@')),
+  );
 });

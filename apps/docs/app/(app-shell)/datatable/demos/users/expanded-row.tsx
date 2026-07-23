@@ -1,22 +1,23 @@
-"use client";
+'use client';
 
-import { Typography, Icon } from "@unisane/ui";
-import type { User } from "./types";
+import { Typography } from '@unisane/ui/typography';
+import { Icon } from '@unisane/ui/icon';
+import type { User } from './types';
 
 export function ExpandedRowContent({ row }: { row: User }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
       <div>
         <Typography variant="labelMedium" className="text-on-surface-variant mb-2">
           Contact Information
         </Typography>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <Icon symbol="email" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="email" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">{row.email}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon symbol="badge" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="badge" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">ID: {row.id}</span>
           </div>
         </div>
@@ -27,11 +28,11 @@ export function ExpandedRowContent({ row }: { row: User }) {
         </Typography>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <Icon symbol="apartment" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="apartment" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">{row.department}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon symbol="payments" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="payments" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">${row.salary.toLocaleString()}/year</span>
           </div>
         </div>
@@ -42,11 +43,11 @@ export function ExpandedRowContent({ row }: { row: User }) {
         </Typography>
         <div className="space-y-2">
           <div className="flex items-center gap-2">
-            <Icon symbol="folder" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="folder" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">{row.projects} active projects</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon symbol="calendar_today" className="w-4 h-4 text-on-surface-variant" />
+            <Icon symbol="calendar_today" className="text-on-surface-variant h-4 w-4" />
             <span className="text-body-small">Joined {row.joinDate}</span>
           </div>
         </div>

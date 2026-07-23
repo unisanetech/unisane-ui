@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Fab } from '@unisane/ui';
+import { Fab } from '@unisane/ui/fab';
 import { NavigationRail } from '@unisane/ui/navigation-rail';
 import type { NavigationItem } from '@unisane/ui/navigation';
 import { HeroBackground } from '../../runtime/hero-background';
@@ -14,10 +14,14 @@ const items: NavigationItem[] = [
   { id: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
-function NavigationRailExample({ labels = 'always' }: { labels?: 'always' | 'selected' | 'hidden' }) {
+function NavigationRailExample({
+  labels = 'always',
+}: {
+  labels?: 'always' | 'selected' | 'hidden';
+}) {
   const [value, setValue] = useState<string | null>('inbox');
   return (
-    <div className="bg-surface flex h-80 w-full max-w-lg overflow-hidden rounded-sm border border-outline-variant">
+    <div className="bg-surface border-outline-variant flex h-80 w-full max-w-lg overflow-hidden rounded-sm border">
       <NavigationRail
         aria-label="Mailbox navigation"
         items={items}
@@ -29,8 +33,8 @@ function NavigationRailExample({ labels = 'always' }: { labels?: 'always' | 'sel
       <div className="bg-surface-container-low flex-1 p-5">
         <div className="text-title-medium text-on-surface mb-4">{value ?? 'Mailbox'}</div>
         <div className="space-y-3">
-          <div className="bg-surface h-12 rounded-sm border border-outline-variant" />
-          <div className="bg-surface h-12 rounded-sm border border-outline-variant" />
+          <div className="bg-surface border-outline-variant h-12 rounded-sm border" />
+          <div className="bg-surface border-outline-variant h-12 rounded-sm border" />
         </div>
       </div>
     </div>
@@ -89,16 +93,52 @@ export const navigationRailDoc: ComponentDoc = {
     ],
   },
   props: [
-    { name: 'items', type: 'NavigationItem[]', required: true, description: 'Shared destination collection.' },
+    {
+      name: 'items',
+      type: 'NavigationItem[]',
+      required: true,
+      description: 'Shared destination collection.',
+    },
     { name: 'value', type: 'string | null', description: 'Controlled selected item id.' },
-    { name: 'defaultValue', type: 'string | null', description: 'Initial uncontrolled selected id.' },
-    { name: 'onValueChange', type: '(id: string | null) => void', description: 'Selection callback.' },
-    { name: 'onItemSelect', type: '(item: NavigationItem) => void', description: 'Activation callback.' },
+    {
+      name: 'defaultValue',
+      type: 'string | null',
+      description: 'Initial uncontrolled selected id.',
+    },
+    {
+      name: 'onValueChange',
+      type: '(id: string | null) => void',
+      description: 'Selection callback.',
+    },
+    {
+      name: 'onItemSelect',
+      type: '(item: NavigationItem) => void',
+      description: 'Activation callback.',
+    },
     { name: 'renderLink', type: 'NavigationLinkRenderer', description: 'Framework-link renderer.' },
-    { name: 'aria-label', type: 'string', required: true, description: 'Navigation landmark name.' },
-    { name: 'labelVisibility', type: '"always" | "selected" | "hidden"', default: '"always"', description: 'Label visibility policy.' },
-    { name: 'alignment', type: '"start" | "center" | "end"', default: '"start"', description: 'Vertical item alignment.' },
-    { name: 'onItemHover', type: '(id: string) => void', description: 'Optional presentation hover signal.' },
+    {
+      name: 'aria-label',
+      type: 'string',
+      required: true,
+      description: 'Navigation landmark name.',
+    },
+    {
+      name: 'labelVisibility',
+      type: '"always" | "selected" | "hidden"',
+      default: '"always"',
+      description: 'Label visibility policy.',
+    },
+    {
+      name: 'alignment',
+      type: '"start" | "center" | "end"',
+      default: '"start"',
+      description: 'Vertical item alignment.',
+    },
+    {
+      name: 'onItemHover',
+      type: '(id: string) => void',
+      description: 'Optional presentation hover signal.',
+    },
     { name: 'header', type: 'ReactNode', description: 'Content above destinations.' },
     { name: 'footer', type: 'ReactNode', description: 'Content below destinations.' },
   ],

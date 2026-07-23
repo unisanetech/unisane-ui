@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import { useSafeRAF } from '../hooks/use-safe-raf';
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────

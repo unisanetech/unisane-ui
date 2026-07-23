@@ -2,7 +2,8 @@
 
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
-import { SearchBar, IconButton } from '@unisane/ui';
+import { SearchBar } from '@unisane/ui/search-bar';
+import { IconButton } from '@unisane/ui/icon-button';
 
 // ─── HERO VISUAL ─────────────────────────────────────────────────────────────
 const SearchBarHeroVisual = () => (
@@ -73,7 +74,7 @@ export const searchBarDoc: ComponentDoc = {
   icon: 'search',
 
   // ─── IMPORT INFO ────────────────────────────────────────────────────────────
-  importPath: '@unisane/ui',
+  importPath: '@/components/ui/search-bar',
   exports: ['SearchBar'],
 
   // ─── HERO VISUAL ───────────────────────────────────────────────────────────
@@ -210,7 +211,7 @@ export const searchBarDoc: ComponentDoc = {
   // ─── IMPLEMENTATION ────────────────────────────────────────────────────────
   implementation: {
     description: 'Use controlled value for search state.',
-    code: `import { SearchBar } from "@unisane/ui";
+    code: `import { SearchBar } from "@/components/ui/search-bar";
 import { useState } from "react";
 
 function ProductSearch() {

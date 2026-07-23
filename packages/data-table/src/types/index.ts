@@ -101,7 +101,6 @@ export type {
   RowActivationEvent,
   DataTableHeaderRenderProps,
   DataTableToolbarRenderProps,
-  DataTableProps,
   RemoteDataTableProps,
 } from './props';
 

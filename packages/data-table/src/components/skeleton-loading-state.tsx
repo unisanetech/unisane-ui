@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Skeleton } from '@unisane/ui';
-import { cn } from '@unisane/ui';
+import { Skeleton } from '@unisane/ui/skeleton';
+import { cn } from '@unisane/ui/utils';
 import type { Column, ColumnMetaMap, PinPosition } from '../types/index';
 import type { Density } from '../constants/index';
 import { DENSITY_STYLES, DENSITY_UTILITY_COLUMN_WIDTHS } from '../constants/index';

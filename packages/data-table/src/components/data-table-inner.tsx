@@ -2,7 +2,7 @@
 
 import React, { useMemo, useRef, useCallback, useEffect, useState } from 'react';
 import type { CSSProperties, ReactNode } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import type {
   BulkAction,
   Column,

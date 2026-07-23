@@ -10,8 +10,8 @@ import React, {
   useState,
 } from 'react';
 import type { DocsBlock, DocsBlockCanvasHeight, DocsBlockViewport } from '@/lib/docs/blocks/types';
-import { cn } from '@unisane/ui/lib/utils';
-import { useMode } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
+import { useMode } from '@unisane/ui/appearance-provider';
 import { SegmentedButton } from '@unisane/ui/segmented-button';
 import { BlockCodeExplorer } from './block-code-explorer';
 import { PreviewThemeScope } from './preview-theme-scope';

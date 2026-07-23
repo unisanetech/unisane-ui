@@ -48,6 +48,7 @@ import { dividerDoc } from './components/divider.docs';
 import { calendarDoc } from './components/calendar.docs';
 import { carouselDoc } from './components/carousel.docs';
 import { comboboxDoc } from './components/combobox.docs';
+import { commandDoc } from './components/command.docs';
 import { datePickerDoc } from './components/date-picker.docs';
 import { dateInputDoc } from './components/date-input.docs';
 import { monthPickerDoc } from './components/month-picker.docs';
@@ -66,6 +67,9 @@ import { typographyDoc } from './components/typography.docs';
 import { canonicalLayoutsDoc } from './components/canonical-layouts.docs';
 import { paneGroupDoc } from './components/pane-group.docs';
 import { sidebarDoc } from './components/sidebar.docs';
+import { drawerDoc } from './components/drawer.docs';
+import { modeSwitcherDoc } from './components/mode-switcher.docs';
+import { statCardDoc } from './components/stat-card.docs';
 
 /**
  * Registry of all components with full documentation.
@@ -111,6 +115,7 @@ const DETAILED_DOCS: Record<string, ComponentDoc> = {
   calendar: calendarDoc,
   carousel: carouselDoc,
   combobox: comboboxDoc,
+  command: commandDoc,
   'date-picker': datePickerDoc,
   'date-input': dateInputDoc,
   'month-picker': monthPickerDoc,
@@ -129,6 +134,9 @@ const DETAILED_DOCS: Record<string, ComponentDoc> = {
   'canonical-layouts': canonicalLayoutsDoc,
   'pane-group': paneGroupDoc,
   sidebar: sidebarDoc,
+  drawer: drawerDoc,
+  'mode-switcher': modeSwitcherDoc,
+  'stat-card': statCardDoc,
 };
 
 // ─── BASIC COMPONENT REGISTRY ─────────────────────────────────────────────────
@@ -262,6 +270,14 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     icon: 'search',
   },
   {
+    slug: 'command',
+    name: 'Command',
+    description: 'A searchable keyboard-oriented command collection for fast application actions.',
+    category: 'containment',
+    status: 'stable',
+    icon: 'terminal',
+  },
+  {
     slug: 'confirm-dialog',
     name: 'Confirm Dialog',
     description: 'Confirm dialogs own the accessible lifecycle for consequential user decisions.',
@@ -310,6 +326,14 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     category: 'layout',
     status: 'stable',
     icon: 'horizontal_rule',
+  },
+  {
+    slug: 'drawer',
+    name: 'Drawer',
+    description: 'A bottom-anchored modal surface for focused supporting tasks.',
+    category: 'containment',
+    status: 'stable',
+    icon: 'vertical_align_top',
   },
   {
     slug: 'dropdown-menu',
@@ -367,6 +391,14 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     category: 'data-display',
     status: 'stable',
     icon: 'list',
+  },
+  {
+    slug: 'mode-switcher',
+    name: 'Mode Switcher',
+    description: 'A light, dark, and system selector backed by the shared appearance contract.',
+    category: 'selection',
+    status: 'stable',
+    icon: 'contrast',
   },
   {
     slug: 'navigation-bar',
@@ -516,6 +548,14 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
     category: 'selection',
     status: 'stable',
     icon: 'tune',
+  },
+  {
+    slug: 'stat-card',
+    name: 'Stat Card',
+    description: 'A compact semantic summary of one metric, its context, and optional trend.',
+    category: 'data-display',
+    status: 'stable',
+    icon: 'monitoring',
   },
   {
     slug: 'stepper',

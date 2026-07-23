@@ -3,14 +3,14 @@
 import { useState, useEffect } from 'react';
 import {
   useAppearance,
-  Popover,
-  Slider,
   type Density,
   type RadiusTheme,
   type ActionShape,
   type ContrastLevel,
   type Elevation,
-} from '@unisane/ui';
+} from '@unisane/ui/appearance-provider';
+import { Popover } from '@unisane/ui/popover';
+import { Slider } from '@unisane/ui/slider';
 
 const DENSITY_OPTIONS: { value: Density; label: string }[] = [
   { value: 'dense', label: 'Dense' },

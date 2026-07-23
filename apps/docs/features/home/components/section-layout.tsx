@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { cn } from "@unisane/ui";
+import React from 'react';
+import { cn } from '@unisane/ui/utils';
 
 interface HomeViewportProps {
   children: React.ReactNode;
@@ -16,14 +16,7 @@ interface HomeSectionProps {
 
 export function HomeViewport({ children, className }: HomeViewportProps) {
   return (
-    <div
-      className={cn(
-        "flex min-h-[100vh] min-h-[100dvh] flex-col",
-        className
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn('flex min-h-[100dvh] min-h-[100vh] flex-col', className)}>{children}</div>
   );
 }
 
@@ -31,8 +24,8 @@ export function HomeHeroSection({ children, className }: HomeSectionProps) {
   return (
     <section
       className={cn(
-        "flex min-h-0 flex-1 flex-col px-1 py-1 medium:px-1.5 medium:py-1.5 expanded:px-2 expanded:py-2",
-        className
+        'medium:px-1.5 medium:py-1.5 expanded:px-2 expanded:py-2 flex min-h-0 flex-1 flex-col px-1 py-1',
+        className,
       )}
     >
       {children}
@@ -40,14 +33,10 @@ export function HomeHeroSection({ children, className }: HomeSectionProps) {
   );
 }
 
-export function HomeContentSection({
-  children,
-  className,
-  innerClassName,
-}: HomeSectionProps) {
+export function HomeContentSection({ children, className, innerClassName }: HomeSectionProps) {
   return (
-    <section className={cn("px-4 py-16 medium:px-6 @3xl:py-24 expanded:px-8", className)}>
-      <div className={cn("mx-auto w-full max-w-6xl", innerClassName)}>{children}</div>
+    <section className={cn('medium:px-6 expanded:px-8 px-4 py-16 @3xl:py-24', className)}>
+      <div className={cn('mx-auto w-full max-w-6xl', innerClassName)}>{children}</div>
     </section>
   );
 }

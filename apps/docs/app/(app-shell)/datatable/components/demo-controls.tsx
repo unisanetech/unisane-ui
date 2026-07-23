@@ -1,6 +1,7 @@
 'use client';
 
-import { Typography, Chip } from '@unisane/ui';
+import { Typography } from '@unisane/ui/typography';
+import { Chip } from '@unisane/ui/chip';
 import { Switch } from '@unisane/ui/switch';
 import type { Density } from '@unisane/data-table';
 import type { PartialDataTableLocale } from '@unisane/data-table/i18n';

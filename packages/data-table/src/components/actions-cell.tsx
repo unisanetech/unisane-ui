@@ -1,16 +1,16 @@
 'use client';
 
 import React, { useCallback } from 'react';
+import { cn } from '@unisane/ui/utils';
+import { Icon } from '@unisane/ui/icon';
+import { IconButton } from '@unisane/ui/icon-button';
 import {
-  cn,
-  Icon,
-  IconButton,
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-} from '@unisane/ui';
+} from '@unisane/ui/dropdown-menu';
 import type { RowContextMenuItem, RowContextMenuItemOrSeparator } from '../types/index';
 import { useI18n } from '../i18n';
 import type { Column } from '../types/index';

@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@unisane/ui';
+import { Icon } from '@unisane/ui/icon';
 import { Badge } from '@unisane/ui/badge';
 import type { Column, RowContextMenuItemOrSeparator } from '@unisane/data-table';
 import { createActionsColumn } from '@unisane/data-table/components';

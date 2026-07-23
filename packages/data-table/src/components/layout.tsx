@@ -1,7 +1,7 @@
 'use client';
 
 import React, { forwardRef, useEffect, useRef } from 'react';
-import { cn } from '@unisane/ui';
+import { cn } from '@unisane/ui/utils';
 import { useOptionalDataTableRuntime } from '../context/provider';
 
 // ─── DATA TABLE LAYOUT ───────────────────────────────────────────────────────
