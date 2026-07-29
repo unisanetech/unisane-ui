@@ -8,6 +8,12 @@ const withMDX = createMDX({
 
 const config: NextConfig = {
   devIndicators: false,
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'picsum.photos' },
+    ],
+  },
   transpilePackages: ['@unisane/ui', '@unisane/tokens'],
   turbopack: {
     root: path.join(process.cwd(), '..', '..', '..'),

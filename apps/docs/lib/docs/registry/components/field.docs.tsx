@@ -1,6 +1,6 @@
 'use client';
 
-import { Field, FieldDescription, FieldError, FieldLabel } from '@unisane/ui/field';
+import { Field, FieldError, FieldLabel } from '@unisane/ui/field';
 import { Input } from '@unisane/ui/input';
 import type { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';

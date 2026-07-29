@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, useMemo } from "react";
-import type { FilterValue, FilterState } from "@/components/ui/data-table/types";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
@@ -33,6 +32,14 @@ export type FilterComparisonOperator =
   | "isTrue"
   | "isFalse";
 
+export type CompoundFilterValue =
+  | string
+  | number
+  | boolean
+  | Date
+  | (string | number)[]
+  | null;
+
 /**
  * A single filter condition
  */
@@ -44,9 +51,9 @@ export interface FilterCondition {
   /** Comparison operator */
   operator: FilterComparisonOperator;
   /** Filter value(s) */
-  value: FilterValue;
+  value: CompoundFilterValue;
   /** Secondary value for range operators (between) */
-  value2?: FilterValue;
+  value2?: CompoundFilterValue;
   /** Whether this condition is enabled */
   enabled?: boolean;
 }
@@ -122,11 +129,6 @@ export interface UseCompoundFiltersOptions<T extends { id: string }> {
    */
   maxConditionsPerGroup?: number;
 
-  /**
-   * Convert compound filter to simple FilterState (for compatibility).
-   * Only works for simple filters (single AND group with equals operators).
-   */
-  convertToSimple?: boolean;
 }
 
 export interface UseCompoundFiltersReturn<T extends { id: string }> {
@@ -204,17 +206,6 @@ export interface UseCompoundFiltersReturn<T extends { id: string }> {
    * Set the entire filter.
    */
   setFilter: (filter: CompoundFilter) => void;
-
-  /**
-   * Convert current filter to simple FilterState.
-   * Returns null if filter is too complex.
-   */
-  toSimpleFilter: () => FilterState | null;
-
-  /**
-   * Import from simple FilterState.
-   */
-  fromSimpleFilter: (state: FilterState) => void;
 
   /**
    * Evaluate a row against the current filter.
@@ -836,50 +827,6 @@ export function useCompoundFilters<T extends { id: string }>({
     setFilter(initialFilter ?? createEmptyFilter());
   }, [initialFilter, setFilter]);
 
-  // ─── CONVERSION ───────────────────────────────────────────────────────────
-
-  const toSimpleFilter = useCallback((): FilterState | null => {
-    // Only convert if it's a simple AND group with equals operators
-    if (filter.root.operator !== "and") return null;
-    if (filter.root.groups.length > 0) return null;
-
-    const result: FilterState = {};
-
-    for (const condition of filter.root.conditions) {
-      if (condition.enabled === false) continue;
-      if (condition.operator !== "equals" && condition.operator !== "in") {
-        return null;
-      }
-      result[condition.columnKey] = condition.value;
-    }
-
-    return result;
-  }, [filter]);
-
-  const fromSimpleFilter = useCallback(
-    (state: FilterState) => {
-      const newRoot = createEmptyGroup("and");
-
-      for (const [key, value] of Object.entries(state)) {
-        if (value == null || value === "") continue;
-
-        newRoot.conditions.push({
-          id: generateFilterId("cond"),
-          columnKey: key,
-          operator: Array.isArray(value) ? "in" : "equals",
-          value,
-          enabled: true,
-        });
-      }
-
-      setFilter({
-        root: newRoot,
-        active: newRoot.conditions.length > 0,
-      });
-    },
-    [setFilter]
-  );
-
   // ─── EVALUATION ───────────────────────────────────────────────────────────
 
   const evaluateRow = useCallback(
@@ -932,8 +879,6 @@ export function useCompoundFilters<T extends { id: string }>({
     clearAll,
     reset,
     setFilter,
-    toSimpleFilter,
-    fromSimpleFilter,
     evaluateRow,
     toJSON,
     fromJSON,

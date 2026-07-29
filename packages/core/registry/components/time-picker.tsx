@@ -299,7 +299,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setHours(nextValue);
                   }}
                   onBlur={() => setHours((current) => clampHours(current))}
-                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
+                  className="text-title-large border-outline-subtle bg-surface hover:border-outline-medium focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
                 />
               </div>
 
@@ -330,14 +330,14 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setMinutes(nextValue);
                   }}
                   onBlur={() => setMinutes((current) => clampMinutes(current))}
-                  className="text-title-large border-outline-variant bg-surface hover:border-outline focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
+                  className="text-title-large border-outline-subtle bg-surface hover:border-outline-medium focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
                 />
               </div>
             </div>
           )}
 
           <div
-            className="border-outline-variant bg-surface ml-3 flex h-20 shrink-0 flex-col overflow-hidden rounded-sm border"
+            className="border-outline-subtle bg-surface ml-3 flex h-20 shrink-0 flex-col overflow-hidden rounded-sm border"
             role="radiogroup"
             aria-label="AM/PM"
           >
@@ -346,7 +346,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               role="radio"
               aria-checked={period === 'AM'}
               className={cn(
-                'text-label-medium hover:bg-state-hover border-outline-variant flex-1 border-b px-4 font-medium transition-colors',
+                'text-label-medium hover:bg-state-hover border-outline-weak flex-1 border-b px-4 font-medium transition-colors',
                 period === 'AM'
                   ? 'bg-tertiary-container text-on-tertiary-container'
                   : 'text-on-surface-variant',

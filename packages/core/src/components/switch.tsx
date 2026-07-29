@@ -57,7 +57,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
               'duration-medium ease-standard absolute inset-0 rounded-full border-2 transition-colors',
               resolvedInvalid
                 ? 'border-error bg-error-container peer-checked:bg-error peer-checked:border-error'
-                : 'border-outline bg-surface-container-highest peer-checked:bg-primary peer-checked:border-primary',
+                : 'border-outline-medium bg-surface-container-highest peer-checked:bg-primary peer-checked:border-primary',
               'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
             )}
           />

@@ -100,7 +100,7 @@ function SkeletonCell<T>({
     <td
       className={cn(
         cellPadding,
-        showColumnBorders && 'border-outline-subtle border-r last:border-r-0',
+        showColumnBorders && 'border-outline-weak border-r last:border-r-0',
         isPinned && 'bg-surface sticky z-10',
         pinPosition === 'left' && 'left-0',
         pinPosition === 'right' && 'right-0',
@@ -146,7 +146,7 @@ function SkeletonRow<T>({
   const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
 
   return (
-    <tr className="border-outline-subtle border-b last:border-b-0" aria-hidden="true">
+    <tr className="border-outline-weak border-b last:border-b-0" aria-hidden="true">
       {/* Drag handle column */}
       {reorderableRows && (
         <td className={cellPadding} style={{ width: utilityColumnWidths.dragHandle }}>
@@ -157,7 +157,7 @@ function SkeletonRow<T>({
       {/* Selection checkbox column */}
       {selectable && (
         <td
-          className={cn(cellPadding, showColumnBorders && 'border-outline-subtle border-r')}
+          className={cn(cellPadding, showColumnBorders && 'border-outline-weak border-r')}
           style={{ width: utilityColumnWidths.checkbox }}
         >
           <Skeleton variant="rectangular" className="size-5 rounded-sm" />
@@ -167,7 +167,7 @@ function SkeletonRow<T>({
       {/* Expansion toggle column */}
       {enableExpansion && (
         <td
-          className={cn(cellPadding, showColumnBorders && 'border-outline-subtle border-r')}
+          className={cn(cellPadding, showColumnBorders && 'border-outline-weak border-r')}
           style={{ width: utilityColumnWidths.expander }}
         >
           <Skeleton variant="circular" className="size-5" />

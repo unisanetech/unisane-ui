@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import type { Column, FilterState, MultiSortState, FilterValue, TypedFilterValue } from "@/components/ui/data-table/types";
+import type { Column, FilterState, MultiSortState, FilterValue } from "@/components/ui/data-table/types";
 import { getNestedValue } from "@/components/ui/data-table/utils/get-nested-value";
 import { useDebounce } from "@/components/ui/data-table/hooks/utilities/use-debounce";
 import type { ErrorHub } from "@/components/ui/data-table/errors/error-hub";
@@ -327,26 +327,12 @@ function compareValues(a: unknown, b: unknown): number {
 }
 
 /**
- * Type guard to check if a filter value is a TypedFilterValue (has discriminator)
- */
-function isTypedFilterValue(
-  value: FilterValue
-): value is TypedFilterValue {
-  return (
-    typeof value === "object" &&
-    value !== null &&
-    "type" in value &&
-    typeof (value).type === "string"
-  );
-}
-
-/**
- * Check if a cell value matches a typed filter value (discriminated union)
+ * Check if a cell value matches a filter value.
  * Uses the `type` discriminator for unambiguous handling
  */
-function matchesTypedFilter(
+function matchesFilter(
   cellValue: unknown,
-  filter: TypedFilterValue
+  filter: FilterValue
 ): boolean {
   switch (filter.type) {
     case "text": {
@@ -514,92 +500,4 @@ function matchesTypedFilter(
       return true;
     }
   }
-}
-
-/**
- * Check if a cell value matches a filter value
- * Supports both legacy FilterValue and new TypedFilterValue formats
- */
-function matchesFilter(cellValue: unknown, filterValue: FilterValue): boolean {
-  if (filterValue === null || filterValue === undefined) {
-    return true;
-  }
-
-  // Handle TypedFilterValue (discriminated union) - preferred path
-  if (isTypedFilterValue(filterValue)) {
-    return matchesTypedFilter(cellValue, filterValue);
-  }
-
-  // ─── LEGACY FILTER HANDLING ─────────────────────────────────────────────────
-  // For backwards compatibility with simple filter values
-
-  // Handle array filter (multi-select)
-  if (Array.isArray(filterValue)) {
-    if (filterValue.length === 0) return true;
-    return filterValue.some((fv) => {
-      if (cellValue === null || cellValue === undefined) return false;
-      return String(cellValue).toLowerCase() === String(fv).toLowerCase();
-    });
-  }
-
-  // Handle legacy range filter (min/max) - assumes number range
-  if (
-    typeof filterValue === "object" &&
-    filterValue !== null &&
-    ("min" in filterValue || "max" in filterValue)
-  ) {
-    const { min, max } = filterValue as { min?: number | string; max?: number | string };
-    const numValue = Number(cellValue);
-
-    if (min !== undefined && numValue < Number(min)) return false;
-    if (max !== undefined && numValue > Number(max)) return false;
-    return true;
-  }
-
-  // Handle legacy date range filter (start/end)
-  if (
-    typeof filterValue === "object" &&
-    filterValue !== null &&
-    ("start" in filterValue || "end" in filterValue)
-  ) {
-    const { start, end } = filterValue as { start?: Date | string; end?: Date | string };
-    const cellDate = cellValue instanceof Date ? cellValue : new Date(String(cellValue));
-
-    if (start) {
-      const startDate = start instanceof Date ? start : new Date(start);
-      if (cellDate < startDate) return false;
-    }
-    if (end) {
-      const endDate = end instanceof Date ? end : new Date(end);
-      if (cellDate > endDate) return false;
-    }
-    return true;
-  }
-
-  // Handle Date filter value
-  if (filterValue instanceof Date) {
-    const cellDate = cellValue instanceof Date ? cellValue : new Date(String(cellValue));
-    if (isNaN(cellDate.getTime())) return false;
-    // Compare dates at day level
-    return (
-      cellDate.getFullYear() === filterValue.getFullYear() &&
-      cellDate.getMonth() === filterValue.getMonth() &&
-      cellDate.getDate() === filterValue.getDate()
-    );
-  }
-
-  // Handle boolean filter
-  if (typeof filterValue === "boolean") {
-    return Boolean(cellValue) === filterValue;
-  }
-
-  // Handle string/number filter (text search)
-  if (cellValue === null || cellValue === undefined) {
-    return false;
-  }
-
-  const cellStr = String(cellValue).toLowerCase();
-  const filterStr = String(filterValue).toLowerCase();
-
-  return cellStr.includes(filterStr);
 }

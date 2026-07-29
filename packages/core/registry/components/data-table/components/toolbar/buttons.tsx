@@ -37,7 +37,7 @@ export function ToolbarDropdownButton({
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 36px on larger
         'inline-flex h-11 min-h-[44px] items-center gap-2 px-3 transition-colors @md:h-9 @md:min-h-[36px]',
-        'text-body-medium border-outline-variant rounded border font-medium',
+        'text-body-medium border-outline-subtle rounded border font-medium',
         'text-on-surface hover:bg-state-hover',
         'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:outline-none',
         'disabled:pointer-events-none disabled:opacity-50',
@@ -167,7 +167,7 @@ export function SegmentedDropdownButton({
     <div
       className={cn(
         // Touch-friendly: min 44px on small containers, standard 40px on larger
-        'border-outline-variant bg-surface flex h-11 min-h-[44px] items-center border transition-colors @md:h-10 @md:min-h-[40px]',
+        'border-outline-subtle bg-surface flex h-11 min-h-[44px] items-center border transition-colors @md:h-10 @md:min-h-[40px]',
         'hover:bg-state-hover',
         active && 'bg-primary-container border-primary-container',
         isFirst && 'rounded-l-lg',
@@ -213,7 +213,7 @@ export function SegmentedDropdownButton({
       {/* Dropdown arrow section */}
       <div
         className={cn(
-          'border-outline-variant flex h-full items-center justify-center border-l px-2',
+          'border-outline-subtle flex h-full items-center justify-center border-l px-2',
           active ? 'text-on-primary-container' : 'text-on-surface-variant',
         )}
       >
@@ -250,7 +250,7 @@ export function SegmentedIconButton({
       variant={active ? 'tonal' : 'standard'}
       size="md"
       className={cn(
-        'border-outline-variant border',
+        'border-outline-subtle border',
         'disabled:pointer-events-none disabled:opacity-50',
         isFirst && 'rounded-l-lg',
         isLast && 'rounded-r-lg',
@@ -279,7 +279,7 @@ export function ActionButton({ action }: { action: ToolbarAction }) {
         // Touch-friendly: min 44px on small containers, standard 36px on larger
         'text-body-medium h-11 min-h-[44px] gap-2 rounded font-medium @md:h-9 @md:min-h-[36px]',
         isDanger && 'border-error text-error hover:bg-state-error',
-        !isPrimary && !isDanger && 'border-outline-variant border',
+        !isPrimary && !isDanger && 'border-outline-subtle border',
       )}
     >
       {action.icon && <Icon symbol={action.icon} className="h-5 w-5" />}

@@ -31,7 +31,7 @@ export const ModeSwitcher = React.forwardRef<HTMLDivElement, ModeSwitcherProps>(
       <div
         ref={ref}
         className={cn(
-          'border-outline-variant rounded-button inline-flex items-center overflow-hidden border',
+          'border-outline-subtle rounded-button inline-flex items-center overflow-hidden border',
           fieldSize.containerHeight,
           className,
         )}

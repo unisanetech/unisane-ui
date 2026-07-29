@@ -7,6 +7,7 @@ import type {
   DataTableContextMenuAction,
   DataTableContextMenuContext,
   FilterState,
+  FilterValue,
   MultiSortState,
   PaginationState,
   ColumnPinState,
@@ -84,7 +85,7 @@ export type DataTableAction =
 
   // Filtering
   | { type: 'SET_SEARCH'; value: string }
-  | { type: 'SET_FILTER'; key: string; value: unknown }
+  | { type: 'SET_FILTER'; key: string; value: FilterValue | null }
   | { type: 'REMOVE_FILTER'; key: string }
   | { type: 'CLEAR_ALL_FILTERS' }
 
@@ -203,8 +204,6 @@ export interface DataTableCallbacks<T = unknown> {
     | undefined;
   /** Callback when table scrolls */
   onScroll: ((info: ScrollEventInfo) => void) | undefined;
-  /** Global error handler for DataTable errors */
-  onError: ((error: DataTableError) => void) | undefined;
 }
 
 // ─── CONTROLLED STATE TYPES ─────────────────────────────────────────────────
@@ -302,12 +301,6 @@ export interface DataTableProviderProps<T> {
   ) => DataTableContextMenuAction<T>[];
   /** Callback when table scrolls (useful for infinite scroll, lazy loading) */
   onScroll?: (info: ScrollEventInfo) => void;
-  /**
-   * Global error handler for DataTable errors.
-   * Catches errors from rendering, data processing, exports, etc.
-   */
-  onError?: (error: DataTableError) => void;
-
   // ─── Internationalization ───
   /** Locale configuration for i18n support */
   locale?: PartialDataTableLocale;

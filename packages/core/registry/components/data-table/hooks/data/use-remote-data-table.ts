@@ -1,12 +1,18 @@
 "use client";
 
 import { useMemo, useState, useCallback, useRef } from "react";
-import type { FilterState, SortDirection, CursorPagination } from "@/components/ui/data-table/types";
+import type {
+  CursorPagination,
+  FilterState,
+  MultiSortState,
+  RemoteDataTableProps,
+  SortDirection,
+} from "@/components/ui/data-table/types";
 
 // ─── TYPES ─────────────────────────────────────────────────────────────────
 
 /**
- * Interface for list params hooks (compatible with various SDK patterns)
+ * Structural contract for supported list-parameter hooks.
  * This matches return types from hooks like useListParams, useAdminUsersListParams, etc.
  */
 export interface ListParamsLike {
@@ -35,7 +41,7 @@ export interface ListParamsLike {
 }
 
 /**
- * Interface for query results (compatible with React Query, SWR, etc.)
+ * Structural contract for query results from React Query, SWR, and similar clients.
  */
 export interface QueryLike<T> {
   /** Query data - can be array or paginated response */
@@ -83,35 +89,7 @@ export interface UseRemoteDataTableOptions<T> {
  * Return type for useRemoteDataTable hook
  * These props can be spread directly onto DataTable
  */
-export interface UseRemoteDataTableReturn<T> {
-  // Data
-  data: T[];
-  isLoading: boolean;
-  refreshing: boolean;
-  onRefresh: () => Promise<void>;
-
-  // Mode
-  mode: "remote";
-  paginationMode: "cursor";
-  disableLocalProcessing: true;
-
-  // Search
-  searchValue: string;
-  onSearchChange: (val: string) => void;
-
-  // Filters
-  filters: FilterState;
-  onFilterChange: (filters: FilterState) => void;
-
-  // Sort
-  sortKey: string | null;
-  sortDirection: SortDirection;
-  onSortChange: (key: string | null, direction: SortDirection) => void;
-
-  // Pagination
-  cursorPagination: CursorPagination;
-  totalCount?: number;
-}
+export type UseRemoteDataTableReturn<T> = RemoteDataTableProps<T>;
 
 // ─── HOOK ───────────────────────────────────────────────────────────────────
 
@@ -250,7 +228,7 @@ export function useRemoteDataTable<T extends { id: string }>({
 
   // ─── LOADING STATES ────────────────────────────────────────────────────────
 
-  const isLoading = query.isLoading && !query.data;
+  const loading = query.isLoading && !query.data;
   const isRefreshing = refreshing || query.isFetching;
 
   // ─── REFRESH HANDLER ───────────────────────────────────────────────────────
@@ -277,30 +255,32 @@ export function useRemoteDataTable<T extends { id: string }>({
   return {
     // Data
     data,
-    isLoading,
+    loading,
     refreshing: isRefreshing,
     onRefresh: handleRefresh,
 
-    // Mode
-    mode: "remote",
-    paginationMode: "cursor",
-    disableLocalProcessing: true,
-
-    // Search
-    searchValue: params.searchValue,
-    onSearchChange: params.onSearchChange,
-
-    // Filters
-    filters: params.filters as FilterState,
-    onFilterChange: params.onFiltersChange as (filters: FilterState) => void,
-
-    // Sort
-    sortKey: params.sortDescriptor.key ?? null,
-    sortDirection: params.sortDescriptor.direction as SortDirection,
-    onSortChange: params.onSortChange,
-
-    // Pagination
-    cursorPagination,
+    pagination: {
+      mode: "cursor",
+      cursor: cursorPagination,
+    },
+    controlled: {
+      searchValue: params.searchValue,
+      filters: params.filters as FilterState,
+      sortState: [
+        {
+          key: params.sortDescriptor.key,
+          direction: params.sortDescriptor.direction,
+        },
+      ],
+    },
+    callbacks: {
+      onSearchChange: params.onSearchChange,
+      onFilterChange: params.onFiltersChange as (filters: FilterState) => void,
+      onSortChange: (sortState: MultiSortState) => {
+        const first = sortState[0];
+        params.onSortChange(first?.key ?? null, first?.direction ?? "asc");
+      },
+    },
     ...(statsQuery?.data?.total !== undefined
       ? { totalCount: statsQuery.data.total }
       : {}),

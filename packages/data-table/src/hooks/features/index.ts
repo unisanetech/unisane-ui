@@ -71,6 +71,7 @@ export type {
   FilterLogicOperator,
   FilterComparisonOperator,
   FilterCondition,
+  CompoundFilterValue,
   FilterGroup,
   CompoundFilter,
   UseCompoundFiltersOptions,

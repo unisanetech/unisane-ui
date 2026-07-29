@@ -50,7 +50,7 @@ const buttonVariants = cva(
         filled: 'bg-primary text-on-primary',
         tonal: 'bg-secondary-container text-on-secondary-container',
         outlined:
-          'border border-outline-variant text-on-surface bg-transparent focus-visible:border-primary',
+          'border border-outline-subtle text-on-surface bg-transparent focus-visible:border-primary',
         text: 'text-primary bg-transparent',
         elevated: 'bg-surface-container-low text-primary shadow-1',
       },

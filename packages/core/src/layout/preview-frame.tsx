@@ -34,7 +34,7 @@ export const PreviewFrame = React.forwardRef<HTMLDivElement, PreviewFrameProps>(
       <div
         ref={ref}
         className={cn(
-          'border-outline-subtle relative min-w-0 rounded-sm border',
+          'border-outline-soft relative min-w-0 rounded-sm border',
           aspectRatioClasses[aspectRatio],
           toneClasses[tone],
           overflowClasses[overflow],

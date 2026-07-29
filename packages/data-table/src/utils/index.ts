@@ -8,16 +8,8 @@ export {
 // Re-export error from errors module
 export { DuplicateRowIdError } from "../errors";
 
-// Deprecation utilities (for future use)
-export {
-  warnDeprecatedProp,
-  resolveDeprecatedProp,
-  clearDeprecationWarnings,
-} from "./deprecation";
-
 // Grouping utilities
 export {
-  getNestedValue as getNestedGroupValue,
   formatGroupLabel,
   calculateAggregation,
   buildNestedGroups,

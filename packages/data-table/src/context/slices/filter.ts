@@ -22,12 +22,7 @@ export function reduceFilterState(
       const next = { ...state.columnFilters };
       const value = action.value;
 
-      if (
-        value === null ||
-        value === undefined ||
-        value === "" ||
-        (Array.isArray(value) && value.length === 0)
-      ) {
+      if (value === null) {
         delete next[action.key];
       } else {
         next[action.key] = value;

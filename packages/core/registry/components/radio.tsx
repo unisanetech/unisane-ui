@@ -81,7 +81,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
               'duration-snappy ease-emphasized transition-colors',
               resolvedInvalid
                 ? 'border-error peer-checked:border-error'
-                : 'border-outline group-hover:border-on-surface peer-checked:border-primary',
+                : 'border-outline-medium group-hover:border-on-surface peer-checked:border-primary',
               'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
               "after:duration-snappy after:ease-emphasized after:block after:scale-0 after:rounded-full after:transition-transform after:content-['']",
               sizeClasses.radioDot,

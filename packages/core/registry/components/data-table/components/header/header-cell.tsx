@@ -17,6 +17,7 @@ import { ColumnMenu } from '@/components/ui/data-table/components/header/column-
 import { SortControl } from '@/components/ui/data-table/components/header/sort-control';
 import { useI18n } from '@/components/ui/data-table/i18n';
 import { DENSITY_HEADER_TEXT_STYLES, type Density } from '@/components/ui/data-table/constants';
+import { formatFilterValue } from '@/components/ui/data-table/utils/filter-value';
 
 export interface HeaderCellProps<T> {
   column: Column<T>;
@@ -37,7 +38,7 @@ export interface HeaderCellProps<T> {
   onPin: (position: PinPosition) => void;
   onResize: (key: string, width: number) => void;
   onHide: () => void;
-  onFilter?: (value: FilterValue) => void;
+  onFilter?: (value: FilterValue | null) => void;
   getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
   currentFilter?: FilterValue;
   /** Whether this is the last pinned-left column */
@@ -136,18 +137,17 @@ export function HeaderCell<T>({
     (groupingEnabled && isGroupable) ||
     columnMenuActions.length > 0;
 
-  const hasActiveFilter =
-    currentFilter !== undefined && currentFilter !== null && currentFilter !== '';
+  const hasActiveFilter = currentFilter !== undefined;
 
   // Generate filter description for screen readers
   const filterDescription = hasActiveFilter
-    ? t('filterBy', { column: String(column.header) }) + `: ${String(currentFilter)}`
+    ? t('filterBy', { column: String(column.header) }) + `: ${formatFilterValue(currentFilter)}`
     : undefined;
 
   return (
     <th
       className={cn(
-        'group bg-surface border-outline-subtle border-b',
+        'group bg-surface border-outline-weak border-b',
         'text-on-surface-variant font-medium whitespace-nowrap',
         headerTextClass,
         'duration-snappy transition-colors',
@@ -165,9 +165,9 @@ export function HeaderCell<T>({
         // Pinned columns use isolate to create proper stacking context
         pinPosition ? 'isolate z-20 @md:sticky' : 'z-0',
         // Column borders: show on non-pinned columns (except last), and on last pinned-left / first pinned-right
-        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-subtle border-r',
-        showColumnBorders && isLastPinnedLeft && 'border-outline-subtle border-r',
-        showColumnBorders && isFirstPinnedRight && 'border-outline-subtle border-l',
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-weak border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-weak border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-weak border-l',
         // Drag state styling
         isDragging && 'opacity-50',
         isDropTarget && 'bg-state-selected',

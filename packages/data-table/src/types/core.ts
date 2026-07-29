@@ -181,12 +181,12 @@ export interface BooleanFilterValue {
 }
 
 /**
- * Typed filter value - discriminated union for type-safe filter handling
+ * Filter value - discriminated union for type-safe filter handling
  * Use the `type` property to narrow the filter type
  *
  * @example
  * ```typescript
- * function applyFilter(filter: TypedFilterValue) {
+ * function applyFilter(filter: FilterValue) {
  *   switch (filter.type) {
  *     case "text":
  *       return row.name.includes(filter.value);
@@ -197,7 +197,7 @@ export interface BooleanFilterValue {
  * }
  * ```
  */
-export type TypedFilterValue =
+export type FilterValue =
   | TextFilterValue
   | NumberFilterValue
   | NumberRangeFilterValue
@@ -208,38 +208,10 @@ export type TypedFilterValue =
   | BooleanFilterValue;
 
 /**
- * Possible filter value types (legacy/simple)
- * Supports: text, number, boolean, date, arrays, and ranges
- *
- * @deprecated For new code, prefer `TypedFilterValue` which provides
- * discriminated unions for better type safety
- */
-export type FilterValue =
-  | string
-  | number
-  | boolean
-  | Date
-  | string[]
-  | number[]
-  | (string | number)[]
-  | { min?: number | string; max?: number | string }
-  | { start?: Date | string; end?: Date | string }
-  | TypedFilterValue
-  | null
-  | undefined;
-
-/**
  * Filter state map - column key to filter value
  */
 export interface FilterState {
   [key: string]: FilterValue;
-}
-
-/**
- * Typed filter state map - for strict typing
- */
-export interface TypedFilterState {
-  [key: string]: TypedFilterValue | null | undefined;
 }
 
 /**

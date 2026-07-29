@@ -292,35 +292,13 @@ export function useDefaultContextMenuItems<T extends { id: string }>(
   const { t } = useI18n();
   // Wrap t to match the expected signature
   const translate = (key: string) => t(key as keyof import('../i18n').DataTableStrings);
-  return createDefaultContextMenuItemsWithTranslator(options, translate);
-}
-
-/**
- * Creates default context menu items for common row actions
- * @deprecated Use useDefaultContextMenuItems hook for i18n support
- */
-export function createDefaultContextMenuItems<T extends { id: string }>(
-  options: CreateDefaultContextMenuItemsOptions<T>,
-): RowContextMenuItemOrSeparator<T>[] {
-  // Fallback to English labels for backwards compatibility
-  const fallbackT = (key: string) => {
-    const labels: Record<string, string> = {
-      viewDetails: 'View details',
-      edit: 'Edit',
-      duplicate: 'Duplicate',
-      select: 'Select',
-      copyId: 'Copy ID',
-      delete: 'Delete',
-    };
-    return labels[key] ?? key;
-  };
-  return createDefaultContextMenuItemsWithTranslator(options, fallbackT);
+  return buildDefaultContextMenuItems(options, translate);
 }
 
 /**
  * Internal function to create context menu items with a translator
  */
-function createDefaultContextMenuItemsWithTranslator<T extends { id: string }>(
+function buildDefaultContextMenuItems<T extends { id: string }>(
   options: CreateDefaultContextMenuItemsOptions<T>,
   t: (key: string) => string,
 ): RowContextMenuItemOrSeparator<T>[] {

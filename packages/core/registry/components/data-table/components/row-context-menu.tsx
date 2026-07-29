@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useCallback, type ReactNode } from "react";
-import { createPortal } from "react-dom";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/components/ui/icon";
-import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import React, { useEffect, useRef, useCallback, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/components/ui/icon';
+import { DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import type {
   RowContextMenuItem,
   RowContextMenuItemOrSeparator,
   RowContextMenuRenderProps,
-} from "@/components/ui/data-table/types/index";
-import { useI18n } from "@/components/ui/data-table/i18n";
+} from '@/components/ui/data-table/types/index';
+import { useI18n } from '@/components/ui/data-table/i18n';
 
 // ─── CONTEXT MENU STATE ──────────────────────────────────────────────────────
 
@@ -61,7 +61,7 @@ export function useRowContextMenu<T extends { id: string }>({
       setMenuState({ isOpen: true, row, position });
       onOpen?.(row, position);
     },
-    [onOpen]
+    [onOpen],
   );
 
   const closeMenu = useCallback(() => {
@@ -74,7 +74,7 @@ export function useRowContextMenu<T extends { id: string }>({
       setMenuState({ isOpen: true, row, position });
       onOpen?.(row, position);
     },
-    [onOpen]
+    [onOpen],
   );
 
   return {
@@ -100,10 +100,8 @@ export interface RowContextMenuProps<T extends { id: string }> {
   renderMenu?: (props: RowContextMenuRenderProps<T>) => ReactNode;
 }
 
-function isMenuItem<T>(
-  item: RowContextMenuItemOrSeparator<T>
-): item is RowContextMenuItem<T> {
-  return !("type" in item && item.type === "separator");
+function isMenuItem<T>(item: RowContextMenuItemOrSeparator<T>): item is RowContextMenuItem<T> {
+  return !('type' in item && item.type === 'separator');
 }
 
 export function RowContextMenu<T extends { id: string }>({
@@ -126,7 +124,7 @@ export function RowContextMenu<T extends { id: string }>({
     };
 
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === 'Escape') {
         onClose();
       }
     };
@@ -136,14 +134,14 @@ export function RowContextMenu<T extends { id: string }>({
       onClose();
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleEscape);
-    window.addEventListener("scroll", handleScroll, true);
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    window.addEventListener('scroll', handleScroll, true);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleEscape);
-      window.removeEventListener("scroll", handleScroll, true);
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+      window.removeEventListener('scroll', handleScroll, true);
     };
   }, [state.isOpen, onClose]);
 
@@ -202,7 +200,7 @@ export function RowContextMenu<T extends { id: string }>({
           isSelected,
         })}
       </div>,
-      document.body
+      document.body,
     );
   }
 
@@ -210,21 +208,15 @@ export function RowContextMenu<T extends { id: string }>({
   const visibleItems = items.filter((item) => {
     if (!isMenuItem(item)) return true;
     if (item.visible === undefined) return true;
-    if (typeof item.visible === "function") return item.visible(row);
+    if (typeof item.visible === 'function') return item.visible(row);
     return item.visible;
   });
 
-  const handleItemClick = async (
-    item: RowContextMenuItem<T>,
-    event: React.MouseEvent
-  ) => {
+  const handleItemClick = async (item: RowContextMenuItem<T>, event: React.MouseEvent) => {
     event.stopPropagation();
 
     // Check if disabled
-    const isDisabled =
-      typeof item.disabled === "function"
-        ? item.disabled(row)
-        : item.disabled;
+    const isDisabled = typeof item.disabled === 'function' ? item.disabled(row) : item.disabled;
 
     if (isDisabled) return;
 
@@ -239,8 +231,8 @@ export function RowContextMenu<T extends { id: string }>({
     <div
       ref={menuRef}
       className={cn(
-        "fixed z-50 min-w-50 overflow-hidden rounded-sm border border-outline-soft bg-surface py-2 shadow-2",
-        "animate-in fade-in-0 zoom-in-95 duration-100"
+        'border-outline-soft bg-surface shadow-2 fixed z-50 min-w-50 overflow-hidden rounded-sm border py-2',
+        'animate-in fade-in-0 zoom-in-95 duration-100',
       )}
       style={{
         left: state.position.x,
@@ -252,27 +244,15 @@ export function RowContextMenu<T extends { id: string }>({
       {visibleItems.map((item, index) => {
         // Separator
         if (!isMenuItem(item)) {
-          return (
-            <DropdownMenuSeparator
-              key={item.key ?? `separator-${index}`}
-              role="separator"
-            />
-          );
+          return <DropdownMenuSeparator key={item.key ?? `separator-${index}`} role="separator" />;
         }
 
         // Menu item
-        const isDisabled =
-          typeof item.disabled === "function"
-            ? item.disabled(row)
-            : item.disabled;
+        const isDisabled = typeof item.disabled === 'function' ? item.disabled(row) : item.disabled;
 
         const icon = item.icon;
         const iconElement =
-          typeof icon === "string" ? (
-            <Icon symbol={icon} className="w-4 h-4" />
-          ) : (
-            icon
-          );
+          typeof icon === 'string' ? <Icon symbol={icon} className="h-4 w-4" /> : icon;
 
         return (
           <DropdownMenuItem
@@ -280,16 +260,14 @@ export function RowContextMenu<T extends { id: string }>({
             disabled={isDisabled}
             icon={iconElement}
             onClick={(e) => handleItemClick(item, e)}
-            className={cn(
-              item.variant === "danger" && "text-error"
-            )}
+            className={cn(item.variant === 'danger' && 'text-error')}
           >
             {item.label}
           </DropdownMenuItem>
         );
       })}
     </div>,
-    document.body
+    document.body,
   );
 }
 
@@ -309,106 +287,86 @@ interface CreateDefaultContextMenuItemsOptions<T extends { id: string }> {
  * Hook to create default context menu items with i18n support
  */
 export function useDefaultContextMenuItems<T extends { id: string }>(
-  options: CreateDefaultContextMenuItemsOptions<T>
+  options: CreateDefaultContextMenuItemsOptions<T>,
 ): RowContextMenuItemOrSeparator<T>[] {
   const { t } = useI18n();
   // Wrap t to match the expected signature
-  const translate = (key: string) => t(key as keyof import("../i18n").DataTableStrings);
-  return createDefaultContextMenuItemsWithTranslator(options, translate);
-}
-
-/**
- * Creates default context menu items for common row actions
- * @deprecated Use useDefaultContextMenuItems hook for i18n support
- */
-export function createDefaultContextMenuItems<T extends { id: string }>(
-  options: CreateDefaultContextMenuItemsOptions<T>
-): RowContextMenuItemOrSeparator<T>[] {
-  // Fallback to English labels for backwards compatibility
-  const fallbackT = (key: string) => {
-    const labels: Record<string, string> = {
-      viewDetails: "View details",
-      edit: "Edit",
-      duplicate: "Duplicate",
-      select: "Select",
-      copyId: "Copy ID",
-      delete: "Delete",
-    };
-    return labels[key] ?? key;
-  };
-  return createDefaultContextMenuItemsWithTranslator(options, fallbackT);
+  const translate = (key: string) => t(key as keyof import('../i18n').DataTableStrings);
+  return buildDefaultContextMenuItems(options, translate);
 }
 
 /**
  * Internal function to create context menu items with a translator
  */
-function createDefaultContextMenuItemsWithTranslator<T extends { id: string }>(
+function buildDefaultContextMenuItems<T extends { id: string }>(
   options: CreateDefaultContextMenuItemsOptions<T>,
-  t: (key: string) => string
+  t: (key: string) => string,
 ): RowContextMenuItemOrSeparator<T>[] {
   const items: RowContextMenuItemOrSeparator<T>[] = [];
 
   if (options.onView) {
     items.push({
-      key: "view",
-      label: t("viewDetails"),
-      icon: "visibility",
+      key: 'view',
+      label: t('viewDetails'),
+      icon: 'visibility',
       onClick: (row) => options.onView!(row),
     });
   }
 
   if (options.onEdit) {
     items.push({
-      key: "edit",
-      label: t("edit"),
-      icon: "edit",
+      key: 'edit',
+      label: t('edit'),
+      icon: 'edit',
       onClick: (row) => options.onEdit!(row),
     });
   }
 
   if (options.onDuplicate) {
     items.push({
-      key: "duplicate",
-      label: t("duplicate"),
-      icon: "content_copy",
+      key: 'duplicate',
+      label: t('duplicate'),
+      icon: 'content_copy',
       onClick: (row) => options.onDuplicate!(row),
     });
   }
 
-  if ((options.onView || options.onEdit || options.onDuplicate) &&
-      (options.onDelete || options.onCopyId || options.onSelect)) {
-    items.push({ type: "separator" });
+  if (
+    (options.onView || options.onEdit || options.onDuplicate) &&
+    (options.onDelete || options.onCopyId || options.onSelect)
+  ) {
+    items.push({ type: 'separator' });
   }
 
   if (options.onSelect) {
     items.push({
-      key: "select",
-      label: t("select"),
-      icon: options.isSelected ? "check_box" : "check_box_outline_blank",
+      key: 'select',
+      label: t('select'),
+      icon: options.isSelected ? 'check_box' : 'check_box_outline_blank',
       onClick: (row) => options.onSelect!(row),
     });
   }
 
   if (options.onCopyId) {
     items.push({
-      key: "copy-id",
-      label: t("copyId"),
-      icon: "content_copy",
+      key: 'copy-id',
+      label: t('copyId'),
+      icon: 'content_copy',
       onClick: (row) => options.onCopyId!(row),
     });
   }
 
   if (options.onDelete) {
     const lastItem = items[items.length - 1];
-    const lastIsSeparator = lastItem && "type" in lastItem && lastItem.type === "separator";
+    const lastIsSeparator = lastItem && 'type' in lastItem && lastItem.type === 'separator';
     if (items.length > 0 && !lastIsSeparator) {
-      items.push({ type: "separator" });
+      items.push({ type: 'separator' });
     }
     items.push({
-      key: "delete",
-      label: t("delete"),
-      icon: "delete",
-      variant: "danger",
+      key: 'delete',
+      label: t('delete'),
+      icon: 'delete',
+      variant: 'danger',
       onClick: (row) => options.onDelete!(row),
     });
   }

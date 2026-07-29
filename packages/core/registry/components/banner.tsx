@@ -8,7 +8,7 @@ import { IconButton } from '@/components/ui/icon-button';
 import { Icon } from '@/components/ui/icon';
 
 const bannerVariants = cva(
-  'relative flex w-full items-start gap-4 border-b border-outline-subtle p-4 transition-all duration-medium ease-standard',
+  'relative flex w-full items-start gap-4 border-b border-outline-weak p-4 transition-all duration-medium ease-standard',
   {
     variants: {
       variant: {

@@ -288,7 +288,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
               }}
             >
               <Surface tone="surface" elevation={1} className="overflow-hidden rounded-sm">
-                <div className="border-outline-subtle flex items-center justify-between border-b p-3">
+                <div className="border-outline-weak flex items-center justify-between border-b p-3">
                   <IconButton
                     aria-label="Previous year"
                     icon={<span className="material-symbols-outlined">chevron_left</span>}

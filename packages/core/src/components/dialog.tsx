@@ -158,13 +158,13 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {hasHeader ? (
             <div
               className={cn(
-                'border-outline-subtle bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
+                'border-outline-weak bg-surface-container-lowest flex items-start gap-3 border-b px-5 py-4',
                 headerClassName,
               )}
             >
               {icon ? (
                 <div
-                  className="bg-surface-container-low text-primary border-outline-subtle flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
+                  className="bg-surface-container-low text-primary border-outline-soft flex h-10 w-10 shrink-0 items-center justify-center rounded-md border"
                   aria-hidden="true"
                 >
                   {icon}
@@ -229,7 +229,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           {actions ? (
             <div
               className={cn(
-                'border-outline-subtle bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
+                'border-outline-weak bg-surface-container-lowest flex flex-wrap items-center justify-end gap-2 border-t px-5 py-3',
                 isFullscreenMobile &&
                   'medium:flex-row medium:[&>*]:w-auto flex-col-reverse [&>*]:w-full',
                 footerClassName,

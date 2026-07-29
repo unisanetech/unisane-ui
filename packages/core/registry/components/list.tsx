@@ -186,6 +186,7 @@ function ListItemBody({
   );
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars -- Component-only props must be omitted before forwarding intrinsic element props. */
 export const ListItem = forwardRef<HTMLLIElement, ListItemProps>((props, ref) => {
   const {
     headline,
@@ -315,3 +316,4 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>((props, ref) =>
 });
 
 ListItem.displayName = 'ListItem';
+/* eslint-enable @typescript-eslint/no-unused-vars */

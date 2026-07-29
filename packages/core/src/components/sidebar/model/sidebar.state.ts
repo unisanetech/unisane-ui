@@ -4,7 +4,6 @@ import type {
   SidebarBehaviorConfig,
   SidebarBreakpoints,
   SidebarMode,
-  SidebarResponsiveBehavior,
   SidebarTriggerVisibility,
   SidebarViewport,
 } from './sidebar.types';
@@ -102,7 +101,7 @@ export function resolveSidebarBehavior(
   viewport: SidebarViewport,
 ): SidebarBehavior {
   if (behavior === 'overlay' || behavior === 'inset') return behavior;
-  const responsive = behavior as SidebarResponsiveBehavior | undefined;
+  const responsive = behavior;
   return responsive?.[viewport] ?? DEFAULT_SIDEBAR_BEHAVIOR[viewport];
 }
 

@@ -233,7 +233,7 @@ export const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
         elevation={1}
         className={cn('w-full max-w-sm overflow-hidden rounded-sm', className)}
       >
-        <div className="border-outline-subtle flex items-center justify-between border-b p-4">
+        <div className="border-outline-weak flex items-center justify-between border-b p-4">
           <IconButton
             icon={<Icon symbol="chevron_left" />}
             onClick={() => setCurrentMonth((month) => startOfMonth(addMonths(month, -1)))}

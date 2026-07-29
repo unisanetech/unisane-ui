@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act, waitFor } from "@testing-library/react";
 import { useProcessedData } from "../../../hooks/data/use-processed-data";
-import type { Column, FilterState, MultiSortState, TypedFilterValue } from "../../../types";
+import type { Column, FilterState, FilterValue, MultiSortState } from "../../../types";
 
 // ─── TEST DATA ─────────────────────────────────────────────────────────────────
 
@@ -272,12 +272,11 @@ describe("useProcessedData", () => {
   });
 
   describe("filter functionality", () => {
-    it("should filter by simple string value (contains match)", () => {
-      // Legacy string filter uses 'includes' for partial matching
+    it("should filter by text value (contains match)", () => {
       const { result } = renderHook(() =>
         useProcessedData(
           createDefaultOptions({
-            columnFilters: { name: "ali" }, // matches "Alice"
+            columnFilters: { name: { type: "text", value: "ali" } },
           })
         )
       );
@@ -287,8 +286,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter by select typed filter for exact match", () => {
-      // Use TypedFilterValue for exact match
-      const selectFilter: TypedFilterValue = {
+      const selectFilter: FilterValue = {
         type: "select",
         value: "active",
       };
@@ -309,7 +307,10 @@ describe("useProcessedData", () => {
       const { result } = renderHook(() =>
         useProcessedData(
           createDefaultOptions({
-            columnFilters: { status: "active", name: "ali" },
+            columnFilters: {
+              status: { type: "select", value: "active" },
+              name: { type: "text", value: "ali" },
+            },
           })
         )
       );
@@ -318,11 +319,13 @@ describe("useProcessedData", () => {
       expect(result.current[0]?.name).toBe("Alice");
     });
 
-    it("should filter by array (multi-select)", () => {
+    it("should filter by multi-select value", () => {
       const { result } = renderHook(() =>
         useProcessedData(
           createDefaultOptions({
-            columnFilters: { name: ["Alice", "Bob"] },
+            columnFilters: {
+              name: { type: "multi-select", values: ["Alice", "Bob"] },
+            },
           })
         )
       );
@@ -331,11 +334,13 @@ describe("useProcessedData", () => {
       expect(result.current.map((r) => r.name).sort()).toEqual(["Alice", "Bob"]);
     });
 
-    it("should filter by number range (legacy)", () => {
+    it("should filter by number range", () => {
       const { result } = renderHook(() =>
         useProcessedData(
           createDefaultOptions({
-            columnFilters: { age: { min: 25, max: 30 } },
+            columnFilters: {
+              age: { type: "number-range", min: 25, max: 30 },
+            },
           })
         )
       );
@@ -359,7 +364,7 @@ describe("useProcessedData", () => {
         useProcessedData({
           data: dataWithBoolean,
           searchText: "",
-          columnFilters: { isVerified: true },
+          columnFilters: { isVerified: { type: "boolean", value: true } },
           sortState: [],
           columns: columnsWithBoolean,
         })
@@ -370,24 +375,24 @@ describe("useProcessedData", () => {
 
     it("should use custom filterFn when provided", () => {
       const columnsWithCustomFilter: Column<TestRow>[] = [
+        ...testColumns.filter((column) => column.key !== "age"),
         {
           key: "age",
           header: "Age",
           filterable: true,
-          filterFn: (row: TestRow, value: unknown) => {
+          filterFn: (row: TestRow, value: FilterValue) => {
             // Custom: filter for ages divisible by value
-            const num = Number(value);
+            const num = value.type === "number" ? value.value : Number.NaN;
             return row.age % num === 0;
           },
         },
-        ...testColumns.slice(1),
       ];
 
       const { result } = renderHook(() =>
         useProcessedData({
           ...createDefaultOptions(),
           columns: columnsWithCustomFilter,
-          columnFilters: { age: 5 },
+          columnFilters: { age: { type: "number", value: 5 } },
         })
       );
 
@@ -397,9 +402,9 @@ describe("useProcessedData", () => {
     });
   });
 
-  describe("TypedFilterValue support", () => {
+  describe("FilterValue support", () => {
     it("should filter with text filter (contains)", () => {
-      const textFilter: TypedFilterValue = {
+      const textFilter: FilterValue = {
         type: "text",
         value: "ali",
         match: "contains",
@@ -418,7 +423,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with text filter (exact)", () => {
-      const textFilter: TypedFilterValue = {
+      const textFilter: FilterValue = {
         type: "text",
         value: "Alice",
         match: "exact",
@@ -436,7 +441,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with text filter (starts-with)", () => {
-      const textFilter: TypedFilterValue = {
+      const textFilter: FilterValue = {
         type: "text",
         value: "A",
         match: "starts-with",
@@ -455,7 +460,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with number filter (operators)", () => {
-      const gtFilter: TypedFilterValue = {
+      const gtFilter: FilterValue = {
         type: "number",
         value: 30,
         operator: "gt",
@@ -474,7 +479,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with number-range filter", () => {
-      const rangeFilter: TypedFilterValue = {
+      const rangeFilter: FilterValue = {
         type: "number-range",
         min: 28,
         max: 32,
@@ -492,7 +497,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with select filter", () => {
-      const selectFilter: TypedFilterValue = {
+      const selectFilter: FilterValue = {
         type: "select",
         value: "active",
       };
@@ -509,7 +514,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with multi-select filter (any match)", () => {
-      const multiFilter: TypedFilterValue = {
+      const multiFilter: FilterValue = {
         type: "multi-select",
         values: ["Alice", "Bob", "NonExistent"],
         match: "any",
@@ -532,7 +537,7 @@ describe("useProcessedData", () => {
         isActive: row.status === "active",
       }));
 
-      const boolFilter: TypedFilterValue = {
+      const boolFilter: FilterValue = {
         type: "boolean",
         value: true,
       };
@@ -551,7 +556,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with date filter", () => {
-      const dateFilter: TypedFilterValue = {
+      const dateFilter: FilterValue = {
         type: "date",
         value: new Date("2023-02-20"),
         operator: "eq",
@@ -570,7 +575,7 @@ describe("useProcessedData", () => {
     });
 
     it("should filter with date-range filter", () => {
-      const dateRangeFilter: TypedFilterValue = {
+      const dateRangeFilter: FilterValue = {
         type: "date-range",
         start: new Date("2023-02-01"),
         end: new Date("2023-04-01"),
@@ -590,8 +595,7 @@ describe("useProcessedData", () => {
 
   describe("combined operations", () => {
     it("should apply search, filter, and sort together", () => {
-      // Use TypedFilterValue for exact status match
-      const statusFilter: TypedFilterValue = {
+      const statusFilter: FilterValue = {
         type: "select",
         value: "active",
       };
@@ -612,8 +616,7 @@ describe("useProcessedData", () => {
     });
 
     it("should process in correct order: search -> filter -> sort", () => {
-      // Use TypedFilterValue for exact status match
-      const statusFilter: TypedFilterValue = {
+      const statusFilter: FilterValue = {
         type: "select",
         value: "active",
       };
@@ -672,7 +675,7 @@ describe("useProcessedData", () => {
     it("should debounce column filters", () => {
       vi.useFakeTimers();
 
-      const nameFilter: TypedFilterValue = {
+      const nameFilter: FilterValue = {
         type: "text",
         value: "ali",
         match: "contains",

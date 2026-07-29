@@ -59,7 +59,7 @@ export interface DataTableHeaderProps<T> {
   onColumnPin?: (key: string, position: PinPosition) => void;
   onColumnResize?: (key: string, width: number) => void;
   onColumnHide?: (key: string) => void;
-  onColumnFilter?: (key: string, value: FilterValue) => void;
+  onColumnFilter?: (key: string, value: FilterValue | null) => void;
   onColumnReorder?: (fromKey: string, toKey: string) => void;
   getColumnMenuActions?: (context: ColumnMenuActionContext<T>) => ColumnMenuAction<T>[];
   columnFilters?: Record<string, FilterValue>;
@@ -192,8 +192,8 @@ function DataTableHeaderInner<T extends { id: string }>({
         {reorderableRows && (
           <th
             className={cn(
-              'bg-surface border-outline-subtle border-b',
-              showColumnBorders && 'border-outline-subtle border-r',
+              'bg-surface border-outline-weak border-b',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.dragHandle,
@@ -209,10 +209,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && !hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-subtle border-b',
+              'bg-surface border-outline-weak border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'left-0 isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-subtle border-r',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.checkbox,
@@ -236,10 +236,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {selectable && hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-subtle border-b',
+              'bg-surface border-outline-weak border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'left-0 isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-subtle border-r',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.checkbox,
@@ -263,10 +263,10 @@ function DataTableHeaderInner<T extends { id: string }>({
         {enableExpansion && !hasGroups && (
           <th
             className={cn(
-              'bg-surface border-outline-subtle border-b',
+              'bg-surface border-outline-weak border-b',
               // Sticky positioning with z-index for proper stacking (only on tablet+)
               'isolate z-30 @md:sticky',
-              showColumnBorders && 'border-outline-subtle border-r',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.expander,

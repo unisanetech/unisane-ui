@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { forwardRef } from "react";
-import { cn } from "@/lib/utils";
-import { Icon } from "@/components/ui/icon";
-import { Button } from "@/components/ui/button";
-import { useI18n } from "@/components/ui/data-table/i18n";
+import React, { forwardRef } from 'react';
+import { cn } from '@/lib/utils';
+import { Icon } from '@/components/ui/icon';
+import { Button } from '@/components/ui/button';
+import { useI18n } from '@/components/ui/data-table/i18n';
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
 
@@ -61,107 +61,76 @@ export interface InfiniteScrollLoaderProps {
  * );
  * ```
  */
-export const InfiniteScrollLoader = forwardRef<
-  HTMLDivElement,
-  InfiniteScrollLoaderProps
->(function InfiniteScrollLoader(
-  {
-    isLoading,
-    hasMore,
-    error,
-    onRetry,
-    loadingMessage,
-    endMessage,
-    errorMessage,
-    className,
+export const InfiniteScrollLoader = forwardRef<HTMLDivElement, InfiniteScrollLoaderProps>(
+  function InfiniteScrollLoader(
+    { isLoading, hasMore, error, onRetry, loadingMessage, endMessage, errorMessage, className },
+    ref,
+  ) {
+    const { t } = useI18n();
+
+    // Error state
+    if (error) {
+      return (
+        <div
+          ref={ref}
+          className={cn('flex flex-col items-center justify-center gap-2 py-4', className)}
+          role="alert"
+        >
+          <Icon symbol="error" className="text-error text-[20px]" />
+          <span className="text-body-medium text-error">
+            {errorMessage ?? error.message ?? t('errorMessage')}
+          </span>
+          {onRetry && (
+            <Button
+              onClick={onRetry}
+              variant="tonal"
+              size="sm"
+              className={cn(
+                'text-label-large h-auto rounded-full px-4 py-2',
+                'bg-error-container',
+                'text-on-error-container',
+                'hover:bg-state-error transition-colors',
+                'focus-visible:ring-error focus-visible:ring-2 focus-visible:outline-none',
+              )}
+            >
+              {t('retry')}
+            </Button>
+          )}
+        </div>
+      );
+    }
+
+    // Loading state
+    if (isLoading) {
+      return (
+        <div
+          ref={ref}
+          className={cn('flex items-center justify-center gap-2 py-4', className)}
+          role="status"
+          aria-live="polite"
+        >
+          <Icon symbol="progress_activity" className="text-primary animate-spin text-[20px]" />
+          <span className="text-body-medium text-on-surface-variant">
+            {loadingMessage ?? t('loadingMore')}
+          </span>
+        </div>
+      );
+    }
+
+    // No more data
+    if (!hasMore) {
+      return (
+        <div ref={ref} className={cn('flex items-center justify-center py-4', className)}>
+          <span className="text-body-small text-on-surface-variant">
+            {endMessage ?? t('endOfList')}
+          </span>
+        </div>
+      );
+    }
+
+    // Invisible sentinel element (triggers intersection observer)
+    return <div ref={ref} className={cn('h-1', className)} aria-hidden="true" />;
   },
-  ref
-) {
-  const { t } = useI18n();
-
-  // Error state
-  if (error) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex flex-col items-center justify-center py-4 gap-2",
-          className
-        )}
-        role="alert"
-      >
-        <Icon symbol="error" className="text-error text-[20px]" />
-        <span className="text-body-medium text-error">
-          {errorMessage ?? error.message ?? t("errorMessage")}
-        </span>
-        {onRetry && (
-          <Button
-            onClick={onRetry}
-            variant="tonal"
-            size="sm"
-            className={cn(
-              "h-auto rounded-full px-4 py-2 text-label-large",
-              "bg-error-container",
-              "text-on-error-container",
-              "hover:bg-state-error transition-colors",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-error"
-            )}
-          >
-            {t("retry")}
-          </Button>
-        )}
-      </div>
-    );
-  }
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex items-center justify-center py-4 gap-2",
-          className
-        )}
-        role="status"
-        aria-live="polite"
-      >
-        <Icon
-          symbol="progress_activity"
-          className="text-primary text-[20px] animate-spin"
-        />
-        <span className="text-body-medium text-on-surface-variant">
-          {loadingMessage ?? t("loadingMore")}
-        </span>
-      </div>
-    );
-  }
-
-  // No more data
-  if (!hasMore) {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex items-center justify-center py-4",
-          className
-        )}
-      >
-        <span className="text-body-small text-on-surface-variant">
-          {endMessage ?? t("endOfList")}
-        </span>
-      </div>
-    );
-  }
-
-  // Invisible sentinel element (triggers intersection observer)
-  return (
-    <div
-      ref={ref}
-      className={cn("h-1", className)}
-      aria-hidden="true"
-    />
-  );
-});
+);
 
 export default InfiniteScrollLoader;

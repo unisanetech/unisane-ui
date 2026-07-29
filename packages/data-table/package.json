@@ -96,9 +96,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "check:border-semantics": "node ../../scripts/check-semantic-border-roles.mjs",
     "check-types": "tsc --noEmit",
     "dev": "tsc --watch",
-    "lint": "eslint src --ignore-pattern 'src/__tests__/**' --max-warnings 0",
+    "lint": "eslint src --ignore-pattern 'src/__tests__/**' --max-warnings 0 && pnpm check:border-semantics",
     "test": "vitest run",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"

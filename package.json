@@ -9,12 +9,13 @@
   },
   "scripts": {
     "build": "turbo run build",
+    "check:border-semantics": "node scripts/check-semantic-border-roles.mjs",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "test": "turbo run test",
-    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:utility-ownership && pnpm -w architecture:check && pnpm -w typecheck",
+    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm -w architecture:check && pnpm -w typecheck",
     "storybook": "turbo run storybook",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

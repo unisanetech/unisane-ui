@@ -229,6 +229,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       }),
       [
         disabled,
+        contentId,
         highlightedItem,
         isOpen,
         moveHighlight,
@@ -240,6 +241,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         selectedValue,
         selectValue,
         setOpen,
+        triggerId,
       ],
     );
 
@@ -357,7 +359,10 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
           fieldSize.containerHeight,
           fieldContainerVariants({ variant, error: invalid, disabled: resolvedDisabled }),
           'focus-within:ring-0',
-          !resolvedDisabled && variant === 'filled' && !context.open && 'hover:border-outline',
+          !resolvedDisabled &&
+            variant === 'filled' &&
+            !context.open &&
+            'hover:border-outline-medium',
           context.open && (variant === 'outlined' ? 'border-primary! border-2' : 'bg-surface'),
           className,
         )}
@@ -592,6 +597,7 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
     ref,
   ) => {
     const context = useSelectContext('SelectItem');
+    const { registerItem } = context;
     const generatedId = React.useId();
     const id = `select-item-${generatedId}`;
     const resolvedTextValue = textValue ?? getTextValue(children, value);
@@ -601,14 +607,14 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
 
     React.useLayoutEffect(
       () =>
-        context.registerItem({
+        registerItem({
           id,
           value,
           disabled: resolvedDisabled,
           textValue: resolvedTextValue,
           content: children,
         }),
-      [children, context.registerItem, id, resolvedDisabled, resolvedTextValue, value],
+      [children, id, registerItem, resolvedDisabled, resolvedTextValue, value],
     );
 
     return (

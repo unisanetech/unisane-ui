@@ -34,14 +34,10 @@ export function useFiltering() {
   );
 
   const setFilter = useCallback(
-    (key: string, value: FilterValue) => {
+    (key: string, value: FilterValue | null) => {
       if (controlled.filters) {
         const next = { ...controlled.filters };
-        if (
-          value === null ||
-          value === "" ||
-          (Array.isArray(value) && value.length === 0)
-        ) {
+        if (value === null) {
           delete next[key];
         } else {
           next[key] = value;
@@ -50,11 +46,7 @@ export function useFiltering() {
       } else {
         dispatch({ type: "SET_FILTER", key, value });
         const next = { ...internalColumnFilters };
-        if (
-          value === null ||
-          value === "" ||
-          (Array.isArray(value) && value.length === 0)
-        ) {
+        if (value === null) {
           delete next[key];
         } else {
           next[key] = value;

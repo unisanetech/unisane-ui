@@ -6,7 +6,7 @@ import { NavigationRail, type NavigationRailProps } from '../../navigation-rail'
 import { useSidebar } from '../context/sidebar-provider';
 import { findTopLevelContainerById } from '../model/sidebar.state';
 
-export interface SidebarRailProps extends Omit<
+export type SidebarRailProps = Omit<
   NavigationRailProps,
   | 'items'
   | 'value'
@@ -15,7 +15,7 @@ export interface SidebarRailProps extends Omit<
   | 'onItemSelect'
   | 'renderLink'
   | 'onItemHover'
-> {}
+>;
 
 export function SidebarRail({ className, style, onMouseLeave, ...props }: SidebarRailProps) {
   const sidebar = useSidebar();

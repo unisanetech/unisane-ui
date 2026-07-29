@@ -18,7 +18,7 @@ export const PaneGroup: React.FC<PaneGroupProps> = ({
     <div className={cn('bg-surface flex h-full w-full overflow-hidden', className)}>
       <div
         className={cn(
-          'medium:w-(--width-pane-list,var(--spacing-90)) border-outline-subtle duration-long ease-emphasized h-full w-full shrink-0 overflow-y-auto border-r transition-transform',
+          'medium:w-(--width-pane-list,var(--spacing-90)) border-outline-weak duration-long ease-emphasized h-full w-full shrink-0 overflow-y-auto border-r transition-transform',
           showDetail ? 'medium:block hidden' : 'block',
         )}
       >

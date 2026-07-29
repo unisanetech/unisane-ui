@@ -101,7 +101,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               'duration-snappy ease-emphasized pointer-events-none transition-all',
               resolvedInvalid
                 ? 'border-error peer-checked:bg-error peer-checked:border-error peer-indeterminate:bg-error peer-indeterminate:border-error'
-                : 'border-outline group-hover:border-on-surface peer-checked:bg-primary peer-checked:border-primary peer-indeterminate:bg-primary peer-indeterminate:border-primary',
+                : 'border-outline-medium group-hover:border-on-surface peer-checked:bg-primary peer-checked:border-primary peer-indeterminate:bg-primary peer-indeterminate:border-primary',
               'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
             )}
           />

@@ -34,7 +34,7 @@ export interface ColumnMenuProps<T> {
   hasActiveFilter: boolean;
   onPin: (position: PinPosition) => void;
   onHide: () => void;
-  onFilter?: (value: FilterValue) => void;
+  onFilter?: (value: FilterValue | null) => void;
   actionContext: ColumnMenuActionContext<T>;
   actions: ColumnMenuAction<T>[];
   /** Whether grouping is enabled for the table */
@@ -72,7 +72,7 @@ export function ColumnMenu<T>({
   const { t } = useI18n();
   const iconTextClass = DENSITY_ICON_TEXT_STYLES[density];
   const [filterInputValue, setFilterInputValue] = useState(
-    typeof currentFilter === 'string' ? currentFilter : '',
+    currentFilter?.type === 'text' ? currentFilter.value : '',
   );
 
   const hasFilterOptions = column.filterable !== false;
@@ -80,7 +80,7 @@ export function ColumnMenu<T>({
   // Handle text filter submission
   const handleFilterSubmit = useCallback(() => {
     if (filterInputValue.trim()) {
-      onFilter?.(filterInputValue.trim());
+      onFilter?.({ type: 'text', value: filterInputValue.trim() });
     }
   }, [filterInputValue, onFilter]);
 
@@ -233,7 +233,7 @@ interface SelectFilterProps<T> {
   column: Column<T>;
   currentFilter?: FilterValue;
   hasActiveFilter: boolean;
-  onFilter?: (value: FilterValue) => void;
+  onFilter?: (value: FilterValue | null) => void;
 }
 
 function SelectFilter<T>({
@@ -255,14 +255,26 @@ function SelectFilter<T>({
         {column.filterOptions?.map((opt) => (
           <DropdownMenuItem
             key={String(opt.value)}
-            onClick={() => onFilter?.(opt.value)}
+            onClick={() => onFilter?.({ type: 'select', value: opt.value })}
             className={
-              currentFilter === opt.value ? 'bg-primary-container text-on-primary-container' : ''
+              currentFilter?.type === 'select' && currentFilter.value === opt.value
+                ? 'bg-primary-container text-on-primary-container'
+                : ''
             }
           >
             <span className="flex w-full items-center gap-2">
-              {currentFilter === opt.value && <Icon symbol="check" className="h-4 w-4" />}
-              <span className={currentFilter !== opt.value ? 'ml-6' : ''}>{opt.label}</span>
+              {currentFilter?.type === 'select' && currentFilter.value === opt.value && (
+                <Icon symbol="check" className="h-4 w-4" />
+              )}
+              <span
+                className={
+                  currentFilter?.type !== 'select' || currentFilter.value !== opt.value
+                    ? 'ml-6'
+                    : ''
+                }
+              >
+                {opt.label}
+              </span>
               {opt.count !== undefined && (
                 <span className="text-on-surface-variant ml-auto text-xs">{opt.count}</span>
               )}
@@ -348,7 +360,7 @@ function TextFilter<T>({
             aria-label={t('filterBy', { column: String(column.header) })}
             className={cn(
               'text-body-medium w-full px-3 py-2',
-              'bg-surface border-outline-variant rounded-sm border',
+              'bg-surface border-outline-soft rounded-sm border',
               'focus:border-primary focus:ring-focus-ring focus:ring-1 focus:outline-none',
               'placeholder:text-on-surface-variant',
             )}

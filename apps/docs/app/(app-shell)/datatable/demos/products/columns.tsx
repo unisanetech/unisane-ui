@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Icon } from '@unisane/ui/icon';
 import type { Column, RowContextMenuItemOrSeparator } from '@unisane/data-table';
 import { createActionsColumn } from '@unisane/data-table/components';
@@ -172,8 +173,8 @@ export const productColumns: Column<Product>[] = [
     minWidth: 250,
     render: (row) => (
       <div className="flex items-center gap-3">
-        <div className="bg-surface-container h-10 w-10 shrink-0 overflow-hidden rounded-lg">
-          <img src={row.imageUrl} alt={row.name} className="h-full w-full object-cover" />
+        <div className="bg-surface-container relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
+          <Image src={row.imageUrl} alt={row.name} fill sizes="40px" className="object-cover" />
         </div>
         <div className="flex min-w-0 flex-col">
           <span className="text-body-medium text-on-surface truncate font-medium">{row.name}</span>

@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable react/prop-types */
 
 export type HeroTone =
   | "primary"

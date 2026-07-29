@@ -7,7 +7,7 @@ const badgeVariants = cva('inline-flex items-center justify-center rounded-full 
     variant: {
       filled: '',
       tonal: '',
-      outlined: 'border border-outline-subtle',
+      outlined: 'border border-outline-soft',
     },
     color: {
       primary: '',

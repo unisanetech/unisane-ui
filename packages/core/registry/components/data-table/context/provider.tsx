@@ -117,7 +117,6 @@ export function DataTableProvider<T extends { id: string }>({
   getColumnMenuActions,
   getContextMenuActions,
   onScroll,
-  onError,
   locale,
   dir = 'ltr',
   // Feedback
@@ -144,35 +143,14 @@ export function DataTableProvider<T extends { id: string }>({
     }
 
     const hubOptions = {
-      // Forward errors to onError callback (legacy callback support)
-      onError: (error: DataTableError) => {
-        // Call the config callback
-        errorConfig?.onError?.(error);
-        // Also call the legacy onError prop for backward compatibility
-        onError?.({
-          type: error.code.startsWith('DT_5')
-            ? 'filter'
-            : error.code.startsWith('DT_4')
-              ? 'render'
-              : error.code.startsWith('DT_6')
-                ? 'export'
-                : error.code.startsWith('DT_3')
-                  ? 'data'
-                  : error.code.startsWith('DT_2')
-                    ? 'sort'
-                    : 'unknown',
-          message: error.message,
-          error: error,
-          context: error.context,
-        });
-      },
+      onError: errorConfig?.onError,
       minSeverity: errorConfig?.minReportSeverity ?? ErrorSeverity.WARNING,
       maxErrors: 100,
       ...errorConfig?.errorHubOptions,
     };
 
     return new ErrorHub(hubOptions);
-  }, [errorConfig, onError]);
+  }, [errorConfig]);
 
   // Register recovery strategies if provided
   useEffect(() => {
@@ -521,7 +499,6 @@ export function DataTableProvider<T extends { id: string }>({
       getColumnMenuActions,
       getContextMenuActions,
       onScroll,
-      onError,
     }),
     [
       onSortChange,
@@ -537,7 +514,6 @@ export function DataTableProvider<T extends { id: string }>({
       getColumnMenuActions,
       getContextMenuActions,
       onScroll,
-      onError,
     ],
   );
 

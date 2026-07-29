@@ -28,7 +28,6 @@ export {
 export {
   RowContextMenu,
   useRowContextMenu,
-  createDefaultContextMenuItems,
   useDefaultContextMenuItems,
   type RowContextMenuProps,
   type ContextMenuState,

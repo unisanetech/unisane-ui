@@ -1,9 +1,6 @@
 import type { Column, RowGroup } from "@/components/ui/data-table/types";
 import { getNestedValue } from "@/components/ui/data-table/utils/get-nested-value";
 
-// Re-export for backwards compatibility
-export { getNestedValue };
-
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
 export interface BuildGroupsOptions<T extends object> {

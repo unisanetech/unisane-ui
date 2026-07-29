@@ -207,9 +207,9 @@ function SummaryCell<T extends object>({
         // Pinned styling
         pinPosition ? 'sticky isolate z-10' : 'z-0',
         // Column borders
-        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-subtle border-r',
-        showColumnBorders && isLastPinnedLeft && 'border-outline-subtle border-r',
-        showColumnBorders && isFirstPinnedRight && 'border-outline-subtle border-l',
+        showColumnBorders && !isLastColumn && !pinPosition && 'border-outline-weak border-r',
+        showColumnBorders && isLastPinnedLeft && 'border-outline-weak border-r',
+        showColumnBorders && isFirstPinnedRight && 'border-outline-weak border-l',
       )}
       style={{
         width: meta?.width,
@@ -300,7 +300,7 @@ function SummaryRowInner<T extends { id: string }>({
           className={cn(
             'bg-surface-container-low border-outline-medium border-t-2',
             'sticky isolate z-10',
-            showColumnBorders && 'border-outline-subtle border-r',
+            showColumnBorders && 'border-outline-weak border-r',
           )}
           style={{
             width: utilityColumnWidths.checkbox,
@@ -323,7 +323,7 @@ function SummaryRowInner<T extends { id: string }>({
           className={cn(
             'bg-surface-container-low border-outline-medium border-t-2',
             'sticky isolate z-10',
-            showColumnBorders && 'border-outline-subtle border-r',
+            showColumnBorders && 'border-outline-weak border-r',
           )}
           style={{
             width: utilityColumnWidths.expander,
@@ -368,11 +368,9 @@ function SummaryRowInner<T extends { id: string }>({
                 showColumnBorders &&
                   !isLastColumn &&
                   !pinPosition &&
-                  'border-outline-subtle border-r',
-                showColumnBorders && key === lastPinnedLeftKey && 'border-outline-subtle border-r',
-                showColumnBorders &&
-                  key === firstPinnedRightKey &&
-                  'border-outline-subtle border-l',
+                  'border-outline-weak border-r',
+                showColumnBorders && key === lastPinnedLeftKey && 'border-outline-weak border-r',
+                showColumnBorders && key === firstPinnedRightKey && 'border-outline-weak border-l',
               )}
               style={{
                 width: meta?.width,

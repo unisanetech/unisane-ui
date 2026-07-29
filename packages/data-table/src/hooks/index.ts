@@ -144,6 +144,7 @@ export {
   type FilterLogicOperator,
   type FilterComparisonOperator,
   type FilterCondition,
+  type CompoundFilterValue,
   type FilterGroup,
   type CompoundFilter,
   type UseCompoundFiltersOptions,

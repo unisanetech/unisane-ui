@@ -22,7 +22,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'border-outline-variant bg-surface text-on-surface ring-offset-surface file:text-body-small file:text-on-surface placeholder:text-on-surface-variant focus-visible:ring-primary flex w-full rounded-sm border file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          'border-outline-subtle bg-surface text-on-surface ring-offset-surface file:text-body-small file:text-on-surface placeholder:text-on-surface-variant focus-visible:ring-primary flex w-full rounded-sm border file:border-0 file:bg-transparent file:font-medium focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
           fieldSize.containerHeight,
           fieldSize.horizontalPadding,
           fieldSize.valueText,

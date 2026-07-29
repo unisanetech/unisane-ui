@@ -3,7 +3,7 @@
 // These make the API more discoverable and reduce prop sprawl.
 
 import type { ReactNode } from 'react';
-import type { Density, FilterState, MultiSortState, PinPosition } from '@/components/ui/data-table/types/core';
+import type { CursorPagination, Density, FilterState, MultiSortState, PinPosition } from '@/components/ui/data-table/types/core';
 import type { Column } from '@/components/ui/data-table/types/column';
 import type { BulkAction, EditActivationMode } from '@/components/ui/data-table/types/features';
 
@@ -184,6 +184,9 @@ export interface PaginationConfig {
    * @default "offset"
    */
   mode?: 'offset' | 'cursor' | 'none';
+
+  /** Cursor controls. Required when mode is "cursor". */
+  cursor?: CursorPagination;
 
   /**
    * Default page size.

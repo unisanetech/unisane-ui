@@ -47,7 +47,7 @@ const iconButtonVariants = cva(
       variant: {
         filled: 'bg-primary text-on-primary',
         tonal: 'bg-secondary-container text-on-secondary-container',
-        outlined: 'bg-transparent border border-outline-variant text-on-surface-variant',
+        outlined: 'bg-transparent border border-outline-subtle text-on-surface-variant',
         standard: 'bg-transparent text-on-surface-variant',
       },
       size: {

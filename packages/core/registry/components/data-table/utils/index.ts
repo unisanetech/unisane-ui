@@ -8,16 +8,8 @@ export {
 // Re-export error from errors module
 export { DuplicateRowIdError } from "@/components/ui/data-table/errors";
 
-// Deprecation utilities (for future use)
-export {
-  warnDeprecatedProp,
-  resolveDeprecatedProp,
-  clearDeprecationWarnings,
-} from "@/components/ui/data-table/utils/deprecation";
-
 // Grouping utilities
 export {
-  getNestedValue as getNestedGroupValue,
   formatGroupLabel,
   calculateAggregation,
   buildNestedGroups,

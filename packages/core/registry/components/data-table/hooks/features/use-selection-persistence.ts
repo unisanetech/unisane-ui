@@ -122,8 +122,12 @@ export interface UseSelectionPersistenceReturn {
    * Props to pass directly to DataTable for controlled selection.
    */
   dataTableProps: {
-    selectedIds: string[];
-    onSelectionChange: (ids: string[]) => void;
+    controlled: {
+      selectedIds: string[];
+    };
+    callbacks: {
+      onSelectionChange: (ids: string[]) => void;
+    };
   };
 }
 
@@ -424,8 +428,12 @@ export function useSelectionPersistence<T extends { id: string }>({
 
   const dataTableProps = useMemo(
     () => ({
-      selectedIds: Array.from(selectedSet),
-      onSelectionChange: handleDataTableSelectionChange,
+      controlled: {
+        selectedIds: Array.from(selectedSet),
+      },
+      callbacks: {
+        onSelectionChange: handleDataTableSelectionChange,
+      },
     }),
     [selectedSet, handleDataTableSelectionChange]
   );

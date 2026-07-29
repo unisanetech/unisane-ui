@@ -177,7 +177,7 @@ function DataTableToolbarInner<T extends { id: string }>({
         <div
           className={cn(
             // z-10: Within table context, below sticky zone (z-20) and sidebar (z-30)
-            'bg-surface border-outline-subtle relative z-10 flex min-h-12 items-center justify-between gap-2 border-b px-2 transition-shadow @md:gap-3 @md:px-3',
+            'bg-surface border-outline-weak relative z-10 flex min-h-12 items-center justify-between gap-2 border-b px-2 transition-shadow @md:gap-3 @md:px-3',
             hasSelection && 'shadow-1',
           )}
         >

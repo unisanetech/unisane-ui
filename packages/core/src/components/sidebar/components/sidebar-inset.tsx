@@ -13,6 +13,19 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
     const sidebar = useSidebar();
     const topOffset =
       sidebar.containerMode === 'contained' ? 0 : sidebar.isOverlay ? sidebar.mobileInsetOffset : 0;
+    const insetStyle: React.CSSProperties & { '--sidebar-margin': string } = {
+      marginTop: topOffset,
+      height:
+        sidebar.containerMode === 'contained'
+          ? '100%'
+          : topOffset > 0
+            ? `calc(100vh - ${topOffset}px)`
+            : '100vh',
+      marginLeft: sidebar.side === 'left' ? sidebar.contentMargin : 0,
+      marginRight: sidebar.side === 'right' ? sidebar.contentMargin : 0,
+      '--sidebar-margin': `${sidebar.contentMargin}px`,
+      ...style,
+    };
 
     return (
       <main
@@ -21,21 +34,7 @@ export const SidebarInset = forwardRef<HTMLElement, SidebarInsetProps>(
           'bg-surface duration-emphasized ease-emphasized flex min-w-0 flex-1 flex-col overflow-x-hidden overflow-y-auto transition-[margin,height,margin-top] motion-reduce:transition-none',
           className,
         )}
-        style={
-          {
-            marginTop: topOffset,
-            height:
-              sidebar.containerMode === 'contained'
-                ? '100%'
-                : topOffset > 0
-                  ? `calc(100vh - ${topOffset}px)`
-                  : '100vh',
-            marginLeft: sidebar.side === 'left' ? sidebar.contentMargin : 0,
-            marginRight: sidebar.side === 'right' ? sidebar.contentMargin : 0,
-            '--sidebar-margin': `${sidebar.contentMargin}px`,
-            ...style,
-          } as React.CSSProperties
-        }
+        style={insetStyle}
         aria-hidden={sidebar.isOverlay && sidebar.mobileOpen ? true : undefined}
         {...props}
       >

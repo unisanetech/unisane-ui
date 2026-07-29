@@ -280,6 +280,7 @@ export function useOverlayBehavior({
     if (dismissOnInteractOutside) {
       document.addEventListener('mousedown', handleMouseDown);
     }
+    const focusReturnTarget = triggerRef?.current ?? previouslyFocused;
 
     return () => {
       if (focusTimer !== undefined) {
@@ -291,7 +292,7 @@ export function useOverlayBehavior({
       releaseDocumentBackground?.();
       unregisterLayer(layer);
       if (restoreFocus) {
-        (triggerRef?.current ?? previouslyFocused)?.focus();
+        focusReturnTarget?.focus();
       }
     };
   }, [

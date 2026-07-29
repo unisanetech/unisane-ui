@@ -4,8 +4,7 @@ import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import type { ReactNode, CSSProperties } from 'react';
 import type { Column, ColumnGroup } from '@/components/ui/data-table/types/column';
 import type { BulkAction } from '@/components/ui/data-table/types/features';
-import type { CursorPagination, FilterState, MultiSortState, SortDirection } from '@/components/ui/data-table/types/core';
-import type { RowActivationEvent } from '@/components/ui/data-table/types/props';
+import type { DataTableErrorConfig, RowActivationEvent } from '@/components/ui/data-table/types/props';
 import type {
   FeaturesConfig,
   VirtualizationConfig,
@@ -108,6 +107,9 @@ export interface DataTableProps<T extends { id: string }> {
    */
   styling?: StylingConfig;
 
+  /** Error reporting, recovery, and validation configuration. */
+  errorConfig?: DataTableErrorConfig;
+
   /**
    * Event callbacks.
    * @example
@@ -189,69 +191,6 @@ export interface DataTableProps<T extends { id: string }> {
 
   /** Callback to refresh data */
   onRefresh?: () => void | Promise<void>;
-
-  /** Cursor pagination controls for remote data (from useRemoteDataTable) */
-  cursorPagination?: CursorPagination;
-
-  /**
-   * Pagination mode override (used by useRemoteDataTable).
-   * Overrides pagination.mode when specified.
-   */
-  paginationMode?: 'offset' | 'cursor' | 'none';
-
-  // ─── Remote Data Props (from useRemoteDataTable) ───
-  /**
-   * Controlled search value (shorthand for controlled.searchValue).
-   * Used by useRemoteDataTable for server-side search.
-   */
-  searchValue?: string;
-
-  /**
-   * Search change handler (shorthand for callbacks.onSearchChange).
-   * Used by useRemoteDataTable for server-side search.
-   */
-  onSearchChange?: (value: string) => void;
-
-  /**
-   * Controlled filters (shorthand for controlled.filters).
-   * Used by useRemoteDataTable for server-side filtering.
-   */
-  filters?: Record<string, unknown>;
-
-  /**
-   * Filter change handler (shorthand for callbacks.onFilterChange).
-   * Used by useRemoteDataTable for server-side filtering.
-   */
-  onFilterChange?: (filters: FilterState) => void;
-
-  /**
-   * Sort key (shorthand for controlled.sortState.key).
-   * Used by useRemoteDataTable for server-side sorting.
-   */
-  sortKey?: string | null;
-
-  /**
-   * Sort direction (shorthand for controlled.sortState.direction).
-   * Used by useRemoteDataTable for server-side sorting.
-   */
-  sortDirection?: SortDirection;
-
-  /**
-   * Sort change handler (shorthand for callbacks.onSortChange).
-   * Used by useRemoteDataTable for server-side sorting.
-   */
-  onSortChange?: (key: string | null, direction: 'asc' | 'desc') => void;
-
-  /**
-   * Disable local data processing (sorting, filtering, searching).
-   * Set to true when using server-side processing.
-   */
-  disableLocalProcessing?: boolean;
-
-  /**
-   * Data mode - 'local' for client-side, 'remote' for server-side processing.
-   */
-  mode?: 'local' | 'remote';
 
   // ─── Identification ───
   /** Unique ID for localStorage persistence */
@@ -372,6 +311,7 @@ export function DataTable<T extends { id: string }>({
   pagination: paginationOverride,
   editing,
   styling: stylingOverride,
+  errorConfig,
   callbacks,
   controlled,
 
@@ -400,19 +340,6 @@ export function DataTable<T extends { id: string }>({
   skeletonRowCount,
   totalCount,
   onRefresh,
-  cursorPagination,
-  paginationMode: paginationModeOverride,
-
-  // Remote data props (from useRemoteDataTable)
-  searchValue: searchValueProp,
-  onSearchChange: onSearchChangeProp,
-  filters: filtersProp,
-  onFilterChange: onFilterChangeProp,
-  sortKey: sortKeyProp,
-  sortDirection: sortDirectionProp,
-  onSortChange: onSortChangeProp,
-  mode,
-  disableLocalProcessing = false,
 
   // Identification
   tableId,
@@ -486,33 +413,8 @@ export function DataTable<T extends { id: string }>({
   // Effective density (will be used for both toolbar and table)
   const effectiveDensity = internalDensity;
 
-  // Effective pagination mode - top-level override takes precedence over pagination.mode
-  const effectivePaginationMode = paginationModeOverride ?? paginationConfig.mode ?? 'offset';
-
-  // Effective mode - use explicit mode prop or derive from pagination
-  const effectiveMode = mode ?? (effectivePaginationMode === 'cursor' ? 'remote' : 'local');
-
-  // Merge top-level props with controlled/callbacks (top-level takes precedence for useRemoteDataTable compatibility)
-  const effectiveSearchValue = searchValueProp ?? controlled?.searchValue;
-  const effectiveOnSearchChange = onSearchChangeProp ?? callbacks?.onSearchChange;
-  const effectiveFilters = (filtersProp ?? controlled?.filters) as FilterState | undefined;
-  const effectiveOnFilterChange = onFilterChangeProp
-    ? (filters: FilterState) => onFilterChangeProp(filters)
-    : callbacks?.onFilterChange;
-
-  // Convert single sort (from useRemoteDataTable) to MultiSortState array
-  const effectiveSortState =
-    sortKeyProp !== undefined && sortKeyProp !== null
-      ? [{ key: sortKeyProp, direction: sortDirectionProp ?? ('asc' as const) }]
-      : controlled?.sortState;
-
-  // Wrap single-sort callback to work with MultiSortState
-  const effectiveOnSortChange = onSortChangeProp
-    ? (sortState: MultiSortState) => {
-        const first = sortState[0];
-        onSortChangeProp(first?.key ?? null, first?.direction ?? 'asc');
-      }
-    : callbacks?.onSortChange;
+  const effectivePaginationMode = paginationConfig.mode ?? 'offset';
+  const effectiveMode = effectivePaginationMode === 'cursor' ? 'remote' : 'local';
 
   // Build the table content
   const content = (
@@ -532,13 +434,14 @@ export function DataTable<T extends { id: string }>({
       reorderable={features.columnReorder ?? false}
       columnVisibility={features.columnVisibility ?? true}
       initialPageSize={paginationConfig.pageSize ?? 25}
+      errorConfig={errorConfig}
       // Controlled props - merged with top-level props
-      sortState={effectiveSortState}
-      onSortChange={effectiveOnSortChange}
-      controlledFilters={effectiveFilters}
-      onFilterChange={effectiveOnFilterChange}
-      searchValue={effectiveSearchValue}
-      onSearchChange={effectiveOnSearchChange}
+      sortState={controlled?.sortState}
+      onSortChange={callbacks?.onSortChange}
+      controlledFilters={controlled?.filters}
+      onFilterChange={callbacks?.onFilterChange}
+      searchValue={controlled?.searchValue}
+      onSearchChange={callbacks?.onSearchChange}
       columnPinState={controlled?.columnPinState}
       onColumnPinChange={callbacks?.onColumnPinChange}
       columnOrder={controlled?.columnOrder}
@@ -598,8 +501,8 @@ export function DataTable<T extends { id: string }>({
             onCellActiveChange={callbacks?.onCellActiveChange}
             onCellSelectionChange={callbacks?.onCellSelectionChange}
             onCellPaste={callbacks?.onCellPaste}
-            cursorPagination={cursorPagination}
-            disableLocalProcessing={disableLocalProcessing}
+            cursorPagination={paginationConfig.cursor}
+            disableLocalProcessing={effectiveMode === 'remote'}
           />
         )}
       </EditingWrapper>

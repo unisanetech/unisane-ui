@@ -12,8 +12,11 @@ export default defineConfig({
     root: __dirname,
     environment: 'node',
     globals: true,
-    include: ['tests/**/*.{test,spec}.ts', 'tests/**/*.{test,spec}.tsx'],
-    passWithNoTests: true,
+    include: [
+      'tests/**/*.{test,spec}.ts',
+      'tests/**/*.{test,spec}.tsx',
+      'scripts/**/*.{test,spec}.mjs',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'html', 'lcov'],

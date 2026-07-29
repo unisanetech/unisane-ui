@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { ComponentDoc } from '../types';
 import { HeroBackground } from '../../runtime/hero-background';
 import { Card } from '@unisane/ui/card';
@@ -12,10 +13,12 @@ const CardHeroVisual = () => (
     <div className="transform transition-transform duration-500 ease-out hover:scale-[1.02]">
       <Card variant="elevated" padding="none" className="w-80 overflow-hidden shadow-xl">
         <div className="bg-surface-container-high relative h-44">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
             alt="Abstract art"
-            className="h-full w-full object-cover"
+            fill
+            sizes="320px"
+            className="object-cover"
           />
         </div>
         <div className="p-6">

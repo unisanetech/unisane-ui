@@ -4,7 +4,6 @@ import {
   calculateAggregation,
   buildNestedGroups,
   buildGroupedData,
-  getNestedValue,
   type BuildGroupsOptions,
 } from "../../utils/grouping";
 import type { Column } from "../../types";
@@ -515,20 +514,6 @@ describe("buildGroupedData", () => {
     expect(isExpanded).toHaveBeenCalled();
     expect(groups[0]?.isExpanded).toBe(true);
     expect(Object.keys(groups[0]?.aggregations ?? {}).length).toBeGreaterThan(0);
-  });
-});
-
-// ─── getNestedValue RE-EXPORT TEST ──────────────────────────────────────────
-
-describe("getNestedValue re-export", () => {
-  it("should export getNestedValue for backwards compatibility", () => {
-    expect(getNestedValue).toBeDefined();
-    expect(typeof getNestedValue).toBe("function");
-  });
-
-  it("should work correctly when called", () => {
-    const obj = { a: { b: { c: 42 } } };
-    expect(getNestedValue(obj, "a.b.c")).toBe(42);
   });
 });
 

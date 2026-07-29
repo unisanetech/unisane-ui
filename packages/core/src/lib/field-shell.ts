@@ -12,9 +12,9 @@ export const fieldContainerVariants = cva(
     variants: {
       variant: {
         outlined:
-          'rounded-sm border border-outline-variant bg-surface hover:border-outline focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring',
+          'rounded-sm border border-outline-subtle bg-surface hover:border-outline-medium focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring',
         filled:
-          'rounded-t-sm rounded-b-none border-b border-outline-variant bg-surface-container-low hover:bg-surface-container focus-within:bg-surface',
+          'rounded-t-sm rounded-b-none border-b border-outline-subtle bg-surface-container-low hover:bg-surface-container focus-within:bg-surface',
       },
       error: {
         true: 'border-error focus-within:border-error hover:border-error ring-focus-ring-error',
@@ -67,7 +67,11 @@ export function getFieldLabelClasses({
     ],
     floating && [
       'text-label-small font-medium',
-      variant === 'outlined' && ['top-0 -translate-y-1/2 px-1 -ml-1', labelBg || 'bg-surface', labelClassName],
+      variant === 'outlined' && [
+        'top-0 -translate-y-1/2 px-1 -ml-1',
+        labelBg || 'bg-surface',
+        labelClassName,
+      ],
       variant === 'filled' && [fieldSize.filledFloatingLabel, floatingClassName],
       error ? 'text-error' : active ? 'text-primary' : 'text-on-surface-variant',
     ],

@@ -1,9 +1,6 @@
 import type { Column, RowGroup } from "../types";
 import { getNestedValue } from "./get-nested-value";
 
-// Re-export for backwards compatibility
-export { getNestedValue };
-
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
 export interface BuildGroupsOptions<T extends object> {

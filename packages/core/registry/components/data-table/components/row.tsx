@@ -263,8 +263,8 @@ function DataTableRowInner<T extends { id: string }>({
               bgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-subtle border-b',
-              showColumnBorders && 'border-outline-subtle border-r',
+              !isLastRow && 'border-outline-weak border-b',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.dragHandle,
@@ -302,8 +302,8 @@ function DataTableRowInner<T extends { id: string }>({
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-subtle border-b',
-              showColumnBorders && 'border-outline-subtle border-r',
+              !isLastRow && 'border-outline-weak border-b',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.checkbox,
@@ -331,8 +331,8 @@ function DataTableRowInner<T extends { id: string }>({
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
-              !isLastRow && 'border-outline-subtle border-b',
-              showColumnBorders && 'border-outline-subtle border-r',
+              !isLastRow && 'border-outline-weak border-b',
+              showColumnBorders && 'border-outline-weak border-r',
             )}
             style={{
               width: utilityColumnWidths.expander,
@@ -516,7 +516,7 @@ function DataTableRowInner<T extends { id: string }>({
                 pinPosition ? stickyBgClass : bgClass,
                 !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
                 'transition-colors',
-                !isLastRow && 'border-outline-subtle border-b',
+                !isLastRow && 'border-outline-weak border-b',
                 col.align === 'center' && 'text-center',
                 col.align === 'end' && 'text-right',
                 col.align !== 'center' && col.align !== 'end' && 'text-left',
@@ -529,15 +529,15 @@ function DataTableRowInner<T extends { id: string }>({
                 showColumnBorders &&
                   !isLastColumn &&
                   !pinPosition &&
-                  'border-outline-subtle border-r',
+                  'border-outline-weak border-r',
                 showColumnBorders &&
                   pinPosition === 'left' &&
                   key === lastPinnedLeftKey &&
-                  'border-outline-subtle border-r',
+                  'border-outline-weak border-r',
                 showColumnBorders &&
                   pinPosition === 'right' &&
                   key === firstPinnedRightKey &&
-                  'border-outline-subtle border-l',
+                  'border-outline-weak border-l',
                 paddingClass,
                 isEditable && !isEditing && 'cursor-cell',
                 isEditing && 'relative z-[3] overflow-visible !p-0',
@@ -637,7 +637,7 @@ function DataTableExpandedRowInner<T extends { id: string }>({
         <td
           className={cn(
             'bg-surface-container-lowest',
-            !isLastRow && 'border-outline-subtle border-b',
+            !isLastRow && 'border-outline-weak border-b',
           )}
           style={{
             width: utilityColumnWidths.dragHandle,
@@ -650,8 +650,8 @@ function DataTableExpandedRowInner<T extends { id: string }>({
         <td
           className={cn(
             'bg-surface-container-lowest left-0 isolate z-10 @md:sticky',
-            !isLastRow && 'border-outline-subtle border-b',
-            showColumnBorders && 'border-outline-subtle border-r',
+            !isLastRow && 'border-outline-weak border-b',
+            showColumnBorders && 'border-outline-weak border-r',
           )}
           style={{
             width: utilityColumnWidths.checkbox,
@@ -664,8 +664,8 @@ function DataTableExpandedRowInner<T extends { id: string }>({
         <td
           className={cn(
             'bg-surface-container-lowest isolate z-10 @md:sticky',
-            !isLastRow && 'border-outline-subtle border-b',
-            showColumnBorders && 'border-outline-subtle border-r',
+            !isLastRow && 'border-outline-weak border-b',
+            showColumnBorders && 'border-outline-weak border-r',
           )}
           style={{
             left: selectable ? utilityColumnWidths.checkbox : 0,
@@ -677,7 +677,7 @@ function DataTableExpandedRowInner<T extends { id: string }>({
       )}
       <td
         colSpan={columns.length}
-        className={cn('p-0', !isLastRow && 'border-outline-subtle border-b')}
+        className={cn('p-0', !isLastRow && 'border-outline-weak border-b')}
       >
         <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
       </td>

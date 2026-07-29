@@ -23,6 +23,16 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
       },
       [ref, registerContainer],
     );
+    const sidebarStyle: React.CSSProperties & {
+      '--sidebar-rail-width': string;
+      '--sidebar-drawer-width': string;
+      '--sidebar-mobile-drawer-width': string;
+    } = {
+      '--sidebar-rail-width': `${sidebar.railWidth}px`,
+      '--sidebar-drawer-width': `${sidebar.drawerWidth}px`,
+      '--sidebar-mobile-drawer-width': `${sidebar.mobileDrawerWidth}px`,
+      ...style,
+    };
 
     return (
       <div
@@ -38,14 +48,7 @@ export const Sidebar = forwardRef<HTMLDivElement, SidebarProps>(
         data-mode={sidebar.mode}
         data-behavior={sidebar.behavior}
         data-state={sidebar.isDrawerVisible ? 'open' : 'closed'}
-        style={
-          {
-            '--sidebar-rail-width': `${sidebar.railWidth}px`,
-            '--sidebar-drawer-width': `${sidebar.drawerWidth}px`,
-            '--sidebar-mobile-drawer-width': `${sidebar.mobileDrawerWidth}px`,
-            ...style,
-          } as React.CSSProperties
-        }
+        style={sidebarStyle}
         {...props}
       >
         {children}

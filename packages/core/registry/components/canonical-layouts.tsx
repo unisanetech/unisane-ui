@@ -25,7 +25,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
   isRoot = false,
 }) => {
   return (
-    <PaneLayout className={cn(!isRoot && 'border-outline-subtle rounded-sm border', className)}>
+    <PaneLayout className={cn(!isRoot && 'border-outline-soft rounded-sm border', className)}>
       <Pane
         kind="list"
         isActive={!showDetailMobile}
@@ -45,7 +45,7 @@ export const ListDetailLayout: React.FC<ListDetailLayoutProps> = ({
             <IconButton
               onClick={onBackClick}
               variant="standard"
-              className="bg-surface-container-low border-outline-subtle border backdrop-blur-md"
+              className="bg-surface-container-low border-outline-soft border backdrop-blur-md"
               aria-label="Back"
               icon={<Icon symbol="arrow_back" />}
             />
@@ -128,7 +128,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
     <div
       className={cn(
         'bg-surface duration-long ease-emphasized relative isolate grid h-full w-full overflow-hidden transition-[grid-template-columns]',
-        !isRoot && 'border-outline-subtle rounded-sm border',
+        !isRoot && 'border-outline-soft rounded-sm border',
         isOpen
           ? 'expanded:grid-cols-[1fr_var(--width-pane-supporting)]'
           : 'expanded:grid-cols-[1fr_var(--width-rail-collapsed)]',
@@ -156,13 +156,13 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
           'bg-surface duration-long ease-emphasized z-40 shrink-0 overflow-hidden transition-all',
           'medium:w-[min(100%,var(--width-pane-supporting))] absolute inset-y-0 right-0 h-full w-full',
           isOpen ? 'shadow-3 translate-x-0' : 'translate-x-full shadow-none',
-          'expanded:z-auto expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-subtle expanded:w-full',
+          'expanded:z-auto expanded:static expanded:shadow-none expanded:translate-x-0 expanded:border-l expanded:border-outline-weak expanded:w-full',
         )}
       >
         {isOpen ? (
           <div className="flex h-full flex-col">
             {headerContent && headerLayout === 'inline' ? (
-              <header className="border-outline-subtle flex h-[var(--supporting-pane-header-height,3.5rem)] shrink-0 items-center justify-between gap-3 border-b px-[var(--supporting-pane-header-padding-x,0.75rem)]">
+              <header className="border-outline-weak flex h-[var(--supporting-pane-header-height,3.5rem)] shrink-0 items-center justify-between gap-3 border-b px-[var(--supporting-pane-header-padding-x,0.75rem)]">
                 <div className="min-w-0 flex-1">{headerContent}</div>
                 <IconButton
                   onClick={handleClose}
@@ -173,7 +173,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
                 />
               </header>
             ) : (
-              <header className="border-outline-subtle shrink-0 border-b">
+              <header className="border-outline-weak shrink-0 border-b">
                 <div className="flex h-[var(--supporting-pane-header-height,3.5rem)] items-center justify-between gap-3 px-[var(--supporting-pane-header-padding-x,0.75rem)]">
                   <div className="min-w-0 flex-1">
                     <div className="text-on-surface text-title-small truncate font-medium">
@@ -216,7 +216,7 @@ export const SupportingPaneLayout: React.FC<SupportingPaneLayoutProps> = ({
             <IconButton
               onClick={handleToggle}
               variant="standard"
-              className="border-outline-subtle bg-surface hover:border-primary group shrink-0 rounded-sm border transition-all"
+              className="border-outline-soft bg-surface hover:border-primary group shrink-0 rounded-sm border transition-all"
               aria-label="Expand pane"
               icon={<Icon symbol="chevron_left" className="group-hover:text-primary" />}
             />
@@ -250,7 +250,7 @@ export const FeedLayout: React.FC<FeedLayoutProps> = ({ children, className, isR
     <div
       className={cn(
         'bg-surface-container-low expanded:p-6 no-scrollbar h-full w-full overflow-y-auto scroll-smooth p-4',
-        !isRoot && 'border-outline-subtle rounded-sm border',
+        !isRoot && 'border-outline-soft rounded-sm border',
         className,
       )}
     >

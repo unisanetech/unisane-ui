@@ -1,18 +1,13 @@
 // ─── COMPONENT PROP TYPES ────────────────────────────────────────────────────
 // Props for the main DataTable component and its render prop callbacks.
 
-import type { ReactNode, MouseEvent, KeyboardEvent } from "react";
-import type {
-  MultiSortState,
-  FilterState,
-  FilterValue,
-  CursorPagination,
-} from "@/components/ui/data-table/types/core";
-import type { Column } from "@/components/ui/data-table/types/column";
-import type { DataTableError } from "@/components/ui/data-table/errors/base";
-import type { ErrorSeverity } from "@/components/ui/data-table/errors/severity";
-import type { ErrorHub, ErrorHubOptions } from "@/components/ui/data-table/errors/error-hub";
-import type { RecoveryStrategyConfig } from "@/components/ui/data-table/errors/recovery";
+import type { ReactNode, MouseEvent, KeyboardEvent } from 'react';
+import type { MultiSortState, FilterState, FilterValue, CursorPagination } from '@/components/ui/data-table/types/core';
+import type { Column } from '@/components/ui/data-table/types/column';
+import type { DataTableError } from '@/components/ui/data-table/errors/base';
+import type { ErrorSeverity } from '@/components/ui/data-table/errors/severity';
+import type { ErrorHub, ErrorHubOptions } from '@/components/ui/data-table/errors/error-hub';
+import type { RecoveryStrategyConfig } from '@/components/ui/data-table/errors/recovery';
 
 // ─── ERROR CONFIGURATION ──────────────────────────────────────────────────────
 
@@ -123,8 +118,8 @@ export interface DataTableErrorConfig {
  * Use `source` to distinguish between the two.
  */
 export type RowActivationEvent =
-  | { source: "mouse"; event: MouseEvent }
-  | { source: "keyboard"; event: KeyboardEvent };
+  | { source: 'mouse'; event: MouseEvent }
+  | { source: 'keyboard'; event: KeyboardEvent };
 
 // ─── RENDER PROP TYPES ───────────────────────────────────────────────────────
 
@@ -170,14 +165,19 @@ export interface RemoteDataTableProps<T> {
   loading: boolean;
   refreshing: boolean;
   onRefresh: () => Promise<void>;
-  mode: "remote";
-  pagination: "cursor";
-  searchValue: string;
-  onSearchChange: (val: string) => void;
-  filters: FilterState;
-  onFilterChange: (filters: FilterState) => void;
-  sortState: MultiSortState;
-  onSortChange: (sortState: MultiSortState) => void;
-  cursorPagination: CursorPagination;
+  pagination: {
+    mode: 'cursor';
+    cursor: CursorPagination;
+  };
+  controlled: {
+    searchValue: string;
+    filters: FilterState;
+    sortState: MultiSortState;
+  };
+  callbacks: {
+    onSearchChange: (value: string) => void;
+    onFilterChange: (filters: FilterState) => void;
+    onSortChange: (sortState: MultiSortState) => void;
+  };
   totalCount?: number;
 }

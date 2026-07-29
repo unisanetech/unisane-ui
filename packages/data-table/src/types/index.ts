@@ -23,9 +23,6 @@ export type {
   SelectFilterValue,
   MultiSelectFilterValue,
   BooleanFilterValue,
-  TypedFilterValue,
-  TypedFilterState,
-  // Filter (legacy)
   FilterValue,
   FilterState,
   FilterType,

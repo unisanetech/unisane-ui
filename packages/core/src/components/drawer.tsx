@@ -149,7 +149,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
             {hasHeader ? (
               <div
                 className={cn(
-                  'border-outline-subtle bg-surface flex items-center gap-3 border-b px-5 py-3',
+                  'border-outline-weak bg-surface flex items-center gap-3 border-b px-5 py-3',
                   headerClassName,
                 )}
               >
@@ -200,7 +200,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
             {resolvedFooter ? (
               <div
                 className={cn(
-                  'border-outline-subtle bg-surface shrink-0 border-t px-5 py-3 pb-[max(var(--spacing-3),env(safe-area-inset-bottom))]',
+                  'border-outline-weak bg-surface shrink-0 border-t px-5 py-3 pb-[max(var(--spacing-3),env(safe-area-inset-bottom))]',
                   footerClassName,
                 )}
               >

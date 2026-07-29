@@ -42,7 +42,7 @@ export const Accordion: React.FC<AccordionProps> = ({
     <AccordionContext.Provider value={{ expanded, toggle }}>
       <div
         className={cn(
-          'border-outline-subtle bg-surface flex flex-col overflow-hidden rounded-sm border',
+          'border-outline-soft bg-surface flex flex-col overflow-hidden rounded-sm border',
           className,
         )}
       >
@@ -67,7 +67,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ value, children, c
   return (
     <div
       className={cn(
-        'border-outline-medium border-b last:border-none',
+        'border-outline-weak border-b last:border-none',
         isExpanded && 'bg-surface-container-low',
         className,
       )}

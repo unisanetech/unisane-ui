@@ -18,14 +18,14 @@ export type {
   ComponentListItem,
 } from "./types";
 
+const categoryMetaByIdSeed: Record<ComponentCategory, CategoryMeta> =
+  Object.create(null) as Record<ComponentCategory, CategoryMeta>;
+
 export const CATEGORY_META_BY_ID: Record<ComponentCategory, CategoryMeta> =
-  CATEGORY_META.reduce(
-    (acc, category) => {
-      acc[category.id] = category;
-      return acc;
-    },
-    {} as Record<ComponentCategory, CategoryMeta>
-  );
+  CATEGORY_META.reduce((acc, category) => {
+    acc[category.id] = category;
+    return acc;
+  }, categoryMetaByIdSeed);
 
 export function getCategoryMetaById(
   categoryId: ComponentCategory
@@ -49,13 +49,12 @@ export function getComponentsByCategory(): Record<
   ComponentCategory,
   ComponentListItem[]
 > {
-  const grouped = CATEGORY_ORDER.reduce(
-    (acc, categoryId) => {
-      acc[categoryId] = [];
-      return acc;
-    },
-    {} as Record<ComponentCategory, ComponentListItem[]>
-  );
+  const groupedSeed: Record<ComponentCategory, ComponentListItem[]> =
+    Object.create(null) as Record<ComponentCategory, ComponentListItem[]>;
+  const grouped = CATEGORY_ORDER.reduce((acc, categoryId) => {
+    acc[categoryId] = [];
+    return acc;
+  }, groupedSeed);
 
   for (const component of COMPONENT_REGISTRY) {
     grouped[component.category].push(component);

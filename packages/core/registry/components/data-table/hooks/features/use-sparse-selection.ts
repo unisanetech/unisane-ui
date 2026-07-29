@@ -94,9 +94,6 @@ export interface UseSparseSelectionReturn {
   /** Get all selected IDs (use sparingly for large datasets) */
   getSelectedIds: (allIds: string[]) => string[];
 
-  /** Convert sparse state to Set<string> for compatibility */
-  toSet: (allIds: string[]) => Set<string>;
-
   /** Reset selection to initial state */
   reset: () => void;
 }
@@ -423,20 +420,6 @@ export function useSparseSelection({
     [currentState]
   );
 
-  const toSet = useCallback(
-    (allIds: string[]): Set<string> => {
-      switch (currentState.mode) {
-        case "none":
-          return new Set();
-        case "some":
-          return new Set(currentState.ids);
-        case "all_except":
-          return new Set(allIds.filter((id) => !currentState.ids.has(id)));
-      }
-    },
-    [currentState]
-  );
-
   const reset = useCallback(() => {
     updateState(initialSelection ?? createInitialState(totalCount));
   }, [totalCount, initialSelection, updateState]);
@@ -458,7 +441,6 @@ export function useSparseSelection({
     deselectAll,
     toggleAll,
     getSelectedIds,
-    toSet,
     reset,
   };
 }

@@ -165,14 +165,19 @@ export interface RemoteDataTableProps<T> {
   loading: boolean;
   refreshing: boolean;
   onRefresh: () => Promise<void>;
-  mode: 'remote';
-  pagination: 'cursor';
-  searchValue: string;
-  onSearchChange: (val: string) => void;
-  filters: FilterState;
-  onFilterChange: (filters: FilterState) => void;
-  sortState: MultiSortState;
-  onSortChange: (sortState: MultiSortState) => void;
-  cursorPagination: CursorPagination;
+  pagination: {
+    mode: 'cursor';
+    cursor: CursorPagination;
+  };
+  controlled: {
+    searchValue: string;
+    filters: FilterState;
+    sortState: MultiSortState;
+  };
+  callbacks: {
+    onSearchChange: (value: string) => void;
+    onFilterChange: (filters: FilterState) => void;
+    onSortChange: (sortState: MultiSortState) => void;
+  };
   totalCount?: number;
 }

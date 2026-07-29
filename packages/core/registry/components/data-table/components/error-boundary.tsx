@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { Component, type ReactNode, type ErrorInfo } from "react";
-import { Button } from "@/components/ui/button";
-import { Icon } from "@/components/ui/icon";
-import { useI18n } from "@/components/ui/data-table/i18n";
-import { DataTableError, DataTableErrorCode } from "@/components/ui/data-table/errors/base";
-import { ErrorSeverity } from "@/components/ui/data-table/errors/severity";
-import type { ErrorHub } from "@/components/ui/data-table/errors/error-hub";
+import React, { Component, type ReactNode, type ErrorInfo } from 'react';
+import { Button } from '@/components/ui/button';
+import { Icon } from '@/components/ui/icon';
+import { useI18n } from '@/components/ui/data-table/i18n';
+import { DataTableError, DataTableErrorCode } from '@/components/ui/data-table/errors/base';
+import { ErrorSeverity } from '@/components/ui/data-table/errors/severity';
+import type { ErrorHub } from '@/components/ui/data-table/errors/error-hub';
 
 // ─── ERROR STATE PROPS ───────────────────────────────────────────────────────
 
@@ -27,32 +27,30 @@ export function DataTableErrorDisplay({
   message,
 }: DataTableErrorDisplayProps) {
   const { t } = useI18n();
-  const displayTitle = title ?? t("errorTitle");
-  const displayMessage = message ?? error.message ?? t("errorMessage");
+  const displayTitle = title ?? t('errorTitle');
+  const displayMessage = message ?? error.message ?? t('errorMessage');
 
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center bg-surface rounded-lg border border-outline-soft">
-      <div className="w-12 h-12 rounded-full bg-error-container flex items-center justify-center mb-4">
-        <Icon symbol="error" className="w-6 h-6 text-error" />
+    <div className="bg-surface border-outline-soft flex flex-col items-center justify-center rounded-lg border px-4 py-16 text-center">
+      <div className="bg-error-container mb-4 flex h-12 w-12 items-center justify-center rounded-full">
+        <Icon symbol="error" className="text-error h-6 w-6" />
       </div>
       <h3 className="text-title-medium text-on-surface mb-1">{displayTitle}</h3>
-      <p className="text-body-medium text-on-surface-variant max-w-md mb-4">
-        {displayMessage}
-      </p>
-      {process.env.NODE_ENV === "development" && (
+      <p className="text-body-medium text-on-surface-variant mb-4 max-w-md">{displayMessage}</p>
+      {process.env.NODE_ENV === 'development' && (
         <details className="mb-4 w-full max-w-md text-left">
-          <summary className="text-label-medium text-on-surface-variant cursor-pointer hover:text-on-surface">
-            {t("errorDetails")}
+          <summary className="text-label-medium text-on-surface-variant hover:text-on-surface cursor-pointer">
+            {t('errorDetails')}
           </summary>
-          <pre className="mt-2 p-3 bg-surface-container rounded-sm text-body-small text-error overflow-auto max-h-32">
+          <pre className="bg-surface-container text-body-small text-error mt-2 max-h-32 overflow-auto rounded-sm p-3">
             {error.stack ?? error.message}
           </pre>
         </details>
       )}
       {resetError && (
         <Button variant="filled" onClick={resetError}>
-          <Icon symbol="refresh" className="w-4 h-4 mr-2" />
-          {t("retry")}
+          <Icon symbol="refresh" className="mr-2 h-4 w-4" />
+          {t('retry')}
         </Button>
       )}
     </div>
@@ -107,9 +105,9 @@ export class DataTableErrorBoundary extends Component<
 
   override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     // Log error to console in development
-    if (process.env.NODE_ENV === "development") {
-      console.error("DataTable Error:", error);
-      console.error("Error Info:", errorInfo.componentStack);
+    if (process.env.NODE_ENV === 'development') {
+      console.error('DataTable Error:', error);
+      console.error('Error Info:', errorInfo.componentStack);
     }
 
     // Report to error hub if available
@@ -123,7 +121,7 @@ export class DataTableErrorBoundary extends Component<
           context: {
             componentStack: errorInfo.componentStack,
           },
-        }
+        },
       );
       this.props.errorHub.report(dataTableError);
     }
@@ -142,7 +140,7 @@ export class DataTableErrorBoundary extends Component<
 
     if (hasError && error) {
       // Custom fallback render function
-      if (typeof fallback === "function") {
+      if (typeof fallback === 'function') {
         return fallback({ error, reset: this.resetError });
       }
 

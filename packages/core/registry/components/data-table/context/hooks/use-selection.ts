@@ -19,10 +19,10 @@ import { DataTableError, DataTableErrorCode } from "@/components/ui/data-table/e
  * Now uses useEffect to fire callbacks after state changes are committed.
  */
 export function useSelection() {
-  const { dispatch, callbacks } = useDataTableRuntime();
+  const { dispatch, callbacks, errorHub } = useDataTableRuntime();
   const controlled = useDataTableControlledState();
   const { selectedRows: internalSelectedRows, expandedRows } = useDataTableSelectionSlice();
-  const { onSelectionChange, onSelectAllFiltered, onError } = callbacks;
+  const { onSelectionChange, onSelectAllFiltered } = callbacks;
 
   // Check if sparse selection is being used (takes precedence)
   const sparseSelection = controlled.sparseSelection;
@@ -41,7 +41,7 @@ export function useSelection() {
   const selectedRows = useMemo(() => {
     if (usingSparseSelection) {
       // For sparse selection, we create a "virtual" Set that uses the sparse isSelected function
-      // This maintains API compatibility while using O(1) lookups
+      // The canonical selection projection remains a Set while sparse membership stays O(1).
       return internalSelectedRows; // We'll override isSelected below
     }
     if (controlled.selectedIds !== undefined) {
@@ -177,28 +177,19 @@ export function useSelection() {
       }
       return ids;
     } catch (error) {
-      const dtError = new DataTableError(
-        "Failed to select all filtered rows",
-        DataTableErrorCode.SELECTION_ERROR,
-        { cause: error instanceof Error ? error : new Error(String(error)) }
+      errorHub.report(
+        new DataTableError(
+          "Failed to select all filtered rows",
+          DataTableErrorCode.SELECTION_ERROR,
+          {
+            cause: error instanceof Error ? error : new Error(String(error)),
+            context: { operation: "selectAllFiltered" },
+          }
+        )
       );
-
-      // Log in development
-      if (process.env.NODE_ENV !== "production") {
-        console.error(dtError.message, error);
-      }
-
-      // Propagate to onError callback if available
-      onError?.({
-        type: "selection",
-        message: dtError.message,
-        error: dtError,
-        context: { operation: "selectAllFiltered" },
-      });
-
       return null;
     }
-  }, [onSelectAllFiltered, isControlled, onSelectionChange, dispatch, onError]);
+  }, [onSelectAllFiltered, isControlled, onSelectionChange, dispatch, errorHub]);
 
   const toggleExpand = useCallback(
     (id: string) => dispatch({ type: "TOGGLE_EXPAND", id }),

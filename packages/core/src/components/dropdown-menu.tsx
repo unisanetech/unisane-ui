@@ -420,7 +420,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       document.removeEventListener('click', handleClickOutside);
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [open, setOpen, triggerRef]);
+  }, [menuId, open, setOpen, triggerRef]);
 
   if (!open) return null;
 

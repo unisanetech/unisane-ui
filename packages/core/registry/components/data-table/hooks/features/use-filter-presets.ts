@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useMemo, useEffect, useRef } from "react";
+import { dequal } from "dequal";
 import type { FilterState } from "@/components/ui/data-table/types";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -189,37 +190,7 @@ function generatePresetId(): string {
  * Deep compare two filter states
  */
 function areFiltersEqual(a: FilterState, b: FilterState): boolean {
-  const keysA = Object.keys(a).filter((k) => a[k] != null && a[k] !== "");
-  const keysB = Object.keys(b).filter((k) => b[k] != null && b[k] !== "");
-
-  if (keysA.length !== keysB.length) return false;
-
-  for (const key of keysA) {
-    const valA = a[key];
-    const valB = b[key];
-
-    if (valA === valB) continue;
-
-    // Handle arrays
-    if (Array.isArray(valA) && Array.isArray(valB)) {
-      if (valA.length !== valB.length) return false;
-      if (!valA.every((v, i) => v === valB[i])) return false;
-      continue;
-    }
-
-    // Handle objects (ranges)
-    if (typeof valA === "object" && typeof valB === "object" && valA && valB) {
-      const objKeysA = Object.keys(valA);
-      const objKeysB = Object.keys(valB);
-      if (objKeysA.length !== objKeysB.length) return false;
-      if (!objKeysA.every((k) => (valA as Record<string, unknown>)[k] === (valB as Record<string, unknown>)[k])) return false;
-      continue;
-    }
-
-    return false;
-  }
-
-  return true;
+  return dequal(a, b);
 }
 
 /**

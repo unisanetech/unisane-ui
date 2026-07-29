@@ -194,7 +194,7 @@ function SegmentedButtonRoot<Value extends string>({
       {...groupProps}
       ref={forwardedRef}
       className={cn(
-        'border-outline-variant rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
+        'border-outline-subtle rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
         sizeStyles.containerHeight,
         className,
       )}
@@ -225,7 +225,7 @@ function SegmentedButtonRoot<Value extends string>({
               sizeStyles.itemGap,
               sizeStyles.itemPaddingX,
               sizeStyles.itemText,
-              !isLast && 'border-outline-strong border-r',
+              !isLast && 'border-outline-soft border-r',
               option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
               selected && !option.disabled
                 ? 'bg-secondary-container text-on-secondary-container'
@@ -275,6 +275,8 @@ function SegmentedButtonRoot<Value extends string>({
 function SegmentedButtonSingle<Value extends string>({
   defaultValue,
   onValueChange,
+  // The discriminant is consumed by the wrapper and must not reach the root element.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectionMode: _selectionMode,
   value,
   forwardedRef,
@@ -302,6 +304,8 @@ function SegmentedButtonSingle<Value extends string>({
 function SegmentedButtonMultiple<Value extends string>({
   defaultValue = [],
   onValueChange,
+  // The discriminant is consumed by the wrapper and must not reach the root element.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   selectionMode: _selectionMode,
   value,
   forwardedRef,
