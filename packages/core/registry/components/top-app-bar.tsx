@@ -27,6 +27,8 @@ const topAppBarVariants = cva(
 
 export type TopAppBarProps = VariantProps<typeof topAppBarVariants> & {
   title: React.ReactNode;
+  titleVariant?: React.ComponentProps<typeof Text>['variant'];
+  titleClassName?: string;
   navigationIcon?: React.ReactNode;
   actions?: React.ReactNode;
   className?: string;
@@ -38,6 +40,8 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
       variant,
       scrolled,
       title,
+      titleVariant,
+      titleClassName,
       navigationIcon,
       actions,
       className,
@@ -74,7 +78,10 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
             <div
               className={cn('truncate', isCenter ? 'w-full px-12 text-center' : 'flex-1 text-left')}
             >
-              <Text variant="titleLarge" className="text-primary truncate">
+              <Text
+                variant={titleVariant ?? 'titleLarge'}
+                className={cn('text-primary truncate', titleClassName)}
+              >
                 {title}
               </Text>
             </div>
@@ -98,8 +105,11 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
             )}
           >
             <Text
-              variant={variant === 'large' ? 'headlineMedium' : 'headlineSmall'}
-              className="truncate"
+              variant={
+                titleVariant ??
+                (variant === 'large' ? 'headlineMedium' : 'headlineSmall')
+              }
+              className={cn('truncate', titleClassName)}
             >
               {title}
             </Text>

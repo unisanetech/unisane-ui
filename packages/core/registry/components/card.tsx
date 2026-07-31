@@ -6,7 +6,7 @@ import { cn, focusRing } from '@/lib/utils';
 import { Ripple } from '@/components/ui/ripple';
 
 const cardVariants = cva(
-  'rounded-sm overflow-hidden flex flex-col transition-all duration-medium ease-emphasized relative group isolate',
+  'rounded-sm overflow-hidden flex flex-col transition-all duration-medium ease-emphasized relative isolate',
   {
     variants: {
       variant: {
@@ -17,7 +17,7 @@ const cardVariants = cva(
         high: 'bg-surface-container-high border-none shadow-1',
       },
       interactive: {
-        true: 'cursor-pointer appearance-none text-left',
+        true: 'group cursor-pointer appearance-none text-left',
         false: '',
       },
       padding: {

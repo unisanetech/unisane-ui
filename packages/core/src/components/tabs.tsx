@@ -163,7 +163,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
         }
       }}
       className={cn(
-        'group relative flex min-w-fit shrink-0 cursor-pointer items-center justify-center overflow-hidden transition-all select-none focus-visible:outline-none',
+        'relative flex min-w-fit shrink-0 cursor-pointer items-center justify-center overflow-hidden transition-all select-none focus-visible:outline-none',
         triggerSize.containerHeight,
         triggerSize.gap,
         triggerSize.paddingX,

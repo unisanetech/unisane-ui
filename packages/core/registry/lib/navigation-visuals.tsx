@@ -24,7 +24,7 @@ export function NavigationIcon({
 
 export function getNavigationRailItemClasses(disabled?: boolean, className?: string) {
   return cn(
-    'group relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none',
+    'relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none',
     'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
     disabled && 'pointer-events-none cursor-not-allowed opacity-38',
     className,
@@ -54,7 +54,10 @@ export function NavigationRailItemContent({
 }: NavigationRailItemContentProps) {
   return (
     <>
-      <div className="relative flex items-center justify-center">
+      <div
+        className="relative flex items-center justify-center"
+        data-disabled={disabled ? 'true' : undefined}
+      >
         <div
           className={cn(
             'rounded-button duration-medium ease-emphasized relative flex h-8 w-14 items-center justify-center overflow-hidden transition-all',
@@ -93,8 +96,7 @@ export function NavigationRailItemContent({
             'text-label-small duration-short max-w-full px-0.5 text-center transition-colors',
             active
               ? 'text-on-surface font-bold'
-              : 'text-on-surface-variant group-hover:text-on-surface font-medium',
-            disabled && 'group-hover:text-on-surface-variant',
+              : 'text-on-surface-variant font-medium',
           )}
         >
           {label}
@@ -112,7 +114,7 @@ export function getNavigationDrawerItemClasses(args: {
   const { active, disabled, className } = args;
 
   return cn(
-    'group relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2',
+    'relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2',
     'text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none',
     'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset',
     active
@@ -143,14 +145,6 @@ export function NavigationDrawerItemContent({
 }: NavigationDrawerItemContentProps) {
   return (
     <>
-      <span
-        className={cn(
-          'duration-short pointer-events-none absolute inset-0 transition-opacity',
-          active
-            ? 'bg-primary opacity-0 group-hover:opacity-[0.08] group-focus-visible:opacity-[0.12] group-active:opacity-[0.12]'
-            : '',
-        )}
-      />
       {ripple}
 
       {icon && (
