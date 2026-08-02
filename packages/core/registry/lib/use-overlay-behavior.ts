@@ -41,6 +41,7 @@ export interface UseOverlayBehaviorOptions {
   dismissOnInteractOutside?: boolean;
   initialFocus?: boolean;
   restoreFocus?: boolean;
+  isInteractionOutside?: (target: Node) => boolean;
 }
 
 function getFocusableElements(root: HTMLElement | null) {
@@ -188,12 +189,18 @@ export function useOverlayBehavior({
   dismissOnInteractOutside = false,
   initialFocus = modal,
   restoreFocus = true,
+  isInteractionOutside,
 }: UseOverlayBehaviorOptions) {
   const onDismissRef = useRef(onDismiss);
+  const isInteractionOutsideRef = useRef(isInteractionOutside);
 
   useEffect(() => {
     onDismissRef.current = onDismiss;
   }, [onDismiss]);
+
+  useEffect(() => {
+    isInteractionOutsideRef.current = isInteractionOutside;
+  }, [isInteractionOutside]);
 
   useEffect(() => {
     if (!open || typeof document === 'undefined') {
@@ -270,7 +277,14 @@ export function useOverlayBehavior({
       if (!(target instanceof Node)) {
         return;
       }
-      if (content.contains(target) || triggerRef?.current?.contains(target)) {
+      if (
+        content.contains(target) ||
+        triggerRef?.current?.contains(target) ||
+        rootRef?.current?.contains(target)
+      ) {
+        return;
+      }
+      if (isInteractionOutsideRef.current && !isInteractionOutsideRef.current(target)) {
         return;
       }
       onDismissRef.current();

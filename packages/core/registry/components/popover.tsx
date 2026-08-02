@@ -3,7 +3,7 @@
 import React, { useRef, useId, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { getPortalLayerStyle } from '@/lib/portal-layer';
-import { cn } from '@/lib/utils';
+import { cn, focusRing, Slot } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 
@@ -47,7 +47,7 @@ export const Popover: React.FC<PopoverProps> = ({
     onChange: onOpenChange,
   });
   const containerRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [computedPlacement, setComputedPlacement] = useState({ side, align });
@@ -146,20 +146,52 @@ export const Popover: React.FC<PopoverProps> = ({
     }
   };
 
+  const triggerProps = {
+    'aria-expanded': isOpen,
+    'aria-haspopup': 'dialog' as const,
+    'aria-controls': isOpen ? popoverId : undefined,
+  };
+  const triggerNode = React.isValidElement(trigger) ? (
+    <Slot ref={triggerRef} {...triggerProps}>
+      {React.cloneElement(
+        trigger as React.ReactElement<{
+          onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+          onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
+        }>,
+        {
+          onClick: (event) => {
+            const child = trigger as React.ReactElement<{
+              onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+            }>;
+            child.props.onClick?.(event);
+            if (!event.defaultPrevented) handleOpenChange(!isOpen);
+          },
+          onKeyDown: (event) => {
+            const child = trigger as React.ReactElement<{
+              onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
+            }>;
+            child.props.onKeyDown?.(event);
+            if (!event.defaultPrevented) handleTriggerKeyDown(event);
+          },
+        },
+      )}
+    </Slot>
+  ) : (
+    <button
+      ref={triggerRef as React.Ref<HTMLButtonElement>}
+      type="button"
+      onClick={() => handleOpenChange(!isOpen)}
+      onKeyDown={handleTriggerKeyDown}
+      className={cn('inline-flex', focusRing)}
+      {...triggerProps}
+    >
+      {trigger}
+    </button>
+  );
+
   return (
     <div className="relative inline-block" ref={containerRef}>
-      <button
-        ref={triggerRef}
-        type="button"
-        onClick={() => handleOpenChange(!isOpen)}
-        onKeyDown={handleTriggerKeyDown}
-        aria-expanded={isOpen}
-        aria-haspopup="dialog"
-        aria-controls={isOpen ? popoverId : undefined}
-        className="inline-flex"
-      >
-        {trigger}
-      </button>
+      {triggerNode}
 
       {isOpen
         ? renderPopoverContent({

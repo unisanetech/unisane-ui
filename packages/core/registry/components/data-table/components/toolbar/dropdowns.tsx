@@ -67,7 +67,7 @@ export function ColumnVisibilityDropdown<T>({
         <>
           <Icon symbol="view_column" />
           {hasHiddenColumns && hiddenColumns.size > 0 && (
-            <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-medium">
+            <span className="bg-primary text-on-primary text-label-small absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full font-medium">
               {hiddenColumns.size}
             </span>
           )}
@@ -80,7 +80,6 @@ export function ColumnVisibilityDropdown<T>({
       icon="view_column"
       active={hasHiddenColumns}
       badge={hiddenColumns.size}
-      as="div"
     />
   );
 
@@ -146,7 +145,7 @@ export function DensityDropdown({
       icon={<Icon symbol={currentIcon} />}
     />
   ) : (
-    <ToolbarDropdownButton label={t('density')} icon={currentIcon} active={isActive} as="div" />
+    <ToolbarDropdownButton label={t('density')} icon={currentIcon} active={isActive} />
   );
 
   return (
@@ -200,7 +199,7 @@ export function MoreActionsDropdown({
       <DropdownMenuTrigger asChild>{trigger}</DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-40">
         {actions.map((action) => {
-          const isDanger = action.variant === 'danger';
+          const isDanger = action.tone === 'danger';
           return (
             <DropdownMenuItem
               key={action.key}

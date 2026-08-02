@@ -57,7 +57,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
               'duration-medium ease-standard absolute inset-0 rounded-full border-2 transition-colors',
               resolvedInvalid
                 ? 'border-error bg-error-container peer-checked:bg-error peer-checked:border-error'
-                : 'border-outline-medium bg-surface-container-highest peer-checked:bg-primary peer-checked:border-primary',
+                : 'border-control-outline bg-surface-container-highest peer-checked:bg-primary peer-checked:border-primary',
               'peer-focus-visible:ring-focus-ring peer-focus-visible:ring-2 peer-focus-visible:ring-offset-2',
             )}
           />
@@ -68,7 +68,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(
               'duration-emphasized ease-emphasized absolute top-1/2 z-10 flex -translate-y-1/2 items-center justify-center overflow-hidden rounded-full transition-all',
               resolvedInvalid
                 ? 'bg-error peer-checked:bg-on-error'
-                : 'bg-outline group-hover:bg-on-surface-variant peer-checked:bg-on-primary',
+                : 'bg-control-outline group-hover:bg-on-surface-variant peer-checked:bg-on-primary',
               showIcons && [
                 '[&_.switch-icon-off]:opacity-100',
                 'peer-checked:[&_.switch-icon-off]:opacity-0',

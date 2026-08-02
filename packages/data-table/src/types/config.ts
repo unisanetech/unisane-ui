@@ -5,7 +5,7 @@
 import type { ReactNode } from 'react';
 import type { CursorPagination, Density, FilterState, MultiSortState, PinPosition } from './core';
 import type { Column } from './column';
-import type { BulkAction, EditActivationMode } from './features';
+import type { ActionTone, BulkAction, EditActivationMode } from './features';
 
 // ─── FEATURES CONFIG ──────────────────────────────────────────────────────────
 
@@ -159,6 +159,57 @@ export interface VirtualizationConfig {
   overscan?: number;
 }
 
+// ─── LAYOUT CONFIG ───────────────────────────────────────────────────────────
+
+export type VerticalScrollOwner = 'page' | 'table';
+
+/**
+ * Layout behavior for the DataTable surface.
+ *
+ * Page-owned scrolling is the default for reports, dashboards, and document-style
+ * screens. Table-owned scrolling is for deliberately height-constrained workspaces,
+ * dialogs, drawers, and virtualized datasets.
+ */
+export interface LayoutConfig {
+  /**
+   * Select which surface owns vertical scrolling.
+   * @default "page"
+   */
+  verticalScroll?: VerticalScrollOwner;
+
+  /**
+   * Keep column headers visible while the selected vertical owner scrolls.
+   * @default true
+   */
+  stickyHeader?: boolean;
+
+  /**
+   * Offset from the selected scroll owner's top edge.
+   * Page mode also stacks the measured DataTable toolbar below this offset.
+   * @default "var(--app-header-height, 0px)"
+   */
+  stickyOffset?: number | string;
+}
+
+// ─── EXPANDED ROW CONFIG ────────────────────────────────────────────────────
+
+/**
+ * Presentation patterns for content disclosed beneath a data row.
+ *
+ * - `detail`: Padded, neutral detail region for descriptions, metadata, and short forms.
+ * - `panel`: Inset bordered surface for substantial workflows or independently grouped content.
+ * - `bare`: Unstyled content area for nested tables or content that owns its own surface.
+ */
+export type ExpandedRowPresentation = 'detail' | 'panel' | 'bare';
+
+export interface ExpandedRowConfig {
+  /**
+   * Select the visual relationship between the parent row and its disclosed content.
+   * @default "detail"
+   */
+  presentation?: ExpandedRowPresentation;
+}
+
 // ─── PAGINATION CONFIG ────────────────────────────────────────────────────────
 
 /**
@@ -306,7 +357,6 @@ export type LoadingVariant = 'skeleton' | 'spinner' | 'linear-progress';
  *     variant: "grid",
  *     density: "compact",
  *     zebra: true,
- *     stickyHeader: true,
  *   }}
  * />
  * ```
@@ -338,18 +388,6 @@ export interface StylingConfig {
    * @default false
    */
   zebra?: boolean;
-
-  /**
-   * Make header sticky during scroll.
-   * @default true
-   */
-  stickyHeader?: boolean;
-
-  /**
-   * Offset for sticky positioning (for fixed navbars).
-   * @default "var(--app-header-height, 0px)"
-   */
-  stickyOffset?: number | string;
 }
 
 // ─── CALLBACKS CONFIG ─────────────────────────────────────────────────────────
@@ -367,7 +405,7 @@ export interface ColumnMenuAction<T> {
   icon?: ReactNode;
   disabled?: boolean;
   hidden?: boolean;
-  variant?: 'default' | 'danger';
+  tone?: ActionTone;
   separatorBefore?: boolean;
   separatorAfter?: boolean;
   onSelect: (context: ColumnMenuActionContext<T>) => void | Promise<void>;
@@ -400,7 +438,7 @@ export interface DataTableContextMenuAction<T> {
   icon?: ReactNode;
   disabled?: boolean;
   hidden?: boolean;
-  variant?: 'default' | 'danger';
+  tone?: ActionTone;
   separatorBefore?: boolean;
   separatorAfter?: boolean;
   onSelect: (context: DataTableContextMenuContext<T>) => void | Promise<void>;
@@ -566,7 +604,6 @@ export function getPresetConfig(preset: DataTablePreset): {
         styling: {
           variant: 'list',
           density: 'standard',
-          stickyHeader: true,
         },
         pagination: {
           mode: 'offset',
@@ -592,7 +629,6 @@ export function getPresetConfig(preset: DataTablePreset): {
         styling: {
           variant: 'list',
           density: 'standard',
-          stickyHeader: true,
         },
         pagination: {
           mode: 'offset',
@@ -616,7 +652,6 @@ export function getPresetConfig(preset: DataTablePreset): {
         styling: {
           variant: 'list',
           density: 'standard',
-          stickyHeader: true,
         },
         pagination: {
           mode: 'offset',
@@ -644,7 +679,6 @@ export function getPresetConfig(preset: DataTablePreset): {
           variant: 'grid',
           density: 'compact',
           columnDividers: true,
-          stickyHeader: true,
         },
         pagination: {
           mode: 'offset',
@@ -670,7 +704,6 @@ export function getPresetConfig(preset: DataTablePreset): {
         styling: {
           variant: 'list',
           density: 'standard',
-          stickyHeader: true,
         },
         pagination: {
           mode: 'cursor',
@@ -693,7 +726,6 @@ export function getPresetConfig(preset: DataTablePreset): {
         styling: {
           variant: 'minimal',
           density: 'compact',
-          stickyHeader: false,
         },
         pagination: {
           mode: 'none',
@@ -819,8 +851,8 @@ export interface SimpleBulkAction {
   /** Action handler - receives selected row IDs */
   onClick: (selectedIds: string[]) => void | Promise<void>;
 
-  /** Action variant for styling */
-  variant?: 'default' | 'danger';
+  /** Semantic action emphasis */
+  tone?: ActionTone;
 
   /** Disable the action */
   disabled?: boolean;
@@ -843,7 +875,7 @@ export interface SimpleBulkAction {
  *   {
  *     label: "Delete",
  *     icon: "delete",
- *     variant: "destructive",
+ *     tone: "danger",
  *     onClick: async (ids) => {
  *       await api.deleteMany(ids);
  *     },
@@ -865,7 +897,7 @@ export function defineBulkActions(actions: SimpleBulkAction[]): BulkAction[] {
     label: action.label,
     icon: action.icon,
     onClick: action.onClick,
-    variant: action.variant,
+    tone: action.tone,
     disabled: action.disabled,
     // Note: confirm dialog handling would be done in the component
   }));

@@ -11,6 +11,7 @@ import type {
   RowContextMenuRenderProps,
 } from '@/components/ui/data-table/types/index';
 import { useI18n } from '@/components/ui/data-table/i18n';
+import { useContextMenuBehavior } from '@/components/ui/data-table/components/context-menu-behavior';
 
 // ─── CONTEXT MENU STATE ──────────────────────────────────────────────────────
 
@@ -113,37 +114,7 @@ export function RowContextMenu<T extends { id: string }>({
 }: RowContextMenuProps<T>) {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close on click outside
-  useEffect(() => {
-    if (!state.isOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        onClose();
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        onClose();
-      }
-    };
-
-    // Close on scroll
-    const handleScroll = () => {
-      onClose();
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    window.addEventListener('scroll', handleScroll, true);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      window.removeEventListener('scroll', handleScroll, true);
-    };
-  }, [state.isOpen, onClose]);
+  const handleMenuKeyDown = useContextMenuBehavior({ open: state.isOpen, menuRef, onClose });
 
   // Adjust position to keep menu in viewport
   useEffect(() => {
@@ -191,6 +162,8 @@ export function RowContextMenu<T extends { id: string }>({
           left: state.position.x,
           top: state.position.y,
         }}
+        tabIndex={-1}
+        onKeyDown={handleMenuKeyDown}
       >
         {renderMenu({
           row,
@@ -240,6 +213,8 @@ export function RowContextMenu<T extends { id: string }>({
       }}
       role="menu"
       aria-orientation="vertical"
+      tabIndex={-1}
+      onKeyDown={handleMenuKeyDown}
     >
       {visibleItems.map((item, index) => {
         // Separator
@@ -260,7 +235,7 @@ export function RowContextMenu<T extends { id: string }>({
             disabled={isDisabled}
             icon={iconElement}
             onClick={(e) => handleItemClick(item, e)}
-            className={cn(item.variant === 'danger' && 'text-error')}
+            className={cn(item.tone === 'danger' && 'text-error')}
           >
             {item.label}
           </DropdownMenuItem>
@@ -366,7 +341,7 @@ function buildDefaultContextMenuItems<T extends { id: string }>(
       key: 'delete',
       label: t('delete'),
       icon: 'delete',
-      variant: 'danger',
+      tone: 'danger',
       onClick: (row) => options.onDelete!(row),
     });
   }

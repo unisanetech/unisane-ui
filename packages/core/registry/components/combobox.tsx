@@ -10,6 +10,7 @@ import { useControllableState } from '@/lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '@/lib/field-shell';
 import { getPortalLayerStyle } from '@/lib/portal-layer';
 import { Ripple } from '@/components/ui/ripple';
+import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 
 export type ComboboxOption = {
   value: string;
@@ -86,6 +87,19 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       onChange: onOpenChange,
     });
     const isOpen = openState ?? false;
+
+    useOverlayBehavior({
+      open: isOpen,
+      contentRef: dropdownRef,
+      rootRef: comboboxRef,
+      triggerRef: inputRef,
+      onDismiss: () => setOpenState(false),
+      modal: false,
+      dismissOnEscape: true,
+      dismissOnInteractOutside: true,
+      initialFocus: false,
+      restoreFocus: false,
+    });
 
     const setRefs = useCallback(
       (node: HTMLDivElement | null) => {
@@ -177,30 +191,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     }, [isOpen, portal, updateDropdownPosition]);
 
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        const target = event.target as Node;
-        const isOutsideCombobox = comboboxRef.current && !comboboxRef.current.contains(target);
-        const isOutsideDropdown = dropdownRef.current && !dropdownRef.current.contains(target);
-
-        if (portal) {
-          if (isOutsideCombobox && isOutsideDropdown) {
-            setOpenState(false);
-            setActiveIndex(-1);
-          }
-          return;
-        }
-
-        if (isOutsideCombobox) {
-          setOpenState(false);
-          setActiveIndex(-1);
-        }
-      };
-
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [portal, setOpenState]);
-
-    useEffect(() => {
       if (!isOpen) {
         setActiveIndex(-1);
       }
@@ -279,11 +269,6 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             } else if (!isOpen) {
               setOpenState(true);
             }
-            break;
-          case 'Escape':
-            event.preventDefault();
-            setOpenState(false);
-            setActiveIndex(-1);
             break;
           case 'Home':
             if (isOpen) {

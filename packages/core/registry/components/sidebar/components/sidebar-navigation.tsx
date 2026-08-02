@@ -123,7 +123,7 @@ function SidebarNavigationNode({
           <div className="min-w-0 flex-1">{action}</div>
           <button
             type="button"
-            className="rounded-r-button hover:bg-state-hover focus-visible:ring-primary grid w-10 shrink-0 place-items-center focus-visible:ring-2 focus-visible:outline-none"
+            className="rounded-r-button hover:bg-state-hover focus-visible:ring-focus-ring grid w-10 shrink-0 place-items-center focus-visible:ring-2 focus-visible:outline-none"
             aria-label={`${open ? 'Collapse' : 'Expand'} ${item.label}`}
             aria-expanded={open}
             aria-controls={contentId}

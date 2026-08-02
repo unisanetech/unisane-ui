@@ -105,10 +105,7 @@ export const TopAppBar = forwardRef<HTMLElement, TopAppBarProps>(
             )}
           >
             <Text
-              variant={
-                titleVariant ??
-                (variant === 'large' ? 'headlineMedium' : 'headlineSmall')
-              }
+              variant={titleVariant ?? (variant === 'large' ? 'headlineMedium' : 'headlineSmall')}
               className={cn('truncate', titleClassName)}
             >
               {title}

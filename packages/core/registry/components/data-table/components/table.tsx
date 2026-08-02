@@ -2,6 +2,7 @@
 
 import React, { forwardRef } from 'react';
 import { cn } from '@/lib/utils';
+import type { VerticalScrollOwner } from '@/components/ui/data-table/types';
 import { getRowInteractionBackgroundClass } from '@/components/ui/data-table/components/row-state';
 
 // ─── TABLE ──────────────────────────────────────────────────────────────────
@@ -58,23 +59,24 @@ Table.displayName = 'Table';
 
 interface TableContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  verticalScroll: VerticalScrollOwner;
 }
 
 export const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(
-  ({ children, className, style, ...props }, ref) => (
+  ({ children, className, style, verticalScroll, ...props }, ref) => (
     <div
       ref={ref}
       data-datatable-scroll="body"
       className={cn(
-        'bg-surface @container relative min-h-0 flex-1',
-        // Horizontal scroll is always owned here.
-        // Vertical scroll activates automatically when the DataTable root is height-constrained.
-        'overflow-x-auto overflow-y-auto',
+        'bg-surface @container relative min-h-0 overflow-x-auto',
+        verticalScroll === 'table' ? 'flex-1 overflow-y-auto' : 'flex-none overflow-y-visible',
         className,
       )}
+      data-vertical-scroll-owner={verticalScroll}
       style={{
         WebkitOverflowScrolling: 'touch',
-        overscrollBehavior: 'contain',
+        overscrollBehaviorX: 'contain',
+        overscrollBehaviorY: verticalScroll === 'table' ? 'contain' : 'auto',
         touchAction: 'pan-x pan-y',
         ...style,
       }}

@@ -211,7 +211,7 @@ export function createTransactionActionsColumn(
             key: 'delete',
             label: 'Delete',
             icon: 'delete',
-            variant: 'danger',
+            tone: 'danger',
             onClick: () => onDelete(row),
           },
         ]}
@@ -260,7 +260,7 @@ export function createTransactionActionItems(
       key: 'delete',
       label: 'Delete',
       icon: 'delete',
-      variant: 'danger',
+      tone: 'danger',
       onClick: (row) => onDelete(row),
     },
   ];

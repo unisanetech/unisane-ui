@@ -95,4 +95,26 @@ describe('Popover', () => {
 
     await cleanup(rendered.root, rendered.container);
   });
+
+  it('uses an interactive element trigger without nesting another button', async () => {
+    const rendered = await render(
+      <Popover
+        trigger={<button type="button">Open details</button>}
+        content={<button type="button">Apply</button>}
+      />,
+    );
+    const trigger = rendered.container.querySelector(
+      'button[aria-haspopup="dialog"]',
+    ) as HTMLButtonElement | null;
+
+    expect(trigger).not.toBeNull();
+    expect(trigger?.querySelector('button')).toBeNull();
+
+    await act(async () => {
+      trigger?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    });
+
+    expect(document.querySelector('[role="dialog"]')).not.toBeNull();
+    await cleanup(rendered.root, rendered.container);
+  });
 });

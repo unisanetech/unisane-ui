@@ -55,7 +55,7 @@ export function createInventoryActionItems(
       key: 'delete',
       label: 'Delete item',
       icon: 'delete',
-      variant: 'danger',
+      tone: 'danger',
       onClick: onDelete,
       disabled: (row) => row.currentStock > 0,
     },

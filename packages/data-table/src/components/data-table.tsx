@@ -7,6 +7,7 @@ import type { BulkAction } from '../types/features';
 import type { DataTableErrorConfig, RowActivationEvent } from '../types/props';
 import type {
   FeaturesConfig,
+  LayoutConfig,
   VirtualizationConfig,
   PaginationConfig,
   EditingConfig,
@@ -14,6 +15,7 @@ import type {
   CallbacksConfig,
   ControlledStateConfig,
   DataTablePreset,
+  ExpandedRowConfig,
 } from '../types/config';
 import { getPresetConfig } from '../types/config';
 import { DataTableProvider } from '../context/provider';
@@ -66,6 +68,12 @@ export interface DataTableProps<T extends { id: string }> {
    * ```
    */
   features?: FeaturesConfig;
+
+  /**
+   * Scroll ownership and sticky positioning.
+   * Defaults to page-owned vertical scrolling.
+   */
+  layout?: LayoutConfig;
 
   /**
    * Virtualization settings for large datasets.
@@ -139,6 +147,9 @@ export interface DataTableProps<T extends { id: string }> {
   // ─── Row Expansion ───
   /** Render expanded row content */
   renderExpandedRow?: (row: T) => ReactNode;
+
+  /** Presentation of content disclosed beneath a row. */
+  expandedRow?: ExpandedRowConfig;
 
   /** Determine if row can expand */
   getRowCanExpand?: (row: T) => boolean;
@@ -307,6 +318,7 @@ export function DataTable<T extends { id: string }>({
 
   // Grouped configs
   features: featuresOverride,
+  layout: layoutOverride,
   virtualization: virtualizationOverride,
   pagination: paginationOverride,
   editing,
@@ -320,6 +332,7 @@ export function DataTable<T extends { id: string }>({
 
   // Row expansion
   renderExpandedRow,
+  expandedRow,
   getRowCanExpand,
 
   // Row styling
@@ -359,9 +372,26 @@ export function DataTable<T extends { id: string }>({
     [presetConfig.features, featuresOverride],
   );
 
+  const layout = useMemo<Required<LayoutConfig>>(
+    () => ({
+      verticalScroll: 'page',
+      stickyHeader: true,
+      stickyOffset: 'var(--app-header-height, 0px)',
+      ...layoutOverride,
+    }),
+    [layoutOverride],
+  );
+
   const virtualization = useMemo(
-    () => ({ ...presetConfig.virtualization, ...virtualizationOverride }),
-    [presetConfig.virtualization, virtualizationOverride],
+    () => ({
+      ...presetConfig.virtualization,
+      ...virtualizationOverride,
+      rows:
+        layout.verticalScroll === 'table'
+          ? (virtualizationOverride?.rows ?? presetConfig.virtualization.rows)
+          : false,
+    }),
+    [layout.verticalScroll, presetConfig.virtualization, virtualizationOverride],
   );
 
   const paginationConfig = useMemo(
@@ -427,8 +457,9 @@ export function DataTable<T extends { id: string }>({
       rowSelectionEnabled={effectiveRowSelectionEnabled}
       showColumnDividers={effectiveShowColumnDividers}
       zebra={styling.zebra ?? false}
-      stickyHeader={styling.stickyHeader ?? true}
-      stickyOffset={styling.stickyOffset}
+      verticalScroll={layout.verticalScroll}
+      stickyHeader={layout.stickyHeader}
+      stickyOffset={layout.stickyOffset}
       resizable={features.columnResize ?? true}
       pinnable={features.columnPinning ?? true}
       reorderable={features.columnReorder ?? false}
@@ -478,6 +509,7 @@ export function DataTable<T extends { id: string }>({
             skeletonRowCount={skeletonRowCount ?? paginationConfig.pageSize ?? 5}
             bulkActions={bulkActions}
             renderExpandedRow={enableExpansion ? renderExpandedRow : undefined}
+            expandedRow={expandedRow}
             getRowCanExpand={getRowCanExpand}
             className={className}
             style={style}

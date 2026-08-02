@@ -26,7 +26,27 @@ const quietDataTableFiles = new Set([
   'packages/data-table/src/components/toolbar/sections.tsx',
 ]);
 
+const controlBoundaryFiles = new Set([
+  'packages/core/src/components/checkbox.tsx',
+  'packages/core/src/components/radio.tsx',
+  'packages/core/src/components/search-bar.tsx',
+  'packages/core/src/components/segmented-button.tsx',
+  'packages/core/src/components/switch.tsx',
+  'packages/core/src/components/time-picker.tsx',
+  'packages/core/src/lib/field-shell.ts',
+  'packages/core/src/primitives/input.tsx',
+  'packages/core/src/primitives/textarea.tsx',
+  'packages/data-table/src/components/toolbar/buttons.tsx',
+  'packages/data-table/src/components/toolbar/search-input.tsx',
+]);
+
 const violations = [];
+
+const connectedControlSeparatorFiles = new Set([
+  'packages/core/src/components/segmented-button.tsx',
+  'packages/core/src/components/time-picker.tsx',
+  'packages/data-table/src/components/toolbar/buttons.tsx',
+]);
 
 async function getSourceFiles(directory) {
   const files = [];
@@ -63,14 +83,29 @@ function addViolation(filePath, content, match, message) {
 function checkFile(filePath, content) {
   const relativePath = path.relative(uiRoot, filePath);
   const primitiveBorderPattern = /(^|[\s"'`])((?:[a-z0-9-]+:)*border-outline(?:-variant)?)(?!-)/g;
+  const primitiveBackgroundPattern = /(^|[\s"'`])((?:[a-z0-9-]+:)*bg-outline(?:-variant)?)(?!-)/g;
   const defaultStrongPattern = /(^|[\s"'`])(border-outline-strong)(?!-)/g;
+  const directFocusPrimaryPattern = /\bfocus-visible:(?:ring|outline)-primary\b/g;
+  const disabledOpacityPattern =
+    /\b(?:disabled|peer-disabled|data-\[disabled=true\]):opacity-50\b/g;
+  const rawMicroTextPattern = /\btext-\[10px\]\b/g;
+  const recreatedButtonPattern = /<(?:div|span)[^>]*\brole=["']button["']/gs;
 
   for (const match of content.matchAll(primitiveBorderPattern)) {
     addViolation(
       filePath,
       content,
       match,
-      `Palette primitive '${match[2]}' cannot style a component border directly. Use outline-weak, outline-soft, outline-subtle, outline-medium, or outline-strong according to visual purpose.`,
+      `Palette primitive '${match[2]}' cannot style a component border directly. Use control-outline or an outline role according to visual purpose.`,
+    );
+  }
+
+  for (const match of content.matchAll(primitiveBackgroundPattern)) {
+    addViolation(
+      filePath,
+      content,
+      match,
+      `Palette primitive '${match[2]}' cannot style a component affordance directly. Use a purpose-based outline role.`,
     );
   }
 
@@ -81,6 +116,80 @@ function checkFile(filePath, content) {
       match,
       "Default component borders cannot use 'border-outline-strong'. Reserve it for an explicit interaction or emphasis state.",
     );
+  }
+
+  for (const match of content.matchAll(directFocusPrimaryPattern)) {
+    addViolation(
+      filePath,
+      content,
+      match,
+      "Keyboard focus indicators must use the canonical 'focus-ring' role, not the primary content color.",
+    );
+  }
+
+  for (const match of content.matchAll(disabledOpacityPattern)) {
+    addViolation(
+      filePath,
+      content,
+      match,
+      'Disabled controls must use the canonical 38% interaction opacity.',
+    );
+  }
+
+  for (const match of content.matchAll(rawMicroTextPattern)) {
+    addViolation(
+      filePath,
+      content,
+      match,
+      "Micro labels and counters must use the readable 'text-label-small' role.",
+    );
+  }
+
+  for (const match of content.matchAll(recreatedButtonPattern)) {
+    addViolation(
+      filePath,
+      content,
+      match,
+      'Use a native button for button interaction instead of recreating it on a generic element.',
+    );
+  }
+
+  if (relativePath.startsWith('packages/data-table/src/')) {
+    const dangerVariantPattern =
+      /\bvariant(?:\?)?\s*:\s*[^;\n]*\bdanger\b|\.variant\s*===\s*['"]danger['"]/g;
+    for (const match of content.matchAll(dangerVariantPattern)) {
+      addViolation(
+        filePath,
+        content,
+        match,
+        "DataTable action danger is a semantic 'tone'; 'variant' is reserved for visual presentation.",
+      );
+    }
+  }
+
+  if (connectedControlSeparatorFiles.has(relativePath)) {
+    const wrongSeparatorPattern =
+      /border-outline-(?:weak|soft|muted|subtle|medium|strong)[^\n'"`]*\bborder-[lrtb]\b/g;
+    for (const match of content.matchAll(wrongSeparatorPattern)) {
+      addViolation(
+        filePath,
+        content,
+        match,
+        "Connected control separators must use 'border-control-outline', matching the outer boundary.",
+      );
+    }
+  }
+
+  if (
+    relativePath === 'packages/core/src/components/mode-switcher.tsx' &&
+    !content.includes('<SegmentedButton')
+  ) {
+    violations.push({
+      filePath,
+      line: 1,
+      message:
+        'ModeSwitcher must compose SegmentedButton instead of forking grouped-selector behavior.',
+    });
   }
 
   if (quietDataTableFiles.has(relativePath)) {
@@ -94,6 +203,14 @@ function checkFile(filePath, content) {
         "Repeated DataTable grid and section dividers must use 'border-outline-weak'.",
       );
     }
+  }
+
+  if (controlBoundaryFiles.has(relativePath) && !content.includes('border-control-outline')) {
+    violations.push({
+      filePath,
+      line: 1,
+      message: "Required and grouped control boundaries must use 'border-control-outline'.",
+    });
   }
 }
 

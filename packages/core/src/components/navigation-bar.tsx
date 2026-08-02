@@ -57,7 +57,7 @@ export function NavigationBar({
             onActivate={selectItem}
             renderLink={renderLink}
             className={cn(
-              'group relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 select-none focus-visible:outline-none',
+              'focus-visible:outline-focus-ring group relative flex h-full min-w-16 flex-col items-center justify-center gap-1 px-2 select-none focus-visible:outline-2 focus-visible:outline-offset-[-2px]',
               focusRing,
               itemClassName,
             )}
@@ -91,7 +91,7 @@ export function NavigationBar({
                 ) : null}
               </span>
               {item.badge !== undefined ? (
-                <span className="bg-error text-on-error absolute -top-1 right-0 z-20 flex min-h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] leading-none">
+                <span className="bg-error text-on-error text-label-small absolute -top-1 right-0 z-20 flex min-h-4 min-w-4 items-center justify-center rounded-full px-1 leading-none">
                   {item.badge}
                 </span>
               ) : null}

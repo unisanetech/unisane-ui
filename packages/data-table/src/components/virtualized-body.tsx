@@ -14,6 +14,7 @@ import type {
 import { DataTableExpandedRow, DataTableRow } from './row';
 import type { VirtualRow } from '../hooks';
 import type { Density } from '../constants/index';
+import type { ExpandedRowConfig } from '../types/config';
 import { useI18n } from '../i18n';
 
 export type VirtualizedBodyItem<T extends { id: string }> =
@@ -40,6 +41,7 @@ interface VirtualizedBodyProps<T extends { id: string }> {
   enableExpansion: boolean;
   getRowCanExpand?: (row: T) => boolean;
   renderExpandedRow?: (row: T) => ReactNode;
+  expandedRow?: ExpandedRowConfig;
   onSelect: (id: string, checked: boolean) => void;
   onToggleExpand: (id: string) => void;
   onRowClick?: (row: T, activation: RowActivationEvent) => void;
@@ -150,6 +152,7 @@ export function VirtualizedBody<T extends { id: string }>({
   enableExpansion,
   getRowCanExpand,
   renderExpandedRow,
+  expandedRow,
   onSelect,
   onToggleExpand,
   onRowClick,
@@ -206,6 +209,7 @@ export function VirtualizedBody<T extends { id: string }>({
             rowRef={measureElement}
             data-index={vRow.index}
             renderExpandedRow={renderExpandedRow ?? (() => null)}
+            expandedRow={expandedRow}
           />
         ) : (
           <DataTableRow

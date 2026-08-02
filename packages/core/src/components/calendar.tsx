@@ -304,7 +304,7 @@ export const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                     className={cn(
                       'relative flex aspect-square items-center justify-center overflow-hidden rounded-full',
                       'duration-short ease-standard transition-colors',
-                      'focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                      'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                       selected
                         ? 'bg-primary text-on-primary'
                         : today

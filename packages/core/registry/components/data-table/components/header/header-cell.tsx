@@ -16,7 +16,11 @@ import { ResizeHandle } from '@/components/ui/data-table/components/header/resiz
 import { ColumnMenu } from '@/components/ui/data-table/components/header/column-menu';
 import { SortControl } from '@/components/ui/data-table/components/header/sort-control';
 import { useI18n } from '@/components/ui/data-table/i18n';
-import { DENSITY_HEADER_TEXT_STYLES, type Density } from '@/components/ui/data-table/constants';
+import {
+  DENSITY_HEADER_ACTION_GROUP_STYLES,
+  DENSITY_HEADER_TEXT_STYLES,
+  type Density,
+} from '@/components/ui/data-table/constants';
 import { formatFilterValue } from '@/components/ui/data-table/utils/filter-value';
 
 export interface HeaderCellProps<T> {
@@ -244,7 +248,8 @@ export function HeaderCell<T>({
       {/* Hover actions - absolute positioned on right, uses surface-container-low for subtle elevation */}
       <div
         className={cn(
-          'absolute top-1/2 right-1 flex -translate-y-1/2 items-center gap-0.5 px-1 py-0.5',
+          'absolute top-1/2 flex -translate-y-1/2 items-center',
+          DENSITY_HEADER_ACTION_GROUP_STYLES[density],
           'bg-surface-container rounded-sm',
           isSorted
             ? 'pointer-events-auto opacity-100'

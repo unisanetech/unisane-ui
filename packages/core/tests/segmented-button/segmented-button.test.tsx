@@ -61,6 +61,10 @@ describe('SegmentedButton', () => {
     expect(options[0]?.getAttribute('aria-checked')).toBe('true');
     expect(options[1]?.disabled).toBe(true);
     expect(options[1]?.querySelector('strong')?.textContent).toBe('List');
+    expect(group?.classList.contains('border-control-outline')).toBe(true);
+    expect(options[0]?.classList.contains('border-control-outline')).toBe(true);
+    expect(options[1]?.classList.contains('border-control-outline')).toBe(true);
+    expect(options[2]?.classList.contains('border-control-outline')).toBe(false);
 
     await cleanup(rendered.root, rendered.container);
   });

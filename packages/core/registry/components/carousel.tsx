@@ -435,7 +435,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
                   onKeyDown={(event) => handleIndicatorKeyDown(event, slideIndex)}
                   className={cn(
                     'duration-short ease-standard relative size-2 overflow-hidden rounded-full transition-colors',
-                    'focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+                    'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
                     slideIndex === currentIndex
                       ? 'bg-primary'
                       : 'bg-outline-medium hover:bg-outline-strong',

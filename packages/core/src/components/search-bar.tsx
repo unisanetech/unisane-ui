@@ -106,7 +106,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
     <div
       role="search"
       className={cn(
-        'group bg-surface-container-low border-outline-subtle hover:bg-surface-container focus-within:bg-surface-container focus-within:border-primary duration-medium ease-standard relative w-full cursor-text rounded-sm border transition-all',
+        'group bg-surface-container-low border-control-outline hover:bg-surface-container focus-within:bg-surface-container focus-within:border-primary duration-medium ease-standard relative w-full cursor-text rounded-sm border transition-all',
         fieldSize.containerHeight,
         className,
       )}
@@ -147,7 +147,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
             onClick={handleTrailingAction}
             aria-label={shouldShowDefaultClear ? 'Clear search' : 'Search action'}
             className={cn(
-              'text-on-surface-variant hover:bg-state-hover hover:text-on-surface focus-visible:outline-primary rounded-icon-button absolute top-1/2 inline-flex -translate-y-1/2 items-center justify-center transition-colors focus-visible:outline focus-visible:outline-2',
+              'text-on-surface-variant hover:bg-state-hover hover:text-on-surface focus-visible:outline-focus-ring rounded-icon-button absolute top-1/2 inline-flex -translate-y-1/2 items-center justify-center transition-colors focus-visible:outline focus-visible:outline-2',
               fieldSize.actionInset,
               fieldSize.actionSize,
             )}

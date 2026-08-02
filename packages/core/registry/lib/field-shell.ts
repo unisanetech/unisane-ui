@@ -12,7 +12,7 @@ export const fieldContainerVariants = cva(
     variants: {
       variant: {
         outlined:
-          'rounded-sm border border-outline-subtle bg-surface hover:border-outline-medium focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring',
+          'rounded-sm border border-control-outline bg-surface hover:border-outline-medium focus-within:border-primary! focus-within:ring-1 focus-within:ring-focus-ring',
         filled:
           'rounded-t-sm rounded-b-none border-b border-outline-subtle bg-surface-container-low hover:bg-surface-container focus-within:bg-surface',
       },

@@ -71,6 +71,7 @@ export type {
   EditingCell,
   InlineEditingController,
   // Context Menu
+  ActionTone,
   RowContextMenuItem,
   RowContextMenuSeparator,
   RowContextMenuItemOrSeparator,
@@ -131,6 +132,10 @@ export type {
 export type {
   // Feature groups
   FeaturesConfig,
+  LayoutConfig,
+  VerticalScrollOwner,
+  ExpandedRowConfig,
+  ExpandedRowPresentation,
   VirtualizationConfig,
   PaginationConfig,
   EditingConfig,

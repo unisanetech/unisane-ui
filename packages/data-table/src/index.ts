@@ -1,4 +1,17 @@
 export { DataTable, type DataTableProps } from './components/data-table';
+export {
+  DataTableExpandedContent,
+  DataTableExpandedGrid,
+  DataTableExpandedSection,
+  DataTableExpandedFields,
+  DataTableExpandedField,
+  type DataTableExpandedContentProps,
+  type DataTableExpandedGridColumns,
+  type DataTableExpandedGridProps,
+  type DataTableExpandedSectionProps,
+  type DataTableExpandedFieldsProps,
+  type DataTableExpandedFieldProps,
+} from './components/expanded-row-content';
 
 export type {
   Brand,
@@ -44,6 +57,7 @@ export type {
   EditActivationMode,
   EditingCell,
   InlineEditingController,
+  ActionTone,
   RowContextMenuItem,
   RowContextMenuSeparator,
   RowContextMenuItemOrSeparator,
@@ -77,6 +91,8 @@ export type {
   UseVirtualizedRowsOptions,
   UseVirtualizedRowsReturn,
   FeaturesConfig,
+  ExpandedRowConfig,
+  ExpandedRowPresentation,
   VirtualizationConfig,
   PaginationConfig,
   EditingConfig,

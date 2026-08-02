@@ -299,8 +299,8 @@ export function generateCoreTokensSection(config) {
   --color-state-pressed: color-mix(in oklab, var(--color-on-surface) 12%, transparent);
   --color-state-selected: color-mix(in oklab, var(--color-primary) 10%, transparent);
   --color-state-error: color-mix(in oklab, var(--color-error) 8%, transparent);
-  --color-focus-ring: color-mix(in oklab, var(--color-primary) 20%, transparent);
-  --color-focus-ring-error: color-mix(in oklab, var(--color-error) 20%, transparent);
+  --color-focus-ring: var(--color-primary);
+  --color-focus-ring-error: var(--color-error);
 
   /* Typography */
   --font-sans: var(--font-inter, system-ui), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -494,11 +494,11 @@ export function generateCoreTokensSection(config) {
 
   css = css
     .replace(
-      /\/\* ============================================================\n   THEMING SYSTEM[\s\S]*?  \/\* === SCALING KNOBS === \*\//,
+      /\/\* ============================================================\n {3}THEMING SYSTEM[\s\S]*? {2}\/\* === SCALING KNOBS === \*\//,
       `:root {\n  /* === FOUNDATION SCALING === */`,
     )
     .replace(
-      /  \/\* === TONE MAPPING LAYER[\s\S]*?  --color-scrim-soft: color-mix\(in oklab, var\(--color-scrim\) 30%, transparent\);/,
+      / {2}\/\* === TONE MAPPING LAYER[\s\S]*? {2}--color-scrim-soft: color-mix\(in oklab, var\(--color-scrim\) 30%, transparent\);/,
       `  --color-scrim: rgba(0, 0, 0, 0.32);\n  --color-scrim-soft: color-mix(in oklab, var(--color-scrim) 30%, transparent);`,
     );
 

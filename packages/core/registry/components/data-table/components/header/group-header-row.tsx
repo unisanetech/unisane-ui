@@ -7,6 +7,7 @@ import { isColumnGroup } from '@/components/ui/data-table/types';
 import {
   DENSITY_HEADER_TEXT_STYLES,
   DENSITY_UTILITY_COLUMN_WIDTHS,
+  ROW_HEIGHT_BASE,
   type Density,
 } from '@/components/ui/data-table/constants';
 
@@ -34,7 +35,7 @@ export function GroupHeaderRow<T>({
   const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
 
   return (
-    <tr aria-rowindex={1}>
+    <tr aria-rowindex={1} style={{ height: ROW_HEIGHT_BASE[density] }}>
       {/* Checkbox placeholder */}
       {selectable && (
         <th

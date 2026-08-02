@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { cn } from '@unisane/ui/utils';
 import { DropdownMenuItem, DropdownMenuSeparator } from '@unisane/ui/dropdown-menu';
 import type { DataTableContextMenuAction, DataTableContextMenuContext } from '../types';
+import { useContextMenuBehavior } from './context-menu-behavior';
 
 export type DataTableContextMenuState<T> = {
   open: boolean;
@@ -20,28 +21,7 @@ type DataTableContextMenuProps<T> = {
 export function DataTableContextMenu<T>({ state, onClose }: DataTableContextMenuProps<T>) {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (!state.open) return;
-
-    const handlePointerDown = (event: MouseEvent) => {
-      if (menuRef.current?.contains(event.target as Node)) return;
-      onClose();
-    };
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose();
-    };
-    const handleScroll = () => onClose();
-
-    document.addEventListener('mousedown', handlePointerDown);
-    document.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('scroll', handleScroll, true);
-
-    return () => {
-      document.removeEventListener('mousedown', handlePointerDown);
-      document.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('scroll', handleScroll, true);
-    };
-  }, [onClose, state.open]);
+  const handleMenuKeyDown = useContextMenuBehavior({ open: state.open, menuRef, onClose });
 
   useEffect(() => {
     if (!state.open || !state.context || !menuRef.current) return;
@@ -85,6 +65,8 @@ export function DataTableContextMenu<T>({ state, onClose }: DataTableContextMenu
       }}
       role="menu"
       aria-orientation="vertical"
+      tabIndex={-1}
+      onKeyDown={handleMenuKeyDown}
     >
       {visibleActions.map((action, index) => (
         <React.Fragment key={action.key}>
@@ -94,7 +76,7 @@ export function DataTableContextMenu<T>({ state, onClose }: DataTableContextMenu
           <DropdownMenuItem
             icon={action.icon}
             disabled={action.disabled}
-            className={action.variant === 'danger' ? 'text-error' : undefined}
+            className={action.tone === 'danger' ? 'text-error' : undefined}
             onClick={() => {
               if (action.disabled) return;
               void action.onSelect(state.context!);

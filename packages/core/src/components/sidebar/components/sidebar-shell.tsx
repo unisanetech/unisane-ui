@@ -86,7 +86,7 @@ export const SidebarTrigger = forwardRef<HTMLButtonElement, SidebarTriggerProps>
           onClick?.(event);
         }}
         className={cn(
-          'rounded-icon-button text-on-surface-variant hover:bg-state-hover focus-visible:ring-primary inline-flex size-10 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:outline-none',
+          'rounded-icon-button text-on-surface-variant hover:bg-state-hover focus-visible:ring-focus-ring inline-flex size-10 items-center justify-center transition-colors focus-visible:ring-2 focus-visible:outline-none',
           className,
         )}
         aria-expanded={sidebar.isOverlay ? sidebar.mobileOpen : sidebar.expanded}

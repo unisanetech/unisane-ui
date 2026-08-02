@@ -194,7 +194,7 @@ export function SearchInput({
         role="search"
         aria-label={t('searchPlaceholder')}
         className={cn(
-          'bg-surface border-outline-subtle relative hidden h-9 items-center rounded border @3xl:flex',
+          'bg-surface border-control-outline relative hidden h-9 items-center rounded border @3xl:flex',
           'focus-within:border-primary focus-within:ring-focus-ring focus-within:ring-1',
           'w-60 transition-all duration-200',
           className,

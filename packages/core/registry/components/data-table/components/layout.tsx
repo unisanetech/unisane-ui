@@ -3,16 +3,18 @@
 import React, { forwardRef, useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { useOptionalDataTableRuntime } from '@/components/ui/data-table/context/provider';
+import type { VerticalScrollOwner } from '@/components/ui/data-table/types';
 
 // ─── DATA TABLE LAYOUT ───────────────────────────────────────────────────────
 // Root container for the active DataTable surface.
 
 interface DataTableLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
+  verticalScroll: VerticalScrollOwner;
 }
 
 export const DataTableLayout = forwardRef<HTMLDivElement, DataTableLayoutProps>(
-  ({ children, className, ...props }, ref) => (
+  ({ children, className, verticalScroll, ...props }, ref) => (
     <>
       {/* SSR-safe scrollbar hiding styles */}
       <style
@@ -34,9 +36,11 @@ export const DataTableLayout = forwardRef<HTMLDivElement, DataTableLayoutProps>(
       <div
         ref={ref}
         className={cn(
-          'bg-surface border-outline-soft @container relative flex h-full min-h-0 flex-col',
+          'bg-surface border-outline-soft @container relative flex min-h-0 flex-col',
+          verticalScroll === 'table' ? 'h-full' : 'h-auto',
           className,
         )}
+        data-vertical-scroll-owner={verticalScroll}
         {...props}
       >
         {children}
@@ -65,6 +69,7 @@ export const StickyZone = forwardRef<HTMLDivElement, StickyZoneProps>(
     const context = useOptionalDataTableRuntime();
     const stickyOffset =
       stickyOffsetProp ?? context?.config.stickyOffset ?? 'var(--app-header-height, 0px)';
+    const pageOwnedScroll = context?.config.verticalScroll !== 'table';
     const parentRef = useRef<HTMLElement | null>(null);
 
     // Measure height and update parent's CSS variable
@@ -106,11 +111,13 @@ export const StickyZone = forwardRef<HTMLDivElement, StickyZoneProps>(
         }}
         className={cn(
           // z-20: Below sidebar drawer (z-30) so drawer overlays table when open
-          'bg-surface sticky z-20',
+          'bg-surface z-20',
+          pageOwnedScroll && 'sticky',
           className,
         )}
+        data-datatable-sticky-zone="true"
         style={{
-          top: stickyOffset,
+          top: pageOwnedScroll ? stickyOffset : undefined,
           ...style,
         }}
         {...props}

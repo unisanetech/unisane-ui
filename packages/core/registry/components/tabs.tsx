@@ -163,7 +163,7 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({
         }
       }}
       className={cn(
-        'relative flex min-w-fit shrink-0 cursor-pointer items-center justify-center overflow-hidden transition-all select-none focus-visible:outline-none',
+        'focus-visible:outline-focus-ring relative flex min-w-fit shrink-0 cursor-pointer items-center justify-center overflow-hidden transition-all select-none focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px]',
         triggerSize.containerHeight,
         triggerSize.gap,
         triggerSize.paddingX,
@@ -223,7 +223,10 @@ export const TabsContent: React.FC<React.HTMLAttributes<HTMLDivElement> & { valu
       role="tabpanel"
       aria-labelledby={triggerId}
       tabIndex={0}
-      className={cn('animate-panel-enter mt-4 focus-visible:outline-none', className)}
+      className={cn(
+        'animate-panel-enter focus-visible:outline-focus-ring mt-4 focus-visible:outline-2 focus-visible:outline-offset-2',
+        className,
+      )}
       {...props}
     >
       {children}

@@ -5,7 +5,7 @@ import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { IconButton } from '@/components/ui/icon-button';
 import { Icon } from '@/components/ui/icon';
-import { cn } from '@/lib/utils';
+import { cn, focusRing, focusRingInset } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 
 export interface TimePickerProps {
@@ -16,6 +16,9 @@ export interface TimePickerProps {
   defaultValue?: string;
   onValueChange?: (time: string) => void;
 }
+
+const HOUR_OPTIONS = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
+const MINUTE_OPTIONS = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55] as const;
 
 function parseTimeParts(value: string): { hours: number; minutes: number; period: 'AM' | 'PM' } {
   const [rawHours = '12', rawMinutes = '00'] = value.split(':');
@@ -83,6 +86,8 @@ export const TimePicker: React.FC<TimePickerProps> = ({
   const [dialMode, setDialMode] = useState<'hour' | 'minute'>('hour');
   const [isDragging, setIsDragging] = useState(false);
   const dialRef = useRef<HTMLDivElement>(null);
+  const dialOptionRefs = useRef(new Map<number, HTMLButtonElement>());
+  const periodRefs = useRef(new Map<'AM' | 'PM', HTMLButtonElement>());
   const hourInputId = React.useId();
   const minuteInputId = React.useId();
 
@@ -216,6 +221,52 @@ export const TimePicker: React.FC<TimePickerProps> = ({
     [dialMode],
   );
 
+  const handleDialOptionKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentValue: number,
+  ) => {
+    const options: readonly number[] = dialMode === 'hour' ? HOUR_OPTIONS : MINUTE_OPTIONS;
+    const currentIndex = options.indexOf(currentValue);
+    let nextIndex: number | undefined;
+
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIndex = (currentIndex + 1) % options.length;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIndex = (currentIndex - 1 + options.length) % options.length;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = options.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const nextValue = options[nextIndex];
+    if (nextValue === undefined) return;
+    if (dialMode === 'hour') setHours(nextValue);
+    else setMinutes(nextValue);
+    window.requestAnimationFrame(() => dialOptionRefs.current.get(nextValue)?.focus());
+  };
+
+  const handlePeriodKeyDown = (
+    event: React.KeyboardEvent<HTMLButtonElement>,
+    currentPeriod: 'AM' | 'PM',
+  ) => {
+    if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(event.key)) return;
+    event.preventDefault();
+    const nextPeriod = currentPeriod === 'AM' ? 'PM' : 'AM';
+    setPeriod(nextPeriod);
+    periodRefs.current.get(nextPeriod)?.focus();
+  };
+
   const handleSave = () => {
     setSelectedValue(formatTimeValue(clampHours(hours), clampMinutes(minutes), period));
     setIsOpen(false);
@@ -243,39 +294,41 @@ export const TimePicker: React.FC<TimePickerProps> = ({
         >
           {inputType === 'dial' ? (
             <>
-              <div
+              <button
+                type="button"
                 className={cn(
                   'text-display-large flex h-20 min-w-24 cursor-pointer items-center justify-center rounded-sm border-2 px-4 py-3 transition-colors',
+                  focusRing,
                   dialMode === 'hour'
                     ? 'bg-primary-container text-on-primary-container border-transparent'
                     : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-high border-transparent',
                 )}
                 onClick={() => setDialMode('hour')}
-                role="button"
                 aria-label={`Hours: ${hours}`}
                 aria-pressed={dialMode === 'hour'}
               >
                 {hours.toString().padStart(2, '0')}
-              </div>
+              </button>
 
               <span className="text-display-large text-on-surface mb-2" aria-hidden="true">
                 :
               </span>
 
-              <div
+              <button
+                type="button"
                 className={cn(
                   'text-display-large flex h-20 min-w-24 cursor-pointer items-center justify-center rounded-sm border-2 px-4 py-3 transition-colors',
+                  focusRing,
                   dialMode === 'minute'
                     ? 'bg-primary-container text-on-primary-container border-transparent'
                     : 'bg-surface-container-highest text-on-surface hover:bg-surface-container-high border-transparent',
                 )}
                 onClick={() => setDialMode('minute')}
-                role="button"
                 aria-label={`Minutes: ${minutes}`}
                 aria-pressed={dialMode === 'minute'}
               >
                 {minutes.toString().padStart(2, '0')}
-              </div>
+              </button>
             </>
           ) : (
             <div className="flex items-end gap-3">
@@ -299,7 +352,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setHours(nextValue);
                   }}
                   onBlur={() => setHours((current) => clampHours(current))}
-                  className="text-title-large border-outline-subtle bg-surface hover:border-outline-medium focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
+                  className="text-title-large border-control-outline bg-surface hover:border-outline-medium focus-visible:border-primary focus-visible:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus-visible:ring-1"
                 />
               </div>
 
@@ -330,40 +383,56 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     setMinutes(nextValue);
                   }}
                   onBlur={() => setMinutes((current) => clampMinutes(current))}
-                  className="text-title-large border-outline-subtle bg-surface hover:border-outline-medium focus:border-primary focus:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus:ring-1"
+                  className="text-title-large border-control-outline bg-surface hover:border-outline-medium focus-visible:border-primary focus-visible:ring-focus-ring h-14 w-24 rounded-sm border px-4 transition-colors outline-none focus-visible:ring-1"
                 />
               </div>
             </div>
           )}
 
           <div
-            className="border-outline-subtle bg-surface ml-3 flex h-20 shrink-0 flex-col overflow-hidden rounded-sm border"
+            className="border-control-outline bg-surface ml-3 flex h-20 shrink-0 flex-col overflow-hidden rounded-sm border"
             role="radiogroup"
             aria-label="AM/PM"
           >
             <button
+              ref={(node) => {
+                if (node) periodRefs.current.set('AM', node);
+                else periodRefs.current.delete('AM');
+              }}
+              type="button"
               onClick={() => setPeriod('AM')}
               role="radio"
               aria-checked={period === 'AM'}
               className={cn(
-                'text-label-medium hover:bg-state-hover border-outline-weak flex-1 border-b px-4 font-medium transition-colors',
+                'text-label-medium hover:bg-state-hover border-control-outline flex-1 border-b px-4 font-medium transition-colors',
+                focusRingInset,
                 period === 'AM'
                   ? 'bg-tertiary-container text-on-tertiary-container'
                   : 'text-on-surface-variant',
               )}
+              tabIndex={period === 'AM' ? 0 : -1}
+              onKeyDown={(event) => handlePeriodKeyDown(event, 'AM')}
             >
               AM
             </button>
             <button
+              ref={(node) => {
+                if (node) periodRefs.current.set('PM', node);
+                else periodRefs.current.delete('PM');
+              }}
+              type="button"
               onClick={() => setPeriod('PM')}
               role="radio"
               aria-checked={period === 'PM'}
               className={cn(
                 'text-label-medium hover:bg-state-hover flex-1 px-4 font-medium transition-colors',
+                focusRingInset,
                 period === 'PM'
                   ? 'bg-tertiary-container text-on-tertiary-container'
                   : 'text-on-surface-variant',
               )}
+              tabIndex={period === 'PM' ? 0 : -1}
+              onKeyDown={(event) => handlePeriodKeyDown(event, 'PM')}
             >
               PM
             </button>
@@ -404,7 +473,7 @@ export const TimePicker: React.FC<TimePickerProps> = ({
               </div>
 
               {dialMode === 'hour'
-                ? [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((num) => {
+                ? HOUR_OPTIONS.map((num) => {
                     const angle = num * 30 - 90;
                     const rad = angle * (Math.PI / 180);
                     const x = 50 + 42 * Math.cos(rad);
@@ -413,25 +482,34 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     const isSelected = hours === num;
 
                     return (
-                      <div
+                      <button
                         key={num}
+                        ref={(node) => {
+                          if (node) dialOptionRefs.current.set(num, node);
+                          else dialOptionRefs.current.delete(num);
+                        }}
+                        type="button"
                         role="option"
                         aria-selected={isSelected}
+                        tabIndex={isSelected ? 0 : -1}
+                        onKeyDown={(event) => handleDialOptionKeyDown(event, num)}
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onTouchStart={(event) => event.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNumberClick(num);
                         }}
                         className={cn(
-                          'text-body-medium hover:bg-state-hover absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
+                          'text-body-medium hover:bg-state-hover focus-visible:outline-focus-ring absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:outline-2',
                           isSelected ? 'text-on-primary font-medium' : 'text-on-surface',
                         )}
                         style={{ left: `${x}%`, top: `${y}%` }}
                       >
                         {num}
-                      </div>
+                      </button>
                     );
                   })
-                : [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map((num) => {
+                : MINUTE_OPTIONS.map((num) => {
                     const angle = num * 6 - 90;
                     const rad = angle * (Math.PI / 180);
                     const x = 50 + 42 * Math.cos(rad);
@@ -440,22 +518,31 @@ export const TimePicker: React.FC<TimePickerProps> = ({
                     const isSelected = minutes === num;
 
                     return (
-                      <div
+                      <button
                         key={num}
+                        ref={(node) => {
+                          if (node) dialOptionRefs.current.set(num, node);
+                          else dialOptionRefs.current.delete(num);
+                        }}
+                        type="button"
                         role="option"
                         aria-selected={isSelected}
+                        tabIndex={isSelected ? 0 : -1}
+                        onKeyDown={(event) => handleDialOptionKeyDown(event, num)}
+                        onMouseDown={(event) => event.stopPropagation()}
+                        onTouchStart={(event) => event.stopPropagation()}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleNumberClick(num);
                         }}
                         className={cn(
-                          'text-body-medium hover:bg-state-hover absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors',
+                          'text-body-medium hover:bg-state-hover focus-visible:outline-focus-ring absolute z-30 -mt-4 -ml-4 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:outline-2',
                           isSelected ? 'text-on-primary font-medium' : 'text-on-surface',
                         )}
                         style={{ left: `${x}%`, top: `${y}%` }}
                       >
                         {num.toString().padStart(2, '0')}
-                      </div>
+                      </button>
                     );
                   })}
             </div>

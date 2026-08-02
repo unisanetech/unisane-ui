@@ -214,6 +214,9 @@ export interface InlineEditingController<T> {
 
 // ─── CONTEXT MENU ────────────────────────────────────────────────────────────
 
+/** Semantic emphasis for actions, independent of their visual presentation. */
+export type ActionTone = 'default' | 'danger';
+
 /**
  * Single action item in the row context menu
  */
@@ -224,8 +227,8 @@ export interface RowContextMenuItem<T> {
   label: string;
   /** Optional icon (Material Symbol name or ReactNode) */
   icon?: string | ReactNode;
-  /** Variant for styling */
-  variant?: 'default' | 'danger';
+  /** Semantic action emphasis */
+  tone?: ActionTone;
   /** Callback when item is clicked */
   onClick: (row: T, event: React.MouseEvent) => void | Promise<void>;
   /** Whether the item is disabled */
@@ -276,8 +279,8 @@ export interface BulkAction {
   onClick: (ids: string[]) => void | Promise<void>;
   /** Optional icon */
   icon?: ReactNode;
-  /** Variant for styling */
-  variant?: 'default' | 'danger';
+  /** Semantic action emphasis */
+  tone?: ActionTone;
   /** Disable when condition not met */
   disabled?: boolean | ((ids: string[]) => boolean);
 }

@@ -1,12 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
 import { type FieldSize } from '../lib/field-size';
 import { type FieldShellVariant } from '../lib/field-shell';
 import { getPortalLayerStyle } from '../lib/portal-layer';
+import { useAnchoredOverlayPosition } from '../lib/use-anchored-overlay-position';
 import { useControllableState } from '../lib/use-controllable-state';
+import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 import { Surface } from '../primitives/surface';
 import { Text } from '../primitives/text';
 import { IconButton } from './icon-button';
@@ -83,37 +85,20 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   );
   const [inputValue, setInputValue] = useState(() => formatMonthLabel(normalizedValue));
   const inputFocusedRef = useRef(false);
-  const [popoverPosition, setPopoverPosition] = useState({
-    top: 0,
-    left: 0,
-    width: 320,
+  const popoverPosition = useAnchoredOverlayPosition({
+    open: isOpen,
+    anchorRef: containerRef,
+    contentRef: popoverRef,
+    portal: true,
+    minimumWidth: 320,
+    estimatedHeight: 280,
   });
-  const [isPositioned, setIsPositioned] = useState(false);
 
   const displayValue = useMemo(() => formatMonthLabel(normalizedValue), [normalizedValue]);
 
   useEffect(() => {
     if (!inputFocusedRef.current) setInputValue(displayValue);
   }, [displayValue]);
-
-  const updatePopoverPosition = useCallback(() => {
-    if (!containerRef.current || typeof window === 'undefined') return;
-
-    const rect = containerRef.current.getBoundingClientRect();
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-    const width = Math.min(Math.max(rect.width, 320), Math.max(240, viewportWidth - 16));
-    const left = Math.min(Math.max(8, rect.left), viewportWidth - width - 8);
-    const popoverHeight = popoverRef.current?.offsetHeight ?? 280;
-    const preferredTop = rect.bottom + 8;
-    const shouldOpenUp =
-      preferredTop + popoverHeight > viewportHeight - 8 && rect.top - popoverHeight > 8;
-    const top = shouldOpenUp
-      ? Math.max(8, rect.top - popoverHeight - 8)
-      : Math.min(preferredTop, Math.max(8, viewportHeight - popoverHeight - 8));
-
-    setPopoverPosition({ top, left, width });
-  }, []);
 
   const openPicker = useCallback(() => {
     if (disabled) return;
@@ -175,42 +160,17 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
     }, 0);
   }, [commitInputValue]);
 
-  useLayoutEffect(() => {
-    if (!isOpen) {
-      setIsPositioned(false);
-      return;
-    }
-
-    const updatePosition = () => {
-      updatePopoverPosition();
-      setIsPositioned(true);
-    };
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (containerRef.current?.contains(target)) return;
-      if (popoverRef.current?.contains(target)) return;
-      setOpenState(false);
-    };
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpenState(false);
-    };
-
-    setIsPositioned(false);
-    updatePosition();
-    const rafId = window.requestAnimationFrame(updatePosition);
-    window.addEventListener('resize', updatePosition);
-    window.addEventListener('scroll', updatePosition, true);
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', updatePosition);
-      window.removeEventListener('scroll', updatePosition, true);
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-    };
-  }, [isOpen, setOpenState, updatePopoverPosition]);
+  useOverlayBehavior({
+    open: isOpen,
+    contentRef: popoverRef,
+    rootRef: containerRef,
+    onDismiss: () => setOpenState(false),
+    modal: false,
+    dismissOnEscape: true,
+    dismissOnInteractOutside: true,
+    initialFocus: true,
+    restoreFocus: true,
+  });
 
   const pickerButton = (
     <button
@@ -276,14 +236,14 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
             <div
               ref={popoverRef}
               role="dialog"
-              aria-modal="true"
               aria-label="Choose month"
+              tabIndex={-1}
               className="fixed z-[var(--z-popover,2000)] transition-none"
               style={{
                 top: popoverPosition.top,
                 left: popoverPosition.left,
                 width: popoverPosition.width,
-                visibility: isPositioned ? 'visible' : 'hidden',
+                visibility: popoverPosition.positioned ? 'visible' : 'hidden',
                 ...getPortalLayerStyle(containerRef.current),
               }}
             >
@@ -327,7 +287,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
                         aria-label={`${month} ${viewYear}`}
                         className={cn(
                           'text-label-large relative min-h-10 overflow-hidden rounded-sm px-2 transition-colors',
-                          'focus-visible:ring-primary focus-visible:ring-2 focus-visible:outline-none',
+                          'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:outline-none',
                           selected
                             ? 'bg-primary text-on-primary'
                             : 'text-on-surface hover:bg-state-hover',

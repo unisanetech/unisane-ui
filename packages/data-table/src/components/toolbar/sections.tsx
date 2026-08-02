@@ -35,7 +35,7 @@ export function SelectionBar({
   const renderActionButton = (action: BulkAction, idx: number, inline: boolean) => {
     const isDisabled =
       typeof action.disabled === 'function' ? action.disabled(selectedIds) : action.disabled;
-    const isDanger = action.variant === 'danger';
+    const isDanger = action.tone === 'danger';
 
     if (!inline) {
       // Dropdown menu item
@@ -320,7 +320,7 @@ function GroupingPill({ label, level, onRemove }: GroupingPillProps) {
       )}
     >
       {/* Level indicator for multi-level grouping */}
-      {level > 1 && <span className="text-[10px] font-bold opacity-60">{level}</span>}
+      {level > 1 && <span className="text-label-small font-bold opacity-60">{level}</span>}
       <span>{label}</span>
       <button
         onClick={(e) => {

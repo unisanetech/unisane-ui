@@ -33,8 +33,8 @@ pnpm add @unisane/ui react react-dom
 ## Quick Start
 
 ```tsx
-import { DataTable } from "@unisane/data-table";
-import type { Column } from "@unisane/data-table";
+import { DataTable } from '@unisane/data-table';
+import type { Column } from '@unisane/data-table';
 
 interface User {
   id: string;
@@ -45,28 +45,20 @@ interface User {
 }
 
 const columns: Column<User>[] = [
-  { key: "name", header: "Name", sortable: true, filterable: true },
-  { key: "email", header: "Email", sortable: true },
-  { key: "role", header: "Role", filterable: true, filterType: "select" },
+  { key: 'name', header: 'Name', sortable: true, filterable: true },
+  { key: 'email', header: 'Email', sortable: true },
+  { key: 'role', header: 'Role', filterable: true, filterType: 'select' },
   {
-    key: "createdAt",
-    header: "Created",
-    render: (row) => row.createdAt.toLocaleDateString()
+    key: 'createdAt',
+    header: 'Created',
+    render: (row) => row.createdAt.toLocaleDateString(),
   },
 ];
 
 function UsersTable() {
   const [users, setUsers] = useState<User[]>([]);
 
-  return (
-    <DataTable
-      data={users}
-      columns={columns}
-      selectable
-      searchable
-      variant="grid"
-    />
-  );
+  return <DataTable data={users} columns={columns} selectable searchable variant="grid" />;
 }
 ```
 
@@ -100,7 +92,7 @@ All data rows must have a unique `id` field:
 
 ```typescript
 interface Row {
-  id: string;  // Required - unique identifier
+  id: string; // Required - unique identifier
   // ... other fields
 }
 ```
@@ -156,12 +148,12 @@ The DataTable supports both controlled and uncontrolled modes:
 ```tsx
 const columns: Column<User>[] = [
   {
-    key: "name",           // Field key (supports dot notation: "address.city")
-    header: "Name",        // Display header
-    width: 200,            // Width in pixels (or CSS value)
-    minWidth: 100,         // Minimum resize width
-    maxWidth: 400,         // Maximum resize width
-    align: "start",        // "start" | "center" | "end"
+    key: 'name', // Field key (supports dot notation: "address.city")
+    header: 'Name', // Display header
+    width: 200, // Width in pixels (or CSS value)
+    minWidth: 100, // Minimum resize width
+    maxWidth: 400, // Maximum resize width
+    align: 'start', // "start" | "center" | "end"
   },
 ];
 ```
@@ -212,15 +204,15 @@ const columns: Column<User>[] = [
 ### Column Groups
 
 ```tsx
-import type { ColumnGroup } from "@unisane/data-table";
+import type { ColumnGroup } from '@unisane/data-table';
 
 const columns: (Column<User> | ColumnGroup<User>)[] = [
-  { key: "name", header: "Name" },
+  { key: 'name', header: 'Name' },
   {
-    header: "Contact Info",
+    header: 'Contact Info',
     children: [
-      { key: "email", header: "Email" },
-      { key: "phone", header: "Phone" },
+      { key: 'email', header: 'Email' },
+      { key: 'phone', header: 'Phone' },
     ],
   },
 ];
@@ -235,8 +227,8 @@ const columns: (Column<User> | ColumnGroup<User>)[] = [
 ```tsx
 <DataTable
   columns={[
-    { key: "name", header: "Name", sortable: true },
-    { key: "createdAt", header: "Created", sortable: true },
+    { key: 'name', header: 'Name', sortable: true },
+    { key: 'createdAt', header: 'Created', sortable: true },
   ]}
   onSortChange={(key, direction) => {
     console.log(`Sorted by ${key} ${direction}`);
@@ -251,7 +243,7 @@ Enable Shift+Click for multi-column sorting:
 ```tsx
 <DataTable
   multiSort
-  maxSortColumns={3}  // Default: 3
+  maxSortColumns={3} // Default: 3
   onMultiSortChange={(sortState) => {
     // sortState: [{ key: "name", direction: "asc" }, { key: "date", direction: "desc" }]
   }}
@@ -333,8 +325,8 @@ Enable Shift+Click for multi-column sorting:
 ```tsx
 <DataTable
   searchable
-  searchValue={searchValue}           // Controlled
-  onSearchChange={setSearchValue}     // Controlled
+  searchValue={searchValue} // Controlled
+  onSearchChange={setSearchValue} // Controlled
 />
 ```
 
@@ -345,11 +337,7 @@ Enable Shift+Click for multi-column sorting:
 ### Offset Pagination (Default)
 
 ```tsx
-<DataTable
-  pagination="offset"
-  pageSize={25}
-  pageSizeOptions={[10, 25, 50, 100]}
-/>
+<DataTable pagination="offset" pageSize={25} pageSizeOptions={[10, 25, 50, 100]} />
 ```
 
 ### Cursor Pagination (Remote Data)
@@ -384,7 +372,7 @@ Enable Shift+Click for multi-column sorting:
 <DataTable
   selectable
   onSelectionChange={(selectedIds) => {
-    console.log("Selected:", selectedIds);
+    console.log('Selected:', selectedIds);
   }}
 />
 ```
@@ -394,11 +382,7 @@ Enable Shift+Click for multi-column sorting:
 ```tsx
 const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-<DataTable
-  selectable
-  selectedIds={selectedIds}
-  onSelectionChange={setSelectedIds}
-/>
+<DataTable selectable selectedIds={selectedIds} onSelectionChange={setSelectedIds} />;
 ```
 
 ### Select All (Server-backed)
@@ -423,16 +407,16 @@ For large datasets where you want to select all filtered rows:
   selectable
   bulkActions={[
     {
-      label: "Delete",
+      label: 'Delete',
       icon: <TrashIcon />,
-      variant: "danger",
+      tone: 'danger',
       onClick: async (ids) => {
         await api.deleteMany(ids);
       },
       disabled: (ids) => ids.length === 0,
     },
     {
-      label: "Export",
+      label: 'Export',
       icon: <DownloadIcon />,
       onClick: (ids) => exportRows(ids),
     },
@@ -447,12 +431,7 @@ For large datasets where you want to select all filtered rows:
 ### Resizing
 
 ```tsx
-<DataTable
-  resizable
-  columns={[
-    { key: "name", minWidth: 100, maxWidth: 400 },
-  ]}
-/>
+<DataTable resizable columns={[{ key: 'name', minWidth: 100, maxWidth: 400 }]} />
 ```
 
 ### Pinning (Freezing)
@@ -461,8 +440,8 @@ For large datasets where you want to select all filtered rows:
 <DataTable
   pinnable
   columns={[
-    { key: "id", pinned: "left" },     // Always pinned left
-    { key: "actions", pinnable: true }, // User can pin
+    { key: 'id', pinned: 'left' }, // Always pinned left
+    { key: 'actions', pinnable: true }, // User can pin
   ]}
   onColumnPinChange={(key, position) => {
     console.log(`${key} pinned to ${position}`);
@@ -473,11 +452,7 @@ For large datasets where you want to select all filtered rows:
 ### Reordering
 
 ```tsx
-<DataTable
-  reorderable
-  columnOrder={columnOrder}
-  onColumnOrderChange={setColumnOrder}
-/>
+<DataTable reorderable columnOrder={columnOrder} onColumnOrderChange={setColumnOrder} />
 ```
 
 ### Visibility
@@ -492,16 +467,16 @@ Automatic virtualization for large datasets:
 
 ```tsx
 <DataTable
-  virtualize                    // Enable virtualization
-  virtualizeThreshold={50}      // Auto-enable when rows > 50 (default)
-  estimateRowHeight={48}        // Estimated row height for calculations
+  virtualize // Enable virtualization
+  virtualizeThreshold={50} // Auto-enable when rows > 50 (default)
+  estimateRowHeight={48} // Estimated row height for calculations
 />
 ```
 
 ### Manual Hook Usage
 
 ```tsx
-import { useVirtualizedRows } from "@unisane/data-table/hooks";
+import { useVirtualizedRows } from '@unisane/data-table/hooks';
 
 const { virtualRows, totalSize, measureElement } = useVirtualizedRows({
   count: data.length,
@@ -519,23 +494,19 @@ const { virtualRows, totalSize, measureElement } = useVirtualizedRows({
 
 ```tsx
 // Via context hook
-import { useGrouping } from "@unisane/data-table";
+import { useGrouping } from '@unisane/data-table';
 
 function MyTable() {
   const { setGroupBy } = useGrouping();
 
-  return (
-    <Button onClick={() => setGroupBy("department")}>
-      Group by Department
-    </Button>
-  );
+  return <Button onClick={() => setGroupBy('department')}>Group by Department</Button>;
 }
 ```
 
 ### Multi-Level Grouping
 
 ```tsx
-setGroupBy(["department", "team"]); // Nest by department, then team
+setGroupBy(['department', 'team']); // Nest by department, then team
 ```
 
 ### Column Aggregation
@@ -556,7 +527,7 @@ setGroupBy(["department", "team"]); // Nest by department, then team
 ### Setup
 
 ```tsx
-import { useInlineEditing } from "@unisane/data-table";
+import { useInlineEditing } from '@unisane/data-table';
 
 function EditableTable() {
   const inlineEditing = useInlineEditing({
@@ -565,20 +536,14 @@ function EditableTable() {
       await api.updateUser(rowId, { [columnKey]: value });
     },
     validateCell: (rowId, columnKey, value) => {
-      if (columnKey === "email" && !value.includes("@")) {
-        return "Invalid email";
+      if (columnKey === 'email' && !value.includes('@')) {
+        return 'Invalid email';
       }
       return null;
     },
   });
 
-  return (
-    <DataTable
-      data={users}
-      columns={columns}
-      inlineEditing={inlineEditing}
-    />
-  );
+  return <DataTable data={users} columns={columns} inlineEditing={inlineEditing} />;
 }
 ```
 
@@ -600,15 +565,15 @@ function EditableTable() {
 Excel-like cell selection:
 
 ```tsx
-import { useCellSelection } from "@unisane/data-table";
+import { useCellSelection } from '@unisane/data-table';
 
 const cellSelection = useCellSelection({
   data: users,
-  columnKeys: ["name", "email", "role"],
+  columnKeys: ['name', 'email', 'role'],
   multiSelect: true,
-  rangeSelect: true,  // Shift+Click for range
+  rangeSelect: true, // Shift+Click for range
   onSelectionChange: (cells) => {
-    console.log("Selected cells:", cells);
+    console.log('Selected cells:', cells);
   },
 });
 
@@ -623,33 +588,33 @@ await cellSelection.copyToClipboard();
 ### Quick Export
 
 ```tsx
-import { exportData } from "@unisane/data-table/utils";
+import { exportData } from '@unisane/data-table/utils';
 
 // CSV
-exportData({ format: "csv", data, columns, filename: "users" });
+exportData({ format: 'csv', data, columns, filename: 'users' });
 
 // Excel with styling
 exportData({
-  format: "excel",
+  format: 'excel',
   data,
   columns,
-  filename: "users",
+  filename: 'users',
   freezeHeader: true,
   autoWidth: true,
 });
 
 // PDF
 exportData({
-  format: "pdf",
+  format: 'pdf',
   data,
   columns,
-  filename: "users",
-  title: "User Report",
-  orientation: "landscape",
+  filename: 'users',
+  title: 'User Report',
+  orientation: 'landscape',
 });
 
 // JSON
-exportData({ format: "json", data, columns, filename: "users" });
+exportData({ format: 'json', data, columns, filename: 'users' });
 ```
 
 ### Export Dropdown (Built-in)
@@ -676,14 +641,14 @@ For columns with React components:
 ### Using useRemoteDataTable Hook
 
 ```tsx
-import { useRemoteDataTable } from "@unisane/data-table/hooks/data";
-import { useListParams } from "@your-sdk/hooks";
-import { useQuery } from "@tanstack/react-query";
+import { useRemoteDataTable } from '@unisane/data-table/hooks/data';
+import { useListParams } from '@your-sdk/hooks';
+import { useQuery } from '@tanstack/react-query';
 
 function RemoteTable() {
   const params = useListParams();
   const query = useQuery({
-    queryKey: ["users", params],
+    queryKey: ['users', params],
     queryFn: () => api.getUsers(params),
   });
 
@@ -724,18 +689,18 @@ function RemoteTable() {
 
 Built-in keyboard support:
 
-| Key | Action |
-|-----|--------|
-| `Arrow Up/Down` | Navigate rows |
+| Key                | Action                                       |
+| ------------------ | -------------------------------------------- |
+| `Arrow Up/Down`    | Navigate rows                                |
 | `Arrow Left/Right` | Navigate cells (when cell selection enabled) |
-| `Home` | Jump to first row |
-| `End` | Jump to last row |
-| `Page Up/Down` | Navigate by page |
-| `Space` | Toggle row selection |
-| `Enter` | Activate row / Start editing |
-| `Escape` | Cancel editing |
-| `Shift+Click` | Multi-sort / Range select |
-| `Ctrl/Cmd+C` | Copy selected cells |
+| `Home`             | Jump to first row                            |
+| `End`              | Jump to last row                             |
+| `Page Up/Down`     | Navigate by page                             |
+| `Space`            | Toggle row selection                         |
+| `Enter`            | Activate row / Start editing                 |
+| `Escape`           | Cancel editing                               |
+| `Shift+Click`      | Multi-sort / Range select                    |
+| `Ctrl/Cmd+C`       | Copy selected cells                          |
 
 ---
 
@@ -746,11 +711,7 @@ Built-in keyboard support:
 ```tsx
 <DataTable
   renderHeader={(props) => (
-    <MyCustomHeader
-      columns={props.columns}
-      sortState={props.sortState}
-      onSort={props.onSort}
-    />
+    <MyCustomHeader columns={props.columns} sortState={props.sortState} onSort={props.onSort} />
   )}
 />
 ```
@@ -788,7 +749,7 @@ Built-in keyboard support:
 ```tsx
 <DataTable
   activeRowId={selectedUserId}
-  rowClassName={(row) => row.isUrgent ? "bg-error/10" : ""}
+  rowClassName={(row) => (row.isUrgent ? 'bg-error/10' : '')}
   zebra
 />
 ```
@@ -796,17 +757,17 @@ Built-in keyboard support:
 ### Row Context Menu
 
 ```tsx
-import { RowContextMenu, createDefaultContextMenuItems } from "@unisane/data-table";
+import { RowContextMenu, createDefaultContextMenuItems } from '@unisane/data-table';
 
 <DataTable
   onRowContextMenu={(row, event) => {
     showContextMenu(event, [
-      { key: "edit", label: "Edit", onClick: () => editRow(row) },
-      { type: "separator" },
-      { key: "delete", label: "Delete", variant: "danger", onClick: () => deleteRow(row) },
+      { key: 'edit', label: 'Edit', onClick: () => editRow(row) },
+      { type: 'separator' },
+      { key: 'delete', label: 'Delete', tone: 'danger', onClick: () => deleteRow(row) },
     ]);
   }}
-/>
+/>;
 ```
 
 ---
@@ -815,66 +776,66 @@ import { RowContextMenu, createDefaultContextMenuItems } from "@unisane/data-tab
 
 ### DataTableProps
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `data` | `T[]` | Required | Data rows (must have `id` field) |
-| `columns` | `Column<T>[]` | Required | Column definitions |
-| `tableId` | `string` | - | Unique ID for localStorage persistence |
-| `variant` | `"grid" \| "list" \| "minimal"` | `"list"` | Display variant |
-| `density` | `"compact" \| "dense" \| "standard" \| "comfortable"` | `"standard"` | Row density |
-| `selectable` | `boolean` | `false` | Enable row selection |
-| `searchable` | `boolean` | `false` | Show search bar |
-| `resizable` | `boolean` | `false` | Enable column resizing |
-| `pinnable` | `boolean` | `false` | Enable column pinning |
-| `reorderable` | `boolean` | `false` | Enable column reordering |
-| `virtualize` | `boolean` | `false` | Enable virtualization |
-| `virtualizeThreshold` | `number` | `50` | Auto-virtualize threshold |
-| `pagination` | `"offset" \| "cursor" \| "none"` | `"offset"` | Pagination mode |
-| `pageSize` | `number` | `25` | Default page size |
-| `mode` | `"local" \| "remote"` | `"local"` | Data source mode |
-| `loading` | `boolean` | `false` | Show loading state |
-| `multiSort` | `boolean` | `false` | Enable multi-column sort |
-| `showSummary` | `boolean` | `false` | Show summary footer row |
-| `stickyHeader` | `boolean` | `false` | Make header sticky |
-| `zebra` | `boolean` | `false` | Enable zebra striping |
-| `columnBorders` | `boolean` | `false` | Show column dividers |
+| Prop                  | Type                                                  | Default      | Description                            |
+| --------------------- | ----------------------------------------------------- | ------------ | -------------------------------------- |
+| `data`                | `T[]`                                                 | Required     | Data rows (must have `id` field)       |
+| `columns`             | `Column<T>[]`                                         | Required     | Column definitions                     |
+| `tableId`             | `string`                                              | -            | Unique ID for localStorage persistence |
+| `variant`             | `"grid" \| "list" \| "minimal"`                       | `"list"`     | Display variant                        |
+| `density`             | `"compact" \| "dense" \| "standard" \| "comfortable"` | `"standard"` | Row density                            |
+| `selectable`          | `boolean`                                             | `false`      | Enable row selection                   |
+| `searchable`          | `boolean`                                             | `false`      | Show search bar                        |
+| `resizable`           | `boolean`                                             | `false`      | Enable column resizing                 |
+| `pinnable`            | `boolean`                                             | `false`      | Enable column pinning                  |
+| `reorderable`         | `boolean`                                             | `false`      | Enable column reordering               |
+| `virtualize`          | `boolean`                                             | `false`      | Enable virtualization                  |
+| `virtualizeThreshold` | `number`                                              | `50`         | Auto-virtualize threshold              |
+| `pagination`          | `"offset" \| "cursor" \| "none"`                      | `"offset"`   | Pagination mode                        |
+| `pageSize`            | `number`                                              | `25`         | Default page size                      |
+| `mode`                | `"local" \| "remote"`                                 | `"local"`    | Data source mode                       |
+| `loading`             | `boolean`                                             | `false`      | Show loading state                     |
+| `multiSort`           | `boolean`                                             | `false`      | Enable multi-column sort               |
+| `showSummary`         | `boolean`                                             | `false`      | Show summary footer row                |
+| `stickyHeader`        | `boolean`                                             | `false`      | Make header sticky                     |
+| `zebra`               | `boolean`                                             | `false`      | Enable zebra striping                  |
+| `columnBorders`       | `boolean`                                             | `false`      | Show column dividers                   |
 
 ### Column
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `key` | `string` | Required | Field key (dot notation supported) |
-| `header` | `string` | Required | Display header |
-| `width` | `number \| string` | - | Column width |
-| `minWidth` | `number` | - | Minimum resize width |
-| `maxWidth` | `number` | - | Maximum resize width |
-| `align` | `"start" \| "center" \| "end"` | `"start"` | Text alignment |
-| `sortable` | `boolean` | `false` | Enable sorting |
-| `filterable` | `boolean` | `false` | Enable filtering |
-| `editable` | `boolean` | `false` | Enable inline editing |
-| `pinnable` | `boolean` | `false` | Allow pinning |
-| `hideable` | `boolean` | `true` | Allow hiding |
-| `reorderable` | `boolean` | `true` | Allow reordering |
-| `render` | `(row, ctx) => ReactNode` | - | Custom cell renderer |
-| `sortFn` | `(a, b) => number` | - | Custom sort function |
-| `filterFn` | `(row, value) => boolean` | - | Custom filter function |
-| `summary` | `"sum" \| "average" \| "count" \| "min" \| "max" \| (data) => ReactNode` | - | Summary calculation |
+| Prop          | Type                                                                     | Default   | Description                        |
+| ------------- | ------------------------------------------------------------------------ | --------- | ---------------------------------- |
+| `key`         | `string`                                                                 | Required  | Field key (dot notation supported) |
+| `header`      | `string`                                                                 | Required  | Display header                     |
+| `width`       | `number \| string`                                                       | -         | Column width                       |
+| `minWidth`    | `number`                                                                 | -         | Minimum resize width               |
+| `maxWidth`    | `number`                                                                 | -         | Maximum resize width               |
+| `align`       | `"start" \| "center" \| "end"`                                           | `"start"` | Text alignment                     |
+| `sortable`    | `boolean`                                                                | `false`   | Enable sorting                     |
+| `filterable`  | `boolean`                                                                | `false`   | Enable filtering                   |
+| `editable`    | `boolean`                                                                | `false`   | Enable inline editing              |
+| `pinnable`    | `boolean`                                                                | `false`   | Allow pinning                      |
+| `hideable`    | `boolean`                                                                | `true`    | Allow hiding                       |
+| `reorderable` | `boolean`                                                                | `true`    | Allow reordering                   |
+| `render`      | `(row, ctx) => ReactNode`                                                | -         | Custom cell renderer               |
+| `sortFn`      | `(a, b) => number`                                                       | -         | Custom sort function               |
+| `filterFn`    | `(row, value) => boolean`                                                | -         | Custom filter function             |
+| `summary`     | `"sum" \| "average" \| "count" \| "min" \| "max" \| (data) => ReactNode` | -         | Summary calculation                |
 
 ### Hooks
 
-| Hook | Description |
-|------|-------------|
-| `useSelection()` | Row selection state and actions |
-| `useSorting()` | Sort state and actions |
-| `useFiltering()` | Filter state and actions |
-| `usePagination()` | Pagination state and actions |
-| `useColumns()` | Column visibility, resize, pin, reorder |
-| `useGrouping()` | Row grouping state and actions |
-| `useInlineEditing()` | Inline editing controller |
-| `useCellSelection()` | Cell selection state and actions |
-| `useRemoteDataTable()` | Remote data integration |
-| `useVirtualizedRows()` | Virtualization setup |
-| `useKeyboardNavigation()` | Keyboard navigation |
+| Hook                      | Description                             |
+| ------------------------- | --------------------------------------- |
+| `useSelection()`          | Row selection state and actions         |
+| `useSorting()`            | Sort state and actions                  |
+| `useFiltering()`          | Filter state and actions                |
+| `usePagination()`         | Pagination state and actions            |
+| `useColumns()`            | Column visibility, resize, pin, reorder |
+| `useGrouping()`           | Row grouping state and actions          |
+| `useInlineEditing()`      | Inline editing controller               |
+| `useCellSelection()`      | Cell selection state and actions        |
+| `useRemoteDataTable()`    | Remote data integration                 |
+| `useVirtualizedRows()`    | Virtualization setup                    |
+| `useKeyboardNavigation()` | Keyboard navigation                     |
 
 ---
 
@@ -886,13 +847,16 @@ import { RowContextMenu, createDefaultContextMenuItems } from "@unisane/data-tab
 
 ```tsx
 // ✅ Good - stable reference
-const columns = useMemo(() => [
-  { key: 'name', header: 'Name' },
-  { key: 'email', header: 'Email' },
-], []);
+const columns = useMemo(
+  () => [
+    { key: 'name', header: 'Name' },
+    { key: 'email', header: 'Email' },
+  ],
+  [],
+);
 
 // ❌ Bad - new array on every render (causes full table re-render)
-<DataTable columns={[{ key: 'name', header: 'Name' }]} />
+<DataTable columns={[{ key: 'name', header: 'Name' }]} />;
 ```
 
 ### Virtualization
@@ -901,9 +865,9 @@ Enable virtualization for datasets with 50+ rows:
 
 ```tsx
 <DataTable
-  virtualize                    // Enable virtualization
-  virtualizeThreshold={50}      // Auto-enable when rows > threshold
-  estimateRowHeight={48}        // Helps with scroll calculations
+  virtualize // Enable virtualization
+  virtualizeThreshold={50} // Auto-enable when rows > threshold
+  estimateRowHeight={48} // Helps with scroll calculations
 />
 ```
 
@@ -913,8 +877,8 @@ For 10,000+ rows, use server-side processing:
 
 ```tsx
 <DataTable
-  mode="remote"                 // Server handles sorting/filtering
-  disableLocalProcessing        // Skip client-side data transforms
+  mode="remote" // Server handles sorting/filtering
+  disableLocalProcessing // Skip client-side data transforms
 />
 ```
 
@@ -938,23 +902,23 @@ Keep render functions simple:
 
 ```tsx
 // ✅ Good - simple, fast
-render: (row) => row.status
+render: (row) => row.status;
 
 // ❌ Avoid - complex calculations in render
 render: (row) => {
   const expensiveCalculation = heavyComputation(row);
   return <ComplexComponent data={expensiveCalculation} />;
-}
+};
 ```
 
 ### Summary
 
-| Dataset Size | Recommendation |
-|-------------|----------------|
-| < 50 rows | Default settings work well |
-| 50-1,000 rows | Enable `virtualize` |
-| 1,000-10,000 rows | Virtualize + memoize columns |
-| 10,000+ rows | Use `mode="remote"` with server-side processing |
+| Dataset Size      | Recommendation                                  |
+| ----------------- | ----------------------------------------------- |
+| < 50 rows         | Default settings work well                      |
+| 50-1,000 rows     | Enable `virtualize`                             |
+| 1,000-10,000 rows | Virtualize + memoize columns                    |
+| 10,000+ rows      | Use `mode="remote"` with server-side processing |
 
 ---
 
@@ -966,10 +930,10 @@ When using custom `render` functions, you are responsible for sanitizing output:
 
 ```tsx
 // ⚠️ Dangerous - XSS vulnerability
-render: (row) => <div dangerouslySetInnerHTML={{ __html: row.userContent }} />
+render: (row) => <div dangerouslySetInnerHTML={{ __html: row.userContent }} />;
 
 // ✅ Safe - React auto-escapes content
-render: (row) => <div>{row.userContent}</div>
+render: (row) => <div>{row.userContent}</div>;
 ```
 
 ### Data Validation
@@ -980,7 +944,7 @@ Always validate data on the server. Client-side validation (via `validateCell`) 
 const inlineEditing = useInlineEditing({
   validateCell: (rowId, key, value) => {
     // Client-side validation (UX)
-    if (!value) return "Required";
+    if (!value) return 'Required';
     return null;
   },
   onCellChange: async (rowId, key, value) => {
@@ -993,6 +957,7 @@ const inlineEditing = useInlineEditing({
 ### Export Security
 
 When exporting data, be aware that:
+
 - CSV files can contain formula injection (cells starting with `=`, `+`, `-`, `@`)
 - PDF exports include all visible data
 - Consider filtering sensitive columns before export
@@ -1006,7 +971,7 @@ When exporting data, be aware that:
 Wrap DataTable with the provided error boundary for graceful error handling:
 
 ```tsx
-import { DataTableErrorBoundary } from "@unisane/data-table";
+import { DataTableErrorBoundary } from '@unisane/data-table';
 
 <DataTableErrorBoundary
   onError={(error, info) => {
@@ -1021,7 +986,7 @@ import { DataTableErrorBoundary } from "@unisane/data-table";
   )}
 >
   <DataTable data={data} columns={columns} />
-</DataTableErrorBoundary>
+</DataTableErrorBoundary>;
 ```
 
 ### Inline Editing Errors
@@ -1035,7 +1000,7 @@ const inlineEditing = useInlineEditing({
       await api.updateCell(rowId, key, value);
     } catch (error) {
       // Error message is shown in the cell
-      throw new Error("Failed to save. Please try again.");
+      throw new Error('Failed to save. Please try again.');
     }
   },
 });
@@ -1048,6 +1013,7 @@ const inlineEditing = useInlineEditing({
 ### Resolved
 
 These issues from earlier versions have been fixed:
+
 - ✅ Cell key separator - now uses `||` separator that's safe for IDs with special characters
 - ✅ Deep equality performance - now uses optimized `dequal` library
 - ✅ Row re-render optimization - simplified memo comparison

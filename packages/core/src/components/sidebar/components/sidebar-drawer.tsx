@@ -121,7 +121,7 @@ export const SidebarDrawer = forwardRef<HTMLElement, SidebarDrawerProps>(
                   {sidebar.isOverlay && showCloseButton ? (
                     <button
                       type="button"
-                      className="rounded-icon-button hover:bg-state-hover focus-visible:ring-primary grid size-10 shrink-0 place-items-center focus-visible:ring-2 focus-visible:outline-none"
+                      className="rounded-icon-button hover:bg-state-hover focus-visible:ring-focus-ring grid size-10 shrink-0 place-items-center focus-visible:ring-2 focus-visible:outline-none"
                       aria-label={`Close ${ariaLabel}`}
                       onClick={sidebar.close}
                     >

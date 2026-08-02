@@ -98,7 +98,7 @@ export function TreeExpander({
       ) : showLeafIndicator ? (
         // Leaf indicator (dot or dash)
         <span className="inline-flex h-6 w-6 items-center justify-center">
-          <span className="bg-outline-variant h-1.5 w-1.5 rounded-full" />
+          <span className="bg-outline-muted h-1.5 w-1.5 rounded-full" />
         </span>
       ) : null}
     </span>

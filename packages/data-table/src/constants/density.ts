@@ -36,6 +36,20 @@ export const DENSITY_ICON_TEXT_STYLES: Record<DensityLevelValue, string> = {
   [DensityLevel.COMFORTABLE]: 'text-[20px]',
 };
 
+export const DENSITY_HEADER_ACTION_FRAME_STYLES: Record<DensityLevelValue, string> = {
+  [DensityLevel.DENSE]: 'h-7 w-7',
+  [DensityLevel.COMPACT]: 'h-8 w-8',
+  [DensityLevel.STANDARD]: 'h-8 w-8',
+  [DensityLevel.COMFORTABLE]: 'h-9 w-9',
+};
+
+export const DENSITY_HEADER_ACTION_GROUP_STYLES: Record<DensityLevelValue, string> = {
+  [DensityLevel.DENSE]: 'right-0.5 gap-0 p-0',
+  [DensityLevel.COMPACT]: 'right-1 gap-0 p-0.5',
+  [DensityLevel.STANDARD]: 'right-1 gap-0.5 px-1 py-0.5',
+  [DensityLevel.COMFORTABLE]: 'right-1 gap-0.5 px-1 py-0.5',
+};
+
 export const DENSITY_UTILITY_COLUMN_WIDTHS: Record<
   DensityLevelValue,
   { checkbox: number; dragHandle: number; expander: number }

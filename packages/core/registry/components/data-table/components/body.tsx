@@ -13,7 +13,7 @@ import type {
   CellSelectionContext,
   RowActivationEvent,
 } from '@/components/ui/data-table/types/index';
-import type { LoadingVariant } from '@/components/ui/data-table/types/config';
+import type { ExpandedRowConfig, LoadingVariant } from '@/components/ui/data-table/types/config';
 import type { RowDragProps } from '@/components/ui/data-table/hooks/ui/use-row-drag';
 import { DataTableExpandedRow, DataTableRow } from '@/components/ui/data-table/components/row';
 import { GroupRow } from '@/components/ui/data-table/components/group-row';
@@ -56,6 +56,7 @@ interface DataTableBodyProps<T> {
   ) => void;
   onRowHover?: (row: T | null) => void;
   renderExpandedRow?: (row: T) => ReactNode;
+  expandedRow?: ExpandedRowConfig;
   getRowCanExpand?: (row: T) => boolean;
   activeRowId?: string;
   emptyMessage?: string;
@@ -206,6 +207,7 @@ function DataTableBodyInner<T extends { id: string }>({
   onCellContextMenu,
   onRowHover,
   renderExpandedRow,
+  expandedRow,
   getRowCanExpand,
   activeRowId,
   emptyMessage,
@@ -353,6 +355,7 @@ function DataTableBodyInner<T extends { id: string }>({
                   density={density}
                   isLastRow={isLastRow}
                   renderExpandedRow={renderExpandedRow}
+                  expandedRow={expandedRow}
                 />,
               );
             }
@@ -430,6 +433,7 @@ function DataTableBodyInner<T extends { id: string }>({
               reorderableRows={reorderableRows}
               isLastRow={isLastDataRow}
               renderExpandedRow={renderExpandedRow}
+              expandedRow={expandedRow}
             />,
           );
         }

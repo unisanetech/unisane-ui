@@ -47,7 +47,7 @@ export function createProductActionItems(
       key: 'delete',
       label: 'Delete',
       icon: 'delete',
-      variant: 'danger',
+      tone: 'danger',
       onClick: onDelete,
     },
   ];

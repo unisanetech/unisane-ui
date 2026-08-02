@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 
-import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import React, { act } from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "../../src/components/dropdown-menu";
+} from '../../src/components/dropdown-menu';
 
 async function render(ui: React.ReactNode) {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
 
@@ -41,9 +41,11 @@ async function cleanup(root: Root, container: HTMLElement) {
 }
 
 function getTrigger(container: HTMLElement) {
-  const trigger = container.querySelector('button[aria-haspopup="menu"]') as HTMLButtonElement | null;
+  const trigger = container.querySelector(
+    'button[aria-haspopup="menu"]',
+  ) as HTMLButtonElement | null;
   if (!trigger) {
-    throw new Error("Expected dropdown trigger to exist");
+    throw new Error('Expected dropdown trigger to exist');
   }
   return trigger;
 }
@@ -54,7 +56,7 @@ function getMenus() {
   ) as HTMLDivElement[];
 }
 
-describe("DropdownMenu", () => {
+describe('DropdownMenu', () => {
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
     vi.useFakeTimers();
@@ -63,10 +65,10 @@ describe("DropdownMenu", () => {
   afterEach(() => {
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
 
-  it("opens from keyboard with the expected trigger ARIA wiring and closes on outside click", async () => {
+  it('opens from keyboard with the expected trigger ARIA wiring and closes on outside click', async () => {
     const rendered = await render(
       <DropdownMenu>
         <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
@@ -77,29 +79,78 @@ describe("DropdownMenu", () => {
     );
     const trigger = getTrigger(rendered.container);
 
-    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(getMenus()).toHaveLength(0);
 
     await act(async () => {
-      trigger.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
+      trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
     });
 
     const [menu] = getMenus();
-    expect(trigger.getAttribute("aria-expanded")).toBe("true");
-    expect(trigger.getAttribute("aria-controls")).toBe(menu?.id);
-    expect(menu?.getAttribute("aria-orientation")).toBe("vertical");
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
+    expect(trigger.getAttribute('aria-controls')).toBe(menu?.id);
+    expect(menu?.getAttribute('aria-orientation')).toBe('vertical');
 
     await act(async () => {
-      document.body.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
     });
 
-    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(getMenus()).toHaveLength(0);
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("supports controlled open state and reports Escape closes through onOpenChange", async () => {
+  it('uses the actual asChild trigger and supports focus entry, arrow navigation, typeahead, and restoration', async () => {
+    const rendered = await render(
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button type="button">Open actions</button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Archive</DropdownMenuItem>
+          <DropdownMenuItem>Duplicate</DropdownMenuItem>
+          <DropdownMenuItem>Rename</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    const trigger = getTrigger(rendered.container);
+
+    expect(trigger.parentElement).toBe(rendered.container.firstElementChild);
+    trigger.focus();
+    await act(async () => {
+      trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    });
+    await act(async () => {
+      vi.runOnlyPendingTimers();
+    });
+
+    expect(document.activeElement?.textContent).toContain('Archive');
+
+    await act(async () => {
+      document.activeElement?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }),
+      );
+    });
+    expect(document.activeElement?.textContent).toContain('Duplicate');
+
+    await act(async () => {
+      document.activeElement?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'r', bubbles: true }),
+      );
+    });
+    expect(document.activeElement?.textContent).toContain('Rename');
+
+    await act(async () => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    });
+    expect(getMenus()).toHaveLength(0);
+    expect(document.activeElement).toBe(trigger);
+
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('supports controlled open state and reports Escape closes through onOpenChange', async () => {
     const onOpenChange = vi.fn();
     const rendered = await render(
       <DropdownMenu open onOpenChange={onOpenChange}>
@@ -111,11 +162,11 @@ describe("DropdownMenu", () => {
     );
     const trigger = getTrigger(rendered.container);
 
-    expect(trigger.getAttribute("aria-expanded")).toBe("true");
+    expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(getMenus()).toHaveLength(1);
 
     await act(async () => {
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -130,13 +181,13 @@ describe("DropdownMenu", () => {
       </DropdownMenu>,
     );
 
-    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(getMenus()).toHaveLength(0);
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("closes after selecting an item when closeOnSelect is enabled", async () => {
+  it('closes after selecting an item when closeOnSelect is enabled', async () => {
     const onOpenChange = vi.fn();
     const rendered = await render(
       <DropdownMenu defaultOpen onOpenChange={onOpenChange}>
@@ -148,10 +199,10 @@ describe("DropdownMenu", () => {
     );
 
     const item = document.querySelector('[role="menuitem"]') as HTMLButtonElement | null;
-    expect(item?.textContent).toContain("Edit");
+    expect(item?.textContent).toContain('Edit');
 
     await act(async () => {
-      item?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      item?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
     expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -160,7 +211,7 @@ describe("DropdownMenu", () => {
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("opens and closes submenus from hover state", async () => {
+  it('opens and closes submenus from hover state', async () => {
     const rendered = await render(
       <DropdownMenu defaultOpen>
         <DropdownMenuTrigger>Open</DropdownMenuTrigger>
@@ -175,22 +226,24 @@ describe("DropdownMenu", () => {
       </DropdownMenu>,
     );
 
-    const subTrigger = document.querySelector('[aria-haspopup="menu"][role="menuitem"]') as
-      | HTMLButtonElement
-      | null;
+    const subTrigger = document.querySelector(
+      '[aria-haspopup="menu"][role="menuitem"]',
+    ) as HTMLButtonElement | null;
 
     expect(getMenus()).toHaveLength(1);
-    expect(subTrigger?.getAttribute("aria-expanded")).toBe("false");
+    expect(subTrigger?.getAttribute('aria-expanded')).toBe('false');
 
     await act(async () => {
-      subTrigger?.dispatchEvent(new MouseEvent("mouseover", { bubbles: true, relatedTarget: null }));
+      subTrigger?.dispatchEvent(
+        new MouseEvent('mouseover', { bubbles: true, relatedTarget: null }),
+      );
     });
 
     expect(getMenus()).toHaveLength(2);
-    expect(subTrigger?.getAttribute("aria-expanded")).toBe("true");
+    expect(subTrigger?.getAttribute('aria-expanded')).toBe('true');
 
     await act(async () => {
-      subTrigger?.dispatchEvent(new MouseEvent("mouseout", { bubbles: true, relatedTarget: null }));
+      subTrigger?.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: null }));
       vi.advanceTimersByTime(149);
     });
 
@@ -201,7 +254,7 @@ describe("DropdownMenu", () => {
     });
 
     expect(getMenus()).toHaveLength(1);
-    expect(subTrigger?.getAttribute("aria-expanded")).toBe("false");
+    expect(subTrigger?.getAttribute('aria-expanded')).toBe('false');
 
     await cleanup(rendered.root, rendered.container);
   });

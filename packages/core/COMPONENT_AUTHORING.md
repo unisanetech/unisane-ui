@@ -72,6 +72,8 @@ Rule:
 - Hover-only behavior must also work on focus when the component is interactive.
 - ARIA relationships must be attached to the actual trigger, not only to a wrapper shell.
 - Prefer native button, link, input, and header semantics over role recreation.
+- Attach trigger refs, ARIA, and handlers to the actual interactive element; do not add interactive wrappers or nest native controls.
+- Composite menus and option widgets must provide their expected arrow, Home, End, Escape, focus-entry, and focus-restoration behavior through the shared behavior owner.
 
 ## Theming Integration Contract
 
@@ -81,23 +83,34 @@ Rule:
 - Root app/page canvas uses `bg-surface`.
 - Nested surfaces use the `surface-container-*` ladder.
 - Use semantic border tokens for component and page chrome:
-  - `border-outline-variant` for true outlined controls
+  - `border-control-outline` for persistent boundaries on required value-entry controls, binary controls, and grouped selectors, including connected-segment separators
   - `border-outline-soft` for floating surfaces and quiet container shells
-  - `border-outline-subtle` for low-emphasis internal seams and layout chrome
-  - `border-outline-medium` for dense internal separators (table/list/menu grid lines)
-  - `border-outline` for stronger hover or emphasis borders
+  - `border-outline-weak` for repeated table/grid dividers
+  - `border-outline-muted` for passive affordances
+  - `border-outline-subtle` for optional outlined actions and non-structural internal seams
+  - `border-outline-medium` for hover emphasis and intentionally emphasized separators
   - semantic color borders like `border-primary` only for selected or status-driven states
 - Border strength ladder, quiet to strong:
   - `outline-weak` for barely-there structure
   - `outline-soft` for quiet outer frames
   - `outline-muted` for passive affordances like scrollbars and drag handles
-  - `outline-subtle` for visible internal seams
-  - `outline-variant` for resting outlined controls
-  - `outline-medium` for dense separators
-  - `outline` / `outline-strong` for strong emphasis
+  - `outline-subtle` for optional action boundaries and non-structural internal seams
+  - `control-outline` for persistent required-control and grouped-control boundaries, including connected-segment separators
+  - `outline-medium` for hover and separator emphasis
+  - `outline-strong` for exceptional emphasis
 - Use `bg-state-selected text-on-surface` as the default selected-state treatment for nav/list/menu/select style item rows
 - Do not use `/nn` alpha modifiers as the default border pattern for product surfaces.
 - `/nn` alpha remains acceptable for background and scrim treatments where transparency itself is the effect.
+- Connected-control outer boundaries and internal seams both use `border-control-outline`; selected state comes from fill/content treatment, not a weaker divider.
+- The canonical focus ring must remain at least `3:1` against supported surfaces in every generated theme and contrast mode.
+- Disabled interactive content uses the shared `opacity-38` contract.
+- Use named typography roles such as `text-label-small` for microcopy; do not introduce arbitrary sub-role pixel sizes.
+
+### Action Semantics
+
+- `variant` chooses visual presentation such as filled, outlined, primary, or secondary.
+- `tone` communicates semantic emphasis such as `default` or `danger`.
+- Do not add `danger` to a presentation-only variant union when the same action can be rendered in multiple visual presentations.
 
 ### Style Ownership
 

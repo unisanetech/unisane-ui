@@ -37,6 +37,19 @@ export {
 export { DataTableContextMenu, type DataTableContextMenuState } from './context-menu';
 export { VirtualizedBody } from './virtualized-body';
 export { DataTableErrorBoundary, DataTableErrorDisplay } from './error-boundary';
+export {
+  DataTableExpandedContent,
+  DataTableExpandedGrid,
+  DataTableExpandedSection,
+  DataTableExpandedFields,
+  DataTableExpandedField,
+  type DataTableExpandedContentProps,
+  type DataTableExpandedGridColumns,
+  type DataTableExpandedGridProps,
+  type DataTableExpandedSectionProps,
+  type DataTableExpandedFieldsProps,
+  type DataTableExpandedFieldProps,
+} from './expanded-row-content';
 export { DragHandle, type DragHandleProps } from './drag-handle';
 export { CustomScrollbar, type CustomScrollbarProps } from './custom-scrollbar';
 export {

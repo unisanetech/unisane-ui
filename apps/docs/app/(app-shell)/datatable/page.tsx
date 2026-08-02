@@ -287,7 +287,7 @@ function UsersTable({
       {
         label: 'Delete',
         icon: 'delete',
-        variant: 'danger',
+        tone: 'danger',
         onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
@@ -567,7 +567,7 @@ function ProductsTable({
       {
         label: 'Delete',
         icon: 'delete',
-        variant: 'danger',
+        tone: 'danger',
         onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
@@ -869,7 +869,7 @@ function InventoryTable({
       {
         label: 'Delete',
         icon: 'delete',
-        variant: 'danger',
+        tone: 'danger',
         onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],
@@ -1174,7 +1174,7 @@ function FinancialTable({
       {
         label: 'Delete',
         icon: 'delete',
-        variant: 'danger',
+        tone: 'danger',
         onClick: (ids) => setBulkDeleteIds(ids),
       },
     ],

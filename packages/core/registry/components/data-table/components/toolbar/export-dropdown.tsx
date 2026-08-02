@@ -117,7 +117,7 @@ export function ExportDropdown({
       icon={<Icon symbol={iconSymbol} />}
     />
   ) : (
-    <ToolbarDropdownButton label={t('export')} icon={iconSymbol} as="div" />
+    <ToolbarDropdownButton label={t('export')} icon={iconSymbol} />
   );
 
   return (

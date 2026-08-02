@@ -75,7 +75,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const itemClasses = cn(
     'text-label-large relative flex min-h-[var(--size-action-md)] w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[calc(var(--unit)*3)] py-[calc(var(--unit)*2)] text-left select-none',
     'text-on-surface transition-colors duration-short ease-standard',
-    'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-none',
+    'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]',
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
     selected && 'bg-state-selected text-on-surface',
     className,

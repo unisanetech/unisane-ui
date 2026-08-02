@@ -13,6 +13,7 @@ import type {
   ColumnPinState,
   PinPosition,
   TableVariant,
+  VerticalScrollOwner,
   SparseSelectionController,
 } from '../types/index';
 import type { PartialDataTableLocale } from '../i18n/types';
@@ -135,6 +136,7 @@ export interface DataTableConfig<T> {
   /** Whether to show column dividers/borders */
   showColumnDividers: boolean;
   zebra: boolean;
+  verticalScroll: VerticalScrollOwner;
   stickyHeader: boolean;
   /** Offset for sticky positioning (accounts for fixed headers) */
   stickyOffset: string;
@@ -235,6 +237,8 @@ export interface DataTableProviderProps<T> {
   /** Show column dividers/borders between cells */
   showColumnDividers?: boolean;
   zebra?: boolean;
+  /** Surface that owns vertical scrolling. */
+  verticalScroll?: VerticalScrollOwner;
   stickyHeader?: boolean;
   /**
    * Offset for sticky positioning (toolbar and header) in pixels or CSS value.

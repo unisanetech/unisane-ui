@@ -21,6 +21,7 @@ import type {
   CellSelectionContext,
   RowActivationEvent,
 } from '@/components/ui/data-table/types/index';
+import type { ExpandedRowConfig } from '@/components/ui/data-table/types/config';
 import type { RowDragProps } from '@/components/ui/data-table/hooks/ui/use-row-drag';
 import { getNestedValue } from '@/components/ui/data-table/utils/get-nested-value';
 import { first, last } from '@/components/ui/data-table/utils/type-guards';
@@ -35,6 +36,7 @@ import {
 import { useI18n } from '@/components/ui/data-table/i18n';
 import { DragHandle } from '@/components/ui/data-table/components/drag-handle';
 import { HighlightedText } from '@/components/ui/data-table/components/highlighted-text';
+import { getExpandedRowPresentationClasses } from '@/components/ui/data-table/components/expanded-row-presentation';
 import { getRowBackgroundClass } from '@/components/ui/data-table/components/row-state';
 
 // ─── ROW PROPS ──────────────────────────────────────────────────────────────
@@ -610,6 +612,7 @@ interface DataTableExpandedRowProps<T> {
   rowRef?: (node: HTMLTableRowElement | null) => void;
   'data-index'?: number;
   renderExpandedRow: (row: T) => ReactNode;
+  expandedRow?: ExpandedRowConfig;
 }
 
 function DataTableExpandedRowInner<T extends { id: string }>({
@@ -624,8 +627,12 @@ function DataTableExpandedRowInner<T extends { id: string }>({
   rowRef,
   'data-index': dataIndex,
   renderExpandedRow,
+  expandedRow,
 }: DataTableExpandedRowProps<T>) {
   const utilityColumnWidths = DENSITY_UTILITY_COLUMN_WIDTHS[density];
+  const presentation = expandedRow?.presentation ?? 'detail';
+  const presentationClasses = getExpandedRowPresentationClasses(presentation, density);
+  const content = renderExpandedRow(row);
 
   return (
     <tr
@@ -679,7 +686,16 @@ function DataTableExpandedRowInner<T extends { id: string }>({
         colSpan={columns.length}
         className={cn('p-0', !isLastRow && 'border-outline-weak border-b')}
       >
-        <div className="border-primary bg-surface border-l-4 p-4">{renderExpandedRow(row)}</div>
+        <div
+          className={presentationClasses.container}
+          data-expanded-row-presentation={presentation}
+        >
+          {presentationClasses.content ? (
+            <div className={presentationClasses.content}>{content}</div>
+          ) : (
+            content
+          )}
+        </div>
       </td>
     </tr>
   );

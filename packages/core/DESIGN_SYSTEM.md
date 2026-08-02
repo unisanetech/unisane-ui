@@ -89,22 +89,23 @@ Light theme keeps `bg-surface` white. Dark theme keeps `bg-surface-container-low
 
 ### Token And Alpha Usage
 
-- Use semantic tokens when the role is semantic: `bg-surface`, `bg-surface-container`, `text-on-surface`, `border-outline-variant`
+- Use semantic tokens when the role is semantic: `bg-surface`, `bg-surface-container`, `text-on-surface`, `border-control-outline`
 - Use semantic border tokens for structural chrome:
-  - `border-outline-variant` for resting borders on true outlined controls (inputs, selects, outlined buttons, segmented controls)
+  - `border-control-outline` for persistent boundaries on required value-entry controls, binary controls, and grouped selectors, including connected-segment separators
   - `border-outline-soft` for floating surfaces, card shells, and quiet component frames that should read after surface hierarchy, not before it
-  - `border-outline-subtle` for section seams and low-emphasis layout chrome inside larger surfaces
-  - `border-outline-medium` for dense internal grid and divider lines (table rows/cells, compact menu/list separators)
-  - `border-outline` for stronger hover and emphasis borders
+  - `border-outline-weak` for repeated table/grid dividers
+  - `border-outline-muted` for passive affordances such as scrollbar thumbs and drag handles
+  - `border-outline-subtle` for optional outlined actions and non-structural internal seams
+  - `border-outline-medium` for hover emphasis and intentionally emphasized separators
   - `border-primary`, `border-error`, and similar semantic colors only for selected or status states
 - Border strength ladder, quiet to strong:
-  - `outline-weak` for disabled rails and barely-there structure
+  - `outline-weak` for repeated dividers and barely-there structure
   - `outline-soft` for quiet outer frames
   - `outline-muted` for passive affordances like scrollbar thumbs and drag handles
-  - `outline-subtle` for visible internal seams
-  - `outline-variant` for resting outlined controls
-  - `outline-medium` for dense separators
-  - `outline` / `outline-strong` for hover and strong emphasis
+  - `outline-subtle` for optional action boundaries and non-structural internal seams
+  - `control-outline` for persistent required-control and grouped-control boundaries, including connected-segment separators
+  - `outline-medium` for hover and separator emphasis
+  - `outline-strong` for exceptional emphasis
 - Use `/nn` alpha modifiers when transparency is the treatment: `bg-scrim/30`, `hover:bg-on-surface/8`, `bg-surface/80`
 - Do not invent alpha-based classes to replace tokens that already exist semantically
 - Do not use `/nn` alpha border classes as the default site or component border pattern
@@ -220,6 +221,8 @@ Field-like controls (`Input`, `TextField`, `Select`, `DateInput`, `Combobox`, `S
 
 Buttons, icon buttons, FABs, avatars, and pagination controls should use the shared component-size tokens so density remains global instead of being reimplemented with fixed utility heights.
 
+Density-owned composite families must scale row height, typography, icon size, action frame, and action inset together. Header and row actions must fit within the declared row height at every density.
+
 ---
 
 ## Component Variant Guidelines
@@ -233,6 +236,8 @@ Buttons, icon buttons, FABs, avatars, and pagination controls should use the sha
 | `outlined` | Tertiary actions      |
 | `text`     | Low-emphasis actions  |
 | `elevated` | Special emphasis      |
+
+Visual presentation and semantic emphasis are separate contracts. Use `variant` for presentation and `tone` for meaning; destructive actions use `tone="danger"` instead of adding danger to a presentation-only variant union.
 
 ### State Layer Opacity
 

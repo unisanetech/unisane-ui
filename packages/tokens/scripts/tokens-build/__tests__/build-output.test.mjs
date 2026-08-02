@@ -31,6 +31,30 @@ function assertBlockHasVar(css, selector, variableName) {
   assert.match(getCssBlock(css, selector), new RegExp(`${escapeRegExp(variableName)}:\\s*[^;]+;`));
 }
 
+function readHexRole(css, selector, role) {
+  const match = getCssBlock(css, selector).match(
+    new RegExp(`--color-${escapeRegExp(role)}:\\s*(#[0-9a-f]{6});`, 'i'),
+  );
+  assert.ok(match, `Expected --color-${role} in ${selector}`);
+  return match[1];
+}
+
+function relativeLuminance(hex) {
+  const value = Number.parseInt(hex.slice(1), 16);
+  const channels = [(value >> 16) & 255, (value >> 8) & 255, value & 255].map((channel) => {
+    const normalized = channel / 255;
+    return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+}
+
+function contrastRatio(first, second) {
+  const luminances = [relativeLuminance(first), relativeLuminance(second)].sort(
+    (left, right) => right - left,
+  );
+  return (luminances[0] + 0.05) / (luminances[1] + 0.05);
+}
+
 function syncSnapshot(filePath, content) {
   if (process.env.UPDATE_SNAPSHOTS === '1') {
     mkdirSync(dirname(filePath), { recursive: true });
@@ -76,6 +100,99 @@ test('theme presets replace semantic values instead of adding selectors', () => 
     'red',
     'yellow',
   ]);
+});
+
+test('control outlines remain distinct without becoming heavy in standard themes', () => {
+  const modes = [
+    ':root',
+    '.dark',
+    '[data-contrast="medium"]',
+    '[data-contrast="medium"].dark',
+    '[data-contrast="high"]',
+    '[data-contrast="high"].dark',
+  ];
+
+  for (const themeName of getAvailableThemeNames()) {
+    const { mergedCss, themeCss } = generateBuildArtifacts(themeName);
+    assert.match(mergedCss, /--color-focus-ring:\s*var\(--color-primary\);/);
+    assert.match(mergedCss, /--color-focus-ring-error:\s*var\(--color-error\);/);
+
+    for (const selector of modes) {
+      const ratio = contrastRatio(
+        readHexRole(themeCss, selector, 'control-outline'),
+        readHexRole(themeCss, selector, 'surface'),
+      );
+      assert.ok(
+        ratio >= 3,
+        `${themeName} ${selector} control outline contrast was ${ratio.toFixed(2)}:1`,
+      );
+    }
+
+    for (const selector of [':root', '.dark']) {
+      const ratio = contrastRatio(
+        readHexRole(themeCss, selector, 'control-outline'),
+        readHexRole(themeCss, selector, 'surface'),
+      );
+      assert.ok(
+        ratio < 4.1,
+        `${themeName} ${selector} standard control outline was too prominent at ${ratio.toFixed(2)}:1`,
+      );
+    }
+  }
+});
+
+test('semantic foreground and focus pairs preserve accessible contrast across themes', () => {
+  const failures = [];
+  const modes = [
+    ':root',
+    '.dark',
+    '[data-contrast="medium"]',
+    '[data-contrast="medium"].dark',
+    '[data-contrast="high"]',
+    '[data-contrast="high"].dark',
+  ];
+  const textPairs = [
+    ['on-surface', 'surface'],
+    ['on-surface-variant', 'surface'],
+    ['on-primary', 'primary'],
+    ['on-primary-container', 'primary-container'],
+    ['on-secondary', 'secondary'],
+    ['on-secondary-container', 'secondary-container'],
+    ['on-error', 'error'],
+    ['on-error-container', 'error-container'],
+  ];
+  const focusSurfaces = ['surface', 'surface-container'];
+
+  for (const themeName of getAvailableThemeNames()) {
+    const { themeCss } = generateBuildArtifacts(themeName);
+    for (const selector of modes) {
+      for (const [foreground, background] of textPairs) {
+        const ratio = contrastRatio(
+          readHexRole(themeCss, selector, foreground),
+          readHexRole(themeCss, selector, background),
+        );
+        if (ratio < 4.5) {
+          failures.push(
+            `${themeName} ${selector} ${foreground}/${background} contrast was ${ratio.toFixed(2)}:1`,
+          );
+        }
+      }
+
+      for (const background of focusSurfaces) {
+        const ratio = contrastRatio(
+          readHexRole(themeCss, selector, 'primary'),
+          readHexRole(themeCss, selector, background),
+        );
+        if (ratio < 3) {
+          failures.push(
+            `${themeName} ${selector} focus-ring/${background} contrast was ${ratio.toFixed(2)}:1`,
+          );
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(failures, []);
 });
 
 test('artifact calculation writes through explicit CSS, palette, and theme owners', () => {
@@ -127,6 +244,7 @@ test('foundation, Tailwind, status, and runtime utility contracts remain present
   assert.match(mergedCss, /--color-success:\s*#[0-9a-f]{6};/i);
   assert.match(mergedCss, /--color-warning:\s*#[0-9a-f]{6};/i);
   assert.match(mergedCss, /--color-info:\s*#[0-9a-f]{6};/i);
+  assert.match(mergedCss, /--color-control-outline:\s*#[0-9a-f]{6};/i);
   assert.match(mergedCss, /--type-role-hero-title-size:/);
   assert.match(mergedCss, /--layout-page-x:/);
   assert.match(mergedCss, /@theme(?:\s+inline)?\s*\{/);

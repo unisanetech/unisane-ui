@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo } from 'react';
+import type { RefObject } from 'react';
 import { cn } from '@unisane/ui/utils';
 import { Checkbox } from '@unisane/ui/checkbox';
 import type {
@@ -15,7 +16,12 @@ import type {
   FilterValue,
 } from '../../types';
 import { isColumnGroup } from '../../types';
-import { DENSITY_STYLES, DENSITY_UTILITY_COLUMN_WIDTHS, type Density } from '../../constants';
+import {
+  DENSITY_STYLES,
+  DENSITY_UTILITY_COLUMN_WIDTHS,
+  ROW_HEIGHT_BASE,
+  type Density,
+} from '../../constants';
 import { useColumnDrag } from '../../hooks/ui/use-column-drag';
 import { useI18n } from '../../i18n';
 import { first, last, safeArrayAccess } from '../../utils/type-guards';
@@ -79,6 +85,10 @@ export interface DataTableHeaderProps<T> {
   sticky?: boolean;
   /** Top offset for sticky positioning */
   stickyOffset?: string;
+  /** Header participates in page-owned sticky overlay positioning. */
+  pageSticky?: boolean;
+  /** Header element used by page-owned sticky positioning. */
+  headerRef?: RefObject<HTMLTableSectionElement | null>;
 }
 
 // ─── HEADER COMPONENT ───────────────────────────────────────────────────────
@@ -117,6 +127,8 @@ function DataTableHeaderInner<T extends { id: string }>({
   reorderableRows = false,
   sticky = false,
   stickyOffset = '0px',
+  pageSticky = false,
+  headerRef,
 }: DataTableHeaderProps<T>) {
   const { t } = useI18n();
   const paddingClass = DENSITY_STYLES[density];
@@ -170,7 +182,9 @@ function DataTableHeaderInner<T extends { id: string }>({
 
   return (
     <thead
-      className={cn('bg-surface', sticky && 'sticky z-30')}
+      ref={headerRef}
+      className={cn('bg-surface', sticky && 'sticky z-30', pageSticky && 'relative z-30')}
+      data-page-sticky={pageSticky || undefined}
       style={sticky ? { top: stickyOffset } : undefined}
     >
       {/* Group header row (only if groups exist) */}
@@ -187,7 +201,7 @@ function DataTableHeaderInner<T extends { id: string }>({
       )}
 
       {/* Main header row (or child columns row if groups exist) */}
-      <tr aria-rowindex={hasGroups ? 2 : 1}>
+      <tr aria-rowindex={hasGroups ? 2 : 1} style={{ height: ROW_HEIGHT_BASE[density] }}>
         {/* Drag handle column - scrolls with content, not sticky */}
         {reorderableRows && (
           <th

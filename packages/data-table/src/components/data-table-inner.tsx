@@ -14,6 +14,7 @@ import type {
   RowActivationEvent,
 } from '../types/index';
 import { DataTableHeader } from './header/index';
+import { PageStickyHeaderOverlay } from './header/page-sticky-header-overlay';
 import { DataTableBody } from './body';
 import { DataTableFooter } from './footer';
 import { VirtualizedBody, type VirtualizedBodyItem } from './virtualized-body';
@@ -26,6 +27,7 @@ import { DataTableToolbar, type DataTableToolbarProps } from './toolbar';
 import { DataTablePagination } from './pagination';
 import { DataTableContextMenu, type DataTableContextMenuState } from './context-menu';
 import type { CursorPagination } from '../types';
+import type { ExpandedRowConfig } from '../types/config';
 import { useProcessedData } from '../hooks/data/use-processed-data';
 import { useGroupedData } from '../hooks/data/use-grouped-data';
 import { useVirtualizedRows } from '../hooks/features/use-virtualized-rows';
@@ -35,6 +37,7 @@ import { useCellSelection } from '../hooks/ui/use-cell-selection';
 import { useRowDrag } from '../hooks/ui/use-row-drag';
 import { useColumnLayout } from '../hooks/ui/use-column-layout';
 import { useAnnouncements } from '../hooks/ui/use-announcements';
+import { usePageStickyHeader } from '../hooks/ui/use-page-sticky-header';
 import {
   useSelection,
   useSorting,
@@ -77,6 +80,7 @@ export interface DataTableInnerProps<T extends { id: string }> {
   skeletonRowCount?: number;
   bulkActions?: BulkAction[];
   renderExpandedRow?: (row: T) => ReactNode;
+  expandedRow?: ExpandedRowConfig;
   getRowCanExpand?: (row: T) => boolean;
   className?: string;
   style?: CSSProperties;
@@ -136,6 +140,7 @@ export function DataTableInner<T extends { id: string }>({
   skeletonRowCount = 5,
   bulkActions = [],
   renderExpandedRow,
+  expandedRow,
   getRowCanExpand,
   className = '',
   style,
@@ -211,6 +216,7 @@ export function DataTableInner<T extends { id: string }>({
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const dataTableRootRef = useRef<HTMLDivElement>(null);
+  const tableHeaderRef = useRef<HTMLTableSectionElement>(null);
   const [usesInternalVerticalScroll, setUsesInternalVerticalScroll] = useState(false);
   const [contextMenuState, setContextMenuState] = useState<DataTableContextMenuState<T>>({
     open: false,
@@ -466,7 +472,9 @@ export function DataTableInner<T extends { id: string }>({
     if (!container) return;
 
     const updateVerticalScrollMode = () => {
-      setUsesInternalVerticalScroll(container.scrollHeight - container.clientHeight > 1);
+      setUsesInternalVerticalScroll(
+        config.verticalScroll === 'table' && container.scrollHeight - container.clientHeight > 1,
+      );
     };
 
     updateVerticalScrollMode();
@@ -481,6 +489,7 @@ export function DataTableInner<T extends { id: string }>({
 
     return () => observer.disconnect();
   }, [
+    config.verticalScroll,
     totalTableWidth,
     effectiveColumns.length,
     paginatedData.length,
@@ -840,9 +849,26 @@ export function DataTableInner<T extends { id: string }>({
     onGroupBy: setGroupBy,
     onAddGroupBy: addGroupBy,
     reorderableRows: reorderableRows && !isGrouped,
-    sticky: config.stickyHeader,
-    stickyOffset: '0px',
+    sticky: config.stickyHeader && config.verticalScroll === 'table',
+    pageSticky: config.stickyHeader && config.verticalScroll === 'page',
+    stickyOffset: config.stickyOffset,
+    headerRef: tableHeaderRef,
   };
+
+  const { headerRef: overlayHeaderRef, ...overlayHeaderProps } = headerProps;
+  void overlayHeaderRef;
+  const [pageStickyOverlayElement, setPageStickyOverlayElement] = useState<HTMLDivElement | null>(
+    null,
+  );
+
+  usePageStickyHeader({
+    enabled: config.stickyHeader && config.verticalScroll === 'page',
+    rootRef: dataTableRootRef,
+    tableContainerRef,
+    headerRef: tableHeaderRef,
+    overlayElement: pageStickyOverlayElement,
+    stickyOffset: config.stickyOffset,
+  });
 
   // Extract keyboard props but override role for proper semantics
   const restKeyboardProps = keyboardProps;
@@ -870,7 +896,7 @@ export function DataTableInner<T extends { id: string }>({
   );
 
   return (
-    <DataTableLayout>
+    <DataTableLayout verticalScroll={config.verticalScroll}>
       <div
         ref={dataTableRootRef}
         {...restKeyboardProps}
@@ -880,7 +906,12 @@ export function DataTableInner<T extends { id: string }>({
           columnCount: effectiveColumns.length,
         })}
         aria-busy={isLoading}
-        className={cn('bg-surface isolate flex h-full min-h-0 flex-col', className)}
+        className={cn(
+          'bg-surface isolate flex min-h-0 flex-col',
+          config.verticalScroll === 'table' ? 'h-full' : 'h-auto',
+          className,
+        )}
+        data-vertical-scroll-owner={config.verticalScroll}
         style={style}
         onKeyDown={handleKeyDown}
       >
@@ -902,7 +933,11 @@ export function DataTableInner<T extends { id: string }>({
           </StickyZone>
         )}
 
-        <TableContainer ref={handleTableContainerRef} onScroll={handleTableScroll}>
+        <TableContainer
+          ref={handleTableContainerRef}
+          verticalScroll={config.verticalScroll}
+          onScroll={handleTableScroll}
+        >
           <Table
             aria-rowcount={totalItems ?? processedData.length}
             aria-colcount={
@@ -945,6 +980,7 @@ export function DataTableInner<T extends { id: string }>({
                 enableExpansion={enableExpansion}
                 getRowCanExpand={getRowCanExpand}
                 renderExpandedRow={renderExpandedRow}
+                expandedRow={expandedRow}
                 onSelect={handleSelectRow}
                 onToggleExpand={toggleExpand}
                 onRowClick={onRowClick}
@@ -987,6 +1023,7 @@ export function DataTableInner<T extends { id: string }>({
                   onCellContextMenu={contextMenuEnabled ? handleCellContextMenu : undefined}
                   onRowHover={onRowHover}
                   renderExpandedRow={renderExpandedRow}
+                  expandedRow={expandedRow}
                   getRowCanExpand={getRowCanExpand}
                   activeRowId={activeRowId}
                   emptyMessage={emptyMessage}
@@ -1028,6 +1065,23 @@ export function DataTableInner<T extends { id: string }>({
           </Table>
         </TableContainer>
 
+        <PageStickyHeaderOverlay
+          ref={setPageStickyOverlayElement}
+          enabled={config.stickyHeader && config.verticalScroll === 'page'}
+          tableStyle={tableStyle}
+        >
+          <TableColgroup
+            columns={effectiveColumns}
+            columnMeta={columnMeta}
+            selectable={effectiveSelectable}
+            enableExpansion={enableExpansion}
+            getEffectivePinPosition={getEffectivePinPosition}
+            reorderableRows={reorderableRows && !isGrouped}
+            density={density}
+          />
+          <DataTableHeader {...overlayHeaderProps} pageSticky={false} sticky={false} />
+        </PageStickyHeaderOverlay>
+
         {/* Custom scrollbar that respects pinned columns */}
         <CustomScrollbar
           tableContainerRef={tableContainerRef}
@@ -1035,7 +1089,7 @@ export function DataTableInner<T extends { id: string }>({
           pinnedRightWidth={pinnedRightWidth}
           dependencies={[effectiveColumns, columnMeta, paginatedData.length]}
           dataTableRef={dataTableRootRef}
-          allowViewportSticky={!usesInternalVerticalScroll}
+          allowViewportSticky={config.verticalScroll === 'page'}
         />
 
         {/* Pagination controls - only render when pagination is enabled */}

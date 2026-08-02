@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-import type { BulkAction, Density } from "../../types";
-import type { ExportFormat, ExportResult } from "../../utils/export";
+import type { ReactNode } from 'react';
+import type { ActionTone, BulkAction, Density } from '../../types';
+import type { ExportFormat, ExportResult } from '../../utils/export';
 
 /** Export handler configuration */
 export interface ExportHandler {
@@ -34,8 +34,10 @@ export interface ToolbarAction {
   onClick: () => void;
   /** Whether button is disabled */
   disabled?: boolean;
-  /** Button variant - primary shows filled, others show outlined */
-  variant?: "primary" | "secondary" | "danger";
+  /** Visual presentation; primary is filled and secondary is outlined. */
+  variant?: 'primary' | 'secondary';
+  /** Semantic emphasis, independent of visual presentation. */
+  tone?: ActionTone;
   /** If true, shows only icon on mobile, label on larger screens */
   iconOnly?: boolean;
   /** Badge count to show on the button (e.g., for issues count) */

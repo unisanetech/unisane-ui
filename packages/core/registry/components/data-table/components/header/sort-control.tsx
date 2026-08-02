@@ -4,7 +4,11 @@ import React from 'react';
 import { Icon } from '@/components/ui/icon';
 import { IconButton } from '@/components/ui/icon-button';
 import type { SortDirection } from '@/components/ui/data-table/types';
-import { DENSITY_ICON_TEXT_STYLES, type Density } from '@/components/ui/data-table/constants';
+import {
+  DENSITY_HEADER_ACTION_FRAME_STYLES,
+  DENSITY_ICON_TEXT_STYLES,
+  type Density,
+} from '@/components/ui/data-table/constants';
 
 type SortControlVariant = 'indicator' | 'action';
 
@@ -41,7 +45,7 @@ export function SortControl({
       <span className="text-primary inline-flex items-center">
         <Icon symbol={iconSymbol} className={iconTextClass} />
         {hasPriority && (
-          <span className="min-w-[10px] text-[10px] leading-none font-semibold">
+          <span className="text-label-small min-w-[10px] leading-none font-semibold">
             {sortPriority}
           </span>
         )}
@@ -53,6 +57,7 @@ export function SortControl({
     <IconButton
       variant="standard"
       size="sm"
+      className={DENSITY_HEADER_ACTION_FRAME_STYLES[density]}
       onClick={onClick}
       aria-label={ariaLabel ?? 'Sort'}
       selected={isSorted}
@@ -60,7 +65,7 @@ export function SortControl({
         <>
           <Icon symbol={iconSymbol} className={iconTextClass} />
           {hasPriority && (
-            <span className="bg-primary text-on-primary absolute -top-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full text-[10px] leading-none font-semibold">
+            <span className="bg-primary text-on-primary text-label-small absolute -top-0.5 -right-0.5 flex h-3.5 min-w-3.5 items-center justify-center rounded-full leading-none font-semibold">
               {sortPriority}
             </span>
           )}

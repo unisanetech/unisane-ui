@@ -156,7 +156,9 @@
         "clsx@^2.1.1",
         "tailwind-merge@^3.4.0"
       ],
-      "registryDependencies": []
+      "registryDependencies": [
+        "use-overlay-behavior"
+      ]
     },
     "use-scroll-lock": {
       "name": "UseScrollLock",
@@ -603,6 +605,7 @@
         "ripple",
         "text",
         "use-controllable-state",
+        "use-overlay-behavior",
         "utils"
       ]
     },
@@ -732,6 +735,7 @@
         "menu",
         "portal-layer",
         "use-controllable-state",
+        "use-overlay-behavior",
         "utils"
       ]
     },
@@ -747,6 +751,7 @@
         "fab",
         "icon",
         "use-controllable-state",
+        "use-overlay-behavior",
         "utils"
       ]
     },
@@ -839,7 +844,7 @@
         "appearance-provider",
         "field-size",
         "icon",
-        "utils"
+        "segmented-button"
       ]
     },
     "month-picker": {
@@ -858,7 +863,9 @@
         "surface",
         "text",
         "text-field",
+        "use-anchored-overlay-position",
         "use-controllable-state",
+        "use-overlay-behavior",
         "utils"
       ]
     },
@@ -1347,18 +1354,22 @@
         "components/data-table/components/actions-cell.tsx",
         "components/data-table/components/body.tsx",
         "components/data-table/components/colgroup.tsx",
+        "components/data-table/components/context-menu-behavior.ts",
         "components/data-table/components/context-menu.tsx",
         "components/data-table/components/custom-scrollbar.tsx",
         "components/data-table/components/data-table-inner.tsx",
         "components/data-table/components/data-table.tsx",
         "components/data-table/components/drag-handle.tsx",
         "components/data-table/components/error-boundary.tsx",
+        "components/data-table/components/expanded-row-content.tsx",
+        "components/data-table/components/expanded-row-presentation.ts",
         "components/data-table/components/footer.tsx",
         "components/data-table/components/group-row.tsx",
         "components/data-table/components/header/column-menu.tsx",
         "components/data-table/components/header/group-header-row.tsx",
         "components/data-table/components/header/header-cell.tsx",
         "components/data-table/components/header/index.tsx",
+        "components/data-table/components/header/page-sticky-header-overlay.tsx",
         "components/data-table/components/header/resize-handle.tsx",
         "components/data-table/components/header/sort-control.tsx",
         "components/data-table/components/highlighted-text.tsx",
@@ -1462,6 +1473,7 @@
         "components/data-table/hooks/ui/use-density-scale.ts",
         "components/data-table/hooks/ui/use-focus-restore.ts",
         "components/data-table/hooks/ui/use-keyboard-navigation.ts",
+        "components/data-table/hooks/ui/use-page-sticky-header.ts",
         "components/data-table/hooks/ui/use-responsive-density.ts",
         "components/data-table/hooks/ui/use-row-drag.ts",
         "components/data-table/hooks/ui/use-rtl.tsx",
@@ -1505,6 +1517,7 @@
         "components/data-table/utils/pagination.ts",
         "components/data-table/utils/print.ts",
         "components/data-table/utils/safe-execute.ts",
+        "components/data-table/utils/scroll-owner.ts",
         "components/data-table/utils/type-guards.ts",
         "components/data-table/utils/validation.ts"
       ],

@@ -23,7 +23,11 @@ import type {
   ColumnMenuActionContext,
 } from '@/components/ui/data-table/types';
 import { useI18n } from '@/components/ui/data-table/i18n';
-import { DENSITY_ICON_TEXT_STYLES, type Density } from '@/components/ui/data-table/constants';
+import {
+  DENSITY_HEADER_ACTION_FRAME_STYLES,
+  DENSITY_ICON_TEXT_STYLES,
+  type Density,
+} from '@/components/ui/data-table/constants';
 
 export interface ColumnMenuProps<T> {
   column: Column<T>;
@@ -97,6 +101,7 @@ export function ColumnMenu<T>({
           <IconButton
             variant="standard"
             size="sm"
+            className={DENSITY_HEADER_ACTION_FRAME_STYLES[density]}
             aria-label={t('actions')}
             icon={<Icon symbol="more_vert" className={iconTextClass} />}
           />
@@ -214,7 +219,7 @@ export function ColumnMenu<T>({
                 onClick={() => {
                   void action.onSelect(actionContext);
                 }}
-                className={action.variant === 'danger' ? 'text-error' : undefined}
+                className={action.tone === 'danger' ? 'text-error' : undefined}
               >
                 {action.label}
               </DropdownMenuItem>
@@ -361,7 +366,7 @@ function TextFilter<T>({
             className={cn(
               'text-body-medium w-full px-3 py-2',
               'bg-surface border-outline-soft rounded-sm border',
-              'focus:border-primary focus:ring-focus-ring focus:ring-1 focus:outline-none',
+              'focus-visible:border-primary focus-visible:ring-focus-ring focus-visible:ring-1 focus-visible:outline-none',
               'placeholder:text-on-surface-variant',
             )}
             autoFocus

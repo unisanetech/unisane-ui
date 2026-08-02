@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { Fab } from '@/components/ui/fab';
 import { Icon } from '@/components/ui/icon';
 import { useControllableState } from '@/lib/use-controllable-state';
+import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 
 export interface FabAction {
   label: string;
@@ -40,30 +41,40 @@ export const FabMenu: React.FC<FabMenuProps> = ({
   });
   const isOpen = openState ?? false;
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
-        setOpenState(false);
-      }
-    };
+  useOverlayBehavior({
+    open: isOpen,
+    contentRef,
+    rootRef: containerRef,
+    triggerRef,
+    onDismiss: () => setOpenState(false),
+    modal: false,
+    dismissOnEscape: true,
+    dismissOnInteractOutside: true,
+    initialFocus: true,
+    restoreFocus: true,
+  });
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setOpenState(false);
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('click', handleClickOutside);
-      document.addEventListener('keydown', handleKeyDown);
-    }
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [isOpen, setOpenState]);
+  const handleMenuKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) return;
+    const items = Array.from(
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="menuitem"]'),
+    ).filter((item) => !item.disabled);
+    if (items.length === 0) return;
+    event.preventDefault();
+    const currentIndex = items.indexOf(document.activeElement as HTMLButtonElement);
+    const nextIndex =
+      event.key === 'Home'
+        ? 0
+        : event.key === 'End'
+          ? items.length - 1
+          : event.key === 'ArrowUp'
+            ? (currentIndex - 1 + items.length) % items.length
+            : (currentIndex + 1) % items.length;
+    items[nextIndex]?.focus();
+  };
 
   return (
     <div
@@ -71,6 +82,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
       className={cn('relative z-50 flex flex-col items-end gap-4', className)}
     >
       <div
+        ref={contentRef}
         className={cn(
           'duration-medium ease-emphasized flex flex-col items-end gap-3 transition-all',
           isOpen
@@ -80,6 +92,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
         role="menu"
         aria-label={ariaLabel}
         aria-hidden={!isOpen}
+        onKeyDown={handleMenuKeyDown}
       >
         {actions.map((action, index) => (
           <div key={index} className="group flex items-center gap-3" role="none">
@@ -107,6 +120,7 @@ export const FabMenu: React.FC<FabMenuProps> = ({
       </div>
 
       <Fab
+        ref={triggerRef}
         variant={isOpen ? 'tertiary' : 'primary'}
         size="md"
         className={cn(

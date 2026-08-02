@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { cn, Slot } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { getPortalLayerStyle } from '@/lib/portal-layer';
+import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 import { Icon } from '@/components/ui/icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '@/primitives/menu';
 
@@ -75,16 +76,10 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
 }) => {
   const { open, setOpen, menuId, triggerRef } = useDropdownMenuContext('DropdownMenuTrigger');
   const localRef = useRef<HTMLButtonElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (triggerRef) {
-      const refToAssign = asChild ? wrapperRef.current : localRef.current;
-      if (refToAssign) {
-        (triggerRef as { current: HTMLElement | null }).current = refToAssign;
-      }
-    }
-  }, [triggerRef, asChild]);
+    if (!asChild) triggerRef.current = localRef.current;
+  }, [asChild, triggerRef]);
 
   const handleClick = () => {
     setOpen(!open);
@@ -114,12 +109,29 @@ export const DropdownMenuTrigger: React.FC<DropdownMenuTriggerProps> = ({
   };
 
   if (asChild && React.isValidElement(children)) {
+    const child = children as React.ReactElement<{
+      onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+      onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
+    }>;
     return (
-      <div ref={wrapperRef} className="inline-flex">
-        <Slot className={className} {...triggerProps}>
-          {children}
-        </Slot>
-      </div>
+      <Slot
+        ref={triggerRef as React.Ref<HTMLElement>}
+        className={className}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        aria-controls={open ? menuId : undefined}
+      >
+        {React.cloneElement(child, {
+          onClick: (event) => {
+            child.props.onClick?.(event);
+            if (!event.defaultPrevented) handleClick();
+          },
+          onKeyDown: (event) => {
+            child.props.onKeyDown?.(event);
+            if (!event.defaultPrevented) handleKeyDown(event);
+          },
+        })}
+      </Slot>
     );
   }
 
@@ -315,6 +327,30 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [computedPlacement, setComputedPlacement] = useState({ side, align });
   const [isPositioned, setIsPositioned] = useState(false);
+  const typeaheadRef = useRef({ query: '', timeout: undefined as number | undefined });
+
+  const closeMenu = React.useCallback(() => setOpen(false), [setOpen]);
+  const isInteractionOutside = React.useCallback(
+    (target: Node) => {
+      if (!(target instanceof HTMLElement)) return true;
+      const subContent = target.closest('[data-dropdown-menu-subcontent-owner]');
+      return subContent?.getAttribute('data-dropdown-menu-subcontent-owner') !== menuId;
+    },
+    [menuId],
+  );
+
+  useOverlayBehavior({
+    open,
+    contentRef: ref,
+    triggerRef,
+    onDismiss: closeMenu,
+    modal: false,
+    dismissOnEscape: true,
+    dismissOnInteractOutside: true,
+    initialFocus: true,
+    restoreFocus: true,
+    isInteractionOutside,
+  });
 
   const normalizedPadding = useMemo(() => {
     if (typeof collisionPadding === 'number') {
@@ -391,38 +427,54 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     portal,
   ]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node;
-      if (ref.current && ref.current.contains(target)) return;
-      if (triggerRef.current && triggerRef.current.contains(target)) return;
-      if (target instanceof HTMLElement) {
-        const subContent = target.closest('[data-dropdown-menu-subcontent-owner]');
-        if (subContent?.getAttribute('data-dropdown-menu-subcontent-owner') === menuId) {
-          return;
-        }
-      }
-      setOpen(false);
-    };
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        setOpen(false);
-      }
-    };
-
-    if (open) {
-      document.addEventListener('click', handleClickOutside);
-      document.addEventListener('keydown', handleKeyDown);
-    }
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [menuId, open, setOpen, triggerRef]);
-
   if (!open) return null;
+
+  const getEnabledItems = () =>
+    Array.from(
+      ref.current?.querySelectorAll<HTMLElement>(
+        '[role="menuitem"]:not([aria-disabled="true"]), [role="menuitemcheckbox"]:not([aria-disabled="true"]), [role="menuitemradio"]:not([aria-disabled="true"])',
+      ) ?? [],
+    );
+
+  const handleContentKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    const items = getEnabledItems();
+    if (items.length === 0) return;
+    const currentIndex = items.findIndex((item) => item === document.activeElement);
+    const focusItem = (index: number) => items[(index + items.length) % items.length]?.focus();
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        focusItem(currentIndex + 1);
+        return;
+      case 'ArrowUp':
+        event.preventDefault();
+        focusItem(currentIndex <= 0 ? items.length - 1 : currentIndex - 1);
+        return;
+      case 'Home':
+        event.preventDefault();
+        items[0]?.focus();
+        return;
+      case 'End':
+        event.preventDefault();
+        items.at(-1)?.focus();
+        return;
+      default:
+        break;
+    }
+
+    if (event.key.length !== 1 || event.altKey || event.ctrlKey || event.metaKey) return;
+    const state = typeaheadRef.current;
+    window.clearTimeout(state.timeout);
+    state.query += event.key.toLocaleLowerCase();
+    state.timeout = window.setTimeout(() => {
+      state.query = '';
+    }, 500);
+    const searchOrder = [...items.slice(currentIndex + 1), ...items.slice(0, currentIndex + 1)];
+    searchOrder
+      .find((item) => item.textContent?.trim().toLocaleLowerCase().startsWith(state.query))
+      ?.focus();
+  };
 
   const handleContentClick = (event: React.MouseEvent) => {
     if (!closeOnSelect) return;
@@ -477,9 +529,11 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       id={menuId}
       role="menu"
       aria-orientation="vertical"
+      tabIndex={-1}
       data-side={computedPlacement.side}
       data-align={computedPlacement.align}
       className={cn(getPositionClasses(), portal && 'transition-none')}
+      onKeyDown={handleContentKeyDown}
       style={
         portal
           ? {
@@ -611,6 +665,22 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
 }) => {
   const { open, menuId, triggerRef, openSubmenu, closeSubmenu } =
     useDropdownMenuSubContext('DropdownMenuSubTrigger');
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    triggerRef.current = wrapperRef.current?.querySelector<HTMLElement>('[role="menuitem"]') ?? null;
+  });
+
+  const openAndFocusSubmenu = () => {
+    if (disabled) return;
+    openSubmenu();
+    window.setTimeout(() => {
+      document
+        .getElementById(menuId)
+        ?.querySelector<HTMLElement>('[role="menuitem"]:not([aria-disabled="true"])')
+        ?.focus();
+    }, 0);
+  };
   const handleMouseEnter = () => {
     if (disabled) return;
     openSubmenu?.();
@@ -621,7 +691,7 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   };
 
   return (
-    <div ref={triggerRef as React.RefObject<HTMLDivElement | null>}>
+    <div ref={wrapperRef}>
       <MenuItem
         icon={icon}
         trailingIcon={<Icon symbol="chevron_right" size="sm" />}
@@ -629,6 +699,13 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
         disabled={disabled}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={openAndFocusSubmenu}
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowRight') {
+            event.preventDefault();
+            openAndFocusSubmenu();
+          }
+        }}
         aria-expanded={open}
         aria-haspopup="menu"
         aria-controls={menuId}
@@ -713,7 +790,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
 }) => {
-  const { open, menuId, parentMenuId, triggerRef, openSubmenu, closeSubmenu } =
+  const { open, setOpen, menuId, parentMenuId, triggerRef, openSubmenu, closeSubmenu } =
     useDropdownMenuSubContext('DropdownMenuSubContent');
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ top: 0, left: 0, side: 'right' as 'left' | 'right' });
@@ -773,6 +850,13 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
       }}
       onMouseEnter={openSubmenu}
       onMouseLeave={closeSubmenu}
+      onKeyDown={(event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'Escape') return;
+        event.preventDefault();
+        event.stopPropagation();
+        setOpen(false);
+        triggerRef.current?.focus();
+      }}
     >
       <Menu
         open={true}

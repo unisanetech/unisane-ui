@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { cn } from '@unisane/ui/utils';
 import { useSafeRAF } from '../hooks/use-safe-raf';
+import { findVerticalScrollOwner } from '../utils/scroll-owner';
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
@@ -53,9 +54,11 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     right: pinnedRightWidth,
   });
   const [isSticky, setIsSticky] = useState(false);
-  const [stickyPosition, setStickyPosition] = useState<{ left: number; width: number } | null>(
-    null,
-  );
+  const [stickyPosition, setStickyPosition] = useState<{
+    left: number;
+    top: number;
+    width: number;
+  } | null>(null);
 
   // Drag refs
   const startXRef = useRef(0);
@@ -207,7 +210,13 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     }
 
     const dataTableRect = dataTable.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
+    const scrollOwner = findVerticalScrollOwner(dataTable);
+    const scrollOwnerRect = scrollOwner?.getBoundingClientRect();
+    const viewportTop = Math.max(0, scrollOwnerRect?.top ?? 0);
+    const viewportBottom = Math.min(
+      window.innerHeight,
+      scrollOwnerRect?.bottom ?? window.innerHeight,
+    );
 
     // The scrollbar's natural position is at the bottom of the DataTable
     // We need to check if that natural position is visible in the viewport
@@ -219,11 +228,12 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
 
     // Scrollbar should be sticky when its natural position is below the viewport
     // i.e., when you'd have to scroll down to see it
-    const naturalPositionBelowViewport = scrollbarNaturalTop > viewportHeight;
+    const naturalPositionBelowViewport = scrollbarNaturalTop > viewportBottom;
 
     // Also check if the table top is still visible (table hasn't scrolled completely out)
     // The table should still be partially visible for the scrollbar to be useful
-    const tableStillVisible = dataTableRect.top < viewportHeight;
+    const tableStillVisible =
+      dataTableRect.top < viewportBottom && dataTableRect.bottom > viewportTop;
 
     // Be sticky when natural scrollbar position is below viewport AND table is visible
     const shouldBeSticky = naturalPositionBelowViewport && tableStillVisible;
@@ -234,6 +244,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
     if (shouldBeSticky) {
       setStickyPosition({
         left: dataTableRect.left,
+        top: viewportBottom - SCROLLBAR_HEIGHT,
         width: dataTableRect.width,
       });
     } else {
@@ -408,7 +419,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
           // Hide on mobile (< @md) - native scrollbar used for touch usability
           'hidden @md:block',
           // Sticky positioning when table bottom is below viewport
-          isSticky ? 'fixed bottom-0 z-50' : 'relative w-full',
+          isSticky ? 'fixed z-50' : 'relative w-full',
           className,
         )}
         style={{
@@ -417,6 +428,7 @@ export const CustomScrollbar: React.FC<CustomScrollbarProps> = ({
           ...(isSticky && stickyPosition
             ? {
                 left: stickyPosition.left,
+                top: stickyPosition.top,
                 width: stickyPosition.width,
               }
             : {}),

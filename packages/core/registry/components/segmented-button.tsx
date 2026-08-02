@@ -194,7 +194,7 @@ function SegmentedButtonRoot<Value extends string>({
       {...groupProps}
       ref={forwardedRef}
       className={cn(
-        'border-outline-subtle rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
+        'border-control-outline rounded-button relative isolate inline-flex max-w-full overflow-hidden border',
         sizeStyles.containerHeight,
         className,
       )}
@@ -225,7 +225,7 @@ function SegmentedButtonRoot<Value extends string>({
               sizeStyles.itemGap,
               sizeStyles.itemPaddingX,
               sizeStyles.itemText,
-              !isLast && 'border-outline-soft border-r',
+              !isLast && 'border-control-outline border-r',
               option.disabled && 'text-on-surface cursor-not-allowed bg-transparent opacity-38',
               selected && !option.disabled
                 ? 'bg-secondary-container text-on-secondary-container'

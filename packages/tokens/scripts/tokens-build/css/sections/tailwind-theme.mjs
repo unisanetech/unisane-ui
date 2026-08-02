@@ -42,6 +42,7 @@ export function generateTailwindTheme() {
   --color-on-background: var(--color-on-background);
   --color-outline: var(--color-outline);
   --color-outline-variant: var(--color-outline-variant);
+  --color-control-outline: var(--color-control-outline);
   --color-error: var(--color-error);
   --color-on-error: var(--color-on-error);
   --color-error-container: var(--color-error-container);

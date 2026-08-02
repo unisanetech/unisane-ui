@@ -30,6 +30,7 @@ const ROLE_TONES = {
     'on-background': ['neutral', 10],
     outline: ['neutral-variant', 60],
     'outline-variant': ['neutral-variant', 70],
+    'control-outline': ['neutral-variant', 50],
     error: ['error', 40],
     'on-error': ['error', 100],
     'error-container': ['error', 90],
@@ -76,6 +77,7 @@ const ROLE_TONES = {
     'on-background': ['neutral', 90],
     outline: ['neutral-variant', 50],
     'outline-variant': ['neutral-variant', 40],
+    'control-outline': ['neutral-variant', 40],
     error: ['error', 80],
     'on-error': ['error', 20],
     'error-container': ['error', 30],
@@ -119,6 +121,7 @@ ROLE_TONES.medium = withOverrides('light', {
   'surface-variant': ['neutral-variant', 92],
   outline: ['neutral-variant', 30],
   'outline-variant': ['neutral-variant', 40],
+  'control-outline': ['neutral-variant', 50],
 });
 
 ROLE_TONES.high = withOverrides('light', {
@@ -137,6 +140,7 @@ ROLE_TONES.high = withOverrides('light', {
   'on-surface-variant': ['neutral-variant', 20],
   outline: ['neutral-variant', 20],
   'outline-variant': ['neutral-variant', 40],
+  'control-outline': ['neutral-variant', 40],
   error: ['error', 20],
   success: ['success', 20],
   'success-container': ['success', 95],
@@ -161,6 +165,7 @@ ROLE_TONES['dark-medium'] = withOverrides('dark', {
   'surface-variant': ['neutral-variant', 24],
   outline: ['neutral-variant', 60],
   'outline-variant': ['neutral-variant', 50],
+  'control-outline': ['neutral-variant', 50],
 });
 
 ROLE_TONES['dark-high'] = withOverrides('dark', {
@@ -182,6 +187,7 @@ ROLE_TONES['dark-high'] = withOverrides('dark', {
   'on-surface-variant': ['neutral-variant', 95],
   outline: ['neutral-variant', 80],
   'outline-variant': ['neutral-variant', 60],
+  'control-outline': ['neutral-variant', 60],
   error: ['error', 95],
   'on-error': ['error', 0],
   success: ['success', 95],
@@ -247,7 +253,7 @@ ${THEME_REGION_END}
 }
 
 function withScheme(config, scheme) {
-  const next = structuredClone(config);
+  const next = globalThis.structuredClone(config);
   if (scheme === 'neutral') {
     next.primary.chroma = 0.03;
     next.neutral.tintFromPrimary = 0.008;

@@ -96,6 +96,42 @@ export default function DataTableRegressionPage() {
       </div>
 
       <Surface tone="surfaceContainerLow" rounded="xl" className="border-outline-subtle border p-5">
+        <div className="text-on-surface-variant mb-4 space-y-1">
+          <Typography variant="titleMedium" component="h2" className="text-on-surface">
+            Page-owned report fixture
+          </Typography>
+          <Typography variant="bodySmall">
+            The surrounding page owns vertical scrolling while the table retains horizontal control.
+          </Typography>
+        </div>
+
+        <div
+          data-testid="datatable-page-scroll-owner"
+          className="border-outline-subtle h-[520px] overflow-y-auto rounded-xl border"
+        >
+          <div className="bg-surface-container-low flex h-48 items-end p-5">
+            <Typography variant="bodySmall">Content before the report table</Typography>
+          </div>
+          <div data-testid="datatable-page-flow-fixture">
+            <DataTable
+              data={FIXTURE_ROWS.slice(0, 48)}
+              columns={FIXTURE_COLUMNS}
+              title="Page-owned inventory report"
+              preset="interactive"
+              pagination={{ mode: 'none' }}
+              virtualization={{ rows: false }}
+              features={{ selection: false, search: false, columnPinning: true }}
+              styling={{ variant: 'grid', density: 'compact' }}
+              layout={{ verticalScroll: 'page', stickyHeader: true, stickyOffset: 8 }}
+            />
+          </div>
+          <div className="bg-surface-container-low flex h-48 items-start p-5">
+            <Typography variant="bodySmall">Content after the report table</Typography>
+          </div>
+        </div>
+      </Surface>
+
+      <Surface tone="surfaceContainerLow" rounded="xl" className="border-outline-subtle border p-5">
         <div className="text-on-surface-variant mb-4 flex flex-wrap items-center gap-4">
           <Typography variant="titleMedium" component="h2" className="text-on-surface">
             Virtualized Inventory Fixture
@@ -119,7 +155,8 @@ export default function DataTableRegressionPage() {
             pagination={{ mode: 'none' }}
             virtualization={{ rows: true, rowThreshold: 10, overscan: 8 }}
             features={{ selection: true, search: false, columnPinning: true }}
-            styling={{ variant: 'grid', density: 'compact', stickyHeader: true, stickyOffset: 0 }}
+            styling={{ variant: 'grid', density: 'compact' }}
+            layout={{ verticalScroll: 'table', stickyHeader: true, stickyOffset: 0 }}
           />
         </div>
       </Surface>
@@ -148,7 +185,8 @@ export default function DataTableRegressionPage() {
             pagination={{ mode: 'none' }}
             virtualization={{ rows: true, rowThreshold: 10, overscan: 8 }}
             features={{ selection: true, search: false, columnPinning: true }}
-            styling={{ variant: 'grid', density: 'compact', stickyHeader: true, stickyOffset: 0 }}
+            styling={{ variant: 'grid', density: 'compact' }}
+            layout={{ verticalScroll: 'table', stickyHeader: true, stickyOffset: 0 }}
             renderExpandedRow={(row) => (
               <div
                 data-testid={`datatable-regression-expanded-panel-${row.id}`}

@@ -50,7 +50,7 @@ function isMenuItem<T>(item: RowContextMenuItemOrSeparator<T>): item is RowConte
  *   row={user}
  *   items={[
  *     { key: "edit", label: "Edit", icon: "edit", onClick: (row) => editUser(row) },
- *     { key: "delete", label: "Delete", icon: "delete", variant: "danger", onClick: (row) => deleteUser(row) },
+ *     { key: "delete", label: "Delete", icon: "delete", tone: "danger", onClick: (row) => deleteUser(row) },
  *   ]}
  * />
  * ```
@@ -152,7 +152,7 @@ function ActionMenuItem<T extends { id: string }>({
       onClick={handleClick}
       disabled={disabled}
       className={cn(
-        item.variant === 'danger' &&
+        item.tone === 'danger' &&
           'text-error hover:bg-state-error focus:bg-state-error [&>span:first-child]:text-error',
       )}
     >
@@ -194,7 +194,7 @@ export interface CreateActionsColumnOptions<T extends { id: string }> {
  *     items: [
  *       { key: "edit", label: "Edit", icon: "edit", onClick: (row) => editUser(row) },
  *       { type: "separator" },
- *       { key: "delete", label: "Delete", icon: "delete", variant: "danger", onClick: (row) => deleteUser(row) },
+ *       { key: "delete", label: "Delete", icon: "delete", tone: "danger", onClick: (row) => deleteUser(row) },
  *     ],
  *     pinned: "right",
  *   }),

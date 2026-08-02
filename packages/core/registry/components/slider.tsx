@@ -108,7 +108,7 @@ export const Slider: React.FC<SliderProps> = ({
         <div
           className={cn(
             'duration-snappy absolute h-full rounded-sm transition-all',
-            disabled ? 'bg-outline' : 'bg-primary',
+            disabled ? 'bg-outline-muted' : 'bg-primary',
           )}
           style={{ width: `${percentage}%` }}
         />
@@ -143,7 +143,9 @@ export const Slider: React.FC<SliderProps> = ({
         <div
           className={cn(
             'duration-medium ease-emphasized rounded-full transition-all',
-            disabled ? 'bg-outline h-3 w-3' : 'bg-primary size-icon-sm group-active:scale-125',
+            disabled
+              ? 'bg-outline-muted h-3 w-3'
+              : 'bg-primary size-icon-sm group-active:scale-125',
           )}
         >
           {shouldShowLabel && !disabled && (

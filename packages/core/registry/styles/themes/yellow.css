@@ -1,15 +1,15 @@
 /* unisane:theme:start */
 /* Generated theme: Yellow. Replace this managed region with the CLI. */
 :root {
-  --color-primary: #966800;
+  --color-primary: #936500;
   --color-on-primary: #ffffff;
   --color-primary-container: #fae9c7;
   --color-on-primary-container: #2e1300;
-  --color-secondary: #7c7246;
+  --color-secondary: #796f43;
   --color-on-secondary: #ffffff;
   --color-secondary-container: #efecdb;
   --color-on-secondary-container: #201a01;
-  --color-tertiary: #4a814d;
+  --color-tertiary: #477e4a;
   --color-on-tertiary: #ffffff;
   --color-tertiary-container: #def2dd;
   --color-on-tertiary-container: #002204;
@@ -26,19 +26,20 @@
   --color-on-background: #1c1a16;
   --color-outline: #afaaa0;
   --color-outline-variant: #c8c4ba;
-  --color-error: #c53637;
+  --color-control-outline: #948f83;
+  --color-error: #c13234;
   --color-on-error: #ffffff;
   --color-error-container: #ffdcd6;
   --color-on-error-container: #450000;
-  --color-success: #008b1d;
+  --color-success: #008819;
   --color-on-success: #ffffff;
   --color-success-container: #d2f7d2;
   --color-on-success-container: #002700;
-  --color-warning: #9c6600;
+  --color-warning: #986300;
   --color-on-warning: #ffffff;
   --color-warning-container: #fde9c1;
   --color-on-warning-container: #311000;
-  --color-info: #0077c7;
+  --color-info: #0073c4;
   --color-on-info: #ffffff;
   --color-info-container: #cdf0ff;
   --color-on-info-container: #00194a;
@@ -73,7 +74,8 @@
     --color-background: #110f0c;
     --color-on-background: #ecebe8;
     --color-outline: #948f83;
-    --color-outline-variant: #767166;
+    --color-outline-variant: #736e63;
+    --color-control-outline: #736e63;
     --color-error: #ffbeb7;
     --color-on-error: #700001;
     --color-error-container: #9b0d1a;
@@ -92,7 +94,7 @@
     --color-on-info-container: #cdf0ff;
     --color-inverse-surface: #ecebe8;
     --color-inverse-on-surface: #383530;
-    --color-inverse-primary: #966800;
+    --color-inverse-primary: #936500;
   }
 }
 
@@ -121,7 +123,8 @@
   --color-background: #110f0c;
   --color-on-background: #ecebe8;
   --color-outline: #948f83;
-  --color-outline-variant: #767166;
+  --color-outline-variant: #736e63;
+  --color-control-outline: #736e63;
   --color-error: #ffbeb7;
   --color-on-error: #700001;
   --color-error-container: #9b0d1a;
@@ -140,7 +143,7 @@
   --color-on-info-container: #cdf0ff;
   --color-inverse-surface: #ecebe8;
   --color-inverse-on-surface: #383530;
-  --color-inverse-primary: #966800;
+  --color-inverse-primary: #936500;
 }
 
 [data-contrast="medium"] {
@@ -168,8 +171,9 @@
   --color-background: #ffffff;
   --color-on-background: #1c1a16;
   --color-outline: #575248;
-  --color-outline-variant: #767166;
-  --color-error: #c53637;
+  --color-outline-variant: #736e63;
+  --color-control-outline: #948f83;
+  --color-error: #c13234;
   --color-on-error: #ffffff;
   --color-error-container: #ffdcd6;
   --color-on-error-container: #450000;
@@ -217,6 +221,7 @@
   --color-on-background: #ecebe8;
   --color-outline: #afaaa0;
   --color-outline-variant: #948f83;
+  --color-control-outline: #948f83;
   --color-error: #ffbeb7;
   --color-on-error: #700001;
   --color-error-container: #9b0d1a;
@@ -235,7 +240,7 @@
   --color-on-info-container: #cdf0ff;
   --color-inverse-surface: #ecebe8;
   --color-inverse-on-surface: #383530;
-  --color-inverse-primary: #966800;
+  --color-inverse-primary: #936500;
 }
 
 [data-contrast="high"] {
@@ -263,7 +268,8 @@
   --color-background: #ffffff;
   --color-on-background: #000000;
   --color-outline: #39352d;
-  --color-outline-variant: #767166;
+  --color-outline-variant: #736e63;
+  --color-control-outline: #736e63;
   --color-error: #700001;
   --color-on-error: #ffffff;
   --color-error-container: #ffdcd6;
@@ -312,6 +318,7 @@
   --color-on-background: #ffffff;
   --color-outline: #dad7d0;
   --color-outline-variant: #afaaa0;
+  --color-control-outline: #afaaa0;
   --color-error: #ffeae6;
   --color-on-error: #000000;
   --color-error-container: #9b0d1a;
@@ -330,6 +337,6 @@
   --color-on-info-container: #ffffff;
   --color-inverse-surface: #ecebe8;
   --color-inverse-on-surface: #383530;
-  --color-inverse-primary: #966800;
+  --color-inverse-primary: #936500;
 }
 /* unisane:theme:end */

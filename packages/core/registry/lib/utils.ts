@@ -2,6 +2,8 @@ import React, { cloneElement, isValidElement } from 'react';
 import { clsx, type ClassValue } from 'clsx';
 import { extendTailwindMerge } from 'tailwind-merge';
 
+export { useOverlayBehavior, type UseOverlayBehaviorOptions } from '@/lib/use-overlay-behavior';
+
 const twMerge = extendTailwindMerge({
   extend: {
     classGroups: {
@@ -103,10 +105,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const focusRing =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring';
 
 export const focusRingInset =
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-primary';
+  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-focus-ring';
 
 export const stateLayer = {
   primary: 'hover:bg-primary/[0.08] active:bg-primary/[0.12]',

@@ -1,12 +1,12 @@
 // @vitest-environment happy-dom
 
-import React, { act } from "react";
-import { createRoot, type Root } from "react-dom/client";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { TimePicker } from "../../src/components/time-picker";
+import React, { act } from 'react';
+import { createRoot, type Root } from 'react-dom/client';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { TimePicker } from '../../src/components/time-picker';
 
 async function render(ui: React.ReactNode) {
-  const container = document.createElement("div");
+  const container = document.createElement('div');
   document.body.appendChild(container);
   const root = createRoot(container);
 
@@ -36,46 +36,79 @@ function getDialog() {
   return document.querySelector('[role="dialog"]') as HTMLDivElement | null;
 }
 
-describe("TimePicker", () => {
+describe('TimePicker', () => {
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });
 
   afterEach(() => {
-    document.body.innerHTML = "";
+    document.body.innerHTML = '';
   });
 
-  it("renders from defaultOpen and advances the dial from hour selection to minute selection", async () => {
+  it('renders from defaultOpen and advances the dial from hour selection to minute selection', async () => {
     const rendered = await render(<TimePicker defaultOpen defaultValue="09:15" />);
 
     expect(getDialog()).not.toBeNull();
 
     const hourOption = Array.from(document.querySelectorAll('[role="option"]')).find(
-      (option) => option.textContent?.trim() === "3",
-    ) as HTMLDivElement | undefined;
+      (option) => option.textContent?.trim() === '3',
+    ) as HTMLButtonElement | undefined;
 
     expect(hourOption).toBeDefined();
-    expect(document.querySelector('[role="listbox"]')?.getAttribute("aria-label")).toBe(
-      "Select hour",
+    expect(document.querySelector('[role="listbox"]')?.getAttribute('aria-label')).toBe(
+      'Select hour',
     );
 
     await act(async () => {
-      hourOption?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      hourOption?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const minutesButton = Array.from(document.querySelectorAll('[role="button"]')).find(
-      (button) => button.getAttribute("aria-label") === "Minutes: 15",
-    ) as HTMLDivElement | undefined;
+    const minutesButton = Array.from(document.querySelectorAll('button')).find(
+      (button) => button.getAttribute('aria-label') === 'Minutes: 15',
+    ) as HTMLButtonElement | undefined;
 
-    expect(minutesButton?.getAttribute("aria-pressed")).toBe("true");
-    expect(document.querySelector('[role="listbox"]')?.getAttribute("aria-label")).toBe(
-      "Select minute",
+    expect(minutesButton?.getAttribute('aria-pressed')).toBe('true');
+    expect(document.querySelector('[role="listbox"]')?.getAttribute('aria-label')).toBe(
+      'Select minute',
     );
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("supports keyboard entry mode and saves a formatted time", async () => {
+  it('supports roving keyboard selection for the dial and period group', async () => {
+    const rendered = await render(<TimePicker defaultOpen defaultValue="09:15" />);
+    const selectedHour = document.querySelector(
+      '[role="option"][aria-selected="true"]',
+    ) as HTMLButtonElement | null;
+
+    selectedHour?.focus();
+    await act(async () => {
+      selectedHour?.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+      );
+      window.dispatchEvent(new Event('animationframe'));
+    });
+
+    expect(document.querySelector('[role="option"][aria-selected="true"]')?.textContent).toBe('10');
+
+    const amButton = Array.from(document.querySelectorAll('[role="radio"]')).find(
+      (radio) => radio.textContent?.trim() === 'AM',
+    ) as HTMLButtonElement | undefined;
+    amButton?.focus();
+    await act(async () => {
+      amButton?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
+    });
+
+    expect(
+      Array.from(document.querySelectorAll('[role="radio"]'))
+        .find((radio) => radio.textContent?.trim() === 'PM')
+        ?.getAttribute('aria-checked'),
+    ).toBe('true');
+
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('supports keyboard entry mode and saves a formatted time', async () => {
     const onValueChange = vi.fn();
     const onOpenChange = vi.fn();
     const rendered = await render(
@@ -94,57 +127,55 @@ describe("TimePicker", () => {
     expect(switchButton).not.toBeNull();
 
     await act(async () => {
-      switchButton?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      switchButton?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
     const hourInput = document.getElementById(
-      document.querySelector('label[for]')?.getAttribute("for") ?? "",
+      document.querySelector('label[for]')?.getAttribute('for') ?? '',
     ) as HTMLInputElement | null;
     const minuteInput = document.querySelectorAll('input[type="number"]')[1] as
       | HTMLInputElement
       | undefined;
 
-    expect(hourInput?.value).toBe("9");
-    expect(minuteInput?.value).toBe("15");
+    expect(hourInput?.value).toBe('9');
+    expect(minuteInput?.value).toBe('15');
 
     const pmButton = Array.from(document.querySelectorAll('[role="radio"]')).find(
-      (radio) => radio.textContent?.trim() === "PM",
+      (radio) => radio.textContent?.trim() === 'PM',
     ) as HTMLButtonElement | undefined;
-    const okButton = Array.from(document.querySelectorAll("button")).find(
-      (button) => button.textContent?.trim() === "OK",
+    const okButton = Array.from(document.querySelectorAll('button')).find(
+      (button) => button.textContent?.trim() === 'OK',
     ) as HTMLButtonElement | undefined;
 
     await act(async () => {
-      pmButton?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      pmButton?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
     await act(async () => {
-      okButton?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+      okButton?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    expect(onValueChange).toHaveBeenCalledWith("21:15");
+    expect(onValueChange).toHaveBeenCalledWith('21:15');
     expect(onOpenChange).toHaveBeenCalledWith(false);
     expect(getDialog()).toBeNull();
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("supports controlled open state contracts", async () => {
+  it('supports controlled open state contracts', async () => {
     const onOpenChange = vi.fn();
     const rendered = await render(<TimePicker open onOpenChange={onOpenChange} value="14:30" />);
 
     expect(getDialog()).not.toBeNull();
 
-    await rendered.rerender(
-      <TimePicker open={false} onOpenChange={onOpenChange} value="14:30" />,
-    );
+    await rendered.rerender(<TimePicker open={false} onOpenChange={onOpenChange} value="14:30" />);
 
     expect(getDialog()).toBeNull();
 
     await cleanup(rendered.root, rendered.container);
   });
 
-  it("requests close on Escape", async () => {
+  it('requests close on Escape', async () => {
     const onOpenChange = vi.fn();
     const rendered = await render(
       <TimePicker defaultOpen onOpenChange={onOpenChange} defaultValue="14:30" />,
@@ -153,7 +184,7 @@ describe("TimePicker", () => {
     expect(getDialog()).not.toBeNull();
 
     await act(async () => {
-      document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     });
 
     expect(onOpenChange).toHaveBeenCalledWith(false);

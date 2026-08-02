@@ -22,7 +22,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
     return (
       <textarea
         className={cn(
-          'border-outline-subtle bg-surface text-on-surface ring-offset-surface placeholder:text-on-surface-variant focus-visible:ring-primary flex w-full rounded-sm border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+          'border-control-outline bg-surface text-on-surface ring-offset-surface placeholder:text-on-surface-variant focus-visible:ring-focus-ring flex w-full rounded-sm border focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-38',
           fieldSize.textareaMinHeight,
           fieldSize.horizontalPadding,
           fieldSize.textareaPaddingY,

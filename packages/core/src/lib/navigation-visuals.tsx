@@ -25,7 +25,7 @@ export function NavigationIcon({
 export function getNavigationRailItemClasses(disabled?: boolean, className?: string) {
   return cn(
     'relative flex min-h-12 w-full cursor-pointer flex-col items-center gap-0.5 rounded-button py-1 outline-none select-none',
-    'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+    'focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2',
     disabled && 'pointer-events-none cursor-not-allowed opacity-38',
     className,
   );
@@ -79,7 +79,7 @@ export function NavigationRailItemContent({
         {badge !== undefined && (
           <span
             className={cn(
-              'bg-error text-on-error ring-surface pointer-events-none absolute -top-0.5 -right-0.5 z-20 flex h-3 min-w-3 items-center justify-center rounded-full px-0.5 text-[10px] leading-none font-medium ring-1',
+              'bg-error text-on-error ring-surface text-label-small pointer-events-none absolute -top-0.5 -right-0.5 z-20 flex h-3 min-w-3 items-center justify-center rounded-full px-0.5 leading-none font-medium ring-1',
               typeof badge === 'number' && badge < 10 && 'h-2 min-w-2 p-0.5',
             )}
             role="status"
@@ -114,7 +114,7 @@ export function getNavigationDrawerItemClasses(args: {
   return cn(
     'relative flex w-full min-h-10 items-center justify-start gap-3 rounded-button px-4 py-2',
     'text-body-medium text-left transition-colors duration-short select-none overflow-hidden outline-none',
-    'focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-inset',
+    'focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-inset',
     active
       ? 'bg-state-selected text-on-surface font-medium'
       : 'text-on-surface-variant font-medium hover:bg-state-hover hover:text-on-surface',
