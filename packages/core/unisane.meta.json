@@ -38,6 +38,7 @@
     "./container",
     "./date-input",
     "./date-picker",
+    "./date-range-picker",
     "./dialog",
     "./divider",
     "./drawer",

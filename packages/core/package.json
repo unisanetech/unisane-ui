@@ -109,6 +109,11 @@
       "import": "./dist/components/date-picker.js",
       "default": "./dist/components/date-picker.js"
     },
+    "./date-range-picker": {
+      "types": "./dist/components/date-range-picker.d.ts",
+      "import": "./dist/components/date-range-picker.js",
+      "default": "./dist/components/date-range-picker.js"
+    },
     "./dialog": {
       "types": "./dist/components/dialog.d.ts",
       "import": "./dist/components/dialog.js",

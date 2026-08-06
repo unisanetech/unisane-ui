@@ -6,11 +6,10 @@ import { type FieldSize } from '@/lib/field-size';
 import { Icon } from '@/components/ui/icon';
 import { SegmentedButton, type SegmentedButtonOption } from '@/components/ui/segmented-button';
 
-export interface ModeSwitcherProps
-  extends Omit<
-    React.HTMLAttributes<HTMLDivElement>,
-    'aria-label' | 'aria-labelledby' | 'defaultValue' | 'onChange' | 'onSelect' | 'role'
-  > {
+export interface ModeSwitcherProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'aria-label' | 'aria-labelledby' | 'defaultValue' | 'onChange' | 'onSelect' | 'role'
+> {
   size?: FieldSize;
   showLabels?: boolean;
   showIcons?: boolean;

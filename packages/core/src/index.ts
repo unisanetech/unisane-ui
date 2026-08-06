@@ -80,6 +80,8 @@ export { DateInput } from './components/date-input';
 export type { DateInputProps } from './components/date-input';
 export { DatePicker } from './components/date-picker';
 export type { DatePickerProps } from './components/date-picker';
+export { DateRangePicker } from './components/date-range-picker';
+export type { DateRangePickerProps, DateRangeValue } from './components/date-range-picker';
 export { MonthPicker } from './components/month-picker';
 export type { MonthPickerProps } from './components/month-picker';
 export {

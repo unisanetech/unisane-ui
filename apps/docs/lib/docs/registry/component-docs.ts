@@ -50,6 +50,7 @@ import { carouselDoc } from './components/carousel.docs';
 import { comboboxDoc } from './components/combobox.docs';
 import { commandDoc } from './components/command.docs';
 import { datePickerDoc } from './components/date-picker.docs';
+import { dateRangePickerDoc } from './components/date-range-picker.docs';
 import { dateInputDoc } from './components/date-input.docs';
 import { monthPickerDoc } from './components/month-picker.docs';
 import { fabMenuDoc } from './components/fab-menu.docs';
@@ -117,6 +118,7 @@ const DETAILED_DOCS: Record<string, ComponentDoc> = {
   combobox: comboboxDoc,
   command: commandDoc,
   'date-picker': datePickerDoc,
+  'date-range-picker': dateRangePickerDoc,
   'date-input': dateInputDoc,
   'month-picker': monthPickerDoc,
   'fab-menu': fabMenuDoc,
@@ -288,10 +290,18 @@ export const COMPONENT_REGISTRY: ComponentListItem[] = [
   {
     slug: 'date-picker',
     name: 'Date Picker',
-    description: 'Date pickers let users select dates or date ranges from a calendar.',
+    description: 'Date pickers let users select one exact date from a calendar.',
     category: 'text-inputs',
     status: 'stable',
     icon: 'calendar_today',
+  },
+  {
+    slug: 'date-range-picker',
+    name: 'Date Range Picker',
+    description: 'Date range pickers commit a start and end date from one calendar workflow.',
+    category: 'text-inputs',
+    status: 'stable',
+    icon: 'date_range',
   },
   {
     slug: 'date-input',

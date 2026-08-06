@@ -668,7 +668,8 @@ export const DropdownMenuSubTrigger: React.FC<DropdownMenuSubTriggerProps> = ({
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    triggerRef.current = wrapperRef.current?.querySelector<HTMLElement>('[role="menuitem"]') ?? null;
+    triggerRef.current =
+      wrapperRef.current?.querySelector<HTMLElement>('[role="menuitem"]') ?? null;
   });
 
   const openAndFocusSubmenu = () => {

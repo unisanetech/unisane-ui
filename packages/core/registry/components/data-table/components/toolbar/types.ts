@@ -1,6 +1,6 @@
-import type { ReactNode } from "react";
-import type { ActionTone, BulkAction, Density } from "@/components/ui/data-table/types";
-import type { ExportFormat, ExportResult } from "@/components/ui/data-table/utils/export";
+import type { ReactNode } from 'react';
+import type { ActionTone, BulkAction, Density } from '@/components/ui/data-table/types';
+import type { ExportFormat, ExportResult } from '@/components/ui/data-table/utils/export';
 
 /** Export handler configuration */
 export interface ExportHandler {
@@ -35,7 +35,7 @@ export interface ToolbarAction {
   /** Whether button is disabled */
   disabled?: boolean;
   /** Visual presentation; primary is filled and secondary is outlined. */
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   /** Semantic emphasis, independent of visual presentation. */
   tone?: ActionTone;
   /** If true, shows only icon on mobile, label on larger screens */

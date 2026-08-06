@@ -677,6 +677,25 @@
         "utils"
       ]
     },
+    "date-range-picker": {
+      "name": "DateRangePicker",
+      "type": "components:ui",
+      "description": "DateRangePicker component",
+      "files": [
+        "components/date-range-picker.tsx"
+      ],
+      "dependencies": [],
+      "registryDependencies": [
+        "button",
+        "dialog",
+        "icon",
+        "icon-button",
+        "ripple",
+        "text",
+        "use-controllable-state",
+        "utils"
+      ]
+    },
     "dialog": {
       "name": "Dialog",
       "type": "components:ui",
