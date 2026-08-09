@@ -27,4 +27,3 @@ is stored under `docs/reference/generated/`.
 
 The superseded shadow from freeze `96f29c3f6` is retained only as local comparison
 evidence outside this repository. It is not a source or fallback.
-

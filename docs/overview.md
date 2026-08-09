@@ -1,0 +1,30 @@
+---
+id: 'O-ui-product-overview'
+owner: 'ui-maintainers'
+scope: workspace
+role: overview
+lifecycle: durable
+authority: canonical
+provenance: accepted
+view: current
+---
+
+# Unisane UI overview
+
+Unisane UI is the independent design-system product for semantic tokens, React
+components, DataTable, provider-neutral email templates, source-installable registries,
+and the public documentation application.
+
+Its internal dependency direction is one-way: tokens feed UI, UI feeds DataTable, and
+the docs application consumes the public contracts. Runtime packages never import
+application source, sibling repositories, infrastructure, or checkout-parent paths.
+
+The repository owns its Node and pnpm versions, lockfile, workspace, build graph,
+TypeScript, lint, tests, formatting, generated registries, package-content checks,
+Changesets intent, CI checks, docs, and Skopos Memory. Ordinary development begins with
+`corepack enable`, `pnpm install --frozen-lockfile`, and the root commands documented in
+the README.
+
+This checkout remains a local non-authoritative migration shadow. Public distribution,
+package publication, deployment, and remote authority stay blocked until their separate
+legal, security, recovery, and human-approval gates close.

@@ -27,4 +27,3 @@ authorized legal owner completes all of the following:
 `pnpm check:release-policy` proves that the current shadow remains safely blocked.
 `pnpm check:release-readiness` intentionally fails until every prerequisite is present.
 Neither command publishes anything.
-

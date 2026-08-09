@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "status": "local-migration-shadow-candidate",
+  "source": {
+    "repository": "Unisane umbrella",
+    "remote": "https://github.com/Croodo/unisane.git",
+    "branch": "dev",
+    "freezeCommit": "ad628e0b6a028dfb1a9035fce69e8b5648866eaf"
+  },
+  "filter": {
+    "tool": "git-filter-repo",
+    "version": "2.47.0",
+    "specification": "scripts/repository-migration/filter-repo.args",
+    "specificationSha256": "90d9b40297b348cf1cac1b1e8dfbb18c8e70db2170132f02db72170346d2d257",
+    "includedSourcePaths": ["unisane-ui/**"],
+    "pathRenames": [{ "source": "unisane-ui/", "target": "" }],
+    "excludedSourcePaths": [
+      "all paths outside unisane-ui/**",
+      "interfacelm/**",
+      "references/**",
+      "generated, cached, and untracked local state"
+    ]
+  },
+  "history": {
+    "filteredInitialCommit": "0f679dbeecd4245af0f6ecb20d80f7d70be673fe",
+    "targetFoundationCommit": "206dd4622b4763364a4a8fd9a84ca063c57c737b",
+    "sourceTipMapping": {
+      "source": "ad628e0b6a028dfb1a9035fce69e8b5648866eaf",
+      "target": "0f679dbeecd4245af0f6ecb20d80f7d70be673fe"
+    },
+    "sourcePathCommitCount": 99,
+    "retainedCommitCountBeforeTargetFoundation": 99,
+    "commitMap": "docs/repository-history-map.txt",
+    "commitMapSha256": "fcbd4b6c0987eb47ddb770fef46ad3def6d3bf52d71a9c01134937db7ef6ed79",
+    "importedTags": [],
+    "omittedTags": [],
+    "manifest": {
+      "sourceTrackedFileCount": 937,
+      "targetTrackedFileCountBeforeTargetFoundation": 937,
+      "sourceSha256": "0c603d27b4482d12b5b5052b4a0050738a724ead6f247125592571043d04e10c",
+      "targetSha256": "0c603d27b4482d12b5b5052b4a0050738a724ead6f247125592571043d04e10c",
+      "status": "match"
+    },
+    "representativeHistory": {
+      "status": "match",
+      "comparedAtTargetCommit": "0f679dbeecd4245af0f6ecb20d80f7d70be673fe",
+      "identityFields": [
+        "author timestamp",
+        "author name",
+        "author email",
+        "committer timestamp",
+        "committer name",
+        "committer email",
+        "subject"
+      ],
+      "paths": {
+        "package.json": "e5fadaf791a77177e7be9e90e77d59a354f31d1a8cdc8c21835478dfe21d07b4",
+        "packages/ui/src/components/button.tsx": "99a54ce4eaf010643d1c38bdc4125287cd13244598491cfb73d034ed711bc736",
+        "packages/tokens/src/theme-config.json": "8fb45832edce49c9ebbec61b86c0deb356de42853564c8188c8118481b2d96ee",
+        "packages/data-table/src/index.ts": "34b2da2b228f7ecfd961ce1dba113c9dad6db117ae4c61b14b119c4c9244a7b4",
+        "packages/data-table/turbo.json": "c391400090d8b5c25b64736eca3cd27871e194221f7b533111425ada50fc3594"
+      }
+    }
+  },
+  "foundation": {
+    "owner": "Unisane repository system",
+    "manifest": "unisane-infrastructure/repository-system/manifests/unisane-ui.json",
+    "manifestDigest": "6e0c1e79c22766c0293727033d6c621938a7687fa0c99f8104a5b9dd2aa82226",
+    "profile": "public-package-product",
+    "profileDigest": "3d45927ce6ea784f791c7419437f71464adae4b1a656089e7a366ca3138e8180",
+    "materializedContentDigest": "c740253a0696610e0d1fd1570ca0a045edda89290d1f9603d09aacbf471747ff",
+    "receipt": "docs/reference/generated/repository-foundation-receipt.json",
+    "receiptSha256": "51c12e6dfbe971117c635318d7762f3fe8e28364598dd9d6def44d833c1bdc81",
+    "externalMutations": [],
+    "appliedExactFiles": [
+      "AGENTS.md",
+      "SECURITY.md",
+      "skopos.config.yaml",
+      "tools/skopos/scopes.yaml"
+    ],
+    "reconciliation": "Existing converged UI tooling remains authoritative where it is more specific than the generic profile output; conflicts were reviewed rather than overwritten."
+  },
+  "priorShadowComparison": {
+    "sourceFreezeCommit": "96f29c3f60834feea55c75a3994f10d6a207901f",
+    "head": "ed8537ef77811e832075370db78b445d67d85ee5",
+    "provenanceSha256": "d29327b96d3279b756b2e39f6008d8b9d39a61a2a5eaf60bddab32797109a4ca",
+    "dirtyPathCount": 29,
+    "filesystemDifferenceCount": 186,
+    "disposition": "retained outside this repository as non-authoritative comparison evidence"
+  },
+  "audits": {
+    "publicHistorySafety": {
+      "status": "passed-local-high-confidence-scan",
+      "details": "docs/reference/generated/repository-shadow-audit.json",
+      "limitation": "This local scan does not approve public distribution; legal, contributor, asset-rights, and authenticated remote reviews remain blocked."
+    },
+    "licenseAndAssets": {
+      "status": "blocked",
+      "details": "docs/guides/licensing-prerequisites.md"
+    }
+  },
+  "authority": {
+    "current": "umbrella-authoritative",
+    "shadow": "local-non-authoritative",
+    "owner": "Unisane repository-separation program",
+    "cutoverTimestamp": null,
+    "remote": null,
+    "publishAuthorized": false
+  }
+}

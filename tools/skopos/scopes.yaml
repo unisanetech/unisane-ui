@@ -1,16 +1,16 @@
 schemaVersion: 1
 scopes:
   - id: workspace
-    title: "unisane-ui"
+    title: 'unisane-ui'
     kind: workspace
     path: .
     memoryRoot: docs
     codeRoots:
       - .
     parent: null
-    profile: "public-package-product"
+    profile: 'public-package-product'
     dependsOn: []
     owners:
-      - "ui-maintainers"
+      - 'ui-maintainers'
     aliases:
       - root

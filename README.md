@@ -30,6 +30,6 @@ Run the docs application with `pnpm --filter @unisane/ui-docs dev`.
 
 This checkout is a verified local migration-shadow candidate. The umbrella remains the
 sole writable source authority; public licensing, remote authority, package publication,
-and production deployment remain separately blocked. See `docs/migration-shadow.md` and
-`docs/licensing-prerequisites.md` before treating any repository or package metadata as
-permission to distribute.
+and production deployment remain separately blocked. Start with `docs/overview.md`, then
+read `docs/guides/migration-shadow.md` and `docs/guides/licensing-prerequisites.md` before
+treating any repository or package metadata as permission to distribute.

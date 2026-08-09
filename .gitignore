@@ -47,3 +47,6 @@ temp/
 
 # Storybook
 storybook-static/
+
+# Skopos generated local state
+.skopos/

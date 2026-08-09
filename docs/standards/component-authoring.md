@@ -1,3 +1,14 @@
+---
+id: 'S-ui-component-authoring'
+owner: 'ui-maintainers'
+scope: workspace
+role: standard
+lifecycle: durable
+authority: canonical
+provenance: accepted
+view: current
+---
+
 # Unisane Component Authoring
 
 Unisane components follow a props-first, token-first authoring model. The system borrows useful semantics from Material and useful ergonomics from shadcn-style patterns, but it is not a clone of either.

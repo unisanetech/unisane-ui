@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "authority": "umbrella-unisane-ui-source-convergence",
+  "authority": "local-unisane-ui-migration-shadow",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 936,
+  "fileCount": 952,
   "dispositionCounts": {
-    "retain": 809,
+    "retain": 825,
     "block": 11,
     "regenerate": 116
   },
@@ -36,16 +36,40 @@
       "sha256": "08ea102aef35aa5eac172303892935642eb4707897b830876e40106c01724982"
     },
     {
+      "path": ".github/workflows/ci.yml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "5a183d07239848d9de099e8a845ee00c76f5d8ed049d437f5b30a5f4b62dd9b5"
+    },
+    {
       "path": ".gitignore",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "84e65d61ec69200dde3d516bc8c91a2c9b0d894bb40ddcc126e2b780ca2f6ae6"
+      "sha256": "b5e8c7da456ef92a2150645a249f462d264036204bf448858d76a58e4843dffa"
     },
     {
       "path": ".node-version",
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "55ce66383dffcaf804e6d3b03993b0d332cb5d7c38e26e9f92fb78ab040dc70c"
+    },
+    {
+      "path": ".prettierignore",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "280d3aa13e40ddca4a9e4d6f1dd72f8abfeab4bce7ee2588593a0618ce90cb58"
+    },
+    {
+      "path": ".prettierrc.json",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "b222e276b3bcffdb003d88e8f9d1a5a7cf8b784f1234e26be839aa290914a68f"
+    },
+    {
+      "path": "AGENTS.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "1923126390d85a793e74f44659a73bf826174b54d4d1500ae9f44ce6f7d13860"
     },
     {
       "path": "apps/docs/.gitignore",
@@ -2127,25 +2151,67 @@
       "path": "docs/00-start-here.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "773d791487d2739082340ee4c56a35ab6bc3b5c69ce366e613bcc07f7aa9f677"
+      "sha256": "4dc47eabbf18b140d14dfe6e8efa42afb12dbf1407d51074540a2dd69704dfcc"
     },
     {
       "path": "docs/architecture/design-system.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "b32efea4fac2e91c1669cec60bd98fc9d1a409b2e0ace54c3deee79d69c9f0e2"
+      "sha256": "175f0a549d6ffa2334bab4cf6dd209b5de2027655b1402e6933ae145e7a1b07c"
     },
     {
       "path": "docs/findings/blocks-catalog-product-contract-gap.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "75299ffaf1f6b6f2ef40a8bcf648152d83c4d292a73167504d97d305d0bd9353"
+      "sha256": "28dd1478f0987ace2de31eded745df8aa45513f5e891302315be35df75698f2b"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "35ce2a18ed1ee6e8b6abb7b9808a9784222d8591a9b158ade220a1dc8accbde0"
+    },
+    {
+      "path": "docs/guides/migration-shadow.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "82e041ab50edf2bc9247c6ec40ae2269fc6fced524fd5d5a9b82383d06a967ae"
+    },
+    {
+      "path": "docs/overview.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "006f759842422d668d6125ceb44e673023f4e8c386610f4e621567821c783387"
+    },
+    {
+      "path": "docs/reference/generated/repository-foundation-receipt.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "51c12e6dfbe971117c635318d7762f3fe8e28364598dd9d6def44d833c1bdc81"
+    },
+    {
+      "path": "docs/reference/generated/repository-shadow-audit.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "571b4f9f1c7fdfdcde3288aa2c3609a4a696b9bd8990a462c65a43d20d8d1c4c"
+    },
+    {
+      "path": "docs/repository-history-map.txt",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "fcbd4b6c0987eb47ddb770fef46ad3def6d3bf52d71a9c01134937db7ef6ed79"
+    },
+    {
+      "path": "docs/repository-provenance.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "38fe665c1e8114354a173e2448894fd161c877c47274cfe694ac9f484372971b"
     },
     {
       "path": "docs/standards/component-authoring.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "8c5e61fa9b2af0f22e69da2c4cce1f8bfe0066f3595d6317b05f249e1905c944"
+      "sha256": "fae6df3b738067f285219949cd68eabfcabf7a92fbd37b7e9c9249d1c76adafb"
     },
     {
       "path": "eslint.config.mjs",
@@ -2163,7 +2229,7 @@
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "030613ad3b0f1e346f51175b95743a291a85286420a4a0e979225d07460ff0a6"
+      "sha256": "da60d7e42fe28b7c0e7f9e8c94753eb9d60b7e54a5bf6feac5d5501517f70129"
     },
     {
       "path": "packages/data-table/docs/RESPONSIVENESS.md",
@@ -3453,7 +3519,7 @@
       "path": "packages/data-table/turbo.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "0502747a1c1f9d9a68dddbda206a358edc6dc452080c840d0fafae084bbd71d7"
+      "sha256": "32f3a1ce491b45ca4f2bd90154012b9e75c5d89f20da2f187d89a11b231f8576"
     },
     {
       "path": "packages/data-table/unisane.meta.json",
@@ -5565,7 +5631,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "f6143d833b8e0c33b09dda71960108435a1d00f353b0c39d56238cd07003c231"
+      "sha256": "401334c374f41e70fdc4055de3c056f6ab104bcf944f042b51e958cd3bc00bcf"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5580,10 +5646,16 @@
       "sha256": "1c3e88ede650bd9aaa422366fcd70241e204388c941ebb0ebae64e1d2037b5c6"
     },
     {
+      "path": "scripts/check-release-readiness.mjs",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "3c7b2e948923007747c906f28014be0af53dcc6b3d180a3c9e33744fd348cc92"
+    },
+    {
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "5834b1c84c71b9603448694cc6710171a8b2626d0924f3aab9f6fbeb207f7e9e"
+      "sha256": "ed53d0acd9a76da4de58d3795e937e9d6a050538c02db25f1109674420979645"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5596,6 +5668,30 @@
       "disposition": "retain",
       "owner": "repository tooling",
       "sha256": "7474007f4c90c221f4f26955cd31b5541cf954a33eb96e7470e0590bbeffe4e7"
+    },
+    {
+      "path": "scripts/repository-migration/filter-repo.args",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "90d9b40297b348cf1cac1b1e8dfbb18c8e70db2170132f02db72170346d2d257"
+    },
+    {
+      "path": "SECURITY.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "44676ce066c2763e8d20fe472aba05cbea49a25c9c590ac99d9fb7fba81975a1"
+    },
+    {
+      "path": "skopos.config.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "9d4e821556be18beff7c1e334c92b391c8066211ab330b6f72a1a53090af2763"
+    },
+    {
+      "path": "tools/skopos/scopes.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "db8d3651c8e912bb8bfb1494e89e8328d09a6ebd6d0bac6d51918abdf6a5a227"
     },
     {
       "path": "tsconfig.base.json",

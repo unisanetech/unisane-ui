@@ -1,3 +1,14 @@
+---
+id: 'A-ui-design-system'
+owner: 'ui-maintainers'
+scope: workspace
+role: architecture
+lifecycle: durable
+authority: canonical
+provenance: accepted
+view: current
+---
+
 # Unisane Design System
 
 Unisane is a token-first product UI system. It borrows useful semantics from Material and useful authoring ergonomics from shadcn-style component patterns, but it is not a clone of either.

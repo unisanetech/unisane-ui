@@ -1,0 +1,12 @@
+# Tool: git-filter-repo 2.47.0
+# Source: full local clone of https://github.com/Croodo/unisane.git
+# Source freeze: ad628e0b6a028dfb1a9035fce69e8b5648866eaf
+# Invocation from the disposable full clone after retaining only the main ref:
+--path unisane-ui/
+--path-rename unisane-ui/:
+--force
+
+# Paths outside unisane-ui/ are omitted by the path selector. The former ad hoc
+# packages/data-table/export-2026-07-09.pdf artifact was removed by authoritative
+# source convergence before this freeze, so no filter-only exception is required.
+# No tag is imported because the umbrella contains no UI-owned tag at this freeze.

@@ -1,15 +1,15 @@
 schemaVersion: 1
 project:
-  name: "unisane-ui"
-  archetype: "library"
-  repoMode: "multi-package"
+  name: 'unisane-ui'
+  archetype: 'library'
+  repoMode: 'multi-package'
   scopeStrategy: hybrid
   mode: clean-refactor
 commands:
-  build: "pnpm build"
-  lint: "pnpm lint"
-  test: "pnpm test"
-  typecheck: "pnpm typecheck"
+  build: 'pnpm build'
+  lint: 'pnpm lint'
+  test: 'pnpm test'
+  typecheck: 'pnpm typecheck'
 workspace:
   ignore:
     - .skopos

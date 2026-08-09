@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "generatedFor": "local-migration-shadow",
+  "sourceFreezeCommit": "ad628e0b6a028dfb1a9035fce69e8b5648866eaf",
+  "filteredSourceCommit": "0f679dbeecd4245af0f6ecb20d80f7d70be673fe",
+  "history": {
+    "sourcePathCommits": 99,
+    "retainedFilteredCommits": 99,
+    "sourceTrackedFiles": 937,
+    "filteredTrackedFiles": 937,
+    "treeDigestMatch": true,
+    "representativeHistoryMatch": true,
+    "tagsImported": 0,
+    "configuredRemotes": 0
+  },
+  "publicHistorySafety": {
+    "scannedBlobCount": 3758,
+    "largestBlobBytes": 278256,
+    "highConfidenceSecretPatternMatches": 0,
+    "credentialUrlMatches": 0,
+    "suspiciousTrackedCredentialPaths": 0,
+    "authorIdentityCount": 2,
+    "authorIdentityDigest": "308803a9271e3fabd4fecece8af6c8cd1edbd8e54ab6e2e27eb2305dc474e1bf",
+    "status": "passed-local-high-confidence-scan"
+  },
+  "dependencyDirection": {
+    "forbiddenPackageDependencies": 0,
+    "trackedSymlinks": 0,
+    "forbiddenOrRetiredRoots": 0,
+    "allowedWorkspaceCoordinates": [
+      "@unisane/data-table",
+      "@unisane/tokens",
+      "@unisane/ui"
+    ],
+    "status": "passed"
+  },
+  "release": {
+    "publicDistribution": "blocked",
+    "licenseAndNotice": "blocked",
+    "contributors": "blocked",
+    "assetRights": "blocked",
+    "remoteAuthority": "blocked",
+    "publishing": "blocked"
+  },
+  "externalMutations": []
+}

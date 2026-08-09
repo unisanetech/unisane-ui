@@ -2,7 +2,7 @@
 id: 'G-ui-documentation-router'
 owner: 'ui-maintainers'
 scope: workspace
-role: guide
+role: router
 lifecycle: active
 authority: canonical
 provenance: accepted
@@ -15,8 +15,9 @@ view: current
 - Component authoring: `docs/standards/component-authoring.md`
 - Public documentation application: `apps/docs`
 - Package consumer guidance: the README nearest each package
-- Local migration status and provenance: `docs/migration-shadow.md`
-- Licensing and release prerequisites: `docs/licensing-prerequisites.md`
+- Product and repository overview: `docs/overview.md`
+- Local migration status and provenance: `docs/guides/migration-shadow.md`
+- Licensing and release prerequisites: `docs/guides/licensing-prerequisites.md`
 
 Execution plans and task state do not belong in this directory. Skopos owns tracked work;
 durable product and engineering rules live here.

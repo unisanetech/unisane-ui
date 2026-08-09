@@ -86,4 +86,3 @@ if (blockers.length > 0) {
 }
 
 console.log('Release prerequisites are present. Publishing still requires human approval.');
-

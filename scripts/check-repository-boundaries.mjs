@@ -12,6 +12,7 @@ const mode = process.argv.includes('--write') ? 'write' : 'check';
 const ignoredDirectories = new Set([
   '.git',
   '.next',
+  '.skopos',
   '.turbo',
   'coverage',
   'dist',
@@ -100,6 +101,9 @@ function recordViolation(relativePath, message) {
 }
 
 const files = await collectFiles(repositoryRoot);
+const authority = files.includes('docs/repository-provenance.json')
+  ? 'local-unisane-ui-migration-shadow'
+  : 'umbrella-unisane-ui-source-convergence';
 const records = [];
 
 for (const relativePath of files) {
@@ -181,7 +185,7 @@ const dispositionCounts = records.reduce((counts, record) => {
 }, {});
 const report = {
   schemaVersion: 1,
-  authority: 'umbrella-unisane-ui-source-convergence',
+  authority,
   generatedBy: 'scripts/check-repository-boundaries.mjs',
   fileCount: records.length,
   dispositionCounts,
