@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "kind": "ui",
+  "id": "@unisane/ui-cli",
+  "edition": "oss",
+  "maturity": "beta",
+  "supportedModes": [
+    "full-platform"
+  ],
+  "requiresPackages": [],
+  "requiresTokens": [],
+  "runtimeProfiles": [],
+  "docs": [
+    "README.md"
+  ],
+  "exports": [
+    ".",
+    "./handlers/ui",
+    "./pack-manifest"
+  ]
+}

@@ -80,6 +80,9 @@ function classify(relativePath) {
   if (relativePath.startsWith('packages/ui/')) {
     return { disposition: 'retain', owner: '@unisane/ui' };
   }
+  if (relativePath.startsWith('packages/ui-cli/')) {
+    return { disposition: 'retain', owner: '@unisane/ui-cli' };
+  }
   if (relativePath.startsWith('packages/data-table/')) {
     return { disposition: 'retain', owner: '@unisane/data-table' };
   }
@@ -148,6 +151,7 @@ for (const relativePath of files) {
 
 const packagePaths = [
   'packages/ui/package.json',
+  'packages/ui-cli/package.json',
   'packages/tokens/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',

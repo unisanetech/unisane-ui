@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "kind": "unisane.pack-manifest",
+  "packId": "ui",
+  "packageName": "@unisane/ui-cli",
+  "version": "0.1.0",
+  "packApiVersion": 1,
+  "trust": "first-party",
+  "commands": [
+    {
+      "id": "ui.init",
+      "path": ["ui", "init"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "write",
+      "writeTargets": ["project"],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.add",
+      "path": ["ui", "add"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "write",
+      "writeTargets": ["project"],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.diff",
+      "path": ["ui", "diff"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.doctor",
+      "path": ["ui", "doctor"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.theme",
+      "path": ["ui", "theme"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "write",
+      "writeTargets": ["project"],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.appearance-enable",
+      "path": ["ui", "appearance", "enable"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "write",
+      "writeTargets": ["project"],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.appearance-disable",
+      "path": ["ui", "appearance", "disable"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "write",
+      "writeTargets": ["project"],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.appearance-list",
+      "path": ["ui", "appearance", "list"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    }
+  ],
+  "configNamespaces": [],
+  "addItemTypes": [],
+  "capabilities": [],
+  "providerBindings": [],
+  "reservedRootNames": [],
+  "integrity": {
+    "algorithm": "sha256",
+    "manifestHash": "73c139818880beb7d4cadda64b7d80fbfd859661953fc789776b7a8adb18f5cc"
+  }
+}
