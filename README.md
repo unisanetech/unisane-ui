@@ -28,5 +28,8 @@ pnpm build
 
 Run the docs application with `pnpm --filter @unisane/ui-docs dev`.
 
-The repository is still under pre-extraction convergence. Public licensing, remote
-authority, package publication, and production deployment remain separately gated.
+This checkout is a verified local migration-shadow candidate. The umbrella remains the
+sole writable source authority; public licensing, remote authority, package publication,
+and production deployment remain separately blocked. See `docs/migration-shadow.md` and
+`docs/licensing-prerequisites.md` before treating any repository or package metadata as
+permission to distribute.
