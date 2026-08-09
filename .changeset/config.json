@@ -3,9 +3,7 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [
-    ["@unisane/ui", "@unisane/tokens", "@unisane/data-table"]
-  ],
+  "linked": [["@unisane/ui", "@unisane/tokens"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch"

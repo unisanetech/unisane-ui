@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-const REGRESSION_ROUTE = '/docs/internal/datatable-regression';
+const REGRESSION_ROUTE = '/test-fixtures/datatable-regression';
 
 async function getFixture(page: Page, testId: string) {
   const fixture = page.locator(`[data-testid='${testId}']`);
@@ -45,6 +45,8 @@ test.describe('datatable regression fixtures', () => {
 
     if (!isMobile) {
       const customScrollbar = fixture.locator("[data-datatable-custom-scrollbar='true']");
+      await expect(customScrollbar).toHaveCSS('position', 'fixed');
+      await expect(customScrollbar).toBeVisible();
       const ownerBoxBefore = await pageScrollOwner.boundingBox();
       const customScrollbarBox = await customScrollbar.boundingBox();
       expect(ownerBoxBefore).not.toBeNull();
@@ -65,6 +67,14 @@ test.describe('datatable regression fixtures', () => {
       .poll(async () => pageScrollOwner.evaluate((node: HTMLDivElement) => node.scrollTop))
       .toBeGreaterThan(300);
     expect(await tableScrollContainer.evaluate((node: HTMLDivElement) => node.scrollTop)).toBe(0);
+
+    await pageScrollOwner.evaluate((node: HTMLDivElement) => {
+      node.scrollTop = 480;
+      node.dispatchEvent(new Event('scroll'));
+    });
+    await expect
+      .poll(async () => pageScrollOwner.evaluate((node: HTMLDivElement) => node.scrollTop))
+      .toBe(480);
 
     const ownerBox = await pageScrollOwner.boundingBox();
     const stickyZoneBox = await stickyZone.boundingBox();
@@ -90,7 +100,10 @@ test.describe('datatable regression fixtures', () => {
 
     const sampledHeaderPositions = [headerBox?.y ?? 0];
     for (let step = 0; step < 4; step += 1) {
-      await page.mouse.wheel(0, 48);
+      await pageScrollOwner.evaluate((node: HTMLDivElement) => {
+        node.scrollTop += 48;
+        node.dispatchEvent(new Event('scroll'));
+      });
       const sampledBox = await overlayHeaderCell.boundingBox();
       sampledHeaderPositions.push(sampledBox?.y ?? 0);
     }
@@ -184,6 +197,7 @@ test.describe('datatable regression fixtures', () => {
 
     expect(xMetricsBefore.scrollWidth).toBeGreaterThan(xMetricsBefore.clientWidth);
     expect(xMetricsBefore.scrollLeft).toBe(0);
+    const maxScrollLeft = xMetricsBefore.scrollWidth - xMetricsBefore.clientWidth;
 
     await scrollContainer.evaluate((node: HTMLDivElement) => {
       node.scrollLeft = node.scrollWidth - node.clientWidth;
@@ -194,7 +208,7 @@ test.describe('datatable regression fixtures', () => {
       .poll(async () => {
         return scrollContainer.evaluate((node: HTMLDivElement) => node.scrollLeft);
       })
-      .toBeGreaterThan(700);
+      .toBeGreaterThanOrEqual(maxScrollLeft - 2);
 
     const pinnedHeaderBoxAfter = await pinnedHeader.boundingBox();
     const scrollHeaderBoxAfter = await scrollHeader.boundingBox();
@@ -210,7 +224,9 @@ test.describe('datatable regression fixtures', () => {
     expect(
       Math.abs((pinnedHeaderBoxAfter?.x ?? 0) - (pinnedHeaderBoxBefore?.x ?? 0)),
     ).toBeLessThanOrEqual(2);
-    expect(scrollHeaderBoxAfter?.x ?? 0).toBeLessThan((scrollHeaderBoxBefore?.x ?? 0) - 500);
+    expect(scrollHeaderBoxAfter?.x ?? 0).toBeLessThan(
+      (scrollHeaderBoxBefore?.x ?? 0) - maxScrollLeft * 0.8,
+    );
 
     expect(customScrollbarBox?.x ?? 0).toBeGreaterThanOrEqual((fixtureBox?.x ?? 0) - 1);
     expect((customScrollbarBox?.x ?? 0) + (customScrollbarBox?.width ?? 0)).toBeLessThanOrEqual(

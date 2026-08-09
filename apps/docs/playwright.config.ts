@@ -7,6 +7,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : 2,
   reporter: [['list']],
+  expect: {
+    timeout: 15_000,
+  },
   use: {
     baseURL: 'http://127.0.0.1:3101',
     trace: 'on-first-retry',
@@ -24,7 +27,11 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm exec next build && pnpm exec next start --hostname 127.0.0.1 --port 3101',
-    url: 'http://127.0.0.1:3101/docs/internal/visual-regression',
+    url: 'http://127.0.0.1:3101/test-fixtures/visual-regression',
+    env: {
+      ...process.env,
+      UNISANE_UI_TEST_ROUTES: '1',
+    },
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

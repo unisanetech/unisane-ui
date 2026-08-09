@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 const uiRoot = path.join(__dirname, '..');
 
 const sourceRoots = [
-  path.join(uiRoot, 'packages/core/src'),
+  path.join(uiRoot, 'packages/ui/src'),
   path.join(uiRoot, 'packages/data-table/src'),
 ];
 
@@ -27,15 +27,15 @@ const quietDataTableFiles = new Set([
 ]);
 
 const controlBoundaryFiles = new Set([
-  'packages/core/src/components/checkbox.tsx',
-  'packages/core/src/components/radio.tsx',
-  'packages/core/src/components/search-bar.tsx',
-  'packages/core/src/components/segmented-button.tsx',
-  'packages/core/src/components/switch.tsx',
-  'packages/core/src/components/time-picker.tsx',
-  'packages/core/src/lib/field-shell.ts',
-  'packages/core/src/primitives/input.tsx',
-  'packages/core/src/primitives/textarea.tsx',
+  'packages/ui/src/components/checkbox.tsx',
+  'packages/ui/src/components/radio.tsx',
+  'packages/ui/src/components/search-bar.tsx',
+  'packages/ui/src/components/segmented-button.tsx',
+  'packages/ui/src/components/switch.tsx',
+  'packages/ui/src/components/time-picker.tsx',
+  'packages/ui/src/lib/field-shell.ts',
+  'packages/ui/src/primitives/input.tsx',
+  'packages/ui/src/primitives/textarea.tsx',
   'packages/data-table/src/components/toolbar/buttons.tsx',
   'packages/data-table/src/components/toolbar/search-input.tsx',
 ]);
@@ -43,8 +43,8 @@ const controlBoundaryFiles = new Set([
 const violations = [];
 
 const connectedControlSeparatorFiles = new Set([
-  'packages/core/src/components/segmented-button.tsx',
-  'packages/core/src/components/time-picker.tsx',
+  'packages/ui/src/components/segmented-button.tsx',
+  'packages/ui/src/components/time-picker.tsx',
   'packages/data-table/src/components/toolbar/buttons.tsx',
 ]);
 
@@ -181,7 +181,7 @@ function checkFile(filePath, content) {
   }
 
   if (
-    relativePath === 'packages/core/src/components/mode-switcher.tsx' &&
+    relativePath === 'packages/ui/src/components/mode-switcher.tsx' &&
     !content.includes('<SegmentedButton')
   ) {
     violations.push({

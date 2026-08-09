@@ -29,6 +29,7 @@
     "./hooks/utilities",
     "./i18n",
     "./print",
+    "./styles.css",
     "./types",
     "./types/*",
     "./utils"

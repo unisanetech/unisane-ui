@@ -15,8 +15,13 @@ export function ShellRouteLayout({
   initialExpanded?: boolean;
 }) {
   const pathname = usePathname();
+  const isTestFixture = pathname.startsWith('/test-fixtures/');
   const isHome = pathname === '/';
   const isBlocks = pathname.startsWith('/docs/blocks');
+
+  if (isTestFixture) {
+    return children;
+  }
 
   return (
     <DocsShell

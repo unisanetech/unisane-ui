@@ -13,14 +13,16 @@ The workbench itself is a first-party app and may consume flat `@unisane/ui/<com
 
 The workbench also imports `@unisane/tokens/preview-themes.css` so documentation fixtures can preview every theme, scheme, contrast, and mode combination. That generated preview asset is documentation-only and must never be included in `@unisane/ui/styles.css`, registry `globals.css`, or external application guidance.
 
-The workbench may retain its own preview-only color/scheme controls behind the legacy package compatibility surface. Public examples use the canonical local `AppearanceProvider`; project color and scheme remain CLI-generated CSS rather than runtime application state.
+The workbench owns preview-only color and scheme controls for documentation fixtures.
+Public examples use the canonical local `AppearanceProvider`; project color and scheme
+remain generated CSS rather than runtime application state.
 
 ## Run Locally
 
 From the workspace root:
 
 ```bash
-pnpm --filter @unisane/web dev
+pnpm --filter @unisane/ui-docs dev
 ```
 
 Then open `http://localhost:3001`.

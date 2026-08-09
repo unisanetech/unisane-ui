@@ -2,7 +2,8 @@
   "name": "unisane-ui",
   "version": "0.1.0",
   "private": true,
-  "description": "Material Design 3 React Component Library",
+  "description": "Unisane design tokens, React components, DataTable, email templates, and documentation",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/unisane/unisane-ui.git"
@@ -10,24 +11,38 @@
   "scripts": {
     "build": "turbo run build",
     "check:border-semantics": "node scripts/check-semantic-border-roles.mjs",
+    "check:boundaries": "node scripts/check-repository-boundaries.mjs --check",
+    "check:package-content": "turbo run build --filter=@unisane/ui --filter=@unisane/tokens --filter=@unisane/data-table --filter=@unisane/email-templates && node scripts/check-package-contents.mjs",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
+    "typecheck": "turbo run check-types",
     "test": "turbo run test",
-    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm -w architecture:check && pnpm -w typecheck",
+    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm check:boundaries && pnpm check:package-content && pnpm typecheck",
+    "report:convergence": "node scripts/check-repository-boundaries.mjs --write",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm check:quality",
     "storybook": "turbo run storybook",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "@changesets/cli": "^2.28.1",
-    "prettier": "^3.6.0",
-    "turbo": "^2.6.3",
-    "typescript": "^5.9.2",
-    "vitest": "^4.0.16"
+    "@changesets/cli": "2.29.8",
+    "@eslint/js": "9.39.2",
+    "@next/eslint-plugin-next": "15.5.9",
+    "eslint": "9.39.2",
+    "eslint-config-prettier": "10.1.1",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-turbo": "2.7.4",
+    "globals": "16.5.0",
+    "prettier": "3.8.0",
+    "turbo": "2.7.4",
+    "typescript": "5.9.2",
+    "typescript-eslint": "8.53.0",
+    "vitest": "4.0.17"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {
-    "node": ">=18"
+    "node": ">=22.0.0"
   }
 }

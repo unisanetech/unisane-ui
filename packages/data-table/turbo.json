@@ -2,7 +2,11 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "dependsOn": ["@unisane/ui#build"]
+      "dependsOn": ["@unisane/ui#build", "build:components", "build:styles"]
+    },
+    "build:components": {},
+    "build:styles": {
+      "outputs": ["dist/index.css"]
     },
     "check-types": {
       "dependsOn": ["@unisane/ui#build"]

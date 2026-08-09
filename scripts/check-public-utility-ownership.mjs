@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const workspaceDir = path.join(__dirname, '..');
 
-const packageStylesPath = path.join(workspaceDir, 'packages/core/src/styles.css');
+const packageStylesPath = path.join(workspaceDir, 'packages/ui/src/styles.css');
 const docsGlobalsPath = path.join(workspaceDir, 'apps/docs/app/globals.css');
 const ignoredClassNames = new Set(['dark', 'expanded', 'medium']);
 
@@ -43,7 +43,9 @@ async function main() {
   const packageUtilities = extractUtilityClasses(packageCss);
   const docsUtilities = extractUtilityClasses(docsCss);
 
-  const duplicates = [...docsUtilities].filter((className) => packageUtilities.has(className)).sort();
+  const duplicates = [...docsUtilities]
+    .filter((className) => packageUtilities.has(className))
+    .sort();
 
   if (duplicates.length === 0) {
     console.log('Public utility ownership check passed.');
@@ -54,7 +56,9 @@ async function main() {
   for (const className of duplicates) {
     console.error(`- .${className}`);
   }
-  console.error('\nMove shared utility ownership into @unisane/ui/styles.css or rename the app-local class.');
+  console.error(
+    '\nMove shared utility ownership into @unisane/ui/styles.css or rename the app-local class.',
+  );
   process.exitCode = 1;
 }
 

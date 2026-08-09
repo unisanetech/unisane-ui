@@ -14,3 +14,4 @@ export { CliCommand } from './components/cli-command';
 export { SubComponentsSection } from './components/subcomponents-section';
 export { PageNavigation } from './components/page-navigation';
 export { StaticDocPageLayout } from './components/static-doc-page-layout';
+export { StaticDocCardGrid, type StaticDocCard } from './components/static-doc-card-grid';

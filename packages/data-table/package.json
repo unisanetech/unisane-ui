@@ -2,8 +2,11 @@
   "name": "@unisane/data-table",
   "version": "0.1.0",
   "description": "High-performance, feature-rich DataTable component for Unisane UI",
+  "private": true,
   "type": "module",
-  "sideEffects": false,
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist",
     "unisane.meta.json"
@@ -16,6 +19,7 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./styles.css": "./dist/index.css",
     "./types": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/types/index.js",
@@ -93,13 +97,22 @@
     },
     "./meta": "./unisane.meta.json"
   },
-  "license": "MIT",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unisane/unisane-ui.git",
+    "directory": "packages/data-table"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
-    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "pnpm clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json && tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "check:border-semantics": "node ../../scripts/check-semantic-border-roles.mjs",
     "check-types": "tsc --noEmit",
+    "clean": "node ../../scripts/clean-package-output.mjs",
     "dev": "tsc --watch",
-    "lint": "eslint src --ignore-pattern 'src/__tests__/**' --max-warnings 0 && pnpm check:border-semantics",
+    "lint": "eslint src tests --max-warnings 0 && pnpm check:border-semantics",
     "test": "vitest run",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -112,20 +125,21 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
+    "@tailwindcss/cli": "4.1.18",
     "@types/node": "^22",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.1",
-    "@unisane/typescript-config": "workspace:*",
     "@vitejs/plugin-react": "^5.1.2",
-    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/coverage-v8": "4.0.17",
     "eslint": "^9.39.1",
-    "happy-dom": "^20.0.11",
+    "happy-dom": "20.3.1",
     "tsc-alias": "^1.8.10",
+    "tailwindcss": "4.1.18",
     "typescript": "5.9.2",
-    "vitest": "^4.0.16"
+    "vitest": "4.0.17"
   },
   "dependencies": {
-    "@tanstack/react-virtual": "^3.13.13",
+    "@tanstack/react-virtual": "3.13.18",
     "dequal": "^2.0.3",
     "jspdf": "^3.0.4",
     "jspdf-autotable": "^5.0.2",

@@ -1,8 +1,18 @@
 {
   "name": "@unisane/tokens",
   "version": "0.1.0",
+  "description": "Semantic design tokens and generated CSS for Unisane interfaces",
   "type": "module",
   "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unisane/unisane-ui.git",
+    "directory": "packages/tokens"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "files": [
     "dist",
     "unisane.meta.json"
@@ -14,14 +24,16 @@
     "./meta": "./unisane.meta.json"
   },
   "scripts": {
-    "build": "node scripts/build.mjs",
+    "build": "pnpm clean && node scripts/build.mjs",
+    "clean": "node ../../scripts/clean-package-output.mjs",
     "dev": "node scripts/build.mjs --watch",
     "test": "node --test scripts/tokens-build/__tests__/build-output.test.mjs",
     "test:update-snapshots": "UPDATE_SNAPSHOTS=1 node --test scripts/tokens-build/__tests__/build-output.test.mjs",
-    "lint": "echo 'No lint targets for @unisane/tokens'"
+    "lint": "eslint scripts --max-warnings 0"
   },
   "devDependencies": {
-    "chokidar": "^3.5.3"
+    "chokidar": "^3.5.3",
+    "eslint": "^9.39.1"
   },
   "unisane": {
     "kind": "ui",

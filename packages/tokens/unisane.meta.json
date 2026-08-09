@@ -10,7 +10,9 @@
   "requiresPackages": [],
   "requiresTokens": [],
   "runtimeProfiles": [],
-  "docs": [],
+  "docs": [
+    "README.md"
+  ],
   "exports": [
     ".",
     "./preview-themes.css",
