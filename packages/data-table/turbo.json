@@ -10,6 +10,12 @@
     },
     "check-types": {
       "dependsOn": ["@unisane/ui#build"]
+    },
+    "lint": {
+      "dependsOn": ["@unisane/ui#build"]
+    },
+    "test": {
+      "dependsOn": ["@unisane/ui#build"]
     }
   }
 }
