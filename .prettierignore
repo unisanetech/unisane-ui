@@ -1,0 +1,25 @@
+# Dependencies and build output
+node_modules
+.pnpm-store
+dist
+.next
+.turbo
+build
+coverage
+storybook-static
+
+# Lock and generated local state
+pnpm-lock.yaml
+.skopos
+AGENTS.md
+
+# Generated source
+*.generated.*
+**/src/sdk/**
+**/src/app/api/**/route.ts
+**/next-env.d.ts
+
+# Repository internals and minified assets
+.git
+*.min.js
+*.min.css

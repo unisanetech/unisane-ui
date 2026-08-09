@@ -1,13 +1,14 @@
 ---
 id: 'F-unisane-ui-blocks-catalog-product-contract-gap'
-owner: 'unisane'
+owner: 'ui-maintainers'
 scope: workspace
 role: finding
 lifecycle: active
 authority: canonical
-provenance: discovered
+provenance: accepted
 view: target
 status: open
+severity: SHOULD
 ---
 
 # Blocks catalog product contract gap

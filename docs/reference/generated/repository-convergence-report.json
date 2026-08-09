@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "umbrella-unisane-ui-source-convergence",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 964,
+  "fileCount": 966,
   "dispositionCounts": {
-    "retain": 837,
+    "retain": 839,
     "block": 11,
     "regenerate": 116
   },
@@ -46,6 +46,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "55ce66383dffcaf804e6d3b03993b0d332cb5d7c38e26e9f92fb78ab040dc70c"
+    },
+    {
+      "path": ".prettierignore",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "109e5fe6a56657f32eded3c0b75a4eeee921b752772853a4a09f899b02ae7fa4"
     },
     {
       "path": "apps/docs/.gitignore",
@@ -2145,13 +2151,13 @@
       "path": "docs/architecture/package-and-distribution-boundaries.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "9880b8577721cf404667e34c8ab4064abc1b9e001ff4af7974ef7d8b576755ed"
+      "sha256": "ee07e2d5118a562ed9da779114d5b60e497f429cc91b4f4ee78ed87a526a819f"
     },
     {
       "path": "docs/findings/blocks-catalog-product-contract-gap.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "75299ffaf1f6b6f2ef40a8bcf648152d83c4d292a73167504d97d305d0bd9353"
+      "sha256": "28dd1478f0987ace2de31eded745df8aa45513f5e891302315be35df75698f2b"
     },
     {
       "path": "docs/overview.md",
@@ -2187,7 +2193,7 @@
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "572e2a38d19a15c18dc34ed09659cb0a200249e46981d54f41709b5b8fd55954"
+      "sha256": "d52d73314491c6b16512effa764e0e29694ded380bf47850fc9c0e4e400a74a7"
     },
     {
       "path": "packages/data-table/package.json",
@@ -3849,7 +3855,7 @@
       "path": "packages/ui-cli/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "d6196fa5c4cf7fc0bf00baba6be4017fc033e1a5e7cd1752f02f86125f9c1e86"
+      "sha256": "de0f769abe6d1a871180881fe3063740cf0c2077a2b69c2fb66fcdeba30f687f"
     },
     {
       "path": "packages/ui-cli/README.md",
@@ -5730,10 +5736,16 @@
       "sha256": "af5cde85417b66e641a1d99134b6d8d69b1348d61791e805b3d6b1501e705273"
     },
     {
+      "path": "prettier.config.mjs",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "7a821bfa22adba55e32c6e87b7217c2e14013c2a6a4f46ca38a226dd08ed5814"
+    },
+    {
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "f6143d833b8e0c33b09dda71960108435a1d00f353b0c39d56238cd07003c231"
+      "sha256": "5a45c447babc5d41c8f77f60ddecda8a69011d8b0164598d0de6d382631ae8fc"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5751,7 +5763,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "29c611805c9710b4e9845ea5b21b8e07ef440a15a501c6b787aa9bae41cc4289"
+      "sha256": "3ec8816b2a0d2e20ea8a124879e8f289b11bf91ba0e5a7169687c74e01a123fa"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5787,7 +5799,7 @@
       "path": "turbo.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "359258a1fa37a9c971c4660e1ca788915c038be1eeb4afd974eb1847dd1389f3"
+      "sha256": "e4071cf05d6a7e3ac49e789a5ac7fa09f45249f1e8ecef9c55606798ba6693fe"
     },
     {
       "path": "vitest.base.ts",

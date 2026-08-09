@@ -7,13 +7,17 @@ DataTable, provider-neutral email templates, and the public documentation applic
 
 - `packages/tokens` owns semantic tokens and generated CSS.
 - `packages/ui` owns React components, runtime styles, and the UI-local source registry.
+- `packages/ui-cli` owns the UI command pack consumed by the canonical `unisane`
+  executable; it does not provide another binary.
 - `packages/data-table` owns DataTable runtime code, styles, tests, and its independent
   release boundary.
 - `packages/email-templates` owns provider-neutral email presentation.
 - `apps/docs` consumes the public package contracts and provides the documentation site.
 
-Package dependencies flow from tokens to UI to DataTable. The docs app may consume all
-packages. Runtime packages do not import application source or sibling package internals.
+Package dependencies flow from tokens to UI to DataTable. The UI command pack bundles
+UI-owned registry assets for adopter commands without becoming a runtime dependency. The
+docs app may consume the presentation packages. Runtime packages do not import application
+source or sibling package internals.
 
 ## Local development
 

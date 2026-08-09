@@ -12,6 +12,7 @@ const mode = process.argv.includes('--write') ? 'write' : 'check';
 const ignoredDirectories = new Set([
   '.git',
   '.next',
+  '.skopos',
   '.turbo',
   'coverage',
   'dist',
