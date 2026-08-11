@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "certificate": "@unisane/email-templates-packed-producer",
+  "sourceIdentity": {
+    "producerGit": {
+      "revision": "683bfc5d2b52216cfcfc8968c1a682ae96cf74a8",
+      "repositoryTree": "a8f27be2b942150514df2f1332525bda16640204",
+      "packageTree": "34e48279f7e2b3da08b6681606789ac768e6aeb1",
+      "certifiedPaths": [
+        "unisane-ui/packages/email-templates/README.md",
+        "unisane-ui/packages/email-templates/package.json",
+        "unisane-ui/packages/email-templates/src",
+        "unisane-ui/packages/email-templates/tests",
+        "unisane-ui/packages/email-templates/tsconfig.json",
+        "unisane-ui/packages/email-templates/turbo.json",
+        "unisane-ui/packages/email-templates/unisane.meta.json",
+        "unisane-ui/packages/email-templates/vitest.config.ts"
+      ],
+      "inputDigest": "d263ad6f3a4ade12f0095dc374bebeab97f1a6be05a3c2d881b55f86c04bfe73"
+    },
+    "consumerGit": {
+      "revision": "57d485e0be2739e71646f263845541adf09c566c",
+      "saaskitTree": "e195722057575cf689cccf65d836c2eef7153732",
+      "certifiedPaths": [
+        "unisane/starters/saaskit/package.json",
+        "unisane/starters/saaskit/src/email/templates/index.ts"
+      ]
+    }
+  },
+  "reproducibleIdentity": {
+    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "consumerImportDigest": "56c1769f4960b6b2ef16cfd79227c8c1045bd6367d480da39bdd664a55ef0f1d",
+    "producerInputDigest": "d263ad6f3a4ade12f0095dc374bebeab97f1a6be05a3c2d881b55f86c04bfe73",
+    "certificateInputDigest": "e88d186850e4aa815cf8bbc8706250423a408fe5448f151bf4502eaeab289eb4"
+  },
+  "artifact": {
+    "name": "@unisane/email-templates",
+    "version": "0.1.0",
+    "private": true,
+    "license": "UNLICENSED",
+    "bytes": 21392,
+    "fileCount": 71,
+    "exportTargetCount": 3,
+    "ownedArchiveEntryCount": 71,
+    "runtimeDependencies": [],
+    "peerDependencies": [],
+    "transitiveDependencies": [],
+    "runtimeAssets": [],
+    "buildTools": {
+      "typescript": "Version 5.9.2",
+      "tscAlias": "1.8.16"
+    },
+    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "runArtifactSha256": "d7fa98a2a2010e804743d815bfd92b332787b563537c48dc41135f63fda93a85",
+    "runArtifactIntegrity": "sha512-XoJhssdhsxM/TrRxSbffGAiwuQvtSjuOsmRa5j3EB1juGxSuvtpe2vmqF7XX4BOIHmSi31h1T4QWpCkzcd3T7g=="
+  },
+  "consumerImport": {
+    "specifier": "@unisane/email-templates",
+    "values": [
+      "EMAIL_TEMPLATE_NAMES",
+      "renderEmailTemplate"
+    ],
+    "types": [
+      "EmailTemplateBrand"
+    ]
+  },
+  "consumerProof": {
+    "cleanExternalRoot": true,
+    "installMode": "offline-local-packed-archive",
+    "installedArchiveContentExact": true,
+    "sourceFallbacks": [],
+    "lockSha256": "51e9f90686a5a550a3c52e717280f5d7d1c9edcaa8642a566073997f05205879",
+    "declarationCompile": true,
+    "runtimeRender": {
+      "html": true,
+      "text": true,
+      "subject": true
+    },
+    "peerDependencies": [],
+    "transitiveDependencies": []
+  },
+  "unresolvedGates": [
+    "authority-cutover",
+    "consumer-conversion",
+    "legal",
+    "license",
+    "publication",
+    "registry",
+    "release",
+    "remote"
+  ],
+  "authorityCutoverAuthorized": false,
+  "consumerConversionAuthorized": false,
+  "legalApproved": false,
+  "licenseApproved": false,
+  "publicationAuthorized": false,
+  "registryApproved": false,
+  "releaseAuthorized": false,
+  "remoteAuthorized": false,
+  "externalEffects": []
+}
