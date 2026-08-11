@@ -1,19 +1,28 @@
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
 import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
+import process from 'node:process';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import {
   assertEmailPackedCandidate,
   buildCertificateSummary,
+  collectBuildToolVersions,
   writeCertificateArtifact,
 } from '../verify-email-templates-packed-producer-certificate.mjs';
+
+const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..');
 
 function fixture() {
   const root = mkdtempSync(path.join(tmpdir(), 'email-certificate-fixture-'));
   mkdirSync(path.join(root, 'dist'), { recursive: true });
-  writeFileSync(path.join(root, 'dist/index.js'), 'export const renderEmailTemplate = () => ({});\n');
+  writeFileSync(
+    path.join(root, 'dist/index.js'),
+    'export const renderEmailTemplate = () => ({});\n',
+  );
   writeFileSync(
     path.join(root, 'dist/index.d.ts'),
     'export declare const renderEmailTemplate: () => Record<string, never>;\n',
@@ -62,7 +71,38 @@ function manifest(overrides = {}) {
   };
 }
 
-const entries = ['README.md', 'dist/index.d.ts', 'dist/index.js', 'package.json', 'unisane.meta.json'];
+const entries = [
+  'README.md',
+  'dist/index.d.ts',
+  'dist/index.js',
+  'package.json',
+  'unisane.meta.json',
+];
+
+test('resolves build tools through package-local pnpm execution from repository root', () => {
+  const pnpmLookup = spawnSync('/usr/bin/which', ['pnpm'], { encoding: 'utf8' });
+  assert.equal(pnpmLookup.status, 0);
+  const isolatedPath = [
+    path.dirname(process.execPath),
+    path.dirname(pnpmLookup.stdout.trim()),
+    '/usr/bin',
+    '/bin',
+  ].join(path.delimiter);
+  const isolatedEnvironment = { ...process.env, PATH: isolatedPath };
+
+  for (const tool of ['tsc', 'tsc-alias']) {
+    const bareProbe = spawnSync(tool, ['--version'], {
+      cwd: repositoryRoot,
+      encoding: 'utf8',
+      env: isolatedEnvironment,
+    });
+    assert.equal(bareProbe.error?.code, 'ENOENT');
+  }
+
+  const versions = collectBuildToolVersions({ env: { PATH: isolatedPath } });
+  assert.equal(versions.typescript, 'Version 5.9.2');
+  assert.match(versions.tscAlias, /^1\.8\./u);
+});
 
 test('accepts the exact dependency-free email archive contract', () => {
   const root = fixture();

@@ -43,7 +43,8 @@ const profile = Object.freeze({
   name: '@unisane/email-templates',
   allowedRoots: Object.freeze(['dist', 'package.json', 'README.md', 'unisane.meta.json']),
 });
-const runtimeAssetPattern = /\.(?:css|scss|sass|less|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf)$/iu;
+const runtimeAssetPattern =
+  /\.(?:css|scss|sass|less|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf)$/iu;
 
 function run(command, args, options = {}) {
   const result = spawnSync(command, args, {
@@ -54,10 +55,21 @@ function run(command, args, options = {}) {
   });
   if (result.status !== 0) {
     throw new Error(
-      `${command} ${args.join(' ')} failed (${result.status ?? 'signal'}).\n${result.stderr || result.stdout || ''}`,
+      `${command} ${args.join(' ')} failed (${result.status ?? 'signal'}).\n${result.error?.message || result.stderr || result.stdout || ''}`,
     );
   }
   return result.stdout ?? '';
+}
+
+function runProducerPackageTool(tool, args = [], options = {}) {
+  return run('pnpm', ['--filter', profile.name, 'exec', tool, ...args], options);
+}
+
+export function collectBuildToolVersions(options = {}) {
+  return {
+    typescript: runProducerPackageTool('tsc', ['--version'], options).trim(),
+    tscAlias: runProducerPackageTool('tsc-alias', ['--version'], options).trim(),
+  };
 }
 
 function readJson(filePath) {
@@ -80,7 +92,9 @@ function stableValue(value) {
 }
 
 function hashValue(value) {
-  return createHash('sha256').update(JSON.stringify(stableValue(value))).digest('hex');
+  return createHash('sha256')
+    .update(JSON.stringify(stableValue(value)))
+    .digest('hex');
 }
 
 function sha256File(filePath) {
@@ -207,15 +221,9 @@ function buildAndPack(workRoot) {
   const extractedRoot = path.join(workRoot, 'extracted');
   mkdirSync(tarballRoot, { recursive: true });
   mkdirSync(extractedRoot, { recursive: true });
-  const buildTools = {
-    typescript: run('tsc', ['--version']).trim(),
-    tscAlias: run('tsc-alias', ['--version']).trim(),
-  };
+  const buildTools = collectBuildToolVersions();
   run('pnpm', ['--filter', '@unisane/email-templates', 'build']);
-  run(
-    'pnpm',
-    ['--filter', '@unisane/email-templates', 'pack', '--pack-destination', tarballRoot],
-  );
+  run('pnpm', ['--filter', '@unisane/email-templates', 'pack', '--pack-destination', tarballRoot]);
   const tarballName = readdirSync(tarballRoot).find(
     (entry) => entry === 'unisane-email-templates-0.1.0.tgz',
   );
@@ -266,7 +274,11 @@ function collectSaaskitImport() {
     const name = element.propertyName?.text ?? element.name.text;
     (element.isTypeOnly ? types : values).push(name);
   }
-  const result = { specifier: '@unisane/email-templates', values: values.sort(), types: types.sort() };
+  const result = {
+    specifier: '@unisane/email-templates',
+    values: values.sort(),
+    types: types.sort(),
+  };
   const expected = {
     specifier: '@unisane/email-templates',
     values: ['EMAIL_TEMPLATE_NAMES', 'renderEmailTemplate'],
@@ -277,7 +289,9 @@ function collectSaaskitImport() {
   }
   const manifest = readJson(path.join(repositoryRoot, consumerPaths[0]));
   if (manifest.dependencies?.['@unisane/email-templates'] !== 'workspace:*') {
-    throw new Error('Saaskit email-template dependency is no longer the unresolved workspace blocker.');
+    throw new Error(
+      'Saaskit email-template dependency is no longer the unresolved workspace blocker.',
+    );
   }
   return result;
 }
@@ -321,8 +335,14 @@ function verifyExternalConsumer(workRoot, candidate) {
   );
   const lockPath = path.join(fixtureRoot, 'pnpm-lock.yaml');
   const lock = readFileSync(lockPath, 'utf8');
-  if (/workspace:|link:|portal:|(?:\.\.\/)+(?:Unisane|unisane-ui)|packages\/email-templates/u.test(lock)) {
-    throw new Error('External consumer lock retained a workspace, link, portal, or sibling-source fallback.');
+  if (
+    /workspace:|link:|portal:|(?:\.\.\/)+(?:Unisane|unisane-ui)|packages\/email-templates/u.test(
+      lock,
+    )
+  ) {
+    throw new Error(
+      'External consumer lock retained a workspace, link, portal, or sibling-source fallback.',
+    );
   }
   const installedRoot = realpathSync(
     path.join(fixtureRoot, 'node_modules', '@unisane', 'email-templates'),
@@ -332,7 +352,7 @@ function verifyExternalConsumer(workRoot, candidate) {
   }
   const installedManifest = readJson(path.join(installedRoot, 'package.json'));
   assertExactManifestContract(installedManifest);
-  run('tsc', ['-p', 'tsconfig.json'], { cwd: fixtureRoot });
+  runProducerPackageTool('tsc', ['-p', path.join(fixtureRoot, 'tsconfig.json')]);
   const runtime = JSON.parse(run('node', ['runtime-check.mjs'], { cwd: fixtureRoot }).trim());
   const installedEntries = run('find', ['.', '-type', 'f'], { cwd: installedRoot })
     .split('\n')
@@ -431,11 +451,10 @@ export function buildCertificateSummary(candidate, consumerImport, consumerProof
   };
 }
 
-export function writeCertificateArtifact(summary, artifactPath = path.join(
-  producerPackageRoot,
-  'certificates',
-  'packed-producer-certificate.json',
-)) {
+export function writeCertificateArtifact(
+  summary,
+  artifactPath = path.join(producerPackageRoot, 'certificates', 'packed-producer-certificate.json'),
+) {
   writeJson(artifactPath, summary);
   return artifactPath;
 }
@@ -454,7 +473,13 @@ export function main() {
       sourceIdentity,
     );
     const artifactPath = writeCertificateArtifact(summary);
-    console.log(JSON.stringify({ artifactPath: path.relative(repositoryRoot, artifactPath), ...summary }, null, 2));
+    console.log(
+      JSON.stringify(
+        { artifactPath: path.relative(repositoryRoot, artifactPath), ...summary },
+        null,
+        2,
+      ),
+    );
   } finally {
     if (existsSync(workRoot)) rmSync(workRoot, { recursive: true, force: true });
   }

@@ -3,9 +3,9 @@
   "certificate": "@unisane/email-templates-packed-producer",
   "sourceIdentity": {
     "producerGit": {
-      "revision": "683bfc5d2b52216cfcfc8968c1a682ae96cf74a8",
-      "repositoryTree": "a8f27be2b942150514df2f1332525bda16640204",
-      "packageTree": "34e48279f7e2b3da08b6681606789ac768e6aeb1",
+      "revision": "ac225eab307850a2dc4edbf45217f12a1e0e90f8",
+      "repositoryTree": "75702bdb9841d5210e4cfdcb44427fd41cddb668",
+      "packageTree": "0f7ce206beaec85e1e34aad20189a01212f4ff55",
       "certifiedPaths": [
         "unisane-ui/packages/email-templates/README.md",
         "unisane-ui/packages/email-templates/package.json",
@@ -21,10 +21,7 @@
     "consumerGit": {
       "revision": "57d485e0be2739e71646f263845541adf09c566c",
       "saaskitTree": "e195722057575cf689cccf65d836c2eef7153732",
-      "certifiedPaths": [
-        "unisane/starters/saaskit/package.json",
-        "unisane/starters/saaskit/src/email/templates/index.ts"
-      ]
+      "certifiedPaths": ["unisane/starters/saaskit/package.json", "unisane/starters/saaskit/src/email/templates/index.ts"]
     }
   },
   "reproducibleIdentity": {
@@ -56,20 +53,15 @@
   },
   "consumerImport": {
     "specifier": "@unisane/email-templates",
-    "values": [
-      "EMAIL_TEMPLATE_NAMES",
-      "renderEmailTemplate"
-    ],
-    "types": [
-      "EmailTemplateBrand"
-    ]
+    "values": ["EMAIL_TEMPLATE_NAMES", "renderEmailTemplate"],
+    "types": ["EmailTemplateBrand"]
   },
   "consumerProof": {
     "cleanExternalRoot": true,
     "installMode": "offline-local-packed-archive",
     "installedArchiveContentExact": true,
     "sourceFallbacks": [],
-    "lockSha256": "51e9f90686a5a550a3c52e717280f5d7d1c9edcaa8642a566073997f05205879",
+    "lockSha256": "9b0bd530a60d960cc2ce9dff25e5761a40a1da6978aff618db6087660da1a78e",
     "declarationCompile": true,
     "runtimeRender": {
       "html": true,
@@ -79,16 +71,7 @@
     "peerDependencies": [],
     "transitiveDependencies": []
   },
-  "unresolvedGates": [
-    "authority-cutover",
-    "consumer-conversion",
-    "legal",
-    "license",
-    "publication",
-    "registry",
-    "release",
-    "remote"
-  ],
+  "unresolvedGates": ["authority-cutover", "consumer-conversion", "legal", "license", "publication", "registry", "release", "remote"],
   "authorityCutoverAuthorized": false,
   "consumerConversionAuthorized": false,
   "legalApproved": false,
