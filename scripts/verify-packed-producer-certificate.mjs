@@ -33,6 +33,12 @@ const forbiddenArchivePath =
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
 const consumerImportBaseline = '4f9d4a637ab271351a4c7b677b11792490b1c791';
+const authorizedOpsConsumerDelta = Object.freeze({
+  file: 'unisane-ops/apps/console/src/browser/main.tsx',
+  specifier: '@unisane/data-table/styles.css',
+  after: '@unisane/ui/styles.css',
+  before: './layout.css',
+});
 const themeNames = Object.freeze([
   'black',
   'blue',
@@ -699,8 +705,61 @@ function assertPathsMatchRevision(revision, paths, label) {
   }
 }
 
+export function assertAuthorizedOpsConsumerDelta(baselineContent, currentContent, changedPaths) {
+  const anchor = `import '${authorizedOpsConsumerDelta.after}';\nimport '${authorizedOpsConsumerDelta.before}';`;
+  const expected = baselineContent.replace(
+    anchor,
+    `import '${authorizedOpsConsumerDelta.after}';\nimport '${authorizedOpsConsumerDelta.specifier}';\nimport '${authorizedOpsConsumerDelta.before}';`,
+  );
+  if (
+    expected === baselineContent ||
+    baselineContent.indexOf(anchor) !== baselineContent.lastIndexOf(anchor)
+  ) {
+    throw new Error(
+      'Immutable Ops consumer baseline lacks the unique authorized stylesheet anchor.',
+    );
+  }
+  if (currentContent === baselineContent && changedPaths.length === 0) return 'baseline';
+  if (
+    currentContent === expected &&
+    changedPaths.length === 1 &&
+    changedPaths[0] === authorizedOpsConsumerDelta.file
+  ) {
+    return 'authorized-ops-data-table-stylesheet';
+  }
+  throw new Error(
+    'Ops consumer paths differ from the immutable baseline beyond the exact authorized DataTable stylesheet import.',
+  );
+}
+
+function assertConsumerImportContract() {
+  assertPathsMatchRevision(
+    consumerImportBaseline,
+    ['unisane/starters/saaskit'],
+    'Saaskit consumer paths',
+  );
+  const changedPaths = run('git', [
+    'diff',
+    '--name-only',
+    consumerImportBaseline,
+    '--',
+    'unisane-ops/apps/console',
+  ])
+    .split('\n')
+    .filter(Boolean);
+  const baselineContent = run('git', [
+    'show',
+    `${consumerImportBaseline}:${authorizedOpsConsumerDelta.file}`,
+  ]);
+  const currentContent = readFileSync(
+    path.join(repositoryRoot, authorizedOpsConsumerDelta.file),
+    'utf8',
+  );
+  return assertAuthorizedOpsConsumerDelta(baselineContent, currentContent, changedPaths);
+}
+
 function collectSourceIdentity() {
-  assertPathsMatchRevision(consumerImportBaseline, consumerRoots, 'Consumer import paths');
+  const consumerContractState = assertConsumerImportContract();
   const producerPaths = packageProfiles.map(({ directory }) => directory);
   const producerRevision = run('git', ['rev-parse', 'HEAD']).trim();
   assertPathsMatchRevision(producerRevision, producerPaths, 'Producer package paths');
@@ -709,6 +768,8 @@ function collectSourceIdentity() {
       revision: consumerImportBaseline,
       tree: run('git', ['rev-parse', `${consumerImportBaseline}^{tree}`]).trim(),
       paths: consumerRoots,
+      authorizedDelta: authorizedOpsConsumerDelta,
+      observedState: consumerContractState,
     },
     producerGit: {
       revision: producerRevision,

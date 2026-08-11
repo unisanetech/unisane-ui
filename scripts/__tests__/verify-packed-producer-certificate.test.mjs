@@ -6,12 +6,41 @@ import test from 'node:test';
 
 import {
   EXTERNAL_CONSUMER_INSTALL_ARGS,
+  assertAuthorizedOpsConsumerDelta,
   assertConsumerCoverage,
   assertExternalConsumerLock,
   assertPackedManifest,
   buildCertificateSummary,
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
+
+test('consumer contract admits only the exact ordered Ops DataTable stylesheet delta', () => {
+  const file = 'unisane-ops/apps/console/src/browser/main.tsx';
+  const baseline = "import '@unisane/ui/styles.css';\nimport './layout.css';\n";
+  const authorized =
+    "import '@unisane/ui/styles.css';\nimport '@unisane/data-table/styles.css';\nimport './layout.css';\n";
+
+  assert.equal(assertAuthorizedOpsConsumerDelta(baseline, baseline, []), 'baseline');
+  assert.equal(
+    assertAuthorizedOpsConsumerDelta(baseline, authorized, [file]),
+    'authorized-ops-data-table-stylesheet',
+  );
+
+  for (const [content, changedPaths] of [
+    [authorized.replace('@unisane/data-table/styles.css', '@unisane/data-table/style.css'), [file]],
+    [
+      "import '@unisane/data-table/styles.css';\nimport '@unisane/ui/styles.css';\nimport './layout.css';\n",
+      [file],
+    ],
+    [`${authorized}void 0;\n`, [file]],
+    [authorized, [file, 'unisane-ops/apps/console/src/browser/app.tsx']],
+  ]) {
+    assert.throws(
+      () => assertAuthorizedOpsConsumerDelta(baseline, content, changedPaths),
+      /beyond the exact authorized DataTable stylesheet import/u,
+    );
+  }
+});
 
 test('external consumer install is intrinsically offline and rejects source fallbacks', () => {
   assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS, [
