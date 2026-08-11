@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -8,6 +8,7 @@ import {
   assertConsumerCoverage,
   assertPackedManifest,
   buildCertificateSummary,
+  writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
 
 function fixture() {
@@ -263,4 +264,42 @@ test('certificate summary keeps publication and consumer conversion unauthorized
   );
   assert.deepEqual(summary.sourceIdentity.producerGit, sourceIdentity.producerGit);
   assert.match(summary.sourceIdentity.producerContentDigest, /^[a-f0-9]{64}$/u);
+});
+
+test('persists the complete certificate summary beneath the isolated artifact root', () => {
+  const artifactRoot = mkdtempSync(path.join(tmpdir(), 'ui-certificate-artifact-'));
+  const summary = {
+    schemaVersion: 1,
+    sourceIdentity: {
+      consumerImportBaseline: {
+        revision: '4f9d4a637ab271351a4c7b677b11792490b1c791',
+        tree: 'a'.repeat(40),
+        paths: ['consumer'],
+      },
+      producerGit: {
+        revision: 'b'.repeat(40),
+        tree: 'c'.repeat(40),
+        paths: ['producer'],
+      },
+      producerContentDigest: 'd'.repeat(64),
+      consumerImportDigest: 'e'.repeat(64),
+      certificateInputDigest: 'f'.repeat(64),
+    },
+    artifacts: [{ name: '@unisane/ui', ownedArchiveEntryCount: 532 }],
+    consumerImports: { importDeclarationCount: 395 },
+    consumerProof: { runtimeModuleCount: 38 },
+    externalEffects: [],
+    publicationAuthorized: false,
+    consumerConversionAuthorized: false,
+  };
+  try {
+    const artifactPath = writeCertificateArtifact(summary, artifactRoot);
+    assert.equal(
+      artifactPath,
+      path.join(artifactRoot, 'unisane-ui', 'packed-producer-certificate.json'),
+    );
+    assert.deepEqual(JSON.parse(readFileSync(artifactPath, 'utf8')), summary);
+  } finally {
+    rmSync(artifactRoot, { recursive: true, force: true });
+  }
 });

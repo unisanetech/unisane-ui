@@ -750,6 +750,14 @@ export function buildCertificateSummary(
   };
 }
 
+export function writeCertificateArtifact(summary, artifactRoot = process.env.SKOPOS_ARTIFACT_ROOT) {
+  if (!artifactRoot) return null;
+  const artifactPath = path.join(artifactRoot, 'unisane-ui', 'packed-producer-certificate.json');
+  mkdirSync(path.dirname(artifactPath), { recursive: true });
+  writeJson(artifactPath, summary);
+  return artifactPath;
+}
+
 export function main() {
   const workRoot = mkdtempSync(path.join(tmpdir(), 'unisane-ui-packed-certificate-'));
   try {
@@ -765,6 +773,7 @@ export function main() {
       consumerProof,
       sourceIdentity,
     );
+    writeCertificateArtifact(summary);
     console.log(JSON.stringify(summary, null, 2));
   } finally {
     if (existsSync(workRoot)) rmSync(workRoot, { recursive: true, force: true });
