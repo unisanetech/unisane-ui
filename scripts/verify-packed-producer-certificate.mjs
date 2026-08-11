@@ -69,6 +69,14 @@ const packageProfiles = Object.freeze([
   }),
 ]);
 const consumerRoots = Object.freeze(['unisane/starters/saaskit', 'unisane-ops/apps/console']);
+export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
+  'install',
+  '--offline',
+  '--ignore-workspace',
+  '--config.shared-workspace-lockfile=false',
+]);
+const packedTarballLocator =
+  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0\.tgz/gu;
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
@@ -567,6 +575,19 @@ function fixtureImports(records) {
   return { runtimeChecks, source: `${typeLines.join('\n')}\n${valueLines.join('\n')}\n` };
 }
 
+export function assertExternalConsumerLock(lock) {
+  const withoutPackedTarballs = lock.replace(packedTarballLocator, '');
+  if (
+    /(?:^|[\s'"])(?:workspace|file|link|portal):|(?:\.\.\/)+(?:Unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|$)/mu.test(
+      withoutPackedTarballs,
+    )
+  ) {
+    throw new Error(
+      'External consumer lock retained a workspace, file, link, portal, sibling, or source fallback.',
+    );
+  }
+}
+
 function verifyExternalConsumer(workRoot, candidates, records) {
   const fixtureRoot = path.join(workRoot, 'consumer');
   mkdirSync(fixtureRoot, { recursive: true });
@@ -631,12 +652,9 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     path.join(fixtureRoot, 'runtime-check.mjs'),
     `import { readFile } from 'node:fs/promises';\nimport { createElement } from 'react';\nimport { renderToStaticMarkup } from 'react-dom/server';\nimport { Button } from '@unisane/ui/button';\nimport { DataTable } from '@unisane/data-table';\nimport { preloadPDF, preloadXLSX } from '@unisane/data-table/export';\nconst checks = ${JSON.stringify(imports.runtimeChecks)};\nfor (const check of checks) {\n  const loaded = await import(check.specifier);\n  for (const name of check.values) {\n    if (!(name in loaded)) throw new Error(check.specifier + ' lacks runtime export ' + name);\n  }\n}\nconst stylesheets = ['@unisane/tokens/unisane.css', '@unisane/ui/styles.css', '@unisane/data-table/styles.css'];\nconst stylesheetBytes = {};\nfor (const stylesheet of stylesheets) {\n  const resolved = import.meta.resolve(stylesheet);\n  if (!resolved.startsWith('file:')) throw new Error('Stylesheet did not resolve: ' + stylesheet);\n  const content = await readFile(new URL(resolved), 'utf8');\n  if (content.length < 500) throw new Error('Stylesheet is unexpectedly empty: ' + stylesheet);\n  stylesheetBytes[stylesheet] = content.length;\n}\nfor (const stylesheet of stylesheets.slice(0, 2)) {\n  const content = await readFile(new URL(import.meta.resolve(stylesheet)), 'utf8');\n  if (!content.includes('--color-primary')) throw new Error('Token baseline is absent from ' + stylesheet);\n}\nconst buttonHtml = renderToStaticMarkup(createElement(Button, null, 'Packed UI'));\nif (!buttonHtml.includes('Packed UI')) throw new Error('Button SSR smoke failed.');\nconst tableHtml = renderToStaticMarkup(createElement(DataTable, { data: [{ id: '1', name: 'Ada' }], columns: [{ key: 'name', header: 'Name' }], preset: 'simple' }));\nif (!tableHtml.includes('Ada')) throw new Error('DataTable SSR smoke failed.');\nawait preloadXLSX();\nawait preloadPDF();\nconsole.log(JSON.stringify({ runtimeModules: checks.length, buttonSsr: true, dataTableSsr: true, dynamicExports: ['xlsx', 'jspdf', 'jspdf-autotable'], stylesheetBytes }));\n`,
   );
-  const installArgs = ['install', '--ignore-workspace', '--config.shared-workspace-lockfile=false'];
-  run('pnpm', installArgs, { cwd: fixtureRoot });
+  run('pnpm', EXTERNAL_CONSUMER_INSTALL_ARGS, { cwd: fixtureRoot });
   const lock = readFileSync(path.join(fixtureRoot, 'pnpm-lock.yaml'), 'utf8');
-  if (/workspace:|link:|(?:\.\.\/)+(?:Unisane|unisane-ui)/u.test(lock)) {
-    throw new Error('External consumer lock retained a workspace, sibling, or source link.');
-  }
+  assertExternalConsumerLock(lock);
   for (const profile of packageProfiles) {
     const installedRoot = realpathSync(
       path.join(fixtureRoot, 'node_modules', ...profile.name.split('/')),

@@ -5,11 +5,40 @@ import path from 'node:path';
 import test from 'node:test';
 
 import {
+  EXTERNAL_CONSUMER_INSTALL_ARGS,
   assertConsumerCoverage,
+  assertExternalConsumerLock,
   assertPackedManifest,
   buildCertificateSummary,
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
+
+test('external consumer install is intrinsically offline and rejects source fallbacks', () => {
+  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS, [
+    'install',
+    '--offline',
+    '--ignore-workspace',
+    '--config.shared-workspace-lockfile=false',
+  ]);
+
+  const packedTarballs = [
+    'file:../tarballs/unisane-tokens-0.1.0.tgz',
+    'file:../tarballs/unisane-ui-0.1.0.tgz',
+    'file:../tarballs/unisane-data-table-0.1.0.tgz',
+  ].join('\n');
+  assert.doesNotThrow(() => assertExternalConsumerLock(packedTarballs));
+
+  for (const fallback of [
+    'workspace:*',
+    'file:../packages/ui',
+    'link:../packages/ui',
+    'portal:../packages/ui',
+    'file:../../Unisane/unisane-ui/packages/data-table',
+    '../../unisane-ui/packages/tokens',
+  ]) {
+    assert.throws(() => assertExternalConsumerLock(fallback), /source fallback/u);
+  }
+});
 
 function fixture() {
   const root = mkdtempSync(path.join(tmpdir(), 'ui-certificate-fixture-'));
