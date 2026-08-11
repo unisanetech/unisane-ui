@@ -13,6 +13,8 @@
     "check:border-semantics": "node scripts/check-semantic-border-roles.mjs",
     "check:boundaries": "node scripts/check-repository-boundaries.mjs --check",
     "check:package-content": "turbo run build --filter=@unisane/ui --filter=@unisane/ui-cli --filter=@unisane/tokens --filter=@unisane/data-table --filter=@unisane/email-templates && node scripts/check-package-contents.mjs",
+    "check:packed-producer-certificate": "pnpm check:packed-producer-certificate:fixtures && node scripts/verify-packed-producer-certificate.mjs",
+    "check:packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-packed-producer-certificate.test.mjs",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
