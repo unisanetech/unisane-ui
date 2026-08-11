@@ -32,6 +32,19 @@ const forbiddenArchivePath =
   /(?:^|\/)(?:\.git|\.skopos|\.turbo|coverage|node_modules|src|test|tests|tmp)(?:\/|$)/iu;
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
+const consumerImportBaseline = '4f9d4a637ab271351a4c7b677b11792490b1c791';
+const themeNames = Object.freeze([
+  'black',
+  'blue',
+  'cyan',
+  'green',
+  'neutral',
+  'orange',
+  'pink',
+  'purple',
+  'red',
+  'yellow',
+]);
 const packageProfiles = Object.freeze([
   Object.freeze({
     name: '@unisane/tokens',
@@ -154,15 +167,172 @@ function barePackageName(specifier) {
   return specifier.split('/')[0];
 }
 
+function emittedSourceKind(entry) {
+  if (entry.endsWith('.d.ts')) return ts.ScriptKind.TS;
+  if (entry.endsWith('.mjs')) return ts.ScriptKind.JS;
+  if (entry.endsWith('.cjs')) return ts.ScriptKind.JS;
+  return ts.ScriptKind.JS;
+}
+
+function literalModuleSpecifier(node) {
+  return ts.isStringLiteralLike(node) ? node.text : null;
+}
+
+function collectModuleSpecifiers(entry, content) {
+  const specifiers = new Set();
+  const source = ts.createSourceFile(
+    entry,
+    content,
+    ts.ScriptTarget.Latest,
+    true,
+    emittedSourceKind(entry),
+  );
+  const visit = (node) => {
+    if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) {
+      const specifier = literalModuleSpecifier(node.moduleSpecifier);
+      if (specifier === null) throw new Error(`${entry} contains a nonliteral module declaration.`);
+      specifiers.add(specifier);
+    }
+    if (ts.isImportEqualsDeclaration(node) && ts.isExternalModuleReference(node.moduleReference)) {
+      const specifier = literalModuleSpecifier(node.moduleReference.expression);
+      if (specifier === null) throw new Error(`${entry} contains a nonliteral import assignment.`);
+      specifiers.add(specifier);
+    }
+    if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument)) {
+      const specifier = literalModuleSpecifier(node.argument.literal);
+      if (specifier !== null) specifiers.add(specifier);
+    }
+    if (ts.isCallExpression(node)) {
+      let loader = null;
+      if (node.expression.kind === ts.SyntaxKind.ImportKeyword) loader = 'import()';
+      if (ts.isIdentifier(node.expression) && node.expression.text === 'require') {
+        loader = 'require()';
+      }
+      if (
+        ts.isPropertyAccessExpression(node.expression) &&
+        ts.isIdentifier(node.expression.expression) &&
+        node.expression.expression.text === 'require' &&
+        node.expression.name.text === 'resolve'
+      ) {
+        loader = 'require.resolve()';
+      }
+      if (loader) {
+        if (node.arguments.length !== 1) {
+          throw new Error(`${entry} contains ${loader} without one exact literal argument.`);
+        }
+        const specifier = literalModuleSpecifier(node.arguments[0]);
+        if (specifier === null) {
+          throw new Error(`${entry} contains nonliteral ${loader} and cannot be certified.`);
+        }
+        specifiers.add(specifier);
+      }
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(source);
+  return [...specifiers].sort();
+}
+
 function collectEmittedSpecifiers(extractedRoot, entries) {
   const specifiers = new Set();
-  const importExpression = /(?:from\s+|import\s*\(|import\s+|require\s*\()\s*["']([^"']+)["']/gu;
   for (const entry of entries) {
-    if (!entry.startsWith('dist/') || !/\.(?:d\.ts|js)$/u.test(entry)) continue;
+    if (!entry.startsWith('dist/') || !/\.(?:[cm]?js|d\.[cm]?ts)$/u.test(entry)) continue;
     const content = readFileSync(path.join(extractedRoot, entry), 'utf8');
-    for (const match of content.matchAll(importExpression)) specifiers.add(match[1]);
+    for (const specifier of collectModuleSpecifiers(entry, content)) specifiers.add(specifier);
   }
   return [...specifiers].sort();
+}
+
+function expandArchiveTarget(target, entries) {
+  return target.includes('*')
+    ? entries.filter((entry) => wildcardMatches(target, entry))
+    : entries.includes(target)
+      ? [target]
+      : [];
+}
+
+function declarationTarget(relativeTarget) {
+  if (relativeTarget.endsWith('.mjs')) return relativeTarget.replace(/\.mjs$/u, '.d.mts');
+  if (relativeTarget.endsWith('.cjs')) return relativeTarget.replace(/\.cjs$/u, '.d.cts');
+  if (relativeTarget.endsWith('.js')) return relativeTarget.replace(/\.js$/u, '.d.ts');
+  return relativeTarget;
+}
+
+function resolveRelativeArchiveEntry(fromEntry, specifier, entries) {
+  const entrySet = new Set(entries);
+  const normalized = path.posix.normalize(
+    path.posix.join(path.posix.dirname(fromEntry), specifier),
+  );
+  if (normalized.startsWith('../') || path.posix.isAbsolute(normalized)) {
+    throw new Error(`${fromEntry} references a path outside the packed archive: ${specifier}`);
+  }
+  const declarationFirst = /\.d\.[cm]?ts$/u.test(fromEntry);
+  const candidates = [
+    ...(declarationFirst ? [declarationTarget(normalized)] : []),
+    normalized,
+    `${normalized}.js`,
+    `${normalized}.d.ts`,
+    `${normalized}/index.js`,
+    `${normalized}/index.d.ts`,
+  ];
+  const match = candidates.find((candidate) => entrySet.has(candidate));
+  if (!match) throw new Error(`${fromEntry} has an unresolved packed reference: ${specifier}`);
+  return match;
+}
+
+function registryOwnedEntries(entries, extractedRoot) {
+  if (!entries.includes('registry/registry.json')) return [];
+  const registry = readJson(path.join(extractedRoot, 'registry/registry.json'));
+  const declared = Object.values(registry.components ?? {}).flatMap(({ files = [] }) =>
+    files.map((file) => `registry/${file}`),
+  );
+  return [
+    ...declared,
+    'registry/registry.json',
+    'registry/registry-schema.json',
+    'registry/tsconfig.json',
+    'registry/styles/globals.css',
+    ...themeNames.map((theme) => `registry/styles/themes/${theme}.css`),
+  ];
+}
+
+function assertExactArchiveClosure(profile, manifest, targets, entries, extractedRoot) {
+  const owned = new Set(
+    ['package.json', 'README.md', 'unisane.meta.json'].filter((entry) => entries.includes(entry)),
+  );
+  const queue = [...new Set(targets.flatMap((target) => expandArchiveTarget(target, entries)))];
+  if (profile.name === '@unisane/tokens') {
+    queue.push(...themeNames.map((theme) => `dist/themes/${theme}.css`));
+  }
+  if (profile.name === '@unisane/ui') queue.push(...registryOwnedEntries(entries, extractedRoot));
+  while (queue.length > 0) {
+    const entry = queue.shift();
+    if (owned.has(entry)) continue;
+    if (!entries.includes(entry)) {
+      throw new Error(`${profile.name} owns a missing packed archive entry: ${entry}`);
+    }
+    owned.add(entry);
+    const sourceMap = `${entry}.map`;
+    if (entries.includes(sourceMap)) owned.add(sourceMap);
+    const pairedEntry = /\.d\.ts$/u.test(entry)
+      ? entry.replace(/\.d\.ts$/u, '.js')
+      : /\.js$/u.test(entry)
+        ? entry.replace(/\.js$/u, '.d.ts')
+        : null;
+    if (pairedEntry && entries.includes(pairedEntry)) queue.push(pairedEntry);
+    if (!/\.(?:[cm]?js|d\.[cm]?ts)$/u.test(entry)) continue;
+    const content = readFileSync(path.join(extractedRoot, entry), 'utf8');
+    for (const specifier of collectModuleSpecifiers(entry, content)) {
+      if (specifier.startsWith('.')) {
+        queue.push(resolveRelativeArchiveEntry(entry, specifier, entries));
+      }
+    }
+  }
+  const unexpected = entries.filter((entry) => !owned.has(entry));
+  if (unexpected.length > 0) {
+    throw new Error(`${profile.name} has unowned archive entries: ${unexpected.join(', ')}`);
+  }
+  return owned.size;
 }
 
 export function assertPackedManifest(profile, manifest, entries, extractedRoot) {
@@ -205,6 +375,13 @@ export function assertPackedManifest(profile, manifest, entries, extractedRoot) 
       `${profile.name} is missing packed export targets: ${missingTargets.join(', ')}`,
     );
   }
+  const ownedArchiveEntryCount = assertExactArchiveClosure(
+    profile,
+    manifest,
+    targets,
+    entries,
+    extractedRoot,
+  );
   const declaredRuntimePackages = new Set(
     dependencyEntries(manifest, runtimeDependencyFields).map(({ name }) => name),
   );
@@ -225,7 +402,7 @@ export function assertPackedManifest(profile, manifest, entries, extractedRoot) 
       throw new Error(`${profile.name} emitted sibling or local locator in ${entry}.`);
     }
   }
-  return { emittedSpecifiers, exportTargetCount: new Set(targets).size };
+  return { emittedSpecifiers, exportTargetCount: new Set(targets).size, ownedArchiveEntryCount };
 }
 
 function packageExportKey(specifier, packageName) {
@@ -493,18 +670,54 @@ function assertExactInternalCoordinates(candidates) {
   return manifests;
 }
 
-export function buildCertificateSummary(candidates, consumerImports, consumerProof) {
+function assertPathsMatchRevision(revision, paths, label) {
+  const result = spawnSync('git', ['diff', '--quiet', revision, '--', ...paths], {
+    cwd: repositoryRoot,
+    encoding: 'utf8',
+    stdio: 'pipe',
+  });
+  if (result.status !== 0) {
+    throw new Error(`${label} do not match immutable revision ${revision}.`);
+  }
+}
+
+function collectSourceIdentity() {
+  assertPathsMatchRevision(consumerImportBaseline, consumerRoots, 'Consumer import paths');
+  const producerPaths = packageProfiles.map(({ directory }) => directory);
+  const producerRevision = run('git', ['rev-parse', 'HEAD']).trim();
+  assertPathsMatchRevision(producerRevision, producerPaths, 'Producer package paths');
+  return {
+    consumerImportBaseline: {
+      revision: consumerImportBaseline,
+      tree: run('git', ['rev-parse', `${consumerImportBaseline}^{tree}`]).trim(),
+      paths: consumerRoots,
+    },
+    producerGit: {
+      revision: producerRevision,
+      tree: run('git', ['rev-parse', `${producerRevision}^{tree}`]).trim(),
+      paths: producerPaths,
+    },
+  };
+}
+
+export function buildCertificateSummary(
+  candidates,
+  consumerImports,
+  consumerProof,
+  sourceIdentity,
+) {
+  const producerContentDigest = hashValue(
+    candidates.map(({ contentDigest, manifest, name }) => ({ contentDigest, manifest, name })),
+  );
+  const consumerImportDigest = hashValue(consumerImports);
   return {
     schemaVersion: 1,
-    sourceBaseline: '4f9d4a637ab271351a4c7b677b11792490b1c791',
-    sourceInputDigest: hashValue({
-      artifacts: candidates.map(({ contentDigest, manifest, name }) => ({
-        contentDigest,
-        manifest,
-        name,
-      })),
-      consumerImports,
-    }),
+    sourceIdentity: {
+      ...sourceIdentity,
+      producerContentDigest,
+      consumerImportDigest,
+      certificateInputDigest: hashValue({ producerContentDigest, consumerImportDigest }),
+    },
     artifacts: candidates.map(
       ({
         boundary,
@@ -523,6 +736,7 @@ export function buildCertificateSummary(candidates, consumerImports, consumerPro
         bytes,
         fileCount: entries.length,
         exportTargetCount: boundary.exportTargetCount,
+        ownedArchiveEntryCount: boundary.ownedArchiveEntryCount,
         contentDigest,
         runArtifactSha256,
         runArtifactIntegrity,
@@ -544,7 +758,13 @@ export function main() {
     const records = collectConsumerImports();
     const consumerImports = assertConsumerCoverage(records, packedManifests);
     const consumerProof = verifyExternalConsumer(workRoot, candidates, records);
-    const summary = buildCertificateSummary(candidates, consumerImports, consumerProof);
+    const sourceIdentity = collectSourceIdentity();
+    const summary = buildCertificateSummary(
+      candidates,
+      consumerImports,
+      consumerProof,
+      sourceIdentity,
+    );
     console.log(JSON.stringify(summary, null, 2));
   } finally {
     if (existsSync(workRoot)) rmSync(workRoot, { recursive: true, force: true });
