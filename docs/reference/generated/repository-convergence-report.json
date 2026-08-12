@@ -3537,7 +3537,7 @@
       "path": "packages/email-templates/certificates/packed-producer-certificate.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "354380e41efb06eb08230625e582cfe53806c34df933edef8712efb182d24642"
+      "sha256": "8feec9bfba9d9a22dd80b98509c917b216e8d4ab58f1127a69dc9c096a8dd794"
     },
     {
       "path": "packages/email-templates/package.json",
@@ -5805,7 +5805,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "c57d73165bbe492bcafbfbff62a0bc6a5ebc95904b25aa0fc987d7aad5c8be4e"
+      "sha256": "847e80823bab0c25d66c37da7faf3399e460978b44153236b0d25c787ac1e494"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5859,7 +5859,7 @@
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "faa6aafcf2a51467135915113a9bf49983fea88f038482ccf0b1a22f1fd52afd"
+      "sha256": "b6d0d910cfa2a85946a1f7471b18f522d57b6e37e8a61187959a721138792b3e"
     },
     {
       "path": "SECURITY.md",
