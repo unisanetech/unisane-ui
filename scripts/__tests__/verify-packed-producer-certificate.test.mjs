@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
@@ -11,6 +11,7 @@ import {
   assertPackedManifest,
   buildCertificateSummary,
   collectConsumerImports,
+  resolveOwnedDependencyVersions,
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
 
@@ -51,6 +52,55 @@ test('external consumer install is intrinsically offline and rejects source fall
     '../../unisane-ui/packages/tokens',
   ]) {
     assert.throws(() => assertExternalConsumerLock(fallback), /source fallback/u);
+  }
+
+  const targetRoot = mkdtempSync(path.join(tmpdir(), 'ui-owner-resolution-'));
+  const ownerRoot = path.join(targetRoot, 'packages/ui');
+  const rootHoist = path.join(targetRoot, 'node_modules/react');
+  const ownerInstall = path.join(ownerRoot, 'node_modules/react');
+  const escapedInstall = mkdtempSync(path.join(tmpdir(), 'ui-owner-escape-'));
+  const writeManifest = (filePath, value) => {
+    mkdirSync(path.dirname(filePath), { recursive: true });
+    writeFileSync(filePath, `${JSON.stringify(value)}\n`);
+  };
+  try {
+    writeManifest(path.join(ownerRoot, 'package.json'), {
+      name: '@unisane/ui',
+      peerDependencies: { react: '^19' },
+    });
+    writeManifest(path.join(rootHoist, 'package.json'), { name: 'react', version: '99.0.0' });
+    writeManifest(path.join(ownerInstall, 'package.json'), { name: 'react', version: '19.2.8' });
+    const contract = [{ field: 'peerDependencies', name: 'react' }];
+    assert.deepEqual(resolveOwnedDependencyVersions({ targetRoot, contracts: contract }), {
+      react: '19.2.8',
+    });
+
+    writeManifest(path.join(ownerRoot, 'package.json'), {
+      name: '@unisane/ui',
+      peerDependencies: { react: '^18' },
+    });
+    assert.throws(
+      () => resolveOwnedDependencyVersions({ targetRoot, contracts: contract }),
+      /does not satisfy/u,
+    );
+
+    writeManifest(path.join(ownerRoot, 'package.json'), {
+      name: '@unisane/ui',
+      peerDependencies: { react: '^19' },
+    });
+    rmSync(ownerInstall, { recursive: true, force: true });
+    writeManifest(path.join(escapedInstall, 'package.json'), {
+      name: 'react',
+      version: '19.2.8',
+    });
+    symlinkSync(escapedInstall, ownerInstall, 'dir');
+    assert.throws(
+      () => resolveOwnedDependencyVersions({ targetRoot, contracts: contract }),
+      /outside the standalone target/u,
+    );
+  } finally {
+    rmSync(targetRoot, { recursive: true, force: true });
+    rmSync(escapedInstall, { recursive: true, force: true });
   }
 });
 

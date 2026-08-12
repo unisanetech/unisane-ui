@@ -1,0 +1,97 @@
+{
+  "schemaVersion": 1,
+  "certificate": "@unisane/email-templates-packed-producer",
+  "sourceIdentity": {
+    "producerGit": {
+      "revision": "43ed52afff687fbf88ab6adc5bdcaafb1adb214c",
+      "repositoryTree": "d1baa5f0026955bd1df8237edbfc4fe4e7c4f150",
+      "packageTree": "34e48279f7e2b3da08b6681606789ac768e6aeb1",
+      "certifiedPaths": [
+        "packages/email-templates/README.md",
+        "packages/email-templates/package.json",
+        "packages/email-templates/src",
+        "packages/email-templates/tests",
+        "packages/email-templates/tsconfig.json",
+        "packages/email-templates/turbo.json",
+        "packages/email-templates/unisane.meta.json",
+        "packages/email-templates/vitest.config.ts"
+      ],
+      "inputDigest": "67b86d706fe6d89b1959f5e21ab482681afacc7c43dd90598d3a06185e10a135"
+    },
+    "consumerContract": {
+      "authority": "standalone-target-owned",
+      "source": "scripts/verify-email-templates-packed-producer-certificate.mjs"
+    }
+  },
+  "reproducibleIdentity": {
+    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "consumerImportDigest": "56c1769f4960b6b2ef16cfd79227c8c1045bd6367d480da39bdd664a55ef0f1d",
+    "producerInputDigest": "67b86d706fe6d89b1959f5e21ab482681afacc7c43dd90598d3a06185e10a135",
+    "certificateInputDigest": "1d8e004785026e008d106e06ea6bcb958d6b93a3921d5eda26c31f94cbb0a417"
+  },
+  "artifact": {
+    "name": "@unisane/email-templates",
+    "version": "0.1.0",
+    "private": true,
+    "license": "UNLICENSED",
+    "bytes": 21392,
+    "fileCount": 71,
+    "exportTargetCount": 3,
+    "ownedArchiveEntryCount": 71,
+    "runtimeDependencies": [],
+    "peerDependencies": [],
+    "transitiveDependencies": [],
+    "runtimeAssets": [],
+    "buildTools": {
+      "typescript": "Version 5.9.2",
+      "tscAlias": "1.9.1"
+    },
+    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "runArtifactSha256": "d7fa98a2a2010e804743d815bfd92b332787b563537c48dc41135f63fda93a85",
+    "runArtifactIntegrity": "sha512-XoJhssdhsxM/TrRxSbffGAiwuQvtSjuOsmRa5j3EB1juGxSuvtpe2vmqF7XX4BOIHmSi31h1T4QWpCkzcd3T7g=="
+  },
+  "consumerImport": {
+    "specifier": "@unisane/email-templates",
+    "values": [
+      "EMAIL_TEMPLATE_NAMES",
+      "renderEmailTemplate"
+    ],
+    "types": [
+      "EmailTemplateBrand"
+    ]
+  },
+  "consumerProof": {
+    "cleanExternalRoot": true,
+    "installMode": "offline-local-packed-archive",
+    "installedArchiveContentExact": true,
+    "sourceFallbacks": [],
+    "lockSha256": "38964e5cd5de243ba644ebbafdfee0c69ca98cf247ce050145a6848ae1f0472a",
+    "declarationCompile": true,
+    "runtimeRender": {
+      "html": true,
+      "text": true,
+      "subject": true
+    },
+    "peerDependencies": [],
+    "transitiveDependencies": []
+  },
+  "unresolvedGates": [
+    "authority-cutover",
+    "consumer-conversion",
+    "legal",
+    "license",
+    "publication",
+    "registry",
+    "release",
+    "remote"
+  ],
+  "authorityCutoverAuthorized": false,
+  "consumerConversionAuthorized": false,
+  "legalApproved": false,
+  "licenseApproved": false,
+  "publicationAuthorized": false,
+  "registryApproved": false,
+  "releaseAuthorized": false,
+  "remoteAuthorized": false,
+  "externalEffects": []
+}

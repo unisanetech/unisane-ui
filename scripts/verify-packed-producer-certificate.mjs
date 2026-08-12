@@ -2,6 +2,7 @@
 
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { createRequire } from 'node:module';
 import {
   existsSync,
   mkdtempSync,
@@ -119,6 +120,12 @@ export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
 ]);
 const packedTarballLocator =
   /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0\.tgz/gu;
+const externalConsumerDependencyContracts = Object.freeze([
+  Object.freeze({ field: 'peerDependencies', name: 'react' }),
+  Object.freeze({ field: 'peerDependencies', name: 'react-dom' }),
+  Object.freeze({ field: 'devDependencies', name: '@types/react' }),
+  Object.freeze({ field: 'devDependencies', name: '@types/react-dom' }),
+]);
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
@@ -581,22 +588,111 @@ export function assertExternalConsumerLock(lock) {
   }
 }
 
+function isPathInside(root, candidate) {
+  const relative = path.relative(root, candidate);
+  return (
+    relative === '' ||
+    (!relative.startsWith(`..${path.sep}`) && relative !== '..' && !path.isAbsolute(relative))
+  );
+}
+
+function compareVersions(left, right) {
+  for (let index = 0; index < left.length; index += 1) {
+    if (left[index] !== right[index]) return left[index] - right[index];
+  }
+  return 0;
+}
+
+function assertDeclaredVersion(dependencyName, declaredRange, installedVersion) {
+  const versionMatch = /^(\d+)\.(\d+)\.(\d+)$/u.exec(installedVersion);
+  if (!versionMatch) {
+    throw new Error(
+      `${dependencyName} resolved an unsupported installed version: ${installedVersion}`,
+    );
+  }
+  const installed = versionMatch.slice(1).map(Number);
+  const exactMatch = /^(\d+)\.(\d+)\.(\d+)$/u.exec(declaredRange);
+  if (exactMatch) {
+    if (compareVersions(installed, exactMatch.slice(1).map(Number)) !== 0) {
+      throw new Error(
+        `${dependencyName} installed version ${installedVersion} does not match ${declaredRange}.`,
+      );
+    }
+    return;
+  }
+  const caretMatch = /^\^(\d+)(?:\.(\d+))?(?:\.(\d+))?$/u.exec(declaredRange);
+  if (!caretMatch) {
+    throw new Error(`${dependencyName} must use an exact or caret semver declaration.`);
+  }
+  const lower = caretMatch.slice(1).map((part) => Number(part ?? 0));
+  const upper =
+    lower[0] > 0
+      ? [lower[0] + 1, 0, 0]
+      : lower[1] > 0
+        ? [0, lower[1] + 1, 0]
+        : [0, 0, lower[2] + 1];
+  if (compareVersions(installed, lower) < 0 || compareVersions(installed, upper) >= 0) {
+    throw new Error(
+      `${dependencyName} installed version ${installedVersion} does not satisfy ${declaredRange}.`,
+    );
+  }
+}
+
+export function resolveOwnedDependencyVersions({
+  targetRoot = repositoryRoot,
+  ownerDirectory = 'packages/ui',
+  contracts = externalConsumerDependencyContracts,
+} = {}) {
+  const targetRealRoot = realpathSync(targetRoot);
+  const ownerRoot = realpathSync(path.join(targetRealRoot, ownerDirectory));
+  if (!isPathInside(targetRealRoot, ownerRoot)) {
+    throw new Error(`Dependency owner escapes the standalone target: ${ownerDirectory}`);
+  }
+  const ownerManifestPath = path.join(ownerRoot, 'package.json');
+  const ownerManifest = readJson(ownerManifestPath);
+  const ownerRequire = createRequire(ownerManifestPath);
+  return Object.fromEntries(
+    contracts.map(({ field, name }) => {
+      const declaredRange = ownerManifest[field]?.[name];
+      if (typeof declaredRange !== 'string' || localSpecifier.test(declaredRange)) {
+        throw new Error(
+          `${ownerManifest.name}.${field}.${name} must declare an external version range.`,
+        );
+      }
+      const ownerInstalledManifest = path.join(
+        ownerRoot,
+        'node_modules',
+        ...name.split('/'),
+        'package.json',
+      );
+      if (!existsSync(ownerInstalledManifest)) {
+        throw new Error(`${name} is not installed in ${ownerManifest.name}'s dependency graph.`);
+      }
+      const ownerInstalledRealPath = realpathSync(ownerInstalledManifest);
+      const resolvedRealPath = realpathSync(ownerRequire.resolve(`${name}/package.json`));
+      if (resolvedRealPath !== ownerInstalledRealPath) {
+        throw new Error(
+          `${name} did not resolve through ${ownerManifest.name}'s installed dependency graph.`,
+        );
+      }
+      if (!isPathInside(targetRealRoot, resolvedRealPath)) {
+        throw new Error(`${name} resolved outside the standalone target.`);
+      }
+      const installedManifest = readJson(resolvedRealPath);
+      if (installedManifest.name !== name || typeof installedManifest.version !== 'string') {
+        throw new Error(`${name} resolved an invalid installed package manifest.`);
+      }
+      assertDeclaredVersion(name, declaredRange, installedManifest.version);
+      return [name, installedManifest.version];
+    }),
+  );
+}
+
 function verifyExternalConsumer(workRoot, candidates, records) {
   const fixtureRoot = path.join(workRoot, 'consumer');
   mkdirSync(fixtureRoot, { recursive: true });
   const candidateByName = new Map(candidates.map((candidate) => [candidate.name, candidate]));
-  const reactVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/react/package.json'),
-  ).version;
-  const reactDomVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/react-dom/package.json'),
-  ).version;
-  const reactTypesVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/@types/react/package.json'),
-  ).version;
-  const reactDomTypesVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/@types/react-dom/package.json'),
-  ).version;
+  const dependencyVersions = resolveOwnedDependencyVersions();
   const fileSpecifier = (name) => `file:${candidateByName.get(name).tarballPath}`;
   writeJson(path.join(fixtureRoot, 'package.json'), {
     name: 'unisane-ui-packed-certificate-consumer',
@@ -608,12 +704,12 @@ function verifyExternalConsumer(workRoot, candidates, records) {
       '@unisane/data-table': fileSpecifier('@unisane/data-table'),
       '@unisane/tokens': fileSpecifier('@unisane/tokens'),
       '@unisane/ui': fileSpecifier('@unisane/ui'),
-      react: reactVersion,
-      'react-dom': reactDomVersion,
+      react: dependencyVersions.react,
+      'react-dom': dependencyVersions['react-dom'],
     },
     devDependencies: {
-      '@types/react': reactTypesVersion,
-      '@types/react-dom': reactDomTypesVersion,
+      '@types/react': dependencyVersions['@types/react'],
+      '@types/react-dom': dependencyVersions['@types/react-dom'],
       typescript: '5.9.2',
     },
     pnpm: {
