@@ -44,6 +44,7 @@ async function collectFiles(directory, relativeDirectory = '') {
     const relativePath = relativeDirectory
       ? path.posix.join(relativeDirectory, entry.name)
       : entry.name;
+    if (relativePath.startsWith('docs/work/')) continue;
     if (relativePath === 'docs/reference/generated/repository-convergence-report.json') continue;
     const absolutePath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
@@ -80,6 +81,9 @@ function classify(relativePath) {
   }
   if (relativePath.startsWith('packages/ui/')) {
     return { disposition: 'retain', owner: '@unisane/ui' };
+  }
+  if (relativePath.startsWith('packages/ui-cli/')) {
+    return { disposition: 'retain', owner: '@unisane/ui-cli' };
   }
   if (relativePath.startsWith('packages/data-table/')) {
     return { disposition: 'retain', owner: '@unisane/data-table' };
@@ -152,6 +156,7 @@ for (const relativePath of files) {
 
 const packagePaths = [
   'packages/ui/package.json',
+  'packages/ui-cli/package.json',
   'packages/tokens/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',

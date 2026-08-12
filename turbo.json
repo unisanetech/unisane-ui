@@ -1,7 +1,14 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["CI", "NODE_ENV", "NEXT_PUBLIC_*", "PLAYWRIGHT_BASE_URL", "UNISANE_UI_TEST_ROUTES"],
+  "globalEnv": [
+    "CI",
+    "NODE_ENV",
+    "NEXT_PUBLIC_*",
+    "PLAYWRIGHT_BASE_URL",
+    "UNISANE_UI_REGISTRY_DIR",
+    "UNISANE_UI_TEST_ROUTES"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

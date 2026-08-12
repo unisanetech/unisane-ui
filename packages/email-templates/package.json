@@ -20,7 +20,7 @@
     "./meta": "./unisane.meta.json"
   },
   "scripts": {
-    "build": "pnpm clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "pnpm clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json --resolve-full-paths --resolve-full-extension .js",
     "check-types": "tsc --noEmit",
     "clean": "node ../../scripts/clean-package-output.mjs",
     "lint": "eslint src tests --max-warnings 0",

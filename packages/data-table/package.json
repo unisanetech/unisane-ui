@@ -107,7 +107,7 @@
     "node": ">=22.0.0"
   },
   "scripts": {
-    "build": "pnpm clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json && tailwindcss -i ./src/styles.css -o ./dist/index.css",
+    "build": "pnpm clean && tsc -p tsconfig.json && tsc-alias -p tsconfig.json --resolve-full-paths --resolve-full-extension .js && tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "check:border-semantics": "node ../../scripts/check-semantic-border-roles.mjs",
     "check-types": "tsc --noEmit",
     "clean": "node ../../scripts/clean-package-output.mjs",

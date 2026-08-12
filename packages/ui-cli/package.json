@@ -1,0 +1,68 @@
+{
+  "name": "@unisane/ui-cli",
+  "version": "0.1.0",
+  "description": "UI-owned adopter tooling pack for the canonical Unisane CLI",
+  "private": true,
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/unisane/unisane-ui.git",
+    "directory": "packages/ui-cli"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "pack.manifest.json",
+    "unisane.meta.json",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./handlers/ui": {
+      "types": "./dist/handlers/ui.d.ts",
+      "import": "./dist/handlers/ui.js",
+      "default": "./dist/handlers/ui.js"
+    },
+    "./pack-manifest": "./pack.manifest.json",
+    "./meta": "./unisane.meta.json"
+  },
+  "scripts": {
+    "build": "pnpm clean && tsc -p tsconfig.json && node scripts/copy-registry.mjs",
+    "clean": "node ../../scripts/clean-package-output.mjs",
+    "dev": "tsc -p tsconfig.json --watch",
+    "lint": "eslint src --max-warnings 0",
+    "test": "vitest run",
+    "check-types": "tsc --noEmit",
+    "pack:check": "pnpm build && pnpm pack --pack-destination ../../../../.tmp/packs",
+    "prepublishOnly": "pnpm build && pnpm check-types && pnpm test"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^11.0.0",
+    "fs-extra": "^11.1.1",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "eslint": "^9.39.1",
+    "typescript": "5.9.2",
+    "vitest": "4.0.17"
+  },
+  "unisane": {
+    "kind": "ui",
+    "edition": "oss",
+    "meta": "./unisane.meta.json"
+  }
+}

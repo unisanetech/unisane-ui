@@ -97,7 +97,14 @@ export const DOCS_NAVIGATION: NavigationItem[] = [
     label: 'Data Table',
     icon: 'table_chart',
     href: '/datatable',
-    items: [],
+    items: [
+      { id: 'datatable-overview', label: 'Overview', href: '/datatable' },
+      {
+        id: 'datatable-responsiveness',
+        label: 'Responsive behavior',
+        href: '/docs/data-table/responsiveness',
+      },
+    ],
   },
   {
     id: 'blocks',
@@ -122,7 +129,12 @@ export function getActiveNavigationId(pathname: string): string {
   if (pathname.startsWith('/docs/components/')) {
     return pathname.split('/').filter(Boolean).at(-1) ?? 'components';
   }
-  if (pathname.startsWith('/datatable')) return 'datatable';
+  if (pathname.startsWith('/datatable')) return 'datatable-overview';
+  if (pathname.startsWith('/docs/data-table/')) {
+    return pathname.split('/').filter(Boolean).at(-1) === 'responsiveness'
+      ? 'datatable-responsiveness'
+      : 'datatable';
+  }
   if (pathname === '/docs/blocks') return 'blocks-overview';
   if (pathname.startsWith('/docs/blocks/')) {
     const parts = pathname.split('/').filter(Boolean);
@@ -131,12 +143,7 @@ export function getActiveNavigationId(pathname: string): string {
     const slug = parts.at(-1);
 
     if (!slug) return 'blocks-overview';
-    if (
-      segment &&
-      segment in BLOCK_SEGMENT_META &&
-      category &&
-      category in BLOCK_CATEGORY_META
-    ) {
+    if (segment && segment in BLOCK_SEGMENT_META && category && category in BLOCK_CATEGORY_META) {
       return `blocks-${segment}-${category}`;
     }
     if (segment && segment in BLOCK_SEGMENT_META) {
