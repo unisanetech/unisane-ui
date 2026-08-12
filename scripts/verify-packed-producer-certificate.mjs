@@ -33,11 +33,13 @@ const forbiddenArchivePath =
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
 const consumerImportBaseline = '4f9d4a637ab271351a4c7b677b11792490b1c791';
-const authorizedOpsConsumerDelta = Object.freeze({
+const approvedConsumerImport = Object.freeze({
   file: 'unisane-ops/apps/console/src/browser/main.tsx',
+  packageName: '@unisane/data-table',
   specifier: '@unisane/data-table/styles.css',
-  after: '@unisane/ui/styles.css',
-  before: './layout.css',
+  types: Object.freeze([]),
+  values: Object.freeze([]),
+  order: 1,
 });
 const themeNames = Object.freeze([
   'black',
@@ -431,54 +433,144 @@ function sourceKind(filePath) {
   return ts.ScriptKind.JS;
 }
 
-export function collectConsumerImports(root = repositoryRoot) {
+function parseConsumerImports(files) {
   const records = [];
-  for (const relativeRoot of consumerRoots) {
-    const absoluteRoot = path.join(root, relativeRoot);
-    for (const filePath of walkFiles(absoluteRoot)) {
-      if (!/\.[cm]?[jt]sx?$/u.test(filePath)) continue;
-      const source = ts.createSourceFile(
-        filePath,
-        readFileSync(filePath, 'utf8'),
-        ts.ScriptTarget.Latest,
-        true,
-        sourceKind(filePath),
-      );
-      for (const statement of source.statements) {
-        if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) {
-          continue;
-        }
-        const specifier = statement.moduleSpecifier.text;
-        const packageName = packageProfiles.find(
-          ({ name }) => specifier === name || specifier.startsWith(`${name}/`),
-        )?.name;
-        if (!packageName) continue;
-        const values = [];
-        const types = [];
-        const clause = statement.importClause;
-        if (clause?.name) (clause.isTypeOnly ? types : values).push('default');
-        if (clause?.namedBindings && ts.isNamespaceImport(clause.namedBindings)) {
-          (clause.isTypeOnly ? types : values).push('*');
-        }
-        if (clause?.namedBindings && ts.isNamedImports(clause.namedBindings)) {
-          for (const element of clause.namedBindings.elements) {
-            const name = element.propertyName?.text ?? element.name.text;
-            (clause.isTypeOnly || element.isTypeOnly ? types : values).push(name);
-          }
-        }
-        records.push({
-          file: path.relative(root, filePath),
-          packageName,
-          specifier,
-          types: [...new Set(types)].sort(),
-          values: [...new Set(values)].sort(),
-        });
+  for (const { content, file } of files) {
+    const source = ts.createSourceFile(
+      file,
+      content,
+      ts.ScriptTarget.Latest,
+      true,
+      sourceKind(file),
+    );
+    let order = 0;
+    for (const statement of source.statements) {
+      if (!ts.isImportDeclaration(statement) || !ts.isStringLiteral(statement.moduleSpecifier)) {
+        continue;
       }
+      const specifier = statement.moduleSpecifier.text;
+      const packageName = packageProfiles.find(
+        ({ name }) => specifier === name || specifier.startsWith(`${name}/`),
+      )?.name;
+      if (!packageName) continue;
+      const values = [];
+      const types = [];
+      const clause = statement.importClause;
+      if (clause?.name) (clause.isTypeOnly ? types : values).push('default');
+      if (clause?.namedBindings && ts.isNamespaceImport(clause.namedBindings)) {
+        (clause.isTypeOnly ? types : values).push('*');
+      }
+      if (clause?.namedBindings && ts.isNamedImports(clause.namedBindings)) {
+        for (const element of clause.namedBindings.elements) {
+          const name = element.propertyName?.text ?? element.name.text;
+          (clause.isTypeOnly || element.isTypeOnly ? types : values).push(name);
+        }
+      }
+      records.push({
+        file,
+        packageName,
+        specifier,
+        types: [...new Set(types)].sort(),
+        values: [...new Set(values)].sort(),
+        order,
+      });
+      order += 1;
     }
   }
   return records.sort((left, right) =>
-    `${left.file}:${left.specifier}`.localeCompare(`${right.file}:${right.specifier}`),
+    `${left.file}:${String(left.order).padStart(6, '0')}:${left.specifier}`.localeCompare(
+      `${right.file}:${String(right.order).padStart(6, '0')}:${right.specifier}`,
+    ),
   );
+}
+
+export function collectConsumerImports(root = repositoryRoot) {
+  return parseConsumerImports(
+    consumerRoots.flatMap((relativeRoot) =>
+      walkFiles(path.join(root, relativeRoot))
+        .filter((filePath) => /\.[cm]?[jt]sx?$/u.test(filePath))
+        .map((filePath) => ({
+          content: readFileSync(filePath, 'utf8'),
+          file: path.relative(root, filePath),
+        })),
+    ),
+  );
+}
+
+function collectConsumerImportsFromRevision(revision) {
+  const paths = run('git', ['ls-tree', '-r', '--name-only', revision, '--', ...consumerRoots])
+    .split('\n')
+    .filter((file) => /\.[cm]?[jt]sx?$/u.test(file));
+  return parseConsumerImports(
+    paths.map((file) => ({ content: run('git', ['show', `${revision}:${file}`]), file })),
+  );
+}
+
+function consumerManifestsFromRoot(root = repositoryRoot) {
+  return new Map(
+    consumerRoots.map((consumerRoot) => [
+      consumerRoot,
+      readJson(path.join(root, consumerRoot, 'package.json')),
+    ]),
+  );
+}
+
+function consumerManifestsFromRevision(revision) {
+  return new Map(
+    consumerRoots.map((consumerRoot) => [
+      consumerRoot,
+      JSON.parse(run('git', ['show', `${revision}:${consumerRoot}/package.json`])),
+    ]),
+  );
+}
+
+export function buildConsumerSemanticInventory(records, manifests) {
+  const imports = [...records].sort((left, right) =>
+    `${left.file}:${String(left.order).padStart(6, '0')}:${left.specifier}`.localeCompare(
+      `${right.file}:${String(right.order).padStart(6, '0')}:${right.specifier}`,
+    ),
+  );
+  const coordinates = [];
+  for (const consumerRoot of consumerRoots) {
+    const manifest = manifests.get(consumerRoot);
+    const importedPackages = [
+      ...new Set(
+        imports
+          .filter(({ file }) => file.startsWith(`${consumerRoot}/`))
+          .map(({ packageName }) => packageName),
+      ),
+    ].sort();
+    for (const packageName of importedPackages) {
+      const declarations = runtimeDependencyFields
+        .filter((field) => packageName in (manifest?.[field] ?? {}))
+        .map((field) => ({ coordinate: manifest[field][packageName], field }));
+      if (declarations.length !== 1) {
+        throw new Error(
+          `${consumerRoot} must declare imported ${packageName} in exactly one runtime dependency field.`,
+        );
+      }
+      coordinates.push({
+        consumerRoot,
+        consumerName: manifest.name,
+        consumerPrivate: manifest.private === true,
+        packageName,
+        ...declarations[0],
+      });
+    }
+  }
+  return {
+    imports,
+    sourceFiles: [...new Set(imports.map(({ file }) => file))].sort(),
+    coordinates,
+  };
+}
+
+export function assertConsumerSemanticContract(current, expected) {
+  if (JSON.stringify(stableValue(current)) !== JSON.stringify(stableValue(expected))) {
+    throw new Error(
+      'UI consumer semantic inventory drifted from the immutable approved import and dependency contract.',
+    );
+  }
 }
 
 export function assertConsumerCoverage(records, packedManifests) {
@@ -705,61 +797,7 @@ function assertPathsMatchRevision(revision, paths, label) {
   }
 }
 
-export function assertAuthorizedOpsConsumerDelta(baselineContent, currentContent, changedPaths) {
-  const anchor = `import '${authorizedOpsConsumerDelta.after}';\nimport '${authorizedOpsConsumerDelta.before}';`;
-  const expected = baselineContent.replace(
-    anchor,
-    `import '${authorizedOpsConsumerDelta.after}';\nimport '${authorizedOpsConsumerDelta.specifier}';\nimport '${authorizedOpsConsumerDelta.before}';`,
-  );
-  if (
-    expected === baselineContent ||
-    baselineContent.indexOf(anchor) !== baselineContent.lastIndexOf(anchor)
-  ) {
-    throw new Error(
-      'Immutable Ops consumer baseline lacks the unique authorized stylesheet anchor.',
-    );
-  }
-  if (currentContent === baselineContent && changedPaths.length === 0) return 'baseline';
-  if (
-    currentContent === expected &&
-    changedPaths.length === 1 &&
-    changedPaths[0] === authorizedOpsConsumerDelta.file
-  ) {
-    return 'authorized-ops-data-table-stylesheet';
-  }
-  throw new Error(
-    'Ops consumer paths differ from the immutable baseline beyond the exact authorized DataTable stylesheet import.',
-  );
-}
-
-function assertConsumerImportContract() {
-  assertPathsMatchRevision(
-    consumerImportBaseline,
-    ['unisane/starters/saaskit'],
-    'Saaskit consumer paths',
-  );
-  const changedPaths = run('git', [
-    'diff',
-    '--name-only',
-    consumerImportBaseline,
-    '--',
-    'unisane-ops/apps/console',
-  ])
-    .split('\n')
-    .filter(Boolean);
-  const baselineContent = run('git', [
-    'show',
-    `${consumerImportBaseline}:${authorizedOpsConsumerDelta.file}`,
-  ]);
-  const currentContent = readFileSync(
-    path.join(repositoryRoot, authorizedOpsConsumerDelta.file),
-    'utf8',
-  );
-  return assertAuthorizedOpsConsumerDelta(baselineContent, currentContent, changedPaths);
-}
-
-function collectSourceIdentity() {
-  const consumerContractState = assertConsumerImportContract();
+function collectSourceIdentity(consumerSemanticInventory) {
   const producerPaths = packageProfiles.map(({ directory }) => directory);
   const producerRevision = run('git', ['rev-parse', 'HEAD']).trim();
   assertPathsMatchRevision(producerRevision, producerPaths, 'Producer package paths');
@@ -768,8 +806,8 @@ function collectSourceIdentity() {
       revision: consumerImportBaseline,
       tree: run('git', ['rev-parse', `${consumerImportBaseline}^{tree}`]).trim(),
       paths: consumerRoots,
-      authorizedDelta: authorizedOpsConsumerDelta,
-      observedState: consumerContractState,
+      approvedImport: approvedConsumerImport,
+      semanticInventoryDigest: hashValue(consumerSemanticInventory),
     },
     producerGit: {
       revision: producerRevision,
@@ -843,9 +881,19 @@ export function main() {
     const candidates = buildAndPackCandidates(workRoot);
     const packedManifests = assertExactInternalCoordinates(candidates);
     const records = collectConsumerImports();
-    const consumerImports = assertConsumerCoverage(records, packedManifests);
+    const semanticInventory = buildConsumerSemanticInventory(records, consumerManifestsFromRoot());
+    const baselineRecords = collectConsumerImportsFromRevision(consumerImportBaseline);
+    const expectedSemanticInventory = buildConsumerSemanticInventory(
+      [...baselineRecords, approvedConsumerImport],
+      consumerManifestsFromRevision(consumerImportBaseline),
+    );
+    assertConsumerSemanticContract(semanticInventory, expectedSemanticInventory);
+    const consumerImports = {
+      ...assertConsumerCoverage(records, packedManifests),
+      semanticInventory,
+    };
     const consumerProof = verifyExternalConsumer(workRoot, candidates, records);
-    const sourceIdentity = collectSourceIdentity();
+    const sourceIdentity = collectSourceIdentity(semanticInventory);
     const summary = buildCertificateSummary(
       candidates,
       consumerImports,

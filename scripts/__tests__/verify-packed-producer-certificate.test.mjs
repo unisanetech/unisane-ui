@@ -6,39 +6,93 @@ import test from 'node:test';
 
 import {
   EXTERNAL_CONSUMER_INSTALL_ARGS,
-  assertAuthorizedOpsConsumerDelta,
   assertConsumerCoverage,
+  assertConsumerSemanticContract,
   assertExternalConsumerLock,
   assertPackedManifest,
   buildCertificateSummary,
+  buildConsumerSemanticInventory,
+  collectConsumerImports,
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
 
-test('consumer contract admits only the exact ordered Ops DataTable stylesheet delta', () => {
-  const file = 'unisane-ops/apps/console/src/browser/main.tsx';
-  const baseline = "import '@unisane/ui/styles.css';\nimport './layout.css';\n";
-  const authorized =
-    "import '@unisane/ui/styles.css';\nimport '@unisane/data-table/styles.css';\nimport './layout.css';\n";
-
-  assert.equal(assertAuthorizedOpsConsumerDelta(baseline, baseline, []), 'baseline');
-  assert.equal(
-    assertAuthorizedOpsConsumerDelta(baseline, authorized, [file]),
-    'authorized-ops-data-table-stylesheet',
+test('consumer contract ignores unrelated manifest content and rejects UI semantic drift', () => {
+  const root = 'unisane-ops/apps/console';
+  const fixtureRoot = mkdtempSync(path.join(tmpdir(), 'ui-consumer-semantic-fixture-'));
+  const opsMain = path.join(fixtureRoot, root, 'src/browser/main.tsx');
+  const saaskitSource = path.join(fixtureRoot, 'unisane/starters/saaskit/src/page.tsx');
+  mkdirSync(path.dirname(opsMain), { recursive: true });
+  mkdirSync(path.dirname(saaskitSource), { recursive: true });
+  writeFileSync(
+    opsMain,
+    "import '@unisane/ui/styles.css';\nimport '@unisane/data-table/styles.css';\nexport const engineLabel = 'old';\n",
   );
-
-  for (const [content, changedPaths] of [
-    [authorized.replace('@unisane/data-table/styles.css', '@unisane/data-table/style.css'), [file]],
-    [
-      "import '@unisane/data-table/styles.css';\nimport '@unisane/ui/styles.css';\nimport './layout.css';\n",
-      [file],
-    ],
-    [`${authorized}void 0;\n`, [file]],
-    [authorized, [file, 'unisane-ops/apps/console/src/browser/app.tsx']],
-  ]) {
-    assert.throws(
-      () => assertAuthorizedOpsConsumerDelta(baseline, content, changedPaths),
-      /beyond the exact authorized DataTable stylesheet import/u,
+  writeFileSync(saaskitSource, "export const unrelatedContent = 'old';\n");
+  const records = collectConsumerImports(fixtureRoot);
+  const manifest = {
+    name: '@unisane/ops-console',
+    private: true,
+    engines: { node: '>=18.17.0' },
+    scripts: { build: 'old build' },
+    dependencies: { '@unisane/ui': 'workspace:*', '@unisane/data-table': 'workspace:*' },
+  };
+  const manifests = new Map([
+    ['unisane/starters/saaskit', { name: 'saaskit', private: true }],
+    [root, manifest],
+  ]);
+  try {
+    const expected = buildConsumerSemanticInventory(records, manifests);
+    writeFileSync(
+      opsMain,
+      "import '@unisane/ui/styles.css';\nimport '@unisane/data-table/styles.css';\nexport const engineLabel = 'new';\n",
     );
+    writeFileSync(saaskitSource, "export const unrelatedContent = 'new';\n");
+    const unrelated = buildConsumerSemanticInventory(
+      collectConsumerImports(fixtureRoot),
+      new Map([
+        ['unisane/starters/saaskit', { name: 'saaskit', private: true }],
+        [
+          root,
+          {
+            ...manifest,
+            engines: { node: '>=22.12.0' },
+            scripts: { build: 'new build', test: 'new test' },
+            description: 'unrelated content',
+          },
+        ],
+      ]),
+    );
+    assert.doesNotThrow(() => assertConsumerSemanticContract(unrelated, expected));
+
+    const changedImport = buildConsumerSemanticInventory(
+      records.map((record, index) =>
+        index === 1 ? { ...record, specifier: '@unisane/data-table' } : record,
+      ),
+      manifests,
+    );
+    assert.throws(
+      () => assertConsumerSemanticContract(changedImport, expected),
+      /semantic inventory drifted/u,
+    );
+
+    for (const changedManifest of [
+      { ...manifest, dependencies: { ...manifest.dependencies, '@unisane/ui': '0.1.0' } },
+      { ...manifest, private: false },
+    ]) {
+      const changedCoordinate = buildConsumerSemanticInventory(
+        records,
+        new Map([
+          ['unisane/starters/saaskit', { name: 'saaskit', private: true }],
+          [root, changedManifest],
+        ]),
+      );
+      assert.throws(
+        () => assertConsumerSemanticContract(changedCoordinate, expected),
+        /semantic inventory drifted/u,
+      );
+    }
+  } finally {
+    rmSync(fixtureRoot, { recursive: true, force: true });
   }
 });
 
