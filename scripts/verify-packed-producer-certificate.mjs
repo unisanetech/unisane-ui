@@ -364,9 +364,32 @@ function resolveRelativeArchiveEntry(fromEntry, specifier, entries) {
 function registryOwnedEntries(entries, extractedRoot) {
   if (!entries.includes('registry/registry.json')) return [];
   const registry = readJson(path.join(extractedRoot, 'registry/registry.json'));
-  const declared = Object.values(registry.components ?? {}).flatMap(({ files = [] }) =>
-    files.map((file) => `registry/${file}`),
-  );
+  if (!Array.isArray(registry.items)) {
+    throw new Error('Packed UI registry must declare the Shadcn item array.');
+  }
+  const declared = registry.items.flatMap((item, itemIndex) => {
+    if (!Array.isArray(item?.files)) {
+      throw new Error(`Packed UI registry item ${itemIndex} must declare files.`);
+    }
+    return item.files.map((file, fileIndex) => {
+      const declaredPath = file?.path;
+      if (
+        typeof declaredPath !== 'string' ||
+        declaredPath.length === 0 ||
+        path.posix.isAbsolute(declaredPath) ||
+        path.posix.normalize(declaredPath) !== declaredPath ||
+        declaredPath.split('/').includes('..')
+      ) {
+        throw new Error(
+          `Packed UI registry item ${itemIndex} file ${fileIndex} has an invalid path.`,
+        );
+      }
+      return `registry/${declaredPath}`;
+    });
+  });
+  if (new Set(declared).size !== declared.length) {
+    throw new Error('Packed UI registry declares duplicate file ownership.');
+  }
   return [
     ...declared,
     'registry/registry.json',

@@ -335,6 +335,7 @@ test('rejects arbitrary dist and registry files outside exact archive ownership'
       'registry/registry-schema.json',
       'registry/tsconfig.json',
       'registry/styles/globals.css',
+      'registry/components/button.tsx',
       ...[
         'black',
         'blue',
@@ -351,8 +352,22 @@ test('rejects arbitrary dist and registry files outside exact archive ownership'
     for (const entry of registryEntries) {
       const filePath = path.join(registryRoot, entry);
       mkdirSync(path.dirname(filePath), { recursive: true });
-      writeFileSync(filePath, entry.endsWith('.json') ? '{"components":{}}\n' : '/* owned */\n');
+      const content =
+        entry === 'registry/registry.json'
+          ? '{"items":[{"files":[{"path":"components/button.tsx"}]}]}\n'
+          : entry.endsWith('.json')
+            ? '{}\n'
+            : '/* owned */\n';
+      writeFileSync(filePath, content);
     }
+    assert.doesNotThrow(() =>
+      assertPackedManifest(
+        { ...profile, allowedRoots: [...profile.allowedRoots, 'registry'] },
+        manifest(),
+        ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json', ...registryEntries],
+        registryRoot,
+      ),
+    );
     mkdirSync(path.join(registryRoot, 'registry/private'), { recursive: true });
     writeFileSync(path.join(registryRoot, 'registry/private/stale.tsx'), 'export {};\n');
     assert.throws(
@@ -371,6 +386,17 @@ test('rejects arbitrary dist and registry files outside exact archive ownership'
           registryRoot,
         ),
       /unowned archive entries: registry\/private\/stale\.tsx/u,
+    );
+    writeFileSync(path.join(registryRoot, 'registry/registry.json'), '{"components":{}}\n');
+    assert.throws(
+      () =>
+        assertPackedManifest(
+          { ...profile, allowedRoots: [...profile.allowedRoots, 'registry'] },
+          manifest(),
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json', ...registryEntries],
+          registryRoot,
+        ),
+      /must declare the Shadcn item array/u,
     );
   } finally {
     rmSync(registryRoot, { recursive: true, force: true });

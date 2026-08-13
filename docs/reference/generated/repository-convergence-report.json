@@ -5933,7 +5933,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f8161712389f77e896d60d1c1b155139f1a6edc6c1fb4ff487d4ccd74654480a"
+      "sha256": "fc1a66de557b1471d7517f37ede604ed29f630de779b16cafbaf64b9a0a193f6"
     },
     {
       "path": "scripts/build-static-registry.mjs",
@@ -6005,7 +6005,7 @@
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "99d480731cc5353d43f0a5415f12700a97bea5c5acbdf61397cc424f12fd91cc"
+      "sha256": "ff2cff68b74801a69055db36c58ff918d6ec8a7dbfca994932021dd93889c935"
     },
     {
       "path": "SECURITY.md",
