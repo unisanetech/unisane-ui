@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { createRequire } from 'node:module';
 import {
+  copyFileSync,
   existsSync,
   mkdtempSync,
   mkdirSync,
@@ -126,10 +127,17 @@ const standaloneConsumerRecords = Object.freeze([
     values: Object.freeze([]),
   }),
 ]);
+export const PACKED_CONSUMER_LOCK_PATH = path.join(
+  repositoryRoot,
+  'scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml',
+);
+const approvedPackedConsumerLockSha256 =
+  'df78b4035af93e269a179ad1f8cbc03b4bb4eb955483453a5bcb8efd0705cad0';
 export const ACTIVE_PNPM_STORE_DIRECTORY = path.dirname(run('pnpm', ['store', 'path']).trim());
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
   '--offline',
+  '--frozen-lockfile',
   '--ignore-workspace',
   '--config.shared-workspace-lockfile=false',
   `--store-dir=${ACTIVE_PNPM_STORE_DIRECTORY}`,
@@ -619,6 +627,14 @@ export function assertExternalConsumerLock(lock) {
   }
 }
 
+export function assertFrozenExternalConsumerLock(lock) {
+  assertExternalConsumerLock(lock);
+  const digest = createHash('sha256').update(lock).digest('hex');
+  if (digest !== approvedPackedConsumerLockSha256) {
+    throw new Error('Frozen external consumer lock drifted from its approved source state.');
+  }
+}
+
 function isPathInside(root, candidate) {
   const relative = path.relative(root, candidate);
   return (
@@ -724,7 +740,8 @@ function verifyExternalConsumer(workRoot, candidates, records) {
   mkdirSync(fixtureRoot, { recursive: true });
   const candidateByName = new Map(candidates.map((candidate) => [candidate.name, candidate]));
   const dependencyVersions = resolveOwnedDependencyVersions();
-  const fileSpecifier = (name) => `file:${candidateByName.get(name).tarballPath}`;
+  const fileSpecifier = (name) =>
+    `file:../tarballs/${path.basename(candidateByName.get(name).tarballPath)}`;
   writeJson(path.join(fixtureRoot, 'package.json'), {
     name: 'unisane-ui-packed-certificate-consumer',
     version: '0.0.0',
@@ -772,8 +789,14 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     path.join(fixtureRoot, 'runtime-check.mjs'),
     `import { readFile } from 'node:fs/promises';\nimport { createElement } from 'react';\nimport { renderToStaticMarkup } from 'react-dom/server';\nimport { Button } from '@unisane/ui/button';\nimport { DataTable } from '@unisane/data-table';\nimport { preloadPDF, preloadXLSX } from '@unisane/data-table/export';\nconst checks = ${JSON.stringify(imports.runtimeChecks)};\nfor (const check of checks) {\n  const loaded = await import(check.specifier);\n  for (const name of check.values) {\n    if (!(name in loaded)) throw new Error(check.specifier + ' lacks runtime export ' + name);\n  }\n}\nconst stylesheets = ['@unisane/tokens/unisane.css', '@unisane/ui/styles.css', '@unisane/data-table/styles.css'];\nconst stylesheetBytes = {};\nfor (const stylesheet of stylesheets) {\n  const resolved = import.meta.resolve(stylesheet);\n  if (!resolved.startsWith('file:')) throw new Error('Stylesheet did not resolve: ' + stylesheet);\n  const content = await readFile(new URL(resolved), 'utf8');\n  if (content.length < 500) throw new Error('Stylesheet is unexpectedly empty: ' + stylesheet);\n  stylesheetBytes[stylesheet] = content.length;\n}\nfor (const stylesheet of stylesheets.slice(0, 2)) {\n  const content = await readFile(new URL(import.meta.resolve(stylesheet)), 'utf8');\n  if (!content.includes('--color-primary')) throw new Error('Token baseline is absent from ' + stylesheet);\n}\nconst buttonHtml = renderToStaticMarkup(createElement(Button, null, 'Packed UI'));\nif (!buttonHtml.includes('Packed UI')) throw new Error('Button SSR smoke failed.');\nconst tableHtml = renderToStaticMarkup(createElement(DataTable, { data: [{ id: '1', name: 'Ada' }], columns: [{ key: 'name', header: 'Name' }], preset: 'simple' }));\nif (!tableHtml.includes('Ada')) throw new Error('DataTable SSR smoke failed.');\nawait preloadXLSX();\nawait preloadPDF();\nconsole.log(JSON.stringify({ runtimeModules: checks.length, buttonSsr: true, dataTableSsr: true, dynamicExports: ['xlsx', 'jspdf', 'jspdf-autotable'], stylesheetBytes }));\n`,
   );
+  const sourceLock = readFileSync(PACKED_CONSUMER_LOCK_PATH, 'utf8');
+  assertFrozenExternalConsumerLock(sourceLock);
+  copyFileSync(PACKED_CONSUMER_LOCK_PATH, path.join(fixtureRoot, 'pnpm-lock.yaml'));
   run('pnpm', EXTERNAL_CONSUMER_INSTALL_ARGS, { cwd: fixtureRoot });
   const lock = readFileSync(path.join(fixtureRoot, 'pnpm-lock.yaml'), 'utf8');
+  if (lock !== sourceLock) {
+    throw new Error('Frozen external consumer lock changed during the offline install.');
+  }
   assertExternalConsumerLock(lock);
   for (const profile of packageProfiles) {
     const installedRoot = realpathSync(

@@ -6,8 +6,10 @@ import test from 'node:test';
 
 import {
   EXTERNAL_CONSUMER_INSTALL_ARGS,
+  PACKED_CONSUMER_LOCK_PATH,
   assertConsumerCoverage,
   assertExternalConsumerLock,
+  assertFrozenExternalConsumerLock,
   assertPackedManifest,
   buildCertificateSummary,
   collectConsumerImports,
@@ -29,9 +31,10 @@ test('standalone consumer contract is target-owned and covers packed entry point
 });
 
 test('external consumer install is intrinsically offline and rejects source fallbacks', () => {
-  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS.slice(0, 4), [
+  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS.slice(0, 5), [
     'install',
     '--offline',
+    '--frozen-lockfile',
     '--ignore-workspace',
     '--config.shared-workspace-lockfile=false',
   ]);
@@ -105,6 +108,20 @@ test('external consumer install is intrinsically offline and rejects source fall
     rmSync(targetRoot, { recursive: true, force: true });
     rmSync(escapedInstall, { recursive: true, force: true });
   }
+});
+
+test('frozen external consumer lock is exact, portable, and source-owned', () => {
+  const lock = readFileSync(PACKED_CONSUMER_LOCK_PATH, 'utf8');
+  assert.doesNotThrow(() => assertFrozenExternalConsumerLock(lock));
+  assert.match(lock, /file:\.\.\/tarballs\/unisane-ui-0\.1\.0-next\.b67ebfd0\.tgz/u);
+  assert.doesNotMatch(lock, /\/(?:Users|private|var)\//u);
+  assert.throws(
+    () =>
+      assertFrozenExternalConsumerLock(
+        lock.replace("lockfileVersion: '9.0'", "lockfileVersion: '8.0'"),
+      ),
+    /lock drifted/u,
+  );
 });
 
 function fixture() {

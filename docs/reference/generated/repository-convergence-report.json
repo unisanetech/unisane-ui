@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 996,
+  "fileCount": 997,
   "dispositionCounts": {
-    "retain": 880,
+    "retain": 881,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -5873,7 +5873,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e6c9b690de32e4ee2f6f4c2006993c0fca7449989690904aeea1f9d22bcbad6e"
+      "sha256": "4434d4cbf74d8762e1adef00ad60ba2ea87126634972d77c0e8447822a5621b0"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5912,6 +5912,12 @@
       "sha256": "7474007f4c90c221f4f26955cd31b5541cf954a33eb96e7470e0590bbeffe4e7"
     },
     {
+      "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "df78b4035af93e269a179ad1f8cbc03b4bb4eb955483453a5bcb8efd0705cad0"
+    },
+    {
       "path": "scripts/repository-migration/filter-repo.args",
       "disposition": "retain",
       "owner": "repository tooling",
@@ -5927,7 +5933,7 @@
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "17977a6dc42c81a84562fecced3365e3724089e8b9986a1d7b432c62580e73a7"
+      "sha256": "9be4f12a4b15369477d189ce23fd121664180b31e5bef43129e40a7a65f69a23"
     },
     {
       "path": "SECURITY.md",
