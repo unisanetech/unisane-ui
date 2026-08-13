@@ -1,14 +1,14 @@
 ---
 title: 'Task: Publish corrected stable Unisane UI 0.1.1 package family after the public Vite consumer found the invalid pnpm development flag'
-status: active
+status: complete
 owner: 'bhaskarbarma'
 id: T-ef5fbd67
 scope: 'workspace'
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: high-impact
 proofSubject: project-integration
 proofBaseline: baseline-dbbfd92193bd3a13
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `complete` from Skopos.
 
 ## Goal
 
@@ -121,12 +121,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "schemaVersion": 1,
   "id": "T-ef5fbd67",
   "type": "task",
-  "status": "active",
+  "status": "durable",
   "generatedAt": "2026-08-13T20:46:37.304Z",
-  "updatedAt": "2026-08-13T20:58:59.901Z",
+  "updatedAt": "2026-08-13T21:14:11.125Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "complete",
   "detail": "detailed",
   "title": "Publish corrected stable Unisane UI 0.1.1 package family after the public Vite consumer found the invalid pnpm development flag",
   "goal": "Publish corrected stable Unisane UI 0.1.1 package family after the public Vite consumer found the invalid pnpm development flag",
