@@ -126,12 +126,13 @@ const standaloneConsumerRecords = Object.freeze([
     values: Object.freeze([]),
   }),
 ]);
+export const ACTIVE_PNPM_STORE_DIRECTORY = path.dirname(run('pnpm', ['store', 'path']).trim());
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
   '--offline',
   '--ignore-workspace',
   '--config.shared-workspace-lockfile=false',
-  `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
+  `--store-dir=${ACTIVE_PNPM_STORE_DIRECTORY}`,
 ]);
 const packedTarballLocator =
   /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.tgz/gu;

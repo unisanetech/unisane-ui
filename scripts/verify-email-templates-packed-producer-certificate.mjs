@@ -18,7 +18,10 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-import { assertPackedManifest } from './verify-packed-producer-certificate.mjs';
+import {
+  ACTIVE_PNPM_STORE_DIRECTORY,
+  assertPackedManifest,
+} from './verify-packed-producer-certificate.mjs';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const producerDirectory = 'packages/email-templates';
@@ -304,7 +307,7 @@ function verifyExternalConsumer(workRoot, candidate) {
       '--offline',
       '--ignore-workspace',
       '--config.shared-workspace-lockfile=false',
-      `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
+      `--store-dir=${ACTIVE_PNPM_STORE_DIRECTORY}`,
     ],
     { cwd: fixtureRoot },
   );

@@ -35,7 +35,9 @@ test('external consumer install is intrinsically offline and rejects source fall
     '--ignore-workspace',
     '--config.shared-workspace-lockfile=false',
   ]);
-  assert.match(EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1), /^--store-dir=.+\/\.pnpm-store$/u);
+  const storeArgument = EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1);
+  assert.match(storeArgument, /^--store-dir=.+/u);
+  assert.equal(path.isAbsolute(storeArgument.slice('--store-dir='.length)), true);
 
   const packedTarballs = [
     'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz',

@@ -5855,7 +5855,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "bf3f24b577d9971912ed364eb798878692bb31617028f756be81147c75485d60"
+      "sha256": "e6c9b690de32e4ee2f6f4c2006993c0fca7449989690904aeea1f9d22bcbad6e"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5903,13 +5903,13 @@
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "657c4c8e1fdc3ef8e31946c4c86bd0461095dac3c283cf756764cd8ffe0d5d6c"
+      "sha256": "9d84049d0610b5b41dc9330ea60b8c846dc12f7ee5b9a6b9bae564a582b1ad84"
     },
     {
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "27ccdc42bbd6b79162bcfa6eb474cbb4737afdb647c63dd0abdd9880324a6fcb"
+      "sha256": "17977a6dc42c81a84562fecced3365e3724089e8b9986a1d7b432c62580e73a7"
     },
     {
       "path": "SECURITY.md",
