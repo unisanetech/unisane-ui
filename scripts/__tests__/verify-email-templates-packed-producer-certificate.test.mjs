@@ -29,15 +29,16 @@ function fixture() {
   );
   writeFileSync(path.join(root, 'unisane.meta.json'), '{}\n');
   writeFileSync(path.join(root, 'README.md'), '# Email templates\n');
+  writeFileSync(path.join(root, 'LICENSE'), 'MIT License\n');
   return root;
 }
 
 function manifest(overrides = {}) {
   return {
     name: '@unisane/email-templates',
-    version: '0.1.0',
+    version: '0.1.0-next.b67ebfd0',
     description: 'Provider-neutral HTML and text email presentation for Unisane products',
-    private: true,
+    private: false,
     type: 'module',
     sideEffects: false,
     files: ['dist', 'unisane.meta.json'],
@@ -51,7 +52,12 @@ function manifest(overrides = {}) {
       },
       './meta': './unisane.meta.json',
     },
-    license: 'UNLICENSED',
+    license: 'MIT',
+    publishConfig: {
+      access: 'public',
+      provenance: true,
+      tag: 'next',
+    },
     repository: {
       type: 'git',
       url: 'https://github.com/unisane/unisane-ui.git',
@@ -72,6 +78,7 @@ function manifest(overrides = {}) {
 }
 
 const entries = [
+  'LICENSE',
   'README.md',
   'dist/index.d.ts',
   'dist/index.js',
@@ -165,7 +172,7 @@ test('rejects unexpected archive files, assets, local locators, and authority dr
     },
     {
       entries,
-      manifest: manifest({ private: false, license: 'MIT' }),
+      manifest: manifest({ private: true }),
       pattern: /manifest field private drifted/u,
     },
   ];
@@ -183,12 +190,16 @@ test('rejects unexpected archive files, assets, local locators, and authority dr
   }
 });
 
-test('certificate keeps every external owner gate false and persists package-locally', () => {
+test('certificate records legal approval and keeps external execution gates false', () => {
   const artifactRoot = mkdtempSync(path.join(tmpdir(), 'email-certificate-artifact-'));
   const artifactPath = path.join(artifactRoot, 'packed-producer-certificate.json');
   const candidate = {
     manifest: manifest(),
-    boundary: { exportTargetCount: 4, ownedArchiveEntryCount: 5, runtimeAssets: [] },
+    boundary: {
+      exportTargetCount: 4,
+      ownedArchiveEntryCount: entries.length,
+      runtimeAssets: [],
+    },
     bytes: 100,
     entries,
     contentDigest: 'a'.repeat(64),
@@ -218,11 +229,12 @@ test('certificate keeps every external owner gate false and persists package-loc
   try {
     writeCertificateArtifact(summary, artifactPath);
     assert.deepEqual(JSON.parse(readFileSync(artifactPath, 'utf8')), summary);
+    for (const gate of ['legalApproved', 'licenseApproved']) {
+      assert.equal(summary[gate], true);
+    }
     for (const gate of [
       'authorityCutoverAuthorized',
       'consumerConversionAuthorized',
-      'legalApproved',
-      'licenseApproved',
       'publicationAuthorized',
       'registryApproved',
       'releaseAuthorized',

@@ -33,6 +33,7 @@ const forbiddenArchivePath =
   /(?:^|\/)(?:\.git|\.skopos|\.turbo|coverage|node_modules|src|test|tests|tmp)(?:\/|$)/iu;
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
+const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0';
 const themeNames = Object.freeze([
   'black',
   'blue',
@@ -49,13 +50,20 @@ const packageProfiles = Object.freeze([
   Object.freeze({
     name: '@unisane/tokens',
     directory: 'packages/tokens',
-    allowedRoots: Object.freeze(['dist', 'package.json', 'README.md', 'unisane.meta.json']),
+    allowedRoots: Object.freeze([
+      'dist',
+      'LICENSE',
+      'package.json',
+      'README.md',
+      'unisane.meta.json',
+    ]),
   }),
   Object.freeze({
     name: '@unisane/ui',
     directory: 'packages/ui',
     allowedRoots: Object.freeze([
       'dist',
+      'LICENSE',
       'registry',
       'package.json',
       'README.md',
@@ -65,7 +73,13 @@ const packageProfiles = Object.freeze([
   Object.freeze({
     name: '@unisane/data-table',
     directory: 'packages/data-table',
-    allowedRoots: Object.freeze(['dist', 'package.json', 'README.md', 'unisane.meta.json']),
+    allowedRoots: Object.freeze([
+      'dist',
+      'LICENSE',
+      'package.json',
+      'README.md',
+      'unisane.meta.json',
+    ]),
   }),
 ]);
 const standaloneConsumerRecords = Object.freeze([
@@ -117,9 +131,10 @@ export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   '--offline',
   '--ignore-workspace',
   '--config.shared-workspace-lockfile=false',
+  `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
 ]);
 const packedTarballLocator =
-  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0\.tgz/gu;
+  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.tgz/gu;
 const externalConsumerDependencyContracts = Object.freeze([
   Object.freeze({ field: 'peerDependencies', name: 'react' }),
   Object.freeze({ field: 'peerDependencies', name: 'react-dom' }),
@@ -355,7 +370,9 @@ function registryOwnedEntries(entries, extractedRoot) {
 
 function assertExactArchiveClosure(profile, manifest, targets, entries, extractedRoot) {
   const owned = new Set(
-    ['package.json', 'README.md', 'unisane.meta.json'].filter((entry) => entries.includes(entry)),
+    ['LICENSE', 'package.json', 'README.md', 'unisane.meta.json'].filter((entry) =>
+      entries.includes(entry),
+    ),
   );
   const queue = [...new Set(targets.flatMap((target) => expandArchiveTarget(target, entries)))];
   if (profile.name === '@unisane/tokens') {
@@ -393,11 +410,22 @@ function assertExactArchiveClosure(profile, manifest, targets, entries, extracte
 }
 
 export function assertPackedManifest(profile, manifest, entries, extractedRoot) {
-  if (manifest.name !== profile.name || manifest.version !== '0.1.0') {
-    throw new Error(`${profile.name} packed identity must remain exact 0.1.0.`);
+  if (manifest.name !== profile.name || manifest.version !== approvedPrereleaseVersion) {
+    throw new Error(
+      `${profile.name} packed identity must remain exact ${approvedPrereleaseVersion}.`,
+    );
   }
-  if (manifest.private !== true || manifest.license !== 'UNLICENSED') {
-    throw new Error(`${profile.name} must remain fail-closed for publication and legal approval.`);
+  if (
+    manifest.private !== false ||
+    manifest.license !== 'MIT' ||
+    manifest.publishConfig?.access !== 'public' ||
+    manifest.publishConfig?.provenance !== true ||
+    manifest.publishConfig?.tag !== 'next'
+  ) {
+    throw new Error(`${profile.name} approved public prerelease metadata drifted.`);
+  }
+  if (!entries.includes('LICENSE')) {
+    throw new Error(`${profile.name} packed archive must include its MIT LICENSE.`);
   }
   const localDependencies = dependencyEntries(manifest).filter(({ specifier }) =>
     localSpecifier.test(specifier),
@@ -514,7 +542,9 @@ function buildAndPackCandidates(workRoot) {
   const tarballs = readdirSync(tarballRoot).filter((entry) => entry.endsWith('.tgz'));
   return packageProfiles.map((profile) => {
     const expectedPrefix = profile.name.replace('@', '').replace('/', '-');
-    const tarballName = tarballs.find((entry) => entry === `${expectedPrefix}-0.1.0.tgz`);
+    const tarballName = tarballs.find(
+      (entry) => entry === `${expectedPrefix}-${approvedPrereleaseVersion}.tgz`,
+    );
     if (!tarballName) throw new Error(`Missing packed artifact for ${profile.name}.`);
     const tarballPath = path.join(tarballRoot, tarballName);
     const packageRoot = path.join(extractedRoot, expectedPrefix);
@@ -714,8 +744,8 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     },
     pnpm: {
       overrides: {
-        '@unisane/tokens@0.1.0': fileSpecifier('@unisane/tokens'),
-        '@unisane/ui@0.1.0': fileSpecifier('@unisane/ui'),
+        [`@unisane/tokens@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/tokens'),
+        [`@unisane/ui@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/ui'),
       },
     },
     packageManager: 'pnpm@10.26.0',
@@ -763,11 +793,18 @@ function verifyExternalConsumer(workRoot, candidates, records) {
 
 function assertExactInternalCoordinates(candidates) {
   const manifests = new Map(candidates.map((candidate) => [candidate.name, candidate.manifest]));
-  if (manifests.get('@unisane/ui').dependencies?.['@unisane/tokens'] !== '0.1.0') {
-    throw new Error('Packed UI must depend on exact @unisane/tokens 0.1.0.');
+  if (
+    manifests.get('@unisane/ui').dependencies?.['@unisane/tokens'] !== approvedPrereleaseVersion
+  ) {
+    throw new Error(`Packed UI must depend on exact @unisane/tokens ${approvedPrereleaseVersion}.`);
   }
-  if (manifests.get('@unisane/data-table').peerDependencies?.['@unisane/ui'] !== '0.1.0') {
-    throw new Error('Packed DataTable must peer on exact @unisane/ui 0.1.0.');
+  if (
+    manifests.get('@unisane/data-table').peerDependencies?.['@unisane/ui'] !==
+    approvedPrereleaseVersion
+  ) {
+    throw new Error(
+      `Packed DataTable must peer on exact @unisane/ui ${approvedPrereleaseVersion}.`,
+    );
   }
   for (const dependency of ['xlsx', 'jspdf', 'jspdf-autotable']) {
     if (!(dependency in (manifests.get('@unisane/data-table').dependencies ?? {}))) {
@@ -850,9 +887,20 @@ export function buildCertificateSummary(
     ),
     consumerImports,
     consumerProof,
+    approvedRelease: {
+      version: approvedPrereleaseVersion,
+      license: 'MIT',
+      approvalPath: 'docs/release-approval.json',
+    },
     externalEffects: [],
+    legalApproved: true,
+    licenseApproved: true,
     publicationAuthorized: false,
+    registryApproved: false,
+    releaseAuthorized: false,
     consumerConversionAuthorized: false,
+    remoteAuthorized: false,
+    authorityCutoverAuthorized: false,
   };
 }
 

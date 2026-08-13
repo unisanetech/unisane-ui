@@ -8,7 +8,7 @@ const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const packageCases = [
   {
     directory: 'packages/ui',
-    allowedRoots: ['dist', 'registry', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: ['dist', 'registry', 'LICENSE', 'package.json', 'README.md', 'unisane.meta.json'],
   },
   {
     directory: 'packages/ui-cli',
@@ -16,15 +16,15 @@ const packageCases = [
   },
   {
     directory: 'packages/tokens',
-    allowedRoots: ['dist', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: ['dist', 'LICENSE', 'package.json', 'README.md', 'unisane.meta.json'],
   },
   {
     directory: 'packages/data-table',
-    allowedRoots: ['dist', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: ['dist', 'LICENSE', 'package.json', 'README.md', 'unisane.meta.json'],
   },
   {
     directory: 'packages/email-templates',
-    allowedRoots: ['dist', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: ['dist', 'LICENSE', 'package.json', 'README.md', 'unisane.meta.json'],
   },
 ];
 

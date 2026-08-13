@@ -17,5 +17,4 @@ generator. Run `pnpm --filter @unisane/tokens build` to regenerate and
 `pnpm --filter @unisane/tokens test` to prove deterministic output. Do not edit generated
 CSS directly.
 
-Public licensing is not yet approved. The package remains private and unlicensed until
-the repository's legal gate is resolved.
+This package is MIT licensed. The packed archive includes the exact license text.

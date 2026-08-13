@@ -29,17 +29,18 @@ test('standalone consumer contract is target-owned and covers packed entry point
 });
 
 test('external consumer install is intrinsically offline and rejects source fallbacks', () => {
-  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS, [
+  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS.slice(0, 4), [
     'install',
     '--offline',
     '--ignore-workspace',
     '--config.shared-workspace-lockfile=false',
   ]);
+  assert.match(EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1), /^--store-dir=.+\/\.pnpm-store$/u);
 
   const packedTarballs = [
-    'file:../tarballs/unisane-tokens-0.1.0.tgz',
-    'file:../tarballs/unisane-ui-0.1.0.tgz',
-    'file:../tarballs/unisane-data-table-0.1.0.tgz',
+    'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz',
+    'file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz',
+    'file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz',
   ].join('\n');
   assert.doesNotThrow(() => assertExternalConsumerLock(packedTarballs));
 
@@ -109,20 +110,22 @@ function fixture() {
   mkdirSync(path.join(root, 'dist'), { recursive: true });
   writeFileSync(path.join(root, 'dist/index.js'), 'export const Button = () => null;\n');
   writeFileSync(path.join(root, 'dist/index.d.ts'), 'export declare const Button: () => null;\n');
+  writeFileSync(path.join(root, 'LICENSE'), 'MIT License\n');
   return root;
 }
 
 const profile = {
   name: '@unisane/ui',
-  allowedRoots: ['dist', 'package.json'],
+  allowedRoots: ['dist', 'LICENSE', 'package.json'],
 };
 
 function manifest(overrides = {}) {
   return {
     name: '@unisane/ui',
-    version: '0.1.0',
-    private: true,
-    license: 'UNLICENSED',
+    version: '0.1.0-next.b67ebfd0',
+    private: false,
+    license: 'MIT',
+    publishConfig: { access: 'public', provenance: true, tag: 'next' },
     exports: {
       './button': {
         types: './dist/index.d.ts',
@@ -134,13 +137,13 @@ function manifest(overrides = {}) {
   };
 }
 
-test('accepts exact fail-closed packed package metadata and exports', () => {
+test('accepts exact approved public prerelease metadata and exports', () => {
   const root = fixture();
   try {
     const result = assertPackedManifest(
       profile,
       manifest(),
-      ['dist/index.d.ts', 'dist/index.js', 'package.json'],
+      ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
       root,
     );
     assert.equal(result.exportTargetCount, 2);
@@ -157,13 +160,19 @@ test('rejects local locators, missing targets, sibling references, and publicati
         assertPackedManifest(
           profile,
           manifest({ dependencies: { '@unisane/tokens': 'workspace:*' } }),
-          ['dist/index.d.ts', 'dist/index.js', 'package.json'],
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
           root,
         ),
       /retains local dependency locators/u,
     );
     assert.throws(
-      () => assertPackedManifest(profile, manifest(), ['dist/index.js', 'package.json'], root),
+      () =>
+        assertPackedManifest(
+          profile,
+          manifest(),
+          ['LICENSE', 'dist/index.js', 'package.json'],
+          root,
+        ),
       /missing packed export targets/u,
     );
     writeFileSync(
@@ -175,7 +184,7 @@ test('rejects local locators, missing targets, sibling references, and publicati
         assertPackedManifest(
           profile,
           manifest(),
-          ['dist/index.d.ts', 'dist/index.js', 'package.json'],
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
           root,
         ),
       /(?:emitted sibling or local locator|path outside the packed archive)/u,
@@ -184,11 +193,21 @@ test('rejects local locators, missing targets, sibling references, and publicati
       () =>
         assertPackedManifest(
           profile,
-          manifest({ private: false, license: 'MIT' }),
+          manifest({ private: true }),
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
+          root,
+        ),
+      /approved public prerelease metadata drifted/u,
+    );
+    assert.throws(
+      () =>
+        assertPackedManifest(
+          profile,
+          manifest(),
           ['dist/index.d.ts', 'dist/index.js', 'package.json'],
           root,
         ),
-      /remain fail-closed/u,
+      /must include its MIT LICENSE/u,
     );
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -212,7 +231,7 @@ test('rejects nonliteral emitted loaders and undeclared literal packages', () =>
           assertPackedManifest(
             profile,
             manifest(),
-            ['dist/index.d.ts', 'dist/index.js', 'package.json'],
+            ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
             root,
           ),
         /nonliteral (?:import\(\)|require\(\)|require\.resolve\(\))/u,
@@ -230,7 +249,7 @@ test('rejects nonliteral emitted loaders and undeclared literal packages', () =>
         assertPackedManifest(
           profile,
           manifest(),
-          ['dist/index.d.ts', 'dist/index.js', 'package.json'],
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
           root,
         ),
       /emits undeclared package references/u,
@@ -249,7 +268,7 @@ test('rejects arbitrary dist and registry files outside exact archive ownership'
         assertPackedManifest(
           profile,
           manifest(),
-          ['dist/index.d.ts', 'dist/index.js', 'dist/stale-private.js', 'package.json'],
+          ['LICENSE', 'dist/index.d.ts', 'dist/index.js', 'dist/stale-private.js', 'package.json'],
           root,
         ),
       /unowned archive entries: dist\/stale-private\.js/u,
@@ -291,6 +310,7 @@ test('rejects arbitrary dist and registry files outside exact archive ownership'
           { ...profile, allowedRoots: [...profile.allowedRoots, 'registry'] },
           manifest(),
           [
+            'LICENSE',
             'dist/index.d.ts',
             'dist/index.js',
             'package.json',
@@ -322,7 +342,7 @@ test('rejects consumer subpaths absent from the packed export map', () => {
   );
 });
 
-test('certificate summary keeps publication and consumer conversion unauthorized', () => {
+test('certificate summary records legal approval while external execution stays blocked', () => {
   const sourceIdentity = {
     consumerContract: {
       authority: 'standalone-target-owned',
@@ -350,6 +370,10 @@ test('certificate summary keeps publication and consumer conversion unauthorized
   );
   assert.equal(summary.publicationAuthorized, false);
   assert.equal(summary.consumerConversionAuthorized, false);
+  assert.equal(summary.legalApproved, true);
+  assert.equal(summary.licenseApproved, true);
+  assert.equal(summary.registryApproved, false);
+  assert.equal(summary.releaseAuthorized, false);
   assert.deepEqual(summary.externalEffects, []);
   assert.deepEqual(summary.sourceIdentity.consumerContract, sourceIdentity.consumerContract);
   assert.deepEqual(summary.sourceIdentity.producerGit, sourceIdentity.producerGit);

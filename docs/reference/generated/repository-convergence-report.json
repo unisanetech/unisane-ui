@@ -2,18 +2,14 @@
   "schemaVersion": 1,
   "authority": "local-unisane-ui-migration-shadow",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 983,
+  "fileCount": 993,
   "dispositionCounts": {
-    "retain": 856,
-    "block": 11,
+    "retain": 877,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
-    "license and NOTICE approval",
-    "contributor terms",
-    "public asset redistribution rights",
-    "remote governance and recovery identities",
-    "trusted publishing and provenance authority"
+    "authenticated npm publisher and completed provenance-enabled publish transaction",
+    "remote governance and recovery identities"
   ],
   "violations": [],
   "files": [
@@ -2077,68 +2073,68 @@
     },
     {
       "path": "apps/docs/public/images/home/cart-ipad.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "31005c8a68814148345d964fac3ff9559f95dcb07987b2e478d5ac18fc3437f1"
     },
     {
       "path": "apps/docs/public/images/home/cart-iphone.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "d316d0cce2e11affa146812594bc024a60e103a8ebe5bb389fc52641430b5634"
     },
     {
       "path": "apps/docs/public/images/home/cart-macbook.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "46c94a1c83059ee95e20b34e4f53bee0659af11cfcd939a16e238e75ee5fd75e"
     },
     {
       "path": "apps/docs/public/images/home/cart-watch.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "e6f0a863cdd58c3008cffa2b2097cb8bc4779cc717b78c2a7578115f9acf0a96"
     },
     {
       "path": "apps/docs/public/images/home/commerce-shoe-alt-1.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "1146e6ba7f7e0ad034a976186735b20ada7bbaeafce12fcb0775e263e7364cf3"
     },
     {
       "path": "apps/docs/public/images/home/commerce-shoe-alt-2.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "21bd855d3af02a15c1f11e0f62e251d9554302260ff3431ef0fe397abe303157"
     },
     {
       "path": "apps/docs/public/images/home/commerce-shoe-main.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "57047777ebd477968907953b89a0677f800e86180e79bc566e8f27dd1bc426bd"
     },
     {
       "path": "apps/docs/public/images/home/stay-map.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "757765dd765a1f3cd7077bf7f30a995166dcf3845ffbd965c31d25689e8c9e91"
     },
     {
       "path": "apps/docs/public/images/home/stay-room-1.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "9a4a696ed25389c5c83c45623a1ebaecf0ba1f7f0c93baeb86740e9970b1a2e0"
     },
     {
       "path": "apps/docs/public/images/home/stay-room-2.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "4f702f82aa20e51ff54bd5610d281b9207513bbb0f7863dde5d7f8fecccbc6ba"
     },
     {
       "path": "apps/docs/public/images/home/stay-room-3.svg",
-      "disposition": "block",
-      "owner": "UI docs asset-rights audit",
+      "disposition": "retain",
+      "owner": "approved UI docs asset provenance",
       "sha256": "362df4aace135f5c10b81bb8985baef37a2558922178ab21992d4b3d11da604a"
     },
     {
@@ -2154,6 +2150,12 @@
       "sha256": "8924581f2e5f5d36633386c1d29c6ab386824df5a8afb559a51d0e425b58944d"
     },
     {
+      "path": "CONTRIBUTING.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "000229b4703ebf836aaefe319e9b702cdc378ad60f53b6602632f83e1cb654e1"
+    },
+    {
       "path": "docs/00-start-here.md",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2166,6 +2168,12 @@
       "sha256": "175f0a549d6ffa2334bab4cf6dd209b5de2027655b1402e6933ae145e7a1b07c"
     },
     {
+      "path": "docs/asset-provenance.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "30723de557d3835db2f772bbd67015c958cfa5703eafb98303204a1c64249449"
+    },
+    {
       "path": "docs/findings/blocks-catalog-product-contract-gap.md",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2175,7 +2183,7 @@
       "path": "docs/guides/licensing-prerequisites.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "35ce2a18ed1ee6e8b6abb7b9808a9784222d8591a9b158ade220a1dc8accbde0"
+      "sha256": "01a72ec15c6c9a86826210d8de3b4d9313bfc5751b0f924e8c68d3fce4a208fc"
     },
     {
       "path": "docs/guides/migration-shadow.md",
@@ -2202,6 +2210,12 @@
       "sha256": "571b4f9f1c7fdfdcde3288aa2c3609a4a696b9bd8990a462c65a43d20d8d1c4c"
     },
     {
+      "path": "docs/release-approval.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "880ef76c32dc3d347f1be5f29dc2d5b4cfc81005bb725e6c821d588529ebc7ec"
+    },
+    {
       "path": "docs/repository-history-map.txt",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2226,28 +2240,46 @@
       "sha256": "83bd885d66dcf7503a6c91a00f803d1eadad0fe80e6b892b59f3db8a6032f961"
     },
     {
+      "path": "LICENSE",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "c2d24d0411646a2fdb0cf57fd3b41a444af77c7beceaa8805e407744e31e646f"
+    },
+    {
       "path": "MIGRATION.md",
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "6f5613092effd970321ac5857d2a73cf36c8556d4e6960663a307d7d420ede10"
     },
     {
+      "path": "NOTICE",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "15da3e35c689dd3f0cb12749328475dbe65f0eb200ccf9561c1aa85970d7b683"
+    },
+    {
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "ee9ccfd1314dd392e2169464d450f7a6f4c1e1ba92ff0b5cca0c825c998c27cf"
+      "sha256": "adc31714d32c0345c32a7b9780726c422f8f05e98fc9c380c9c76a833fe03c33"
+    },
+    {
+      "path": "packages/data-table/LICENSE",
+      "disposition": "retain",
+      "owner": "@unisane/data-table",
+      "sha256": "c2d24d0411646a2fdb0cf57fd3b41a444af77c7beceaa8805e407744e31e646f"
     },
     {
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "50068d5a80dbb2f2cce805992c9afa021030a39bf4c2d8c7f6813fb4036d055c"
+      "sha256": "b7a9433fa767ca83bc848a7678659b313a3b45f72aaa94f5c7a80b9ba728c9e1"
     },
     {
       "path": "packages/data-table/README.md",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "cc4fc45d8fa106d3b2760711c5a0f1a8eecfe9bee6749bc1730601062764df4e"
+      "sha256": "fb458ca1d92ec0a1c9ae8654aebd53dc43ce92e800dd5f5030383271004c5149"
     },
     {
       "path": "packages/data-table/src/components/actions-cell.tsx",
@@ -3540,10 +3572,16 @@
       "sha256": "8feec9bfba9d9a22dd80b98509c917b216e8d4ab58f1127a69dc9c096a8dd794"
     },
     {
+      "path": "packages/email-templates/LICENSE",
+      "disposition": "retain",
+      "owner": "@unisane/email-templates",
+      "sha256": "c2d24d0411646a2fdb0cf57fd3b41a444af77c7beceaa8805e407744e31e646f"
+    },
+    {
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "36d2530a3d508dac224950e035a563a8338d37ae618defe1c98b30c485b23652"
+      "sha256": "434e51fd755628d4f24a99a393b074e6e8e83e406d8917e8f3704ebd08bb1b2c"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -3684,16 +3722,22 @@
       "sha256": "e81250ce9c30d834f85f87b91dc8cef5197e87230b21b362e9344344aec17df8"
     },
     {
+      "path": "packages/tokens/LICENSE",
+      "disposition": "retain",
+      "owner": "@unisane/tokens",
+      "sha256": "c2d24d0411646a2fdb0cf57fd3b41a444af77c7beceaa8805e407744e31e646f"
+    },
+    {
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "8bb8f9945e668d0371a7a45534d7b009ad8a48e0dcb584423f1f141c64a33b9a"
+      "sha256": "e0089318f5348b80e443187b3dc73ba9736703012c16db707433da531f160be9"
     },
     {
       "path": "packages/tokens/README.md",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "373818c40f46ad67465f19e438e56c899da1287d931c7c7fd5c795c50961084a"
+      "sha256": "01f0685a28e0d366c358fae564f67fd28706734a124edcc30a1237733e92d353"
     },
     {
       "path": "packages/tokens/scripts/build.mjs",
@@ -4044,10 +4088,16 @@
       "sha256": "5f3aba502583a01622504fabfe5d5e8c3b88d954cd194e692420366861164612"
     },
     {
+      "path": "packages/ui/LICENSE",
+      "disposition": "retain",
+      "owner": "@unisane/ui",
+      "sha256": "c2d24d0411646a2fdb0cf57fd3b41a444af77c7beceaa8805e407744e31e646f"
+    },
+    {
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "97fe0b5c98d314fdbb273c0c07c31c9f5e4fffa9d24fdae5a58ecd72f6bd967c"
+      "sha256": "0618f7fe22195c6c4eeaf8f4216c14175a94e8971e7ab6dd5751dc0dddf22d63"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -5799,19 +5849,19 @@
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "fdf897ac562bb1da704f7befba49f9371511db44ca06d4cf6f32788908b58533"
+      "sha256": "4617773da9a8fc5373ba9c01132a164c53923de734acef9baae52807ada5844d"
     },
     {
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "847e80823bab0c25d66c37da7faf3399e460978b44153236b0d25c787ac1e494"
+      "sha256": "bf3f24b577d9971912ed364eb798878692bb31617028f756be81147c75485d60"
     },
     {
       "path": "scripts/check-package-contents.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "3ebd8f7e86037affe3214434449dc107e0583c55ce44ad365804c258a6833025"
+      "sha256": "d49623ccf350805f74087a0e9f43032acae6491d74d9ea7dc1089b5fdf999b47"
     },
     {
       "path": "scripts/check-public-utility-ownership.mjs",
@@ -5823,13 +5873,13 @@
       "path": "scripts/check-release-readiness.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "3c7b2e948923007747c906f28014be0af53dcc6b3d180a3c9e33744fd348cc92"
+      "sha256": "a24a8ba9e4c3137294f1a5c594f67680e6308d07c37508b13baef2bce309121f"
     },
     {
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "1e31132f626a9028c0dec4bb2390a6d20407730976c6bc2b1a19b5d95bcc075b"
+      "sha256": "2b022a7d57fd476a397cc5b2c8c748c9a5e08b83b77c54996aae8d3c93089388"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5853,13 +5903,13 @@
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "3df0375cdc935414b2e7ee8dfaae4e685584388120d5d40f5eaa7a8e0c7bb2b7"
+      "sha256": "657c4c8e1fdc3ef8e31946c4c86bd0461095dac3c283cf756764cd8ffe0d5d6c"
     },
     {
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "b6d0d910cfa2a85946a1f7471b18f522d57b6e37e8a61187959a721138792b3e"
+      "sha256": "27ccdc42bbd6b79162bcfa6eb474cbb4737afdb647c63dd0abdd9880324a6fcb"
     },
     {
       "path": "SECURITY.md",
@@ -5872,6 +5922,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "9d4e821556be18beff7c1e334c92b391c8066211ab330b6f72a1a53090af2763"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "86db3203969ec5547624a461881d9af24c00d11762898e4186945611c26db42a"
     },
     {
       "path": "tools/skopos/scopes.yaml",

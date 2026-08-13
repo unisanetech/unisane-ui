@@ -9,21 +9,25 @@ provenance: accepted
 view: current
 ---
 
-# Licensing and public-release prerequisites
+# Licensing and public-release readiness
 
-This local migration shadow is not licensed for public distribution. The root workspace
-and every intended public package remain `private: true` and `UNLICENSED` until an
-authorized legal owner completes all of the following:
+The founder approved MIT licensing and public npm prerelease distribution for these
+exact packages at `0.1.0-next.b67ebfd0` under the `next` tag:
 
-- approve the legal entity and exact license text
-- install the approved root `LICENSE` and `NOTICE`
-- generate and review third-party notices
-- approve employee, contractor, and external-contributor terms
-- record redistribution rights for fonts, icons, screenshots, examples, fixtures,
-  generated registries, visual baselines, and other distributed assets
-- approve package contents, provenance, SBOM, registry ownership, and trusted publishing
-- record the approval in `docs/release-approval.json`
+- `@unisane/tokens`
+- `@unisane/ui`
+- `@unisane/data-table`
+- `@unisane/email-templates`
 
-`pnpm check:release-policy` proves that the current shadow remains safely blocked.
-`pnpm check:release-readiness` intentionally fails until every prerequisite is present.
+The approval, license, notices, contributor terms, and asset provenance are recorded in
+the root legal files, `docs/release-approval.json`, and `docs/asset-provenance.json`.
+`@unisane/ui-cli`, `@unisane/ui-docs`, and the workspace root remain private and are not
+part of this release.
+
+`pnpm check:release-readiness` validates the source-side release contract. Packed
+producer checks prove the distributable contents and clean external-consumer behavior.
 Neither command publishes anything.
+
+The remaining external step is an authenticated, provenance-enabled npm publish by an
+authorized `@unisane` publisher. This local repository still has no remote and does not
+become authoritative merely because package publication is approved.

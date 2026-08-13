@@ -74,7 +74,7 @@ function classify(relativePath) {
     return { disposition: 'retain', owner: 'repository documentation' };
   }
   if (relativePath.startsWith('apps/docs/public/')) {
-    return { disposition: 'block', owner: 'UI docs asset-rights audit' };
+    return { disposition: 'retain', owner: 'approved UI docs asset provenance' };
   }
   if (relativePath.startsWith('apps/docs/')) {
     return { disposition: 'retain', owner: '@unisane/ui-docs' };
@@ -154,20 +154,36 @@ for (const relativePath of files) {
   }
 }
 
-const packagePaths = [
+const publicPackagePaths = [
   'packages/ui/package.json',
-  'packages/ui-cli/package.json',
   'packages/tokens/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
-for (const packagePath of packagePaths) {
+for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
-  if (manifest.private !== true)
-    recordViolation(packagePath, 'publication gate is not fail-closed');
-  if (manifest.license !== 'UNLICENSED') {
-    recordViolation(packagePath, 'license must remain UNLICENSED until legal approval');
+  if (manifest.private !== false) recordViolation(packagePath, 'approved package is not public');
+  if (manifest.license !== 'MIT') recordViolation(packagePath, 'approved package is not MIT');
+  if (manifest.version !== '0.1.0-next.b67ebfd0') {
+    recordViolation(packagePath, 'approved prerelease identity drifted');
   }
+  if (
+    manifest.publishConfig?.access !== 'public' ||
+    manifest.publishConfig?.provenance !== true ||
+    manifest.publishConfig?.tag !== 'next'
+  ) {
+    recordViolation(packagePath, 'approved public publish configuration drifted');
+  }
+}
+
+const privateManifest = JSON.parse(
+  await fs.readFile(path.join(repositoryRoot, 'packages/ui-cli/package.json'), 'utf8'),
+);
+if (privateManifest.private !== true || privateManifest.license !== 'UNLICENSED') {
+  recordViolation('packages/ui-cli/package.json', 'unapproved UI CLI release state drifted');
+}
+if (privateManifest.publishConfig) {
+  recordViolation('packages/ui-cli/package.json', 'private UI CLI must not declare publishing');
 }
 
 const registry = JSON.parse(
@@ -195,11 +211,8 @@ const report = {
   fileCount: records.length,
   dispositionCounts,
   unresolvedReleaseBlockers: [
-    'license and NOTICE approval',
-    'contributor terms',
-    'public asset redistribution rights',
+    'authenticated npm publisher and completed provenance-enabled publish transaction',
     'remote governance and recovery identities',
-    'trusted publishing and provenance authority',
   ],
   violations: violations.sort(),
   files: records,

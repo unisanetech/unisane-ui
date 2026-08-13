@@ -1,8 +1,8 @@
 {
   "name": "@unisane/data-table",
-  "version": "0.1.0",
+  "version": "0.1.0-next.b67ebfd0",
   "description": "High-performance, feature-rich DataTable component for Unisane UI",
-  "private": true,
+  "private": false,
   "type": "module",
   "sideEffects": [
     "**/*.css"
@@ -97,11 +97,16 @@
     },
     "./meta": "./unisane.meta.json"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/unisane/unisane-ui.git",
     "directory": "packages/data-table"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "tag": "next"
   },
   "engines": {
     "node": ">=22.0.0"

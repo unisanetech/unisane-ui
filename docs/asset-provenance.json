@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "approved",
+  "approvedBy": "founder",
+  "approvedAt": "2026-08-13T08:55:42Z",
+  "records": [
+    {
+      "paths": [
+        "packages/tokens/src/**",
+        "packages/tokens/dist/**",
+        "packages/ui/src/**",
+        "packages/ui/registry/**",
+        "packages/data-table/src/**",
+        "packages/email-templates/src/**"
+      ],
+      "origin": "Unisane-authored source or deterministic output from Unisane-authored source",
+      "license": "MIT",
+      "distribution": "approved"
+    },
+    {
+      "paths": ["apps/docs/public/images/home/**"],
+      "fileCount": 11,
+      "origin": "Unisane-authored SVG illustrations",
+      "license": "MIT",
+      "distribution": "approved"
+    },
+    {
+      "paths": ["node_modules/@material-symbols/font-400/**"],
+      "origin": "Google Material Symbols via @material-symbols/font-400",
+      "license": "Apache-2.0",
+      "distribution": "documentation dependency only; absent from public package archives"
+    }
+  ],
+  "packageArchiveRules": {
+    "bundledThirdPartyBinaryAssets": [],
+    "generatedRegistryOwner": "@unisane/ui",
+    "thirdPartyDependencyNotice": "THIRD_PARTY_NOTICES.md"
+  }
+}

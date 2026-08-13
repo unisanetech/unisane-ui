@@ -17,7 +17,6 @@
     "check:packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-packed-producer-certificate.test.mjs",
     "check:email-templates-packed-producer-certificate": "pnpm check:email-templates-packed-producer-certificate:fixtures && node scripts/verify-email-templates-packed-producer-certificate.mjs",
     "check:email-templates-packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
-    "check:release-policy": "node scripts/check-release-readiness.mjs --expect-blocked",
     "check:release-readiness": "node scripts/check-release-readiness.mjs",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
@@ -27,7 +26,7 @@
     "test": "turbo run test",
     "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm check:boundaries && pnpm check:package-content && pnpm typecheck",
     "report:convergence": "node scripts/check-repository-boundaries.mjs --write",
-    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm check:quality && pnpm check:release-policy",
+    "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm check:quality && pnpm check:release-readiness",
     "storybook": "turbo run storybook",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },

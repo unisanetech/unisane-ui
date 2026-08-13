@@ -1,14 +1,19 @@
 {
   "name": "@unisane/tokens",
-  "version": "0.1.0",
+  "version": "0.1.0-next.b67ebfd0",
   "description": "Semantic design tokens and generated CSS for Unisane interfaces",
   "type": "module",
-  "private": true,
-  "license": "UNLICENSED",
+  "private": false,
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/unisane/unisane-ui.git",
     "directory": "packages/tokens"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "tag": "next"
   },
   "engines": {
     "node": ">=22.0.0"
