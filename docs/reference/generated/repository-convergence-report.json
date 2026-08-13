@@ -42,7 +42,7 @@
       "path": ".github/workflows/publish-prerelease.yml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "6966507c70955916164f7c0a77eba2426204b8ba219ef88bd279f16e09ac319c"
+      "sha256": "9a4e3a344d4728e575e42ada2674d248178f929343b8659ab1fd2f3e04d9d6ff"
     },
     {
       "path": ".gitignore",

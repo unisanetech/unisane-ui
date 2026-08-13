@@ -49,7 +49,7 @@ jobs:
           pnpm --filter @unisane/ui-cli test
           pnpm check:package-content
           pnpm check:packed-producer-certificate
-          pnpm check:email-templates-packed-producer-certificate
+          pnpm check:email-templates-packed-producer-certificate:fixtures
           git diff --exit-code
 
       - name: Publish tokens prerelease
