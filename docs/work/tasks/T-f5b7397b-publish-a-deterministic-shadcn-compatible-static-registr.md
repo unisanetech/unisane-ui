@@ -1,6 +1,6 @@
 ---
 title: "Task: Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery"
-status: blocked
+status: ready
 owner: "project"
 id: T-f5b7397b
 scope: "workspace"
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `blocked` from Skopos.
+- `2026-08-13`: Synchronized Task state `ready` from Skopos.
 
 ## Goal
 
@@ -113,7 +113,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-13T15:50:27.055Z",
-  "updatedAt": "2026-08-13T18:57:04.017Z",
+  "updatedAt": "2026-08-13T19:15:08.939Z",
   "planIds": [],
   "childTasks": [
     {
@@ -121,7 +121,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "title": "Publish the complete Unisane UI website and registry at ui.unisane.com",
       "goal": "Publish the complete Unisane UI website and registry at ui.unisane.com",
       "scopeId": "workspace",
-      "state": "active",
+      "state": "complete",
       "createdAt": "2026-08-13T18:41:15.183Z",
       "createdByActorId": "bhaskarbarma",
       "ownedPaths": [
@@ -147,7 +147,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "claimedByActorId": "child-t-a58c4be5"
     }
   ],
-  "state": "blocked",
+  "state": "ready",
   "detail": "detailed",
   "title": "Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery",
   "goal": "Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery",

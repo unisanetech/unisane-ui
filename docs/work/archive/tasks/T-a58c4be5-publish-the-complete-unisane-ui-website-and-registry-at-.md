@@ -1,14 +1,14 @@
 ---
 title: "Task: Publish the complete Unisane UI website and registry at ui.unisane.com"
-status: active
+status: complete
 owner: "child-t-a58c4be5"
 id: T-a58c4be5
 scope: "workspace"
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: standard
 proofSubject: task-closure
 proofBaseline: baseline-f2047825b64cd1d3
@@ -20,7 +20,7 @@ parentTaskId: T-f5b7397b
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `complete` from Skopos.
 
 ## Goal
 
@@ -103,13 +103,13 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "schemaVersion": 1,
   "id": "T-a58c4be5",
   "type": "task",
-  "status": "active",
+  "status": "durable",
   "generatedAt": "2026-08-13T18:41:15.183Z",
-  "updatedAt": "2026-08-13T18:57:03.839Z",
+  "updatedAt": "2026-08-13T19:15:08.647Z",
   "planIds": [],
   "parentTaskId": "T-f5b7397b",
   "childTasks": [],
-  "state": "active",
+  "state": "complete",
   "detail": "standard",
   "title": "Publish the complete Unisane UI website and registry at ui.unisane.com",
   "goal": "Publish the complete Unisane UI website and registry at ui.unisane.com",
