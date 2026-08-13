@@ -30,18 +30,18 @@ export function HeroSection() {
               </Typography>
             </div>
 
-            <h1 className="text-on-primary-container max-w-[9ch] text-[3rem] leading-[0.9] font-semibold tracking-tight @2xl:text-[4.25rem] @4xl:text-[5.35rem]">
-              Build product
+            <h1 className="text-on-primary-container max-w-[10ch] text-[3rem] leading-[0.9] font-semibold tracking-tight @2xl:text-[4.25rem] @4xl:text-[5.35rem]">
+              Own your
               <br />
-              interfaces.
+              interface.
             </h1>
 
             <Typography
               variant="titleMedium"
               className="text-on-primary-container @3xl:text-title-large mt-6 max-w-[26ch] leading-relaxed"
             >
-              Token-driven React components, themes, and reusable app blocks for app teams building
-              forms, navigation, workflows, and data-heavy interfaces.
+              Open-code React components and semantic themes for teams building forms, navigation,
+              workflows, and data-heavy product interfaces.
             </Typography>
           </div>
 

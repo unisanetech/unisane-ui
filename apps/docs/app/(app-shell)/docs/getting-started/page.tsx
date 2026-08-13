@@ -6,19 +6,19 @@ export default function GettingStartedPage() {
   return (
     <DocLayout
       title="Get Started"
-      description="Learn how to install and configure Unisane UI in your React project."
+      description="Use the registry to install and own Unisane UI component source in your React project."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <QuickLinkCard
           icon="download"
           title="Installation"
-          description="Install Unisane UI and its dependencies in your project."
+          description="Install the canonical CLI and initialize the UI registry."
           href="/docs/getting-started/installation"
         />
         <QuickLinkCard
           icon="play_arrow"
           title="Quick Start"
-          description="Get up and running with your first component in minutes."
+          description="Add and adapt your first application-owned component."
           href="/docs/getting-started/quick-start"
         />
         <QuickLinkCard

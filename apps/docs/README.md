@@ -1,5 +1,10 @@
 # Unisane UI Docs
 
+The public product is an open-code registry. Installation, quick-start, and component
+examples must lead with the `unisane ui` flow and consumer-owned
+`@/components/ui/*` imports. Runtime package imports are allowed inside this first-party
+workbench for parity testing, but they are not the primary public adoption model.
+
 This app documents the distributable Unisane UI system:
 
 - `@unisane/ui`

@@ -1,6 +1,7 @@
 # @unisane/email-templates
 
 Shared HTML and plain-text email template rendering for Unisane platforms and starters.
+This is an independent companion package, not part of the React component registry.
 
 This package owns reusable transactional email layout primitives, brand inputs, template names, HTML output, and text output. Platforms pass brand and runtime URLs as data; they do not fork template HTML for ordinary auth, workspace, billing, welcome, and generic notification emails.
 

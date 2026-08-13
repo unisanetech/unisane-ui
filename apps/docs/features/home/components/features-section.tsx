@@ -76,9 +76,9 @@ function ThemeSwatch({ toneClassName }: { toneClassName: string }) {
 
 export function FeaturesSection() {
   const dynamicTheming = requireFeature('Dynamic Theming');
-  const accessible = requireFeature('Accessible');
+  const accessible = requireFeature('Accessibility-minded');
   const typescript = requireFeature('TypeScript');
-  const performant = requireFeature('Performant');
+  const performant = requireFeature('Incremental');
   const tailwindCss = requireFeature('Tailwind CSS');
   const composable = requireFeature('Composable');
 
@@ -91,8 +91,8 @@ export function FeaturesSection() {
         Built for developers
       </Typography>
       <Typography variant="titleMedium" className="text-on-surface-variant mb-12 max-w-2xl">
-        Modern tools and practices for exceptional developer experience. Precision engineered for
-        high-performance interfaces.
+        Install the components you need, keep the source in your application, and evolve a coherent
+        interface system with normal code review.
       </Typography>
 
       <div className="grid grid-cols-1 gap-4 @lg:grid-cols-2 @3xl:grid-cols-12">

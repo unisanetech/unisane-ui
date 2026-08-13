@@ -33,6 +33,17 @@
     "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/email-templates"
   },
+  "homepage": "https://github.com/unisanetech/unisane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/unisanetech/unisane-ui/issues"
+  },
+  "keywords": [
+    "email",
+    "templates",
+    "html",
+    "transactional-email",
+    "typescript"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true,

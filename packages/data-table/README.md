@@ -1,11 +1,14 @@
 # @unisane/data-table
 
 A typed React 19 DataTable with virtualization, grouped configuration, remote-data
-support, editing, selection, export, accessibility, and package-owned runtime styles.
+support, editing, selection, export, accessible interaction support, and package-owned
+runtime styles. DataTable is a separately versioned runtime companion to the open-code
+component registry.
 
 ## Installation
 
-The package is not yet publicly released. After release approval, consumers install:
+The package is approved for the coordinated `next` prerelease but is not yet published.
+After publication, consumers install:
 
 ```bash
 pnpm add @unisane/data-table @unisane/ui react react-dom

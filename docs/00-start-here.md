@@ -11,7 +11,7 @@ view: current
 
 # Unisane UI documentation
 
-- Architecture: `docs/architecture/design-system.md`
+- Architecture and registry-first distribution: `docs/architecture/design-system.md`
 - Component authoring: `docs/standards/component-authoring.md`
 - Public documentation application: `apps/docs`
 - Package consumer guidance: the README nearest each package

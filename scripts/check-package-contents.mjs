@@ -12,7 +12,14 @@ const packageCases = [
   },
   {
     directory: 'packages/ui-cli',
-    allowedRoots: ['dist', 'pack.manifest.json', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: [
+      'dist',
+      'pack.manifest.json',
+      'LICENSE',
+      'package.json',
+      'README.md',
+      'unisane.meta.json',
+    ],
   },
   {
     directory: 'packages/tokens',

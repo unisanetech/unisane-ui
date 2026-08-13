@@ -2,9 +2,9 @@ import type { HomeFeature, HomeStat } from './home.types';
 
 export const HOME_STATS: HomeStat[] = [
   { value: '50+', label: 'Components' },
-  { value: '200+', label: 'Variants' },
-  { value: '100%', label: 'Accessible' },
-  { value: '<5kb', label: 'Avg. size' },
+  { value: '10', label: 'Themes' },
+  { value: 'Open', label: 'Code ownership' },
+  { value: 'React 19', label: 'Runtime target' },
 ];
 
 export const HOME_FEATURES: HomeFeature[] = [
@@ -16,9 +16,9 @@ export const HOME_FEATURES: HomeFeature[] = [
   },
   {
     icon: 'accessibility_new',
-    title: 'Accessible',
+    title: 'Accessibility-minded',
     description:
-      'WAI-ARIA compliant with keyboard navigation and screen reader support out of the box.',
+      'Built with semantic controls, keyboard interaction, focus handling, and ARIA patterns where applicable.',
   },
   {
     icon: 'code',
@@ -28,8 +28,8 @@ export const HOME_FEATURES: HomeFeature[] = [
   },
   {
     icon: 'bolt',
-    title: 'Performant',
-    description: 'Tree-shakeable with optimized bundle sizes. Ship only what you use.',
+    title: 'Incremental',
+    description: 'Install only the components and dependency closure your application needs.',
   },
   {
     icon: 'auto_awesome',
@@ -40,6 +40,7 @@ export const HOME_FEATURES: HomeFeature[] = [
   {
     icon: 'layers',
     title: 'Composable',
-    description: 'Low-level primitives for building custom components.',
+    description:
+      'Predictable parts for adapting components and building product-specific patterns.',
   },
 ];

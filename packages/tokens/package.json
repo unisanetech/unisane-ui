@@ -10,6 +10,17 @@
     "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/tokens"
   },
+  "homepage": "https://github.com/unisanetech/unisane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/unisanetech/unisane-ui/issues"
+  },
+  "keywords": [
+    "design-tokens",
+    "css",
+    "tailwindcss",
+    "theme",
+    "theming"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true,

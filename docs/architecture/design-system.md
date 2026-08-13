@@ -11,12 +11,40 @@ view: current
 
 # Unisane Design System
 
-Unisane is a token-first product UI system. It borrows useful semantics from Material and useful authoring ergonomics from shadcn-style component patterns, but it is not a clone of either.
+Unisane is a token-first product UI system. It borrows useful semantics from Material and useful authoring ergonomics from open-code component registries, but it is not a clone of either.
 
 System docs:
 
 - `docs/architecture/design-system.md`: tokens, theming, surfaces, motion, and visual-system rules
 - `docs/standards/component-authoring.md`: component API, composition, accessibility, and no-drift authoring rules
+
+## Distribution Architecture
+
+The public product is registry-first with deliberate dual distribution:
+
+```text
+packages/ui/src/** (one authoring source)
+          |
+          +--> generated registry --> @unisane/ui-cli --> consumer-owned source
+          |
+          +--> compiled runtime --> @unisane/ui (optional package distribution)
+```
+
+- `@unisane/ui-cli` is the primary adopter-tooling pack. It bundles the generated
+  registry and contributes `ui ...` commands to the one canonical `unisane` executable.
+- Registry consumers import local `@/components/ui/*` files and do not require
+  `@unisane/ui`, `@unisane/tokens`, or either CLI package at application runtime.
+- The `@unisane/ui` runtime package is an optional distribution and parity reference,
+  not the primary public example path.
+- Registry files are generated from `packages/ui/src/**`; they are never a second
+  hand-authored implementation.
+- DataTable and email templates keep independent package boundaries rather than being
+  copied into the base component registry.
+
+The registry copies its generated semantic theme and component baseline into the
+consumer stylesheet. The package imports below describe the optional runtime package
+path used by this repository's workbench and package consumers; they are not required by
+registry-installed applications.
 
 ## Token Architecture
 
@@ -31,7 +59,7 @@ System docs:
 └── components/*           → React components
 ```
 
-**Import in your app:**
+**Optional runtime-package import:**
 
 ```css
 @import 'tailwindcss';

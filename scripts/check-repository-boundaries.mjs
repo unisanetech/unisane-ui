@@ -180,13 +180,16 @@ for (const relativePath of files) {
 }
 
 const publicPackagePaths = [
-  'packages/ui/package.json',
   'packages/tokens/package.json',
+  'packages/ui/package.json',
+  'packages/ui-cli/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
+const publicManifests = new Map();
 for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
+  publicManifests.set(manifest.name, manifest);
   if (manifest.private !== false) recordViolation(packagePath, 'approved package is not public');
   if (manifest.license !== 'MIT') recordViolation(packagePath, 'approved package is not MIT');
   if (manifest.version !== '0.1.0-next.b67ebfd0') {
@@ -201,14 +204,24 @@ for (const packagePath of publicPackagePaths) {
   }
 }
 
-const privateManifest = JSON.parse(
-  await fs.readFile(path.join(repositoryRoot, 'packages/ui-cli/package.json'), 'utf8'),
-);
-if (privateManifest.private !== true || privateManifest.license !== 'UNLICENSED') {
-  recordViolation('packages/ui-cli/package.json', 'unapproved UI CLI release state drifted');
+const uiCliManifest = publicManifests.get('@unisane/ui-cli');
+if (uiCliManifest?.bin !== undefined) {
+  recordViolation('packages/ui-cli/package.json', 'UI registry pack must not publish a binary');
 }
-if (privateManifest.publishConfig) {
-  recordViolation('packages/ui-cli/package.json', 'private UI CLI must not declare publishing');
+if (!uiCliManifest?.files?.includes('LICENSE')) {
+  recordViolation('packages/ui-cli/package.json', 'UI registry pack must publish its MIT license');
+}
+for (const packageName of ['unisane', '@unisane/ui', '@unisane/tokens']) {
+  if (
+    uiCliManifest?.dependencies?.[packageName] ||
+    uiCliManifest?.peerDependencies?.[packageName] ||
+    uiCliManifest?.optionalDependencies?.[packageName]
+  ) {
+    recordViolation(
+      'packages/ui-cli/package.json',
+      `UI registry pack must not require ${packageName} at runtime`,
+    );
+  }
 }
 
 const registry = JSON.parse(
@@ -236,6 +249,7 @@ const report = {
   fileCount: records.length,
   dispositionCounts,
   unresolvedReleaseBlockers: [
+    'compatible canonical unisane CLI host published from unisanetech/unisane-ops',
     'authenticated npm publisher and completed provenance-enabled publish transaction',
     'protected branch governance and recovery identities',
   ],

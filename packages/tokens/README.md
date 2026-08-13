@@ -2,6 +2,10 @@
 
 Semantic design tokens and generated CSS for Unisane interfaces.
 
+The primary component registry installs its semantic stylesheet baseline directly into
+the consumer application. This package is the optional versioned token distribution for
+runtime-package consumers and tooling that needs the generated CSS artifact.
+
 ```bash
 pnpm add @unisane/tokens
 ```

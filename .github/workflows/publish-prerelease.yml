@@ -36,13 +36,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Require the compatible canonical CLI host
+        run: |
+          test "$(npm view unisane@0.1.0 version)" = "0.1.0"
+          npm view unisane@0.1.0 repository.url | grep -F "github.com/unisanetech/unisane-ops"
+
       - name: Verify public release boundary
         run: |
           pnpm check:boundaries
           pnpm check:release-readiness
+          pnpm --filter @unisane/ui-cli check-types
+          pnpm --filter @unisane/ui-cli test
           pnpm check:package-content
           pnpm check:packed-producer-certificate
-          pnpm check:email-templates-packed-producer-certificate:fixtures
+          pnpm check:email-templates-packed-producer-certificate
           git diff --exit-code
 
       - name: Publish tokens prerelease
@@ -53,6 +60,12 @@ jobs:
 
       - name: Publish UI prerelease
         working-directory: packages/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag next --provenance
+
+      - name: Publish UI registry pack prerelease
+        working-directory: packages/ui-cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access public --tag next --provenance

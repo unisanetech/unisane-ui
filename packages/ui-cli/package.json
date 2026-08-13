@@ -1,14 +1,27 @@
 {
   "name": "@unisane/ui-cli",
-  "version": "0.1.0",
-  "description": "UI-owned adopter tooling pack for the canonical Unisane CLI",
-  "private": true,
-  "license": "UNLICENSED",
+  "version": "0.1.0-next.b67ebfd0",
+  "description": "Open-code React component registry pack for the canonical Unisane CLI",
+  "private": false,
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/ui-cli"
   },
+  "homepage": "https://github.com/unisanetech/unisane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/unisanetech/unisane-ui/issues"
+  },
+  "keywords": [
+    "unisane",
+    "ui",
+    "registry",
+    "components",
+    "open-code",
+    "react",
+    "cli"
+  ],
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
@@ -17,8 +30,14 @@
     "dist",
     "pack.manifest.json",
     "unisane.meta.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "tag": "next"
+  },
   "engines": {
     "node": ">=22.0.0"
   },

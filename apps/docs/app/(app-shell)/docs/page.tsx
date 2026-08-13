@@ -7,13 +7,13 @@ export default function DocsPage() {
   return (
     <DocLayout
       title="Documentation"
-      description="Get started with Unisane UI - a modern React component library."
+      description="Add open-code Unisane UI components to your React application and make them your own."
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
         <QuickLinkCard
           icon="rocket_launch"
           title="Getting Started"
-          description="Learn how to install and set up Unisane UI in your project."
+          description="Initialize the registry and add application-owned components."
           href="/docs/getting-started"
         />
         <QuickLinkCard
@@ -25,7 +25,7 @@ export default function DocsPage() {
         <QuickLinkCard
           icon="widgets"
           title="Components"
-          description="Explore our 50+ production-ready React components."
+          description="Explore documented open-code React components and their usage patterns."
           href="/docs/components"
         />
         <QuickLinkCard

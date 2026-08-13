@@ -16,7 +16,7 @@ export default function InstallationPage() {
   return (
     <DocLayout
       title="Installation"
-      description="Get started with Unisane UI by installing the CLI or adding components manually to your React project."
+      description="Install the registry tooling, initialize semantic styles, and add application-owned component source."
       toc={TOC_ITEMS}
     >
       {/* Requirements */}
@@ -28,8 +28,8 @@ export default function InstallationPage() {
         <div className="grid grid-cols-1 gap-4 @lg:grid-cols-3">
           <RequirementCard
             icon="code"
-            title="React 18+"
-            description="Unisane UI is built for React 18 and above with full support for Server Components."
+            title="React 19"
+            description="The registry source and optional runtime packages target React 19."
           />
           <RequirementCard
             icon="css"
@@ -47,34 +47,42 @@ export default function InstallationPage() {
       {/* Automatic Installation */}
       <DocSection
         id="automatic"
-        title="Automatic Installation"
-        description="The fastest way to get started is using the Unisane CLI. It will set up everything for you automatically."
+        title="Registry Installation"
+        description="Use the one canonical Unisane CLI and the UI-owned registry pack to install source into your application."
       >
         <div className="space-y-8">
-          {/* Step 1: Init */}
           <div className="space-y-4">
-            <StepHeader number={1} title="Initialize Unisane UI" />
+            <StepHeader number={1} title="Install registry tooling" />
+            <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
+              Install the canonical CLI host and the UI registry pack as development tools. They
+              write application source and are not required by your production runtime.
+            </Typography>
+            <CliCommand command="pnpm add -D unisane@0.1.0 @unisane/ui-cli@next" />
+          </div>
+
+          <div className="space-y-4">
+            <StepHeader number={2} title="Initialize Unisane UI" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
               Run the init command to install the complete generated baseline in your global
               stylesheet and add the local utility used by components. Choose a project color theme
               now or replace it later.
             </Typography>
-            <CliCommand command="unisane ui init --theme blue" />
+            <CliCommand command="pnpm exec unisane ui init --theme blue" />
           </div>
 
           {/* Step 2: Add Components */}
           <div className="space-y-4">
-            <StepHeader number={2} title="Add components" />
+            <StepHeader number={3} title="Add components" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
               Add the components you need to your project. You can add them one at a time or all at
               once.
             </Typography>
-            <CliCommand command="unisane ui add button card" />
+            <CliCommand command="pnpm exec unisane ui add button card" />
           </div>
 
           {/* Step 3: Import and Use */}
           <div className="space-y-4">
-            <StepHeader number={3} title="Import and use" />
+            <StepHeader number={4} title="Import and use" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
               Import the components from your components directory and start building.
             </Typography>

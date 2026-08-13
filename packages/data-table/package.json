@@ -1,7 +1,7 @@
 {
   "name": "@unisane/data-table",
   "version": "0.1.0-next.b67ebfd0",
-  "description": "High-performance, feature-rich DataTable component for Unisane UI",
+  "description": "Typed React 19 DataTable for complex product and operational interfaces",
   "private": false,
   "type": "module",
   "sideEffects": [
@@ -103,6 +103,18 @@
     "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/data-table"
   },
+  "homepage": "https://github.com/unisanetech/unisane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/unisanetech/unisane-ui/issues"
+  },
+  "keywords": [
+    "react",
+    "data-table",
+    "table",
+    "virtualization",
+    "typescript",
+    "ui"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true,
