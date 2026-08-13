@@ -5873,7 +5873,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "4434d4cbf74d8762e1adef00ad60ba2ea87126634972d77c0e8447822a5621b0"
+      "sha256": "c9eae9e6203566a12716dc1d3fd455893cf912ea5821499359cea502606ef886"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5915,7 +5915,7 @@
       "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "df78b4035af93e269a179ad1f8cbc03b4bb4eb955483453a5bcb8efd0705cad0"
+      "sha256": "8b80fa74adf9893c454698f56946e740cd482d0570c5aca16f5d909846720ac8"
     },
     {
       "path": "scripts/repository-migration/filter-repo.args",
@@ -5933,7 +5933,7 @@
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "9be4f12a4b15369477d189ce23fd121664180b31e5bef43129e40a7a65f69a23"
+      "sha256": "b121f7a1d7db8d4900689394198b4c3cb9e26ad3915cd5b7397ba8ce8720cb03"
     },
     {
       "path": "SECURITY.md",

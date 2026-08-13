@@ -233,7 +233,7 @@ packages:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
   '@unisane/data-table@file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz':
-    resolution: {integrity: sha512-RcusnJ3jzQERcxEs4mvZfs9qGJFTdasU5ioglHdrVd1wIDFexW46VxHJVGBp5w1N/3+7hOb+Iqhl/YL+ltnahA==, tarball: file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz}
+    resolution: {tarball: file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz}
     version: 0.1.0-next.b67ebfd0
     engines: {node: '>=22.0.0'}
     peerDependencies:
@@ -242,12 +242,12 @@ packages:
       react-dom: ^19
 
   '@unisane/tokens@file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz':
-    resolution: {integrity: sha512-tV9jz9YG9P0kwPoFAdLnoW2LYxTuJ9NanN/bs0//c3YHqHH/IxK9zqkRc5RtWMzYkGJa692pUw/LLPvts91RVw==, tarball: file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz}
+    resolution: {tarball: file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz}
     version: 0.1.0-next.b67ebfd0
     engines: {node: '>=22.0.0'}
 
   '@unisane/ui@file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz':
-    resolution: {integrity: sha512-9gzr/GnpLUf9Uo51mtfYWjcN43PMvMS0dUo8UUrnAgkYZrRuG/abWYulsto3eHbwMGEWWKPbhCt405JMtldHsg==, tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}
+    resolution: {tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}
     version: 0.1.0-next.b67ebfd0
     engines: {node: '>=22.0.0'}
     peerDependencies:

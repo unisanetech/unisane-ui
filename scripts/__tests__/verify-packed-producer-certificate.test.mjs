@@ -115,6 +115,38 @@ test('frozen external consumer lock is exact, portable, and source-owned', () =>
   assert.doesNotThrow(() => assertFrozenExternalConsumerLock(lock));
   assert.match(lock, /file:\.\.\/tarballs\/unisane-ui-0\.1\.0-next\.b67ebfd0\.tgz/u);
   assert.doesNotMatch(lock, /\/(?:Users|private|var)\//u);
+  const resolutionLines = lock.match(/^    resolution: \{.*\}$/gmu) ?? [];
+  const packedTarballResolutionLines = resolutionLines.filter((line) =>
+    line.includes('tarball: file:../tarballs/unisane-'),
+  );
+  assert.equal(packedTarballResolutionLines.length, 3);
+  assert.ok(
+    packedTarballResolutionLines.every(
+      (line) => line.startsWith('    resolution: {tarball: ') && !line.includes('integrity:'),
+    ),
+  );
+  assert.ok(
+    resolutionLines
+      .filter((line) => !line.includes('tarball: file:../tarballs/unisane-'))
+      .every((line) => line.includes('integrity: sha512-')),
+  );
+  assert.throws(
+    () =>
+      assertFrozenExternalConsumerLock(
+        lock.replace(
+          'resolution: {tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}',
+          'resolution: {integrity: sha512-forged, tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}',
+        ),
+      ),
+    /omit host-specific integrity/u,
+  );
+  assert.throws(
+    () =>
+      assertFrozenExternalConsumerLock(
+        lock.replace(/^    resolution: \{integrity: sha512-[^\n]+\}$/mu, '    resolution: {}'),
+      ),
+    /Registry package resolutions must retain/u,
+  );
   assert.throws(
     () =>
       assertFrozenExternalConsumerLock(

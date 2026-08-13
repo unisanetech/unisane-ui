@@ -132,7 +132,7 @@ export const PACKED_CONSUMER_LOCK_PATH = path.join(
   'scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml',
 );
 const approvedPackedConsumerLockSha256 =
-  'df78b4035af93e269a179ad1f8cbc03b4bb4eb955483453a5bcb8efd0705cad0';
+  '8b80fa74adf9893c454698f56946e740cd482d0570c5aca16f5d909846720ac8';
 export const ACTIVE_PNPM_STORE_DIRECTORY = path.dirname(run('pnpm', ['store', 'path']).trim());
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
@@ -629,6 +629,29 @@ export function assertExternalConsumerLock(lock) {
 
 export function assertFrozenExternalConsumerLock(lock) {
   assertExternalConsumerLock(lock);
+  const resolutionLines = lock.match(/^    resolution: \{.*\}$/gmu) ?? [];
+  const packedTarballResolutionLines = resolutionLines.filter((line) =>
+    line.includes('tarball: file:../tarballs/unisane-'),
+  );
+  if (
+    packedTarballResolutionLines.length !== 3 ||
+    packedTarballResolutionLines.some(
+      (line) => !line.startsWith('    resolution: {tarball: ') || line.includes('integrity:'),
+    )
+  ) {
+    throw new Error(
+      'Locally generated packed tarball resolutions must omit host-specific integrity.',
+    );
+  }
+  const registryResolutionLines = resolutionLines.filter(
+    (line) => !line.includes('tarball: file:../tarballs/unisane-'),
+  );
+  if (
+    registryResolutionLines.length === 0 ||
+    registryResolutionLines.some((line) => !line.includes('integrity: sha512-'))
+  ) {
+    throw new Error('Registry package resolutions must retain SHA-512 integrity.');
+  }
   const digest = createHash('sha256').update(lock).digest('hex');
   if (digest !== approvedPackedConsumerLockSha256) {
     throw new Error('Frozen external consumer lock drifted from its approved source state.');
