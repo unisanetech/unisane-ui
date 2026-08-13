@@ -13,6 +13,7 @@ const packageCases = [
   {
     directory: 'packages/ui-cli',
     allowedRoots: [
+      'components.schema.json',
       'dist',
       'pack.manifest.json',
       'LICENSE',

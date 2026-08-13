@@ -5945,7 +5945,7 @@
       "path": "scripts/check-package-contents.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "6354aa9b9568d76d4deaedb57ae2a7286c719419a879e43f126132e904155c01"
+      "sha256": "47088e254f15e9c32fc1c4c4c70575dc3e181f1f4ae16577523c4bdba67a88db"
     },
     {
       "path": "scripts/check-public-utility-ownership.mjs",
@@ -5963,7 +5963,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "8172328c24af0549d03fec9af1a09a3997e7f3b3b79f8189e011f320099867f9"
+      "sha256": "43223239b0af43222c98d9e26aa2e470efc41ebd029c7fea5fb0c0cf9d6209f1"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
