@@ -1,14 +1,14 @@
 ---
 title: "Task: Publish standalone UI source to the approved public GitHub repository"
-status: active
+status: complete
 owner: "codex"
 id: T-ba9c1a9d
 scope: "workspace"
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: high-impact
 proofSubject: task-closure
 proofBaseline: baseline-05cf6300fbb06364
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `complete` from Skopos.
 
 ## Goal
 
@@ -101,12 +101,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "schemaVersion": 1,
   "id": "T-ba9c1a9d",
   "type": "task",
-  "status": "active",
+  "status": "durable",
   "generatedAt": "2026-08-13T10:34:13.577Z",
-  "updatedAt": "2026-08-13T10:39:24.179Z",
+  "updatedAt": "2026-08-13T10:49:13.668Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "complete",
   "detail": "detailed",
   "title": "Publish standalone UI source to the approved public GitHub repository",
   "goal": "Publish standalone UI source to the approved public GitHub repository",

@@ -1,0 +1,64 @@
+{
+  "snapshotId": "S-57181a0c89ff",
+  "taskId": "T-ba9c1a9d",
+  "sessionId": "github-publication",
+  "actorId": "codex",
+  "baseRevision": "b31e82c79e000c5206b2a85e3135450e4f2d71ed",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-prerelease.yml",
+      "digest": "7b6e24903a45e95436c91313142bf99a03ef947e54beb2151f146ea4c4d0bf65"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "digest": "88a723f4fc0da7f6b1cb47f0fbeb8369ed0affe7924fe63ed387caf6b77fd3f4"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "045005a3a91b05a68166ba2a95e29379cdec1fe425b4afd97ce7bb4565491ac2"
+    },
+    {
+      "path": "package.json",
+      "digest": "8c3edc8915a1fcbd1e351563ffcaea5356af71dbcef26a2f90d1b7aa7a63b301"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "c39bd106694e48c2ef1fdd6b333ada3b1ab27221b700b9638f4a40ddd36f4daf"
+    },
+    {
+      "path": "packages/email-templates/certificates/packed-producer-certificate.json",
+      "digest": "be9ade33de5d0f35c3888e34bf067032dd212bd49ebbf75c6a0786428a2f0b89"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "3171c185d2dfa398e85f3a7a4a02331ee0977e14a8a48cc63143ffedd1e7ec70"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "80322fa59b793953b078571ba54c6befa1e0a668bc9b30c9b40b297e318c78ca"
+    },
+    {
+      "path": "packages/ui-cli/package.json",
+      "digest": "d252554062c42681792673ea47a47e0515ea75c80bcde801b2ab0a7be59cab43"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "cdbc156beac06f28133af367c67b26029ee81d74b71c4a34bc25a1659247331e"
+    },
+    {
+      "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
+      "digest": "5a52a6ac64d57cf51fcd45c326e39b1c74f16148c4337e572bef5b77e489f9ec"
+    },
+    {
+      "path": "scripts/check-release-readiness.mjs",
+      "digest": "c50de66db455080bc4fa8889d141d19e6a7ae0be2196c70802a4d9e1bb929e7c"
+    },
+    {
+      "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
+      "digest": "4369c36daac4d2b8b2e41b0eb48a9903051acf1dae89c2a140d3c5b47e4537de"
+    }
+  ],
+  "digest": "57181a0c89ffb8a52bcc7889b9a6fb9ab6a2782b18ab5f690347728b471a8ecd",
+  "createdAt": "2026-08-13T10:49:07.955Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-ba9c1a9d-S-57181a0c89ff.json"
+}
