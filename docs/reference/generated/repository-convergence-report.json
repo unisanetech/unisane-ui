@@ -3587,7 +3587,7 @@
       "path": "packages/email-templates/certificates/packed-producer-certificate.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "0cb429b687604b77d9898590ae7d4efbab1aafb83d2a518d06054aa7fcc8cf1d"
+      "sha256": "4f14c31476d211dd8bb2a51f9001da7e369d86e1ac95d92767e307c21607f056"
     },
     {
       "path": "packages/email-templates/LICENSE",
