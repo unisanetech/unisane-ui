@@ -28,8 +28,8 @@ pnpm build
 
 Run the docs application with `pnpm --filter @unisane/ui-docs dev`.
 
-This checkout is a verified local migration-shadow candidate. The umbrella remains the
-sole writable source authority; public licensing, remote authority, package publication,
-and production deployment remain separately blocked. Start with `docs/overview.md`, then
-read `docs/guides/migration-shadow.md` and `docs/guides/licensing-prerequisites.md` before
-treating any repository or package metadata as permission to distribute.
+This repository is the standalone public source authority for Unisane UI at
+`https://github.com/unisanetech/unisane-ui`. Its history was extracted from the former
+umbrella source without retaining a sibling or fallback authority. Package publication
+remains a separate explicit operation. Start with `docs/overview.md`, then read
+`docs/guides/repository-provenance.md` and `docs/guides/licensing-prerequisites.md`.

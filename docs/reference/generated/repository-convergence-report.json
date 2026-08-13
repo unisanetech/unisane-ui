@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "authority": "local-unisane-ui-migration-shadow",
+  "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
   "fileCount": 994,
   "dispositionCounts": {
@@ -9,7 +9,7 @@
   },
   "unresolvedReleaseBlockers": [
     "authenticated npm publisher and completed provenance-enabled publish transaction",
-    "remote governance and recovery identities"
+    "protected branch governance and recovery identities"
   ],
   "violations": [],
   "files": [
@@ -47,7 +47,7 @@
       "path": ".gitignore",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "b5e8c7da456ef92a2150645a249f462d264036204bf448858d76a58e4843dffa"
+      "sha256": "02c2c7f20f1c190d41d1e6522cf6a57dbd9643a373bc99ade0054ccd32dcfd6b"
     },
     {
       "path": ".node-version",
@@ -2165,7 +2165,7 @@
       "path": "docs/00-start-here.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "4dc47eabbf18b140d14dfe6e8efa42afb12dbf1407d51074540a2dd69704dfcc"
+      "sha256": "fa23add64ea189bd6e26a0507413b2d672786c9942b3abd8dcdb97c93db96316"
     },
     {
       "path": "docs/architecture/design-system.md",
@@ -2192,16 +2192,16 @@
       "sha256": "ff02578e3238e2a09a4d380265c0aa93f8e20a0c2af15502abab8fb52315f9d4"
     },
     {
-      "path": "docs/guides/migration-shadow.md",
+      "path": "docs/guides/repository-provenance.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "82e041ab50edf2bc9247c6ec40ae2269fc6fced524fd5d5a9b82383d06a967ae"
+      "sha256": "bf545600857e7f76a6fc384d934edfd4f59ac713509d8c55b7fcbb7b5f877124"
     },
     {
       "path": "docs/overview.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "006f759842422d668d6125ceb44e673023f4e8c386610f4e621567821c783387"
+      "sha256": "4a782016c9d579d2ce121565788ba03b76fbe9717e3a8a9e9eefe494e0b3a790"
     },
     {
       "path": "docs/reference/generated/repository-foundation-receipt.json",
@@ -5849,7 +5849,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "401334c374f41e70fdc4055de3c056f6ab104bcf944f042b51e958cd3bc00bcf"
+      "sha256": "2a09a17fb1fd4297dac9ec2859862837613b704c5bdfcb6e67e91aa5b4b08d15"
     },
     {
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
@@ -5885,7 +5885,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "2b022a7d57fd476a397cc5b2c8c748c9a5e08b83b77c54996aae8d3c93089388"
+      "sha256": "bc243e5853631403ea2d9e3bfb77ea1736b266a9276d82c703d2031587d928ae"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
