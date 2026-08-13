@@ -112,5 +112,5 @@ pnpm --filter @unisane/data-table test
 pnpm --filter @unisane/data-table build
 ```
 
-Public licensing is not yet approved. The package remains private and unlicensed until
-the repository's legal gate is resolved.
+This package is available under the MIT License. See `LICENSE` and the repository
+`THIRD_PARTY_NOTICES.md` for applicable notices.

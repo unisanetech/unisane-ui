@@ -24,12 +24,14 @@ import { assertPackedManifest } from './verify-packed-producer-certificate.mjs';
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
 const producerDirectory = 'unisane-ui/packages/email-templates';
 const producerPackageRoot = path.join(repositoryRoot, producerDirectory);
+const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0';
 const consumerRevision = '57d485e0be2739e71646f263845541adf09c566c';
 const consumerPaths = Object.freeze([
   'unisane/starters/saaskit/package.json',
   'unisane/starters/saaskit/src/email/templates/index.ts',
 ]);
 const producerInputPaths = Object.freeze([
+  `${producerDirectory}/LICENSE`,
   `${producerDirectory}/README.md`,
   `${producerDirectory}/package.json`,
   `${producerDirectory}/src`,
@@ -41,7 +43,13 @@ const producerInputPaths = Object.freeze([
 ]);
 const profile = Object.freeze({
   name: '@unisane/email-templates',
-  allowedRoots: Object.freeze(['dist', 'package.json', 'README.md', 'unisane.meta.json']),
+  allowedRoots: Object.freeze([
+    'dist',
+    'LICENSE',
+    'package.json',
+    'README.md',
+    'unisane.meta.json',
+  ]),
 });
 const runtimeAssetPattern =
   /\.(?:css|scss|sass|less|svg|png|jpe?g|gif|webp|avif|ico|woff2?|ttf|otf)$/iu;
@@ -153,9 +161,9 @@ function assertPathsMatchRevision(revision, paths, label) {
 function assertExactManifestContract(manifest) {
   const exactFields = {
     name: '@unisane/email-templates',
-    version: '0.1.0',
+    version: approvedPrereleaseVersion,
     description: 'Provider-neutral HTML and text email presentation for Unisane products',
-    private: true,
+    private: false,
     type: 'module',
     sideEffects: false,
     files: ['dist', 'unisane.meta.json'],
@@ -169,7 +177,12 @@ function assertExactManifestContract(manifest) {
       },
       './meta': './unisane.meta.json',
     },
-    license: 'UNLICENSED',
+    license: 'MIT',
+    publishConfig: {
+      access: 'public',
+      provenance: true,
+      tag: 'next',
+    },
     repository: {
       type: 'git',
       url: 'https://github.com/unisane/unisane-ui.git',
@@ -225,9 +238,13 @@ function buildAndPack(workRoot) {
   run('pnpm', ['--filter', '@unisane/email-templates', 'build']);
   run('pnpm', ['--filter', '@unisane/email-templates', 'pack', '--pack-destination', tarballRoot]);
   const tarballName = readdirSync(tarballRoot).find(
-    (entry) => entry === 'unisane-email-templates-0.1.0.tgz',
+    (entry) => entry === `unisane-email-templates-${approvedPrereleaseVersion}.tgz`,
   );
-  if (!tarballName) throw new Error('Missing packed @unisane/email-templates 0.1.0 archive.');
+  if (!tarballName) {
+    throw new Error(
+      `Missing packed @unisane/email-templates ${approvedPrereleaseVersion} archive.`,
+    );
+  }
   const tarballPath = path.join(tarballRoot, tarballName);
   run('tar', ['-xzf', tarballPath, '-C', extractedRoot, '--strip-components=1']);
   const entries = archiveEntries(tarballPath);
@@ -431,21 +448,17 @@ export function buildCertificateSummary(candidate, consumerImport, consumerProof
     consumerProof,
     unresolvedGates: [
       'authority-cutover',
-      'consumer-conversion',
-      'legal',
-      'license',
-      'publication',
-      'registry',
-      'release',
+      'authenticated-publisher',
+      'provenance-publish-transaction',
       'remote',
     ],
     authorityCutoverAuthorized: false,
-    consumerConversionAuthorized: false,
-    legalApproved: false,
-    licenseApproved: false,
-    publicationAuthorized: false,
-    registryApproved: false,
-    releaseAuthorized: false,
+    consumerConversionAuthorized: true,
+    legalApproved: true,
+    licenseApproved: true,
+    publicationAuthorized: true,
+    registryApproved: true,
+    releaseAuthorized: true,
     remoteAuthorized: false,
     externalEffects: [],
   };

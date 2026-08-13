@@ -28,9 +28,10 @@ new package.
 | `@unisane/email-templates` | Provider-neutral HTML and text presentation                                                  | Independent package; does not own delivery, queues, providers, or application workflows |
 | `@unisane/ui-docs`         | Public documentation, examples, registry catalog, workbench, and browser/visual proof        | Private deployable application; never a runtime dependency                              |
 
-The public-intent packages remain private and `UNLICENSED` until legal and release
-approval. Package names and manifests express the intended boundary, not current
-permission to publish.
+`@unisane/tokens`, `@unisane/ui`, `@unisane/data-table`, and
+`@unisane/email-templates` are approved MIT-licensed public prerelease packages. Their
+initial integration line is `0.1.0-next.b67ebfd0` under the npm `next` tag.
+`@unisane/ui-cli` remains private and `UNLICENSED` until separately approved.
 
 ## Dependency direction
 
@@ -91,5 +92,5 @@ the authoring source or release owner for any package.
   that point, clean cutovers remove obsolete exports, aliases, fallbacks, and dual paths.
 - Cross-repository consumers use released or explicitly approved canary artifacts, not
   sibling workspaces, file links, or copied source.
-- Signed tags, provenance, SBOM, registry identity, and trusted publishing must be proved
-  by the release gate before any public package leaves its fail-closed state.
+- Public packages require provenance and the `next` tag. Registry authentication and
+  the actual publish transaction remain independently verified external effects.
