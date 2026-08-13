@@ -1,14 +1,14 @@
 ---
 title: "Task: Activate the approved standalone UI public prerelease release contract"
-status: active
+status: complete
 owner: "codex"
 id: T-7aed2bd8
 scope: "workspace"
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: high-impact
 proofSubject: task-closure
 proofBaseline: baseline-8f3bf95ec680ac8c
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `complete` from Skopos.
 
 ## Goal
 
@@ -86,8 +86,8 @@ Activate the approved standalone UI public prerelease release contract
 
 - [x] **Record Task risk and detail before editing** (implementation, complete) — Confirm whether Task risk is light, standard, or high-impact. Keep the active Task current, use a Plan only for multi-Task direction, add a Decision for durable choices, and add or update a Finding for structural gaps.
 - [x] **Review the current pattern in unisane-ui** (implementation, complete) — Use the compact references to confirm the current scope, command surface, and docs entrypoints before editing code.
-- [ ] **Implement the smallest scoped change** (implementation, pending) — Carry out "Activate the approved standalone UI public prerelease release contract" inside the resolved scope before widening impact to adjacent areas.
-- [ ] **Sync docs and instruction surfaces if touched** (docs, pending) — Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.
+- [x] **Implement the smallest scoped change** (implementation, complete) — Carry out "Activate the approved standalone UI public prerelease release contract" inside the resolved scope before widening impact to adjacent areas.
+- [x] **Sync docs and instruction surfaces if touched** (docs, complete) — Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.
 
 ## Actions And Guards
 
@@ -101,7 +101,7 @@ Activate the approved standalone UI public prerelease release contract
 
 ## Memory Obligations
 
-- [open] guide: The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes. (target: `docs/guides/licensing-prerequisites.md`)
+- [complete] guide: The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes. (target: `docs/guides/licensing-prerequisites.md`); resolution: memory-updated
 
 ## Portable Task State
 
@@ -113,12 +113,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "schemaVersion": 1,
   "id": "T-7aed2bd8",
   "type": "task",
-  "status": "active",
+  "status": "durable",
   "generatedAt": "2026-08-13T09:25:44.170Z",
-  "updatedAt": "2026-08-13T09:26:06.544Z",
+  "updatedAt": "2026-08-13T09:46:40.509Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "complete",
   "detail": "detailed",
   "title": "Activate the approved standalone UI public prerelease release contract",
   "goal": "Activate the approved standalone UI public prerelease release contract",
@@ -210,14 +210,14 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "kind": "implementation",
       "title": "Implement the smallest scoped change",
       "detail": "Carry out \"Activate the approved standalone UI public prerelease release contract\" inside the resolved scope before widening impact to adjacent areas.",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "step-sync-knowledge",
       "kind": "docs",
       "title": "Sync docs and instruction surfaces if touched",
       "detail": "Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.",
-      "status": "pending"
+      "status": "complete"
     }
   ],
   "selectedActions": [],
@@ -253,8 +253,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "id": "memory-guide-b57e5c2584",
       "role": "guide",
       "reason": "The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes.",
-      "status": "open",
-      "targetPath": "docs/guides/licensing-prerequisites.md"
+      "status": "complete",
+      "targetPath": "docs/guides/licensing-prerequisites.md",
+      "resolution": "memory-updated",
+      "resolutionReason": "The canonical guide now records the exact founder-approved MIT prerelease packages and keeps authenticated provenance publishing and repository authority as separate remaining external steps.",
+      "resolvedAt": "2026-08-13T09:44:02.313Z",
+      "resolvedByActorId": "codex"
     }
   ],
   "questions": [],

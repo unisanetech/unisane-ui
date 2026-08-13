@@ -1,0 +1,124 @@
+{
+  "snapshotId": "S-228041762128",
+  "taskId": "T-7aed2bd8",
+  "sessionId": "root-ui-prerelease-20260813",
+  "actorId": "codex",
+  "baseRevision": "6418e3f88421a8fa807c649404e809a07101efed",
+  "paths": [
+    {
+      "path": "CONTRIBUTING.md",
+      "digest": "06b552edaa27e627b362f9d18c4bd71d0c3a84400e8e0c6e34ce474ac8565aa5"
+    },
+    {
+      "path": "LICENSE",
+      "digest": "6c629f0883e19c42b3f20222784449af346600c321a2d2ef9d74dbe4ee265c70"
+    },
+    {
+      "path": "NOTICE",
+      "digest": "9dce92faae88b1556e3c93c1463c8e5f29042cc3022eaf4ad8c8a17aa42d29ea"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "digest": "770e071d1c7920be6735b76430db90d2aee99a3d90cb3f1d960a602d27ce4df3"
+    },
+    {
+      "path": "docs/architecture/package-and-distribution-boundaries.md",
+      "digest": "ffa63583dfa6706b87d284b86b0d693a161e4840aad2c5cf6b5d27c3b9621f7d"
+    },
+    {
+      "path": "docs/asset-provenance.json",
+      "digest": "deede2581fc580caa0510297cf93e3fa436c7e12fac6734a86bc091293675576"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "digest": "b1fc569a90abfef1a644698de1eb314ef7b52a3ea753a454fa6463e2d620e826"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "28adec1b85727328e3c7f50cdec47be027a22ea2e8f48f985009e2f577d022c7"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "a2bed567d0acd93e88490f0c95478b35dc5ddfb6982d40c77a1917d9a778d025"
+    },
+    {
+      "path": "package.json",
+      "digest": "3d77973330c0a8cf0b065b274c36f3fc9c6ae45cc984922bebeb42886fc259cf"
+    },
+    {
+      "path": "packages/data-table/LICENSE",
+      "digest": "6c629f0883e19c42b3f20222784449af346600c321a2d2ef9d74dbe4ee265c70"
+    },
+    {
+      "path": "packages/data-table/README.md",
+      "digest": "8756e091ebb42d169a81705838ac32280cf42fafc5e05c685989b33b7fa5b2de"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "d674b48e38b77b9d08accc5b645a61588566064fe37766d71ea672a716ecc3b7"
+    },
+    {
+      "path": "packages/email-templates/LICENSE",
+      "digest": "6c629f0883e19c42b3f20222784449af346600c321a2d2ef9d74dbe4ee265c70"
+    },
+    {
+      "path": "packages/email-templates/certificates/packed-producer-certificate.json",
+      "digest": "509f470d9601c7c9f7af6bc329e5a52381df4c6d18418cadf78d0968d351d8de"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "984910f31e4dccbabb29c6ace1063d65f31589c014d8547c0c85a5e958393573"
+    },
+    {
+      "path": "packages/tokens/LICENSE",
+      "digest": "6c629f0883e19c42b3f20222784449af346600c321a2d2ef9d74dbe4ee265c70"
+    },
+    {
+      "path": "packages/tokens/README.md",
+      "digest": "d21e2d892f38d18178080bf9be7468470454e8bb8bbebf80bb79543db0b57db4"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "d5d2c1d130556b36e0c57462a26f2373bac4da2fbf024eccc41ad01a68aad71b"
+    },
+    {
+      "path": "packages/ui/LICENSE",
+      "digest": "6c629f0883e19c42b3f20222784449af346600c321a2d2ef9d74dbe4ee265c70"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "48bc729bb6709189f18c7e286c2e64752d547133cc15a7719a32c286361cf39e"
+    },
+    {
+      "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
+      "digest": "008ffeb3b461f626e4df431db2ecf6e918f08c6e3a189a8e1ebd3fdddd888d59"
+    },
+    {
+      "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
+      "digest": "fe0e150a026c7c9e436a8bc7f62f81e2490984694436683cd4f487d113cc30ef"
+    },
+    {
+      "path": "scripts/check-package-contents.mjs",
+      "digest": "634a651b8217c89aa7b0bb2fcde3eda5bcc80ef4b3732fffcd1aad3db0f9b2cb"
+    },
+    {
+      "path": "scripts/check-release-readiness.mjs",
+      "digest": "6db23ad65389fa41fb56cfdd37e7dbc528d60bba646212a9cc09612cd41dfccb"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "4ff399e6205948a7cd7f2915b1444b870ba07c7a58097583908ca5551f61de2a"
+    },
+    {
+      "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
+      "digest": "8f47081b11010595b07571488ddb6da3061e9fd2c08a9ce3271ecc1b5c8eb9bb"
+    },
+    {
+      "path": "scripts/verify-packed-producer-certificate.mjs",
+      "digest": "649228c9061ea18111ab67a2735dfaf6f3d1314a3b423410719ee85204927469"
+    }
+  ],
+  "digest": "228041762128846e53ddfcf22e246eb3d92a1cf90046b4f7013863f1d0a4bee2",
+  "createdAt": "2026-08-13T09:46:32.294Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-7aed2bd8-S-228041762128.json"
+}
