@@ -32,6 +32,12 @@ const textExtensions = new Set([
   '.yaml',
   '.yml',
 ]);
+const canonicalRepositoryUrl = 'https://github.com/unisanetech/unisane-ui';
+const currentAuthorityPaths = new Set([
+  'README.md',
+  'docs/overview.md',
+  'docs/guides/repository-provenance.md',
+]);
 const violations = [];
 
 async function collectFiles(directory, relativeDirectory = '') {
@@ -105,10 +111,15 @@ function recordViolation(relativePath, message) {
 }
 
 const files = await collectFiles(repositoryRoot);
-const authority = files.includes('docs/repository-provenance.json')
-  ? 'local-unisane-ui-migration-shadow'
-  : 'umbrella-unisane-ui-source-convergence';
+const authority = 'standalone-unisane-ui-public-source';
 const records = [];
+
+if (files.includes('docs/guides/migration-shadow.md')) {
+  recordViolation('docs/guides/migration-shadow.md', 'obsolete active shadow authority remains');
+}
+if (!files.includes('docs/guides/repository-provenance.md')) {
+  recordViolation('docs/guides/repository-provenance.md', 'current authority guide is missing');
+}
 
 for (const relativePath of files) {
   const absolutePath = path.join(repositoryRoot, relativePath);
@@ -132,6 +143,20 @@ for (const relativePath of files) {
 
   if (!textExtensions.has(path.extname(relativePath))) continue;
   const text = content.toString('utf8');
+  if (currentAuthorityPaths.has(relativePath)) {
+    if (!text.includes(canonicalRepositoryUrl)) {
+      recordViolation(relativePath, 'canonical public source repository is missing');
+    }
+    for (const staleAuthority of [
+      'umbrella remains the sole writable source authority',
+      'local non-authoritative migration shadow',
+      'local, non-authoritative migration shadow',
+    ]) {
+      if (text.toLowerCase().includes(staleAuthority)) {
+        recordViolation(relativePath, `obsolete source authority remains: ${staleAuthority}`);
+      }
+    }
+  }
   const isBoundaryChecker = relativePath === 'scripts/check-repository-boundaries.mjs';
   if (!isBoundaryChecker && text.includes('/Users/bhaskarbarma/')) {
     recordViolation(relativePath, 'machine-absolute path remains');
@@ -212,7 +237,7 @@ const report = {
   dispositionCounts,
   unresolvedReleaseBlockers: [
     'authenticated npm publisher and completed provenance-enabled publish transaction',
-    'remote governance and recovery identities',
+    'protected branch governance and recovery identities',
   ],
   violations: violations.sort(),
   files: records,

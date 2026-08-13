@@ -25,6 +25,8 @@ Changesets intent, CI checks, docs, and Skopos Memory. Ordinary development begi
 `corepack enable`, `pnpm install --frozen-lockfile`, and the root commands documented in
 the README.
 
-This checkout remains a local non-authoritative migration shadow. Public distribution,
-package publication, deployment, and remote authority stay blocked until their separate
-legal, security, recovery, and human-approval gates close.
+The standalone public source authority is
+`https://github.com/unisanetech/unisane-ui`, with `main` as its canonical branch. The
+former umbrella source is retained only in historical extraction evidence and is not a
+writable fallback. Public package publication remains a separate explicit transaction
+with its own authenticated npm and provenance checks.

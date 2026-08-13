@@ -6,11 +6,15 @@ node_modules/
 dist/
 .next/
 .turbo/
+*.tsbuildinfo
 
 # Environment files
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+!.env.*.example
+.npmrc
+!.npmrc.example
 
 # IDE
 .idea/
@@ -29,13 +33,18 @@ pnpm-debug.log*
 
 # Test coverage
 coverage/
+playwright-report/
+test-results/
 
 # Temp files
 .tmp/
 tmp/
 temp/
+.cache/
+.eslintcache
 *.tmp
 *.bak
+*.tgz
 *~
 
 # AI Tools
