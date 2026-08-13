@@ -26,7 +26,7 @@ import {
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const producerDirectory = 'packages/email-templates';
 const producerPackageRoot = path.join(repositoryRoot, producerDirectory);
-const approvedVersion = '0.1.0';
+const approvedVersion = '0.1.1';
 const producerInputPaths = Object.freeze([
   `${producerDirectory}/LICENSE`,
   `${producerDirectory}/README.md`,

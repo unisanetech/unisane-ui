@@ -49,6 +49,13 @@ describe('package-manager detection and exact commands', () => {
       { command: 'npm', args: ['install', 'clsx@^2.1.1'] },
       { command: 'npm', args: ['install', '--save-dev', 'tailwindcss@4.1.18'] },
     ]);
+    expect(buildInstallCommands('pnpm', ['clsx@^2.1.1'], ['tailwindcss@4.1.18'])).toEqual([
+      { command: 'pnpm', args: ['add', 'clsx@^2.1.1'] },
+      { command: 'pnpm', args: ['add', '--save-dev', 'tailwindcss@4.1.18'] },
+    ]);
+    expect(buildInstallCommands('yarn', [], ['tailwindcss@4.1.18'])).toEqual([
+      { command: 'yarn', args: ['add', '--dev', 'tailwindcss@4.1.18'] },
+    ]);
     expect(buildInstallCommands('bun', [], ['tailwindcss@4.1.18'])).toEqual([
       { command: 'bun', args: ['add', '--dev', 'tailwindcss@4.1.18'] },
     ]);

@@ -2201,7 +2201,7 @@
       "path": "docs/guides/licensing-prerequisites.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "15cc4443ddaf86359191b27b77bc568751ed8d0f5ea9885d5824439db896c0f8"
+      "sha256": "2ea42090ca4280e8f9a81de65ed1cbff0bc206f5c03c58ca3f299d42972ef572"
     },
     {
       "path": "docs/guides/repository-provenance.md",
@@ -2231,7 +2231,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "07f946a86e0a558f7dee6f3aa00c2620e6cae9578822587f610e86bbc625d71f"
+      "sha256": "3617cdbdbfa401f791dca5bb805e1ccd40db44dbe772097eef961a804cf0e2d2"
     },
     {
       "path": "docs/repository-history-map.txt",
@@ -2279,7 +2279,7 @@
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "e456e84de8b810b644dcd323609f9a86e9fa3b6c8df658768e17416a9f8bd880"
+      "sha256": "75e8a44d6f33fc6580a01467c62842f0372b06543d694f4d84b920fe7f0336b2"
     },
     {
       "path": "packages/data-table/LICENSE",
@@ -2291,7 +2291,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "991fb32d58594adc37a1e273ca81f3d4d7e3354ddeea46def4f155f0cc4fd81b"
+      "sha256": "daccf6b14439a1d58897b971f998562691da73b82649ff56ccb5b0b7746165e4"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3599,7 +3599,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "7b67c1aa3ed702ea6f10323d92955fe15990d56d19308b66156428ab9f0f58e7"
+      "sha256": "3a481db1ff7075ca5663749133bce1e3a793b91447ea38a285a77be2f3df2e7f"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -3749,7 +3749,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "2425cf5fbf8cf3c366da185c2dbd38df5bcf6d580b88c89d4ed699bd81f559f9"
+      "sha256": "5f8fd2b86797a08173e52a39c652d5655c99071fa190338dd1cbaadf734c6d21"
     },
     {
       "path": "packages/tokens/README.md",
@@ -3971,13 +3971,13 @@
       "path": "packages/ui-cli/pack.manifest.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "861a77ac5428ea9a75a0f839a6c96f1238f1436b754071cdfe9f9bc69a64a669"
+      "sha256": "c49255e6579992766d2cf9ccd5ae5d8b9a9dfe77a77df12162742bfd3b1c7110"
     },
     {
       "path": "packages/ui-cli/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "9a688f530c8b5827492ca8a06567dc4623b61a0d0ebdeabd3255132a9ccab647"
+      "sha256": "009c80c6b00223c0328d252793048bf9519a134c7b73f3615e8757f195ea493e"
     },
     {
       "path": "packages/ui-cli/README.md",
@@ -4013,7 +4013,7 @@
       "path": "packages/ui-cli/src/commands/add-helpers.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "23926d2af4741eee88e8197d68c5f88b7a5ea1106f9679f0f5c1507508b95b1c"
+      "sha256": "aad27f12a1f080cc74cca531222622ad1fd2b4dca0531e49b7afde0fab5454c4"
     },
     {
       "path": "packages/ui-cli/src/commands/add-types.ts",
@@ -4025,7 +4025,7 @@
       "path": "packages/ui-cli/src/commands/add.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "3ba3d99fea6aec7028c09b99d4f6e8acb67b523bd652c4b5a8ae8deba1477d2f"
+      "sha256": "906f9fcb6342a318b24ac78fc130300d1fb7d54cab265b1437e457c1b43294ca"
     },
     {
       "path": "packages/ui-cli/src/commands/appearance.ts",
@@ -4067,13 +4067,13 @@
       "path": "packages/ui-cli/src/commands/init.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "7b94fd1bde2cad21034b8900aa0b5d3a6d4541cd2ebfa7eb79de1c8e11e8d851"
+      "sha256": "1a5063ad2a0bb7bf6b4c76fa06e15fc00dd357f2a99585b4320121f2aac78f34"
     },
     {
       "path": "packages/ui-cli/src/commands/package-manager.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "67cde3022d536c37fa15993b1a350f21131e424aad17988fe06fdc8e360929a6"
+      "sha256": "ff3b3c0607c43483b1cacf811d836ea9e2e492f5e14c73d8f2a3d3359cd7d58d"
     },
     {
       "path": "packages/ui-cli/src/commands/register.ts",
@@ -4115,7 +4115,7 @@
       "path": "packages/ui-cli/tests/add-helpers.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "503455634614e497a5c43122ba5409d22ff362c6093ec1dd5bb378de8af90266"
+      "sha256": "42460f736060e538042bb14cc0065f878c62530630fd76bbdd5114def0292e3f"
     },
     {
       "path": "packages/ui-cli/tests/appearance.test.ts",
@@ -4139,13 +4139,13 @@
       "path": "packages/ui-cli/tests/package-manager.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "7e34254f0ce6fd7882147d4c744394fe79f0fe944c314989ac8357aae5dac315"
+      "sha256": "4b536ec909466cf7cfde71ff98071f8e87b7124be3136aa99fd30deda3b87af2"
     },
     {
       "path": "packages/ui-cli/tests/theme.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f39a9aabe19aa2b7f3aa233bb902c20ba21f8d50ed23e5276f3488d2a82f0cf5"
+      "sha256": "e24a24dd278eeca96f9b9bf0c0bda612d2e99948f50b54881080eac6a0e6222a"
     },
     {
       "path": "packages/ui-cli/tsconfig.json",
@@ -4169,7 +4169,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "034df580c58bb41b5b5cef016dcebe5b3cd2a032b26dbcf71a4e0dd0299808c3"
+      "sha256": "5e1d098d37e2e41cdc1a5d717234376bca015f42dcea4bc1f1b8c3263c2fe5b2"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -4751,7 +4751,7 @@
       "path": "packages/ui/registry/lib/utils.ts",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "72893788ef11bde9523e8f9eb962cb4a5652fb57b78413738c00297a1220e2df"
+      "sha256": "49b12477381131b6d2f6202e277dc2d61128db8f3bdc7c3ce4979801e051614e"
     },
     {
       "path": "packages/ui/registry/primitives/input.tsx",
@@ -5507,7 +5507,7 @@
       "path": "packages/ui/src/lib/utils.ts",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "8da928bff13ca5ce23e4ef9e3c0be681279baecc6a80561bcf772b0040467b7c"
+      "sha256": "57e88179105a29fa526137291eb49d2ee24c7d058f4b28e0a5ae6715e39b1601"
     },
     {
       "path": "packages/ui/src/primitives/input.tsx",
@@ -5927,13 +5927,13 @@
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "40e102459fc4585557231667ac5d92d92559d37bfc356d74908dc9f5c9e1afde"
+      "sha256": "8a2fc51cf0628009e4f37f57369bc5873dd50b1b6953008ded8db8ecbbead0d6"
     },
     {
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "fc1a66de557b1471d7517f37ede604ed29f630de779b16cafbaf64b9a0a193f6"
+      "sha256": "3825fc255e43c4249d9d79821141ecf037538206a5260605a39e0b1e3e28bc69"
     },
     {
       "path": "scripts/build-static-registry.mjs",
@@ -5957,13 +5957,13 @@
       "path": "scripts/check-release-readiness.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "22ea48b087ff340737ff973644ffbc54cda562a8c8b06590209f15bf7be3651f"
+      "sha256": "49758b5f2e8e9e40369f16a32a1bbc96b7855543816e832b10481a2b6437b04e"
     },
     {
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "32ff567bcc35710914f3ac927ebb329a2be6855b389af4ed48cf0690cc604e39"
+      "sha256": "5ab76358b938d9748497e0a1f3814e522c943f74c0fe1a9f8bf046f7546cbe62"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5987,7 +5987,7 @@
       "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "20b84b8d86433979824da4c6fa4049b3d31e0141781d8b27c9a17899931dc733"
+      "sha256": "0050ee902725322d7eac397e0e1edef129c1227e7a16bfd7236aea1c69b824ee"
     },
     {
       "path": "scripts/repository-migration/filter-repo.args",
@@ -5999,13 +5999,13 @@
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "f71da8023e8ff34907152ffba5e75a441a4b84082157b2e595217f1a52e950e3"
+      "sha256": "1f0ab2f4cdb3474205ff612026ec84995f844acdcbe6f257a521f3731a659e87"
     },
     {
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "ff2cff68b74801a69055db36c58ff918d6ec8a7dbfca994932021dd93889c935"
+      "sha256": "2e83d03caaea715dbd174a83d5a9eab8afd9a7a62e37f5a2046e27e11ec0737d"
     },
     {
       "path": "SECURITY.md",

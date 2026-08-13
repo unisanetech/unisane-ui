@@ -48,6 +48,9 @@ function installArgs(manager: PackageManager, packages: string[], development: b
   if (manager === 'bun') {
     return ['add', ...(development ? ['--dev'] : []), ...packages];
   }
+  if (manager === 'pnpm') {
+    return ['add', ...(development ? ['--save-dev'] : []), ...packages];
+  }
   return ['add', ...(development ? ['--dev'] : []), ...packages];
 }
 

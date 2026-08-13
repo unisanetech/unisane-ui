@@ -168,7 +168,9 @@ export const Slot = React.forwardRef<HTMLElement, SlotProps>(({ children, ...pro
   }
 
   // Development warning for invalid children
-  if (process.env.NODE_ENV !== 'production') {
+  const nodeEnvironment = (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env
+    ?.NODE_ENV;
+  if (nodeEnvironment !== 'production') {
     const childType =
       children === null
         ? 'null'

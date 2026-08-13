@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "approved",
   "approvedBy": "founder",
-  "approvedAt": "2026-08-13T20:30:23Z",
+  "approvedAt": "2026-08-13T20:48:10Z",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -14,7 +14,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.0",
+    "version": "0.1.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "latest",
     "access": "public",

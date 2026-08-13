@@ -27,6 +27,19 @@ import {
 } from './ui-config.js';
 
 const { existsSync, readFileSync, writeFileSync, mkdirSync } = fse;
+const TAILWIND_VERSION = '4.1.18';
+const POSTCSS_ADAPTER = '@tailwindcss/postcss';
+const POSTCSS_CONFIG_FILENAMES = [
+  'postcss.config.mjs',
+  'postcss.config.js',
+  'postcss.config.cjs',
+] as const;
+const POSTCSS_CONFIG = `export default {
+  plugins: {
+    '${POSTCSS_ADAPTER}': {},
+  },
+};
+`;
 
 interface PackageJsonLike {
   dependencies?: Record<string, string>;
@@ -63,6 +76,18 @@ function mergeBaseline(existing: string, baseline: string, force: boolean): stri
   return `${baseline.trim()}\n\n${existing.trim()}\n`;
 }
 
+function resolvePostcssConfig(cwd: string): { path: string; create: boolean } {
+  const existing = POSTCSS_CONFIG_FILENAMES.find((filename) =>
+    existsSync(path.join(cwd, filename)),
+  );
+  if (!existing) return { path: path.join(cwd, POSTCSS_CONFIG_FILENAMES[0]), create: true };
+  const existingPath = path.join(cwd, existing);
+  if (!readFileSync(existingPath, 'utf8').includes(POSTCSS_ADAPTER)) {
+    throw new Error(`${existing} must configure ${POSTCSS_ADAPTER} before Unisane UI init`);
+  }
+  return { path: existingPath, create: false };
+}
+
 export async function uiInit(options: UiInitOptions = {}): Promise<number> {
   const cwd = options.cwd ?? process.cwd();
   const themeName = options.theme ?? 'blue';
@@ -82,6 +107,13 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
     return 1;
   }
   const project = detectProject(cwd, pkg);
+  let postcssConfig;
+  try {
+    postcssConfig = resolvePostcssConfig(cwd);
+  } catch (error) {
+    log.error(error instanceof Error ? error.message : String(error));
+    return 1;
+  }
 
   const registryDir = resolveRegistryDir();
   const registry = registryDir ? loadRegistry(registryDir) : null;
@@ -138,15 +170,20 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
 
   const manager = options.packageManager ?? detectPackageManager(cwd);
   const declaredTailwind = pkg.dependencies?.tailwindcss ?? pkg.devDependencies?.tailwindcss;
-  const tailwindCommands = buildInstallCommands(
-    manager,
-    [],
-    declaredTailwind === '4.1.18' ? [] : ['tailwindcss@4.1.18'],
-  );
+  const declaredPostcssAdapter =
+    pkg.dependencies?.[POSTCSS_ADAPTER] ?? pkg.devDependencies?.[POSTCSS_ADAPTER];
+  const requiredDevelopmentDependencies = [
+    ...(declaredTailwind === TAILWIND_VERSION ? [] : [`tailwindcss@${TAILWIND_VERSION}`]),
+    ...(declaredPostcssAdapter === TAILWIND_VERSION
+      ? []
+      : [`${POSTCSS_ADAPTER}@${TAILWIND_VERSION}`]),
+  ];
+  const tailwindCommands = buildInstallCommands(manager, [], requiredDevelopmentDependencies);
   if (options.dryRun) {
     log.info(`Detected ${project.name} with ${manager}`);
     log.dim(`  ${path.relative(cwd, cssPath)}`);
     log.dim(`  ${UI_CONFIG_FILENAME}`);
+    if (postcssConfig.create) log.dim(`  ${path.relative(cwd, postcssConfig.path)}`);
     for (const target of utilityTargets) log.dim(`  ${path.relative(cwd, target)}`);
     if (options.install !== false) {
       for (const command of tailwindCommands) {
@@ -159,6 +196,7 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
   const transaction = new FileTransaction([
     path.join(cwd, UI_CONFIG_FILENAME),
     cssPath,
+    ...(postcssConfig.create ? [postcssConfig.path] : []),
     ...utilityTargets,
     ...INSTALL_MUTATION_FILES.map((file) => path.join(cwd, file)),
   ]);
@@ -166,6 +204,7 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
   try {
     mkdirSync(path.dirname(cssPath), { recursive: true });
     writeFileSync(cssPath, nextCss);
+    if (postcssConfig.create) writeFileSync(postcssConfig.path, POSTCSS_CONFIG);
     writeUiConfig(cwd, config);
 
     const utilityCode = await uiAdd({

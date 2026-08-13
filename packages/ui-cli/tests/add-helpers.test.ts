@@ -115,6 +115,29 @@ describe('UI registry installation helpers', () => {
     );
   });
 
+  it('rewrites internal imports to portable relative paths for alias-free consumers', () => {
+    const config = createDefaultUiConfig();
+    const source = [
+      "import { Icon } from '@/components/ui/icon';",
+      "import { cn } from '@/lib/utils';",
+      "import type { NavigationItem } from '@/types/navigation';",
+    ].join('\n');
+
+    expect(
+      transformImports(source, config, {
+        cwd: '/project',
+        destination: '/project/src/components/ui/button.tsx',
+        relative: true,
+      }),
+    ).toBe(
+      [
+        "import { Icon } from './icon';",
+        "import { cn } from '../../lib/utils';",
+        "import type { NavigationItem } from '../../types/navigation';",
+      ].join('\n'),
+    );
+  });
+
   it('installs a dependency-closed source selection with no Unisane runtime fallback', async () => {
     expect(resolveRegistryDir()).toBe(registryDirectory);
     const cwd = await createFixture();
@@ -148,7 +171,7 @@ describe('UI registry installation helpers', () => {
       const content = await readFile(file, 'utf8');
       expect(content).not.toMatch(/@unisane\//);
       expect(content).not.toMatch(/@ui\//);
-      expect(content).not.toMatch(/@\/(primitives|layout)\//);
+      expect(content).not.toMatch(/from\s+['"]@\//);
     }
 
     await writeFile(path.join(cwd, 'src/components/ui/button.tsx'), '// app-owned change\n');

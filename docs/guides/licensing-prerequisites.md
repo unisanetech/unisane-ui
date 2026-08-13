@@ -12,7 +12,7 @@ view: current
 # Licensing and public-release readiness
 
 The founder approved registry-first dual distribution and MIT-licensed public npm
-publication for these exact packages at stable version `0.1.0` under the `latest` tag:
+publication for these exact packages at stable version `0.1.1` under the `latest` tag:
 
 - `@unisane/tokens`
 - `@unisane/ui`

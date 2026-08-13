@@ -1,14 +1,14 @@
 ---
-title: "Task: Publish the stable Unisane UI 0.1.0 package family"
-status: active
-owner: "bhaskarbarma"
+title: 'Task: Publish the stable Unisane UI 0.1.0 package family'
+status: cancelled
+owner: 'project'
 id: T-ac8a7183
-scope: "workspace"
+scope: 'workspace'
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: high-impact
 proofSubject: project-integration
 proofBaseline: baseline-76d96110c9f76550
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `cancelled` from Skopos.
 
 ## Goal
 
@@ -111,6 +111,7 @@ Publish the stable Unisane UI 0.1.0 package family
 This machine-readable block is the durable source used to rebuild local Skopos state.
 
 <!-- skopos:task-state:start -->
+
 ```json
 {
   "schemaVersion": 1,
@@ -118,10 +119,10 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-13T20:14:02.977Z",
-  "updatedAt": "2026-08-13T20:35:38.827Z",
+  "updatedAt": "2026-08-13T20:46:09.710Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "cancelled",
   "detail": "detailed",
   "title": "Publish the stable Unisane UI 0.1.0 package family",
   "goal": "Publish the stable Unisane UI 0.1.0 package family",
@@ -133,21 +134,15 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "kind": "workspace",
       "title": "unisane-ui",
       "path": ".",
-      "aliases": [
-        "root"
-      ],
+      "aliases": ["root"],
       "summary": "unisane-ui (public-package-product).",
       "confidence": "high",
       "ancestorIds": [],
       "profile": "public-package-product",
       "memoryRoot": "docs",
-      "codeRoots": [
-        "."
-      ],
+      "codeRoots": ["."],
       "dependsOn": [],
-      "owners": [
-        "ui-maintainers"
-      ]
+      "owners": ["ui-maintainers"]
     }
   },
   "contract": {
@@ -173,19 +168,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
     "selectedDetail": "detailed",
     "selectionSource": "proof-subject",
     "workflow": "strict",
-    "reasons": [
-      "Project-integration proof always requires strict high-impact work."
-    ],
+    "reasons": ["Project-integration proof always requires strict high-impact work."],
     "signals": {
       "goalSignals": [],
       "ownedPathCount": 20,
-      "affectedScopeIds": [
-        "workspace"
-      ],
-      "impactCategories": [
-        "docs",
-        "workspace-file"
-      ],
+      "affectedScopeIds": ["workspace"],
+      "impactCategories": ["docs", "workspace-file"],
       "proofSubjectKind": "project-integration"
     }
   },
@@ -306,9 +294,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   ],
   "ownershipExpansions": [
     {
-      "paths": [
-        "scripts/check-package-contents.mjs"
-      ],
+      "paths": ["scripts/check-package-contents.mjs"],
       "reason": "The new exported CLI components schema is correctly packed, but the existing package-content owner omitted that declared root and fails CI.",
       "actorId": "bhaskarbarma",
       "recordedAt": "2026-08-13T20:19:42.779Z",
@@ -321,9 +307,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "classification": "within-scope",
       "priorScopeId": "workspace",
       "nextScopeId": "workspace",
-      "affectedScopeIds": [
-        "workspace"
-      ]
+      "affectedScopeIds": ["workspace"]
     },
     {
       "paths": [
@@ -351,14 +335,10 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "classification": "within-scope",
       "priorScopeId": "workspace",
       "nextScopeId": "workspace",
-      "affectedScopeIds": [
-        "workspace"
-      ]
+      "affectedScopeIds": ["workspace"]
     },
     {
-      "paths": [
-        "MIGRATION.md"
-      ],
+      "paths": ["MIGRATION.md"],
       "reason": "Stable publication makes @latest the canonical command in current public migration guidance.",
       "actorId": "bhaskarbarma",
       "recordedAt": "2026-08-13T20:29:33.906Z",
@@ -371,11 +351,17 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "classification": "within-scope",
       "priorScopeId": "workspace",
       "nextScopeId": "workspace",
-      "affectedScopeIds": [
-        "workspace"
-      ]
+      "affectedScopeIds": ["workspace"]
     }
   ],
+  "disposition": {
+    "kind": "cancel",
+    "reason": "The 0.1.0 publication completed, but the required clean Vite consumer proof failed because the published CLI used the invalid pnpm add --dev flag. npm versions are immutable, so a corrected 0.1.1 patch release is required.",
+    "actorId": "bhaskarbarma",
+    "recordedAt": "2026-08-13T20:46:09.710Z",
+    "priorState": "active",
+    "nextState": "cancelled"
+  },
   "declaredOwnedPaths": [
     ".github/workflows/publish-prerelease.yml",
     ".github/workflows/publish-release.yml",
@@ -405,4 +391,5 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   ]
 }
 ```
+
 <!-- skopos:task-state:end -->

@@ -5,22 +5,22 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@unisane/tokens@0.1.0': file:../tarballs/unisane-tokens-0.1.0.tgz
-  '@unisane/ui@0.1.0': file:../tarballs/unisane-ui-0.1.0.tgz
+  '@unisane/tokens@0.1.1': file:../tarballs/unisane-tokens-0.1.1.tgz
+  '@unisane/ui@0.1.1': file:../tarballs/unisane-ui-0.1.1.tgz
 
 importers:
 
   .:
     dependencies:
       '@unisane/data-table':
-        specifier: file:../tarballs/unisane-data-table-0.1.0.tgz
-        version: file:../tarballs/unisane-data-table-0.1.0.tgz(@unisane/ui@file:../tarballs/unisane-ui-0.1.0.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: file:../tarballs/unisane-data-table-0.1.1.tgz
+        version: file:../tarballs/unisane-data-table-0.1.1.tgz(@unisane/ui@file:../tarballs/unisane-ui-0.1.1.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@unisane/tokens':
-        specifier: file:../tarballs/unisane-tokens-0.1.0.tgz
-        version: file:../tarballs/unisane-tokens-0.1.0.tgz
+        specifier: file:../tarballs/unisane-tokens-0.1.1.tgz
+        version: file:../tarballs/unisane-tokens-0.1.1.tgz
       '@unisane/ui':
-        specifier: file:../tarballs/unisane-ui-0.1.0.tgz
-        version: file:../tarballs/unisane-ui-0.1.0.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: file:../tarballs/unisane-ui-0.1.1.tgz
+        version: file:../tarballs/unisane-ui-0.1.1.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react:
         specifier: 19.2.8
         version: 19.2.8
@@ -232,23 +232,23 @@ packages:
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
 
-  '@unisane/data-table@file:../tarballs/unisane-data-table-0.1.0.tgz':
-    resolution: {tarball: file:../tarballs/unisane-data-table-0.1.0.tgz}
-    version: 0.1.0
+  '@unisane/data-table@file:../tarballs/unisane-data-table-0.1.1.tgz':
+    resolution: {tarball: file:../tarballs/unisane-data-table-0.1.1.tgz}
+    version: 0.1.1
     engines: {node: '>=22.0.0'}
     peerDependencies:
-      '@unisane/ui': 0.1.0
+      '@unisane/ui': 0.1.1
       react: ^19
       react-dom: ^19
 
-  '@unisane/tokens@file:../tarballs/unisane-tokens-0.1.0.tgz':
-    resolution: {tarball: file:../tarballs/unisane-tokens-0.1.0.tgz}
-    version: 0.1.0
+  '@unisane/tokens@file:../tarballs/unisane-tokens-0.1.1.tgz':
+    resolution: {tarball: file:../tarballs/unisane-tokens-0.1.1.tgz}
+    version: 0.1.1
     engines: {node: '>=22.0.0'}
 
-  '@unisane/ui@file:../tarballs/unisane-ui-0.1.0.tgz':
-    resolution: {tarball: file:../tarballs/unisane-ui-0.1.0.tgz}
-    version: 0.1.0
+  '@unisane/ui@file:../tarballs/unisane-ui-0.1.1.tgz':
+    resolution: {tarball: file:../tarballs/unisane-ui-0.1.1.tgz}
+    version: 0.1.1
     engines: {node: '>=22.0.0'}
     peerDependencies:
       react: ^19
@@ -635,10 +635,10 @@ snapshots:
   '@types/trusted-types@2.0.7':
     optional: true
 
-  '@unisane/data-table@file:../tarballs/unisane-data-table-0.1.0.tgz(@unisane/ui@file:../tarballs/unisane-ui-0.1.0.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@unisane/data-table@file:../tarballs/unisane-data-table-0.1.1.tgz(@unisane/ui@file:../tarballs/unisane-ui-0.1.1.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@tanstack/react-virtual': 3.13.18(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@unisane/ui': file:../tarballs/unisane-ui-0.1.0.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@unisane/ui': file:../tarballs/unisane-ui-0.1.1.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       dequal: 2.0.3
       jspdf: 3.0.4
       jspdf-autotable: 5.0.8(jspdf@3.0.4)
@@ -646,11 +646,11 @@ snapshots:
       react-dom: 19.2.8(react@19.2.8)
       xlsx: 0.18.5
 
-  '@unisane/tokens@file:../tarballs/unisane-tokens-0.1.0.tgz': {}
+  '@unisane/tokens@file:../tarballs/unisane-tokens-0.1.1.tgz': {}
 
-  '@unisane/ui@file:../tarballs/unisane-ui-0.1.0.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@unisane/ui@file:../tarballs/unisane-ui-0.1.1.tgz(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
-      '@unisane/tokens': file:../tarballs/unisane-tokens-0.1.0.tgz
+      '@unisane/tokens': file:../tarballs/unisane-tokens-0.1.1.tgz
       class-variance-authority: 0.7.1
       clsx: 2.1.1
       cmdk: 1.1.1(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)

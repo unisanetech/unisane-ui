@@ -70,6 +70,9 @@ describe('UI theme installation', () => {
         appearance: { enabledAxes: [], persistence: 'none' },
       },
     });
+    expect(await readFile(path.join(cwd, 'postcss.config.mjs'), 'utf8')).toContain(
+      "'@tailwindcss/postcss': {}",
+    );
 
     const appOwnedCss = '\n/* app-owned */\n.product-shell { min-height: 100dvh; }\n';
     await writeFile(globalsPath, `${initialized}${appOwnedCss}`);
@@ -116,5 +119,17 @@ describe('UI theme installation', () => {
     await expect(access(path.join(cwd, 'components.json'))).rejects.toThrow();
     await expect(access(path.join(cwd, 'src', 'lib', 'utils.ts'))).rejects.toThrow();
     await expect(access(path.join(cwd, 'pnpm-lock.yaml'))).rejects.toThrow();
+    await expect(access(path.join(cwd, 'postcss.config.mjs'))).rejects.toThrow();
+  });
+
+  it('rejects an existing PostCSS authority that omits the Tailwind adapter', async () => {
+    const cwd = await createNextFixture();
+    await writeFile(path.join(cwd, 'postcss.config.mjs'), 'export default { plugins: {} };\n');
+
+    await expect(uiInit({ cwd, install: false })).resolves.toBe(1);
+    await expect(access(path.join(cwd, 'components.json'))).rejects.toThrow();
+    expect(await readFile(path.join(cwd, 'postcss.config.mjs'), 'utf8')).toBe(
+      'export default { plugins: {} };\n',
+    );
   });
 });

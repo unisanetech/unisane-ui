@@ -36,7 +36,7 @@ function fixture() {
 function manifest(overrides = {}) {
   return {
     name: '@unisane/email-templates',
-    version: '0.1.0',
+    version: '0.1.1',
     description: 'Provider-neutral HTML and text email presentation for Unisane products',
     private: false,
     type: 'module',

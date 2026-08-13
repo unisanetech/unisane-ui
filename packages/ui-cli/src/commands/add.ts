@@ -55,6 +55,25 @@ function missingPackages(cwd: string, requested: string[]): string[] {
   });
 }
 
+function usesAliasImports(cwd: string): boolean {
+  const parsed = JSON.parse(readFileSync(path.join(cwd, 'package.json'), 'utf8')) as Record<
+    string,
+    unknown
+  >;
+  for (const group of ['dependencies', 'devDependencies']) {
+    const dependencies = parsed[group];
+    if (
+      typeof dependencies === 'object' &&
+      dependencies !== null &&
+      !Array.isArray(dependencies) &&
+      typeof (dependencies as Record<string, unknown>).next === 'string'
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function printInstallCommands(commands: ReturnType<typeof buildInstallCommands>): void {
   for (const command of commands) log.dim(`  ${formatInstallCommand(command)}`);
 }
@@ -140,6 +159,7 @@ export async function uiAdd(options: UiAddOptions = {}): Promise<number> {
   const planned: PlannedFile[] = [];
   const skipped: string[] = [];
   const targets = new Set<string>();
+  const relativeImports = !usesAliasImports(cwd);
   try {
     for (const name of orderedItems) {
       const item = items.get(name);
@@ -158,6 +178,7 @@ export async function uiAdd(options: UiAddOptions = {}): Promise<number> {
         const content = transformImports(
           readFileSync(path.join(registryDir, file.path), 'utf8'),
           config,
+          { cwd, destination, relative: relativeImports },
         );
         planned.push({ destination, displayPath, content });
       }

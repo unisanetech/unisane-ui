@@ -5,7 +5,7 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
-const approvedVersion = '0.1.0';
+const approvedVersion = '0.1.1';
 const standaloneCli = {
   packageName: '@unisane/ui-cli',
   executable: 'unisane-ui',

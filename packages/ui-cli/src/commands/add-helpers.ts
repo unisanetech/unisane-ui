@@ -164,25 +164,64 @@ export function getTargetFilePath(
   return path.join(aliasDirectory(config.aliases[owner], config, cwd), relative);
 }
 
-export function transformImports(content: string, config: UiProjectConfig): string {
+export interface ImportTransformContext {
+  cwd: string;
+  destination: string;
+  relative: boolean;
+}
+
+export function transformImports(
+  content: string,
+  config: UiProjectConfig,
+  context?: ImportTransformContext,
+): string {
   const componentsAlias = config.aliases.ui;
   const libAlias = config.aliases.lib;
   const hooksAlias = config.aliases.hooks;
   const typesAlias = config.aliases.types;
+  const importPath = (alias: string, suffix: string): string => {
+    if (!context?.relative) return `${alias}/${suffix}`;
+    const target = path.join(aliasDirectory(alias, config, context.cwd), suffix);
+    const relative = path
+      .relative(path.dirname(context.destination), target)
+      .split(path.sep)
+      .join('/');
+    return relative.startsWith('.') ? relative : `./${relative}`;
+  };
 
   return content
     .replace(
       /from\s+['"]@ui\/(primitives|layout|components)\/([^'"]+)['"]/g,
-      `from '${componentsAlias}/$2'`,
+      (_match, _category: string, suffix: string) =>
+        `from '${importPath(componentsAlias, suffix)}'`,
     )
-    .replace(/from\s+['"]@ui\/lib\/([^'"]+)['"]/g, `from '${libAlias}/$1'`)
-    .replace(/from\s+['"]@ui\/hooks\/([^'"]+)['"]/g, `from '${hooksAlias}/$1'`)
-    .replace(/from\s+['"]@ui\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`)
+    .replace(
+      /from\s+['"]@ui\/lib\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(libAlias, suffix)}'`,
+    )
+    .replace(
+      /from\s+['"]@ui\/hooks\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(hooksAlias, suffix)}'`,
+    )
+    .replace(
+      /from\s+['"]@ui\/types\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(typesAlias, suffix)}'`,
+    )
     .replace(
       /from\s+['"]@\/(components\/ui|primitives|layout)\/([^'"]+)['"]/g,
-      `from '${componentsAlias}/$2'`,
+      (_match, _category: string, suffix: string) =>
+        `from '${importPath(componentsAlias, suffix)}'`,
     )
-    .replace(/from\s+['"]@\/lib\/([^'"]+)['"]/g, `from '${libAlias}/$1'`)
-    .replace(/from\s+['"]@\/hooks\/([^'"]+)['"]/g, `from '${hooksAlias}/$1'`)
-    .replace(/from\s+['"]@\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`);
+    .replace(
+      /from\s+['"]@\/lib\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(libAlias, suffix)}'`,
+    )
+    .replace(
+      /from\s+['"]@\/hooks\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(hooksAlias, suffix)}'`,
+    )
+    .replace(
+      /from\s+['"]@\/types\/([^'"]+)['"]/g,
+      (_match, suffix: string) => `from '${importPath(typesAlias, suffix)}'`,
+    );
 }
