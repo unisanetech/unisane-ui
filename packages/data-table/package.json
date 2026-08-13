@@ -1,6 +1,6 @@
 {
   "name": "@unisane/data-table",
-  "version": "0.1.0-next.b67ebfd0",
+  "version": "0.1.0-next.b67ebfd0.1",
   "description": "Typed React 19 DataTable for complex product and operational interfaces",
   "private": false,
   "type": "module",

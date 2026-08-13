@@ -14,7 +14,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.0-next.b67ebfd0",
+    "version": "0.1.0-next.b67ebfd0.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",

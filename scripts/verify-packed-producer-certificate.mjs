@@ -34,7 +34,7 @@ const forbiddenArchivePath =
   /(?:^|\/)(?:\.git|\.skopos|\.turbo|coverage|node_modules|src|test|tests|tmp)(?:\/|$)/iu;
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
-const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0';
+const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0.1';
 const themeNames = Object.freeze([
   'black',
   'blue',
@@ -132,7 +132,7 @@ export const PACKED_CONSUMER_LOCK_PATH = path.join(
   'scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml',
 );
 const approvedPackedConsumerLockSha256 =
-  '8b80fa74adf9893c454698f56946e740cd482d0570c5aca16f5d909846720ac8';
+  '33cabccd165ae86d6bc6a47f53eed576c8d91019d0f859d047a36bc41bbb8773';
 export const ACTIVE_PNPM_STORE_DIRECTORY = path.dirname(run('pnpm', ['store', 'path']).trim());
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
@@ -143,7 +143,7 @@ export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   `--store-dir=${ACTIVE_PNPM_STORE_DIRECTORY}`,
 ]);
 const packedTarballLocator =
-  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.tgz/gu;
+  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.1\.tgz/gu;
 const externalConsumerDependencyContracts = Object.freeze([
   Object.freeze({ field: 'peerDependencies', name: 'react' }),
   Object.freeze({ field: 'peerDependencies', name: 'react-dom' }),

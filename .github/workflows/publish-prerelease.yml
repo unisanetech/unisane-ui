@@ -51,28 +51,28 @@ jobs:
         working-directory: packages/tokens
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --tag next --provenance
+        run: pnpm publish --access public --tag next --provenance --no-git-checks
 
       - name: Publish UI prerelease
         working-directory: packages/ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --tag next --provenance
+        run: pnpm publish --access public --tag next --provenance --no-git-checks
 
       - name: Publish UI registry pack prerelease
         working-directory: packages/ui-cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --tag next --provenance
+        run: pnpm publish --access public --tag next --provenance --no-git-checks
 
       - name: Publish DataTable prerelease
         working-directory: packages/data-table
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --tag next --provenance
+        run: pnpm publish --access public --tag next --provenance --no-git-checks
 
       - name: Publish email templates prerelease
         working-directory: packages/email-templates
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --access public --tag next --provenance
+        run: pnpm publish --access public --tag next --provenance --no-git-checks

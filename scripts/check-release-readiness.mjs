@@ -5,7 +5,7 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
-const approvedVersion = '0.1.0-next.b67ebfd0';
+const approvedVersion = '0.1.0-next.b67ebfd0.1';
 const standaloneCli = {
   packageName: '@unisane/ui-cli',
   executable: 'unisane-ui',
@@ -37,6 +37,9 @@ const requiredLegalArtifacts = [
 const expectedRepositoryUrl = 'https://github.com/unisanetech/unisane-ui.git';
 const expectedHomepage = 'https://github.com/unisanetech/unisane-ui#readme';
 const expectedBugsUrl = 'https://github.com/unisanetech/unisane-ui/issues';
+const publishWorkflowPath = '.github/workflows/publish-prerelease.yml';
+const approvedPublishCommand =
+  'run: pnpm publish --access public --tag next --provenance --no-git-checks';
 const blockers = [];
 
 function stableValue(value) {
@@ -61,6 +64,21 @@ for (const relativePath of requiredLegalArtifacts) {
   } catch {
     blockers.push(`missing legal/release prerequisite: ${relativePath}`);
   }
+}
+
+try {
+  const workflow = await readFile(path.join(repoRoot, publishWorkflowPath), 'utf8');
+  const approvedCommandCount = workflow.split(approvedPublishCommand).length - 1;
+  if (approvedCommandCount !== approvedPackageNames.length) {
+    blockers.push(
+      `${publishWorkflowPath} must use the pnpm publish path for all ${approvedPackageNames.length} packages`,
+    );
+  }
+  if (/run:\s+npm publish\b/u.test(workflow)) {
+    blockers.push(`${publishWorkflowPath} must not publish source manifests with npm publish`);
+  }
+} catch {
+  blockers.push(`${publishWorkflowPath} is missing or invalid`);
 }
 
 const manifests = new Map();

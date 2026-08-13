@@ -43,9 +43,9 @@ test('external consumer install is intrinsically offline and rejects source fall
   assert.equal(path.isAbsolute(storeArgument.slice('--store-dir='.length)), true);
 
   const packedTarballs = [
-    'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz',
-    'file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz',
-    'file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz',
+    'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.1.tgz',
+    'file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.1.tgz',
+    'file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.1.tgz',
   ].join('\n');
   assert.doesNotThrow(() => assertExternalConsumerLock(packedTarballs));
 
@@ -113,7 +113,7 @@ test('external consumer install is intrinsically offline and rejects source fall
 test('frozen external consumer lock is exact, portable, and source-owned', () => {
   const lock = readFileSync(PACKED_CONSUMER_LOCK_PATH, 'utf8');
   assert.doesNotThrow(() => assertFrozenExternalConsumerLock(lock));
-  assert.match(lock, /file:\.\.\/tarballs\/unisane-ui-0\.1\.0-next\.b67ebfd0\.tgz/u);
+  assert.match(lock, /file:\.\.\/tarballs\/unisane-ui-0\.1\.0-next\.b67ebfd0\.1\.tgz/u);
   assert.doesNotMatch(lock, /\/(?:Users|private|var)\//u);
   const resolutionLines = lock.match(/^    resolution: \{.*\}$/gmu) ?? [];
   const packedTarballResolutionLines = resolutionLines.filter((line) =>
@@ -134,8 +134,8 @@ test('frozen external consumer lock is exact, portable, and source-owned', () =>
     () =>
       assertFrozenExternalConsumerLock(
         lock.replace(
-          'resolution: {tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}',
-          'resolution: {integrity: sha512-forged, tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz}',
+          'resolution: {tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.1.tgz}',
+          'resolution: {integrity: sha512-forged, tarball: file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.1.tgz}',
         ),
       ),
     /omit host-specific integrity/u,
@@ -173,7 +173,7 @@ const profile = {
 function manifest(overrides = {}) {
   return {
     name: '@unisane/ui',
-    version: '0.1.0-next.b67ebfd0',
+    version: '0.1.0-next.b67ebfd0.1',
     private: false,
     license: 'MIT',
     publishConfig: { access: 'public', provenance: true, tag: 'next' },

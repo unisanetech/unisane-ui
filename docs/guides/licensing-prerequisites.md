@@ -12,7 +12,7 @@ view: current
 # Licensing and public-release readiness
 
 The founder approved registry-first dual distribution and MIT-licensed public npm
-prerelease publication for these exact packages at `0.1.0-next.b67ebfd0` under the
+prerelease publication for these exact packages at `0.1.0-next.b67ebfd0.1` under the
 `next` tag:
 
 - `@unisane/tokens`
@@ -39,7 +39,9 @@ Neither command publishes anything.
 The canonical public source repository is
 `https://github.com/unisanetech/unisane-ui`. Its manually dispatched
 `publish-prerelease.yml` workflow rechecks the release boundary on a GitHub-hosted
-runner before publishing the approved package set with npm provenance. It first verifies
-the exact standalone CLI and packed package boundaries. The first npm publication
-requires the repository secret `NPM_TOKEN`; package publication remains a separate
-explicit operation and is not performed by repository setup or ordinary CI.
+runner before publishing the approved package set with npm provenance. It publishes
+through pnpm so workspace dependency protocols become concrete registry versions in the
+public package manifests. The workflow first verifies the exact standalone CLI and packed
+package boundaries. Publication requires the repository secret `NPM_TOKEN`; package
+publication remains a separate explicit operation and is not performed by repository
+setup or ordinary CI.
