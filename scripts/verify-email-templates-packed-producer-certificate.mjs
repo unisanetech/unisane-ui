@@ -182,7 +182,7 @@ function assertExactManifestContract(manifest) {
     },
     repository: {
       type: 'git',
-      url: 'https://github.com/unisane/unisane-ui.git',
+      url: 'https://github.com/unisanetech/unisane-ui.git',
       directory: 'packages/email-templates',
     },
     engines: { node: '>=22.0.0' },

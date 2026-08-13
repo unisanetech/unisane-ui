@@ -28,6 +28,9 @@ part of this release.
 producer checks prove the distributable contents and clean external-consumer behavior.
 Neither command publishes anything.
 
-The remaining external step is an authenticated, provenance-enabled npm publish by an
-authorized `@unisane` publisher. This local repository still has no remote and does not
-become authoritative merely because package publication is approved.
+The canonical public source repository is
+`https://github.com/unisanetech/unisane-ui`. Its manually dispatched
+`publish-prerelease.yml` workflow rechecks the release boundary on a GitHub-hosted
+runner before publishing the approved package set with npm provenance. The first npm
+publication requires the repository secret `NPM_TOKEN`; package publication remains a
+separate explicit operation and is not performed by repository setup or ordinary CI.

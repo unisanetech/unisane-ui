@@ -1,0 +1,70 @@
+name: Publish UI prerelease
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-ui-prerelease
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require the canonical main branch
+        run: test "$GITHUB_REF" = refs/heads/main
+
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org/
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify public release boundary
+        run: |
+          pnpm check:boundaries
+          pnpm check:release-readiness
+          pnpm check:package-content
+          pnpm check:packed-producer-certificate
+          pnpm check:email-templates-packed-producer-certificate:fixtures
+          git diff --exit-code
+
+      - name: Publish tokens prerelease
+        working-directory: packages/tokens
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag next --provenance
+
+      - name: Publish UI prerelease
+        working-directory: packages/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag next --provenance
+
+      - name: Publish DataTable prerelease
+        working-directory: packages/data-table
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag next --provenance
+
+      - name: Publish email templates prerelease
+        working-directory: packages/email-templates
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag next --provenance

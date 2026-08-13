@@ -42,7 +42,7 @@ for (const relativePath of publicPackages) {
   }
   if (manifest.private !== false) blockers.push(`${manifest.name} is not public`);
   if (manifest.license !== 'MIT') blockers.push(`${manifest.name} is not MIT licensed`);
-  if (manifest.repository?.url !== 'https://github.com/unisane/unisane-ui.git') {
+  if (manifest.repository?.url !== 'https://github.com/unisanetech/unisane-ui.git') {
     blockers.push(`${manifest.name} has incorrect repository metadata`);
   }
   if (
