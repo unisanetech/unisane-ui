@@ -24,7 +24,7 @@ export function CtaSection() {
         </Button>
         <Button asChild variant="outlined" size="lg">
           <a
-            href="https://github.com/anthropics/unisane-ui"
+            href="https://github.com/unisanetech/unisane-ui"
             target="_blank"
             rel="noopener noreferrer"
           >

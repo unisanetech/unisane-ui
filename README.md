@@ -7,6 +7,8 @@ keep their source in your application, and adapt them without wrapping a black-b
 dependency. The registry is designed for forms, navigation, workflows, application
 shells, and dense operational interfaces.
 
+Browse the component gallery and documentation at [ui.unisane.com](https://ui.unisane.com).
+
 ## Quick start
 
 Run the UI-owned registry CLI directly:
@@ -113,10 +115,12 @@ pnpm build
 ```
 
 Run the documentation workbench with `pnpm --filter @unisane/ui-docs dev`.
+Build the complete deployable website and registry with `pnpm check:ui-site`.
 
 ## Project links
 
 - [GitHub repository](https://github.com/unisanetech/unisane-ui)
+- [Component gallery and documentation](https://ui.unisane.com)
 - [Public registry catalog](https://ui.unisane.com/r/registry.json)
 - [Documentation router](docs/00-start-here.md)
 - [Design-system architecture](docs/architecture/design-system.md)

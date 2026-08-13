@@ -16,6 +16,15 @@ test('builds one deterministic content-bearing file for every canonical registry
   context.after(() => fs.rm(root, { recursive: true, force: true }));
   const first = path.join(root, 'first');
   const second = path.join(root, 'second');
+  await Promise.all([
+    fs.mkdir(path.join(first, 'r'), { recursive: true }),
+    fs.mkdir(second, { recursive: true }),
+  ]);
+  await Promise.all([
+    fs.writeFile(path.join(first, 'index.html'), '<title>Existing UI website</title>\n'),
+    fs.writeFile(path.join(first, 'r/stale.json'), '{}\n'),
+    fs.writeFile(path.join(second, 'index.html'), '<title>Existing UI website</title>\n'),
+  ]);
 
   const firstResult = await buildStaticRegistry({ outputDirectory: first });
   const secondResult = await buildStaticRegistry({ outputDirectory: second });
@@ -34,9 +43,11 @@ test('builds one deterministic content-bearing file for every canonical registry
       dependency.startsWith('https://ui.unisane.com/r/'),
     ),
   );
-  const index = await fs.readFile(path.join(first, 'index.html'), 'utf8');
-  assert.match(index, /href="r\/registry\.json"/u);
-  assert.doesNotMatch(index, /href="\/r\//u);
+  assert.equal(
+    await fs.readFile(path.join(first, 'index.html'), 'utf8'),
+    '<title>Existing UI website</title>\n',
+  );
+  await assert.rejects(fs.access(path.join(first, 'r/stale.json')));
 });
 
 test('converts only supported project-owned aliases and rejects path traversal', () => {

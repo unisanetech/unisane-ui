@@ -41,6 +41,7 @@ test-results/
 tmp/
 temp/
 .cache/
+.wrangler/
 .eslintcache
 *.tmp
 *.bak

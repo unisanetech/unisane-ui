@@ -14,6 +14,9 @@ This app documents the distributable Unisane UI system:
 
 It is a documentation surface for the public UI layer, not a generic Next.js starter app.
 
+The production export is the website at `https://ui.unisane.com`. The same static
+deployment serves the component registry under `/r/*` and schemas under `/schema/*`.
+
 The workbench itself is a first-party app and may consume flat `@unisane/ui/<component>` runtime subpaths plus `@unisane/ui/styles.css`. Public examples must teach external consumers the registry-installed local-source path (`@/components/ui/*`) and must not require Unisane UI or token packages at application runtime.
 
 The workbench also imports `@unisane/tokens/preview-themes.css` so documentation fixtures can preview every theme, scheme, contrast, and mode combination. That generated preview asset is documentation-only and must never be included in `@unisane/ui/styles.css`, registry `globals.css`, or external application guidance.
@@ -31,6 +34,9 @@ pnpm --filter @unisane/ui-docs dev
 ```
 
 Then open `http://localhost:3001`.
+
+From the workspace root, `pnpm check:ui-site` builds and verifies the complete static
+deployment artifact. Test-only routes are removed from that public artifact.
 
 ## Purpose
 

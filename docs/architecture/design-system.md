@@ -45,6 +45,12 @@ packages/ui/src/** (one authoring source)
   project schema at `/schema/components.json`, and one content-bearing Shadcn registry
   item at `/r/{name}.json`. Hosted dependency edges use absolute URLs within that same
   registry and never create a second metadata or source owner.
+- `https://ui.unisane.com` is one public surface: the complete component gallery and
+  documentation live at the site root, while `/r/*` and `/schema/*` expose the registry
+  contracts from the same build artifact.
+- The public artifact is a Next.js static export deployed through Cloudflare Workers
+  Static Assets. It has no application server or Worker runtime code. GitHub Pages and
+  parallel registry-only deployments are not supported hosting paths.
 - The standalone executable and the optional pack/MCP adapter expose the same read-only
   `list`, `search`, and `view` operations over the canonical catalog. MCP may transport
   those operations later; it does not own a parallel component inventory.

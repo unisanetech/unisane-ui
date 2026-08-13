@@ -158,7 +158,11 @@ export async function buildStaticRegistry({
   const outputRoot = path.resolve(outputDirectory);
   const registryOutput = path.join(outputRoot, 'r');
   const schemaOutput = path.join(outputRoot, 'schema');
-  await fs.rm(outputRoot, { recursive: true, force: true });
+  await fs.mkdir(outputRoot, { recursive: true });
+  await Promise.all([
+    fs.rm(registryOutput, { recursive: true, force: true }),
+    fs.rm(schemaOutput, { recursive: true, force: true }),
+  ]);
   await fs.mkdir(registryOutput, { recursive: true });
   await fs.mkdir(schemaOutput, { recursive: true });
 
@@ -198,11 +202,6 @@ export async function buildStaticRegistry({
     fs.writeFile(path.join(registryOutput, 'registry.json'), catalogSource),
     fs.writeFile(path.join(schemaOutput, 'components.json'), componentsSchemaSource),
     fs.writeFile(path.join(schemaOutput, 'registry.json'), registrySchemaSource),
-    fs.writeFile(path.join(outputRoot, '.nojekyll'), ''),
-    fs.writeFile(
-      path.join(outputRoot, 'index.html'),
-      '<!doctype html><meta charset="utf-8"><title>Unisane UI Registry</title><main><h1>Unisane UI Registry</h1><p><a href="r/registry.json">Registry catalog</a></p><p><a href="schema/components.json">components.json schema</a></p></main>\n',
-    ),
   ]);
 
   const manifest = {

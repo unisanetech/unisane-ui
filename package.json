@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "build:registry-site": "node scripts/build-static-registry.mjs --output .tmp/registry-site",
+    "build:ui-site": "pnpm --filter @unisane/ui-docs build:site && node scripts/build-static-registry.mjs --output apps/docs/out",
     "check:border-semantics": "node scripts/check-semantic-border-roles.mjs",
     "check:boundaries": "node scripts/check-repository-boundaries.mjs --check",
     "check:package-content": "turbo run build --filter=@unisane/ui --filter=@unisane/ui-cli --filter=@unisane/tokens --filter=@unisane/data-table --filter=@unisane/email-templates && node scripts/check-package-contents.mjs",
@@ -21,8 +21,10 @@
     "check:release-readiness": "node scripts/check-release-readiness.mjs",
     "check:shadcn-registry": "node scripts/check-static-registry.mjs --shadcn",
     "check:static-registry": "node --test scripts/__tests__/build-static-registry.test.mjs && node scripts/check-static-registry.mjs",
+    "check:ui-site": "pnpm build:ui-site && node scripts/check-static-registry.mjs --site apps/docs/out",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
+    "deploy:ui-site": "pnpm check:ui-site && wrangler deploy",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "typecheck": "turbo run check-types",
@@ -48,7 +50,8 @@
     "turbo": "2.7.4",
     "typescript": "5.9.2",
     "typescript-eslint": "8.53.0",
-    "vitest": "4.0.17"
+    "vitest": "4.0.17",
+    "wrangler": "4.123.0"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {

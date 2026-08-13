@@ -161,7 +161,16 @@ async function fetchText(url) {
 async function verifyRemoteRegistry(baseUrl) {
   const origin = new URL(baseUrl);
   const root = origin.href.endsWith('/') ? origin.href : `${origin.href}/`;
-  const [manifestSource, catalogSource, schemaSource, itemSource] = await Promise.all([
+  const [
+    homepageSource,
+    componentPageSource,
+    manifestSource,
+    catalogSource,
+    schemaSource,
+    itemSource,
+  ] = await Promise.all([
+    fetchText(new URL('', root)),
+    fetchText(new URL('docs/components/button/', root)),
     fetchText(new URL('r/manifest.json', root)),
     fetchText(new URL('r/registry.json', root)),
     fetchText(new URL('schema/components.json', root)),
@@ -189,14 +198,51 @@ async function verifyRemoteRegistry(baseUrl) {
   ) {
     throw new Error('Remote representative item is not content-bearing');
   }
-  console.log(`Remote static registry check passed at ${root}`);
+  if (
+    !homepageSource.includes('<title>Unisane UI - React Component Library</title>') ||
+    !componentPageSource.includes('Button')
+  ) {
+    throw new Error('Remote UI website is missing its homepage or representative component page');
+  }
+  console.log(`Remote UI website and static registry check passed at ${root}`);
+}
+
+async function verifyCombinedSite(outputDirectory) {
+  const outputRoot = path.resolve(outputDirectory);
+  await verifyStaticRegistry(outputRoot);
+  const [homepageSource, componentPageSource] = await Promise.all([
+    fs.readFile(path.join(outputRoot, 'index.html'), 'utf8'),
+    fs.readFile(path.join(outputRoot, 'docs/components/button/index.html'), 'utf8'),
+    fs.access(path.join(outputRoot, '404.html')),
+    fs.access(path.join(outputRoot, '_next')),
+  ]);
+  if (
+    !homepageSource.includes('<title>Unisane UI - React Component Library</title>') ||
+    !componentPageSource.includes('Button')
+  ) {
+    throw new Error('Combined UI site is missing its homepage or representative component page');
+  }
+  try {
+    await fs.access(path.join(outputRoot, 'test-fixtures'));
+    throw new Error('Combined UI site contains test-only routes');
+  } catch (error) {
+    if (error instanceof Error && !('code' in error && error.code === 'ENOENT')) throw error;
+  }
+  console.log(`Combined UI website and static registry check passed at ${outputRoot}`);
 }
 
 const remoteIndex = process.argv.indexOf('--remote');
-if (remoteIndex !== -1) {
+const siteIndex = process.argv.indexOf('--site');
+if (remoteIndex !== -1 && siteIndex !== -1) {
+  throw new Error('Choose either --remote or --site');
+} else if (remoteIndex !== -1) {
   const remoteUrl = process.argv[remoteIndex + 1];
   if (!remoteUrl) throw new Error('--remote requires the deployed registry base URL');
   await verifyRemoteRegistry(remoteUrl);
+} else if (siteIndex !== -1) {
+  const siteDirectory = process.argv[siteIndex + 1];
+  if (!siteDirectory) throw new Error('--site requires the combined build directory');
+  await verifyCombinedSite(siteDirectory);
 } else {
   const temporaryRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'unisane-static-registry-'));
   try {

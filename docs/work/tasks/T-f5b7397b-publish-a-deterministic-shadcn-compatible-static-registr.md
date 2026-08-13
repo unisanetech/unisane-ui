@@ -1,7 +1,7 @@
 ---
 title: "Task: Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery"
-status: active
-owner: "bhaskarbarma"
+status: blocked
+owner: "project"
 id: T-f5b7397b
 scope: "workspace"
 role: task
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `blocked` from Skopos.
 
 ## Goal
 
@@ -113,10 +113,41 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-13T15:50:27.055Z",
-  "updatedAt": "2026-08-13T16:12:02.875Z",
+  "updatedAt": "2026-08-13T18:57:04.017Z",
   "planIds": [],
-  "childTasks": [],
-  "state": "active",
+  "childTasks": [
+    {
+      "taskId": "T-a58c4be5",
+      "title": "Publish the complete Unisane UI website and registry at ui.unisane.com",
+      "goal": "Publish the complete Unisane UI website and registry at ui.unisane.com",
+      "scopeId": "workspace",
+      "state": "active",
+      "createdAt": "2026-08-13T18:41:15.183Z",
+      "createdByActorId": "bhaskarbarma",
+      "ownedPaths": [
+        ".github/workflows/deploy-registry.yml",
+        ".gitignore",
+        "apps/docs",
+        "docs/architecture/design-system.md",
+        "docs/reference/generated/repository-convergence-report.json",
+        "docs/work/tasks/T-f5b7397b-publish-a-deterministic-shadcn-compatible-static-registr.md",
+        "eslint.config.mjs",
+        "package.json",
+        "pnpm-lock.yaml",
+        "README.md",
+        "scripts/__tests__/build-static-registry.test.mjs",
+        "scripts/build-static-registry.mjs",
+        "scripts/check-static-registry.mjs",
+        "wrangler.jsonc"
+      ],
+      "dependencyTaskIds": [],
+      "parentAcceptanceRequirementIds": [
+        "acceptance-5"
+      ],
+      "claimedByActorId": "child-t-a58c4be5"
+    }
+  ],
+  "state": "blocked",
   "detail": "detailed",
   "title": "Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery",
   "goal": "Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery",
@@ -354,7 +385,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "scopeId": "workspace",
       "reason": "The Task may be drifting from its admitted subject because ownership expanded 3 times.",
       "blocking": false,
-      "status": "open"
+      "status": "complete"
     }
   ],
   "ownershipExpansions": [

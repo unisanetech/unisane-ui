@@ -3,17 +3,13 @@ import './globals.css';
 // This provides offline capability while keeping bundle size reasonable
 import '@material-symbols/font-400/outlined.css';
 import type { Metadata } from 'next';
-import { cookies, headers } from 'next/headers';
 import { AppearanceProvider, AppearanceScript } from '@unisane/ui/appearance-provider';
 import { Toaster } from '@unisane/ui/toast';
-import type { SidebarViewport } from '@unisane/ui/sidebar';
 import { ShellRouteLayout } from '@/features/shell';
-import { DOCS_SIDEBAR_EXPANDED_COOKIE } from '@/features/shell/lib/sidebar-persistence';
 import {
   DOCS_APPEARANCE_AXES,
   DOCS_APPEARANCE_COOKIE,
   DOCS_DEFAULT_APPEARANCE,
-  resolveDocsAppearance,
 } from '@/features/shell/lib/appearance-persistence';
 
 export const metadata: Metadata = {
@@ -22,64 +18,17 @@ export const metadata: Metadata = {
     'Production-ready React components with sophisticated theming, accessibility, and exceptional developer experience.',
 };
 
-const SIDEBAR_BREAKPOINTS = {
-  mobile: 600,
-  desktop: 840,
-} as const;
-
-function resolveViewportFromWidth(width: number): SidebarViewport {
-  if (width < SIDEBAR_BREAKPOINTS.mobile) {
-    return 'mobile';
-  }
-
-  if (width >= SIDEBAR_BREAKPOINTS.desktop) {
-    return 'desktop';
-  }
-
-  return 'tablet';
-}
-
-function resolveInitialViewport(requestHeaders: Headers): SidebarViewport {
-  const widthHeader =
-    requestHeaders.get('sec-ch-viewport-width') ?? requestHeaders.get('viewport-width');
-
-  if (widthHeader) {
-    const parsedWidth = Number.parseInt(widthHeader, 10);
-    if (Number.isFinite(parsedWidth)) {
-      return resolveViewportFromWidth(parsedWidth);
-    }
-  }
-
-  const userAgent = requestHeaders.get('user-agent') ?? '';
-
-  if (/iPad|Tablet|Android(?!.*Mobile)/i.test(userAgent)) {
-    return 'tablet';
-  }
-
-  if (/Mobi|Android.+Mobile|iPhone|iPod|Windows Phone/i.test(userAgent)) {
-    return 'mobile';
-  }
-
-  return 'desktop';
-}
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const requestHeaders = await headers();
-  const cookieStore = await cookies();
-  const initialViewport = resolveInitialViewport(requestHeaders);
-  const initialExpanded = cookieStore.get(DOCS_SIDEBAR_EXPANDED_COOKIE)?.value === 'true';
-  const initialAppearance = resolveDocsAppearance(cookieStore.get(DOCS_APPEARANCE_COOKIE)?.value);
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      data-density={initialAppearance.density}
-      data-radius={initialAppearance.radius}
-      data-action-shape={initialAppearance.actionShape}
-      data-contrast={initialAppearance.contrast}
-      data-elevation={initialAppearance.elevation}
-      data-theme-mode={initialAppearance.mode}
+      data-density={DOCS_DEFAULT_APPEARANCE.density}
+      data-radius={DOCS_DEFAULT_APPEARANCE.radius}
+      data-action-shape={DOCS_DEFAULT_APPEARANCE.actionShape}
+      data-contrast={DOCS_DEFAULT_APPEARANCE.contrast}
+      data-elevation={DOCS_DEFAULT_APPEARANCE.elevation}
+      data-theme-mode={DOCS_DEFAULT_APPEARANCE.mode}
     >
       <head>
         <AppearanceScript
@@ -96,9 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           persistence="cookie"
           persistenceKey={DOCS_APPEARANCE_COOKIE}
         >
-          <ShellRouteLayout initialViewport={initialViewport} initialExpanded={initialExpanded}>
-            {children}
-          </ShellRouteLayout>
+          <ShellRouteLayout>{children}</ShellRouteLayout>
           <Toaster position="bottom-right" />
         </AppearanceProvider>
       </body>
