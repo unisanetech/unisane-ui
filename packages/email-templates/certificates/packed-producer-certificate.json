@@ -3,10 +3,11 @@
   "certificate": "@unisane/email-templates-packed-producer",
   "sourceIdentity": {
     "producerGit": {
-      "revision": "43ed52afff687fbf88ab6adc5bdcaafb1adb214c",
-      "repositoryTree": "d1baa5f0026955bd1df8237edbfc4fe4e7c4f150",
-      "packageTree": "34e48279f7e2b3da08b6681606789ac768e6aeb1",
+      "revision": "8a258c29672084c8a637c54bb1b19093397778a7",
+      "repositoryTree": "4445d26364fb647183a0b0d69a447c49c74a729d",
+      "packageTree": "6e2607f33bda082b726638f8aae4b557d5c31696",
       "certifiedPaths": [
+        "packages/email-templates/LICENSE",
         "packages/email-templates/README.md",
         "packages/email-templates/package.json",
         "packages/email-templates/src",
@@ -16,7 +17,7 @@
         "packages/email-templates/unisane.meta.json",
         "packages/email-templates/vitest.config.ts"
       ],
-      "inputDigest": "67b86d706fe6d89b1959f5e21ab482681afacc7c43dd90598d3a06185e10a135"
+      "inputDigest": "bbe0b77d975ab3f22028e8c8fc9e4b3e3372c60e44c5c5989209cc496d5432ad"
     },
     "consumerContract": {
       "authority": "standalone-target-owned",
@@ -24,20 +25,20 @@
     }
   },
   "reproducibleIdentity": {
-    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
     "consumerImportDigest": "56c1769f4960b6b2ef16cfd79227c8c1045bd6367d480da39bdd664a55ef0f1d",
-    "producerInputDigest": "67b86d706fe6d89b1959f5e21ab482681afacc7c43dd90598d3a06185e10a135",
-    "certificateInputDigest": "1d8e004785026e008d106e06ea6bcb958d6b93a3921d5eda26c31f94cbb0a417"
+    "producerInputDigest": "bbe0b77d975ab3f22028e8c8fc9e4b3e3372c60e44c5c5989209cc496d5432ad",
+    "certificateInputDigest": "fff8027de7512da5511b6e9d6eb3f9fb06bee371b9ff51afe27824050e2823a2"
   },
   "artifact": {
     "name": "@unisane/email-templates",
-    "version": "0.1.0",
-    "private": true,
-    "license": "UNLICENSED",
-    "bytes": 21392,
-    "fileCount": 71,
+    "version": "0.1.0-next.b67ebfd0",
+    "private": false,
+    "license": "MIT",
+    "bytes": 22156,
+    "fileCount": 72,
     "exportTargetCount": 3,
-    "ownedArchiveEntryCount": 71,
+    "ownedArchiveEntryCount": 72,
     "runtimeDependencies": [],
     "peerDependencies": [],
     "transitiveDependencies": [],
@@ -46,9 +47,9 @@
       "typescript": "Version 5.9.2",
       "tscAlias": "1.9.1"
     },
-    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
-    "runArtifactSha256": "d7fa98a2a2010e804743d815bfd92b332787b563537c48dc41135f63fda93a85",
-    "runArtifactIntegrity": "sha512-XoJhssdhsxM/TrRxSbffGAiwuQvtSjuOsmRa5j3EB1juGxSuvtpe2vmqF7XX4BOIHmSi31h1T4QWpCkzcd3T7g=="
+    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
+    "runArtifactSha256": "1fb051f7dd321572710acc3c3443192f017bfc5e0239fabacfcc4b7a39ad5ed1",
+    "runArtifactIntegrity": "sha512-lZXSHhAaiqZhm4pcS7n8mEkpZctujPkxT1/1685GuLHgXIo5d8AEe5Q4eg7u1/HhFefpw/EeJtn0G8Q4eqhzMw=="
   },
   "consumerImport": {
     "specifier": "@unisane/email-templates",
@@ -65,7 +66,7 @@
     "installMode": "offline-local-packed-archive",
     "installedArchiveContentExact": true,
     "sourceFallbacks": [],
-    "lockSha256": "38964e5cd5de243ba644ebbafdfee0c69ca98cf247ce050145a6848ae1f0472a",
+    "lockSha256": "98a8bab487b33770c7b2617c1e9fa65dc835980edf32935065f4b1000dbb0ea6",
     "declarationCompile": true,
     "runtimeRender": {
       "html": true,
@@ -78,8 +79,7 @@
   "unresolvedGates": [
     "authority-cutover",
     "consumer-conversion",
-    "legal",
-    "license",
+    "authenticated-publisher",
     "publication",
     "registry",
     "release",
@@ -87,8 +87,8 @@
   ],
   "authorityCutoverAuthorized": false,
   "consumerConversionAuthorized": false,
-  "legalApproved": false,
-  "licenseApproved": false,
+  "legalApproved": true,
+  "licenseApproved": true,
   "publicationAuthorized": false,
   "registryApproved": false,
   "releaseAuthorized": false,
