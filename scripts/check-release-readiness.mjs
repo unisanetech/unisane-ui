@@ -6,10 +6,10 @@ import path from 'node:path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const approvedVersion = '0.1.0-next.b67ebfd0';
-const canonicalCli = {
-  packageName: 'unisane',
-  version: '0.1.0',
-  repository: 'https://github.com/unisanetech/unisane-ops',
+const standaloneCli = {
+  packageName: '@unisane/ui-cli',
+  executable: 'unisane-ui',
+  invocation: 'pnpm dlx @unisane/ui-cli@next',
 };
 const publicPackages = [
   'packages/tokens/package.json',
@@ -97,8 +97,11 @@ if (!uiManifest?.files?.includes('registry')) {
 }
 
 const uiCliManifest = manifests.get('@unisane/ui-cli');
-if (uiCliManifest?.bin !== undefined) {
-  blockers.push('@unisane/ui-cli must not publish a second executable');
+if (
+  JSON.stringify(uiCliManifest?.bin) !==
+  JSON.stringify({ [standaloneCli.executable]: './dist/cli.js' })
+) {
+  blockers.push('@unisane/ui-cli must publish the exact standalone unisane-ui executable');
 }
 for (const forbiddenDependency of ['unisane', '@unisane/ui', '@unisane/tokens']) {
   if (
@@ -153,10 +156,9 @@ try {
     approval.release?.access !== 'public' ||
     approval.release?.provenanceRequired !== true ||
     registryDistribution?.model !== 'registry-first-dual-distribution' ||
-    registryDistribution?.canonicalCliPackage !== canonicalCli.packageName ||
-    registryDistribution?.canonicalCliVersion !== canonicalCli.version ||
-    registryDistribution?.canonicalCliRepository !== canonicalCli.repository ||
-    registryDistribution?.uiPackPackage !== '@unisane/ui-cli' ||
+    registryDistribution?.cliPackage !== standaloneCli.packageName ||
+    registryDistribution?.cliExecutable !== standaloneCli.executable ||
+    registryDistribution?.directInvocation !== standaloneCli.invocation ||
     registryDistribution?.consumerImportPrefix !== '@/components/ui' ||
     registryDistribution?.runtimeUiPackageRequired !== false
   ) {
@@ -187,5 +189,5 @@ console.log(
   `Registry-first release source readiness passed for ${approvedPackageNames.length} packages at ${approvedVersion}.`,
 );
 console.log(
-  `Publishing still requires public ${canonicalCli.packageName}@${canonicalCli.version} and authenticated provenance-enabled npm execution.`,
+  'Publishing still requires an authenticated @unisane owner and provenance-enabled npm execution.',
 );

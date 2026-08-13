@@ -23,8 +23,8 @@ The root `@unisane/ui` barrel, wildcard modules, category-deep modules such as `
 External projects own installed source and local CSS. Initialize once, then add only the components the project needs:
 
 ```bash
-unisane ui init --theme blue
-unisane ui add button dialog data-table
+pnpm dlx @unisane/ui-cli@next init --theme blue
+pnpm dlx @unisane/ui-cli@next add button dialog data-table
 ```
 
 ```tsx
@@ -38,13 +38,13 @@ Installed files contain no Unisane runtime import. `data-table` installs as one 
 Color selection remains replace-in-place project configuration:
 
 ```bash
-unisane ui theme green
+pnpm dlx @unisane/ui-cli@next theme green
 ```
 
 This changes only the managed semantic theme region in local `globals.css`, creates a backup, and preserves app-owned CSS. Runtime mode, density, contrast, radius, action shape, and elevation remain optional capabilities that can be enabled later without introducing another theme layer:
 
 ```bash
-unisane ui appearance enable --axes mode,density,contrast --persistence localStorage
+pnpm dlx @unisane/ui-cli@next appearance enable --axes mode,density,contrast --persistence localStorage
 ```
 
 `Ripple`, focus/state layers, overlay helpers, navigation helpers, and action-control helpers are private support. Installers resolve them transitively; application code does not import them as public components.
@@ -410,7 +410,7 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
 }
 ```
 
-Project color themes are no longer provider state. Select or replace them through generated semantic CSS (`unisane ui init --theme <name>` or `unisane ui theme <name>`). Remove application-root `data-color-theme` and `data-scheme` attributes and any code that mutates them.
+Project color themes are no longer provider state. Select or replace them through generated semantic CSS (`unisane-ui init --theme <name>` or `unisane-ui theme <name>`). Remove application-root `data-color-theme` and `data-scheme` attributes and any code that mutates them.
 
 Old stored theme objects are intentionally not migrated. Use a new appearance persistence key so retired color/scheme fields cannot survive the cut.
 

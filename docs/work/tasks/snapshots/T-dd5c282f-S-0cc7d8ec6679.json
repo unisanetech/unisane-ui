@@ -1,0 +1,68 @@
+{
+  "snapshotId": "S-0cc7d8ec6679",
+  "taskId": "T-dd5c282f",
+  "sessionId": "ui-release-local",
+  "actorId": "codex",
+  "baseRevision": "7762791f7f347e1f6a4427d0c8cb0f2365c1e8ed",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-prerelease.yml",
+      "digest": "989a974f200b11f0bfecdbc027aa7a1ab44bb4604db322ddd7f523949a7eac73"
+    },
+    {
+      "path": "MIGRATION.md",
+      "digest": "85a207aff4a56a6b579d919651d613adade84bfdf712b7bd9707b16cb6ae9ba8"
+    },
+    {
+      "path": "README.md",
+      "digest": "92e73885975a22a4bda890199bac53f0bab9376f69b31d1d6135c6f40b8113c7"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "digest": "7b170009c8679e99bcc2f098f65cb6fe8f780eb3e12431539e5910bab66a5568"
+    },
+    {
+      "path": "apps/docs/app",
+      "digest": "3ef22f9384e079c9b16a03e19b18b0c5f28be93d66b01a5800ec2680c240d96c"
+    },
+    {
+      "path": "docs/architecture/design-system.md",
+      "digest": "fb4e30e0a01ee33393b7947ae246b5490c91bed9d8da0a0cdef79fab5b687057"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "digest": "6eeec1a409c161cfbcd7136b4eacfc2a3ef3fdbddadea28505e81c00337a0622"
+    },
+    {
+      "path": "docs/overview.md",
+      "digest": "032a5752b827c355e3869fc3c6fca0e76f9879b91da46b36e0d56f180d622351"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "8c8bccca9f8224a0eb8d7e9c18b24d12f24c697bb5ea372880d3705fe5f54d6a"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "c7ef6f5ccfa78619b9fc02806424f1d579aa920fdea3221f07066b6e587eff50"
+    },
+    {
+      "path": "packages/ui-cli",
+      "digest": "32bddac9fc77558a75678580977c662ebd8ed724491b9726cbefa0253f0e31cd"
+    },
+    {
+      "path": "scripts/check-package-contents.mjs",
+      "digest": "9acf0770bb88a795635b3859b3d503c4dae6a9b3b5f7016c5e50373e8ad8c881"
+    },
+    {
+      "path": "scripts/check-release-readiness.mjs",
+      "digest": "a4c848e0d4bae04a30ce7bd61dddcbad8c986d07d52191f67b87268576f44da9"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "026abfd45108a1e1ea4092b121cf05112da88017d73fb1d1f7919a0641315f96"
+    }
+  ],
+  "digest": "0cc7d8ec6679eac4f4586586e6425425d7b4c64c0cd67ff6b397d91a7c37bb4e",
+  "createdAt": "2026-08-13T13:00:02.136Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-dd5c282f-S-0cc7d8ec6679.json"
+}

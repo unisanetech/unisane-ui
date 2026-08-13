@@ -36,11 +36,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Require the compatible canonical CLI host
-        run: |
-          test "$(npm view unisane@0.1.0 version)" = "0.1.0"
-          npm view unisane@0.1.0 repository.url | grep -F "github.com/unisanetech/unisane-ops"
-
       - name: Verify public release boundary
         run: |
           pnpm check:boundaries

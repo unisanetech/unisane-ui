@@ -26,11 +26,18 @@ interface UiCommandEnvironment {
   cwd: string;
 }
 
+interface UiCommandRegistration {
+  root?: boolean;
+}
+
 export function registerUiCommands(
   program: Command,
   environment: UiCommandEnvironment = { cwd: process.cwd() },
+  registration: UiCommandRegistration = {},
 ): void {
-  const ui = program.command('ui').description('UI component management (shadcn-style)');
+  const ui = registration.root
+    ? program.description('Install and manage application-owned Unisane UI source')
+    : program.command('ui').description('UI component management (shadcn-style)');
 
   ui.command('init')
     .description('Initialize Unisane UI in your project')

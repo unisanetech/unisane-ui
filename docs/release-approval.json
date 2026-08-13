@@ -22,17 +22,15 @@
   },
   "registryDistribution": {
     "model": "registry-first-dual-distribution",
-    "canonicalCliPackage": "unisane",
-    "canonicalCliVersion": "0.1.0",
-    "canonicalCliRepository": "https://github.com/unisanetech/unisane-ops",
-    "uiPackPackage": "@unisane/ui-cli",
+    "cliPackage": "@unisane/ui-cli",
+    "cliExecutable": "unisane-ui",
+    "directInvocation": "pnpm dlx @unisane/ui-cli@next",
     "consumerImportPrefix": "@/components/ui",
     "runtimeUiPackageRequired": false
   },
   "excludedPackages": ["@unisane/ui-docs"],
   "constraints": [
     "Third-party code and assets retain their original licenses and notices.",
-    "Publishing requires the exact compatible canonical unisane CLI host to already be public.",
     "Publishing requires an authenticated @unisane npm publisher and a successful provenance-enabled transaction.",
     "This approval does not create a Git remote or authorize repository authority cutover."
   ]

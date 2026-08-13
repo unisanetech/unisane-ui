@@ -132,7 +132,7 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
 
   log.newline();
   log.success('Unisane UI initialized');
-  log.dim('Add components: unisane ui add button');
-  log.dim('Change theme later: unisane ui theme green');
+  log.dim('Add components: unisane-ui add button');
+  log.dim('Change theme later: unisane-ui theme green');
   return 0;
 }

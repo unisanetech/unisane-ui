@@ -12,7 +12,7 @@ export default function GettingStartedPage() {
         <QuickLinkCard
           icon="download"
           title="Installation"
-          description="Install the canonical CLI and initialize the UI registry."
+          description="Run the UI registry CLI and initialize your project."
           href="/docs/getting-started/installation"
         />
         <QuickLinkCard

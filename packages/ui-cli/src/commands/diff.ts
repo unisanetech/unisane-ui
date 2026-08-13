@@ -60,7 +60,7 @@ export async function uiDiff(options: UiDiffOptions = {}): Promise<number> {
 
   if (componentsToCheck.length === 0) {
     log.warn('No components found to check');
-    log.dim('Run: unisane ui add <component>');
+    log.dim('Run: unisane-ui add <component>');
     return 0;
   }
 
@@ -111,8 +111,8 @@ export async function uiDiff(options: UiDiffOptions = {}): Promise<number> {
     log.success(`All ${upToDate} component(s) are up to date!`);
   } else {
     log.info('To update components:');
-    log.dim('  unisane ui add <component> --overwrite');
-    log.dim('  unisane ui add --all --overwrite');
+    log.dim('  unisane-ui add <component> --overwrite');
+    log.dim('  unisane-ui add --all --overwrite');
   }
 
   return 0;

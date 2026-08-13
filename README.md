@@ -8,22 +8,20 @@ dependency. The registry is designed for forms, navigation, workflows, applicati
 shells, and dense operational interfaces.
 
 > The public source repository is ready. The first npm prerelease remains unpublished
-> until the compatible canonical `unisane` CLI host is available and the manual
-> provenance-enabled release workflow succeeds.
+> until the manual provenance-enabled release workflow succeeds.
 
 ## Quick start
 
-Install the one canonical CLI host and the UI-owned registry pack:
+Run the UI-owned registry CLI directly:
 
 ```bash
-pnpm add -D unisane@0.1.0 @unisane/ui-cli@next
+pnpm dlx @unisane/ui-cli@next init --theme blue
 ```
 
-Initialize the generated semantic theme and add components:
+Then add the components you need:
 
 ```bash
-pnpm exec unisane ui init --theme blue
-pnpm exec unisane ui add button card text-field
+pnpm dlx @unisane/ui-cli@next add button card text-field
 ```
 
 The installed files belong to your application:
@@ -41,7 +39,7 @@ export function SavePanel() {
 }
 ```
 
-Use `pnpm exec unisane ui diff` to inspect upstream changes. Updates never silently
+Use `pnpm dlx @unisane/ui-cli@next diff` to inspect upstream changes. Updates never silently
 overwrite application-owned source.
 
 ## Why a registry?
@@ -63,15 +61,14 @@ for boundaries that benefit from shared versioned artifacts.
 
 | Package                    | Role                                                                  |
 | -------------------------- | --------------------------------------------------------------------- |
-| `@unisane/ui-cli`          | Primary open-code registry pack for the canonical `unisane` CLI       |
+| `@unisane/ui-cli`          | Primary open-code registry CLI                                        |
 | `@unisane/ui`              | Optional runtime component distribution and registry parity reference |
 | `@unisane/tokens`          | Optional semantic token and generated CSS distribution                |
 | `@unisane/data-table`      | Versioned DataTable runtime for complex data experiences              |
 | `@unisane/email-templates` | Independent provider-neutral email presentation package               |
 
-`@unisane/ui-cli` does not publish another executable. The `unisane` host validates and
-loads the explicitly installed first-party pack, while generated applications do not
-depend on either CLI package at runtime.
+`@unisane/ui-cli` publishes the `unisane-ui` executable and can be run directly with
+`pnpm dlx`. Generated applications do not depend on the CLI or runtime packages.
 
 ## Requirements
 

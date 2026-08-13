@@ -1,7 +1,7 @@
 {
   "name": "@unisane/ui-cli",
   "version": "0.1.0-next.b67ebfd0",
-  "description": "Open-code React component registry pack for the canonical Unisane CLI",
+  "description": "Standalone open-code React component registry CLI",
   "private": false,
   "license": "MIT",
   "repository": {
@@ -26,6 +26,9 @@
   "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "unisane-ui": "./dist/cli.js"
+  },
   "files": [
     "dist",
     "pack.manifest.json",

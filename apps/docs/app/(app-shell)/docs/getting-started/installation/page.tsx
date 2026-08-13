@@ -48,41 +48,30 @@ export default function InstallationPage() {
       <DocSection
         id="automatic"
         title="Registry Installation"
-        description="Use the one canonical Unisane CLI and the UI-owned registry pack to install source into your application."
+        description="Run the UI-owned registry CLI to install source into your application."
       >
         <div className="space-y-8">
           <div className="space-y-4">
-            <StepHeader number={1} title="Install registry tooling" />
+            <StepHeader number={1} title="Initialize the registry" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Install the canonical CLI host and the UI registry pack as development tools. They
-              write application source and are not required by your production runtime.
+              Run the registry CLI directly. It writes application source and is not required by
+              your production runtime.
             </Typography>
-            <CliCommand command="pnpm add -D unisane@0.1.0 @unisane/ui-cli@next" />
+            <CliCommand command="pnpm dlx @unisane/ui-cli@next init --theme blue" />
           </div>
 
           <div className="space-y-4">
-            <StepHeader number={2} title="Initialize Unisane UI" />
+            <StepHeader number={2} title="Add components" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Run the init command to install the complete generated baseline in your global
-              stylesheet and add the local utility used by components. Choose a project color theme
-              now or replace it later.
+              Add the components you need. Their complete dependency closure is written into your
+              application.
             </Typography>
-            <CliCommand command="pnpm exec unisane ui init --theme blue" />
-          </div>
-
-          {/* Step 2: Add Components */}
-          <div className="space-y-4">
-            <StepHeader number={3} title="Add components" />
-            <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
-              Add the components you need to your project. You can add them one at a time or all at
-              once.
-            </Typography>
-            <CliCommand command="pnpm exec unisane ui add button card" />
+            <CliCommand command="pnpm dlx @unisane/ui-cli@next add button card" />
           </div>
 
           {/* Step 3: Import and Use */}
           <div className="space-y-4">
-            <StepHeader number={4} title="Import and use" />
+            <StepHeader number={3} title="Import and use" />
             <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
               Import the components from your components directory and start building.
             </Typography>

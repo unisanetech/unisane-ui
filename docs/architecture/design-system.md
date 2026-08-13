@@ -30,10 +30,10 @@ packages/ui/src/** (one authoring source)
           +--> compiled runtime --> @unisane/ui (optional package distribution)
 ```
 
-- `@unisane/ui-cli` is the primary adopter-tooling pack. It bundles the generated
-  registry and contributes `ui ...` commands to the one canonical `unisane` executable.
+- `@unisane/ui-cli` is the primary adopter-tooling package. It bundles the generated
+  registry and publishes the standalone `unisane-ui` executable.
 - Registry consumers import local `@/components/ui/*` files and do not require
-  `@unisane/ui`, `@unisane/tokens`, or either CLI package at application runtime.
+  `@unisane/ui`, `@unisane/tokens`, or the CLI package at application runtime.
 - The `@unisane/ui` runtime package is an optional distribution and parity reference,
   not the primary public example path.
 - Registry files are generated from `packages/ui/src/**`; they are never a second

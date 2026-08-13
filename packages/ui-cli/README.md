@@ -1,26 +1,24 @@
 # @unisane/ui-cli
 
-The open-code Unisane UI registry pack for the canonical `unisane` CLI.
+The open-code Unisane UI registry CLI.
 
 This package owns the primary Unisane UI adoption experience. It bundles generated,
-dependency-closed component source and contributes the exact `ui ...` command family to
-the separately installed `unisane` host. It intentionally publishes no executable of its
-own.
+dependency-closed component source and publishes the `unisane-ui` executable. It does
+not depend on an unscoped CLI host or any Unisane runtime package.
 
 ## Installation
 
 ```bash
-pnpm add -D unisane@0.1.0 @unisane/ui-cli@next
+pnpm dlx @unisane/ui-cli@next init --theme blue
 ```
 
-The host only loads this explicitly installed first-party pack after validating its
-package identity, version, structural manifest, command selection, and integrity.
+For repeated use, install it as a development tool and run `pnpm exec unisane-ui`.
 
 ## Add Unisane UI
 
 ```bash
-pnpm exec unisane ui init --theme blue
-pnpm exec unisane ui add button card text-field
+pnpm dlx @unisane/ui-cli@next init --theme blue
+pnpm dlx @unisane/ui-cli@next add button card text-field
 ```
 
 Installed components use application-owned imports:
@@ -30,21 +28,21 @@ import { Button } from '@/components/ui/button';
 ```
 
 Registry-installed applications do not require `@unisane/ui`, `@unisane/tokens`,
-`@unisane/ui-cli`, or `unisane` at runtime. The CLI tools may remain development
-dependencies for explicit update and diagnostic commands.
+`@unisane/ui-cli` at runtime. The CLI may remain a development dependency for explicit
+update and diagnostic commands.
 
 ## Commands
 
 | Command                         | Purpose                                                                           |
 | ------------------------------- | --------------------------------------------------------------------------------- |
-| `unisane ui init`               | Install the semantic stylesheet baseline, theme, local utility, and configuration |
-| `unisane ui add`                | Add selected components and their complete registry dependency closure            |
-| `unisane ui diff`               | Inspect differences without overwriting application source                        |
-| `unisane ui doctor`             | Check the local installation contract                                             |
-| `unisane ui theme`              | Replace the generated semantic color theme                                        |
-| `unisane ui appearance enable`  | Add selected runtime appearance preferences                                       |
-| `unisane ui appearance disable` | Remove one runtime appearance preference                                          |
-| `unisane ui appearance list`    | Show enabled appearance preferences                                               |
+| `unisane-ui init`               | Install the semantic stylesheet baseline, theme, local utility, and configuration |
+| `unisane-ui add`                | Add selected components and their complete registry dependency closure            |
+| `unisane-ui diff`               | Inspect differences without overwriting application source                        |
+| `unisane-ui doctor`             | Check the local installation contract                                             |
+| `unisane-ui theme`              | Replace the generated semantic color theme                                        |
+| `unisane-ui appearance enable`  | Add selected runtime appearance preferences                                       |
+| `unisane-ui appearance disable` | Remove one runtime appearance preference                                          |
+| `unisane-ui appearance list`    | Show enabled appearance preferences                                               |
 
 The registry is generated from the canonical `packages/ui/src/**` authoring source and
 copied into this package during build. Runtime commands use only the bundled assets;

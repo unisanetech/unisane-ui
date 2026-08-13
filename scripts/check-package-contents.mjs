@@ -82,6 +82,16 @@ for (const packageCase of packageCases) {
     }
   }
 
+  const binaries =
+    typeof manifest.bin === 'string'
+      ? [manifest.bin]
+      : manifest.bin && typeof manifest.bin === 'object'
+        ? Object.values(manifest.bin)
+        : [];
+  for (const binary of binaries) {
+    if (typeof binary === 'string') requiredTargets.push(binary.replace(/^\.\//, ''));
+  }
+
   const missingTargets = [...new Set(requiredTargets)].filter((path) => !packedFiles.has(path));
 
   if (unexpected.length > 0 || forbidden.length > 0 || missingTargets.length > 0) {

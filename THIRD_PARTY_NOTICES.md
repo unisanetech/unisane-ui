@@ -25,8 +25,7 @@ license. Package distributions do not relicense those dependencies.
 
 `@unisane/tokens`, `@unisane/ui`, `@unisane/ui-cli`, `@unisane/data-table`, and
 `@unisane/email-templates` are Unisane packages covered by this repository's MIT
-License. The separately distributed canonical `unisane` CLI host retains its own source
-and license authority.
+License.
 
 ## Documentation-only assets and tooling
 

@@ -2,13 +2,12 @@
   "schemaVersion": 1,
   "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 995,
+  "fileCount": 996,
   "dispositionCounts": {
-    "retain": 879,
+    "retain": 880,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
-    "compatible canonical unisane CLI host published from unisanetech/unisane-ops",
     "authenticated npm publisher and completed provenance-enabled publish transaction",
     "protected branch governance and recovery identities"
   ],
@@ -42,7 +41,7 @@
       "path": ".github/workflows/publish-prerelease.yml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "9a4e3a344d4728e575e42ada2674d248178f929343b8659ab1fd2f3e04d9d6ff"
+      "sha256": "301a3ef948c29e61ab23e6b1fc3bf998373f5221f35b8ac731398b57c09d3fff"
     },
     {
       "path": ".gitignore",
@@ -318,19 +317,19 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/installation/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "cb3cd939608f5862bace619163e554bab8f2160267a11fad6f66875f19531ee1"
+      "sha256": "3d8f938b762ab37c3890ccb06759bda20045f5817cf130a926a9ad9ecd269ac6"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "1e61f5f0b38e094eac258643a7fde5adad3cbbda5df6f54e558e3de5b7397ea3"
+      "sha256": "f8ac758645a9ccbc19b81b889231c1a334c964a93c03ce119a3810a6eff892cf"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/quick-start/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "d20aba59c4087e5c6490c48c05498004f3e8327e782f80c074494868c430e819"
+      "sha256": "4b5bf58f0808f65f7ceae14a3eee8be66eaf902b7b4d1f31a3a793a09b94d677"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/styling/page.tsx",
@@ -342,7 +341,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/theming/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "76770a6e4d007a3fff5c7e3e3216e123e6dcd1e172cd58bbcb5a6fc85e4dcb9e"
+      "sha256": "3e74d891a0261febb93b90012e41a6a58b205c0042f025c879c3000fe299b4a8"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/layout.tsx",
@@ -2172,7 +2171,7 @@
       "path": "docs/architecture/design-system.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "5514e466d024ddb763a39a273a92ea66e3e53b0eefb74ab5877680be0eda4f32"
+      "sha256": "36e2c742cae55349a5b6a5bf24c5fb999c5147a9132412321a31623b80fe77ba"
     },
     {
       "path": "docs/asset-provenance.json",
@@ -2190,7 +2189,7 @@
       "path": "docs/guides/licensing-prerequisites.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "2a31389f07889dca9a5407ce33272bcd6ef86eee60309c03fe9789a5a32a2f21"
+      "sha256": "44f03e2a546096139aa67fa7e4d3825e3cb7a6a0036ad339df936b8d1198e017"
     },
     {
       "path": "docs/guides/repository-provenance.md",
@@ -2202,7 +2201,7 @@
       "path": "docs/overview.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "83eed1ba26298ee7de5ddd5043ca97f285a567f821e06e5a616383942733a244"
+      "sha256": "b9bddb04218a612f325c5f24dfbab6acc939d9b21b10d7c7b18533d448c992b4"
     },
     {
       "path": "docs/reference/generated/repository-foundation-receipt.json",
@@ -2220,7 +2219,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "528c83950e68354fabef2355a1f052c4abfdaa02531df23e5c68a7489361ffe0"
+      "sha256": "9396900a5a42999ed11af2780ad8d1275403bb8f115ed06f369b5bf058cc37b4"
     },
     {
       "path": "docs/repository-history-map.txt",
@@ -2256,7 +2255,7 @@
       "path": "MIGRATION.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "6f5613092effd970321ac5857d2a73cf36c8556d4e6960663a307d7d420ede10"
+      "sha256": "dcf7fab5b812eb3cf932883af1446c668a1f38c7e7fefa0c90d8df0d52578347"
     },
     {
       "path": "NOTICE",
@@ -3960,13 +3959,13 @@
       "path": "packages/ui-cli/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "e8bc5c559351b6f34e6fcd115d8c470260a83fd8bf764121642d6032ad0abe30"
+      "sha256": "0f7ccad9d007fac0f8e62c10f3745976a8b667c182b4bc780e3f9912d4348be1"
     },
     {
       "path": "packages/ui-cli/README.md",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "a506598d7b150e65a9fda5bcef85e4462f63cb76012db0f5ddc47927b21c3dfb"
+      "sha256": "02933c8cf2b8dfaeb65cce6bf7eb14088bce91a83472f632b4341c64c185fae8"
     },
     {
       "path": "packages/ui-cli/scripts/copy-registry.mjs",
@@ -3979,6 +3978,12 @@
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
       "sha256": "bb6799c85749c73e69123a0057e7b0f241dc87f16ee02c16da853fa7b4bc93ee"
+    },
+    {
+      "path": "packages/ui-cli/src/cli.ts",
+      "disposition": "retain",
+      "owner": "@unisane/ui-cli",
+      "sha256": "5e066f96432b4f5132a2fdb95d4c545e2141d3e45eabaf4152fafc02c607e2ad"
     },
     {
       "path": "packages/ui-cli/src/commands/add-helpers.ts",
@@ -3996,7 +4001,7 @@
       "path": "packages/ui-cli/src/commands/add.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "6b6356e932efd9ab3398aad17e787d40b142a620351a76030477a287ed42f0c6"
+      "sha256": "87df8ce8721c6ac98c3d0113eddc944f6f261605c5ab1b5fe800862f2a173359"
     },
     {
       "path": "packages/ui-cli/src/commands/appearance.ts",
@@ -4008,37 +4013,37 @@
       "path": "packages/ui-cli/src/commands/diff.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "0719989c2f4ca63af7999288cc3695377c232ac2cc7791f4e5d3b16b7e25469c"
+      "sha256": "5fad1379c44f5efa35f1404f682cb7ce68e990f37cf40b560f40622743b358ac"
     },
     {
       "path": "packages/ui-cli/src/commands/doctor.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "3897bd270c02e3b3c3df9a0887ed00ec7c6813eb90b57d7e842013c9a083a7ad"
+      "sha256": "2026bb231796a152fa9b451d2275376817d34b53fb2741a93e53913e8d812a82"
     },
     {
       "path": "packages/ui-cli/src/commands/index.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "d9cb646617ae7711b4a0790a6439ec2dfbbb7139f29b3387aa87e9997cffd29a"
+      "sha256": "ad35aca9d851ba16114b6223f985e1e20ea7c822bc52ddbb7baf47a80db106fc"
     },
     {
       "path": "packages/ui-cli/src/commands/init.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "4f67a760d7f8cc7645f07384d93e8ea9edf26d77a4a892ba724f0ac1e99d1c71"
+      "sha256": "e48eb795fcbb7864718386bf1071d6c87f2077b0d428161514e25be8662bbdfc"
     },
     {
       "path": "packages/ui-cli/src/commands/register.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "67e950fa5e6fb5cce2c3e9c63afe8923fe78b08c25c26ac5319808ba0a0a9fbb"
+      "sha256": "f5f9235d24620c8aaf272453a3ee9424702bbb8007a480f396f871765c2b9ddb"
     },
     {
       "path": "packages/ui-cli/src/commands/theme.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "f33c94c7e4a0df8061dce7e7c32b60f4b1403ca945f6aadfdf71f2c1c8bb566b"
+      "sha256": "3f6bb5d6babb57eadc7a44d8b5bfee72e301d27e3b80ecace8b3d95f27ce6ea2"
     },
     {
       "path": "packages/ui-cli/src/commands/ui-config.ts",
@@ -4080,7 +4085,7 @@
       "path": "packages/ui-cli/tests/handler.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "a726c4265912cd329cc85e28e28bf068412560f848e6ecd104d453d0f2aebd84"
+      "sha256": "75d3119123f1801a9335f8c9c48bd23414e649d321b0f2c272109252eba8836e"
     },
     {
       "path": "packages/ui-cli/tests/theme.test.ts",
@@ -5856,7 +5861,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "cb6201ddd01d685609875b2263f507f18ba0f73514441e515da36f5604f38e6c"
+      "sha256": "611e279e6030de3d484bb64ea79dfeb27db24b2587cdb6d59142dfcc2a230fa0"
     },
     {
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
@@ -5874,7 +5879,7 @@
       "path": "scripts/check-package-contents.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "8532a8036d8b49118c43c9d6d3941bdd5e2aa9dc3cdcec8fbbc6b03743188d94"
+      "sha256": "6354aa9b9568d76d4deaedb57ae2a7286c719419a879e43f126132e904155c01"
     },
     {
       "path": "scripts/check-public-utility-ownership.mjs",
@@ -5886,13 +5891,13 @@
       "path": "scripts/check-release-readiness.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "a353eaeaa8475c6f781ddeebc251262806335bbc285481617c4b4c9ca480cca4"
+      "sha256": "145d42839431242a83aff5f691ff7e0837b5189f85acaa4970acb5fbbc5e1069"
     },
     {
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "aba5b1faf3cc35cf9f7de503d3e4de78a5d8530ec1f7ab47d6f268ef2cf4d7d3"
+      "sha256": "e21fd05c23a501b62f028887e5707363b57200ecd99cd9c889002eb2ffe41489"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5940,7 +5945,7 @@
       "path": "THIRD_PARTY_NOTICES.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "044b1815369d20aabbf28e418ae72ee8e737241bd0af06389d57081a3809d469"
+      "sha256": "48861f05aea37159fcada99d369ea5bb0ea279bffdfac97f97f2cab28c60f0ce"
     },
     {
       "path": "tools/skopos/scopes.yaml",

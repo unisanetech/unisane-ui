@@ -159,7 +159,7 @@ export async function uiDoctor(options: UiDoctorOptions = {}): Promise<number> {
         name: 'CSS Baseline',
         status: 'fail',
         message: 'globals.css is missing the complete managed baseline',
-        fix: 'unisane ui init --force',
+        fix: 'unisane-ui init --force',
       });
     }
   } else {
@@ -204,7 +204,7 @@ export async function uiDoctor(options: UiDoctorOptions = {}): Promise<number> {
       name: 'Utils',
       status: 'fail',
       message: 'lib/utils.ts not found',
-      fix: 'unisane ui init',
+      fix: 'unisane-ui init',
     });
   }
 
@@ -216,7 +216,7 @@ export async function uiDoctor(options: UiDoctorOptions = {}): Promise<number> {
         name: 'UI Configuration',
         status: 'warn',
         message: `${UI_CONFIG_FILENAME} not found`,
-        fix: 'unisane ui init',
+        fix: 'unisane-ui init',
       });
     } else if (uiConfig.appearance.enabledAxes.length === 0) {
       results.push({
@@ -232,7 +232,7 @@ export async function uiDoctor(options: UiDoctorOptions = {}): Promise<number> {
         message: `Appearance axes: ${uiConfig.appearance.enabledAxes.join(', ')}`,
         fix: existsSync(providerPath)
           ? undefined
-          : `unisane ui appearance enable --axes ${uiConfig.appearance.enabledAxes.join(',')}`,
+          : `unisane-ui appearance enable --axes ${uiConfig.appearance.enabledAxes.join(',')}`,
       });
     }
   } catch (error) {
@@ -269,7 +269,7 @@ export async function uiDoctor(options: UiDoctorOptions = {}): Promise<number> {
 
   if (failCount > 0) {
     log.newline();
-    log.info('Run "unisane ui init" to fix most issues');
+    log.info('Run "unisane-ui init" to fix most issues');
     return 1;
   }
 

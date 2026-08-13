@@ -205,8 +205,11 @@ for (const packagePath of publicPackagePaths) {
 }
 
 const uiCliManifest = publicManifests.get('@unisane/ui-cli');
-if (uiCliManifest?.bin !== undefined) {
-  recordViolation('packages/ui-cli/package.json', 'UI registry pack must not publish a binary');
+if (uiCliManifest?.bin?.['unisane-ui'] !== './dist/cli.js') {
+  recordViolation(
+    'packages/ui-cli/package.json',
+    'UI registry pack must publish the exact standalone unisane-ui binary',
+  );
 }
 if (!uiCliManifest?.files?.includes('LICENSE')) {
   recordViolation('packages/ui-cli/package.json', 'UI registry pack must publish its MIT license');
@@ -249,7 +252,6 @@ const report = {
   fileCount: records.length,
   dispositionCounts,
   unresolvedReleaseBlockers: [
-    'compatible canonical unisane CLI host published from unisanetech/unisane-ops',
     'authenticated npm publisher and completed provenance-enabled publish transaction',
     'protected branch governance and recovery identities',
   ],

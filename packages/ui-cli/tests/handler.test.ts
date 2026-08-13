@@ -1,7 +1,9 @@
 import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
+import { Command } from 'commander';
 import { afterEach, describe, expect, it } from 'vitest';
+import { registerUiCommands } from '../src/commands/register.js';
 import { runUiCommand } from '../src/handlers/ui.js';
 import type { UiPackCommandDescriptor } from '../src/pack-contract.js';
 
@@ -29,6 +31,21 @@ function command(id: string): UiPackCommandDescriptor {
 }
 
 describe('UI pack handler', () => {
+  it('registers the standalone executable commands directly at the root', () => {
+    const program = new Command().name('unisane-ui');
+
+    registerUiCommands(program, { cwd: process.cwd() }, { root: true });
+
+    expect(program.commands.map((candidate) => candidate.name())).toEqual([
+      'init',
+      'add',
+      'diff',
+      'doctor',
+      'theme',
+      'appearance',
+    ]);
+  });
+
   it('returns one structured JSON-safe result for an exact read command', async () => {
     const cwd = await mkdtemp(path.join(os.tmpdir(), 'unisane-ui-handler-list-'));
     temporaryDirectories.push(cwd);

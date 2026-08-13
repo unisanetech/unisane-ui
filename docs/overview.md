@@ -13,8 +13,8 @@ view: current
 
 Unisane UI is an open-code, registry-first React 19 design-system product. Its primary
 adoption path installs token-driven components into the consumer's own application
-source through the UI-owned `@unisane/ui-cli` pack and the one canonical `unisane`
-executable. Consumers own and adapt that installed source; public examples import
+source through the UI-owned `@unisane/ui-cli` executable. Consumers own and adapt that
+installed source; public examples import
 `@/components/ui/*` and do not require `@unisane/ui` or `@unisane/tokens` at runtime.
 
 Dual distribution remains deliberate. `@unisane/ui` is an optional runtime component
@@ -35,7 +35,6 @@ and validated against it rather than maintained as a second implementation.
 
 The standalone public source authority is
 `https://github.com/unisanetech/unisane-ui`, with `main` as its canonical branch. The
-UI prerelease cannot run until the compatible public `unisane` host exists, and its
-workflow must complete authenticated npm provenance checks without changing the
-registry-first runtime contract. Public package publication remains a separate explicit
-transaction.
+UI prerelease workflow must complete authenticated npm provenance checks without
+changing the registry-first runtime contract. Public package publication remains a
+separate explicit transaction.
