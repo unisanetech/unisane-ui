@@ -96,6 +96,7 @@ export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   '--offline',
   '--ignore-workspace',
   '--config.shared-workspace-lockfile=false',
+  `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
 ]);
 const packedTarballLocator =
   /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.tgz/gu;

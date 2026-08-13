@@ -3,10 +3,11 @@
   "certificate": "@unisane/email-templates-packed-producer",
   "sourceIdentity": {
     "producerGit": {
-      "revision": "ac225eab307850a2dc4edbf45217f12a1e0e90f8",
-      "repositoryTree": "75702bdb9841d5210e4cfdcb44427fd41cddb668",
-      "packageTree": "0f7ce206beaec85e1e34aad20189a01212f4ff55",
+      "revision": "745ee016d7e611943d615ffb11ca90fc7f88fd87",
+      "repositoryTree": "d9b75a0a315844e14f6358ab30e786ac282665bd",
+      "packageTree": "a5991531bce64c59e320f3be0dcef666ee960e0e",
       "certifiedPaths": [
+        "unisane-ui/packages/email-templates/LICENSE",
         "unisane-ui/packages/email-templates/README.md",
         "unisane-ui/packages/email-templates/package.json",
         "unisane-ui/packages/email-templates/src",
@@ -16,7 +17,7 @@
         "unisane-ui/packages/email-templates/unisane.meta.json",
         "unisane-ui/packages/email-templates/vitest.config.ts"
       ],
-      "inputDigest": "d263ad6f3a4ade12f0095dc374bebeab97f1a6be05a3c2d881b55f86c04bfe73"
+      "inputDigest": "43ac42512394116a86c368637ad94f896a74574610ddbdedfca992ea8115a155"
     },
     "consumerGit": {
       "revision": "57d485e0be2739e71646f263845541adf09c566c",
@@ -25,20 +26,20 @@
     }
   },
   "reproducibleIdentity": {
-    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
+    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
     "consumerImportDigest": "56c1769f4960b6b2ef16cfd79227c8c1045bd6367d480da39bdd664a55ef0f1d",
-    "producerInputDigest": "d263ad6f3a4ade12f0095dc374bebeab97f1a6be05a3c2d881b55f86c04bfe73",
-    "certificateInputDigest": "e88d186850e4aa815cf8bbc8706250423a408fe5448f151bf4502eaeab289eb4"
+    "producerInputDigest": "43ac42512394116a86c368637ad94f896a74574610ddbdedfca992ea8115a155",
+    "certificateInputDigest": "f95a943e8c116c9fe8e135bfc83a1730ab6fcaeb41bcb6a0097c043bccf1e54c"
   },
   "artifact": {
     "name": "@unisane/email-templates",
-    "version": "0.1.0",
-    "private": true,
-    "license": "UNLICENSED",
-    "bytes": 21392,
-    "fileCount": 71,
+    "version": "0.1.0-next.b67ebfd0",
+    "private": false,
+    "license": "MIT",
+    "bytes": 22156,
+    "fileCount": 72,
     "exportTargetCount": 3,
-    "ownedArchiveEntryCount": 71,
+    "ownedArchiveEntryCount": 72,
     "runtimeDependencies": [],
     "peerDependencies": [],
     "transitiveDependencies": [],
@@ -47,9 +48,9 @@
       "typescript": "Version 5.9.2",
       "tscAlias": "1.8.16"
     },
-    "archiveContentDigest": "3e3d4f4640ff1d2eb72ee6e70a1f9ad68a179fa1b6b6d8191384e0fdbb9ceb45",
-    "runArtifactSha256": "d7fa98a2a2010e804743d815bfd92b332787b563537c48dc41135f63fda93a85",
-    "runArtifactIntegrity": "sha512-XoJhssdhsxM/TrRxSbffGAiwuQvtSjuOsmRa5j3EB1juGxSuvtpe2vmqF7XX4BOIHmSi31h1T4QWpCkzcd3T7g=="
+    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
+    "runArtifactSha256": "1fb051f7dd321572710acc3c3443192f017bfc5e0239fabacfcc4b7a39ad5ed1",
+    "runArtifactIntegrity": "sha512-lZXSHhAaiqZhm4pcS7n8mEkpZctujPkxT1/1685GuLHgXIo5d8AEe5Q4eg7u1/HhFefpw/EeJtn0G8Q4eqhzMw=="
   },
   "consumerImport": {
     "specifier": "@unisane/email-templates",
@@ -61,7 +62,7 @@
     "installMode": "offline-local-packed-archive",
     "installedArchiveContentExact": true,
     "sourceFallbacks": [],
-    "lockSha256": "9b0bd530a60d960cc2ce9dff25e5761a40a1da6978aff618db6087660da1a78e",
+    "lockSha256": "bfc7026836aa399dbdb50059cbae28c6cfb99611cdd21206763f4445e878374a",
     "declarationCompile": true,
     "runtimeRender": {
       "html": true,
@@ -71,14 +72,14 @@
     "peerDependencies": [],
     "transitiveDependencies": []
   },
-  "unresolvedGates": ["authority-cutover", "consumer-conversion", "legal", "license", "publication", "registry", "release", "remote"],
+  "unresolvedGates": ["authority-cutover", "authenticated-publisher", "provenance-publish-transaction", "remote"],
   "authorityCutoverAuthorized": false,
-  "consumerConversionAuthorized": false,
-  "legalApproved": false,
-  "licenseApproved": false,
-  "publicationAuthorized": false,
-  "registryApproved": false,
-  "releaseAuthorized": false,
+  "consumerConversionAuthorized": true,
+  "legalApproved": true,
+  "licenseApproved": true,
+  "publicationAuthorized": true,
+  "registryApproved": true,
+  "releaseAuthorized": true,
   "remoteAuthorized": false,
   "externalEffects": []
 }

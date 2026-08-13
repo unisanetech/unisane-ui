@@ -3527,7 +3527,7 @@
       "path": "packages/email-templates/certificates/packed-producer-certificate.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "354380e41efb06eb08230625e582cfe53806c34df933edef8712efb182d24642"
+      "sha256": "c5ecb766da5d9c0a53c861faca9643e942d899806bb64bde2581dfd9c353835f"
     },
     {
       "path": "packages/email-templates/LICENSE",
@@ -5813,7 +5813,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "8a37061900f526d2c8f261f5d32578ca256e88e2a299172aa9f62cbc6df1f6f6"
+      "sha256": "e2fb62a7a2c3a06a1127ff23359155d87cbe0a52a6f85fa90cb0d98d8ab1554a"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5849,13 +5849,13 @@
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "0d8c9985212ab7dc7407476883e4f6d5f7d1cd4bcaf4ce96ff941d6407de33ad"
+      "sha256": "fb863532c82c771f494bba4b77fcce85489a97f8efe768c05deb6e8c81ff565e"
     },
     {
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "b4e6a02668fe104ab75c08de6f23e6c189d9418b9cb616ab9eae007e681b590e"
+      "sha256": "c77e9297a3e1b38a6c2625a0dbbb2b16b8c0a4915443f7ac13ea433ace547965"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",

@@ -347,7 +347,13 @@ function verifyExternalConsumer(workRoot, candidate) {
   );
   run(
     'pnpm',
-    ['install', '--offline', '--ignore-workspace', '--config.shared-workspace-lockfile=false'],
+    [
+      'install',
+      '--offline',
+      '--ignore-workspace',
+      '--config.shared-workspace-lockfile=false',
+      `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
+    ],
     { cwd: fixtureRoot },
   );
   const lockPath = path.join(fixtureRoot, 'pnpm-lock.yaml');

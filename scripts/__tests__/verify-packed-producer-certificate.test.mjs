@@ -97,12 +97,13 @@ test('consumer contract ignores unrelated manifest content and rejects UI semant
 });
 
 test('external consumer install is intrinsically offline and rejects source fallbacks', () => {
-  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS, [
+  assert.deepEqual(EXTERNAL_CONSUMER_INSTALL_ARGS.slice(0, 4), [
     'install',
     '--offline',
     '--ignore-workspace',
     '--config.shared-workspace-lockfile=false',
   ]);
+  assert.match(EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1), /^--store-dir=.+\/\.pnpm-store$/u);
 
   const packedTarballs = [
     'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz',
