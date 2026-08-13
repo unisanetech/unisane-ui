@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ui.unisane.com/schema/components.json",
+  "title": "Unisane UI project configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "const": "https://ui.unisane.com/schema/components.json"
+    },
+    "style": {
+      "const": "unisane"
+    },
+    "rsc": {
+      "type": "boolean"
+    },
+    "tsx": {
+      "const": true
+    },
+    "tailwind": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "css": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cssVariables": {
+          "const": true
+        }
+      },
+      "required": ["css", "cssVariables"]
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "components": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ui": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lib": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hooks": {
+          "type": "string",
+          "minLength": 1
+        },
+        "types": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": ["components", "ui", "lib", "hooks", "types"]
+    },
+    "registries": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "@unisane": {
+          "const": "https://ui.unisane.com/r/{name}.json"
+        }
+      },
+      "required": ["@unisane"]
+    },
+    "unisane": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": [
+            "black",
+            "blue",
+            "cyan",
+            "green",
+            "neutral",
+            "orange",
+            "pink",
+            "purple",
+            "red",
+            "yellow"
+          ]
+        },
+        "appearance": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabledAxes": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string",
+                "enum": ["mode", "density", "contrast", "radius", "actionShape", "elevation"]
+              }
+            },
+            "persistence": {
+              "type": "string",
+              "enum": ["none", "localStorage", "cookie"]
+            }
+          },
+          "required": ["enabledAxes", "persistence"]
+        }
+      },
+      "required": ["theme", "appearance"]
+    }
+  },
+  "required": ["$schema", "style", "rsc", "tsx", "tailwind", "aliases", "registries", "unisane"]
+}

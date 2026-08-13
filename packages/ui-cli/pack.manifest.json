@@ -28,6 +28,36 @@
       "json": true
     },
     {
+      "id": "ui.list",
+      "path": ["ui", "list"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.search",
+      "path": ["ui", "search"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
+      "id": "ui.view",
+      "path": ["ui", "view"],
+      "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
+      "maximumEffect": "offline",
+      "writeTargets": [],
+      "artifactClasses": [],
+      "riskGuards": [],
+      "json": true
+    },
+    {
       "id": "ui.diff",
       "path": ["ui", "diff"],
       "handler": { "exportPath": "./handlers/ui", "exportName": "runUiCommand" },
@@ -95,6 +125,6 @@
   "reservedRootNames": [],
   "integrity": {
     "algorithm": "sha256",
-    "manifestHash": "80b44842b9767ff0cc1b1596368732582802550a01f55f5ff05aba82b0f8f648"
+    "manifestHash": "d18b4f08b9061d496313ea8c561872aa82f451e8031304a512d5937adf9bb3c8"
   }
 }

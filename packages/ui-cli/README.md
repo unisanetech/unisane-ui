@@ -61,6 +61,12 @@ The Shadcn-compatible registry catalog is generated from the canonical
 item declares target files, exact npm packages, and its complete local dependency
 closure. Runtime commands use only the bundled catalog.
 
+The same catalog is projected to `https://ui.unisane.com/r/registry.json` with one
+content-bearing item at `/r/{name}.json`. `components.json` registers the `@unisane`
+namespace against those item URLs. The hosted projection is compatible with the
+official Shadcn registry-item contract; the bundled catalog remains available for
+offline Unisane CLI operation.
+
 ## License
 
 MIT

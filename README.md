@@ -51,6 +51,17 @@ pnpm dlx @unisane/ui-cli@next search "date picker"
 pnpm dlx @unisane/ui-cli@next view button
 ```
 
+The public catalog is served at `https://ui.unisane.com/r/registry.json`. Each item
+also has a stable Shadcn-compatible URL, for example:
+
+```bash
+pnpm dlx shadcn@4.17.0 add https://ui.unisane.com/r/button.json
+```
+
+`components.json` registers `@unisane` as
+`https://ui.unisane.com/r/{name}.json`, so registry-aware tools and future MCP
+clients resolve the same item JSON used by the Unisane CLI.
+
 Use `--no-install` when another tool owns dependency installation. The CLI prints the exact
 commands instead.
 
@@ -106,6 +117,7 @@ Run the documentation workbench with `pnpm --filter @unisane/ui-docs dev`.
 ## Project links
 
 - [GitHub repository](https://github.com/unisanetech/unisane-ui)
+- [Public registry catalog](https://ui.unisane.com/r/registry.json)
 - [Documentation router](docs/00-start-here.md)
 - [Design-system architecture](docs/architecture/design-system.md)
 - [Component authoring standard](docs/standards/component-authoring.md)

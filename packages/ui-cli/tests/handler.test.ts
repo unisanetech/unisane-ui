@@ -79,6 +79,30 @@ describe('UI pack handler', () => {
     expect(result.result).toMatchObject({ exitCode: 0 });
   });
 
+  it('exposes catalog discovery through the same read-only pack handler', async () => {
+    expect(['ui.list', 'ui.search', 'ui.view'].map((id) => command(id))).toMatchObject([
+      { maximumEffect: 'offline', writeTargets: [] },
+      { maximumEffect: 'offline', writeTargets: [] },
+      { maximumEffect: 'offline', writeTargets: [] },
+    ]);
+
+    const result = await runUiCommand({
+      argv: ['--json'],
+      cwd: process.cwd(),
+      json: true,
+      selection: { command: command('ui.list'), packId: 'ui' },
+    });
+
+    expect(result).toMatchObject({
+      command: 'ui.list',
+      status: 'ok',
+      actualEffect: 'offline',
+      result: { exitCode: 0 },
+    });
+    expect(Array.isArray(result.result.output)).toBe(true);
+    expect((result.result.output as unknown[]).length).toBeGreaterThan(90);
+  });
+
   it('preserves human presentation and dry-run zero-write behavior', async () => {
     const cwd = await mkdtemp(path.join(os.tmpdir(), 'unisane-ui-handler-init-'));
     temporaryDirectories.push(cwd);

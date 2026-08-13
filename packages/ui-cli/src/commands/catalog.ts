@@ -9,7 +9,7 @@ function loadCatalog(): Registry | null {
 
 function printItems(items: RegistryItem[], json: boolean): void {
   if (json) {
-    console.log(JSON.stringify(items, null, 2));
+    process.stdout.write(`${JSON.stringify(items, null, 2)}\n`);
     return;
   }
   for (const item of items) {
@@ -66,7 +66,7 @@ export async function uiView(name: string, options: CatalogOptions = {}): Promis
     return 1;
   }
   if (options.json) {
-    console.log(JSON.stringify(item, null, 2));
+    process.stdout.write(`${JSON.stringify(item, null, 2)}\n`);
     return 0;
   }
   log.info(`${item.title} (${item.name})`);

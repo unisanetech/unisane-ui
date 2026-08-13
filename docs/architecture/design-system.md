@@ -41,6 +41,13 @@ packages/ui/src/** (one authoring source)
 - The generator emits one Shadcn-compatible `registry.json` item catalog. `list`,
   `search`, `view`, `diff`, and `add` all read that same catalog; there is no command-
   specific inventory.
+- A deterministic static projection serves the catalog at `/r/registry.json`, the
+  project schema at `/schema/components.json`, and one content-bearing Shadcn registry
+  item at `/r/{name}.json`. Hosted dependency edges use absolute URLs within that same
+  registry and never create a second metadata or source owner.
+- The standalone executable and the optional pack/MCP adapter expose the same read-only
+  `list`, `search`, and `view` operations over the canonical catalog. MCP may transport
+  those operations later; it does not own a parallel component inventory.
 - Consumer routing, Tailwind CSS ownership, aliases, registry namespace, theme, and
   optional appearance axes live in one standard `components.json`. Retired
   `unisane.json`, `unisane-ui.json`, and `package.json.unisane` routes are not read.
@@ -57,9 +64,9 @@ consumer stylesheet. The package imports below describe the optional runtime pac
 path used by this repository's workbench and package consumers; they are not required by
 registry-installed applications.
 
-The CLI-bundled catalog is the current installation authority. The public static
-registry and future MCP catalog must project the same generated items rather than
-introducing another component or dependency owner.
+The CLI-bundled catalog and public static registry are projections of the same generated
+authority. Future MCP discovery must use those items rather than introducing another
+component or dependency owner.
 
 ## Token Architecture
 

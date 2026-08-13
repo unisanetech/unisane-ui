@@ -31,6 +31,7 @@
   },
   "files": [
     "dist",
+    "components.schema.json",
     "pack.manifest.json",
     "unisane.meta.json",
     "README.md",
@@ -56,6 +57,7 @@
       "default": "./dist/handlers/ui.js"
     },
     "./pack-manifest": "./pack.manifest.json",
+    "./components-schema": "./components.schema.json",
     "./meta": "./unisane.meta.json"
   },
   "scripts": {

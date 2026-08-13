@@ -13,9 +13,10 @@ afterEach(() => {
 describe('UI registry catalog commands', () => {
   it('lists, searches, and views the same generated catalog', async () => {
     const output: string[] = [];
-    vi.spyOn(console, 'log').mockImplementation((message?: unknown) => {
-      output.push(String(message ?? ''));
-    });
+    vi.spyOn(process.stdout, 'write').mockImplementation(((chunk: string | Uint8Array) => {
+      output.push(String(chunk));
+      return true;
+    }) as typeof process.stdout.write);
 
     await expect(uiList({ json: true })).resolves.toBe(0);
     const listed = JSON.parse(output.pop() ?? '[]') as Array<{ name: string }>;
