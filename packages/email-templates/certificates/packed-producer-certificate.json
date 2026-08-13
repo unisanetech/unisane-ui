@@ -3,9 +3,9 @@
   "certificate": "@unisane/email-templates-packed-producer",
   "sourceIdentity": {
     "producerGit": {
-      "revision": "8a258c29672084c8a637c54bb1b19093397778a7",
-      "repositoryTree": "4445d26364fb647183a0b0d69a447c49c74a729d",
-      "packageTree": "6e2607f33bda082b726638f8aae4b557d5c31696",
+      "revision": "139b2142743b4ff22e0ba2ba462db6e6e55f301b",
+      "repositoryTree": "fe86a4ed92ae04cea1c9dc68111494fbb89a995d",
+      "packageTree": "6dea8c2f05cef97ae796fde0edfe18932c1f1fa8",
       "certifiedPaths": [
         "packages/email-templates/LICENSE",
         "packages/email-templates/README.md",
@@ -17,7 +17,7 @@
         "packages/email-templates/unisane.meta.json",
         "packages/email-templates/vitest.config.ts"
       ],
-      "inputDigest": "bbe0b77d975ab3f22028e8c8fc9e4b3e3372c60e44c5c5989209cc496d5432ad"
+      "inputDigest": "9188580613174cfce8c9f05f1a04ee39491e421139738c9894e9bc5eb9bcdb63"
     },
     "consumerContract": {
       "authority": "standalone-target-owned",
@@ -25,17 +25,17 @@
     }
   },
   "reproducibleIdentity": {
-    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
+    "archiveContentDigest": "8ae00a8e539b04cf36054d3a23c73dc510f7a9bbcfd0c330cb5543ac0407c302",
     "consumerImportDigest": "56c1769f4960b6b2ef16cfd79227c8c1045bd6367d480da39bdd664a55ef0f1d",
-    "producerInputDigest": "bbe0b77d975ab3f22028e8c8fc9e4b3e3372c60e44c5c5989209cc496d5432ad",
-    "certificateInputDigest": "fff8027de7512da5511b6e9d6eb3f9fb06bee371b9ff51afe27824050e2823a2"
+    "producerInputDigest": "9188580613174cfce8c9f05f1a04ee39491e421139738c9894e9bc5eb9bcdb63",
+    "certificateInputDigest": "a3cadbf5d63805a06079d24be8e563a07edd3e47d9a6506ed291218390383aa7"
   },
   "artifact": {
     "name": "@unisane/email-templates",
     "version": "0.1.0-next.b67ebfd0",
     "private": false,
     "license": "MIT",
-    "bytes": 22156,
+    "bytes": 22159,
     "fileCount": 72,
     "exportTargetCount": 3,
     "ownedArchiveEntryCount": 72,
@@ -47,9 +47,9 @@
       "typescript": "Version 5.9.2",
       "tscAlias": "1.9.1"
     },
-    "archiveContentDigest": "1e3b8b0799efcaee744f36b83f59e51747392ba1090ea42ccd5a42d531f924ad",
-    "runArtifactSha256": "1fb051f7dd321572710acc3c3443192f017bfc5e0239fabacfcc4b7a39ad5ed1",
-    "runArtifactIntegrity": "sha512-lZXSHhAaiqZhm4pcS7n8mEkpZctujPkxT1/1685GuLHgXIo5d8AEe5Q4eg7u1/HhFefpw/EeJtn0G8Q4eqhzMw=="
+    "archiveContentDigest": "8ae00a8e539b04cf36054d3a23c73dc510f7a9bbcfd0c330cb5543ac0407c302",
+    "runArtifactSha256": "6b049243f4319028c06c13bcb1c8427e7b1d952da99cd7fed94fd2a238b55504",
+    "runArtifactIntegrity": "sha512-w+n9EHp1wvfJrkGWen4TY0niFTVCzQkTe87xZc4CFJgleHPLYhF/hX7fOiq7gVuozGalKgy8eb4nDYobmA/aHw=="
   },
   "consumerImport": {
     "specifier": "@unisane/email-templates",
@@ -66,7 +66,7 @@
     "installMode": "offline-local-packed-archive",
     "installedArchiveContentExact": true,
     "sourceFallbacks": [],
-    "lockSha256": "98a8bab487b33770c7b2617c1e9fa65dc835980edf32935065f4b1000dbb0ea6",
+    "lockSha256": "45e8badc29a385e95ee1c8e01a326bc6a12d1304cca9d7cf93654a0ac33fa83f",
     "declarationCompile": true,
     "runtimeRender": {
       "html": true,
