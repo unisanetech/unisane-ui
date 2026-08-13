@@ -7,9 +7,6 @@ keep their source in your application, and adapt them without wrapping a black-b
 dependency. The registry is designed for forms, navigation, workflows, application
 shells, and dense operational interfaces.
 
-> The public source repository is ready. The first npm prerelease remains unpublished
-> until the manual provenance-enabled release workflow succeeds.
-
 ## Quick start
 
 Run the UI-owned registry CLI directly:
@@ -17,6 +14,10 @@ Run the UI-owned registry CLI directly:
 ```bash
 pnpm dlx @unisane/ui-cli@next init --theme blue
 ```
+
+`init` detects Next.js or Vite, detects your package manager, creates the standard
+`components.json` project contract, installs the semantic CSS baseline, and installs
+the exact dependencies it needs.
 
 Then add the components you need:
 
@@ -41,6 +42,17 @@ export function SavePanel() {
 
 Use `pnpm dlx @unisane/ui-cli@next diff` to inspect upstream changes. Updates never silently
 overwrite application-owned source.
+
+Browse the catalog before adding source:
+
+```bash
+pnpm dlx @unisane/ui-cli@next list
+pnpm dlx @unisane/ui-cli@next search "date picker"
+pnpm dlx @unisane/ui-cli@next view button
+```
+
+Use `--no-install` when another tool owns dependency installation. The CLI prints the exact
+commands instead.
 
 ## Why a registry?
 
@@ -68,7 +80,8 @@ for boundaries that benefit from shared versioned artifacts.
 | `@unisane/email-templates` | Independent provider-neutral email presentation package               |
 
 `@unisane/ui-cli` publishes the `unisane-ui` executable and can be run directly with
-`pnpm dlx`. Generated applications do not depend on the CLI or runtime packages.
+`pnpm dlx`. Generated applications do not depend on the CLI, `@unisane/ui`,
+`@unisane/tokens`, or Unisane Core at runtime.
 
 ## Requirements
 

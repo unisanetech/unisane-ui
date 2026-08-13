@@ -12,6 +12,7 @@ import {
   getTargetFilePath,
   loadConfig,
   loadRegistry,
+  registryItemsByName,
   resolveRegistryDir,
   transformImports,
 } from './add-helpers.js';
@@ -35,22 +36,33 @@ export async function uiDiff(options: UiDiffOptions = {}): Promise<number> {
     log.dim('Reinstall or rebuild the Unisane CLI package so its UI registry assets are present.');
     return 1;
   }
-  const config = loadConfig(cwd);
+  let config;
+  try {
+    config = loadConfig(cwd);
+  } catch (error) {
+    log.error(error instanceof Error ? error.message : String(error));
+    return 1;
+  }
+  if (!config) {
+    log.error('components.json not found; run "unisane-ui init" first');
+    return 1;
+  }
+  const items = registryItemsByName(registry);
 
   const componentsToCheck: string[] = [];
 
   if (options.component) {
-    if (!registry.components[options.component]) {
+    if (!items.has(options.component)) {
       log.error(`Unknown component: ${options.component}`);
       return 1;
     }
     componentsToCheck.push(options.component);
   } else {
     // Find all installed components
-    for (const [key, meta] of Object.entries(registry.components)) {
+    for (const [key, meta] of items) {
       const firstFile = meta.files[0];
       if (!firstFile) continue;
-      const localPath = getTargetFilePath(firstFile, meta.type, config, cwd);
+      const localPath = getTargetFilePath(firstFile, config, cwd);
 
       if (existsSync(localPath)) {
         componentsToCheck.push(key);
@@ -71,12 +83,12 @@ export async function uiDiff(options: UiDiffOptions = {}): Promise<number> {
   let upToDate = 0;
 
   for (const comp of componentsToCheck) {
-    const meta = registry.components[comp];
+    const meta = items.get(comp);
     if (!meta) continue;
 
     for (const file of meta.files) {
-      const localPath = getTargetFilePath(file, meta.type, config, cwd);
-      const registryFilePath = path.join(registryDir, file);
+      const localPath = getTargetFilePath(file, config, cwd);
+      const registryFilePath = path.join(registryDir, file.path);
 
       if (!existsSync(localPath)) continue;
 
@@ -93,7 +105,7 @@ export async function uiDiff(options: UiDiffOptions = {}): Promise<number> {
           const registryLines = normalizedRegistry.split('\n').length;
           const diff = Math.abs(localLines - registryLines);
 
-          log.warn(`${meta.name}`);
+          log.warn(`${meta.title}`);
           log.dim(`  ${path.relative(cwd, localPath)}`);
           log.dim(`  ~${diff} line(s) different`);
         } else {

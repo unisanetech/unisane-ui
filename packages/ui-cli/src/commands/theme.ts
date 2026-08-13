@@ -3,7 +3,7 @@ const { existsSync, readFileSync, writeFileSync } = fse;
 import path from 'path';
 import { log } from '../cli-support.js';
 import { resolveRegistryDir } from './add-helpers.js';
-import { createDefaultUiConfig, readUiConfig, writeUiConfig } from './ui-config.js';
+import { readUiConfig, UI_CONFIG_FILENAME, writeUiConfig } from './ui-config.js';
 
 export const THEME_REGION_START = '/* unisane:theme:start */';
 export const THEME_REGION_END = '/* unisane:theme:end */';
@@ -63,14 +63,18 @@ export async function uiTheme(options: UiThemeOptions): Promise<number> {
 
   let uiConfig;
   try {
-    uiConfig = readUiConfig(cwd) ?? createDefaultUiConfig();
+    uiConfig = readUiConfig(cwd);
   } catch (error) {
     log.error(error instanceof Error ? error.message : String(error));
     return 1;
   }
 
-  const srcDir = existsSync(path.join(cwd, 'src')) ? path.join(cwd, 'src') : cwd;
-  const globalsCssPath = path.join(srcDir, 'app', 'globals.css');
+  if (!uiConfig) {
+    log.error(`${UI_CONFIG_FILENAME} not found; run "unisane-ui init" first`);
+    return 1;
+  }
+
+  const globalsCssPath = path.resolve(cwd, uiConfig.tailwind.css);
   if (!existsSync(globalsCssPath)) {
     log.error('globals.css not found; run "unisane-ui init" first');
     return 1;
@@ -87,8 +91,11 @@ export async function uiTheme(options: UiThemeOptions): Promise<number> {
   }
 
   if (next === current) {
-    if (!options.dryRun && uiConfig.theme !== options.theme) {
-      writeUiConfig(cwd, { ...uiConfig, theme: options.theme });
+    if (!options.dryRun && uiConfig.unisane.theme !== options.theme) {
+      writeUiConfig(cwd, {
+        ...uiConfig,
+        unisane: { ...uiConfig.unisane, theme: options.theme },
+      });
     }
     log.info(`Theme is already ${options.theme}`);
     return 0;
@@ -98,10 +105,11 @@ export async function uiTheme(options: UiThemeOptions): Promise<number> {
     return 0;
   }
 
-  writeFileSync(`${globalsCssPath}.backup`, current);
   writeFileSync(globalsCssPath, next);
-  writeUiConfig(cwd, { ...uiConfig, theme: options.theme });
+  writeUiConfig(cwd, {
+    ...uiConfig,
+    unisane: { ...uiConfig.unisane, theme: options.theme },
+  });
   log.success(`Theme changed to ${options.theme}`);
-  log.dim(`Backup: ${path.relative(cwd, `${globalsCssPath}.backup`)}`);
   return 0;
 }

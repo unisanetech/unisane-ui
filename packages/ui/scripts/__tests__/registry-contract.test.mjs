@@ -9,11 +9,17 @@ const packageDir = path.resolve(testDir, '../..');
 const registry = JSON.parse(
   await readFile(path.join(packageDir, 'registry', 'registry.json'), 'utf8'),
 );
+const components = Object.fromEntries(
+  registry.items.map((item) => [
+    item.name,
+    { ...item, files: item.files.map((file) => file.path) },
+  ]),
+);
 const packageJson = JSON.parse(await readFile(path.join(packageDir, 'package.json'), 'utf8'));
 
 test('registry records complete representative local and npm dependency closure', () => {
-  assert.deepEqual(registry.components.alert.registryDependencies, ['icon', 'typography', 'utils']);
-  assert.deepEqual(registry.components.banner.registryDependencies, [
+  assert.deepEqual(components.alert.registryDependencies, ['icon', 'typography', 'utils']);
+  assert.deepEqual(components.banner.registryDependencies, [
     'button',
     'icon',
     'icon-button',
@@ -21,65 +27,60 @@ test('registry records complete representative local and npm dependency closure'
     'text',
     'utils',
   ]);
-  assert.deepEqual(registry.components.badge.registryDependencies, ['utils']);
-  assert.deepEqual(registry.components.button.dependencies, ['class-variance-authority@^0.7.1']);
-  assert.deepEqual(registry.components.button.registryDependencies, [
+  assert.deepEqual(components.badge.registryDependencies, ['utils']);
+  assert.deepEqual(components.button.dependencies, ['class-variance-authority@^0.7.1']);
+  assert.deepEqual(components.button.registryDependencies, [
     'action-control',
     'action-size',
     'icon',
     'ripple',
     'utils',
   ]);
-  assert.deepEqual(registry.components.checkbox.registryDependencies, [
+  assert.deepEqual(components.checkbox.registryDependencies, [
     'ripple',
     'selection-control-size',
     'utils',
   ]);
-  assert.deepEqual(registry.components.radio.registryDependencies, [
+  assert.deepEqual(components.radio.registryDependencies, [
     'ripple',
     'selection-control-size',
     'utils',
   ]);
-  assert.deepEqual(registry.components.switch.registryDependencies, ['utils']);
-  assert.deepEqual(registry.components['segmented-button'].dependencies, []);
-  assert.deepEqual(registry.components['segmented-button'].registryDependencies, [
+  assert.deepEqual(components.switch.registryDependencies, ['utils']);
+  assert.deepEqual(components['segmented-button'].dependencies, []);
+  assert.deepEqual(components['segmented-button'].registryDependencies, [
     'action-size',
     'icon',
     'ripple',
     'use-controllable-state',
     'utils',
   ]);
-  assert.deepEqual(registry.components.pagination.dependencies, []);
-  assert.deepEqual(registry.components.pagination.registryDependencies, [
+  assert.deepEqual(components.pagination.dependencies, []);
+  assert.deepEqual(components.pagination.registryDependencies, [
     'action-size',
     'icon',
     'ripple',
     'text',
     'utils',
   ]);
-  assert.deepEqual(registry.components.stepper.dependencies, []);
-  assert.deepEqual(registry.components.stepper.registryDependencies, [
-    'icon',
-    'ripple',
-    'text',
-    'utils',
-  ]);
-  assert.deepEqual(registry.components.divider.registryDependencies, ['utils']);
-  assert.deepEqual(registry.components.list.registryDependencies, [
+  assert.deepEqual(components.stepper.dependencies, []);
+  assert.deepEqual(components.stepper.registryDependencies, ['icon', 'ripple', 'text', 'utils']);
+  assert.deepEqual(components.divider.registryDependencies, ['utils']);
+  assert.deepEqual(components.list.registryDependencies, [
     'divider',
     'ripple',
     'typography',
     'utils',
   ]);
-  assert.equal(registry.components['selection-controls'], undefined);
-  assert.deepEqual(registry.components['text-field'].registryDependencies, [
+  assert.equal(components['selection-controls'], undefined);
+  assert.deepEqual(components['text-field'].registryDependencies, [
     'field',
     'field-shell',
     'field-size',
     'utils',
   ]);
-  assert.deepEqual(registry.components.field.registryDependencies, ['label', 'utils']);
-  assert.deepEqual(registry.components.select.registryDependencies, [
+  assert.deepEqual(components.field.registryDependencies, ['label', 'utils']);
+  assert.deepEqual(components.select.registryDependencies, [
     'field-shell',
     'field-size',
     'icon',
@@ -88,7 +89,7 @@ test('registry records complete representative local and npm dependency closure'
     'use-overlay-behavior',
     'utils',
   ]);
-  assert.deepEqual(registry.components['select-field'].registryDependencies, [
+  assert.deepEqual(components['select-field'].registryDependencies, [
     'field',
     'field-shell',
     'field-size',
@@ -96,13 +97,13 @@ test('registry records complete representative local and npm dependency closure'
     'use-controllable-state',
     'utils',
   ]);
-  assert.deepEqual(registry.components.toast.registryDependencies, [
+  assert.deepEqual(components.toast.registryDependencies, [
     'button',
     'icon',
     'icon-button',
     'utils',
   ]);
-  assert.deepEqual(registry.components.calendar.registryDependencies, [
+  assert.deepEqual(components.calendar.registryDependencies, [
     'icon',
     'icon-button',
     'ripple',
@@ -110,14 +111,14 @@ test('registry records complete representative local and npm dependency closure'
     'text',
     'utils',
   ]);
-  assert.deepEqual(registry.components['date-input'].registryDependencies, [
+  assert.deepEqual(components['date-input'].registryDependencies, [
     'field',
     'field-shell',
     'field-size',
     'use-controllable-state',
     'utils',
   ]);
-  assert.deepEqual(registry.components['date-picker'].registryDependencies, [
+  assert.deepEqual(components['date-picker'].registryDependencies, [
     'calendar',
     'date-input',
     'icon',
@@ -128,25 +129,25 @@ test('registry records complete representative local and npm dependency closure'
     'use-overlay-behavior',
     'utils',
   ]);
-  assert.deepEqual(registry.components['navigation-action'].registryDependencies, [
+  assert.deepEqual(components['navigation-action'].registryDependencies, [
     'navigation-types',
     'use-controllable-state',
   ]);
-  assert.deepEqual(registry.components['navigation-bar'].registryDependencies, [
+  assert.deepEqual(components['navigation-bar'].registryDependencies, [
     'navigation-action',
     'navigation-types',
     'navigation-visuals',
     'ripple',
     'utils',
   ]);
-  assert.deepEqual(registry.components['navigation-rail'].registryDependencies, [
+  assert.deepEqual(components['navigation-rail'].registryDependencies, [
     'navigation-action',
     'navigation-types',
     'navigation-visuals',
     'ripple',
     'utils',
   ]);
-  assert.deepEqual(registry.components['navigation-drawer'].registryDependencies, [
+  assert.deepEqual(components['navigation-drawer'].registryDependencies, [
     'navigation-action',
     'navigation-types',
     'navigation-visuals',
@@ -156,11 +157,11 @@ test('registry records complete representative local and npm dependency closure'
     'use-scroll-lock',
     'utils',
   ]);
-  assert.equal(registry.components.navigation, undefined);
-  assert.equal(registry.components['use-navigation-state'], undefined);
-  assert.ok(registry.components.dialog.registryDependencies.includes('use-scroll-lock'));
-  assert.ok(registry.components.dialog.registryDependencies.includes('use-controllable-state'));
-  assert.deepEqual(registry.components['confirm-dialog'].registryDependencies, [
+  assert.equal(components.navigation, undefined);
+  assert.equal(components['use-navigation-state'], undefined);
+  assert.ok(components.dialog.registryDependencies.includes('use-scroll-lock'));
+  assert.ok(components.dialog.registryDependencies.includes('use-controllable-state'));
+  assert.deepEqual(components['confirm-dialog'].registryDependencies, [
     'button',
     'dialog',
     'icon',
@@ -169,7 +170,7 @@ test('registry records complete representative local and npm dependency closure'
 });
 
 test('nested composites depend on external owners without treating their own files as items', () => {
-  const sidebar = registry.components.sidebar;
+  const sidebar = components.sidebar;
   assert.ok(sidebar.files.includes('components/sidebar/components/sidebar-drawer.tsx'));
   assert.ok(sidebar.files.includes('components/sidebar/components/sidebar-navigation.tsx'));
   assert.equal(sidebar.files.length, 9);
@@ -185,15 +186,15 @@ test('nested composites depend on external owners without treating their own fil
     'use-scroll-lock',
     'utils',
   ]);
-  assert.equal(registry.components['sidebar-drawer'], undefined);
-  assert.equal(registry.components['sidebar-provider'], undefined);
+  assert.equal(components['sidebar-drawer'], undefined);
+  assert.equal(components['sidebar-provider'], undefined);
 });
 
 test('icon has one canonical component owner', () => {
-  assert.deepEqual(registry.components.icon.files, ['components/icon.tsx']);
-  assert.equal(registry.components.icon.type, 'components:ui');
-  assert.ok(registry.components['icon-button'].registryDependencies.includes('icon'));
-  assert.ok(registry.components.button.registryDependencies.includes('icon'));
+  assert.deepEqual(components.icon.files, ['components/icon.tsx']);
+  assert.equal(components.icon.type, 'registry:ui');
+  assert.ok(components['icon-button'].registryDependencies.includes('icon'));
+  assert.ok(components.button.registryDependencies.includes('icon'));
 });
 
 test('runtime package exposes canonical flat component subpaths', () => {
@@ -207,8 +208,11 @@ test('runtime package exposes canonical flat component subpaths', () => {
     subpaths.some((subpath) => /^\.\/(components|primitives|layout|hooks|lib)\//.test(subpath)),
     false,
   );
-  for (const owner of Object.keys(registry.components)) {
-    if (registry.components[owner].type === 'components:ui' && owner !== 'ripple') {
+  for (const owner of Object.keys(components)) {
+    if (
+      components[owner].files.some((file) => file.startsWith('components/')) &&
+      owner !== 'ripple'
+    ) {
       assert.ok(packageJson.exports[`./${owner}`], `missing flat runtime export ./${owner}`);
     }
   }

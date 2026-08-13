@@ -45,6 +45,25 @@ visual-system guidance.
    Density is global theme scale.
    Size is a component API.
 
+## Registry Contract
+
+- `packages/ui/src/**` is the only component implementation authority.
+- `packages/ui/scripts/build-registry.mjs` generates the registry source copies,
+  dependency metadata, item targets, themes, catalog, and schema. Never hand-edit
+  generated files under `packages/ui/registry/**`.
+- Every catalog entry uses one standard item type: `registry:ui`, `registry:lib`,
+  `registry:hook`, or `registry:file`.
+- Every file declares its authored `path` and consumer-owned `target`.
+- Every external source import must resolve to an exact declared npm dependency.
+- Every local source import must resolve through the transitive
+  `registryDependencies` closure.
+- Registry output must not import `@unisane/ui`, `@unisane/tokens`,
+  `@unisane/ui-cli`, Unisane Core, a sibling checkout, or an alternate source tree.
+- `components.json` is the only consumer routing configuration. Do not add a legacy
+  config reader or compatibility fallback.
+- Component updates preserve application-owned files by default. Replacement is an
+  explicit `--overwrite` action.
+
 ## Canonical API Contract
 
 ### Shared Props

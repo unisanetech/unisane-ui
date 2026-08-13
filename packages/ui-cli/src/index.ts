@@ -6,5 +6,8 @@ export {
   uiDiff,
   uiDoctor,
   uiInit,
+  uiList,
+  uiSearch,
   uiTheme,
+  uiView,
 } from './commands/index.js';

@@ -1,33 +1,66 @@
 import fse from 'fs-extra';
-const { existsSync, readFileSync, writeFileSync, mkdirSync, copyFileSync } = fse;
-import path from 'path';
+import path from 'node:path';
 import { log } from '../cli-support.js';
-import { resolveRegistryDir } from './add-helpers.js';
+import {
+  getAllDependencies,
+  getTargetFilePath,
+  loadRegistry,
+  registryItemsByName,
+  resolveRegistryDir,
+} from './add-helpers.js';
+import type { PackageInstallRunner, PackageManager } from './add-types.js';
+import { uiAdd } from './add.js';
+import { FileTransaction } from './file-transaction.js';
+import {
+  buildInstallCommands,
+  detectPackageManager,
+  formatInstallCommand,
+  INSTALL_MUTATION_FILES,
+  runInstallCommands,
+} from './package-manager.js';
 import { readThemeAsset, replaceManagedThemeRegion, THEME_REGION_START } from './theme.js';
-import { createDefaultUiConfig, readUiConfig, writeUiConfig } from './ui-config.js';
+import {
+  createDefaultUiConfig,
+  readUiConfig,
+  UI_CONFIG_FILENAME,
+  writeUiConfig,
+} from './ui-config.js';
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+const { existsSync, readFileSync, writeFileSync, mkdirSync } = fse;
+
+interface PackageJsonLike {
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
 }
-
-function hasNextDependency(value: unknown): boolean {
-  if (!isRecord(value)) return false;
-  return isRecord(value.dependencies) && typeof value.dependencies.next === 'string';
-}
-
-const DEFAULT_UTILS = `import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-`;
 
 export interface UiInitOptions {
   cwd?: string;
   force?: boolean;
   dryRun?: boolean;
   theme?: string;
+  install?: boolean;
+  packageManager?: PackageManager;
+  installRunner?: PackageInstallRunner;
+}
+
+function detectProject(cwd: string, pkg: PackageJsonLike) {
+  const dependencies = { ...pkg.dependencies, ...pkg.devDependencies };
+  const hasSrc = existsSync(path.join(cwd, 'src'));
+  const prefix = hasSrc ? 'src/' : '';
+  if (dependencies.next) {
+    return { name: 'Next.js', rsc: true, hasSrc, cssPath: `${prefix}app/globals.css` };
+  }
+  if (dependencies.vite) {
+    return { name: 'Vite', rsc: false, hasSrc, cssPath: `${prefix}index.css` };
+  }
+  return { name: 'React', rsc: false, hasSrc, cssPath: `${prefix}index.css` };
+}
+
+function mergeBaseline(existing: string, baseline: string, force: boolean): string {
+  if (!existing) return `${baseline.trim()}\n`;
+  if (existing.includes(THEME_REGION_START)) return replaceManagedThemeRegion(existing, baseline);
+  if (force) return `${baseline.trim()}\n`;
+  return `${baseline.trim()}\n\n${existing.trim()}\n`;
 }
 
 export async function uiInit(options: UiInitOptions = {}): Promise<number> {
@@ -41,98 +74,128 @@ export async function uiInit(options: UiInitOptions = {}): Promise<number> {
     return 1;
   }
 
-  const pkg: unknown = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-  if (!hasNextDependency(pkg)) {
-    log.warn('This does not appear to be a Next.js project');
-  }
-
-  const srcDir = existsSync(path.join(cwd, 'src')) ? path.join(cwd, 'src') : cwd;
-  const appDir = path.join(srcDir, 'app');
-  if (!existsSync(appDir)) {
-    log.error('Could not find src/app or app');
+  let pkg: PackageJsonLike;
+  try {
+    pkg = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as PackageJsonLike;
+  } catch {
+    log.error('package.json is not valid JSON');
     return 1;
   }
+  const project = detectProject(cwd, pkg);
 
   const registryDir = resolveRegistryDir();
-  if (!registryDir) {
-    log.error('CLI-owned UI registry assets not found');
+  const registry = registryDir ? loadRegistry(registryDir) : null;
+  if (!registryDir || !registry) {
+    log.error('CLI-owned generated registry assets not found');
     return 1;
   }
 
   const baselinePath = path.join(registryDir, 'styles', 'globals.css');
   const themeCss = readThemeAsset(registryDir, themeName);
-  const utilsPath = path.join(registryDir, 'lib', 'utils.ts');
   if (!existsSync(baselinePath) || !themeCss) {
     log.error(`UI baseline or theme asset not found for "${themeName}"`);
     return 1;
   }
 
-  const globalsCssPath = path.join(appDir, 'globals.css');
-  const libDir = path.join(srcDir, 'lib');
-  const componentsUiDir = path.join(srcDir, 'components', 'ui');
-  const existingGlobals = existsSync(globalsCssPath) ? readFileSync(globalsCssPath, 'utf8') : '';
-  let existingUiConfig;
+  let existingConfig;
   try {
-    existingUiConfig = readUiConfig(cwd);
+    existingConfig = readUiConfig(cwd);
   } catch (error) {
     if (!options.force) {
       log.error(error instanceof Error ? error.message : String(error));
-      log.dim('Re-run with --force to replace the malformed UI configuration');
+      log.dim('Re-run with --force to replace the malformed components.json');
       return 1;
     }
   }
-  let baseline = readFileSync(baselinePath, 'utf8');
-  baseline = replaceManagedThemeRegion(baseline, themeCss);
 
-  if (existingGlobals && !existingGlobals.includes(THEME_REGION_START) && !options.force) {
-    log.error('globals.css already exists and is not managed by Unisane UI');
-    log.dim('Re-run with --force to back it up and install the complete baseline');
-    return 1;
+  const defaultConfig = createDefaultUiConfig(themeName, {
+    cssPath: project.cssPath,
+    rsc: project.rsc,
+    hasSrc: project.hasSrc,
+  });
+  const config = existingConfig
+    ? {
+        ...existingConfig,
+        unisane: { ...existingConfig.unisane, theme: themeName },
+      }
+    : defaultConfig;
+  const cssPath = path.resolve(cwd, config.tailwind.css);
+  const existingCss = existsSync(cssPath) ? readFileSync(cssPath, 'utf8') : '';
+  const themedBaseline = replaceManagedThemeRegion(readFileSync(baselinePath, 'utf8'), themeCss);
+  const nextCss = mergeBaseline(existingCss, themedBaseline, Boolean(options.force));
+
+  const items = registryItemsByName(registry);
+  const utilityClosure = getAllDependencies(['utils'], registry);
+  const utilityTargets: string[] = [];
+  for (const name of utilityClosure) {
+    const item = items.get(name);
+    if (!item) {
+      log.error(`Registry dependency is missing: ${name}`);
+      return 1;
+    }
+    for (const file of item.files) utilityTargets.push(getTargetFilePath(file, config, cwd));
   }
 
+  const manager = options.packageManager ?? detectPackageManager(cwd);
+  const declaredTailwind = pkg.dependencies?.tailwindcss ?? pkg.devDependencies?.tailwindcss;
+  const tailwindCommands = buildInstallCommands(
+    manager,
+    [],
+    declaredTailwind === '4.1.18' ? [] : ['tailwindcss@4.1.18'],
+  );
   if (options.dryRun) {
-    log.info(`Would initialize one globals.css baseline with the ${themeName} theme`);
-    log.dim(`  ${path.relative(cwd, globalsCssPath)}`);
-    log.dim(`  ${path.relative(cwd, path.join(libDir, 'utils.ts'))}`);
+    log.info(`Detected ${project.name} with ${manager}`);
+    log.dim(`  ${path.relative(cwd, cssPath)}`);
+    log.dim(`  ${UI_CONFIG_FILENAME}`);
+    for (const target of utilityTargets) log.dim(`  ${path.relative(cwd, target)}`);
+    if (options.install !== false) {
+      for (const command of tailwindCommands) {
+        log.dim(`  ${formatInstallCommand(command)}`);
+      }
+    }
     return 0;
   }
 
-  mkdirSync(libDir, { recursive: true });
-  mkdirSync(componentsUiDir, { recursive: true });
+  const transaction = new FileTransaction([
+    path.join(cwd, UI_CONFIG_FILENAME),
+    cssPath,
+    ...utilityTargets,
+    ...INSTALL_MUTATION_FILES.map((file) => path.join(cwd, file)),
+  ]);
 
-  if (existingGlobals && existingGlobals !== baseline && options.force) {
-    writeFileSync(`${globalsCssPath}.backup`, existingGlobals);
-  }
-  if (!existingGlobals || options.force) {
-    writeFileSync(globalsCssPath, baseline);
-    log.success(`Installed the complete ${themeName} baseline in globals.css`);
-  } else {
-    const themedGlobals = replaceManagedThemeRegion(existingGlobals, themeCss);
-    if (themedGlobals !== existingGlobals) {
-      writeFileSync(`${globalsCssPath}.backup`, existingGlobals);
-      writeFileSync(globalsCssPath, themedGlobals);
-      log.success(`Updated the managed theme region to ${themeName}`);
+  try {
+    mkdirSync(path.dirname(cssPath), { recursive: true });
+    writeFileSync(cssPath, nextCss);
+    writeUiConfig(cwd, config);
+
+    const utilityCode = await uiAdd({
+      cwd,
+      components: ['utils'],
+      overwrite: options.force,
+      yes: true,
+      install: options.install,
+      packageManager: manager,
+      installRunner: options.installRunner,
+    });
+    if (utilityCode !== 0) throw new Error('Could not install the registry utility closure');
+
+    if (options.install !== false) {
+      if (!(await runInstallCommands(tailwindCommands, cwd, options.installRunner))) {
+        throw new Error('Tailwind CSS installation failed');
+      }
     } else {
-      log.info('globals.css already contains the requested managed Unisane baseline');
+      log.info('Install the remaining development dependency:');
+      for (const command of tailwindCommands) log.dim(`  ${formatInstallCommand(command)}`);
     }
+  } catch (error) {
+    transaction.rollback();
+    log.error(error instanceof Error ? error.message : String(error));
+    log.dim('Restored source, configuration, manifest, and lock files.');
+    return 1;
   }
 
-  if (existsSync(utilsPath)) {
-    copyFileSync(utilsPath, path.join(libDir, 'utils.ts'));
-  } else {
-    writeFileSync(path.join(libDir, 'utils.ts'), DEFAULT_UTILS);
-  }
-  log.success('Created lib/utils.ts');
-  writeUiConfig(
-    cwd,
-    existingUiConfig ? { ...existingUiConfig, theme: themeName } : createDefaultUiConfig(themeName),
-    Boolean(existingUiConfig),
-  );
-  log.success('Created unisane-ui.json');
-
-  log.newline();
-  log.success('Unisane UI initialized');
+  log.success(`Initialized ${project.name} with ${UI_CONFIG_FILENAME}`);
   log.dim('Add components: unisane-ui add button');
-  log.dim('Change theme later: unisane-ui theme green');
+  log.dim('Browse the registry: unisane-ui list');
   return 0;
 }

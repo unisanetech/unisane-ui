@@ -12,6 +12,7 @@ const packageJson = JSON.parse(await fs.readFile(path.join(packageDir, 'package.
 const registry = JSON.parse(
   await fs.readFile(path.join(packageDir, 'registry/registry.json'), 'utf8'),
 );
+const registryItemNames = new Set(registry.items.map((item) => item.name));
 const sharedTest = await fs.readFile(path.join(packageDir, manifest.sharedTestOwner), 'utf8');
 const violations = [];
 
@@ -57,7 +58,7 @@ for (const [kind, config] of Object.entries(sourceKinds)) {
     if (!packageJson.exports[`./${owner}`]) {
       violations.push(`missing flat runtime export ./${owner}`);
     }
-    if (!registry.components[owner] && !(kind === 'types' && owner === 'navigation')) {
+    if (!registryItemNames.has(owner) && !(kind === 'types' && owner === 'navigation')) {
       violations.push(`missing local registry owner ${owner}`);
     }
   }

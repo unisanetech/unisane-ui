@@ -230,7 +230,10 @@ for (const packageName of ['unisane', '@unisane/ui', '@unisane/tokens']) {
 const registry = JSON.parse(
   await fs.readFile(path.join(repositoryRoot, 'packages/ui/registry/registry.json'), 'utf8'),
 );
-if (registry.components?.['data-table']) {
+if (!Array.isArray(registry.items)) {
+  recordViolation('packages/ui/registry/registry.json', 'standard registry items are missing');
+}
+if (registry.items?.some((item) => item.name === 'data-table')) {
   recordViolation('packages/ui/registry/registry.json', 'UI registry still owns DataTable source');
 }
 if (files.some((file) => file.startsWith('packages/ui/registry/components/data-table/'))) {

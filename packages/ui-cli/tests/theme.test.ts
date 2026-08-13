@@ -53,21 +53,22 @@ describe('UI theme installation', () => {
     const original = '/* existing app CSS */\n.app { color: red; }\n';
     await writeFile(globalsPath, original);
 
-    await expect(uiInit({ cwd, theme: 'blue' })).resolves.toBe(1);
-    expect(await readFile(globalsPath, 'utf8')).toBe(original);
-
-    await expect(uiInit({ cwd, theme: 'blue', force: true })).resolves.toBe(0);
+    await expect(uiInit({ cwd, theme: 'blue', install: false })).resolves.toBe(0);
     const initialized = await readFile(globalsPath, 'utf8');
     expect(initialized).toContain('@import "tailwindcss"');
     expect(initialized).toContain(THEME_REGION_START);
     expect(initialized).toContain('--color-primary:');
+    expect(initialized).toContain(original.trim());
     expect(initialized).not.toMatch(/--(?:ref|tone)-|data-(?:color-theme|scheme)|data-theme-scope/);
-    expect(await readFile(`${globalsPath}.backup`, 'utf8')).toBe(original);
     await expect(access(path.join(cwd, 'src', 'styles', 'unisane.css'))).rejects.toThrow();
-    expect(JSON.parse(await readFile(path.join(cwd, 'unisane-ui.json'), 'utf8'))).toMatchObject({
-      schemaVersion: 1,
-      theme: 'blue',
-      appearance: { enabledAxes: [], persistence: 'none' },
+    expect(JSON.parse(await readFile(path.join(cwd, 'components.json'), 'utf8'))).toMatchObject({
+      style: 'unisane',
+      rsc: true,
+      tailwind: { css: 'src/app/globals.css' },
+      unisane: {
+        theme: 'blue',
+        appearance: { enabledAxes: [], persistence: 'none' },
+      },
     });
 
     const appOwnedCss = '\n/* app-owned */\n.product-shell { min-height: 100dvh; }\n';
@@ -77,19 +78,43 @@ describe('UI theme installation', () => {
     const changed = await readFile(globalsPath, 'utf8');
     expect(changed).toContain(appOwnedCss.trim());
     expect(changed).not.toBe(`${initialized}${appOwnedCss}`);
-    expect(await readFile(`${globalsPath}.backup`, 'utf8')).toBe(`${initialized}${appOwnedCss}`);
-    expect(JSON.parse(await readFile(path.join(cwd, 'unisane-ui.json'), 'utf8')).theme).toBe(
-      'green',
-    );
+    expect(
+      JSON.parse(await readFile(path.join(cwd, 'components.json'), 'utf8')).unisane.theme,
+    ).toBe('green');
   });
 
   it('rejects unknown themes without changing globals.css', async () => {
     const cwd = await createNextFixture();
-    await expect(uiInit({ cwd, force: true })).resolves.toBe(0);
+    await expect(uiInit({ cwd, force: true, install: false })).resolves.toBe(0);
     const globalsPath = path.join(cwd, 'src', 'app', 'globals.css');
     const before = await readFile(globalsPath, 'utf8');
 
     await expect(uiTheme({ cwd, theme: 'missing' })).resolves.toBe(1);
     expect(await readFile(globalsPath, 'utf8')).toBe(before);
+  });
+
+  it('rolls init back when automatic dependency installation fails', async () => {
+    const cwd = await createNextFixture();
+    const globalsPath = path.join(cwd, 'src', 'app', 'globals.css');
+    const originalCss = '.existing {}\n';
+    const originalPackage = await readFile(path.join(cwd, 'package.json'), 'utf8');
+    await writeFile(globalsPath, originalCss);
+
+    await expect(
+      uiInit({
+        cwd,
+        installRunner: async () => {
+          await writeFile(path.join(cwd, 'package.json'), '{"name":"partial"}\n');
+          await writeFile(path.join(cwd, 'pnpm-lock.yaml'), 'partial\n');
+          return 1;
+        },
+      }),
+    ).resolves.toBe(1);
+
+    expect(await readFile(globalsPath, 'utf8')).toBe(originalCss);
+    expect(await readFile(path.join(cwd, 'package.json'), 'utf8')).toBe(originalPackage);
+    await expect(access(path.join(cwd, 'components.json'))).rejects.toThrow();
+    await expect(access(path.join(cwd, 'src', 'lib', 'utils.ts'))).rejects.toThrow();
+    await expect(access(path.join(cwd, 'pnpm-lock.yaml'))).rejects.toThrow();
   });
 });

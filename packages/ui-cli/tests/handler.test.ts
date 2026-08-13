@@ -4,6 +4,7 @@ import path from 'node:path';
 import { Command } from 'commander';
 import { afterEach, describe, expect, it } from 'vitest';
 import { registerUiCommands } from '../src/commands/register.js';
+import { createDefaultUiConfig } from '../src/commands/ui-config.js';
 import { runUiCommand } from '../src/handlers/ui.js';
 import type { UiPackCommandDescriptor } from '../src/pack-contract.js';
 
@@ -39,6 +40,9 @@ describe('UI pack handler', () => {
     expect(program.commands.map((candidate) => candidate.name())).toEqual([
       'init',
       'add',
+      'list',
+      'search',
+      'view',
       'diff',
       'doctor',
       'theme',
@@ -50,12 +54,8 @@ describe('UI pack handler', () => {
     const cwd = await mkdtemp(path.join(os.tmpdir(), 'unisane-ui-handler-list-'));
     temporaryDirectories.push(cwd);
     await writeFile(
-      path.join(cwd, 'unisane-ui.json'),
-      JSON.stringify({
-        schemaVersion: 1,
-        theme: 'blue',
-        appearance: { enabledAxes: [], persistence: 'none' },
-      }),
+      path.join(cwd, 'components.json'),
+      JSON.stringify(createDefaultUiConfig('blue', { hasSrc: true })),
     );
     const descriptor = command('ui.appearance-list');
 
@@ -100,6 +100,6 @@ describe('UI pack handler', () => {
     expect(result.status).toBe('ok');
     expect(result.presentation).toEqual({ stdout: '', stderr: '' });
     await expect(access(path.join(cwd, 'src', 'app', 'globals.css'))).rejects.toThrow();
-    await expect(access(path.join(cwd, 'unisane-ui.json'))).rejects.toThrow();
+    await expect(access(path.join(cwd, 'components.json'))).rejects.toThrow();
   });
 });

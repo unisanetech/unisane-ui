@@ -38,6 +38,17 @@ packages/ui/src/** (one authoring source)
   not the primary public example path.
 - Registry files are generated from `packages/ui/src/**`; they are never a second
   hand-authored implementation.
+- The generator emits one Shadcn-compatible `registry.json` item catalog. `list`,
+  `search`, `view`, `diff`, and `add` all read that same catalog; there is no command-
+  specific inventory.
+- Consumer routing, Tailwind CSS ownership, aliases, registry namespace, theme, and
+  optional appearance axes live in one standard `components.json`. Retired
+  `unisane.json`, `unisane-ui.json`, and `package.json.unisane` routes are not read.
+- `init` detects Next.js or Vite and the active package manager. `init` and `add`
+  install exact declared dependencies by default. A failed install restores planned
+  source, configuration, manifest, and lockfile mutations.
+- Existing consumer source is preserved unless the user explicitly selects
+  `--overwrite`; repeated add operations are safe.
 - DataTable and email templates keep independent package boundaries rather than being
   copied into the base component registry.
 
@@ -45,6 +56,10 @@ The registry copies its generated semantic theme and component baseline into the
 consumer stylesheet. The package imports below describe the optional runtime package
 path used by this repository's workbench and package consumers; they are not required by
 registry-installed applications.
+
+The CLI-bundled catalog is the current installation authority. The public static
+registry and future MCP catalog must project the same generated items rather than
+introducing another component or dependency owner.
 
 ## Token Architecture
 

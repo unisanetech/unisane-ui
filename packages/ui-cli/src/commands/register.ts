@@ -8,7 +8,10 @@ import {
   uiAdd,
   uiDiff,
   uiDoctor,
+  uiList,
+  uiSearch,
   uiTheme,
+  uiView,
 } from './index.js';
 
 interface UiCliOptions {
@@ -20,6 +23,8 @@ interface UiCliOptions {
   theme?: string;
   axes?: string;
   persistence?: string;
+  install?: boolean;
+  json?: boolean;
 }
 
 interface UiCommandEnvironment {
@@ -43,6 +48,7 @@ export function registerUiCommands(
     .description('Initialize Unisane UI in your project')
     .option('-f, --force', 'Overwrite existing files')
     .option('--theme <name>', 'Initial generated color theme', 'blue')
+    .option('--no-install', 'Write source and print dependency commands without installing')
     .option('--dry-run', 'Preview changes without writing files')
     .action(async (options: UiCliOptions) => {
       log.banner('Unisane');
@@ -51,6 +57,7 @@ export function registerUiCommands(
         force: options.force,
         dryRun: options.dryRun,
         theme: options.theme,
+        install: options.install,
       });
       process.exitCode = code;
     });
@@ -60,6 +67,7 @@ export function registerUiCommands(
     .option('-y, --yes', 'Skip confirmation prompts')
     .option('-o, --overwrite', 'Overwrite existing files')
     .option('-a, --all', 'Add all components')
+    .option('--no-install', 'Write source and print dependency commands without installing')
     .option('--dry-run', 'Preview changes without writing files')
     .action(async (components: string[] | undefined, options: UiCliOptions) => {
       log.banner('Unisane');
@@ -70,8 +78,30 @@ export function registerUiCommands(
         overwrite: options.overwrite,
         yes: options.yes,
         dryRun: options.dryRun,
+        install: options.install,
       });
       process.exitCode = code;
+    });
+
+  ui.command('list')
+    .description('List items in the generated registry catalog')
+    .option('--json', 'Print machine-readable JSON')
+    .action(async (options: UiCliOptions) => {
+      process.exitCode = await uiList({ json: options.json });
+    });
+
+  ui.command('search <query>')
+    .description('Search the generated registry catalog')
+    .option('--json', 'Print machine-readable JSON')
+    .action(async (query: string, options: UiCliOptions) => {
+      process.exitCode = await uiSearch(query, { json: options.json });
+    });
+
+  ui.command('view <item>')
+    .description('Show one registry item and its dependency closure')
+    .option('--json', 'Print machine-readable JSON')
+    .action(async (item: string, options: UiCliOptions) => {
+      process.exitCode = await uiView(item, { json: options.json });
     });
 
   ui.command('diff [component]')
@@ -111,6 +141,7 @@ export function registerUiCommands(
     .description('Enable local runtime appearance axes')
     .requiredOption('--axes <axes>', 'Comma-separated axes')
     .option('--persistence <policy>', 'none, localStorage, or cookie', 'localStorage')
+    .option('--no-install', 'Write source and print dependency commands without installing')
     .option('--dry-run', 'Preview changes without writing files')
     .action(async (options: UiCliOptions) => {
       log.banner('Unisane');
@@ -122,6 +153,7 @@ export function registerUiCommands(
           .filter(Boolean),
         persistence: options.persistence,
         dryRun: options.dryRun,
+        install: options.install,
       });
       process.exitCode = code;
     });

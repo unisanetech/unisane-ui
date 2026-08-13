@@ -31,7 +31,7 @@ async function createFixture() {
     path.join(cwd, 'package.json'),
     JSON.stringify({ name: 'fixture', private: true, dependencies: { next: '^16.0.0' } }),
   );
-  await expect(uiInit({ cwd, theme: 'blue' })).resolves.toBe(0);
+  await expect(uiInit({ cwd, theme: 'blue', install: false })).resolves.toBe(0);
   return cwd;
 }
 
@@ -43,11 +43,12 @@ describe('UI appearance capability', () => {
         cwd,
         axes: ['mode', 'density', 'contrast'],
         persistence: 'cookie',
+        install: false,
       }),
     ).resolves.toBe(0);
 
-    const config = JSON.parse(await readFile(path.join(cwd, 'unisane-ui.json'), 'utf8'));
-    expect(config.appearance).toEqual({
+    const config = JSON.parse(await readFile(path.join(cwd, 'components.json'), 'utf8'));
+    expect(config.unisane.appearance).toEqual({
       enabledAxes: ['mode', 'density', 'contrast'],
       persistence: 'cookie',
     });
@@ -59,26 +60,32 @@ describe('UI appearance capability', () => {
 
   it('disables one axis while preserving the other configuration', async () => {
     const cwd = await createFixture();
-    await uiAppearanceEnable({ cwd, axes: ['mode', 'density'], persistence: 'localStorage' });
+    await uiAppearanceEnable({
+      cwd,
+      axes: ['mode', 'density'],
+      persistence: 'localStorage',
+      install: false,
+    });
     await expect(uiAppearanceDisable({ cwd, axis: 'density' })).resolves.toBe(0);
 
-    const config = JSON.parse(await readFile(path.join(cwd, 'unisane-ui.json'), 'utf8'));
-    expect(config.appearance).toEqual({
+    const config = JSON.parse(await readFile(path.join(cwd, 'components.json'), 'utf8'));
+    expect(config.unisane.appearance).toEqual({
       enabledAxes: ['mode'],
       persistence: 'localStorage',
     });
-    await access(path.join(cwd, 'unisane-ui.json.backup'));
   });
 
   it('fails safely for invalid axes and malformed configuration', async () => {
     const cwd = await createFixture();
-    const configPath = path.join(cwd, 'unisane-ui.json');
+    const configPath = path.join(cwd, 'components.json');
     const before = await readFile(configPath, 'utf8');
-    await expect(uiAppearanceEnable({ cwd, axes: ['colorTheme'] })).resolves.toBe(1);
+    await expect(uiAppearanceEnable({ cwd, axes: ['colorTheme'], install: false })).resolves.toBe(
+      1,
+    );
     expect(await readFile(configPath, 'utf8')).toBe(before);
 
     await writeFile(configPath, '{ malformed');
-    await expect(uiAppearanceEnable({ cwd, axes: ['mode'] })).resolves.toBe(1);
+    await expect(uiAppearanceEnable({ cwd, axes: ['mode'], install: false })).resolves.toBe(1);
     expect(await readFile(configPath, 'utf8')).toBe('{ malformed');
   });
 });

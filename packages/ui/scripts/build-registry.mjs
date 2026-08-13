@@ -30,14 +30,14 @@ const MODULE_SPECIFIER_REGEX = /(?:\bfrom\s+|\bimport\s+)(["'])([^"']+)\1/g;
 // Component type detection based on folder
 function getComponentType(folder) {
   const types = {
-    components: 'components:ui',
-    primitives: 'primitives:ui',
-    layout: 'layout:ui',
-    hooks: 'hooks:ui',
-    lib: 'lib:util',
-    types: 'types:ui',
+    components: 'registry:ui',
+    primitives: 'registry:ui',
+    layout: 'registry:ui',
+    hooks: 'registry:hook',
+    lib: 'registry:lib',
+    types: 'registry:file',
   };
-  return types[folder] || 'components:ui';
+  return types[folder] || 'registry:ui';
 }
 
 // Convert filename to component key (kebab-case)
@@ -282,7 +282,7 @@ async function scanLibDirectory(dir) {
 
       utils[key] = {
         name,
-        type: 'lib:util',
+        type: 'registry:lib',
         description: `${name} utility`,
         files: [`lib/${file}`],
         dependencies: [],
@@ -312,7 +312,7 @@ async function scanHooksDirectory(dir) {
 
       hooks[key] = {
         name,
-        type: 'hooks:ui',
+        type: 'registry:hook',
         description: `${name} hook`,
         files: [`hooks/${file}`],
         dependencies: [],
@@ -342,7 +342,7 @@ async function scanTypesDirectory(dir) {
 
       types[key] = {
         name,
-        type: 'types:ui',
+        type: 'registry:file',
         description: `${name} definitions`,
         files: [`types/${file}`],
         dependencies: [],
@@ -430,12 +430,36 @@ async function copyToRegistry() {
   console.log(`\n📝 Rewrote imports in ${rewriteCount} files\n`);
 }
 
-// Generate registry.json
+function toInstalledTarget(sourcePath) {
+  const [root, ...rest] = sourcePath.split('/');
+  if (['components', 'primitives', 'layout'].includes(root)) {
+    return path.posix.join('components/ui', ...rest);
+  }
+  return path.posix.join(root, ...rest);
+}
+
+// Generate one Shadcn-compatible registry catalog.
 async function generateRegistry(componentMetadata) {
   const registry = {
-    $schema: './registry-schema.json',
-    version: '0.4.0',
-    components: componentMetadata,
+    $schema: 'https://ui.shadcn.com/schema/registry.json',
+    name: 'unisane',
+    homepage: 'https://github.com/unisanetech/unisane-ui',
+    items: Object.entries(componentMetadata)
+      .sort(([left], [right]) => left.localeCompare(right))
+      .map(([name, item]) => ({
+        name,
+        type: item.type,
+        title: item.name,
+        description: item.description,
+        files: item.files.map((sourcePath) => ({
+          path: sourcePath,
+          type: item.type,
+          target: toInstalledTarget(sourcePath),
+        })),
+        dependencies: item.dependencies,
+        registryDependencies: item.registryDependencies,
+        ...(item.devDependencies ? { devDependencies: item.devDependencies } : {}),
+      })),
   };
 
   const registryPath = path.join(registryDir, 'registry.json');
@@ -447,52 +471,59 @@ async function generateRegistry(componentMetadata) {
 async function generateSchema() {
   const schema = {
     $schema: 'http://json-schema.org/draft-07/schema#',
+    $id: 'https://ui.unisane.com/schema/registry.json',
     type: 'object',
+    additionalProperties: false,
     properties: {
       $schema: { type: 'string' },
-      version: { type: 'string' },
-      components: {
-        type: 'object',
-        additionalProperties: {
+      name: { type: 'string' },
+      homepage: { type: 'string' },
+      items: {
+        type: 'array',
+        items: {
           type: 'object',
+          additionalProperties: false,
           properties: {
             name: { type: 'string' },
+            title: { type: 'string' },
             type: {
               type: 'string',
-              enum: [
-                'components:ui',
-                'primitives:ui',
-                'layout:ui',
-                'hooks:ui',
-                'lib:util',
-                'types:ui',
-              ],
+              enum: ['registry:ui', 'registry:lib', 'registry:hook', 'registry:file'],
             },
             description: { type: 'string' },
-            files: { type: 'array', items: { type: 'string' } },
+            files: {
+              type: 'array',
+              items: {
+                type: 'object',
+                additionalProperties: false,
+                properties: {
+                  path: { type: 'string' },
+                  type: {
+                    type: 'string',
+                    enum: ['registry:ui', 'registry:lib', 'registry:hook', 'registry:file'],
+                  },
+                  target: { type: 'string' },
+                },
+                required: ['path', 'type', 'target'],
+              },
+            },
             dependencies: { type: 'array', items: { type: 'string' } },
             registryDependencies: { type: 'array', items: { type: 'string' } },
-            variants: {
-              type: 'object',
-              additionalProperties: {
-                type: 'array',
-                items: { type: 'string' },
-              },
-            },
-            accessibility: {
-              type: 'object',
-              properties: {
-                keyboard: { type: 'boolean' },
-                screenReader: { type: 'boolean' },
-                contrast: { type: 'string', enum: ['AA', 'AAA'] },
-              },
-            },
+            devDependencies: { type: 'array', items: { type: 'string' } },
           },
-          required: ['name', 'type', 'description', 'files'],
+          required: [
+            'name',
+            'title',
+            'type',
+            'description',
+            'files',
+            'dependencies',
+            'registryDependencies',
+          ],
         },
       },
     },
-    required: ['components'],
+    required: ['$schema', 'name', 'homepage', 'items'],
   };
 
   const schemaPath = path.join(registryDir, 'registry-schema.json');

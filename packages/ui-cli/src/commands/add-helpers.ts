@@ -1,53 +1,84 @@
 import fse from 'fs-extra';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import type { ComponentMeta, Registry, UnisaneConfig } from './add-types.js';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { Registry, RegistryFile, RegistryItem, RegistryItemType } from './add-types.js';
+import { readUiConfig, type UiProjectConfig } from './ui-config.js';
 
 const { existsSync, readFileSync } = fse;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function isComponentMeta(value: unknown): value is ComponentMeta {
-  if (!isRecord(value)) return false;
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((entry) => typeof entry === 'string');
+}
+
+function isRegistryItemType(value: unknown): value is RegistryItemType {
   return (
+    value === 'registry:ui' ||
+    value === 'registry:lib' ||
+    value === 'registry:hook' ||
+    value === 'registry:file'
+  );
+}
+
+function isSafeRelativePath(value: string): boolean {
+  return (
+    value.length > 0 &&
+    !value.includes('\\') &&
+    !path.posix.isAbsolute(value) &&
+    path.posix.normalize(value) === value &&
+    value !== '..' &&
+    !value.startsWith('../')
+  );
+}
+
+function isRegistryFile(value: unknown): value is RegistryFile {
+  return (
+    isRecord(value) &&
+    typeof value.path === 'string' &&
+    isSafeRelativePath(value.path) &&
+    isRegistryItemType(value.type) &&
+    typeof value.target === 'string' &&
+    isSafeRelativePath(value.target) &&
+    /^(?:components\/ui|lib|hooks|types)\//u.test(value.target)
+  );
+}
+
+function isRegistryItem(value: unknown): value is RegistryItem {
+  return (
+    isRecord(value) &&
     typeof value.name === 'string' &&
-    typeof value.type === 'string' &&
+    /^[a-z0-9][a-z0-9-]*$/u.test(value.name) &&
+    isRegistryItemType(value.type) &&
+    typeof value.title === 'string' &&
     typeof value.description === 'string' &&
     Array.isArray(value.files) &&
-    Array.isArray(value.dependencies) &&
-    Array.isArray(value.registryDependencies)
+    value.files.every(isRegistryFile) &&
+    isStringArray(value.dependencies) &&
+    isStringArray(value.registryDependencies) &&
+    (value.devDependencies === undefined || isStringArray(value.devDependencies))
   );
 }
 
 function isRegistry(value: unknown): value is Registry {
-  if (!isRecord(value) || typeof value.version !== 'string' || !isRecord(value.components)) {
-    return false;
-  }
-  return Object.values(value.components).every((meta) => isComponentMeta(meta));
-}
-
-function toUnisaneConfig(value: unknown): UnisaneConfig | null {
-  if (!isRecord(value)) return null;
-  const aliases = isRecord(value.aliases)
-    ? {
-        components:
-          typeof value.aliases.components === 'string' ? value.aliases.components : undefined,
-        lib: typeof value.aliases.lib === 'string' ? value.aliases.lib : undefined,
-        hooks: typeof value.aliases.hooks === 'string' ? value.aliases.hooks : undefined,
-        types: typeof value.aliases.types === 'string' ? value.aliases.types : undefined,
-      }
-    : undefined;
-  const srcDir = typeof value.srcDir === 'string' ? value.srcDir : undefined;
-  return { aliases, srcDir };
+  return (
+    isRecord(value) &&
+    typeof value.$schema === 'string' &&
+    typeof value.name === 'string' &&
+    typeof value.homepage === 'string' &&
+    Array.isArray(value.items) &&
+    value.items.every(isRegistryItem) &&
+    new Set(value.items.map((item) => item.name)).size === value.items.length
+  );
 }
 
 export function resolveRegistryDir(): string | null {
   const moduleDir = path.dirname(fileURLToPath(import.meta.url));
   const candidates = [
-    process.env.UNISANE_UI_REGISTRY_DIR,
     path.resolve(moduleDir, '..', 'ui-registry'),
+    process.env.NODE_ENV === 'test' ? process.env.UNISANE_UI_REGISTRY_DIR : undefined,
   ].filter((candidate): candidate is string => Boolean(candidate));
 
   return candidates.find((candidate) => existsSync(path.join(candidate, 'registry.json'))) ?? null;
@@ -55,127 +86,103 @@ export function resolveRegistryDir(): string | null {
 
 export function loadRegistry(registryDir: string): Registry | null {
   const registryPath = path.join(registryDir, 'registry.json');
+  if (!existsSync(registryPath)) return null;
 
-  if (!existsSync(registryPath)) {
+  try {
+    const parsed: unknown = JSON.parse(readFileSync(registryPath, 'utf8'));
+    return isRegistry(parsed) ? parsed : null;
+  } catch {
     return null;
   }
-
-  const parsed: unknown = JSON.parse(readFileSync(registryPath, 'utf8'));
-  if (!isRegistry(parsed)) {
-    return null;
-  }
-  return parsed;
 }
 
-export function loadConfig(cwd: string): UnisaneConfig {
-  const configPath = path.join(cwd, 'unisane.json');
-  const packageJsonPath = path.join(cwd, 'package.json');
+export function registryItemsByName(registry: Registry): Map<string, RegistryItem> {
+  return new Map(registry.items.map((item) => [item.name, item]));
+}
 
-  if (existsSync(configPath)) {
-    try {
-      const parsed: unknown = JSON.parse(readFileSync(configPath, 'utf8'));
-      const config = toUnisaneConfig(parsed);
-      if (config) return config;
-    } catch {
-      // Fall through
-    }
-  }
-
-  if (existsSync(packageJsonPath)) {
-    try {
-      const pkg: unknown = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-      if (isRecord(pkg)) {
-        const config = toUnisaneConfig(pkg.unisane);
-        if (config) return config;
-      }
-    } catch {
-      // Fall through
-    }
-  }
-
-  return {
-    aliases: {
-      components: '@/components/ui',
-      lib: '@/lib',
-      hooks: '@/hooks',
-      types: '@/types',
-    },
-    srcDir: existsSync(path.join(cwd, 'src')) ? 'src' : '',
-  };
+export function loadConfig(cwd: string): UiProjectConfig | null {
+  return readUiConfig(cwd);
 }
 
 export function getAllDependencies(
-  components: string[],
+  itemNames: string[],
   registry: Registry,
   visited = new Set<string>(),
 ): Set<string> {
-  for (const comp of components) {
-    if (visited.has(comp)) continue;
+  const items = registryItemsByName(registry);
+  for (const name of itemNames) {
+    if (visited.has(name)) continue;
+    const item = items.get(name);
+    if (!item) continue;
 
-    const meta = registry.components[comp];
-    if (!meta) continue;
-
-    visited.add(comp);
-
-    for (const dep of meta.registryDependencies || []) {
-      if (!visited.has(dep)) {
-        getAllDependencies([dep], registry, visited);
-      }
+    visited.add(name);
+    for (const dependency of item.registryDependencies) {
+      getAllDependencies([dependency], registry, visited);
     }
   }
-
   return visited;
 }
 
-export function getTargetDir(type: string, config: UnisaneConfig, cwd: string): string {
-  const srcDir = config.srcDir || '';
-  const basePath = srcDir ? path.join(cwd, srcDir) : cwd;
+function aliasDirectory(alias: string, config: UiProjectConfig, cwd: string): string {
+  const hasSrc =
+    existsSync(path.join(cwd, 'src')) ||
+    config.tailwind.css.replaceAll('\\', '/').startsWith('src/');
+  const base = hasSrc ? path.join(cwd, 'src') : cwd;
 
-  if (type === 'lib:util') return path.join(basePath, 'lib');
-  if (type === 'hooks:ui') return path.join(basePath, 'hooks');
-  if (type === 'types:ui') return path.join(basePath, 'types');
+  if (alias.startsWith('@/') || alias.startsWith('~/')) {
+    return path.join(base, alias.slice(2));
+  }
+  if (alias.startsWith('./') || alias.startsWith('../')) {
+    return path.resolve(cwd, alias);
+  }
+  if (alias.startsWith('@')) {
+    const segments = alias.split('/').slice(2);
+    if (segments.length > 0) return path.join(base, ...segments);
+  }
+  throw new Error(`components.json alias must resolve to a project-owned path: ${alias}`);
+}
 
-  return path.join(basePath, 'components', 'ui');
+function targetOwner(target: string): 'ui' | 'lib' | 'hooks' | 'types' {
+  if (target.startsWith('components/ui/')) return 'ui';
+  if (target.startsWith('lib/')) return 'lib';
+  if (target.startsWith('hooks/')) return 'hooks';
+  if (target.startsWith('types/')) return 'types';
+  throw new Error(`Registry file has an unsupported target: ${target}`);
 }
 
 export function getTargetFilePath(
-  file: string,
-  type: string,
-  config: UnisaneConfig,
+  file: RegistryFile,
+  config: UiProjectConfig,
   cwd: string,
 ): string {
-  const [, ...relativeSegments] = file.split('/');
-  if (relativeSegments.length === 0) {
-    throw new Error(`Registry file must include a source root: ${file}`);
+  const owner = targetOwner(file.target);
+  const prefix = owner === 'ui' ? 'components/ui/' : `${owner}/`;
+  const relative = file.target.slice(prefix.length);
+  if (!relative || relative.startsWith('../') || path.isAbsolute(relative)) {
+    throw new Error(`Registry file has an unsafe target: ${file.target}`);
   }
-
-  return path.join(getTargetDir(type, config, cwd), ...relativeSegments);
+  return path.join(aliasDirectory(config.aliases[owner], config, cwd), relative);
 }
 
-export function transformImports(content: string, config: UnisaneConfig): string {
-  const componentsAlias = config.aliases?.components || '@/components/ui';
-  const libAlias = config.aliases?.lib || '@/lib';
-  const hooksAlias = config.aliases?.hooks || '@/hooks';
-  const typesAlias = config.aliases?.types || '@/types';
+export function transformImports(content: string, config: UiProjectConfig): string {
+  const componentsAlias = config.aliases.ui;
+  const libAlias = config.aliases.lib;
+  const hooksAlias = config.aliases.hooks;
+  const typesAlias = config.aliases.types;
 
-  let result = content;
-
-  result = result
+  return content
     .replace(
       /from\s+['"]@ui\/(primitives|layout|components)\/([^'"]+)['"]/g,
       `from '${componentsAlias}/$2'`,
     )
     .replace(/from\s+['"]@ui\/lib\/([^'"]+)['"]/g, `from '${libAlias}/$1'`)
     .replace(/from\s+['"]@ui\/hooks\/([^'"]+)['"]/g, `from '${hooksAlias}/$1'`)
-    .replace(/from\s+['"]@ui\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`);
-
-  result = result.replace(
-    /from\s+['"]@\/(components\/ui|primitives|layout)\/([^'"]+)['"]/g,
-    `from '${componentsAlias}/$2'`,
-  );
-  result = result.replace(/from\s+['"]@\/lib\/([^'"]+)['"]/g, `from '${libAlias}/$1'`);
-  result = result.replace(/from\s+['"]@\/hooks\/([^'"]+)['"]/g, `from '${hooksAlias}/$1'`);
-  result = result.replace(/from\s+['"]@\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`);
-
-  return result;
+    .replace(/from\s+['"]@ui\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`)
+    .replace(
+      /from\s+['"]@\/(components\/ui|primitives|layout)\/([^'"]+)['"]/g,
+      `from '${componentsAlias}/$2'`,
+    )
+    .replace(/from\s+['"]@\/lib\/([^'"]+)['"]/g, `from '${libAlias}/$1'`)
+    .replace(/from\s+['"]@\/hooks\/([^'"]+)['"]/g, `from '${hooksAlias}/$1'`)
+    .replace(/from\s+['"]@\/types\/([^'"]+)['"]/g, `from '${typesAlias}/$1'`);
 }
