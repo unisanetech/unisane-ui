@@ -361,7 +361,7 @@ test('rejects consumer subpaths absent from the packed export map', () => {
   );
 });
 
-test('certificate summary records the exact approved release and conversion authority', () => {
+test('certificate summary records legal approval without claiming operational authority', () => {
   const sourceIdentity = {
     consumerImportBaseline: {
       revision: '4f9d4a637ab271351a4c7b677b11792490b1c791',
@@ -387,12 +387,12 @@ test('certificate summary records the exact approved release and conversion auth
     { runtimeModuleCount: 1 },
     sourceIdentity,
   );
-  assert.equal(summary.publicationAuthorized, true);
-  assert.equal(summary.consumerConversionAuthorized, true);
+  assert.equal(summary.publicationAuthorized, false);
+  assert.equal(summary.consumerConversionAuthorized, false);
   assert.equal(summary.legalApproved, true);
   assert.equal(summary.licenseApproved, true);
-  assert.equal(summary.registryApproved, true);
-  assert.equal(summary.releaseAuthorized, true);
+  assert.equal(summary.registryApproved, false);
+  assert.equal(summary.releaseAuthorized, false);
   assert.equal(summary.remoteAuthorized, false);
   assert.equal(summary.authorityCutoverAuthorized, false);
   assert.deepEqual(summary.externalEffects, []);
@@ -427,8 +427,8 @@ test('persists the complete certificate summary beneath the isolated artifact ro
     consumerImports: { importDeclarationCount: 395 },
     consumerProof: { runtimeModuleCount: 38 },
     externalEffects: [],
-    publicationAuthorized: true,
-    consumerConversionAuthorized: true,
+    publicationAuthorized: false,
+    consumerConversionAuthorized: false,
   };
   try {
     const artifactPath = writeCertificateArtifact(summary, artifactRoot);

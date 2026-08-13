@@ -188,7 +188,7 @@ test('rejects unexpected archive files, assets, local locators, and authority dr
   }
 });
 
-test('certificate records approved release gates and keeps external effects empty', () => {
+test('certificate records legal approval while operational gates stay closed', () => {
   const artifactRoot = mkdtempSync(path.join(tmpdir(), 'email-certificate-artifact-'));
   const artifactPath = path.join(artifactRoot, 'packed-producer-certificate.json');
   const candidate = {
@@ -228,17 +228,17 @@ test('certificate records approved release gates and keeps external effects empt
   try {
     writeCertificateArtifact(summary, artifactPath);
     assert.deepEqual(JSON.parse(readFileSync(artifactPath, 'utf8')), summary);
+    for (const gate of ['legalApproved', 'licenseApproved']) {
+      assert.equal(summary[gate], true);
+    }
     for (const gate of [
+      'authorityCutoverAuthorized',
       'consumerConversionAuthorized',
-      'legalApproved',
-      'licenseApproved',
       'publicationAuthorized',
       'registryApproved',
       'releaseAuthorized',
+      'remoteAuthorized',
     ]) {
-      assert.equal(summary[gate], true);
-    }
-    for (const gate of ['authorityCutoverAuthorized', 'remoteAuthorized']) {
       assert.equal(summary[gate], false);
     }
     assert.deepEqual(summary.externalEffects, []);

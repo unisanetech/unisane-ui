@@ -3,9 +3,9 @@
   "certificate": "@unisane/email-templates-packed-producer",
   "sourceIdentity": {
     "producerGit": {
-      "revision": "745ee016d7e611943d615ffb11ca90fc7f88fd87",
-      "repositoryTree": "d9b75a0a315844e14f6358ab30e786ac282665bd",
-      "packageTree": "a5991531bce64c59e320f3be0dcef666ee960e0e",
+      "revision": "6248be4ccf6c087482eb0ebd9ce9add4ba7d22c0",
+      "repositoryTree": "a657caf087ee4cb47e706da44ccbaad4f60b737d",
+      "packageTree": "c397a223e0135377019caa93c5bde37b5b1bd602",
       "certifiedPaths": [
         "unisane-ui/packages/email-templates/LICENSE",
         "unisane-ui/packages/email-templates/README.md",
@@ -62,7 +62,7 @@
     "installMode": "offline-local-packed-archive",
     "installedArchiveContentExact": true,
     "sourceFallbacks": [],
-    "lockSha256": "bfc7026836aa399dbdb50059cbae28c6cfb99611cdd21206763f4445e878374a",
+    "lockSha256": "51b4cbc1d7e37920b5d117b7cf97987829390ac1e96aa9d2d82dcf569353f544",
     "declarationCompile": true,
     "runtimeRender": {
       "html": true,
@@ -72,14 +72,14 @@
     "peerDependencies": [],
     "transitiveDependencies": []
   },
-  "unresolvedGates": ["authority-cutover", "authenticated-publisher", "provenance-publish-transaction", "remote"],
+  "unresolvedGates": ["authority-cutover", "consumer-conversion", "authenticated-publisher", "publication", "registry", "release", "remote"],
   "authorityCutoverAuthorized": false,
-  "consumerConversionAuthorized": true,
+  "consumerConversionAuthorized": false,
   "legalApproved": true,
   "licenseApproved": true,
-  "publicationAuthorized": true,
-  "registryApproved": true,
-  "releaseAuthorized": true,
+  "publicationAuthorized": false,
+  "registryApproved": false,
+  "releaseAuthorized": false,
   "remoteAuthorized": false,
   "externalEffects": []
 }
