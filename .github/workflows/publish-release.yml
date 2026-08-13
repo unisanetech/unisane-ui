@@ -1,4 +1,4 @@
-name: Publish UI prerelease
+name: Publish UI release
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: publish-ui-prerelease
+  group: publish-ui-release
   cancel-in-progress: false
 
 jobs:
@@ -47,32 +47,32 @@ jobs:
           pnpm check:email-templates-packed-producer-certificate:fixtures
           git diff --exit-code
 
-      - name: Publish tokens prerelease
+      - name: Publish tokens
         working-directory: packages/tokens
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --tag next --provenance --no-git-checks
+        run: pnpm publish --access public --tag latest --provenance --no-git-checks
 
-      - name: Publish UI prerelease
+      - name: Publish UI
         working-directory: packages/ui
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --tag next --provenance --no-git-checks
+        run: pnpm publish --access public --tag latest --provenance --no-git-checks
 
-      - name: Publish UI registry pack prerelease
+      - name: Publish UI registry CLI
         working-directory: packages/ui-cli
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --tag next --provenance --no-git-checks
+        run: pnpm publish --access public --tag latest --provenance --no-git-checks
 
-      - name: Publish DataTable prerelease
+      - name: Publish DataTable
         working-directory: packages/data-table
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --tag next --provenance --no-git-checks
+        run: pnpm publish --access public --tag latest --provenance --no-git-checks
 
-      - name: Publish email templates prerelease
+      - name: Publish email templates
         working-directory: packages/email-templates
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: pnpm publish --access public --tag next --provenance --no-git-checks
+        run: pnpm publish --access public --tag latest --provenance --no-git-checks

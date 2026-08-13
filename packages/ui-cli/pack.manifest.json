@@ -3,7 +3,7 @@
   "kind": "unisane.pack-manifest",
   "packId": "ui",
   "packageName": "@unisane/ui-cli",
-  "version": "0.1.0-next.b67ebfd0.1",
+  "version": "0.1.0",
   "packApiVersion": 1,
   "trust": "first-party",
   "commands": [
@@ -125,6 +125,6 @@
   "reservedRootNames": [],
   "integrity": {
     "algorithm": "sha256",
-    "manifestHash": "d18b4f08b9061d496313ea8c561872aa82f451e8031304a512d5937adf9bb3c8"
+    "manifestHash": "1220cb24a13859e3e13d20b6faceb3d063b42c408263147fd7b76d3a37baebca"
   }
 }

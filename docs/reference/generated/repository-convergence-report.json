@@ -38,10 +38,10 @@
       "sha256": "5a183d07239848d9de099e8a845ee00c76f5d8ed049d437f5b30a5f4b62dd9b5"
     },
     {
-      "path": ".github/workflows/publish-prerelease.yml",
+      "path": ".github/workflows/publish-release.yml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "b47d7401b144f0c3c271f271481cbfa40d35e2fdf31160f54a46a27106475733"
+      "sha256": "3172347294d1a8654fbad8f5f0f75683ed6a71c74716ccd59226e06e17e22d81"
     },
     {
       "path": ".gitignore",
@@ -323,7 +323,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/installation/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "3d8f938b762ab37c3890ccb06759bda20045f5817cf130a926a9ad9ecd269ac6"
+      "sha256": "5f1eb4220aa177fb6afe6b42dd6cb1df4c62b4ca100871974e616a0998210f35"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/page.tsx",
@@ -335,7 +335,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/quick-start/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "4b5bf58f0808f65f7ceae14a3eee8be66eaf902b7b4d1f31a3a793a09b94d677"
+      "sha256": "666cf0eae3d3ee15b7468eefb7ecb3cc9e4f2efbaa50b1308dd35714f69a1dcc"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/styling/page.tsx",
@@ -347,7 +347,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/theming/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "3e74d891a0261febb93b90012e41a6a58b205c0042f025c879c3000fe299b4a8"
+      "sha256": "d0f7b0c91b558219f783e70683e69368117851c1335c0b768d622d1099fde643"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/layout.tsx",
@@ -2201,7 +2201,7 @@
       "path": "docs/guides/licensing-prerequisites.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "62f58c8faa32b9c2017a31b567a98978110d402f7538c5a8d9a93812029dd012"
+      "sha256": "15cc4443ddaf86359191b27b77bc568751ed8d0f5ea9885d5824439db896c0f8"
     },
     {
       "path": "docs/guides/repository-provenance.md",
@@ -2231,7 +2231,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "31838a595f02e76cf5e85f3e538e31e7b97e5497aaf8a61069403ce8736d7b15"
+      "sha256": "07f946a86e0a558f7dee6f3aa00c2620e6cae9578822587f610e86bbc625d71f"
     },
     {
       "path": "docs/repository-history-map.txt",
@@ -2267,7 +2267,7 @@
       "path": "MIGRATION.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "dcf7fab5b812eb3cf932883af1446c668a1f38c7e7fefa0c90d8df0d52578347"
+      "sha256": "8d8ef302444af46c01c2c13f3745b66db9bfdcf47b09eba598b84ad6b5773581"
     },
     {
       "path": "NOTICE",
@@ -2291,7 +2291,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "fbe97e1d51a3cec8be6db5a583767f4bc29a9c4187a88c59383a8b3f75bc1e5d"
+      "sha256": "991fb32d58594adc37a1e273ca81f3d4d7e3354ddeea46def4f155f0cc4fd81b"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3599,7 +3599,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "025fd60eabec146a63f420f82e093e4730555a7db7ada33cc0baa879214f2731"
+      "sha256": "7b67c1aa3ed702ea6f10323d92955fe15990d56d19308b66156428ab9f0f58e7"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -3749,7 +3749,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "44cc146d8a7d6d64b80c194558b4b3d69893c3920fd94ae1b01e31e7d6010d92"
+      "sha256": "2425cf5fbf8cf3c366da185c2dbd38df5bcf6d580b88c89d4ed699bd81f559f9"
     },
     {
       "path": "packages/tokens/README.md",
@@ -3971,19 +3971,19 @@
       "path": "packages/ui-cli/pack.manifest.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "4492623930dc6e74256b35c70a02d42405232143157b42813895ed5e1fdae407"
+      "sha256": "861a77ac5428ea9a75a0f839a6c96f1238f1436b754071cdfe9f9bc69a64a669"
     },
     {
       "path": "packages/ui-cli/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "7ede2ebe376940ab3630ae75a4c95b5d5aa70becb517a9e73113319abf3a0cca"
+      "sha256": "9a688f530c8b5827492ca8a06567dc4623b61a0d0ebdeabd3255132a9ccab647"
     },
     {
       "path": "packages/ui-cli/README.md",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "4a7985fe920630036f5980b97b085cf0ea8e56304cf25ac46d7cfaed167b8483"
+      "sha256": "faad84ea51b80e8ba0e1a455133b6c8c2c1c79d469a60c64b1873f3128086a17"
     },
     {
       "path": "packages/ui-cli/scripts/check-adoption-fixtures.mjs",
@@ -4169,7 +4169,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "5ff1dbea84d61643c91cc163b57e1ec85f0bd2cdb178c50c21d6cdda943f85e8"
+      "sha256": "034df580c58bb41b5b5cef016dcebe5b3cd2a032b26dbcf71a4e0dd0299808c3"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -5915,7 +5915,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "e81f16709aae4426818754225513b2309ec8668fc3295ba9f6cc185f0bef8f1b"
+      "sha256": "b9275fe8e387a4dbba4cdc0628ca101372798806545d10bb32b9fb4c7310292e"
     },
     {
       "path": "scripts/__tests__/build-static-registry.test.mjs",
@@ -5927,13 +5927,13 @@
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "3db426a4f036611a7460dd17c19b6a94f41e8b08da927213aef6898e61cf82f9"
+      "sha256": "40e102459fc4585557231667ac5d92d92559d37bfc356d74908dc9f5c9e1afde"
     },
     {
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "1ec8ad166bb00de3e4c3a9cd7fefd8815e5aca7a69c1d3c7ee4d104e3d99985a"
+      "sha256": "f8161712389f77e896d60d1c1b155139f1a6edc6c1fb4ff487d4ccd74654480a"
     },
     {
       "path": "scripts/build-static-registry.mjs",
@@ -5957,13 +5957,13 @@
       "path": "scripts/check-release-readiness.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "729dfa5ab490c4ac4550d76f88be4243c7df45570143840e8320893f2338ea5d"
+      "sha256": "22ea48b087ff340737ff973644ffbc54cda562a8c8b06590209f15bf7be3651f"
     },
     {
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "43223239b0af43222c98d9e26aa2e470efc41ebd029c7fea5fb0c0cf9d6209f1"
+      "sha256": "32ff567bcc35710914f3ac927ebb329a2be6855b389af4ed48cf0690cc604e39"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5987,7 +5987,7 @@
       "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "33cabccd165ae86d6bc6a47f53eed576c8d91019d0f859d047a36bc41bbb8773"
+      "sha256": "20b84b8d86433979824da4c6fa4049b3d31e0141781d8b27c9a17899931dc733"
     },
     {
       "path": "scripts/repository-migration/filter-repo.args",
@@ -5999,13 +5999,13 @@
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "711141102ca599a2c0d357d438e5a3d9576a5c6b0e094d620d24a992467c4552"
+      "sha256": "f71da8023e8ff34907152ffba5e75a441a4b84082157b2e595217f1a52e950e3"
     },
     {
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "05c62e84be1816a51f54bbbf366e39acbcff7c1671fc72e66feb76b19424bb42"
+      "sha256": "99d480731cc5353d43f0a5415f12700a97bea5c5acbdf61397cc424f12fd91cc"
     },
     {
       "path": "SECURITY.md",

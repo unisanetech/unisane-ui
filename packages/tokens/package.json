@@ -1,6 +1,6 @@
 {
   "name": "@unisane/tokens",
-  "version": "0.1.0-next.b67ebfd0.1",
+  "version": "0.1.0",
   "description": "Semantic design tokens and generated CSS for Unisane interfaces",
   "type": "module",
   "private": false,
@@ -24,7 +24,7 @@
   "publishConfig": {
     "access": "public",
     "provenance": true,
-    "tag": "next"
+    "tag": "latest"
   },
   "engines": {
     "node": ">=22.0.0"

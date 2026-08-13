@@ -12,8 +12,7 @@ view: current
 # Licensing and public-release readiness
 
 The founder approved registry-first dual distribution and MIT-licensed public npm
-prerelease publication for these exact packages at `0.1.0-next.b67ebfd0.1` under the
-`next` tag:
+publication for these exact packages at stable version `0.1.0` under the `latest` tag:
 
 - `@unisane/tokens`
 - `@unisane/ui`
@@ -28,7 +27,7 @@ registry and publishes the standalone `unisane-ui` executable. It has no depende
 an unscoped CLI host or Unisane runtime package. `@unisane/ui-docs` and the workspace root
 remain private and are not part of this release.
 
-Registry consumers run `pnpm dlx @unisane/ui-cli@next ...` to write application-owned
+Registry consumers run `pnpm dlx @unisane/ui-cli@latest ...` to write application-owned
 source and do not retain the CLI or runtime UI packages as application runtime
 dependencies.
 
@@ -38,7 +37,7 @@ Neither command publishes anything.
 
 The canonical public source repository is
 `https://github.com/unisanetech/unisane-ui`. Its manually dispatched
-`publish-prerelease.yml` workflow rechecks the release boundary on a GitHub-hosted
+`publish-release.yml` workflow rechecks the release boundary on a GitHub-hosted
 runner before publishing the approved package set with npm provenance. It publishes
 through pnpm so workspace dependency protocols become concrete registry versions in the
 public package manifests. The workflow first verifies the exact standalone CLI and packed

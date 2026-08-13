@@ -14,7 +14,7 @@ Browse the component gallery and documentation at [ui.unisane.com](https://ui.un
 Run the UI-owned registry CLI directly:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next init --theme blue
+pnpm dlx @unisane/ui-cli@latest init --theme blue
 ```
 
 `init` detects Next.js or Vite, detects your package manager, creates the standard
@@ -24,7 +24,7 @@ the exact dependencies it needs.
 Then add the components you need:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next add button card text-field
+pnpm dlx @unisane/ui-cli@latest add button card text-field
 ```
 
 The installed files belong to your application:
@@ -42,15 +42,15 @@ export function SavePanel() {
 }
 ```
 
-Use `pnpm dlx @unisane/ui-cli@next diff` to inspect upstream changes. Updates never silently
+Use `pnpm dlx @unisane/ui-cli@latest diff` to inspect upstream changes. Updates never silently
 overwrite application-owned source.
 
 Browse the catalog before adding source:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next list
-pnpm dlx @unisane/ui-cli@next search "date picker"
-pnpm dlx @unisane/ui-cli@next view button
+pnpm dlx @unisane/ui-cli@latest list
+pnpm dlx @unisane/ui-cli@latest search "date picker"
+pnpm dlx @unisane/ui-cli@latest view button
 ```
 
 The public catalog is served at `https://ui.unisane.com/r/registry.json`. Each item

@@ -26,7 +26,7 @@ import {
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const producerDirectory = 'packages/email-templates';
 const producerPackageRoot = path.join(repositoryRoot, producerDirectory);
-const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0.1';
+const approvedVersion = '0.1.0';
 const producerInputPaths = Object.freeze([
   `${producerDirectory}/LICENSE`,
   `${producerDirectory}/README.md`,
@@ -158,7 +158,7 @@ function assertPathsMatchRevision(revision, paths, label) {
 function assertExactManifestContract(manifest) {
   const exactFields = {
     name: '@unisane/email-templates',
-    version: approvedPrereleaseVersion,
+    version: approvedVersion,
     description: 'Provider-neutral HTML and text email presentation for Unisane products',
     private: false,
     type: 'module',
@@ -178,7 +178,7 @@ function assertExactManifestContract(manifest) {
     publishConfig: {
       access: 'public',
       provenance: true,
-      tag: 'next',
+      tag: 'latest',
     },
     repository: {
       type: 'git',
@@ -235,12 +235,10 @@ function buildAndPack(workRoot) {
   run('pnpm', ['--filter', '@unisane/email-templates', 'build']);
   run('pnpm', ['--filter', '@unisane/email-templates', 'pack', '--pack-destination', tarballRoot]);
   const tarballName = readdirSync(tarballRoot).find(
-    (entry) => entry === `unisane-email-templates-${approvedPrereleaseVersion}.tgz`,
+    (entry) => entry === `unisane-email-templates-${approvedVersion}.tgz`,
   );
   if (!tarballName) {
-    throw new Error(
-      `Missing packed @unisane/email-templates ${approvedPrereleaseVersion} archive.`,
-    );
+    throw new Error(`Missing packed @unisane/email-templates ${approvedVersion} archive.`);
   }
   const tarballPath = path.join(tarballRoot, tarballName);
   run('tar', ['-xzf', tarballPath, '-C', extractedRoot, '--strip-components=1']);

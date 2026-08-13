@@ -5,11 +5,11 @@ import { access, readFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
-const approvedVersion = '0.1.0-next.b67ebfd0.1';
+const approvedVersion = '0.1.0';
 const standaloneCli = {
   packageName: '@unisane/ui-cli',
   executable: 'unisane-ui',
-  invocation: 'pnpm dlx @unisane/ui-cli@next',
+  invocation: 'pnpm dlx @unisane/ui-cli@latest',
 };
 const publicPackages = [
   'packages/tokens/package.json',
@@ -37,9 +37,9 @@ const requiredLegalArtifacts = [
 const expectedRepositoryUrl = 'https://github.com/unisanetech/unisane-ui.git';
 const expectedHomepage = 'https://github.com/unisanetech/unisane-ui#readme';
 const expectedBugsUrl = 'https://github.com/unisanetech/unisane-ui/issues';
-const publishWorkflowPath = '.github/workflows/publish-prerelease.yml';
+const publishWorkflowPath = '.github/workflows/publish-release.yml';
 const approvedPublishCommand =
-  'run: pnpm publish --access public --tag next --provenance --no-git-checks';
+  'run: pnpm publish --access public --tag latest --provenance --no-git-checks';
 const blockers = [];
 
 function stableValue(value) {
@@ -103,9 +103,9 @@ for (const relativePath of publicPackages) {
   if (
     manifest.publishConfig?.access !== 'public' ||
     manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'next'
+    manifest.publishConfig?.tag !== 'latest'
   ) {
-    blockers.push(`${manifest.name} has incorrect public prerelease publish metadata`);
+    blockers.push(`${manifest.name} has incorrect stable public publish metadata`);
   }
 }
 
@@ -170,7 +170,7 @@ try {
     JSON.stringify(approval.excludedPackages) !== JSON.stringify(['@unisane/ui-docs']) ||
     approval.release?.version !== approvedVersion ||
     approval.release?.registry !== 'https://registry.npmjs.org/' ||
-    approval.release?.tag !== 'next' ||
+    approval.release?.tag !== 'latest' ||
     approval.release?.access !== 'public' ||
     approval.release?.provenanceRequired !== true ||
     registryDistribution?.model !== 'registry-first-dual-distribution' ||
@@ -180,7 +180,7 @@ try {
     registryDistribution?.consumerImportPrefix !== '@/components/ui' ||
     registryDistribution?.runtimeUiPackageRequired !== false
   ) {
-    blockers.push('release approval does not match the registry-first public prerelease contract');
+    blockers.push('release approval does not match the registry-first stable public contract');
   }
 } catch {
   // The missing approval artifact is already reported above.

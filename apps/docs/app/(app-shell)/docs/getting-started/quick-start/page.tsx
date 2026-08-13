@@ -33,7 +33,7 @@ export default function QuickStartPage() {
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
             First, add the components you need using the CLI:
           </Typography>
-          <CliCommand command="pnpm dlx @unisane/ui-cli@next add button card" />
+          <CliCommand command="pnpm dlx @unisane/ui-cli@latest add button card" />
 
           <Typography variant="bodyMedium" className="text-on-surface-variant max-w-2xl">
             Then use them in your component:
@@ -147,7 +147,7 @@ export function Counter() {
         description="Combine form components to create interactive user interfaces."
       >
         <div className="space-y-6">
-          <CliCommand command="pnpm dlx @unisane/ui-cli@next add text-field checkbox" />
+          <CliCommand command="pnpm dlx @unisane/ui-cli@latest add text-field checkbox" />
 
           <div className="grid grid-cols-1 gap-6 @xl:grid-cols-2">
             <CodeBlock

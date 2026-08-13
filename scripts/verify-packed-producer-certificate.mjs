@@ -34,7 +34,7 @@ const forbiddenArchivePath =
   /(?:^|\/)(?:\.git|\.skopos|\.turbo|coverage|node_modules|src|test|tests|tmp)(?:\/|$)/iu;
 const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
-const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0.1';
+const approvedVersion = '0.1.0';
 const themeNames = Object.freeze([
   'black',
   'blue',
@@ -132,7 +132,7 @@ export const PACKED_CONSUMER_LOCK_PATH = path.join(
   'scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml',
 );
 const approvedPackedConsumerLockSha256 =
-  '33cabccd165ae86d6bc6a47f53eed576c8d91019d0f859d047a36bc41bbb8773';
+  '20b84b8d86433979824da4c6fa4049b3d31e0141781d8b27c9a17899931dc733';
 export const ACTIVE_PNPM_STORE_DIRECTORY = path.dirname(run('pnpm', ['store', 'path']).trim());
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
@@ -143,7 +143,7 @@ export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   `--store-dir=${ACTIVE_PNPM_STORE_DIRECTORY}`,
 ]);
 const packedTarballLocator =
-  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.1\.tgz/gu;
+  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0\.tgz/gu;
 const externalConsumerDependencyContracts = Object.freeze([
   Object.freeze({ field: 'peerDependencies', name: 'react' }),
   Object.freeze({ field: 'peerDependencies', name: 'react-dom' }),
@@ -419,19 +419,17 @@ function assertExactArchiveClosure(profile, manifest, targets, entries, extracte
 }
 
 export function assertPackedManifest(profile, manifest, entries, extractedRoot) {
-  if (manifest.name !== profile.name || manifest.version !== approvedPrereleaseVersion) {
-    throw new Error(
-      `${profile.name} packed identity must remain exact ${approvedPrereleaseVersion}.`,
-    );
+  if (manifest.name !== profile.name || manifest.version !== approvedVersion) {
+    throw new Error(`${profile.name} packed identity must remain exact ${approvedVersion}.`);
   }
   if (
     manifest.private !== false ||
     manifest.license !== 'MIT' ||
     manifest.publishConfig?.access !== 'public' ||
     manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'next'
+    manifest.publishConfig?.tag !== 'latest'
   ) {
-    throw new Error(`${profile.name} approved public prerelease metadata drifted.`);
+    throw new Error(`${profile.name} approved stable public metadata drifted.`);
   }
   if (!entries.includes('LICENSE')) {
     throw new Error(`${profile.name} packed archive must include its MIT LICENSE.`);
@@ -552,7 +550,7 @@ function buildAndPackCandidates(workRoot) {
   return packageProfiles.map((profile) => {
     const expectedPrefix = profile.name.replace('@', '').replace('/', '-');
     const tarballName = tarballs.find(
-      (entry) => entry === `${expectedPrefix}-${approvedPrereleaseVersion}.tgz`,
+      (entry) => entry === `${expectedPrefix}-${approvedVersion}.tgz`,
     );
     if (!tarballName) throw new Error(`Missing packed artifact for ${profile.name}.`);
     const tarballPath = path.join(tarballRoot, tarballName);
@@ -785,8 +783,8 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     },
     pnpm: {
       overrides: {
-        [`@unisane/tokens@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/tokens'),
-        [`@unisane/ui@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/ui'),
+        [`@unisane/tokens@${approvedVersion}`]: fileSpecifier('@unisane/tokens'),
+        [`@unisane/ui@${approvedVersion}`]: fileSpecifier('@unisane/ui'),
       },
     },
     packageManager: 'pnpm@10.26.0',
@@ -840,18 +838,11 @@ function verifyExternalConsumer(workRoot, candidates, records) {
 
 function assertExactInternalCoordinates(candidates) {
   const manifests = new Map(candidates.map((candidate) => [candidate.name, candidate.manifest]));
-  if (
-    manifests.get('@unisane/ui').dependencies?.['@unisane/tokens'] !== approvedPrereleaseVersion
-  ) {
-    throw new Error(`Packed UI must depend on exact @unisane/tokens ${approvedPrereleaseVersion}.`);
+  if (manifests.get('@unisane/ui').dependencies?.['@unisane/tokens'] !== approvedVersion) {
+    throw new Error(`Packed UI must depend on exact @unisane/tokens ${approvedVersion}.`);
   }
-  if (
-    manifests.get('@unisane/data-table').peerDependencies?.['@unisane/ui'] !==
-    approvedPrereleaseVersion
-  ) {
-    throw new Error(
-      `Packed DataTable must peer on exact @unisane/ui ${approvedPrereleaseVersion}.`,
-    );
+  if (manifests.get('@unisane/data-table').peerDependencies?.['@unisane/ui'] !== approvedVersion) {
+    throw new Error(`Packed DataTable must peer on exact @unisane/ui ${approvedVersion}.`);
   }
   for (const dependency of ['xlsx', 'jspdf', 'jspdf-autotable']) {
     if (!(dependency in (manifests.get('@unisane/data-table').dependencies ?? {}))) {
@@ -935,7 +926,7 @@ export function buildCertificateSummary(
     consumerImports,
     consumerProof,
     approvedRelease: {
-      version: approvedPrereleaseVersion,
+      version: approvedVersion,
       license: 'MIT',
       approvalPath: 'docs/release-approval.json',
     },

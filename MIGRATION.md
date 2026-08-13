@@ -23,8 +23,8 @@ The root `@unisane/ui` barrel, wildcard modules, category-deep modules such as `
 External projects own installed source and local CSS. Initialize once, then add only the components the project needs:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next init --theme blue
-pnpm dlx @unisane/ui-cli@next add button dialog data-table
+pnpm dlx @unisane/ui-cli@latest init --theme blue
+pnpm dlx @unisane/ui-cli@latest add button dialog data-table
 ```
 
 ```tsx
@@ -38,13 +38,13 @@ Installed files contain no Unisane runtime import. `data-table` installs as one 
 Color selection remains replace-in-place project configuration:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next theme green
+pnpm dlx @unisane/ui-cli@latest theme green
 ```
 
 This changes only the managed semantic theme region in local `globals.css`, creates a backup, and preserves app-owned CSS. Runtime mode, density, contrast, radius, action shape, and elevation remain optional capabilities that can be enabled later without introducing another theme layer:
 
 ```bash
-pnpm dlx @unisane/ui-cli@next appearance enable --axes mode,density,contrast --persistence localStorage
+pnpm dlx @unisane/ui-cli@latest appearance enable --axes mode,density,contrast --persistence localStorage
 ```
 
 `Ripple`, focus/state layers, overlay helpers, navigation helpers, and action-control helpers are private support. Installers resolve them transitively; application code does not import them as public components.

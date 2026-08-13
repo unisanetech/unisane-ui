@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "approved",
   "approvedBy": "founder",
-  "approvedAt": "2026-08-13T11:38:29Z",
+  "approvedAt": "2026-08-13T20:30:23Z",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -14,9 +14,9 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.0-next.b67ebfd0.1",
+    "version": "0.1.0",
     "registry": "https://registry.npmjs.org/",
-    "tag": "next",
+    "tag": "latest",
     "access": "public",
     "provenanceRequired": true
   },
@@ -24,7 +24,7 @@
     "model": "registry-first-dual-distribution",
     "cliPackage": "@unisane/ui-cli",
     "cliExecutable": "unisane-ui",
-    "directInvocation": "pnpm dlx @unisane/ui-cli@next",
+    "directInvocation": "pnpm dlx @unisane/ui-cli@latest",
     "consumerImportPrefix": "@/components/ui",
     "runtimeUiPackageRequired": false
   },

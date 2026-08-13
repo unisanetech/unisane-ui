@@ -9,7 +9,7 @@ not depend on an unscoped CLI host or any Unisane runtime package.
 ## Installation
 
 ```bash
-pnpm dlx @unisane/ui-cli@next init --theme blue
+pnpm dlx @unisane/ui-cli@latest init --theme blue
 ```
 
 For repeated use, install it as a development tool and run `pnpm exec unisane-ui`.
@@ -21,8 +21,8 @@ restores source, configuration, manifest, and lock files if installation fails.
 ## Add Unisane UI
 
 ```bash
-pnpm dlx @unisane/ui-cli@next init --theme blue
-pnpm dlx @unisane/ui-cli@next add button card text-field
+pnpm dlx @unisane/ui-cli@latest init --theme blue
+pnpm dlx @unisane/ui-cli@latest add button card text-field
 ```
 
 Installed components use application-owned imports:

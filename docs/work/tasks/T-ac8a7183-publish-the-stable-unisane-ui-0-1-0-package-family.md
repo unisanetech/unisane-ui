@@ -11,7 +11,7 @@ provenance: accepted
 view: current
 risk: high-impact
 proofSubject: project-integration
-proofBaseline: baseline-9a989167c0db9399
+proofBaseline: baseline-76d96110c9f76550
 lastUpdated: 2026-08-13
 ---
 
@@ -53,9 +53,11 @@ Publish the stable Unisane UI 0.1.0 package family
 
 - `.github/workflows/publish-prerelease.yml`
 - `.github/workflows/publish-release.yml`
+- `apps/docs/app/(app-shell)/docs/getting-started`
 - `docs/guides/licensing-prerequisites.md`
 - `docs/reference/generated/repository-convergence-report.json`
 - `docs/release-approval.json`
+- `MIGRATION.md`
 - `package.json`
 - `packages/data-table/package.json`
 - `packages/email-templates/certificates/packed-producer-certificate.json`
@@ -63,8 +65,10 @@ Publish the stable Unisane UI 0.1.0 package family
 - `packages/tokens/package.json`
 - `packages/ui-cli/pack.manifest.json`
 - `packages/ui-cli/package.json`
+- `packages/ui-cli/README.md`
 - `packages/ui/package.json`
 - `pnpm-lock.yaml`
+- `README.md`
 - `scripts/__tests__`
 - `scripts/check-package-contents.mjs`
 - `scripts/check-release-readiness.mjs`
@@ -76,13 +80,15 @@ Publish the stable Unisane UI 0.1.0 package family
 ## Ownership Expansions
 
 - `2026-08-13T20:19:42.779Z` by `bhaskarbarma`: `scripts/check-package-contents.mjs` — The new exported CLI components schema is correctly packed, but the existing package-content owner omitted that declared root and fails CI.
+- `2026-08-13T20:26:59.417Z` by `bhaskarbarma`: `apps/docs/app/(app-shell)/docs/getting-started`, `packages/ui-cli/README.md`, `README.md` — Stable publication changes the canonical public command from @next to @latest in the root, CLI, and live documentation guidance.
+- `2026-08-13T20:29:33.906Z` by `bhaskarbarma`: `MIGRATION.md` — Stable publication makes @latest the canonical command in current public migration guidance.
 
 ## Steps
 
 - [x] **Record Task risk and detail before editing** (implementation, complete) — Confirm whether Task risk is light, standard, or high-impact. Keep the active Task current, use a Plan only for multi-Task direction, add a Decision for durable choices, and add or update a Finding for structural gaps.
 - [x] **Review the current pattern in unisane-ui** (implementation, complete) — Use the compact references to confirm the current scope, command surface, and docs entrypoints before editing code.
-- [ ] **Implement the smallest scoped change** (implementation, pending) — Carry out "Publish the stable Unisane UI 0.1.0 package family" inside the resolved scope before widening impact to adjacent areas.
-- [ ] **Sync docs and instruction surfaces if touched** (docs, pending) — Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.
+- [x] **Implement the smallest scoped change** (implementation, complete) — Carry out "Publish the stable Unisane UI 0.1.0 package family" inside the resolved scope before widening impact to adjacent areas.
+- [x] **Sync docs and instruction surfaces if touched** (docs, complete) — Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.
 
 ## Actions And Guards
 
@@ -98,7 +104,7 @@ Publish the stable Unisane UI 0.1.0 package family
 
 ## Memory Obligations
 
-- [open] guide: The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes. (target: `docs/guides/licensing-prerequisites.md`)
+- [complete] guide: The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes. (target: `docs/guides/licensing-prerequisites.md`); resolution: memory-updated
 
 ## Portable Task State
 
@@ -112,7 +118,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-13T20:14:02.977Z",
-  "updatedAt": "2026-08-13T20:19:42.779Z",
+  "updatedAt": "2026-08-13T20:35:38.827Z",
   "planIds": [],
   "childTasks": [],
   "state": "active",
@@ -185,7 +191,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   },
   "proofSubject": {
     "kind": "project-integration",
-    "baselineId": "baseline-9a989167c0db9399"
+    "baselineId": "baseline-76d96110c9f76550"
   },
   "priority": 0,
   "dependencyTaskIds": [],
@@ -209,14 +215,14 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "kind": "implementation",
       "title": "Implement the smallest scoped change",
       "detail": "Carry out \"Publish the stable Unisane UI 0.1.0 package family\" inside the resolved scope before widening impact to adjacent areas.",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "id": "step-sync-knowledge",
       "kind": "docs",
       "title": "Sync docs and instruction surfaces if touched",
       "detail": "Keep docs, instruction mirrors, and generated project knowledge aligned with the implementation.",
-      "status": "pending"
+      "status": "complete"
     }
   ],
   "selectedActions": [],
@@ -268,12 +274,36 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "id": "memory-guide-b57e5c2584",
       "role": "guide",
       "reason": "The declared Task scope owns canonical guide Memory at docs/guides/licensing-prerequisites.md; review and synchronize it if project truth changes.",
-      "status": "open",
-      "targetPath": "docs/guides/licensing-prerequisites.md"
+      "status": "complete",
+      "targetPath": "docs/guides/licensing-prerequisites.md",
+      "resolution": "memory-updated",
+      "resolutionReason": "Updated the canonical licensing and release guide from prerelease next to stable 0.1.0 latest publication.",
+      "resolvedAt": "2026-08-13T20:35:38.105Z",
+      "resolvedByActorId": "bhaskarbarma"
     }
   ],
   "questions": [],
-  "recommendations": [],
+  "recommendations": [
+    {
+      "id": "start-bounded-child-task",
+      "title": "Start a bounded child Task",
+      "summary": "The Task may be drifting from its admitted subject because ownership expanded 3 times. Keep this Task intact and move the suggested paths into focused follow-up work.",
+      "priority": "medium",
+      "actionKind": "start-child-task",
+      "command": "skopos task child start 'T-ac8a7183' 'Continue Publish the stable Unisane UI 0.1.0 package family as bounded follow-up work' . --scope 'workspace' --own 'apps/docs/app/(app-shell)/docs/getting-started' --own 'MIGRATION.md' --own 'packages/ui-cli/README.md' --own 'README.md' --own 'scripts/check-package-contents.mjs' --reason 'The Task may be drifting from its admitted subject because ownership expanded 3 times.' --actor 'bhaskarbarma'",
+      "ownedPaths": [
+        "apps/docs/app/(app-shell)/docs/getting-started",
+        "MIGRATION.md",
+        "packages/ui-cli/README.md",
+        "README.md",
+        "scripts/check-package-contents.mjs"
+      ],
+      "scopeId": "workspace",
+      "reason": "The Task may be drifting from its admitted subject because ownership expanded 3 times.",
+      "blocking": false,
+      "status": "open"
+    }
+  ],
   "ownershipExpansions": [
     {
       "paths": [
@@ -294,14 +324,66 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "affectedScopeIds": [
         "workspace"
       ]
+    },
+    {
+      "paths": [
+        "apps/docs/app/(app-shell)/docs/getting-started",
+        "packages/ui-cli/README.md",
+        "README.md"
+      ],
+      "reason": "Stable publication changes the canonical public command from @next to @latest in the root, CLI, and live documentation guidance.",
+      "actorId": "bhaskarbarma",
+      "recordedAt": "2026-08-13T20:26:59.417Z",
+      "baselinePaths": [
+        {
+          "path": "README.md",
+          "digest": "40b7aa12702ba70e47256ca1fc0abf159c1040104b3734b0bc8cf944564cd516"
+        },
+        {
+          "path": "apps/docs/app/(app-shell)/docs/getting-started",
+          "digest": "7312a3be76bfa0944fc33adfe029a9a8e4611f61e87cdac0ef66631ee18116ad"
+        },
+        {
+          "path": "packages/ui-cli/README.md",
+          "digest": "01b4c024b8f858a1f8fbbe096828309ef2c6f4bbb463d9b796607438c594eaec"
+        }
+      ],
+      "classification": "within-scope",
+      "priorScopeId": "workspace",
+      "nextScopeId": "workspace",
+      "affectedScopeIds": [
+        "workspace"
+      ]
+    },
+    {
+      "paths": [
+        "MIGRATION.md"
+      ],
+      "reason": "Stable publication makes @latest the canonical command in current public migration guidance.",
+      "actorId": "bhaskarbarma",
+      "recordedAt": "2026-08-13T20:29:33.906Z",
+      "baselinePaths": [
+        {
+          "path": "MIGRATION.md",
+          "digest": "85a207aff4a56a6b579d919651d613adade84bfdf712b7bd9707b16cb6ae9ba8"
+        }
+      ],
+      "classification": "within-scope",
+      "priorScopeId": "workspace",
+      "nextScopeId": "workspace",
+      "affectedScopeIds": [
+        "workspace"
+      ]
     }
   ],
   "declaredOwnedPaths": [
     ".github/workflows/publish-prerelease.yml",
     ".github/workflows/publish-release.yml",
+    "apps/docs/app/(app-shell)/docs/getting-started",
     "docs/guides/licensing-prerequisites.md",
     "docs/reference/generated/repository-convergence-report.json",
     "docs/release-approval.json",
+    "MIGRATION.md",
     "package.json",
     "packages/data-table/package.json",
     "packages/email-templates/certificates/packed-producer-certificate.json",
@@ -309,8 +391,10 @@ This machine-readable block is the durable source used to rebuild local Skopos s
     "packages/tokens/package.json",
     "packages/ui-cli/pack.manifest.json",
     "packages/ui-cli/package.json",
+    "packages/ui-cli/README.md",
     "packages/ui/package.json",
     "pnpm-lock.yaml",
+    "README.md",
     "scripts/__tests__",
     "scripts/check-package-contents.mjs",
     "scripts/check-release-readiness.mjs",

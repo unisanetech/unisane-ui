@@ -194,13 +194,13 @@ for (const packagePath of publicPackagePaths) {
   publicManifests.set(manifest.name, manifest);
   if (manifest.private !== false) recordViolation(packagePath, 'approved package is not public');
   if (manifest.license !== 'MIT') recordViolation(packagePath, 'approved package is not MIT');
-  if (manifest.version !== '0.1.0-next.b67ebfd0.1') {
-    recordViolation(packagePath, 'approved prerelease identity drifted');
+  if (manifest.version !== '0.1.0') {
+    recordViolation(packagePath, 'approved stable release identity drifted');
   }
   if (
     manifest.publishConfig?.access !== 'public' ||
     manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'next'
+    manifest.publishConfig?.tag !== 'latest'
   ) {
     recordViolation(packagePath, 'approved public publish configuration drifted');
   }
