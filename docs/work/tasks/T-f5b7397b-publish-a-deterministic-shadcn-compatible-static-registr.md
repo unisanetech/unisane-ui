@@ -11,7 +11,7 @@ provenance: accepted
 view: current
 risk: high-impact
 proofSubject: task-closure
-proofBaseline: baseline-364bd66b1b41fb5c
+proofBaseline: baseline-e266f7da456e53e9
 lastUpdated: 2026-08-13
 ---
 
@@ -67,12 +67,14 @@ Publish a deterministic Shadcn-compatible static registry and align CLI pack dis
 - `README.md`
 - `scripts/__tests__/build-static-registry.test.mjs`
 - `scripts/build-static-registry.mjs`
+- `scripts/check-repository-boundaries.mjs`
 - `scripts/check-static-registry.mjs`
 
 ## Ownership Expansions
 
 - `2026-08-13T15:57:34.717Z` by `bhaskarbarma`: `packages/ui-cli/src/commands/catalog.ts` — The pack parity regression proved catalog JSON must write through the handler-captured stdout surface.
 - `2026-08-13T15:58:09.195Z` by `bhaskarbarma`: `packages/ui-cli/tests/catalog.test.ts` — The existing catalog unit test must observe the captured stdout contract used by both standalone and pack transports.
+- `2026-08-13T16:12:02.875Z` by `bhaskarbarma`: `scripts/check-repository-boundaries.mjs` — Prevent ignored registry build output from entering the tracked convergence ledger and breaking clean-clone verification.
 
 ## Steps
 
@@ -111,7 +113,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-13T15:50:27.055Z",
-  "updatedAt": "2026-08-13T16:07:47.561Z",
+  "updatedAt": "2026-08-13T16:12:02.875Z",
   "planIds": [],
   "childTasks": [],
   "state": "active",
@@ -184,7 +186,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   },
   "proofSubject": {
     "kind": "task-closure",
-    "baselineId": "baseline-364bd66b1b41fb5c"
+    "baselineId": "baseline-e266f7da456e53e9"
   },
   "priority": 0,
   "dependencyTaskIds": [],
@@ -336,6 +338,23 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "linkedQuestionId": "plan.public-api-change",
       "blocking": true,
       "status": "complete"
+    },
+    {
+      "id": "start-bounded-child-task",
+      "title": "Start a bounded child Task",
+      "summary": "The Task may be drifting from its admitted subject because ownership expanded 3 times. Keep this Task intact and move the suggested paths into focused follow-up work.",
+      "priority": "medium",
+      "actionKind": "start-child-task",
+      "command": "skopos task child start 'T-f5b7397b' 'Continue Publish a deterministic Shadcn-compatible static registry and align CLI pack discovery as bounded follow-up work' . --scope 'workspace' --own 'packages/ui-cli/src/commands/catalog.ts' --own 'packages/ui-cli/tests/catalog.test.ts' --own 'scripts/check-repository-boundaries.mjs' --reason 'The Task may be drifting from its admitted subject because ownership expanded 3 times.' --actor 'bhaskarbarma'",
+      "ownedPaths": [
+        "packages/ui-cli/src/commands/catalog.ts",
+        "packages/ui-cli/tests/catalog.test.ts",
+        "scripts/check-repository-boundaries.mjs"
+      ],
+      "scopeId": "workspace",
+      "reason": "The Task may be drifting from its admitted subject because ownership expanded 3 times.",
+      "blocking": false,
+      "status": "open"
     }
   ],
   "ownershipExpansions": [
@@ -378,6 +397,26 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "affectedScopeIds": [
         "workspace"
       ]
+    },
+    {
+      "paths": [
+        "scripts/check-repository-boundaries.mjs"
+      ],
+      "reason": "Prevent ignored registry build output from entering the tracked convergence ledger and breaking clean-clone verification.",
+      "actorId": "bhaskarbarma",
+      "recordedAt": "2026-08-13T16:12:02.875Z",
+      "baselinePaths": [
+        {
+          "path": "scripts/check-repository-boundaries.mjs",
+          "digest": "d868eb652272be4d6a2fe862d4edf55cd68ac8b32f161661a60639ee25827a6c"
+        }
+      ],
+      "classification": "within-scope",
+      "priorScopeId": "workspace",
+      "nextScopeId": "workspace",
+      "affectedScopeIds": [
+        "workspace"
+      ]
     }
   ],
   "declaredOwnedPaths": [
@@ -397,6 +436,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
     "README.md",
     "scripts/__tests__/build-static-registry.test.mjs",
     "scripts/build-static-registry.mjs",
+    "scripts/check-repository-boundaries.mjs",
     "scripts/check-static-registry.mjs"
   ]
 }

@@ -13,6 +13,7 @@ const ignoredDirectories = new Set([
   '.git',
   '.next',
   '.skopos',
+  '.tmp',
   '.turbo',
   'coverage',
   'dist',
