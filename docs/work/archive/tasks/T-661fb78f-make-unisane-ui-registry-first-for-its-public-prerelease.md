@@ -1,17 +1,17 @@
 ---
 title: "Task: Make Unisane UI registry-first for its public prerelease"
-status: active
+status: complete
 owner: "bhaskarbarma"
 id: T-661fb78f
 scope: "workspace"
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: high-impact
 proofSubject: task-closure
-proofBaseline: baseline-a9dbe68826414e19
+proofBaseline: baseline-b92f0fd37c989bde
 lastUpdated: 2026-08-13
 ---
 
@@ -19,7 +19,7 @@ lastUpdated: 2026-08-13
 
 ## Changelog
 
-- `2026-08-13`: Synchronized Task state `active` from Skopos.
+- `2026-08-13`: Synchronized Task state `complete` from Skopos.
 
 ## Goal
 
@@ -65,6 +65,7 @@ Make Unisane UI registry-first for its public prerelease
 - `package.json`
 - `packages/data-table/package.json`
 - `packages/data-table/README.md`
+- `packages/email-templates/certificates/packed-producer-certificate.json`
 - `packages/email-templates/package.json`
 - `packages/email-templates/README.md`
 - `packages/tokens/package.json`
@@ -81,6 +82,7 @@ Make Unisane UI registry-first for its public prerelease
 ## Ownership Expansions
 
 - `2026-08-13T12:18:39.244Z` by `bhaskarbarma`: `scripts/check-repository-boundaries.mjs` — Update the canonical boundary owner to the approved five-package registry-first release contract.
+- `2026-08-13T12:21:19.343Z` by `bhaskarbarma`: `packages/email-templates/certificates/packed-producer-certificate.json` — Refresh the canonical packed email certificate against the immutable registry-first implementation revision.
 
 ## Steps
 
@@ -116,12 +118,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "schemaVersion": 1,
   "id": "T-661fb78f",
   "type": "task",
-  "status": "active",
+  "status": "durable",
   "generatedAt": "2026-08-13T11:34:47.473Z",
-  "updatedAt": "2026-08-13T12:20:15.701Z",
+  "updatedAt": "2026-08-13T12:22:35.743Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "complete",
   "detail": "detailed",
   "title": "Make Unisane UI registry-first for its public prerelease",
   "goal": "Make Unisane UI registry-first for its public prerelease",
@@ -194,7 +196,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   },
   "proofSubject": {
     "kind": "task-closure",
-    "baselineId": "baseline-a9dbe68826414e19"
+    "baselineId": "baseline-b92f0fd37c989bde"
   },
   "priority": 0,
   "dependencyTaskIds": [],
@@ -318,6 +320,26 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "affectedScopeIds": [
         "workspace"
       ]
+    },
+    {
+      "paths": [
+        "packages/email-templates/certificates/packed-producer-certificate.json"
+      ],
+      "reason": "Refresh the canonical packed email certificate against the immutable registry-first implementation revision.",
+      "actorId": "bhaskarbarma",
+      "recordedAt": "2026-08-13T12:21:19.343Z",
+      "baselinePaths": [
+        {
+          "path": "packages/email-templates/certificates/packed-producer-certificate.json",
+          "digest": "c64f827a5835209e410b0cb237c2ea4a0e3577ff0b5b42efc7dab99ff6fb68c2"
+        }
+      ],
+      "classification": "within-scope",
+      "priorScopeId": "workspace",
+      "nextScopeId": "workspace",
+      "affectedScopeIds": [
+        "workspace"
+      ]
     }
   ],
   "declaredOwnedPaths": [
@@ -334,6 +356,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
     "package.json",
     "packages/data-table/package.json",
     "packages/data-table/README.md",
+    "packages/email-templates/certificates/packed-producer-certificate.json",
     "packages/email-templates/package.json",
     "packages/email-templates/README.md",
     "packages/tokens/package.json",

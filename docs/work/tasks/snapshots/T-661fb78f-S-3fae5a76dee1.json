@@ -1,0 +1,116 @@
+{
+  "snapshotId": "S-3fae5a76dee1",
+  "taskId": "T-661fb78f",
+  "sessionId": "registry-first-closure",
+  "actorId": "bhaskarbarma",
+  "baseRevision": "baa0f0a3d33eab9211492d08b1ff49d232674717",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-prerelease.yml",
+      "digest": "756d6cd793a20b777d5215841f950dad9aafb3d46af096cd3c1ac0e1f5338e50"
+    },
+    {
+      "path": "README.md",
+      "digest": "b9ed0ec45f6be07e04cfc9086b1e46634effe10b10e9bb9e24568f48060806bc"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "digest": "f0e7646fd975fae779b67b37b9ff8a8a3b8905d72810ee97edd355cda770ccee"
+    },
+    {
+      "path": "apps/docs/README.md",
+      "digest": "fd6653e65ac8a4782271861d30584323eb7ffaf9fa89ceaefe9ff164dbf1afac"
+    },
+    {
+      "path": "apps/docs/app/(app-shell)/docs",
+      "digest": "7a670f2d15b40bc4f823c96cc5c5b4e6d02d73fc2bd2f668e5c7479c5af102f4"
+    },
+    {
+      "path": "apps/docs/features/home",
+      "digest": "8d2b20c637e619c0b2a89a41766730c6fc4e7f847ac0ddd8c0c2859ed4a9d0a6"
+    },
+    {
+      "path": "docs/00-start-here.md",
+      "digest": "af90433ae9c762bbe961c758d643afccb607354052c1f639e8a1243ddd37c197"
+    },
+    {
+      "path": "docs/architecture/design-system.md",
+      "digest": "a43d7e2a6fea26814ffcfeac51ca52843bba0db9103b252488d3a63d3f959bb8"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "digest": "5b28736de56b5fff2d0c63d65da1b08aed65d7ef12f50799ac075b1ab48d16a2"
+    },
+    {
+      "path": "docs/overview.md",
+      "digest": "09cfb03eedfb2dc34cbee9004403c8457094f54399120b31c9b8582fa4926c6f"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "fe6d54da6fb6ac02fb5b1362edd38ab9416bb41605fbdd4b63a32a556d9c0d83"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "a34d76b0838136703fa4ed197962f0702695015d026a49624fa2c5b4124851b7"
+    },
+    {
+      "path": "package.json",
+      "digest": "e9f41403a479e75c67d11a92f99181a1dfb0a04c24074a869ea32fe24cf2c500"
+    },
+    {
+      "path": "packages/data-table/README.md",
+      "digest": "1140a9ca5dd0373c62ae6413ab04cecc09b2b3de281f4029ce7150ca79c43a83"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "e05ef1ab6e5cf55bc049b2c5b88084a6898bf12b59fa00ab5e5e09ce98a36258"
+    },
+    {
+      "path": "packages/email-templates/README.md",
+      "digest": "c65c15a30fdfc9bf80ac124f05a858830346fd3230fac6a41d3cc903e1791175"
+    },
+    {
+      "path": "packages/email-templates/certificates/packed-producer-certificate.json",
+      "digest": "c64f827a5835209e410b0cb237c2ea4a0e3577ff0b5b42efc7dab99ff6fb68c2"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "c8d9d8b49d01d91680afef6545d00e936fe5757f32b3281789abcb83e65ca317"
+    },
+    {
+      "path": "packages/tokens/README.md",
+      "digest": "61585086c05f83c73c39ae22854124ada2b0a1a8f490e6b1c0aa3d8cc7629042"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "eaa28fef02e44532b9fe2f44a076744fdfcf6c4d1e0fa4a703df7d2e64bb2bc6"
+    },
+    {
+      "path": "packages/ui-cli",
+      "digest": "9e08e9b0718dc29f21253b8c25961b870b84ae9983c3296b501ebe76948b71a9"
+    },
+    {
+      "path": "packages/ui/README.md",
+      "digest": "a14abdc98c3e1984baceb838b8b1d4d9150dd3d52502a0f7e4bf5b92cd903252"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "d5c91111e0c54adb0823804bf2420887280db91d28ab2b1afd2bf2b95e0b3146"
+    },
+    {
+      "path": "scripts/check-package-contents.mjs",
+      "digest": "362ec300f2af6adae9e568a6c9b56ce816cb2ce414cb4cba4a2113e53ac289df"
+    },
+    {
+      "path": "scripts/check-release-readiness.mjs",
+      "digest": "ab0dd182805d5025383c912fb6c14345c970fc8e2a83d5b2e1835d98b0f5ebff"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "f3dfe94ce0599b1444d1b99f87bd72dd18213c3acd0a1ff7871699523687c6d6"
+    }
+  ],
+  "digest": "3fae5a76dee1782ce3a23cc44ee7227f5ebc183e6b4be95df871dd13cd84b13e",
+  "createdAt": "2026-08-13T12:22:26.221Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-661fb78f-S-3fae5a76dee1.json"
+}
