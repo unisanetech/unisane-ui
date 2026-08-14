@@ -27,9 +27,9 @@ registry and publishes the standalone `unisane-ui` executable. It has no depende
 an unscoped CLI host or Unisane runtime package. `@unisane/ui-docs` and the workspace root
 remain private and are not part of this release.
 
-Registry consumers run `pnpm dlx @unisane/ui-cli@latest ...` to write application-owned
-source and do not retain the CLI or runtime UI packages as application runtime
-dependencies.
+Registry consumers invoke `@unisane/ui-cli@latest` through `npx`, `pnpm dlx`,
+`yarn dlx`, or `bunx` to write application-owned source. They do not retain the CLI or
+runtime UI packages as application runtime dependencies.
 
 `pnpm check:release-readiness` validates the source-side release contract. Packed
 producer checks prove the distributable contents and clean external-consumer behavior.

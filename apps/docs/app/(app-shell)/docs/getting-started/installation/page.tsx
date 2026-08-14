@@ -57,7 +57,7 @@ export default function InstallationPage() {
               Run the registry CLI directly. It writes application source and is not required by
               your production runtime.
             </Typography>
-            <CliCommand command="pnpm dlx @unisane/ui-cli@latest init --theme blue" />
+            <CliCommand command="@unisane/ui-cli@latest init --theme blue" />
           </div>
 
           <div className="space-y-4">
@@ -66,7 +66,7 @@ export default function InstallationPage() {
               Add the components you need. Their complete dependency closure is written into your
               application.
             </Typography>
-            <CliCommand command="pnpm dlx @unisane/ui-cli@latest add button card" />
+            <CliCommand command="@unisane/ui-cli@latest add button card" />
           </div>
 
           {/* Step 3: Import and Use */}

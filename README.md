@@ -14,8 +14,19 @@ Browse the component gallery and documentation at [ui.unisane.com](https://ui.un
 Run the UI-owned registry CLI directly:
 
 ```bash
-pnpm dlx @unisane/ui-cli@latest init --theme blue
+npx @unisane/ui-cli@latest init --theme blue
 ```
+
+Use the equivalent runner for your project:
+
+| Package manager | Command                                             |
+| --------------- | --------------------------------------------------- |
+| npm             | `npx @unisane/ui-cli@latest init --theme blue`      |
+| pnpm            | `pnpm dlx @unisane/ui-cli@latest init --theme blue` |
+| Yarn 2+         | `yarn dlx @unisane/ui-cli@latest init --theme blue` |
+| Bun             | `bunx @unisane/ui-cli@latest init --theme blue`     |
+
+Use the same runner for every CLI command below.
 
 `init` detects Next.js or Vite, detects your package manager, creates the standard
 `components.json` project contract, installs the semantic CSS baseline, and installs
@@ -24,7 +35,7 @@ the exact dependencies it needs.
 Then add the components you need:
 
 ```bash
-pnpm dlx @unisane/ui-cli@latest add button card text-field
+npx @unisane/ui-cli@latest add button card text-field
 ```
 
 The installed files belong to your application:
@@ -42,22 +53,22 @@ export function SavePanel() {
 }
 ```
 
-Use `pnpm dlx @unisane/ui-cli@latest diff` to inspect upstream changes. Updates never silently
-overwrite application-owned source.
+Use `npx @unisane/ui-cli@latest diff` to inspect upstream changes. Updates never
+silently overwrite application-owned source.
 
 Browse the catalog before adding source:
 
 ```bash
-pnpm dlx @unisane/ui-cli@latest list
-pnpm dlx @unisane/ui-cli@latest search "date picker"
-pnpm dlx @unisane/ui-cli@latest view button
+npx @unisane/ui-cli@latest list
+npx @unisane/ui-cli@latest search "date picker"
+npx @unisane/ui-cli@latest view button
 ```
 
 The public catalog is served at `https://ui.unisane.com/r/registry.json`. Each item
 also has a stable Shadcn-compatible URL, for example:
 
 ```bash
-pnpm dlx shadcn@4.17.0 add https://ui.unisane.com/r/button.json
+npx shadcn@4.17.0 add https://ui.unisane.com/r/button.json
 ```
 
 `components.json` registers `@unisane` as
@@ -92,9 +103,16 @@ for boundaries that benefit from shared versioned artifacts.
 | `@unisane/data-table`      | Versioned DataTable runtime for complex data experiences              |
 | `@unisane/email-templates` | Independent provider-neutral email presentation package               |
 
-`@unisane/ui-cli` publishes the `unisane-ui` executable and can be run directly with
-`pnpm dlx`. Generated applications do not depend on the CLI, `@unisane/ui`,
-`@unisane/tokens`, or Unisane Core at runtime.
+`@unisane/ui-cli` publishes the `unisane-ui` executable and runs through `npx`,
+`pnpm dlx`, `yarn dlx`, or `bunx`. Generated applications do not depend on the CLI,
+`@unisane/ui`, `@unisane/tokens`, or Unisane Core at runtime.
+
+`@unisane/ui` is not a CLI. Install it only when you deliberately prefer versioned
+runtime imports over application-owned registry source:
+
+```bash
+npm install @unisane/ui@latest @unisane/tokens@latest react react-dom
+```
 
 ## Requirements
 

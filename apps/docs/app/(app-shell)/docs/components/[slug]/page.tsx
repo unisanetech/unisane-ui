@@ -238,7 +238,7 @@ export default function ComponentPage({ params }: ComponentPageProps) {
         title="Installation"
         description="Add this component to your project using the CLI."
       >
-        <CliCommand command={`@unisane/cli add ${slug}`} />
+        <CliCommand command={`@unisane/ui-cli@latest add ${slug}`} />
       </DocSection>
 
       {/* ─── EXAMPLES SECTION ──────────────────────────────────────────────────────── */}

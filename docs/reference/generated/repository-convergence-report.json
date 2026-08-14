@@ -293,7 +293,7 @@
       "path": "apps/docs/app/(app-shell)/docs/components/[slug]/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "f3ad5ed3dd596da8bd6f9a8ad30d02f458f7356330213bb0912126bac53409b6"
+      "sha256": "6d77bfbe00a46c917648ac75d22103de78be50feb6d00fc00e4c50f4b4d64b47"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/components/page.tsx",
@@ -323,7 +323,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/installation/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "5f1eb4220aa177fb6afe6b42dd6cb1df4c62b4ca100871974e616a0998210f35"
+      "sha256": "4e50e5564836fcca59255b5277c603470ad7051e4633a289b70b8bd35ac44fee"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/page.tsx",
@@ -335,7 +335,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/quick-start/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "666cf0eae3d3ee15b7468eefb7ecb3cc9e4f2efbaa50b1308dd35714f69a1dcc"
+      "sha256": "23c41533d06031eeec772b91d555efbbd52d1d65536a4fe2b53a1e75042da8ff"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/getting-started/styling/page.tsx",
@@ -347,7 +347,7 @@
       "path": "apps/docs/app/(app-shell)/docs/getting-started/theming/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "d0f7b0c91b558219f783e70683e69368117851c1335c0b768d622d1099fde643"
+      "sha256": "bc9c852aa64caca59ec9c2c7b2212afab2c222e54258ef95df2be61bf584e5b2"
     },
     {
       "path": "apps/docs/app/(app-shell)/docs/layout.tsx",
@@ -1235,7 +1235,7 @@
       "path": "apps/docs/features/docs-page/components/cli-command.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "8adb2bc14ce30df70a105210ffc93242912e6e9bf53d53e585c3190f2d695256"
+      "sha256": "1da0706dfb3fbbf44929398dd3ebe47e597c36b1262c1f2036eb879ee0dedb07"
     },
     {
       "path": "apps/docs/features/docs-page/components/code-block.tsx",
@@ -2201,7 +2201,7 @@
       "path": "docs/guides/licensing-prerequisites.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "2ea42090ca4280e8f9a81de65ed1cbff0bc206f5c03c58ca3f299d42972ef572"
+      "sha256": "aebefd6639fd4fa9530eaaa1f13b7be8fe0705cb40a9f9a21c9e21252c733598"
     },
     {
       "path": "docs/guides/repository-provenance.md",
@@ -5915,7 +5915,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "b9275fe8e387a4dbba4cdc0628ca101372798806545d10bb32b9fb4c7310292e"
+      "sha256": "e67391727d66e1d6d2c9446f87e26c778cd71d47e1283866cd11f6e87d437ac3"
     },
     {
       "path": "scripts/__tests__/build-static-registry.test.mjs",

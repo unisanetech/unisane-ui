@@ -6,28 +6,37 @@ import { IconButton } from '@unisane/ui/icon-button';
 import { Surface } from '@unisane/ui/surface';
 import { Tabs, TabsList, TabsTrigger } from '@unisane/ui/tabs';
 
-type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun';
+type PackageManager = 'npm' | 'pnpm' | 'yarn' | 'bun';
 
 interface CliCommandProps {
-  /** The package/command to run (e.g., "@unisane/cli add button") */
+  /** The package and arguments without a package-manager runner. */
   command: string;
   className?: string;
 }
 
 const PACKAGE_MANAGERS: { id: PackageManager; label: string; runner: string }[] = [
-  { id: 'pnpm', label: 'pnpm', runner: 'pnpm dlx' },
   { id: 'npm', label: 'npm', runner: 'npx' },
+  { id: 'pnpm', label: 'pnpm', runner: 'pnpm dlx' },
   { id: 'yarn', label: 'yarn', runner: 'yarn dlx' },
   { id: 'bun', label: 'bun', runner: 'bunx' },
 ];
 
+const PACKAGE_MANAGER_RUNNER_PATTERN = /^(?:npx|pnpm dlx|yarn dlx|bunx)\s+/;
+
 export function CliCommand({ command, className }: CliCommandProps) {
-  const [activeManager, setActiveManager] = useState<PackageManager>('pnpm');
+  const [activeManager, setActiveManager] = useState<PackageManager>('npm');
   const [copied, setCopied] = useState(false);
 
   const getFullCommand = (manager: PackageManager) => {
+    const normalizedCommand = command.trim();
+    if (!normalizedCommand || PACKAGE_MANAGER_RUNNER_PATTERN.test(normalizedCommand)) {
+      throw new Error(
+        'CliCommand expects a package and arguments without a package-manager runner.',
+      );
+    }
+
     const pm = PACKAGE_MANAGERS.find((p) => p.id === manager);
-    return `${pm?.runner} ${command}`;
+    return `${pm?.runner} ${normalizedCommand}`;
   };
 
   const handleCopy = async () => {

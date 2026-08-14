@@ -1,6 +1,6 @@
 'use client';
 
-import { DocLayout, DocSection } from '@/features/docs-page';
+import { CliCommand, DocLayout, DocSection } from '@/features/docs-page';
 import { ColorThemePreviewGrid } from '@/features/docs-page/components/color-theme-preview-grid';
 import { Button } from '@unisane/ui/button';
 import { Card } from '@unisane/ui/card';
@@ -35,17 +35,20 @@ export default function ThemingPage() {
             region is preserved.
           </Typography>
 
-          <CodeBlock
-            title="Choose or change a project theme"
-            code={`# New setup
-pnpm dlx @unisane/ui-cli@latest init --theme blue
-
-# Change it later
-pnpm dlx @unisane/ui-cli@latest theme green
-
-# Preview the change without writing
-pnpm dlx @unisane/ui-cli@latest theme purple --dry-run`}
-          />
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <Typography variant="labelLarge">New setup</Typography>
+              <CliCommand command="@unisane/ui-cli@latest init --theme blue" />
+            </div>
+            <div className="space-y-3">
+              <Typography variant="labelLarge">Change it later</Typography>
+              <CliCommand command="@unisane/ui-cli@latest theme green" />
+            </div>
+            <div className="space-y-3">
+              <Typography variant="labelLarge">Preview without writing</Typography>
+              <CliCommand command="@unisane/ui-cli@latest theme purple --dry-run" />
+            </div>
+          </div>
 
           <InfoCard icon="verified_user" variant="info">
             Theme replacement creates a{' '}
@@ -78,12 +81,12 @@ pnpm dlx @unisane/ui-cli@latest theme purple --dry-run`}
             contrast, density, radius, action shape, or elevation.
           </Typography>
 
-          <CodeBlock
-            title="Enable only the preferences your product exposes"
-            code={`pnpm dlx @unisane/ui-cli@latest appearance enable \\
-  --axes mode,density,contrast \\
-  --persistence localStorage`}
-          />
+          <div className="space-y-3">
+            <Typography variant="labelLarge">
+              Enable only the preferences your product exposes
+            </Typography>
+            <CliCommand command="@unisane/ui-cli@latest appearance enable --axes mode,density,contrast --persistence localStorage" />
+          </div>
 
           <CodeBlock
             title="app/layout.tsx"
