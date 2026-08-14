@@ -5,6 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import {
+  APPROVED_SAASKIT_UI_DEPENDENCIES,
   EXTERNAL_CONSUMER_INSTALL_ARGS,
   assertConsumerCoverage,
   assertConsumerSemanticContract,
@@ -15,6 +16,14 @@ import {
   collectConsumerImports,
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
+
+test('pins the approved Saaskit UI consumer dependencies to immutable published versions', () => {
+  assert.deepEqual(APPROVED_SAASKIT_UI_DEPENDENCIES, {
+    '@unisane/data-table': '0.1.1',
+    '@unisane/email-templates': '0.1.1',
+    '@unisane/ui': '0.1.1',
+  });
+});
 
 test('consumer contract ignores unrelated manifest content and rejects UI semantic drift', () => {
   const root = 'unisane-ops/apps/console';
