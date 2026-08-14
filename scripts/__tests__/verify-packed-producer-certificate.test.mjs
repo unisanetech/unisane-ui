@@ -5,7 +5,7 @@ import path from 'node:path';
 import test from 'node:test';
 
 import {
-  APPROVED_SAASKIT_UI_DEPENDENCIES,
+  APPROVED_UI_CONSUMER_DEPENDENCIES,
   EXTERNAL_CONSUMER_INSTALL_ARGS,
   assertConsumerCoverage,
   assertConsumerSemanticContract,
@@ -17,11 +17,17 @@ import {
   writeCertificateArtifact,
 } from '../verify-packed-producer-certificate.mjs';
 
-test('pins the approved Saaskit UI consumer dependencies to immutable published versions', () => {
-  assert.deepEqual(APPROVED_SAASKIT_UI_DEPENDENCIES, {
-    '@unisane/data-table': '0.1.1',
-    '@unisane/email-templates': '0.1.1',
-    '@unisane/ui': '0.1.1',
+test('pins every approved UI consumer dependency to immutable published versions', () => {
+  assert.deepEqual(APPROVED_UI_CONSUMER_DEPENDENCIES, {
+    'unisane/starters/saaskit': {
+      '@unisane/data-table': '0.1.1',
+      '@unisane/email-templates': '0.1.1',
+      '@unisane/ui': '0.1.1',
+    },
+    'unisane-ops/apps/console': {
+      '@unisane/data-table': '0.1.1',
+      '@unisane/ui': '0.1.1',
+    },
   });
 });
 

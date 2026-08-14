@@ -34,10 +34,16 @@ const forbiddenEmittedReference =
   /["'](?:workspace|file|link|portal):|(?:^|["'(])(?:\.\.\/)+(?:unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|["')])/mu;
 const consumerImportBaseline = '4f9d4a637ab271351a4c7b677b11792490b1c791';
 const approvedPrereleaseVersion = '0.1.0-next.b67ebfd0';
-export const APPROVED_SAASKIT_UI_DEPENDENCIES = Object.freeze({
-  '@unisane/data-table': '0.1.1',
-  '@unisane/email-templates': '0.1.1',
-  '@unisane/ui': '0.1.1',
+export const APPROVED_UI_CONSUMER_DEPENDENCIES = Object.freeze({
+  'unisane/starters/saaskit': Object.freeze({
+    '@unisane/data-table': '0.1.1',
+    '@unisane/email-templates': '0.1.1',
+    '@unisane/ui': '0.1.1',
+  }),
+  'unisane-ops/apps/console': Object.freeze({
+    '@unisane/data-table': '0.1.1',
+    '@unisane/ui': '0.1.1',
+  }),
 });
 const approvedConsumerImport = Object.freeze({
   file: 'unisane-ops/apps/console/src/browser/main.tsx',
@@ -937,14 +943,19 @@ export function main() {
     const semanticInventory = buildConsumerSemanticInventory(records, consumerManifestsFromRoot());
     const baselineRecords = collectConsumerImportsFromRevision(consumerImportBaseline);
     const baselineManifests = consumerManifestsFromRevision(consumerImportBaseline);
-    const baselineSaaskit = baselineManifests.get('unisane/starters/saaskit');
-    baselineManifests.set('unisane/starters/saaskit', {
-      ...baselineSaaskit,
-      dependencies: {
-        ...baselineSaaskit.dependencies,
-        ...APPROVED_SAASKIT_UI_DEPENDENCIES,
-      },
-    });
+    for (const [consumerRoot, dependencies] of Object.entries(APPROVED_UI_CONSUMER_DEPENDENCIES)) {
+      const baselineManifest = baselineManifests.get(consumerRoot);
+      if (!baselineManifest) {
+        throw new Error(`${consumerRoot} is absent from the immutable consumer baseline.`);
+      }
+      baselineManifests.set(consumerRoot, {
+        ...baselineManifest,
+        dependencies: {
+          ...baselineManifest.dependencies,
+          ...dependencies,
+        },
+      });
+    }
     const expectedSemanticInventory = buildConsumerSemanticInventory(
       [...baselineRecords, approvedConsumerImport],
       baselineManifests,
