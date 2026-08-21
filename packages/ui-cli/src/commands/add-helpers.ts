@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import type { ComponentMeta, Registry, UnisaneConfig } from './add-types.js';
+import type { ComponentMeta, Registry, RootConfig } from './add-types.js';
 
 const { existsSync, readFileSync } = fse;
 
@@ -28,7 +28,7 @@ function isRegistry(value: unknown): value is Registry {
   return Object.values(value.components).every((meta) => isComponentMeta(meta));
 }
 
-function toUnisaneConfig(value: unknown): UnisaneConfig | null {
+function toUnisaneConfig(value: unknown): RootConfig | null {
   if (!isRecord(value)) return null;
   const aliases = isRecord(value.aliases)
     ? {
@@ -67,7 +67,7 @@ export function loadRegistry(registryDir: string): Registry | null {
   return parsed;
 }
 
-export function loadConfig(cwd: string): UnisaneConfig {
+export function loadConfig(cwd: string): RootConfig {
   const configPath = path.join(cwd, 'unisane.json');
   const packageJsonPath = path.join(cwd, 'package.json');
 
@@ -127,7 +127,7 @@ export function getAllDependencies(
   return visited;
 }
 
-export function getTargetDir(type: string, config: UnisaneConfig, cwd: string): string {
+export function getTargetDir(type: string, config: RootConfig, cwd: string): string {
   const srcDir = config.srcDir || '';
   const basePath = srcDir ? path.join(cwd, srcDir) : cwd;
 
@@ -141,7 +141,7 @@ export function getTargetDir(type: string, config: UnisaneConfig, cwd: string): 
 export function getTargetFilePath(
   file: string,
   type: string,
-  config: UnisaneConfig,
+  config: RootConfig,
   cwd: string,
 ): string {
   const [, ...relativeSegments] = file.split('/');
@@ -152,7 +152,7 @@ export function getTargetFilePath(
   return path.join(getTargetDir(type, config, cwd), ...relativeSegments);
 }
 
-export function transformImports(content: string, config: UnisaneConfig): string {
+export function transformImports(content: string, config: RootConfig): string {
   const componentsAlias = config.aliases?.components || '@/components/ui';
   const libAlias = config.aliases?.lib || '@/lib';
   const hooksAlias = config.aliases?.hooks || '@/hooks';

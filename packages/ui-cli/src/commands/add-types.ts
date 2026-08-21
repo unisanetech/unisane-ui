@@ -13,7 +13,7 @@ export interface Registry {
   components: Record<string, ComponentMeta>;
 }
 
-export interface UnisaneConfig {
+export interface RootConfig {
   aliases?: {
     components?: string;
     lib?: string;
