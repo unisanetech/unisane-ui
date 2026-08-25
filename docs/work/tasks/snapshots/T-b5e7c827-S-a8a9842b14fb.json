@@ -1,0 +1,84 @@
+{
+  "snapshotId": "S-a8a9842b14fb",
+  "taskId": "T-b5e7c827",
+  "sessionId": "a8620475-e67d-43ca-82c6-244841a69d4d",
+  "actorId": "bhaskarbarma",
+  "baseRevision": "701f0f22986ca6cc37d17523541abae5278bae2c",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-prerelease.yml",
+      "digest": "463e4dc8cfcac9cc1d17ad2a1bd0441cb14d7a516dd07cd66eddefd5e3d86d7e"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "digest": "08e5b5d360fa21b5bb690fe591117c38fc96bd70a85ff69f7983e209df09f657"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "f448e504079f0face40a9b9d579f8161185c795073c9e133f515dbcc36079d62"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "41a21e8f222054ff2f64e30b1f972185e442b5129abd22a4e5e4f507537e3066"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "a033d0e62d3d3f6c7fff61629c59675020daa4ffe8dda524e0f5570cb5f4f0c8"
+    },
+    {
+      "path": "packages/email-templates/certificates/packed-producer-certificate.json",
+      "digest": "97132ca3c9dff1cf38704d01fe877511ef368bcabe792719ff1121926389efe9"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "2c930ac34578590edfac57fa9364342648c871975b273335ddcfede3d0af2336"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "6b610d0535e37c762b036efeec52d380c47c428dde0278a4c0cbe4b1939095cd"
+    },
+    {
+      "path": "packages/ui-cli/pack.manifest.json",
+      "digest": "d9113f51ec79aeacc83cfa0c023e68c629f802fc761e69be2d933caed976b9fa"
+    },
+    {
+      "path": "packages/ui-cli/package.json",
+      "digest": "2620423151771258f22e21ce1e47c94569c56083a51b11fe55f9dc6e7f2fa2e0"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "6c0c70f6982ad2a44ef6ef8e65f106c9fdab947045a41d2a251a29a42fd05d31"
+    },
+    {
+      "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
+      "digest": "0b6c210f4420e0568c32c8e720d3fd21e033e4759dd882b6ba3e1254a9b679ee"
+    },
+    {
+      "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
+      "digest": "b6cad2dfa2bc9d4b9994ae66404f68fb59924bf702d80bdec22b5e4ad43b66a6"
+    },
+    {
+      "path": "scripts/check-release-readiness.mjs",
+      "digest": "16dd6a807ca62db5f8bec35628564afaca16bd5b1edc47fae874f04dd80e52c3"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "ec822ce1613dfe6fd54fdf78e255c7e648cc773c6a3a0c248c8d00c610e78596"
+    },
+    {
+      "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
+      "digest": "f189424a67784fa131ae1f0c492ff78a9ae42b133d7e23d1481f1060d3693cb8"
+    },
+    {
+      "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
+      "digest": "c8e4761c2f9168d6f63c54eed21481c747dba747bd511cd2330508d6c262d098"
+    },
+    {
+      "path": "scripts/verify-packed-producer-certificate.mjs",
+      "digest": "62c5062537faf29094b6f80528ad50850ac246916171243f3aef646e5a758a2d"
+    }
+  ],
+  "digest": "a8a9842b14fbe9e000614d08d2970a54f5feb23b50ba2821ae06499e371347d3",
+  "createdAt": "2026-08-13T14:57:10.382Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-b5e7c827-S-a8a9842b14fb.json"
+}

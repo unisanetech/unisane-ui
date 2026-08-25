@@ -1,0 +1,20 @@
+{
+  "snapshotId": "S-654de65a0d43",
+  "taskId": "T-7a8874a6",
+  "sessionId": "registry-workflow-closure",
+  "actorId": "bhaskarbarma",
+  "baseRevision": "8c6866b476d8955ec93dc36f5b5e2def7289a802",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-prerelease.yml",
+      "digest": "86d6b7c2b960cab10f5c4567996a3b1d3a2fb7ee9d78805420feb1cb6f1e4180"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "186f6f0399c1a3bf2266b7265c2989be460edc2ea9c9930a00c36929eec3a234"
+    }
+  ],
+  "digest": "654de65a0d4319df919454aa3c2017333b32b6362e238acafb0a32d8c5ff2f72",
+  "createdAt": "2026-08-13T12:24:40.664Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-7a8874a6-S-654de65a0d43.json"
+}

@@ -1,0 +1,60 @@
+{
+  "snapshotId": "S-49dad7936078",
+  "taskId": "T-2e1ac8d7",
+  "sessionId": "9fbac05c-a452-471f-8300-299bc0a9a70e",
+  "actorId": "bhaskarbarma",
+  "baseRevision": "02a567893e58618b6e224fb71299ef324a2b4b04",
+  "paths": [
+    {
+      "path": "README.md",
+      "digest": "009afe75a22c2dda88ee5feecedc7ea5c48c5a60c5c2b2b5c164f8fd0c317c65"
+    },
+    {
+      "path": "docs/architecture/design-system.md",
+      "digest": "7339cb5171808819234adba2d1d18eca1585dcc8d990c4f6c5be12bfd23648c7"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "f3c491b7027aa3f08390311dd12e80c6911a8864aeb337aeabf43322e74e37f7"
+    },
+    {
+      "path": "docs/standards/component-authoring.md",
+      "digest": "f201d963e729c298e3bf58af4dc86c00ccf3fc79ddc9736bb9e503236932bc07"
+    },
+    {
+      "path": "packages/ui-cli/README.md",
+      "digest": "9341bbecded9cc26c25d3b631d8808dd9d1354ea1ab02a89a0dac65e9ab79a0f"
+    },
+    {
+      "path": "packages/ui-cli/package.json",
+      "digest": "eb49b8527cf0e857aa601470ce916faa8ce2152796a483fea631f980c2987d4e"
+    },
+    {
+      "path": "packages/ui-cli/scripts",
+      "digest": "67d85ff58deca54a41bfb7def88861a5641eb3b060f30b00395f3a8c76748c24"
+    },
+    {
+      "path": "packages/ui-cli/src",
+      "digest": "66f459b7f1de503114e62bdeff3b70c5565063b5b959866f6e137ea7b35dbcd0"
+    },
+    {
+      "path": "packages/ui-cli/tests",
+      "digest": "84522803fb9853262aae2f6987f263f56365cb7a27722d46862973a87bf610e2"
+    },
+    {
+      "path": "packages/ui/registry",
+      "digest": "d31755069250ff0e352c6e010b2274fb9ba5aade6b7a49ed713543869aaf7be1"
+    },
+    {
+      "path": "packages/ui/scripts",
+      "digest": "ee121bf3643d8a7cb275593532e45bc9addb6f894d86f3811e701f2f6d8be580"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "d868eb652272be4d6a2fe862d4edf55cd68ac8b32f161661a60639ee25827a6c"
+    }
+  ],
+  "digest": "49dad79360787855d9f014094c3d5069e9f28d544440a22808307d946e8fa4f8",
+  "createdAt": "2026-08-13T15:39:16.733Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-2e1ac8d7-S-49dad7936078.json"
+}

@@ -1,0 +1,28 @@
+{
+  "snapshotId": "S-a97bb3b38b08",
+  "taskId": "T-ba567992",
+  "sessionId": "3be06448-f6f6-4800-b42d-b1798dc3463c",
+  "actorId": "bhaskarbarma",
+  "baseRevision": "45faf561f520f8d12f55ac46205b5354d58df6a6",
+  "paths": [
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "c323e0d030a19db36c2dacbde2c3d96b301fad08a284417c2e567b7dc585e8e1"
+    },
+    {
+      "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
+      "digest": "2c7c3b1079f1632cadfdde0a5c6b5c4eddc9047ac5aa54c91a3708b4d29c7dee"
+    },
+    {
+      "path": "scripts/fixtures/packed-producer-consumer/pnpm-lock.yaml",
+      "digest": "0297797a38e06df91c5cf39377dbbe627403b4480211db57827eff15fea65d57"
+    },
+    {
+      "path": "scripts/verify-packed-producer-certificate.mjs",
+      "digest": "0a9ceba7c25723e7ecae695f62958fd0636fc9491d672bc2c78db95c053d78f0"
+    }
+  ],
+  "digest": "a97bb3b38b087de689c22afc3374286d31b5607006553e0d6bb52a07c3a382ef",
+  "createdAt": "2026-08-13T14:02:26.954Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-ba567992-S-a97bb3b38b08.json"
+}
