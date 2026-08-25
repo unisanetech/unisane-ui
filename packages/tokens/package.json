@@ -1,6 +1,6 @@
 {
   "name": "@unisane/tokens",
-  "version": "0.1.0-next.b67ebfd0",
+  "version": "0.1.2-next.97f61b1d",
   "description": "Semantic design tokens and generated CSS for Unisane interfaces",
   "type": "module",
   "private": false,
@@ -10,6 +10,17 @@
     "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/tokens"
   },
+  "homepage": "https://github.com/unisanetech/unisane-ui#readme",
+  "bugs": {
+    "url": "https://github.com/unisanetech/unisane-ui/issues"
+  },
+  "keywords": [
+    "design-tokens",
+    "css",
+    "tailwindcss",
+    "theme",
+    "theming"
+  ],
   "publishConfig": {
     "access": "public",
     "provenance": true,

@@ -190,19 +190,24 @@ const publicPackagePaths = [
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
+const candidatePackageNames = new Set(['@unisane/tokens', '@unisane/ui', '@unisane/data-table']);
+const candidateVersion = '0.1.2-next.97f61b1d';
 const publicManifests = new Map();
 for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
   publicManifests.set(manifest.name, manifest);
+  const isCandidate = candidatePackageNames.has(manifest.name);
+  const expectedVersion = isCandidate ? candidateVersion : '0.1.1';
+  const expectedTag = isCandidate ? 'next' : 'latest';
   if (manifest.private !== false) recordViolation(packagePath, 'approved package is not public');
   if (manifest.license !== 'MIT') recordViolation(packagePath, 'approved package is not MIT');
-  if (manifest.version !== '0.1.1') {
-    recordViolation(packagePath, 'approved stable release identity drifted');
+  if (manifest.version !== expectedVersion) {
+    recordViolation(packagePath, `expected exact package identity ${expectedVersion}`);
   }
   if (
     manifest.publishConfig?.access !== 'public' ||
     manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'latest'
+    manifest.publishConfig?.tag !== expectedTag
   ) {
     recordViolation(packagePath, 'approved public publish configuration drifted');
   }
