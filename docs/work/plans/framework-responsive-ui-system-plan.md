@@ -52,9 +52,9 @@ Success means:
 The current UI stack already has useful foundations. Implementation follows
 `docs/decisions/D-20260714-ui-dual-distribution-and-theme-contract.md` and
 `docs/guides/add-ui-theme-and-app-tokens.md` where this Plan discusses consumer token
-layers, theme scopes, or import paths. The
-[archived source-distribution and theme plan](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/plans/framework-ui-source-distribution-and-theme-system-plan.md)
-preserves delivery history only and is not current implementation authority:
+layers, theme scopes, or import paths. The archived “Framework UI Runtime, Source
+Distribution, And Theme System Plan” preserves earlier umbrella delivery history only
+and is not current implementation authority:
 
 1. the internal token generator can emit semantic color, spacing, radius, typography, density, contrast, and Tailwind v4 theme variables.
 2. density capability remains, but it must target explicit component/control variables rather than replacing the standard application spacing scale.

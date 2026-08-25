@@ -30,7 +30,7 @@ Build a page through the canonical chain instead of starting from one large comp
 1. `docs/standards/10-ui-application-architecture-baseline.md`
 2. `docs/architecture/08-ui-application-architecture.md`
 3. `docs/architecture/09-ui-page-blueprints.md`
-4. [Framework authorization architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/11-authorization-architecture.md) when the screen exposes protected resources, admin/seller actions, affordances, or effective access
+4. [Framework authorization architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/11-authorization-architecture.md) when the screen exposes protected resources, admin/seller actions, affordances, or effective access
 5. `docs/architecture/10-ui-visual-doctrine-and-token-governance.md` only if visual/token rules are part of the change
 
 ## Workflow
@@ -132,7 +132,7 @@ Also define:
 2. whether the action renders hidden, disabled, locked, or read-only
 
 For protected resource, admin, or seller screens, follow the accepted target in the
-[Framework authorization architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/11-authorization-architecture.md):
+[Framework authorization architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/11-authorization-architecture.md):
 
 1. identify the owning module policy under `src/service/policies/**`
 2. consume coarse access summaries only for navigation/page visibility and

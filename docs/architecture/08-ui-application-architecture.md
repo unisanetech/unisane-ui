@@ -14,7 +14,7 @@ view: current
 
 > Purpose: one durable UI architecture contract for Unisane starters and platform apps.
 >
-> Precedence: if this conflicts with the [Framework architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/00-architecture.md), follow that architecture and update this doc in the same change.
+> Precedence: if this conflicts with the [Framework architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/00-architecture.md), follow that architecture and update this doc in the same change.
 
 ## Changelog
 
@@ -30,8 +30,8 @@ view: current
 
 This document defines the internal UI architecture for:
 
-1. starters under [`starters/**`](https://github.com/unisane/unisane/tree/main/starters)
-2. first-party platform apps under [`apps/**`](https://github.com/unisane/unisane-platforms/tree/main/apps)
+1. starters under [`starters/**`](https://github.com/unisanetech/unisane/tree/main/starters)
+2. first-party platform apps under [`apps/**`](https://github.com/unisanetech/unisane-platforms/tree/main/apps)
 3. future internal product apps that follow the same framework contract
 
 This document does not replace the public Unisane UI docs. `apps/docs` remains the public component-system surface; this file governs how first-party product apps are structured on top of the runtime distribution.
@@ -496,7 +496,7 @@ Rules:
 ### 14.1 Target Authorization UI Contract
 
 The following rules describe the accepted target in the
-[Framework authorization architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/11-authorization-architecture.md); they do not claim that its planned
+[Framework authorization architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/11-authorization-architecture.md); they do not claim that its planned
 affordance, effective-access, or access-revision APIs are already shipped.
 
 1. Owning modules keep pure typed resource policies under `src/service/policies/**`;

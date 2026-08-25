@@ -72,7 +72,7 @@ The highest-visibility horizontal scroll defect is now addressed on the active `
 8. `P76-W7` — A11y upgrade. Add `role="grid"`, `role="row"`, `role="gridcell"`, `role="columnheader"`, `aria-rowcount`, `aria-colcount`, `aria-rowindex`, `aria-colindex`. Implement roving tabindex. Add an `aria-live="polite"` region for sort/filter/selection changes tied to i18n strings. Extend `use-keyboard-navigation.ts` with `Home`, `End`, `Ctrl+Home`, `Ctrl+End`, and viewport-sized `PageUp`/`PageDown`. Restore focus when a virtualized cell scrolls back into view.
 9. `P76-W8` — Dev-time validation. Add a `validateConfig()` helper called from the provider in development to warn on preset/feature conflicts (`selection + cellSelection`, `preset: 'server'` + empty `data` + no fetcher, controlled state without `onChange`, `virtualization + offset pagination`). Strip in production builds.
 10. `P76-W9` — i18n completeness gate. Add an `extractStrings` script; fail CI if any locale omits a key. Fix the `hi.ts` vs `en.ts` size asymmetry. Seed `es`, `fr`, `de` with English fallbacks marked `@todo translate`.
-11. `P76-W10` — Tests and living docs. Bring hot-path files to `70%` line coverage. Add property-based tests (`fast-check` per the [Framework property-based testing guide](https://github.com/unisane/unisane/blob/main/docs/guides/property-based-testing.md)) for sort determinism, selection set-theory invariants, filter composition (AND/OR), and pagination math. Stand up Storybook (or equivalent) covering every preset and feature flag; document each preset in `README.md` with an explicit "use when" block.
+11. `P76-W10` — Tests and living docs. Bring hot-path files to `70%` line coverage. Add property-based tests (`fast-check` per the [Framework property-based testing guide](https://github.com/unisanetech/unisane/blob/main/docs/guides/property-based-testing.md)) for sort determinism, selection set-theory invariants, filter composition (AND/OR), and pagination math. Stand up Storybook (or equivalent) covering every preset and feature flag; document each preset in `README.md` with an explicit "use when" block.
 
 Archive each `P76-W*` workpack after its closure checks verify cleanly once that lane is reopened. `P76-W1` through `P76-W4` are now landed on the active path; the remaining queued follow-ons are file-bloat cleanup plus the fuller a11y, i18n, and docs lanes.
 
@@ -89,12 +89,12 @@ Archive each `P76-W*` workpack after its closure checks verify cleanly once that
 
 ## Linked Docs
 
-- [Framework findings](https://github.com/unisane/unisane/blob/main/docs/findings/README.md)
+- `docs/findings/README.md`
 - `docs/work/plans/data-table-scroll-architecture-and-perf-plan.md`
 - `docs/architecture/08-ui-application-architecture.md`
 - `docs/architecture/10-ui-visual-doctrine-and-token-governance.md`
-- [Framework change-execution guide](https://github.com/unisane/unisane/blob/main/docs/guides/execute-key-changes-with-llm.md)
-- [Framework command-workflow contract](https://github.com/unisane/unisane/blob/main/docs/guides/command-workflow-contract.md)
+- [Framework change-execution guide](https://github.com/unisanetech/unisane/blob/main/docs/guides/execute-key-changes-with-llm.md)
+- [Framework command-workflow contract](https://github.com/unisanetech/unisane/blob/main/docs/guides/command-workflow-contract.md)
 - `packages/data-table/src/components/layout.tsx`
 - `packages/data-table/src/components/custom-scrollbar.tsx`
 - `packages/data-table/src/context/reducer.ts`

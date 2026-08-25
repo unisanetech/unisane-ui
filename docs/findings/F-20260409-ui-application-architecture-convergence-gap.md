@@ -62,18 +62,14 @@ Starter and platform UI work can still fragment into multiple ownership models, 
 
 ## Linked Docs
 
-- [Framework findings](https://github.com/unisane/unisane/blob/main/docs/findings/README.md)
+- `docs/findings/README.md`
 - `docs/work/plans/framework-ui-application-architecture-plan.md`
-- [P65-W1 archive](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P65-W1.md)
-- [P65-W2 archive](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P65-W2.md)
-- [P65-W3 archive](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P65-W3.md)
-- [P65-W4 archive](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P65-W4.md)
-- [P65-W5 archive](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P65-W5.md)
-- [P65-W1 convergence contract](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/contracts/P65-W1.convergence.json)
-- [P65-W2 convergence contract](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/contracts/P65-W2.convergence.json)
-- [P65-W3 convergence contract](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/contracts/P65-W3.convergence.json)
-- [P65-W4 convergence contract](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/contracts/P65-W4.convergence.json)
-- [P65-W5 convergence contract](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/contracts/P65-W5.convergence.json)
+- Historical execution: `P65-W1` — UI Architecture Convergence Routing And Drift
+  Inventory; `P65-W2` — Invoice Platform UI Architecture Convergence; `P65-W3` —
+  Invoice Platform Feature-Internal UI Convergence; `P65-W4` — Invoice Platform Visual
+  Doctrine Convergence; `P65-W5` — Data Entry LM UI Architecture Convergence.
+- The matching `P65-W1` through `P65-W5` convergence contracts were umbrella Task
+  evidence; their accepted outcomes are summarized in this Finding and its linked Plan.
 - `docs/architecture/08-ui-application-architecture.md`
 - `docs/architecture/09-ui-page-blueprints.md`
 - `docs/architecture/10-ui-visual-doctrine-and-token-governance.md`

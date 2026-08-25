@@ -11,8 +11,7 @@ view: target
 status: accepted
 relatedDocs:
   - 'D-20260714-ui-dual-distribution-and-theme-contract.md'
-  - 'https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/decisions/D-20260724-unisane-ecosystem-repository-remote-and-visibility-contract.md'
-  - 'https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/plans/unisane-ecosystem-repository-separation-and-git-governance-plan.md'
+  - 'https://github.com/unisanetech/unisane-infrastructure/blob/main/docs/decisions/D-20260724-unisane-ecosystem-repository-remote-and-visibility-contract.md'
 ---
 
 # D-20260807 Unisane UI Standalone Repository Structure, Cleanup, And Production-Readiness Contract
@@ -20,10 +19,16 @@ relatedDocs:
 ## Context
 
 `unisane-ui/**` is the authoritative umbrella source for the future public
-`github.com/unisane/unisane-ui` repository. Its product boundary is sound: tokens,
+`github.com/unisanetech/unisane-ui` repository. Its product boundary is sound: tokens,
 React components, DataTable, provider-neutral email presentation, source registries,
 examples, and the UI documentation application evolve together while retaining
 independent package release lines.
+
+The accepted cutover invariant is now target-local: this repository owns its UI
+packages, applications, documentation, and validation configuration; it never depends
+on an umbrella parent or sibling checkout. Cross-repository contracts are referenced
+through their final repository URLs. The retired umbrella separation Plan remains
+execution history, not a current UI dependency.
 
 Before the accepted source-convergence Task, the directory inherited TypeScript,
 ESLint, workspace, lockfile, Turbo, and quality commands from the umbrella; used
@@ -316,7 +321,7 @@ Current documentation is disposed as follows:
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | former `packages/core/DESIGN_SYSTEM.md`             | converged into `docs/architecture/design-system.md`; absolute local paths removed                                           |
 | former `packages/core/COMPONENT_AUTHORING.md`       | converged into `docs/standards/component-authoring.md`                                                                      |
-| former `packages/data-table/docs/RESPONSIVENESS.md` | converged into the public `/docs/data-table/responsiveness` page; stale cross-product, future, and checklist claims removed |
+| former `packages/data-table/docs/RESPONSIVENESS.md` | converged into `apps/docs/app/(app-shell)/docs/data-table/responsiveness/page.tsx` at the public `/docs/data-table/responsiveness` route; stale cross-product, future, and checklist claims removed |
 | token build README                                  | retain beside its generator while it is the sole maintainer guide                                                           |
 | package READMEs                                     | retain and make package-consumer focused                                                                                    |
 | former `TEMP_DOCS_CONTENT_COMPLETION_PLAN.md`       | implemented missing pattern routes, then deleted                                                                            |

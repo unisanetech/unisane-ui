@@ -155,7 +155,7 @@ The framework needs a communication architecture, not an email helper.
 This plan's executable scope remains email and `@unisane/mail`. The canonical phone
 value, Identity contact trust, generic verification challenge, and durable SMS/WhatsApp
 delivery boundary now lives in
-the [Framework phone, contact, verification, and messaging architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/12-phone-contact-verification-and-messaging-architecture.md).
+the [Framework phone, contact, verification, and messaging architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/12-phone-contact-verification-and-messaging-architecture.md).
 That channel family is a sibling delivery capability behind Notify's existing
 fanout/intent boundary; it must not absorb Mail's email lifecycle or create a second
 notification-intent owner.
@@ -529,7 +529,7 @@ It should still use `@unisane/mail` for actual delivery.
 
 ### Mail Runtime Module
 
-In the [Unisane Framework repository](https://github.com/unisane/unisane):
+In the [Unisane Framework repository](https://github.com/unisanetech/unisane):
 
 ```txt
 packages/modules/mail/
@@ -566,7 +566,7 @@ packages/modules/mail/
 
 ### Shared Ports
 
-Likely shared token placement in the [Unisane Framework repository](https://github.com/unisane/unisane):
+Likely shared token placement in the [Unisane Framework repository](https://github.com/unisanetech/unisane):
 
 ```txt
 packages/foundation/ports/src/mail.ts
@@ -651,7 +651,7 @@ packages/email/
 ### Platform Composition
 
 True Resume should compose templates and brand, not hand-roll the whole email system.
-In the [Unisane Platforms repository](https://github.com/unisane/unisane-platforms):
+In the [Unisane Platforms repository](https://github.com/unisanetech/unisane-platforms):
 
 ```txt
 apps/true-resume/src/email/

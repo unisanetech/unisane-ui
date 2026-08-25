@@ -1,6 +1,6 @@
 ---
 id: 'DOC-f5a78b2b48f1'
-owner: 'unisane'
+owner: 'unisane-ui'
 repository: unisane-ui
 scope: workspace
 role: reference

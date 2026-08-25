@@ -56,7 +56,7 @@ Generate registry metadata from the complete internal import graph, preserve tar
 ## Linked Artifacts
 
 - Decision doc: `docs/decisions/D-20260714-ui-dual-distribution-and-theme-contract.md`
-- Workpack/findings: [P114-W1](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P114-W1.md), [archived UI distribution finding](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/archive/findings/F-20260713-ui-source-distribution-and-theme-complexity.md)
+- Historical evidence: `P114-W1` — UI Distribution Correctness Admission; `F-20260713-ui-source-distribution-and-theme-complexity` — UI Source Distribution, Component Contract, And Theme Complexity.
 - Docs updated: `docs/architecture/08-ui-application-architecture.md`, `docs/architecture/10-ui-visual-doctrine-and-token-governance.md`
 
 ## Changelog

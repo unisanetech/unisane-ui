@@ -60,8 +60,8 @@ Visual container composition was treated as the complete accessibility and lifec
 ## Linked Artifacts
 
 - Decision doc: `docs/decisions/D-20260714-ui-dual-distribution-and-theme-contract.md`
-- Workpack/findings: [P114-W9](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P114-W9.md), [archived UI distribution finding](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/archive/findings/F-20260713-ui-source-distribution-and-theme-complexity.md)
-- Docs updated: [archived UI source-distribution plan](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/plans/framework-ui-source-distribution-and-theme-system-plan.md)
+- Historical evidence: `P114-W9` — Dialog And ConfirmDialog Vertical Proof; `F-20260713-ui-source-distribution-and-theme-complexity` — UI Source Distribution, Component Contract, And Theme Complexity.
+- Historical plan: “Framework UI Runtime, Source Distribution, And Theme System Plan.”
 
 ## Changelog
 

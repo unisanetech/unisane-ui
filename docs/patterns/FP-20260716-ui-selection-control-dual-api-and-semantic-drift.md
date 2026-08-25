@@ -63,8 +63,7 @@ Visual components were authored independently and later grouped by filename rath
 ## Linked Artifacts
 
 - Decision: `docs/decisions/D-20260714-ui-dual-distribution-and-theme-contract.md`
-- Workpack: [P114-W16](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/work/archive/tasks/P114-W16.md)
-- Finding: [archived UI distribution finding](https://github.com/unisane/unisane/blob/5f6e0b3e3dea915b4267a266571c99150834f88b/docs/archive/findings/F-20260713-ui-source-distribution-and-theme-complexity.md)
+- Historical evidence: `P114-W16` — Selection-Control Family Convergence; `F-20260713-ui-source-distribution-and-theme-complexity` — UI Source Distribution, Component Contract, And Theme Complexity.
 
 ## Changelog
 

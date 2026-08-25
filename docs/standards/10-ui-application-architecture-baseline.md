@@ -82,7 +82,7 @@ Keep UI work predictable across starters and platform apps without forcing every
 
 ## Authorization Target
 
-These are accepted target rules from the [Framework authorization architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/11-authorization-architecture.md),
+These are accepted target rules from the [Framework authorization architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/11-authorization-architecture.md),
 not a claim that planned affordance, effective-access, or access-revision APIs are
 already shipped:
 
@@ -130,4 +130,4 @@ src/state/**   # optional
 3. you are adding or restructuring a page: `docs/guides/add-ui-screen.md`
 4. you are changing theme or app tokens: `docs/guides/add-ui-theme-and-app-tokens.md`
 5. you are changing authorization, affordances, effective access, or stale-access
-   behavior: [Framework authorization architecture](https://github.com/unisane/unisane/blob/main/docs/architecture/11-authorization-architecture.md)
+   behavior: [Framework authorization architecture](https://github.com/unisanetech/unisane/blob/main/docs/architecture/11-authorization-architecture.md)
