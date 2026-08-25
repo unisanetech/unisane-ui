@@ -4,10 +4,16 @@
   "id": "@unisane/ui-cli",
   "edition": "oss",
   "maturity": "beta",
-  "supportedModes": ["full-platform"],
+  "supportedModes": [
+    "full-platform"
+  ],
   "requiresPackages": [],
   "requiresTokens": [],
   "runtimeProfiles": [],
-  "docs": ["README.md"],
-  "exports": ["."]
+  "docs": [
+    "README.md"
+  ],
+  "exports": [
+    "."
+  ]
 }
