@@ -1,0 +1,41 @@
+{
+  "id": "ui.accessibility-proof",
+  "title": "Require UI accessibility and rendered-behavior evidence",
+  "description": "Select focused UI validation and responsive browser evidence for authored product-interface changes; this is supporting evidence, not blanket WCAG certification.",
+  "owner": "ui-maintainers",
+  "scope": [
+    "workspace"
+  ],
+  "strength": "required",
+  "appliesTo": {
+    "paths": [
+      "apps/docs/**/*.ts",
+      "apps/docs/**/*.tsx",
+      "apps/docs/**/*.css",
+      "packages/ui/**/*.ts",
+      "packages/ui/**/*.tsx",
+      "packages/ui/**/*.css",
+      "packages/data-table/**/*.ts",
+      "packages/data-table/**/*.tsx",
+      "packages/data-table/**/*.css",
+      "packages/tokens/**/*.json",
+      "packages/tokens/**/*.css"
+    ],
+    "phases": [
+      "stabilization",
+      "closure"
+    ],
+    "risks": [
+      "light",
+      "standard",
+      "high-impact"
+    ]
+  },
+  "requires": {
+    "actionIds": [
+      "quality.run-proof-phase",
+      "ui.capture-responsive-proof"
+    ],
+    "evidence": "source-bound-action"
+  }
+}

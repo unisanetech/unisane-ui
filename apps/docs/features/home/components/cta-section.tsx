@@ -2,36 +2,45 @@
 
 import Link from 'next/link';
 import { Button } from '@unisane/ui/button';
+import { Icon } from '@unisane/ui/icon';
+import { Surface } from '@unisane/ui/surface';
 import { Typography } from '@unisane/ui/typography';
-import { UnisaneLogo } from '@/features/branding';
 
 export function CtaSection() {
   return (
-    <div className="max-w-2xl">
-      <UnisaneLogo size={48} className="mb-6" />
-      <Typography
-        variant="headlineMedium"
-        className="text-on-surface @3xl:text-headline-large mb-4"
+    <>
+      <Surface
+        tone="primaryContainer"
+        rounded="lg"
+        className="border-outline-weak flex flex-col gap-6 border p-7 @4xl:flex-row @4xl:items-center @4xl:justify-between @5xl:p-9"
       >
-        Ready to get started?
-      </Typography>
-      <Typography variant="titleMedium" className="text-on-surface-variant mb-8">
-        Add Unisane UI to your project in seconds
-      </Typography>
-      <div className="flex flex-wrap gap-4">
-        <Button asChild variant="filled" size="lg">
-          <Link href="/docs/getting-started">Read the docs</Link>
-        </Button>
-        <Button asChild variant="outlined" size="lg">
-          <a
-            href="https://github.com/anthropics/unisane-ui"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
-        </Button>
-      </div>
-    </div>
+        <Typography variant="headlineMedium" component="h2" className="text-on-primary-container">
+          Start with one component.
+        </Typography>
+        <div className="flex flex-col gap-3 @3xl:flex-row @5xl:justify-end">
+          <Button asChild variant="filled" trailingIcon={<Icon symbol="arrow_forward" />}>
+            <Link href="/docs/getting-started">Get started</Link>
+          </Button>
+          <Button asChild variant="tonal">
+            <Link href="/docs/components">Components</Link>
+          </Button>
+          <Button asChild variant="text">
+            <a
+              href="https://github.com/unisanetech/unisane-ui"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+          </Button>
+        </div>
+      </Surface>
+
+      <footer className="text-on-surface-variant mt-12 flex flex-wrap items-center justify-between gap-4 text-label-small font-semibold tracking-[0.18em] uppercase">
+        <span>Unisane UI</span>
+        <span>Registry-first</span>
+        <span>MIT licensed</span>
+      </footer>
+    </>
   );
 }

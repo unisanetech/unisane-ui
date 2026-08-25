@@ -1,0 +1,30 @@
+schemaVersion: 1
+updatedAt: 2026-08-15T12:43:30.362Z
+defaultTaskRisk: standard
+acceptedPacks:
+  - packId: clean-code.maintainability
+    version: 0.1.0
+    acceptedAt: 2026-08-15T12:43:26.390Z
+    acceptedBy: codex
+    reason: Accepted through the consolidated Skopos setup review.
+    source: manual
+  - packId: stack.async-work
+    version: 0.1.0
+    acceptedAt: 2026-08-15T12:43:27.710Z
+    acceptedBy: codex
+    reason: Accepted through the consolidated Skopos setup review.
+    source: manual
+  - packId: verification.progressive-validation
+    version: 0.1.0
+    acceptedAt: 2026-08-15T12:43:29.061Z
+    acceptedBy: codex
+    reason: Accepted through the consolidated Skopos setup review.
+    source: manual
+  - packId: verification.semantic-drift
+    version: 0.1.0
+    acceptedAt: 2026-08-15T12:43:30.362Z
+    acceptedBy: codex
+    reason: Accepted through the consolidated Skopos setup review.
+    source: manual
+overrides: []
+roleMappings: []

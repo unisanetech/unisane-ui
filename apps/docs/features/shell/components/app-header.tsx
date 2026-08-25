@@ -30,7 +30,7 @@ export function AppHeader() {
 
         <div className="flex shrink-0 items-center gap-1">
           <a
-            href="https://github.com"
+            href="https://github.com/unisanetech/unisane-ui"
             target="_blank"
             rel="noopener noreferrer"
             title="View on GitHub"

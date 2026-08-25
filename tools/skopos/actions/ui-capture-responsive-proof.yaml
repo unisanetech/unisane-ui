@@ -1,0 +1,55 @@
+{
+  "id": "ui.capture-responsive-proof",
+  "title": "Capture responsive UI proof",
+  "description": "Run the docs application's Playwright visual suite at its canonical desktop and mobile viewports.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm --filter @unisane/ui-docs test:visual",
+  "cwd": ".",
+  "timeoutMs": 900000,
+  "inputs": [
+    "apps/docs",
+    "packages/ui",
+    "packages/tokens",
+    "packages/data-table"
+  ],
+  "outputs": [
+    "apps/docs/test-results"
+  ],
+  "affects": [],
+  "capabilities": {
+    "process": "required",
+    "network": "none",
+    "browser": "required",
+    "tools": [
+      "playwright"
+    ],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "none",
+    "artifacts": "isolated",
+    "external": "none"
+  },
+  "concurrency": "exclusive",
+  "workspaceMode": "overlay-safe",
+  "safety": "artifact-producing",
+  "requiresApproval": false,
+  "whenToUse": "Use for responsive or rendered UI changes that require desktop and mobile visual evidence.",
+  "phases": [
+    "stabilization",
+    "closure"
+  ],
+  "risks": [
+    "light",
+    "standard",
+    "high-impact"
+  ],
+  "recommendedAfter": [
+    "quality.typecheck"
+  ],
+  "owner": "ui-maintainers"
+}

@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "project-skill-binding.unisane-ui-product-interface-design",
+  "type": "project-skill-binding",
+  "status": "active",
+  "authority": "canonical",
+  "summary": "Bind Product Interface Design to Unisane UI's canonical design-system sources and focused frontend proof.",
+  "updatedAt": "2026-08-15T12:50:41.184Z",
+  "bindingId": "unisane-ui-product-interface-design",
+  "packId": "ui.product-interface-design",
+  "packVersion": "0.5.0",
+  "lifecycle": "accepted",
+  "sourceBindings": {
+    "brand-doctrine": [
+      "docs/architecture/design-system.md"
+    ],
+    "component-catalog": [
+      "apps/docs/lib/docs/registry"
+    ],
+    "design-tokens": [
+      "packages/tokens/src"
+    ],
+    "domain-language": [
+      "docs/standards/component-authoring.md"
+    ]
+  },
+  "actionBindings": {
+    "responsive-visual-capture": "ui.capture-responsive-proof",
+    "focused-frontend-tests": "quality.run-proof-phase"
+  },
+  "guardBindings": {
+    "frontend-type-safety": "quality.typecheck",
+    "accessibility-proof": "ui.accessibility-proof"
+  },
+  "adaptationNotes": [
+    "The component registry and token source files remain authoritative over reusable skill guidance.",
+    "Responsive visual proof uses the docs Playwright projects for a 1440px desktop viewport and Pixel 5 mobile viewport.",
+    "The visual action validates the maintained regression fixture; task-specific screen capture remains additional evidence when a changed surface is outside that fixture.",
+    "Frontend type safety is bound to the project-owned pnpm typecheck guard and action.",
+    "The focused UI proof phase runs the UI package's tests, type checks, contracts, convergence checks, semantic style checks, and registry validation.",
+    "The accessibility proof guard requires focused UI validation and responsive browser evidence but does not claim blanket WCAG certification."
+  ],
+  "acceptance": {
+    "acceptedAt": "2026-08-15T12:50:41.184Z",
+    "acceptedBy": "codex",
+    "reason": "Accepted through the consolidated Skopos setup review.",
+    "identity": {
+      "packSourceDigest": "sha256:ace95867123a2510df16637a4bbef5b315dc28d7d8a282f3f958a267a491e702",
+      "bindingSourceDigest": "sha256:d29db5ad58f43223a0d91efb4d96ca48e682d2e53d69191e5ee76f713aa672ab",
+      "projectSourceDigest": "sha256:cecee0630e49708598c5b45dccbcec6a246f9af1dee894ba0d5db6d19081e520",
+      "capabilityCatalogDigest": "sha256:425e91dbae3acf76c2e05e549950dbbe4229fdccab87a07491822c686d6607f4",
+      "evaluationSourceDigest": "sha256:64fda298cab9a519e7e6d10deac93c186b0824ced90c28400632d5523724d96b",
+      "combinedDigest": "sha256:20fb33085f77a4b2c14ccefde3940ba368c958080b909241c92d6e7c9c43513f"
+    }
+  }
+}

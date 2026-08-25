@@ -1,32 +1,16 @@
-"use client";
+'use client';
 
-import React from "react";
-import { HomeContentSection, HomeHeroSection, HomeViewport } from "./section-layout";
-import { HeroSection } from "./hero-section";
-import { FeaturesSection } from "./features-section";
-import { ComponentGridSection } from "./component-grid-section";
-import { CtaSection } from "./cta-section";
+import React from 'react';
+import { ComponentGridSection } from './component-grid-section';
+import { HeroSection } from './hero-section';
+import { ThemeControlFab } from './system-anatomy-section';
 
 export function HomePage() {
   return (
-    <div className="@container">
-      <HomeViewport>
-        <HomeHeroSection>
-          <HeroSection />
-        </HomeHeroSection>
-      </HomeViewport>
-
-      <HomeContentSection>
-        <FeaturesSection />
-      </HomeContentSection>
-
-      <HomeContentSection className="border-t border-outline-weak">
-        <ComponentGridSection />
-      </HomeContentSection>
-
-      <HomeContentSection className="border-t border-outline-weak">
-        <CtaSection />
-      </HomeContentSection>
+    <div className="@container bg-surface min-h-screen">
+      <HeroSection />
+      <ComponentGridSection />
+      <ThemeControlFab />
     </div>
   );
 }

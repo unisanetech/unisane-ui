@@ -24,7 +24,7 @@ export function HomeHeroSection({ children, className }: HomeSectionProps) {
   return (
     <section
       className={cn(
-        'medium:px-1.5 medium:py-1.5 expanded:px-2 expanded:py-2 flex min-h-0 flex-1 flex-col px-1 py-1',
+        'medium:px-3 medium:py-3 expanded:px-4 expanded:py-4 flex min-h-0 flex-1 flex-col px-2 py-2',
         className,
       )}
     >
@@ -35,8 +35,8 @@ export function HomeHeroSection({ children, className }: HomeSectionProps) {
 
 export function HomeContentSection({ children, className, innerClassName }: HomeSectionProps) {
   return (
-    <section className={cn('medium:px-6 expanded:px-8 px-4 py-16 @3xl:py-24', className)}>
-      <div className={cn('mx-auto w-full max-w-6xl', innerClassName)}>{children}</div>
+    <section className={cn('medium:px-8 expanded:px-12 px-5 py-18 @3xl:py-28', className)}>
+      <div className={cn('mx-auto w-full max-w-7xl', innerClassName)}>{children}</div>
     </section>
   );
 }

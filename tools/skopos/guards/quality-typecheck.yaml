@@ -1,0 +1,29 @@
+{
+  "id": "quality.typecheck",
+  "title": "Typecheck affected code",
+  "description": "Select quality.typecheck from changed paths, phase, risk, and Scope.",
+  "owner": "project",
+  "scope": [
+    "workspace"
+  ],
+  "strength": "required",
+  "appliesTo": {
+    "paths": [
+      "**/*"
+    ],
+    "phases": [
+      "closure"
+    ],
+    "risks": [
+      "light",
+      "standard",
+      "high-impact"
+    ]
+  },
+  "requires": {
+    "actionIds": [
+      "quality.typecheck"
+    ],
+    "evidence": "source-bound-action"
+  }
+}

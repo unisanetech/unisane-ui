@@ -1,0 +1,29 @@
+{
+  "id": "quality.lint",
+  "title": "Lint affected code",
+  "description": "Select quality.lint from changed paths, phase, risk, and Scope.",
+  "owner": "project",
+  "scope": [
+    "workspace"
+  ],
+  "strength": "required",
+  "appliesTo": {
+    "paths": [
+      "**/*"
+    ],
+    "phases": [
+      "closure"
+    ],
+    "risks": [
+      "light",
+      "standard",
+      "high-impact"
+    ]
+  },
+  "requires": {
+    "actionIds": [
+      "quality.lint"
+    ],
+    "evidence": "source-bound-action"
+  }
+}

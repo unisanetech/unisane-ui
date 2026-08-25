@@ -1,0 +1,48 @@
+{
+  "id": "quality.run-proof-phase",
+  "title": "Run focused UI proof phase",
+  "description": "Run the UI package's project-owned tests, type checks, component contracts, convergence checks, semantic style checks, and registry validation.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm --filter @unisane/ui validate",
+  "cwd": ".",
+  "timeoutMs": 900000,
+  "inputs": [
+    "packages/ui",
+    "packages/tokens",
+    "scripts/check-semantic-border-roles.mjs"
+  ],
+  "outputs": [],
+  "affects": [],
+  "capabilities": {
+    "process": "required",
+    "network": "none",
+    "browser": "none",
+    "tools": [],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "none",
+    "artifacts": "none",
+    "external": "none"
+  },
+  "concurrency": "shared",
+  "workspaceMode": "overlay-safe",
+  "safety": "read-only",
+  "requiresApproval": false,
+  "whenToUse": "Use for component-library interface changes that need focused behavioral and design-system conformance proof.",
+  "phases": [
+    "stabilization",
+    "closure"
+  ],
+  "risks": [
+    "light",
+    "standard",
+    "high-impact"
+  ],
+  "recommendedAfter": [],
+  "owner": "ui-maintainers"
+}
