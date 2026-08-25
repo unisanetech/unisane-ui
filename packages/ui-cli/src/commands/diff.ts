@@ -6,7 +6,7 @@
 
 import fse from 'fs-extra';
 const { existsSync, readFileSync } = fse;
-import path from 'path';
+import path from 'node:path';
 import { log } from '../cli-support.js';
 import {
   getTargetFilePath,

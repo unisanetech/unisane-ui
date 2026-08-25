@@ -118,12 +118,13 @@ test('external consumer install is intrinsically offline and rejects source fall
     '--ignore-workspace',
     '--config.shared-workspace-lockfile=false',
   ]);
-  assert.match(EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1), /^--store-dir=.+\/\.pnpm-store$/u);
+  assert.match(EXTERNAL_CONSUMER_INSTALL_ARGS.at(-1), /^--store-dir=\//u);
 
   const packedTarballs = [
     'file:../tarballs/unisane-tokens-0.1.0-next.b67ebfd0.tgz',
     'file:../tarballs/unisane-ui-0.1.0-next.b67ebfd0.tgz',
     'file:../tarballs/unisane-data-table-0.1.0-next.b67ebfd0.tgz',
+    'file:../tarballs/unisane-ui-cli-0.1.0.tgz',
   ].join('\n');
   assert.doesNotThrow(() => assertExternalConsumerLock(packedTarballs));
 
@@ -181,6 +182,34 @@ test('accepts exact approved public prerelease metadata and exports', () => {
       root,
     );
     assert.equal(result.exportTargetCount, 2);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('accepts the private UI CLI archive and owns its independent binary target', () => {
+  const root = fixture();
+  try {
+    writeFileSync(path.join(root, 'dist/cli.js'), '#!/usr/bin/env node\n');
+    const result = assertPackedManifest(
+      {
+        name: '@unisane/ui-cli',
+        expectedVersion: '0.1.0',
+        releaseState: 'private-unlicensed',
+        allowedRoots: ['dist', 'package.json'],
+      },
+      {
+        name: '@unisane/ui-cli',
+        version: '0.1.0',
+        private: true,
+        license: 'UNLICENSED',
+        bin: { 'unisane-ui': './dist/cli.js' },
+        exports: { '.': { types: './dist/index.d.ts', import: './dist/index.js' } },
+      },
+      ['dist/cli.js', 'dist/index.d.ts', 'dist/index.js', 'package.json'],
+      root,
+    );
+    assert.equal(result.exportTargetCount, 3);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }

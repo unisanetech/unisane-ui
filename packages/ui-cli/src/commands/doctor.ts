@@ -6,7 +6,7 @@
 
 import fse from 'fs-extra';
 const { existsSync, readFileSync } = fse;
-import path from 'path';
+import path from 'node:path';
 import { log } from '../cli-support.js';
 import { resolveRegistryDir } from './add-helpers.js';
 import { THEME_REGION_END, THEME_REGION_START, listThemeAssets } from './theme.js';

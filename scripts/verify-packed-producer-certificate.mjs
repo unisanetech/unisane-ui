@@ -11,6 +11,7 @@ import {
   realpathSync,
   rmSync,
   statSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -20,6 +21,8 @@ import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
+const uiWorkspaceRoot = path.join(repositoryRoot, 'unisane-ui');
+const uiPackageDependencyRoot = path.join(uiWorkspaceRoot, 'packages', 'ui', 'node_modules');
 const dependencyFields = [
   'dependencies',
   'optionalDependencies',
@@ -100,17 +103,44 @@ const packageProfiles = Object.freeze([
       'unisane.meta.json',
     ]),
   }),
+  Object.freeze({
+    name: '@unisane/ui-cli',
+    directory: 'unisane-ui/packages/ui-cli',
+    expectedVersion: '0.1.0',
+    releaseState: 'private-unlicensed',
+    allowedRoots: Object.freeze([
+      'dist',
+      'LICENSE',
+      'package.json',
+      'README.md',
+      'unisane.meta.json',
+    ]),
+  }),
 ]);
 const consumerRoots = Object.freeze(['unisane/starters/saaskit', 'unisane-ops/apps/console']);
+function installedStorePath() {
+  const modulesState = readFileSync(
+    path.join(uiWorkspaceRoot, 'node_modules', '.modules.yaml'),
+    'utf8',
+  );
+  const storeEntry = modulesState.match(/^storeDir:\s*(.+)$/mu)?.[1]?.trim();
+  if (!storeEntry || !path.isAbsolute(storeEntry)) {
+    throw new Error('Standalone UI install does not record an absolute offline pnpm store.');
+  }
+  return storeEntry;
+}
+
 export const EXTERNAL_CONSUMER_INSTALL_ARGS = Object.freeze([
   'install',
   '--offline',
   '--ignore-workspace',
   '--config.shared-workspace-lockfile=false',
-  `--store-dir=${path.join(repositoryRoot, '.pnpm-store')}`,
+  `--store-dir=${installedStorePath()}`,
 ]);
 const packedTarballLocator =
-  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0\.tgz/gu;
+  /file:[^\s"',}\]]*\/tarballs\/unisane-(?:(?:data-table|tokens|ui)-0\.1\.0-next\.b67ebfd0|ui-cli-0\.1\.0)\.tgz/gu;
+const extractedArtifactLocator =
+  /link:[^\s"',}\]]*\/extracted\/unisane-(?:data-table|tokens|ui|ui-cli)/gu;
 
 function readJson(filePath) {
   return JSON.parse(readFileSync(filePath, 'utf8'));
@@ -161,8 +191,13 @@ function run(command, args, options = {}) {
     stdio: options.capture === false ? 'inherit' : 'pipe',
   });
   if (result.status !== 0) {
+    const commandOutput = (result.stderr || result.stdout || '')
+      .trim()
+      .split('\n')
+      .slice(-8)
+      .join('\n');
     throw new Error(
-      `${command} ${args.join(' ')} failed (${result.status ?? 'signal'}).\n${result.stderr || result.stdout || ''}`,
+      `${command} ${args.join(' ')} failed (${result.status ?? 'signal'}).\n${commandOutput}`,
     );
   }
   return result.stdout ?? '';
@@ -322,19 +357,20 @@ function resolveRelativeArchiveEntry(fromEntry, specifier, entries) {
   return match;
 }
 
-function registryOwnedEntries(entries, extractedRoot) {
-  if (!entries.includes('registry/registry.json')) return [];
-  const registry = readJson(path.join(extractedRoot, 'registry/registry.json'));
+function registryOwnedEntries(entries, extractedRoot, registryRoot = 'registry') {
+  const registryPath = `${registryRoot}/registry.json`;
+  if (!entries.includes(registryPath)) return [];
+  const registry = readJson(path.join(extractedRoot, registryPath));
   const declared = Object.values(registry.components ?? {}).flatMap(({ files = [] }) =>
-    files.map((file) => `registry/${file}`),
+    files.map((file) => `${registryRoot}/${file}`),
   );
   return [
     ...declared,
-    'registry/registry.json',
-    'registry/registry-schema.json',
-    'registry/tsconfig.json',
-    'registry/styles/globals.css',
-    ...themeNames.map((theme) => `registry/styles/themes/${theme}.css`),
+    `${registryRoot}/registry.json`,
+    `${registryRoot}/registry-schema.json`,
+    `${registryRoot}/tsconfig.json`,
+    `${registryRoot}/styles/globals.css`,
+    ...themeNames.map((theme) => `${registryRoot}/styles/themes/${theme}.css`),
   ];
 }
 
@@ -349,6 +385,9 @@ function assertExactArchiveClosure(profile, manifest, targets, entries, extracte
     queue.push(...themeNames.map((theme) => `dist/themes/${theme}.css`));
   }
   if (profile.name === '@unisane/ui') queue.push(...registryOwnedEntries(entries, extractedRoot));
+  if (profile.name === '@unisane/ui-cli') {
+    queue.push(...registryOwnedEntries(entries, extractedRoot, 'dist/ui-registry'));
+  }
   while (queue.length > 0) {
     const entry = queue.shift();
     if (owned.has(entry)) continue;
@@ -380,22 +419,27 @@ function assertExactArchiveClosure(profile, manifest, targets, entries, extracte
 }
 
 export function assertPackedManifest(profile, manifest, entries, extractedRoot) {
-  if (manifest.name !== profile.name || manifest.version !== approvedPrereleaseVersion) {
-    throw new Error(
-      `${profile.name} packed identity must remain exact ${approvedPrereleaseVersion}.`,
-    );
+  const expectedVersion = profile.expectedVersion ?? approvedPrereleaseVersion;
+  if (manifest.name !== profile.name || manifest.version !== expectedVersion) {
+    throw new Error(`${profile.name} packed identity must remain exact ${expectedVersion}.`);
   }
-  if (
-    manifest.private !== false ||
-    manifest.license !== 'MIT' ||
-    manifest.publishConfig?.access !== 'public' ||
-    manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'next'
-  ) {
-    throw new Error(`${profile.name} approved public prerelease metadata drifted.`);
-  }
-  if (!entries.includes('LICENSE')) {
-    throw new Error(`${profile.name} packed archive must include its MIT LICENSE.`);
+  if (profile.releaseState === 'private-unlicensed') {
+    if (manifest.private !== true || manifest.license !== 'UNLICENSED' || manifest.publishConfig) {
+      throw new Error(`${profile.name} private release metadata drifted.`);
+    }
+  } else {
+    if (
+      manifest.private !== false ||
+      manifest.license !== 'MIT' ||
+      manifest.publishConfig?.access !== 'public' ||
+      manifest.publishConfig?.provenance !== true ||
+      manifest.publishConfig?.tag !== 'next'
+    ) {
+      throw new Error(`${profile.name} approved public prerelease metadata drifted.`);
+    }
+    if (!entries.includes('LICENSE')) {
+      throw new Error(`${profile.name} packed archive must include its MIT LICENSE.`);
+    }
   }
   const localDependencies = dependencyEntries(manifest).filter(({ specifier }) =>
     localSpecifier.test(specifier),
@@ -419,6 +463,9 @@ export function assertPackedManifest(profile, manifest, entries, extractedRoot) 
   const targets = collectExportTargets(manifest.exports);
   for (const field of ['main', 'module', 'types']) {
     if (typeof manifest[field] === 'string') targets.push(manifest[field].replace(/^\.\//u, ''));
+  }
+  for (const target of Object.values(manifest.bin ?? {})) {
+    if (typeof target === 'string') targets.push(target.replace(/^\.\//u, ''));
   }
   const missingTargets = [...new Set(targets)].filter((target) =>
     target.includes('*')
@@ -645,14 +692,17 @@ function buildAndPackCandidates(workRoot) {
   mkdirSync(tarballRoot, { recursive: true });
   mkdirSync(extractedRoot, { recursive: true });
   for (const profile of packageProfiles) {
-    run('pnpm', ['--filter', profile.name, 'build']);
-    run('pnpm', ['--filter', profile.name, 'pack', '--pack-destination', tarballRoot]);
+    run('pnpm', ['--filter', profile.name, 'build'], { cwd: uiWorkspaceRoot });
+    run('pnpm', ['--filter', profile.name, 'pack', '--pack-destination', tarballRoot], {
+      cwd: uiWorkspaceRoot,
+    });
   }
   const tarballs = readdirSync(tarballRoot).filter((entry) => entry.endsWith('.tgz'));
   return packageProfiles.map((profile) => {
     const expectedPrefix = profile.name.replace('@', '').replace('/', '-');
     const tarballName = tarballs.find(
-      (entry) => entry === `${expectedPrefix}-${approvedPrereleaseVersion}.tgz`,
+      (entry) =>
+        entry === `${expectedPrefix}-${profile.expectedVersion ?? approvedPrereleaseVersion}.tgz`,
     );
     if (!tarballName) throw new Error(`Missing packed artifact for ${profile.name}.`);
     const tarballPath = path.join(tarballRoot, tarballName);
@@ -715,10 +765,12 @@ function fixtureImports(records) {
 }
 
 export function assertExternalConsumerLock(lock) {
-  const withoutPackedTarballs = lock.replace(packedTarballLocator, '');
+  const withoutPackedArtifacts = lock
+    .replace(packedTarballLocator, '')
+    .replace(extractedArtifactLocator, '');
   if (
     /(?:^|[\s'"])(?:workspace|file|link|portal):|(?:\.\.\/)+(?:Unisane|unisane-(?:ops|pro|ui|site|platforms|infrastructure))(?:\/|$)/mu.test(
-      withoutPackedTarballs,
+      withoutPackedArtifacts,
     )
   ) {
     throw new Error(
@@ -732,18 +784,26 @@ function verifyExternalConsumer(workRoot, candidates, records) {
   mkdirSync(fixtureRoot, { recursive: true });
   const candidateByName = new Map(candidates.map((candidate) => [candidate.name, candidate]));
   const reactVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/react/package.json'),
+    path.join(uiPackageDependencyRoot, 'react/package.json'),
   ).version;
   const reactDomVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/react-dom/package.json'),
+    path.join(uiPackageDependencyRoot, 'react-dom/package.json'),
   ).version;
   const reactTypesVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/@types/react/package.json'),
+    path.join(uiPackageDependencyRoot, '@types/react/package.json'),
   ).version;
   const reactDomTypesVersion = readJson(
-    path.join(repositoryRoot, 'node_modules/@types/react-dom/package.json'),
+    path.join(uiPackageDependencyRoot, '@types/react-dom/package.json'),
   ).version;
-  const fileSpecifier = (name) => `file:${candidateByName.get(name).tarballPath}`;
+  const artifactSpecifier = (name) => `link:${candidateByName.get(name).packageRoot}`;
+  const firstPartyNames = new Set(candidateByName.keys());
+  const externalRuntimeDependencies = Object.fromEntries(
+    candidates
+      .flatMap(({ manifest }) => dependencyEntries(manifest, runtimeDependencyFields))
+      .filter(({ name }) => !firstPartyNames.has(name))
+      .sort((left, right) => left.name.localeCompare(right.name))
+      .map(({ name, specifier }) => [name, specifier]),
+  );
   writeJson(path.join(fixtureRoot, 'package.json'), {
     name: 'unisane-ui-packed-certificate-consumer',
     version: '0.0.0',
@@ -751,9 +811,11 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     type: 'module',
     scripts: { check: 'tsc -p tsconfig.json && node runtime-check.mjs' },
     dependencies: {
-      '@unisane/data-table': fileSpecifier('@unisane/data-table'),
-      '@unisane/tokens': fileSpecifier('@unisane/tokens'),
-      '@unisane/ui': fileSpecifier('@unisane/ui'),
+      ...externalRuntimeDependencies,
+      '@unisane/data-table': artifactSpecifier('@unisane/data-table'),
+      '@unisane/tokens': artifactSpecifier('@unisane/tokens'),
+      '@unisane/ui': artifactSpecifier('@unisane/ui'),
+      '@unisane/ui-cli': artifactSpecifier('@unisane/ui-cli'),
       react: reactVersion,
       'react-dom': reactDomVersion,
     },
@@ -764,8 +826,8 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     },
     pnpm: {
       overrides: {
-        [`@unisane/tokens@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/tokens'),
-        [`@unisane/ui@${approvedPrereleaseVersion}`]: fileSpecifier('@unisane/ui'),
+        [`@unisane/tokens@${approvedPrereleaseVersion}`]: artifactSpecifier('@unisane/tokens'),
+        [`@unisane/ui@${approvedPrereleaseVersion}`]: artifactSpecifier('@unisane/ui'),
       },
     },
     packageManager: 'pnpm@10.26.0',
@@ -789,7 +851,7 @@ function verifyExternalConsumer(workRoot, candidates, records) {
   );
   writeFileSync(
     path.join(fixtureRoot, 'runtime-check.mjs'),
-    `import { readFile } from 'node:fs/promises';\nimport { createElement } from 'react';\nimport { renderToStaticMarkup } from 'react-dom/server';\nimport { Button } from '@unisane/ui/button';\nimport { DataTable } from '@unisane/data-table';\nimport { preloadPDF, preloadXLSX } from '@unisane/data-table/export';\nconst checks = ${JSON.stringify(imports.runtimeChecks)};\nfor (const check of checks) {\n  const loaded = await import(check.specifier);\n  for (const name of check.values) {\n    if (!(name in loaded)) throw new Error(check.specifier + ' lacks runtime export ' + name);\n  }\n}\nconst stylesheets = ['@unisane/tokens/unisane.css', '@unisane/ui/styles.css', '@unisane/data-table/styles.css'];\nconst stylesheetBytes = {};\nfor (const stylesheet of stylesheets) {\n  const resolved = import.meta.resolve(stylesheet);\n  if (!resolved.startsWith('file:')) throw new Error('Stylesheet did not resolve: ' + stylesheet);\n  const content = await readFile(new URL(resolved), 'utf8');\n  if (content.length < 500) throw new Error('Stylesheet is unexpectedly empty: ' + stylesheet);\n  stylesheetBytes[stylesheet] = content.length;\n}\nfor (const stylesheet of stylesheets.slice(0, 2)) {\n  const content = await readFile(new URL(import.meta.resolve(stylesheet)), 'utf8');\n  if (!content.includes('--color-primary')) throw new Error('Token baseline is absent from ' + stylesheet);\n}\nconst buttonHtml = renderToStaticMarkup(createElement(Button, null, 'Packed UI'));\nif (!buttonHtml.includes('Packed UI')) throw new Error('Button SSR smoke failed.');\nconst tableHtml = renderToStaticMarkup(createElement(DataTable, { data: [{ id: '1', name: 'Ada' }], columns: [{ key: 'name', header: 'Name' }], preset: 'simple' }));\nif (!tableHtml.includes('Ada')) throw new Error('DataTable SSR smoke failed.');\nawait preloadXLSX();\nawait preloadPDF();\nconsole.log(JSON.stringify({ runtimeModules: checks.length, buttonSsr: true, dataTableSsr: true, dynamicExports: ['xlsx', 'jspdf', 'jspdf-autotable'], stylesheetBytes }));\n`,
+    `import { spawnSync } from 'node:child_process';\nimport { readFile } from 'node:fs/promises';\nimport path from 'node:path';\nimport { createElement } from 'react';\nimport { renderToStaticMarkup } from 'react-dom/server';\nimport { Button } from '@unisane/ui/button';\nimport { DataTable } from '@unisane/data-table';\nimport { preloadPDF, preloadXLSX } from '@unisane/data-table/export';\nconst checks = ${JSON.stringify(imports.runtimeChecks)};\nfor (const check of checks) {\n  const loaded = await import(check.specifier);\n  for (const name of check.values) {\n    if (!(name in loaded)) throw new Error(check.specifier + ' lacks runtime export ' + name);\n  }\n}\nconst stylesheets = ['@unisane/tokens/unisane.css', '@unisane/ui/styles.css', '@unisane/data-table/styles.css'];\nconst stylesheetBytes = {};\nfor (const stylesheet of stylesheets) {\n  const resolved = import.meta.resolve(stylesheet);\n  if (!resolved.startsWith('file:')) throw new Error('Stylesheet did not resolve: ' + stylesheet);\n  const content = await readFile(new URL(resolved), 'utf8');\n  if (content.length < 500) throw new Error('Stylesheet is unexpectedly empty: ' + stylesheet);\n  stylesheetBytes[stylesheet] = content.length;\n}\nfor (const stylesheet of stylesheets.slice(0, 2)) {\n  const content = await readFile(new URL(import.meta.resolve(stylesheet)), 'utf8');\n  if (!content.includes('--color-primary')) throw new Error('Token baseline is absent from ' + stylesheet);\n}\nconst buttonHtml = renderToStaticMarkup(createElement(Button, null, 'Packed UI'));\nif (!buttonHtml.includes('Packed UI')) throw new Error('Button SSR smoke failed.');\nconst tableHtml = renderToStaticMarkup(createElement(DataTable, { data: [{ id: '1', name: 'Ada' }], columns: [{ key: 'name', header: 'Name' }], preset: 'simple' }));\nif (!tableHtml.includes('Ada')) throw new Error('DataTable SSR smoke failed.');\nawait preloadXLSX();\nawait preloadPDF();\nconst cliPath = path.join(process.cwd(), 'node_modules', '@unisane', 'ui-cli', 'dist', 'cli.js');\nconst cli = spawnSync(process.execPath, [cliPath, '--help'], { encoding: 'utf8' });\nif (cli.status !== 0) throw new Error('Packed unisane-ui CLI failed: ' + (cli.stderr || cli.stdout));\nif (!cli.stdout.includes('Usage: unisane-ui [options] [command]')) throw new Error('Packed CLI does not own the unisane-ui root.');\nif (/^\s+ui\s/mu.test(cli.stdout)) throw new Error('Packed CLI retained the former nested ui command.');\nconsole.log(JSON.stringify({ runtimeModules: checks.length, buttonSsr: true, dataTableSsr: true, uiCli: true, dynamicExports: ['xlsx', 'jspdf', 'jspdf-autotable'], stylesheetBytes }));\n`,
   );
   run('pnpm', EXTERNAL_CONSUMER_INSTALL_ARGS, { cwd: fixtureRoot });
   const lock = readFileSync(path.join(fixtureRoot, 'pnpm-lock.yaml'), 'utf8');
@@ -798,8 +860,24 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     const installedRoot = realpathSync(
       path.join(fixtureRoot, 'node_modules', ...profile.name.split('/')),
     );
-    if (!installedRoot.startsWith(realpathSync(fixtureRoot))) {
-      throw new Error(`${profile.name} resolved outside the disposable consumer.`);
+    const packedRoot = realpathSync(candidateByName.get(profile.name).packageRoot);
+    if (installedRoot !== packedRoot) {
+      throw new Error(`${profile.name} did not resolve to its extracted packed artifact.`);
+    }
+  }
+  for (const candidate of candidates) {
+    const typeSupport = ['@types/react', '@types/react-dom'];
+    const dependencyNames = new Set([
+      ...dependencyEntries(candidate.manifest, runtimeDependencyFields).map(({ name }) => name),
+      ...typeSupport,
+    ]);
+    for (const name of dependencyNames) {
+      const dependencyRoot = candidateByName.has(name)
+        ? candidateByName.get(name).packageRoot
+        : realpathSync(path.join(fixtureRoot, 'node_modules', ...name.split('/')));
+      const linkPath = path.join(candidate.packageRoot, 'node_modules', ...name.split('/'));
+      mkdirSync(path.dirname(linkPath), { recursive: true });
+      symlinkSync(dependencyRoot, linkPath, 'junction');
     }
   }
   run('pnpm', ['check'], { cwd: fixtureRoot, env: { NODE_ENV: 'production' } });
@@ -807,6 +885,7 @@ function verifyExternalConsumer(workRoot, candidates, records) {
     lockSha256: sha256File(path.join(fixtureRoot, 'pnpm-lock.yaml')),
     runtimeModuleCount: imports.runtimeChecks.length,
     stylesheetCount: 3,
+    uiCli: true,
     dynamicDependencies: ['jspdf', 'jspdf-autotable', 'xlsx'],
   };
 }
@@ -980,4 +1059,11 @@ export function main() {
   }
 }
 
-if (path.resolve(process.argv[1] ?? '') === fileURLToPath(import.meta.url)) main();
+if (path.resolve(process.argv[1] ?? '') === fileURLToPath(import.meta.url)) {
+  try {
+    main();
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
+}

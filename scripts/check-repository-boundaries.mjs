@@ -33,6 +33,13 @@ const textExtensions = new Set([
   '.yml',
 ]);
 const violations = [];
+const dependencyFields = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+  'peerDependencies',
+];
+const repositoryUrl = 'https://github.com/unisanetech/unisane-ui.git';
 
 async function collectFiles(directory, relativeDirectory = '') {
   const files = [];
@@ -180,6 +187,92 @@ if (privateManifest.private !== true || privateManifest.license !== 'UNLICENSED'
 }
 if (privateManifest.publishConfig) {
   recordViolation('packages/ui-cli/package.json', 'private UI CLI must not declare publishing');
+}
+if (JSON.stringify(privateManifest.bin) !== JSON.stringify({ 'unisane-ui': './dist/cli.js' })) {
+  recordViolation(
+    'packages/ui-cli/package.json',
+    'UI CLI must own exactly the independent unisane-ui binary',
+  );
+}
+if (
+  Object.keys(privateManifest.exports ?? {}).some((entry) => entry.includes('pack')) ||
+  privateManifest.files?.includes('pack.manifest.json') ||
+  files.some((file) =>
+    [
+      'packages/ui-cli/pack.manifest.json',
+      'packages/ui-cli/src/handlers/ui.ts',
+      'packages/ui-cli/src/pack-contract.ts',
+    ].includes(file),
+  )
+) {
+  recordViolation('packages/ui-cli', 'former host command-pack surface remains');
+}
+
+const manifestPaths = files.filter(
+  (file) => file === 'package.json' || file.endsWith('/package.json'),
+);
+const manifests = new Map();
+for (const manifestPath of manifestPaths) {
+  manifests.set(
+    manifestPath,
+    JSON.parse(await fs.readFile(path.join(repositoryRoot, manifestPath), 'utf8')),
+  );
+}
+const workspacePackageNames = new Set(
+  [...manifests.values()].map((manifest) => manifest.name).filter(Boolean),
+);
+const repositoryOwnedManifests = new Map([
+  ['package.json', null],
+  ['packages/data-table/package.json', 'packages/data-table'],
+  ['packages/email-templates/package.json', 'packages/email-templates'],
+  ['packages/tokens/package.json', 'packages/tokens'],
+  ['packages/ui-cli/package.json', 'packages/ui-cli'],
+  ['packages/ui/package.json', 'packages/ui'],
+]);
+for (const [manifestPath, directory] of repositoryOwnedManifests) {
+  const manifest = manifests.get(manifestPath);
+  if (
+    manifest?.repository?.type !== 'git' ||
+    manifest.repository.url !== repositoryUrl ||
+    (directory === null
+      ? 'directory' in manifest.repository
+      : manifest.repository.directory !== directory)
+  ) {
+    recordViolation(manifestPath, 'standalone repository coordinate drifted');
+  }
+}
+for (const [manifestPath, manifest] of manifests) {
+  for (const field of dependencyFields) {
+    for (const [name, specifier] of Object.entries(manifest[field] ?? {})) {
+      if (typeof specifier !== 'string') continue;
+      if (/^(?:file|link|portal):|^(?:\.{1,2}[\\/]|\/)/u.test(specifier)) {
+        recordViolation(
+          manifestPath,
+          `${field}.${name} uses a local filesystem dependency locator`,
+        );
+      }
+      if (specifier.startsWith('workspace:') && !workspacePackageNames.has(name)) {
+        recordViolation(
+          manifestPath,
+          `${field}.${name} references a package absent from this standalone workspace`,
+        );
+      }
+    }
+  }
+}
+for (const forbiddenDependency of [
+  '@unisane/devtools',
+  '@unisane/framework-ops',
+  '@unisane/kernel',
+  '@unisane/ops',
+  '@unisane/platform',
+]) {
+  if (dependencyFields.some((field) => forbiddenDependency in (privateManifest[field] ?? {}))) {
+    recordViolation(
+      'packages/ui-cli/package.json',
+      `UI CLI retains umbrella/runtime dependency ${forbiddenDependency}`,
+    );
+  }
 }
 
 const registry = JSON.parse(

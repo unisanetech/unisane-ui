@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
 const { existsSync, readFileSync, writeFileSync } = fse;
-import path from 'path';
+import path from 'node:path';
 
 export const UI_CONFIG_FILENAME = 'unisane-ui.json';
 

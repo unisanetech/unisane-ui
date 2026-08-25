@@ -6,7 +6,7 @@
 
 import fse from 'fs-extra';
 const { existsSync, readFileSync, writeFileSync, mkdirSync } = fse;
-import path from 'path';
+import path from 'node:path';
 import { log, prompt } from '../cli-support.js';
 import {
   getAllDependencies,
