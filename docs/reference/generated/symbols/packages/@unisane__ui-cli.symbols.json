@@ -1,0 +1,815 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "packageManifest": "packages/ui-cli/package.json",
+    "sourceRoot": "packages/ui-cli"
+  },
+  "summary": {
+    "package": "@unisane/ui-cli",
+    "owner": "ui/ui-cli",
+    "packageDir": "packages/ui-cli",
+    "sourceFileCount": 19,
+    "symbolCount": 65,
+    "functionCount": 65,
+    "publicFunctionCount": 34,
+    "internalFunctionCount": 31,
+    "serviceLayerFunctionCount": 0
+  },
+  "owner": "unisane-ui",
+  "status": "generated",
+  "generatorScript": "scripts/commands/references/generate-symbol-reference.mjs",
+  "generatorVersion": 1,
+  "sourceCommit": "workspace",
+  "sourceFiles": [
+    "packages/ui-cli",
+    "packages/ui-cli/package.json"
+  ],
+  "records": [
+    {
+      "name": "aliasDirectory",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "aliasDirectory(alias, config, cwd): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getAllDependencies",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getAllDependencies(itemNames, registry, visited): Set<string>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getTargetFilePath",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getTargetFilePath(file, config, cwd): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRegistry",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRegistry(value): value is Registry",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRegistryFile",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRegistryFile(value): value is RegistryFile",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRegistryItem",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRegistryItem(value): value is RegistryItem",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRegistryItemType",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRegistryItemType(value): value is RegistryItemType",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSafeRelativePath",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSafeRelativePath(value): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isStringArray",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isStringArray(value): value is string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "loadConfig(cwd): UiProjectConfig | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadRegistry",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "loadRegistry(registryDir): Registry | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "registryItemsByName",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "registryItemsByName(registry): Map<string, RegistryItem>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveRegistryDir",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "resolveRegistryDir(): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "targetOwner",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "targetOwner(target): 'ui' | 'lib' | 'hooks' | 'types'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "transformImports",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add-helpers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "transformImports(content, config, context): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "missingPackages",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "missingPackages(cwd, requested): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "packageNameAndVersion",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "packageNameAndVersion(dependency): [string, string]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "printInstallCommands",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "printInstallCommands(commands): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiAdd",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiAdd(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "usesAliasImports",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/add.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "usesAliasImports(cwd): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isAxis",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isAxis(value): value is UiAppearanceAxis",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isPersistence",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isPersistence(value): value is UiAppearancePersistence",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadConfigSafely",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "loadConfigSafely(cwd)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiAppearanceDisable",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiAppearanceDisable(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiAppearanceEnable",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiAppearanceEnable(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiAppearanceList",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/appearance.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiAppearanceList(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadCatalog",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/catalog.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "loadCatalog(): Registry | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "printItems",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/catalog.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "printItems(items, json): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiList",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/catalog.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiList(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiSearch",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/catalog.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiSearch(query, options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiView",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/catalog.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiView(name, options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiDiff",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/diff.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiDiff(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/doctor.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toStringMap",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/doctor.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toStringMap(value): Record<string, string>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiDoctor",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/doctor.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiDoctor(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "FileTransaction.rollback",
+      "kind": "method",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/file-transaction.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "FileTransaction.rollback(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "detectProject",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/init.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "detectProject(cwd, pkg)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeBaseline",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/init.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergeBaseline(existing, baseline, force): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolvePostcssConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/init.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolvePostcssConfig(cwd): { path: string; create: boolean }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiInit",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/init.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiInit(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "buildInstallCommands",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "buildInstallCommands(manager, dependencies, devDependencies): InstallCommand[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "defaultInstallRunner",
+      "kind": "const-function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "defaultInstallRunner(command, args, cwd): PackageInstallRunner",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "detectPackageManager",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "detectPackageManager(cwd): PackageManager",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatInstallCommand",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatInstallCommand(command): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "installArgs",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "installArgs(manager, packages, development): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "packageManagerFromPackageJson",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "packageManagerFromPackageJson(cwd): PackageManager | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "runInstallCommands",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/package-manager.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "runInstallCommands(commands, cwd, runner): Promise<boolean>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "registerUiCommands",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/register.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "registerUiCommands(program, environment, registration): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "listThemeAssets",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/theme.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "listThemeAssets(registryDir): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readThemeAsset",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/theme.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "readThemeAsset(registryDir, themeName): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "replaceManagedThemeRegion",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/theme.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "replaceManagedThemeRegion(source, replacement): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "uiTheme",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/theme.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "uiTheme(options): Promise<number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createDefaultUiConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createDefaultUiConfig(theme, options): UiProjectConfig",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isAppearanceAxis",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isAppearanceAxis(value): value is UiAppearanceAxis",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isPersistence",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isPersistence(value): value is UiAppearancePersistence",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseUiConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "parseUiConfig(value): UiProjectConfig",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readUiConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "readUiConfig(cwd): UiProjectConfig | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "requireString",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "requireString(record, key): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "writeUiConfig",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/commands/ui-config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "writeUiConfig(cwd, config): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "runUiCommand",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/handlers/ui.ts",
+      "exported": true,
+      "tags": [
+        "handlers",
+        "public"
+      ],
+      "signatureShort": "runUiCommand(context): Promise<UiPackCommandResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "capturedExitCode",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/pack-contract.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "capturedExitCode(error): number | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseCapturedOutput",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/pack-contract.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parseCapturedOutput(stdout): unknown",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "runCapturedUiCommand",
+      "kind": "function",
+      "package": "@unisane/ui-cli",
+      "owner": "ui/ui-cli",
+      "file": "packages/ui-cli/src/pack-contract.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "runCapturedUiCommand(context, run): Promise<UiPackCommandResult>",
+      "layer": "ui-layer"
+    }
+  ],
+  "generatedAt": "content-hash:288bf35359a1"
+}

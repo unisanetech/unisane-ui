@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "packageManifest": "packages/email-templates/package.json",
+    "sourceRoot": "packages/email-templates"
+  },
+  "summary": {
+    "package": "@unisane/email-templates",
+    "owner": "ui/email-templates",
+    "packageDir": "packages/email-templates",
+    "sourceFileCount": 17,
+    "symbolCount": 39,
+    "functionCount": 39,
+    "publicFunctionCount": 36,
+    "internalFunctionCount": 3,
+    "serviceLayerFunctionCount": 0
+  },
+  "owner": "unisane-ui",
+  "status": "generated",
+  "generatorScript": "scripts/commands/references/generate-symbol-reference.mjs",
+  "generatorVersion": 1,
+  "sourceCommit": "workspace",
+  "sourceFiles": [
+    "packages/email-templates",
+    "packages/email-templates/package.json"
+  ],
+  "records": [
+    {
+      "name": "normalizeEmailBrand",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/brand/normalize-brand.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "normalizeEmailBrand(brand): NormalizedEmailBrand",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderBrandLogo",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/layout.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "renderBrandLogo(brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderEmailLayout",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/layout.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderEmailLayout(args): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderBillingDetails",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderBillingDetails(props, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderButton",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderButton(url, label, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderDetailsTable",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderDetailsTable(rows, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderFooterHtml",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderFooterHtml(args): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderHeroMetric",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderHeroMetric(value, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderLinkFallback",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderLinkFallback(url, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderNote",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderNote(message, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderStepList",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/components/primitives.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderStepList(items, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createEmailTemplateRenderer",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/render/render-email-template.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createEmailTemplateRenderer(args)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderEmailTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/render/render-email-template.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderEmailTemplate(input): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeOtpCode",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeOtpCode(code): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderMagicLinkTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderMagicLinkTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderOtpCode",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "renderOtpCode(normalizedCode, brand): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderOtpTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderOtpTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderPasswordResetTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderPasswordResetTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderVerifyEmailTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/auth.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderVerifyEmailTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderBillingInvoicePaidTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/billing.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderBillingInvoicePaidTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderBillingPaymentSucceededTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/billing.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderBillingPaymentSucceededTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderBillingSubscriptionCreatedTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/billing.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderBillingSubscriptionCreatedTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderGenericTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/generic.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderGenericTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderLinkTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/link-template.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderLinkTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderWelcomeTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/workspace.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderWelcomeTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderWorkspaceInviteTemplate",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/templates/workspace.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "renderWorkspaceInviteTemplate(args): RenderedEmailTemplate",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "cssFontFamily",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "cssFontFamily(input): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeAttr",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "escapeAttr(input): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeCssUrl",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "escapeCssUrl(input): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeHtml",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "escapeHtml(input): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatAmount",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatAmount(amount, currency): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatDateTime",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatDateTime(value): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatDuration",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatDuration(value): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isMarketingCategory",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isMarketingCategory(category): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "joinText",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "joinText(parts): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readStringList",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "readStringList(value): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readText",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "readText(value): string | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readUserName",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "readUserName(value): string | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ttlSentence",
+      "kind": "function",
+      "package": "@unisane/email-templates",
+      "owner": "ui/email-templates",
+      "file": "packages/email-templates/src/utils/props.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ttlSentence(value, fallback): string",
+      "layer": "ui-layer"
+    }
+  ],
+  "generatedAt": "content-hash:76e4b883a54e"
+}

@@ -1,0 +1,6177 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "packageManifest": "packages/data-table/package.json",
+    "sourceRoot": "packages/data-table"
+  },
+  "summary": {
+    "package": "@unisane/data-table",
+    "owner": "ui/data-table",
+    "packageDir": "packages/data-table",
+    "sourceFileCount": 169,
+    "symbolCount": 482,
+    "functionCount": 482,
+    "publicFunctionCount": 369,
+    "internalFunctionCount": 113,
+    "serviceLayerFunctionCount": 0
+  },
+  "owner": "unisane-ui",
+  "status": "generated",
+  "generatorScript": "scripts/commands/references/generate-symbol-reference.mjs",
+  "generatorVersion": 1,
+  "sourceCommit": "workspace",
+  "sourceFiles": [
+    "packages/data-table",
+    "packages/data-table/package.json"
+  ],
+  "records": [
+    {
+      "name": "ActionMenuItem",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/actions-cell.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "ActionMenuItem({ item, row, icon, disabled, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ActionsCell",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/actions-cell.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ActionsCell({ row, items, size = 'sm', align = 'end', className, disabled = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createActionsColumn",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/actions-cell.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createActionsColumn({ items, header = '', width = 48, pinned = null, size = 'sm', align = 'end', hideable = false, key = '__actions', }): Column<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isMenuItem",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/actions-cell.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isMenuItem(item): item is RowContextMenuItem<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableBodyInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/body.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableBodyInner({ data, columns, columnMeta, getEffectivePinPosition, selectedRows, expandedRows, isLoading, loadingVariant = 'skeleton', skeletonRowCount = 5, selectable, sh...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "EmptyState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/body.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "EmptyState({ colSpan, message, icon = 'search_off', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "LoadingState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/body.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "LoadingState({ colSpan })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableColgroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/colgroup.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableColgroup({ columns, columnMeta, selectable, enableExpansion, getEffectivePinPosition, reorderableRows = false, density = 'standard', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useContextMenuBehavior",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/context-menu-behavior.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useContextMenuBehavior({ open, menuRef, onClose, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableContextMenu",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/context-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DataTableContextMenu({ state, onClose })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CustomScrollbar",
+      "kind": "const-function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/custom-scrollbar.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CustomScrollbar({ tableContainerRef, pinnedLeftWidth, pinnedRightWidth, dependencies = [], className = '', dataTableRef, allowViewportSticky = true, }): React.FC<CustomScrollbar...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/data-table-inner.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DataTableInner({ toolbarProps, data, isLoading = false, loadingVariant = 'skeleton', skeletonRowCount = 5, bulkActions = [], renderExpandedRow, expandedRow, getRowCanExpand, cla...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTable",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/data-table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DataTable({ // Required data, columns, // Preset preset = 'interactive', // Grouped configs features: featuresOverride, layout: layoutOverride, virtualization: virtualizationOve...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "EditingWrapper",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/data-table.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "EditingWrapper({ data, editing, children, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableErrorBoundary.componentDidCatch",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/error-boundary.tsx",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableErrorBoundary.componentDidCatch(error, errorInfo): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableErrorBoundary.getDerivedStateFromError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/error-boundary.tsx",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public",
+        "static"
+      ],
+      "signatureShort": "DataTableErrorBoundary.getDerivedStateFromError(error): DataTableErrorBoundaryState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableErrorBoundary.render",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/error-boundary.tsx",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableErrorBoundary.render(): ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableErrorDisplay",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/error-boundary.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DataTableErrorDisplay({ error, resetError, title, message, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getExpandedRowPresentationClasses",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/expanded-row-presentation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getExpandedRowPresentationClasses(presentation, density): ExpandedRowPresentationClasses",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableFooterInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/footer.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableFooterInner({ data, columns, columnMeta, getEffectivePinPosition, selectable, enableExpansion, showColumnBorders, density = \"standard\", showSummary, summaryLabel = \"Sum...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DefaultGroupHeader",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/group-row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DefaultGroupHeader({ groupLabel, rowCount, isExpanded, aggregations, depth, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "GroupRow",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/group-row.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "GroupRow({ group, columns, selectable, enableExpansion, onToggle, density = 'standard', renderGroupHeader, style, isLastGroup = false, selectedRows, onSelectGroup, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ColumnMenu",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/column-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ColumnMenu({ column, pinPosition, pinnable, hideable, currentFilter, hasActiveFilter, onPin, onHide, onFilter, actionContext, actions, groupingEnabled = false, groupByArray = []...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SelectFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/column-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SelectFilter({ column, currentFilter, hasActiveFilter, onFilter, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TextFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/column-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "TextFilter({ column, filterInputValue, hasActiveFilter, onInputChange, onSubmit, onClear, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "GroupHeaderRow",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/group-header-row.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "GroupHeaderRow({ columnDefinitions, selectable, enableExpansion, showColumnBorders, paddingClass, hasPinnedLeftData, density = 'standard', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "HeaderCell",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/header-cell.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "HeaderCell({ column, meta, isSorted, sortDirection, sortPriority, isSortable, pinPosition, isLastColumn, paddingClass, showColumnBorders, resizable, pinnable, columnVisibility, ...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableHeaderInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/index.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableHeaderInner({ columns, columnDefinitions, hasGroups = false, sortState, onSort, columnMeta, getEffectivePinPosition, selectable, allSelected, indeterminate, onSelectAll...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ResizeHandle",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/resize-handle.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ResizeHandle({ columnKey, currentWidth, minWidth = 50, maxWidth = 800, onResize, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSortSymbol",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/sort-control.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getSortSymbol(isSorted, direction): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SortControl",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/header/sort-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SortControl({ isSorted, sortDirection, sortPriority, variant, onClick, ariaLabel, density = 'standard', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeRegex",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/highlighted-text.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "escapeRegex(str): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "HighlightedText",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/highlighted-text.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "HighlightedText({ text, searchTerm, enabled = true, highlightClassName, caseSensitive = false, className, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "splitTextBySearch",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/highlighted-text.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "splitTextBySearch(text, searchTerm, caseSensitive): HighlightedSpan[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CursorPagination",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "CursorPagination({ currentCount, totalItems, cursor, pageSizeOptions, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTablePaginationInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTablePaginationInner({ totalItems, currentCount, pageSizeOptions = DEFAULT_PAGE_SIZES, mode = 'offset', cursor, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "OffsetPagination",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "OffsetPagination({ page, pageSize, totalItems, totalPages, setPage, setPageSize, pageSizeOptions, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "PageSizeSelector",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "PageSizeSelector({ pageSize, pageSizeOptions, onChange, label, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "buildDefaultContextMenuItems",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-context-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "buildDefaultContextMenuItems(options, t): RowContextMenuItemOrSeparator<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isMenuItem",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-context-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isMenuItem(item): item is RowContextMenuItem<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "RowContextMenu",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-context-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "RowContextMenu({ state, onClose, items, selectedIds = [], renderMenu, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDefaultContextMenuItems",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-context-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDefaultContextMenuItems(options): RowContextMenuItemOrSeparator<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRowContextMenu",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-context-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRowContextMenu({ onOpen, onClose, }): UseRowContextMenuReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getRowBackgroundClass",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getRowBackgroundClass({ isSelected = false, isActive = false, isFocused = false, zebra = false, isOddRow = false, }): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getRowInteractionBackgroundClass",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getRowInteractionBackgroundClass({ isSelected = false, isActive = false, isFocused = false, }): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableExpandedRowInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableExpandedRowInner({ row, columns, selectable, showColumnBorders, enableExpansion, density = 'standard', reorderableRows = false, isLastRow = false, rowRef, 'data-index':...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableRowInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableRowInner({ row, rowIndex, columns, columnMeta, getEffectivePinPosition, isSelected, isExpanded, isActive, isLastRow, selectable, showColumnBorders, zebra, enableExpansi...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSkeletonVariant",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/skeleton-loading-state.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getSkeletonVariant(column): 'text' | 'circular' | 'rectangular'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSkeletonWidthClass",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/skeleton-loading-state.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getSkeletonWidthClass(column, rowIndex): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonCell",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/skeleton-loading-state.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SkeletonCell({ column, columnMeta, getEffectivePinPosition, rowIndex, showColumnBorders, density, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonLoadingState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/skeleton-loading-state.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SkeletonLoadingState({ columns, columnMeta, getEffectivePinPosition, rowCount, selectable, enableExpansion, showColumnBorders, density, reorderableRows = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonRow",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/skeleton-loading-state.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SkeletonRow({ rowIndex, columns, columnMeta, getEffectivePinPosition, selectable, enableExpansion, showColumnBorders, density, reorderableRows, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "StatusAnnouncer",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/status-announcer.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "StatusAnnouncer({ statusMessage, announcerRegionId, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "calculateSummary",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/summary-row.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "calculateSummary(data, columnKey, calculation): number | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatSummaryValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/summary-row.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatSummaryValue(value, calculation, formatNumber): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSummaryLabelKey",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/summary-row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getSummaryLabelKey(type): 'summaryTotal' | 'summaryAverage' | 'summaryCount' | 'summaryMin' | 'summaryMax'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SummaryCell",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/summary-row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SummaryCell({ column, data, meta, pinPosition, paddingClass, showColumnBorders, isLastColumn, isLastPinnedLeft, isFirstPinnedRight, customRenderer, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SummaryRowInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/summary-row.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SummaryRowInner({ data, columns, columnMeta, getEffectivePinPosition, selectable, enableExpansion, showColumnBorders, density = 'standard', label, lastPinnedLeftKey, firstPinned...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ActionButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ActionButton({ action })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CompactIconButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CompactIconButton({ icon, label, onClick, active = false, disabled = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SegmentedDropdownButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SegmentedDropdownButton({ icon, label, active = false, isFirst = false, isLast = false, badge, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SegmentedIconButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SegmentedIconButton({ icon, label, onClick, active = false, disabled = false, isFirst = false, isLast = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ToolbarDropdownButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ToolbarDropdownButton({ label, icon, onClick, active = false, disabled = false, className, badge, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ToolbarTextButton",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/buttons.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ToolbarTextButton({ label, icon, onClick, active = false, disabled = false, badge, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ColumnVisibilityDropdown",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/dropdowns.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ColumnVisibilityDropdown({ segmented = false, compact = false, isFirst = false, isLast = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DensityDropdown",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/dropdowns.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DensityDropdown({ density, onDensityChange, segmented = false, compact = false, isFirst = false, isLast = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "LabeledDropdown",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/dropdowns.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "LabeledDropdown({ dropdown })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MoreActionsDropdown",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/dropdowns.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MoreActionsDropdown({ actions, compact = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportDropdown",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/export-dropdown.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ExportDropdown({ handler, segmented = false, compact = false, isFirst = false, isLast = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isExportResult",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/export-dropdown.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isExportResult(value): value is ExportResult",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableToolbarInner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/index.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "DataTableToolbarInner({ title, searchable = true, selectedCount = 0, selectedIds = [], bulkActions = [], onClearSelection, exportHandler, printHandler, onRefresh, refreshing = f...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MobileSearchOverlay",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/search-input.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MobileSearchOverlay({ isOpen, onClose, placeholder })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SearchInput",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/search-input.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SearchInput({ className, placeholder, enableGlobalShortcut = true, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ActiveFiltersBar",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ActiveFiltersBar()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "FrozenColumnsIndicator",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "FrozenColumnsIndicator({ frozenLeftCount, frozenRightCount, onUnfreezeAll, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "GroupingPill",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "GroupingPill({ label, level, onRemove })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "GroupingPillsBar",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "GroupingPillsBar({ showEmpty = false })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SelectionBar",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SelectionBar({ selectedCount, selectedIds, bulkActions, onClearSelection, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TitleBar",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/toolbar/sections.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TitleBar({ title, startItem, endItem, totalItems, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TreeExpander",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/tree-expander.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TreeExpander({ isExpanded, hasChildren, isLoading = false, level, indentSize = 24, onToggle, showLeafIndicator = false, className, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "EmptyState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/virtualized-body.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "EmptyState({ colSpan, message, icon = 'search_off', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "LoadingState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/virtualized-body.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "LoadingState({ colSpan })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "VirtualizedBody",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/components/virtualized-body.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "VirtualizedBody({ isLoading, isEmpty, emptyMessage, emptyIcon, totalHeight, virtualRows, columns, columnMeta, getEffectivePinPosition, selectedRows, expandedRows, activeRowId, f...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createCellId",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/constants/dimensions.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createCellId(rowId, columnKey): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getCellSelector",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/constants/dimensions.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getCellSelector(rowId, columnKey): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseCellId",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/constants/dimensions.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "parseCellId(cellId): { rowId: string; columnKey: string } | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-columns.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useColumns()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useControlledSet",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-controlled-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useControlledSet({ internalValue, externalValue, onChange, dispatch, }): UseControlledSetReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useControlledState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-controlled-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useControlledState({ internalValue, externalValue, onChange, dispatch, isEqual = (a, b) => a === b, }): UseControlledStateReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFiltering",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-filtering.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFiltering()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useGrouping",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useGrouping()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "usePagination",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "usePagination()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSelection",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-selection.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSelection()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSorting",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-sorting.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSorting()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useTableUI",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/hooks/use-table-ui.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useTableUI()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableProvider",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DataTableProvider({ children, tableId, columns, mode = 'local', paginationMode = 'offset', variant = 'list', rowSelectionEnabled = false, showColumnDividers, zebra = false, vert...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getStorageKey",
+      "kind": "const-function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getStorageKey(tableId, suffix)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isColumnPinState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isColumnPinState(value): value is ColumnPinState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isNumberRecord",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isNumberRecord(value): value is Record<string, number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isStringArray",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isStringArray(value): value is string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableColumnSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableColumnSlice(): ColumnSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableControlledState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableControlledState(): DataTableControlledState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableFilterSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableFilterSlice(): FilterSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableGroupingSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableGroupingSlice(): GroupingSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTablePaginationSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTablePaginationSlice(): PaginationSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableRuntime",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableRuntime(): DataTableRuntimeContextValue<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableSelectionSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableSelectionSlice(): SelectionSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDataTableSortSlice",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDataTableSortSlice(): SortSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useOptionalDataTableRuntime",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useOptionalDataTableRuntime(): DataTableRuntimeContextValue<T> | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRequiredContext",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "useRequiredContext(context, hookName): Value",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/reducer.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialState(options): DataTableState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "dataTableReducer",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/reducer.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "dataTableReducer(state, action): DataTableState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialColumnState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/column.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialColumnState(): ColumnSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reduceColumnState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/column.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reduceColumnState(state, action): ColumnSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialFilterState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/filter.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialFilterState(): FilterSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reduceFilterState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/filter.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reduceFilterState(state, action): FilterSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialGroupingState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialGroupingState(): GroupingSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reduceGroupingState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reduceGroupingState(state, action): GroupingSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialPaginationState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialPaginationState(options): PaginationSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reducePaginationState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reducePaginationState(state, action): PaginationSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialSelectionState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/selection.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialSelectionState(): SelectionSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reduceSelectionState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/selection.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reduceSelectionState(state, action): SelectionSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "addOrCycleSortColumn",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/sort.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "addOrCycleSortColumn(currentState, key, maxColumns): MultiSortState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialSortState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/sort.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createInitialSortState(): SortSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "cycleSortState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/sort.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "cycleSortState(currentState, newKey): MultiSortState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "reduceSortState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/context/slices/sort.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "reduceSortState(state, action): SortSlice",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.calculateMaxSeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.calculateMaxSeverity(): ErrorSeverity",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.getCountBySeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.getCountBySeverity(): Record<ErrorSeverity, number>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.getErrorsByCode",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.getErrorsByCode(code): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.getErrorsBySeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.getErrorsBySeverity(severity): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.hasCriticalError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.hasCriticalError(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.hasErrorCode",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.hasErrorCode(code): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.hasFatalError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.hasFatalError(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.hasSeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.hasSeverity(severity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.toFormattedString",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.toFormattedString(): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AggregateDataTableError.toJSON",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "AggregateDataTableError.toJSON(): Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "aggregateErrors",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "aggregateErrors(errors, message): AggregateDataTableError | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.add",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.add(error): this",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.addAll",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.addAll(errors): this",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.addIf",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.addIf(condition, error): this",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.clear",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.clear(): this",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.count",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.count(): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.getErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.getErrors(): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.getFirstError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.getFirstError(): DataTableError | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.getMaxSeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.getMaxSeverity(): ErrorSeverity",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.hasErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.hasErrors(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.hasSeverityAtLeast",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.hasSeverityAtLeast(minSeverity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.throwIfErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.throwIfErrors(message): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorCollector.toAggregateError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorCollector.toAggregateError(message): AggregateDataTableError | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "flattenErrors",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "flattenErrors(error): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isAggregateError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/aggregate-error.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isAggregateError(error): error is AggregateDataTableError",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableError.isAtLeast",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/base.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableError.isAtLeast(minSeverity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableError.isRecoverable",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/base.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableError.isRecoverable(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableError.shouldTriggerBoundary",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/base.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableError.shouldTriggerBoundary(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableError.toFormattedString",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/base.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableError.toFormattedString(): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DataTableError.toJSON",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/base.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DataTableError.toJSON(): Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createErrorHub",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createErrorHub(options): ErrorHub",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.attemptRecovery",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.attemptRecovery(error): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.clearErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.clearErrors(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.clearErrorsByCode",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.clearErrorsByCode(code): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.clearErrorsBySeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.clearErrorsBySeverity(severity): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.destroy",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.destroy(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getErrorCount",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getErrorCount(): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getErrors(): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getErrorsByCode",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getErrorsByCode(code): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getErrorsBySeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getErrorsBySeverity(severity): DataTableError[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getLastError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getLastError(): DataTableError | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getRecoveryStrategy",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getRecoveryStrategy(code): RecoveryStrategy | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.getState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.getState(): ErrorHubState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.hasErrors",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.hasErrors(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.hasSeverity",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.hasSeverity(severity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.isDuplicate",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.isDuplicate(error): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.notifyHandlers",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.notifyHandlers(error): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.registerRecoveryStrategy",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.registerRecoveryStrategy(strategy): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.report",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.report(error): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.setRecoveryStrategy",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.setRecoveryStrategy(code, strategy): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.storeError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.storeError(error): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.subscribe",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.subscribe(handler): Unsubscribe",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ErrorHub.trackForDeduplication",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ErrorHub.trackForDeduplication(error): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getErrorHub",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getErrorHub(): ErrorHub",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resetDefaultErrorHub",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "resetDefaultErrorHub(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "hasErrorCode",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "hasErrorCode(error, code): error is DataTableError",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "hasSeverityAtLeast",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "hasSeverityAtLeast(error, minSeverity): error is DataTableError",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDataTableError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isDataTableError(error): error is DataTableError",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isFatalError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isFatalError(error): error is DataTableError",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecoverableError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isRecoverableError(error): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldTriggerErrorBoundary",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldTriggerErrorBoundary(error): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createRecoveryStrategy",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createRecoveryStrategy(config): RecoveryStrategyConfig",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createRecoveryStrategyMap",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createRecoveryStrategyMap(strategies): Map<string, RecoveryStrategyConfig>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "executeRecovery",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "executeRecovery(error, strategies): RecoveryResult<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "executeRecoveryWithRetry",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "executeRecoveryWithRetry(error, strategy, onRetry): Promise<RecoveryResult<T>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getDefaultRecoveryStrategies",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getDefaultRecoveryStrategies(): RecoveryStrategyConfig[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeRecoveryStrategies",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/recovery.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "mergeRecoveryStrategies(customStrategies): RecoveryStrategyConfig[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "compareSeverity",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "compareSeverity(a, b): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSeverityConfig",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getSeverityConfig(severity): SeverityConfig",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "maxSeverity",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "maxSeverity(a, b): ErrorSeverity",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "meetsMinSeverity",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "meetsMinSeverity(severity, minSeverity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldAttemptRecovery",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldAttemptRecovery(severity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldNotifyUser",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldNotifyUser(severity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldReport",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldReport(severity, minReportSeverity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldTriggerBoundary",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/severity.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldTriggerBoundary(severity): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "extractMessageContext",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "extractMessageContext(error): MessageContext",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatErrorForClipboard",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatErrorForClipboard(error, strings): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatErrorForDisplay",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatErrorForDisplay(error, strings): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatMessage",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatMessage(template, context): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getActionForError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getActionForError(error, strings): string | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSeverityLabel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getSeverityLabel(severity, strings): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getUserMessage",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getUserMessage(error, strings): UserMessage",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getUserMessages",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/errors/user-messages.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getUserMessages(errors, strings): UserMessage[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AriaLiveRegion",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/feedback/provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "AriaLiveRegion({ message, politeness })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "FeedbackProvider",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/feedback/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "FeedbackProvider({ children, disabled = false, disableToasts = false, disableAnnouncements = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFeedback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/feedback/provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFeedback(): FeedbackContextValue",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateCacheKey",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-grouped-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generateCacheKey(data, groupByKeys, expandedGroups): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateDataHash",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-grouped-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generateDataHash(data): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useGroupedData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-grouped-data.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useGroupedData({ data, groupByKeys, isGroupExpanded, columns, enabled, }): UseGroupedDataReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "compareValues",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-processed-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "compareValues(a, b): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "matchesFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-processed-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "matchesFilter(cellValue, filter): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useProcessedData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-processed-data.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useProcessedData({ data, searchText, columnFilters, sortState, columns, disableLocalProcessing = false, searchDebounceMs = 0, filterDebounceMs = 0, errorHub, }): T[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRemoteDataTable",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-remote-data-table.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRemoteDataTable({ params, query, statsQuery, initialData, }): UseRemoteDataTableReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "calculateAggregation",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-row-grouping.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "calculateAggregation(rows, columnKey, aggregation): unknown",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatGroupLabel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-row-grouping.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatGroupLabel(value): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRowGrouping",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/data/use-row-grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRowGrouping({ data, columns, config, groupBy: controlledGroupBy, onGroupByChange, enabled = true, }): UseRowGroupingReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useClipboardPasteWithFeedback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-clipboard-paste-with-feedback.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useClipboardPasteWithFeedback({ showFeedback = true, onPasteComplete: userOnPasteComplete, ...options }): UseClipboardPasteWithFeedbackReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseClipboardText",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-clipboard-paste.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parseClipboardText(text): ParsedClipboardData",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useClipboardPaste",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-clipboard-paste.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useClipboardPaste({ enabled = true, data, columnKeys, getActiveCell, parseValue, validateCell, onCellChange, onBatchChange, onPasteStart, onPasteComplete, onValidationError, con...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useColumnSpan",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-column-span.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useColumnSpan({ enabled = true, spans: staticSpans = [], getColSpan: dynamicSpanFn, columnKeys, data = [], onSpansChange, }): UseColumnSpanReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "cloneGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "cloneGroup(group): FilterGroup",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "countActiveConditions",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "countActiveConditions(group): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createEmptyFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "createEmptyFilter(): CompoundFilter",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createEmptyGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "createEmptyGroup(operator): FilterGroup",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "evaluateCondition",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "evaluateCondition(value, condition): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "evaluateGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "evaluateGroup(row, group, getValue): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findCondition",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "findCondition(group, conditionId): FilterCondition | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "findGroup(group, groupId): FilterGroup | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findParentGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "findParentGroup(root, childId): FilterGroup | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateFilterId",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generateFilterId(prefix): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getGroupDepth",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getGroupDepth(root, groupId, depth): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isCompoundFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isCompoundFilter(value): value is CompoundFilter",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "removeConditionFromGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "removeConditionFromGroup(group, conditionId): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useCompoundFilters",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-compound-filters.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useCompoundFilters({ enabled = true, initialFilter, data = [], getValue = (row, key) => (row as Record<string, unknown>)[key], onFilterChange, onFilteredDataChange, maxDepth = D...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useEditHistoryWithFeedback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-edit-history-with-feedback.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useEditHistoryWithFeedback({ showFeedback = true, onUndo: userOnUndo, onRedo: userOnRedo, ...options }): UseEditHistoryWithFeedbackReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateEditId",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-edit-history.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generateEditId(): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useEditHistory",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-edit-history.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useEditHistory({ maxHistorySize = DEFAULT_MAX_HISTORY_SIZE, enabled = true, onApplyChange, onBatchApplyChange, onUndo, onRedo, onHistoryChange, }): UseEditHistoryReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFilterPresetsWithFeedback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets-with-feedback.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFilterPresetsWithFeedback({ showFeedback = true, ...options }): UseFilterPresetsWithFeedbackReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "areFiltersEqual",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "areFiltersEqual(a, b): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generatePresetId",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generatePresetId(): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toFilterPreset",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toFilterPreset(value): FilterPreset | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toFilterPresetInput",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toFilterPresetInput(value): FilterPresetInput | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFilterPresets",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFilterPresets({ enabled = true, initialPresets, defaultPresets = [], currentFilters = {}, onApplyFilters, storageKey, maxPresets = DEFAULT_MAX_PRESETS, onPresetsChange, }): U...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "validatePresetInput",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-filter-presets.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "validatePresetInput(input): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useInfiniteScroll",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-infinite-scroll.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useInfiniteScroll({ enabled = true, onLoadMore, hasMore: externalHasMore = true, threshold = SCROLL_CONSTANTS.THRESHOLD_PX, debounceMs = SCROLL_CONSTANTS.DEBOUNCE_MS, loadOnMoun...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useInlineEditingWithFeedback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-inline-editing-with-feedback.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useInlineEditingWithFeedback({ showFeedback = true, onCellChange: userOnCellChange, ...options }): UseInlineEditingWithFeedbackReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useInlineEditingWithHistory",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-inline-editing-with-history.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useInlineEditingWithHistory({ data, onCellChange, onBatchChange, onCancelEdit, onStartEdit, validateCell, enabled = true, maxHistorySize = 50, historyEnabled = true, onUndo, onR...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useInlineEditing",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-inline-editing.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useInlineEditing({ data, onCellChange, onCancelEdit, onStartEdit, validateCell, enabled = true, startEditOn = 'doubleClick', }): InlineEditingController<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRowNumbers",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-row-numbers.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRowNumbers(options): UseRowNumbersReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toStringArray",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-selection-persistence.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toStringArray(value): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSelectionPersistence",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-selection-persistence.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSelectionPersistence({ enabled = true, data, initialSelection, maxSelections = DEFAULT_MAX_SELECTIONS, onSelectionChange, storageKey, }): UseSelectionPersistenceReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createInitialState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-sparse-selection.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "createInitialState(totalCount): SparseSelectionState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSparseSelection",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-sparse-selection.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSparseSelection({ totalCount, initialSelection, onSelectionChange, allExceptThreshold = 0.5, }): UseSparseSelectionReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useStickyGroupHeaders",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-sticky-group-headers.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useStickyGroupHeaders({ enabled = true, containerRef, groups, stickyOffset = 0, stackHeaders = true, maxStackedHeaders = DEFAULT_MAX_STACKED, onStickyChange, defaultHeaderHeight...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "collectAllNodeIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-tree-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "collectAllNodeIds(rows, config, maxDepth, currentDepth): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "collectDescendantIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-tree-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "collectDescendantIds(rows, config, targetId, found): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findNodeLevel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-tree-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "findNodeLevel(rows, config, targetId, currentLevel): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getChildren",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-tree-data.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getChildren(row, config): T[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useTreeData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-tree-data.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useTreeData({ data, config, expandedNodes: externalExpanded, onExpandedChange, }): UseTreeDataReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useVirtualizedColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-virtualized-columns.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useVirtualizedColumns({ columns, columnMeta, getEffectivePinPosition, scrollContainerRef, enabled = true, threshold = DEFAULT_THRESHOLD, overscan = DEFAULT_OVERSCAN, defaultColu...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useVirtualizedGroupedRows",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-virtualized-grouped-rows.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useVirtualizedGroupedRows({ groups, isGrouped, flatData, estimateGroupHeaderHeight = 48, estimateRowHeight = 40, overscan = 5, enabled = true, threshold = 50, }): UseVirtualized...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useVirtualizedRows",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/use-virtualized-rows.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useVirtualizedRows({ data, estimateRowHeight = 48, estimateSize, overscan = 5, enabled = true, threshold = 50, }): UseVirtualizedRowsReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getInitialVirtualWindowSize",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/features/virtualization-initial-window.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getInitialVirtualWindowSize({ containerSize, estimateSize, overscan, fallbackViewportItems = DEFAULT_FALLBACK_VIEWPORT_ITEMS, }): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAnnouncements",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-announcements.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useAnnouncements({ sortState, columns, columnFilters, searchText, selectedCount, }): UseAnnouncementsReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAnnouncer",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-announcer.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useAnnouncer(): UseAnnouncerReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "cellKey",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-cell-selection.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "cellKey(rowId, columnKey): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseKey",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-cell-selection.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parseKey(key): CellPosition",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useCellSelection",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-cell-selection.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useCellSelection({ data, columnKeys, onSelectionChange, onActiveCellChange, multiSelect = true, rangeSelect = true, enabled = false, onAnnounce, columnDisplayNames = {}, getCell...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useColumnDrag",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-column-drag.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useColumnDrag({ enabled, onReorder, }): UseColumnDragReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useColumnLayout",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-column-layout.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useColumnLayout({ visibleColumns, columnWidths, getEffectivePinPosition, selectable, enableExpansion, reorderableRows = false, isGrouped = false, density = 'standard', }): UseCo...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getDensityScale",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-density-scale.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getDensityScale(): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDensityScale",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-density-scale.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDensityScale(): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFocusRestore",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-focus-restore.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFocusRestore({ captureOnMount = false, fallbackSelector, }): UseFocusRestoreReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useKeyboardNavigation",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-keyboard-navigation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useKeyboardNavigation({ rowCount, onFocusChange, onSelect, onActivate, enabled = true, containerRef, pageSize = DEFAULT_KEYBOARD_PAGE_SIZE, getRowId, }): UseKeyboardNavigationRe...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveCssLength",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-page-sticky-header.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveCssLength(root, value): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "usePageStickyHeader",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-page-sticky-header.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "usePageStickyHeader({ enabled, rootRef, tableContainerRef, headerRef, overlayElement, stickyOffset, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useResponsiveDensity",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-responsive-density.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useResponsiveDensity(options): UseResponsiveDensityReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createDragImage",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-row-drag.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "createDragImage(rowIndex): HTMLDivElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDragPayload",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-row-drag.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isDragPayload(value): value is DragPayload",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRowDrag",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-row-drag.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRowDrag({ enabled, data, onReorder, }): UseRowDragReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "arrowKeyToLogical",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "arrowKeyToLogical(key, isRTL): LogicalDirection | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "arrowKeyToPhysical",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "arrowKeyToPhysical(key): PhysicalDirection | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "RTLProvider",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "RTLProvider({ direction: directionProp, useLogicalProperties = true, children, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "tabToLogical",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "tabToLogical(isShift): LogicalDirection",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRTL",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRTL({ direction: directionProp, useLogicalProperties = true, }): UseRTLReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRTLContext",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/ui/use-rtl.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRTLContext(): RTLContextValue",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useActionDialog",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-action-dialog.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useActionDialog(options): UseActionDialogReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useConfirmAction",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-action-dialog.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useConfirmAction({ row, action, onSuccess, onError, }): UseConfirmActionReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useErrorHub",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useErrorHub(options): UseErrorHubReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useErrorListener",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useErrorListener(codes, handler, options): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useLastError",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useLastError(options): { error: DataTableError | null; clear: () => void; }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSeverityListener",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-error-hub.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSeverityListener(minSeverity, handler, options): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRAFCallback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-safe-raf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRAFCallback(callback): () => void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useRAFThrottle",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-safe-raf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useRAFThrottle(callback): UseRAFThrottleReturn<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSafeRAF",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/use-safe-raf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSafeRAF(): UseSafeRAFReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDebounce",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/utilities/use-debounce.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDebounce(value, delay): T",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDebouncedCallback",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/hooks/utilities/use-debounce.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDebouncedCallback(callback, delay): (...args: Parameters<T>) => void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createTranslator",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/i18n/context.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createTranslator(strings)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "I18nProvider",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/i18n/context.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "I18nProvider({ children, locale: customLocale })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "interpolate",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/i18n/context.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "interpolate(template, params): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useI18n",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/i18n/context.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useI18n(): I18nContextValue",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getLocaleStrings",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/i18n/locales/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getLocaleStrings(locale): DataTableStrings",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "flattenColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/column.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "flattenColumns(columns): Column<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "hasColumnGroups",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/column.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "hasColumnGroups(columns): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isColumnGroup",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/column.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isColumnGroup(col): col is ColumnGroup<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "defineBulkActions",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "defineBulkActions(actions): BulkAction[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "defineColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "defineColumns(columns): Column<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPresetConfig",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/config.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getPresetConfig(preset): { features: FeaturesConfig; styling: StylingConfig; pagination: PaginationConfig; virtualization: VirtualizationConfig; }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "asNonEmpty",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/core.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "asNonEmpty(arr, message): NonEmptyArray<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isNonEmpty",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/core.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isNonEmpty(arr): arr is NonEmptyArray<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toNonEmpty",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/types/core.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toNonEmpty(arr): NonEmptyArray<T> | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createDesyncDetector",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createDesyncDetector(options): DesyncDetector",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.clearExpectations",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.clearExpectations(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.clearWarnings",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.clearWarnings(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectColumnOrderChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectColumnOrderChange(expectedOrder): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectColumnPinChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectColumnPinChange(expectedPins): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectFilterChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectFilterChange(expectedFilters): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectSearchChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectSearchChange(expectedSearch): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectSelectionChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectSelectionChange(expectedIds): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.expectSortChange",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.expectSortChange(expectedSort): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.formatWarningMessage",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.formatWarningMessage(type, expected, actual): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.getWarnings",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.getWarnings(): DesyncWarning[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.reportDesync",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.reportDesync(type, expected, actual): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.setExpectation",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.setExpectation(type, value): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifyAllState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifyAllState(controlled): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifyColumnOrderState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifyColumnOrderState(actualOrder): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifyColumnPinState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifyColumnPinState(actualPins): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifyFilterState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifyFilterState(actualFilters): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifySearchState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifySearchState(actualSearch): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifySelectionState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifySelectionState(actualIds): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifySortState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifySortState(actualSort): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DesyncDetector.verifyState",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "DesyncDetector.verifyState(type, actual, compare): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "warnControlledDesync",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/controlled-state-warnings.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "warnControlledDesync(stateType, expected, actual, errorHub): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ensureRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/ensure-row-ids.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ensureRowIds(data, validateUnique): Array<T & { id: string }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ensureRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/ensure-row-ids.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ensureRowIds(data, validateUnique): T[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ensureRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/ensure-row-ids.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ensureRowIds(data, validateUnique): Array<T & { id: string }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findDuplicateRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/ensure-row-ids.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "findDuplicateRowIds(data): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "validateRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/ensure-row-ids.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "validateRowIds(data): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportToCSV",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/csv.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportToCSV(options): ExportResult",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toCSVString",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/csv.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toCSVString(options): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportToExcel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportToExcel(options): Promise<ExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getStyledCell",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getStyledCell(worksheet, cellRef): StyledCell | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isRecord",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isRecord(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isXLSXLoaded",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isXLSXLoaded(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadXLSX",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "loadXLSX(): Promise<XLSXModule>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "preloadXLSX",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "preloadXLSX(): Promise<void>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toArrayBuffer",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toArrayBuffer(value): ArrayBuffer | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toExcelBlob",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/excel.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toExcelBlob(options): Promise<Blob>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeHtml",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/html.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "escapeHtml(text): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportToHTML",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportToHTML(options): ExportResult",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateStyles",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/html.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generateStyles(options): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toHTMLString",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/html.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toHTMLString(options): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/index.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportData(config): Promise<ExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportToJSON",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/json.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportToJSON(options): ExportResult",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toJSONString",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/json.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toJSONString(options): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportToPDF",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/pdf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportToPDF(options): Promise<ExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isPDFLoaded",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/pdf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isPDFLoaded(): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "loadPDFLibraries",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/pdf.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "loadPDFLibraries(): Promise<{ jsPDF: JsPDFModule[\"jsPDF\"]; autoTable: AutoTableModule[\"default\"]; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "preloadPDF",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/pdf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "preloadPDF(): Promise<void>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toPDFBlob",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/pdf.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "toPDFBlob(options): Promise<Blob>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createBinaryPlugin",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createBinaryPlugin(config): ExportPlugin<T, TOptions>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createExportPluginRegistry",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createExportPluginRegistry(config): ExportPluginRegistry",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createTextPlugin",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createTextPlugin(config): ExportPlugin<T, TOptions>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.clear",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.clear(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.get",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.get(pluginId): ExportPlugin<T, TOptions> | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.getAll",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.getAll(): ExportPlugin[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.getIds",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.getIds(): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.getPluginInfo",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.getPluginInfo(): Array<{ id: string; name: string; extension: string; description?: string; icon?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.has",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.has(pluginId): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.register",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.register(plugin): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ExportPluginRegistry.unregister",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "class-method",
+        "public"
+      ],
+      "signatureShort": "ExportPluginRegistry.unregister(pluginId): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "exportWithPlugin",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "exportWithPlugin(options): Promise<ExportWithPluginResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatValueForExport",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatValueForExport(value): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getExportableColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getExportableColumns(columns, visibleColumnsOnly, hiddenColumns): Column<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getExportPluginRegistry",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getExportPluginRegistry(): ExportPluginRegistry",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getRawCellValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getRawCellValue(row, column): unknown",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergePluginOptions",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergePluginOptions(defaults, provided): TOptions | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "pluginToString",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "pluginToString(options): Promise<string | null>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "preparePluginExportData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "preparePluginExportData(options): ExportData<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useExportPlugins",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/plugins.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useExportPlugins(options): UseExportPluginsReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeBatchExport",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeBatchExport(configs, options): Promise<SafeExportResult[]>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExport",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExport(config, options): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExportCSV",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExportCSV(config, options): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExportExcel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExportExcel(config, options): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExportInternal",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "safeExportInternal(config, options): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExportJSON",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExportJSON(config, options): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExportWithRetry",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/safe-export.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExportWithRetry(config, options, retryOptions): Promise<SafeExportResult>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "downloadFile",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "downloadFile(content, filename, mimeType): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeCSV",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "escapeCSV(value, delimiter): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generateFilename",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "generateFilename(basename, extension): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getCellValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getCellValue(row, column, formatValue): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "prepareExportData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/export/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "prepareExportData(options): { rows: T[]; columns: Column<T>[] }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatFilterValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/filter-value.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatFilterValue(filter): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatRange",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/filter-value.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatRange(start, end): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getNestedValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/get-nested-value.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getNestedValue(obj, path, options): TResult | TDefault | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getNestedValueSafe",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/get-nested-value.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getNestedValueSafe(obj, key): T[K]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "setNestedValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/get-nested-value.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "setNestedValue(obj, path, value): T",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "buildGroupedData",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "buildGroupedData(options): RowGroup<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "buildNestedGroups",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "buildNestedGroups(rows, groupByKeys, depth, parentGroupId, isGroupExpanded, aggregationColumns): RowGroup<T>[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "calculateAggregation",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "calculateAggregation(rows, columnKey, aggregationType): number | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatGroupLabel",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/grouping.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "formatGroupLabel(value): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createLogger",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createLogger(options): Logger",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "devWarn",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "devWarn(message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "logAndThrow",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "logAndThrow(message, code, context): never",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.child",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.child(source): SourcedLogger",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.debug",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.debug(message, data): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.defaultHandler",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.defaultHandler(level, message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.error",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.error(message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.formatMessage",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.formatMessage(message, context): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.info",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.info(message, data): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.logError",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.logError(error): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.shouldLog",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.shouldLog(level): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Logger.warn",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "Logger.warn(message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "logRecoverable",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "logRecoverable(message, code, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SourcedLogger.debug",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "SourcedLogger.debug(message, data): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SourcedLogger.error",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "SourcedLogger.error(message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SourcedLogger.info",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "SourcedLogger.info(message, data): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SourcedLogger.warn",
+      "kind": "method",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": false,
+      "tags": [
+        "class-method"
+      ],
+      "signatureShort": "SourcedLogger.warn(message, context): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "withErrorLogging",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "withErrorLogging(operation, errorMessage, code): Promise<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "withErrorLoggingSync",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/logger.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "withErrorLoggingSync(operation, errorMessage, code): T",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clampPage",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "clampPage(page, totalPages): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPageIndices",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getPageIndices(page, pageSize): { start: number; end: number }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPaginationState",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getPaginationState(itemCount, page, pageSize): { safePage: number; totalPages: number; start: number; end: number }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getTotalPages",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/pagination.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getTotalPages(itemCount, pageSize): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "escapeHtml",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "escapeHtml(str): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatCellValue",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatCellValue(row, column): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "generatePrintHtml",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "generatePrintHtml(config): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPrintStyles",
+      "kind": "const-function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getPrintStyles(options): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "printDataTable",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "printDataTable(config): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "printInline",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "printInline(): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "usePrint",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/print.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "usePrint(options): UsePrintReturn",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeAccessor",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeAccessor(accessorFn, errorHub, columnKey): (row: T) => V | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeCellRenderer",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeCellRenderer(renderer, errorHub, columnKey, fallbackRenderer): (context: CellRenderContext<T>) => ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeFilter",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeFilter(filterFn, errorHub, columnKey): (row: T, filterValue: unknown) => boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeFilters",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeFilters(columns, errorHub): Map<string, (row: T, filterValue: unknown) => boolean>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeSearch",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeSearch(searchFn, errorHub): (row: T, searchText: string) => boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "createSafeSort",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "createSafeSort(sortFn, errorHub, columnKey): (a: T, b: T) => number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeBatchExecute",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeBatchExecute(operations, errorHub): Array<T | undefined>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExecute",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExecute(fn, args, options): T",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeExecuteAsync",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/safe-execute.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeExecuteAsync(fn, options): Promise<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findVerticalScrollOwner",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/scroll-owner.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "findVerticalScrollOwner(element): HTMLElement | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "closestElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "closestElement(target, selector): HTMLElementTagNameMap[K] | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "closestElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "closestElement(target, selector): HTMLElement | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "closestElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "closestElement(target, selector): HTMLElement | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "first",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "first(array): T | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isArray",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isArray(value): value is T[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isBoolean",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isBoolean(value): value is boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isButtonElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isButtonElement(target): target is HTMLButtonElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDate",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isDate(value): value is Date",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDefined",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isDefined(value): value is T",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isEditableElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isEditableElement(target): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isHTMLElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isHTMLElement(target): target is HTMLElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isInputElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isInputElement(target): target is HTMLInputElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isInteractiveElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isInteractiveElement(target): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isNullish",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isNullish(value): value is null | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isNumber",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isNumber(value): value is number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isPlainObject",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isPlainObject(value): value is Record<string, unknown>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSelectElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isSelectElement(target): target is HTMLSelectElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isString",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isString(value): value is string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isTableCellElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isTableCellElement(target): target is HTMLTableCellElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isTableRowElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isTableRowElement(target): target is HTMLTableRowElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isTextAreaElement",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isTextAreaElement(target): target is HTMLTextAreaElement",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "last",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "last(array): T | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeArrayAccess",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeArrayAccess(array, index): T | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeParseFloat",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeParseFloat(value): number | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "safeParseInt",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "safeParseInt(value, radix): number | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldIgnoreEvent",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/type-guards.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldIgnoreEvent(event): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "assertValidColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "assertValidColumns(columns): void",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findDuplicateColumnKeys",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "findDuplicateColumnKeys(columns): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getAllColumnKeys",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getAllColumnKeys(columns): string[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isValidColumnKey",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "isValidColumnKey(key): key is string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "validateColumns",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "validateColumns(columns, options): ValidationResult",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "validateRowIds",
+      "kind": "function",
+      "package": "@unisane/data-table",
+      "owner": "ui/data-table",
+      "file": "packages/data-table/src/utils/validation.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "validateRowIds(data, idKey): { valid: boolean; duplicates: string[]; missing: number[] }",
+      "layer": "ui-layer"
+    }
+  ],
+  "generatedAt": "content-hash:84d6acea9e00"
+}

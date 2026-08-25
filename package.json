@@ -25,6 +25,10 @@
     "test": "turbo run test",
     "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm check:boundaries && pnpm check:package-content && pnpm typecheck",
     "report:convergence": "node scripts/check-repository-boundaries.mjs --write",
+    "references:symbols:check": "node scripts/commands/references/generate-symbol-reference.mjs --check",
+    "references:symbols:generate": "node scripts/commands/references/generate-symbol-reference.mjs --write",
+    "references:check": "pnpm references:symbols:check",
+    "references:generate": "pnpm references:symbols:generate",
     "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm check:quality",
     "storybook": "turbo run storybook",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""

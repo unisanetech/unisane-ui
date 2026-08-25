@@ -1,0 +1,2903 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "packageManifest": "packages/ui/package.json",
+    "sourceRoot": "packages/ui"
+  },
+  "summary": {
+    "package": "@unisane/ui",
+    "owner": "ui/ui",
+    "packageDir": "packages/ui",
+    "sourceFileCount": 103,
+    "symbolCount": 239,
+    "functionCount": 239,
+    "publicFunctionCount": 122,
+    "internalFunctionCount": 117,
+    "serviceLayerFunctionCount": 0
+  },
+  "owner": "unisane-ui",
+  "status": "generated",
+  "generatorScript": "scripts/commands/references/generate-symbol-reference.mjs",
+  "generatorVersion": 1,
+  "sourceCommit": "workspace",
+  "sourceFiles": [
+    "packages/ui",
+    "packages/ui/package.json"
+  ],
+  "records": [
+    {
+      "name": "Accordion",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/accordion.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Accordion({ type = 'single', defaultValue = [], children, className, }): React.FC<AccordionProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AccordionContent",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/accordion.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AccordionContent({ children, isExpanded, contentId, triggerId, }): React.FC<AccordionContentProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AccordionItem",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/accordion.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AccordionItem({ value, children, className }): React.FC<AccordionItemProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AccordionTrigger",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/accordion.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AccordionTrigger({ children, value, isExpanded, contentId, triggerId, }): React.FC<AccordionTriggerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Avatar",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/avatar.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Avatar({ src, alt, fallback, size, variant, className }): React.FC<AvatarProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AvatarGroup",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/avatar.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AvatarGroup({ children, max = 5, className }): React.FC<{ children: React.ReactNode; max?: number; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Breadcrumb",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Breadcrumb({ children, className }): React.FC<{ children: React.ReactNode; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "BreadcrumbEllipsis",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "BreadcrumbEllipsis({ onClick, className }): React.FC<{ onClick?: () => void; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "BreadcrumbItem",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "BreadcrumbItem({ children, className }): React.FC<{ children: React.ReactNode; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "BreadcrumbLink",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "BreadcrumbLink({ children, onClick, href, className, asChild }): React.FC<{ children: React.ReactNode; onClick?: () => void; href?: string; className?: string; asChild?: boolean...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "BreadcrumbPage",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "BreadcrumbPage({ children, className }): React.FC<{ children: React.ReactNode; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "BreadcrumbSeparator",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/breadcrumb.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "BreadcrumbSeparator(): React.FC",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isIconElement",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isIconElement(node): node is ReactElement<IconProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeIconNode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeIconNode(node, size): ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldOpticallyAlignIcon",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "shouldOpticallyAlignIcon(node): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "addDays",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "addDays(date, amount)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "addMonths",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "addMonths(date, amount)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clampDate",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "clampDate(date, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "dateKey",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "dateKey(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "endOfMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "endOfMonth(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getMonthCells",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getMonthCells(month, weekStartsOn)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getWeekdayLabels",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getWeekdayLabels(locale, weekStartsOn)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDateDisabled",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isDateDisabled(date, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSameDay",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSameDay(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSameMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSameMonth(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "startOfMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "startOfMonth(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toDateOnly",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/calendar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toDateOnly(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "FeedLayout",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/canonical-layouts.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "FeedLayout({ children, className, isRoot = false }): React.FC<FeedLayoutProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ListDetailLayout",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/canonical-layouts.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ListDetailLayout({ list, detail, showDetailMobile = false, onBackClick, className, isRoot = false, }): React.FC<ListDetailLayoutProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SupportingPaneLayout",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/canonical-layouts.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SupportingPaneLayout({ main, supporting, open, defaultOpen = false, onOpenChange, className, isRoot = false, mainRef, title = 'Audit Protocol', subtitle, headerContent, headerLa...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isCarouselSlideElement",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/carousel.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isCarouselSlideElement(node): node is React.ReactElement<CarouselSlideProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isInteractiveTarget",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/carousel.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isInteractiveTarget(target): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeIndex",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/carousel.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeIndex(index, total, loop): number",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CommandDialog",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/command.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CommandDialog({ children, open, defaultOpen, onOpenChange, 'aria-label': ariaLabel = 'Command menu', })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CommandShortcut",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/command.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CommandShortcut({ className, ...props })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getMaxDays",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getMaxDays(month, year)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSameDay",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSameDay(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveDate",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveDate(segments, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveFormatSegmentOrder",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveFormatSegmentOrder(format): DateSegment[] | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveLocaleSegmentOrder",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveLocaleSegmentOrder(locale): DateSegment[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveSegmentOrder",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveSegmentOrder(locale, format)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveSegmentPlaceholder",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveSegmentPlaceholder(segment)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveSegmentSeparator",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveSegmentSeparator(locale, format)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Segment",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "Segment({ type, value, onChange, onNext, onPrevious, disabled, placeholder, min, max, inputRef, focused, onFocusedChange, id, describedBy, label, required, invalid, size, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "serializeDate",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "serializeDate(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toDateOnly",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-input.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toDateOnly(date)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "addDays",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "addDays(value, amount)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "addMonths",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "addMonths(value, amount)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clampDate",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "clampDate(value, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "dateKey",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "dateKey(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "endOfMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "endOfMonth(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isDisabledDate",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isDisabledDate(value, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSameDay",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSameDay(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isSameMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isSameMonth(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "monthCells",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "monthCells(month, weekStartsOn)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeRange",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeRange(value, min, max): DateRangeValue",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "RangeCalendar",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "RangeCalendar({ value, onValueChange, min, max, locale, weekStartsOn, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "startOfMonth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "startOfMonth(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "toDateOnly",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "toDateOnly(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "weekdayLabels",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/date-range-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "weekdayLabels(locale, weekStartsOn)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeIds",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dialog.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergeIds(ids)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "computePosition",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "computePosition(triggerRect, menuRect, options): { top: number; left: number; actualSide: Side; actualAlign: Align }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "computeSubmenuPosition",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "computeSubmenuPosition(triggerRect, menuRect, options): { top: number; left: number; side: 'left' | 'right'; }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenu",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenu({ children, open, defaultOpen = false, onOpenChange, }): React.FC<DropdownMenuProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenuContent",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenuContent({ children, align = 'start', side = 'bottom', sideOffset = 4, alignOffset = 0, avoidCollisions = true, collisionPadding = 8, className, portal = true, closeO...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenuSub",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenuSub({ children, open, defaultOpen = false, onOpenChange, }): React.FC<DropdownMenuSubProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenuSubContent",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenuSubContent({ children, className, sideOffset = 4, avoidCollisions = true, collisionPadding = 8, }): React.FC<DropdownMenuSubContentProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenuSubTrigger",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenuSubTrigger({ children, icon, className, disabled = false, }): React.FC<DropdownMenuSubTriggerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "DropdownMenuTrigger",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "DropdownMenuTrigger({ children, asChild, className, }): React.FC<DropdownMenuTriggerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDropdownMenuContext",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "useDropdownMenuContext(componentName)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDropdownMenuSubContext",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/dropdown-menu.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "useDropdownMenuSubContext(componentName)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "FabMenu",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/fab-menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "FabMenu({ mainIcon = <Icon symbol=\"add\" />, activeIcon = <Icon symbol=\"close\" />, actions, className, open, defaultOpen = false, onOpenChange, 'aria-label': ariaLabel = 'Actions...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isIconElement",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isIconElement(node): node is ReactElement<IconProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeIconNode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeIconNode(node, size): ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldOpticallyAlignIcon",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "shouldOpticallyAlignIcon(node): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CheckIcon",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CheckIcon(props)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ChevronRightIcon",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ChevronRightIcon(props)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CloseIcon",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CloseIcon(props)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MenuIcon",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/icon.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MenuIcon(props)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "hasContent",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/list.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "hasContent(value): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ListItemBody",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/list.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "ListItemBody({ headline, supportingText, leading, trailingText, trailing, interactive, disabled, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatMonthLabel",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatMonthLabel(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isMonthDisabled",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isMonthDisabled(value, min, max)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MonthPicker",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MonthPicker({ value, defaultValue, onValueChange, open, defaultOpen = false, onOpenChange, label = 'Month', disabled = false, error = false, helperText, className, variant = 'ou...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeMonthValue",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeMonthValue(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseMonthInput",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parseMonthInput(value): string | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readYear",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/month-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "readYear(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationBar",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/navigation-bar.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationBar({ items, value, defaultValue, onValueChange, onItemSelect, renderLink, className, 'aria-label': ariaLabel, itemClassName, ...props })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationRail",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/navigation-rail.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationRail({ items, value, defaultValue, onValueChange, onItemSelect, renderLink, onItemHover, header, footer, className, alignment = 'start', labelVisibility = 'always', 'a...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPaginationRange",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getPaginationRange(currentPage, totalPages, siblingCount): PaginationRangeItem[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeInteger",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeInteger(value, fallback, minimum)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "PaginationAction",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "PaginationAction({ page, current = false, disabled = false, label, onPageChange, getPageHref, renderLink, children, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "range",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/pagination.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "range(start, end)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "PaneGroup",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/pane-group.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "PaneGroup({ sidebar, detail, showDetail = false, className, }): React.FC<PaneGroupProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "computePopoverPosition",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/popover.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "computePopoverPosition(triggerRect, contentRect, options): { top: number; left: number; actualSide: PopoverSide; actualAlign: PopoverAlign }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Popover",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/popover.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Popover({ trigger, content, open: controlledOpen, defaultOpen = false, onOpenChange, align = 'center', side = 'bottom', sideOffset = 8, alignOffset = 0, avoidCollisions = true, ...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "renderPopoverContent",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/popover.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "renderPopoverContent({ align, className, computedPlacement, content, contentRef, id, isPositioned, portal, position, side, trigger, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Progress",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/progress.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Progress({ value = 0, variant = 'linear', indeterminate = false, className, }): React.FC<ProgressProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Rating",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/rating.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Rating({ value, defaultValue = 0, onValueChange, max = 5, allowHalf = false, showValue = false, className, disabled = false, size = 'md', }): React.FC<RatingProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Ripple",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/ripple.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Ripple({ center = false, disabled = false, className }): React.FC<RippleProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isIconElement",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/search-bar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isIconElement(node): node is React.ReactElement<IconProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeIconNode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/search-bar.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeIconNode(node, size): React.ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SearchBar",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/search-bar.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SearchBar({ leadingIcon, trailingIcon, onTrailingIconClick, iconSize, className, placeholder = 'Search', value, defaultValue, onChange, disabled, readOnly, type, size = 'md', .....",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getDefaultIconSize",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getDefaultIconSize(size): NonNullable<IconProps['size']>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getDirection",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getDirection(event): 'ltr' | 'rtl'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getSegmentedButtonSizeStyles",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getSegmentedButtonSizeStyles(size)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isIconElement",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isIconElement(node): node is React.ReactElement<IconProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeIconNode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "normalizeIconNode(node, size): React.ReactNode",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SegmentedButtonMultiple",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SegmentedButtonMultiple({ defaultValue = [], onValueChange, // The discriminant is consumed by the wrapper and must not reach the root element. // eslint-disable-next-line @type...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SegmentedButtonRoot",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SegmentedButtonRoot({ 'aria-label': ariaLabel, 'aria-labelledby': ariaLabelledBy, className, forwardedRef, iconSize, isSelected, onOptionSelect, options, selectionMode, size = '...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SegmentedButtonSingle",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/segmented-button.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SegmentedButtonSingle({ defaultValue, onValueChange, // The discriminant is consumed by the wrapper and must not reach the root element. // eslint-disable-next-line @typescript-...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getOptionTextValue",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/select-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getOptionTextValue(option)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeIds",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/select-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergeIds(ids)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getTextValue",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/select.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getTextValue(content, fallback)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeRefs",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/select.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergeRefs(refs): React.RefCallback<T>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSelectContext",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/select.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "useSelectContext(component)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "CollapsedSidebarNavigation",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/components/sidebar-navigation.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "CollapsedSidebarNavigation({ items })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SidebarNavigation",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/components/sidebar-navigation.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SidebarNavigation({ items, showRootIcons = true, className, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SidebarNavigationNode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/components/sidebar-navigation.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "SidebarNavigationNode({ item, level, showRootIcons, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SidebarRail",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/components/sidebar-rail.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SidebarRail({ className, style, onMouseLeave, ...props })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "initialViewportFlags",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/context/sidebar-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "initialViewportFlags(forceViewport, initialViewport, breakpoints)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SidebarProvider",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/context/sidebar-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SidebarProvider({ children, items, value: controlledValue, defaultValue = null, onValueChange, onItemSelect, renderLink, expanded: controlledExpanded, defaultExpanded = false, m...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useSidebar",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/context/sidebar-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useSidebar(): SidebarContextValue",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "viewportFlagsForValue",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/context/sidebar-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "viewportFlagsForValue(viewport, breakpoints)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "collectLeafItems",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "collectLeafItems(items): NavigationItem[]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "computeViewportFlags",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "computeViewportFlags(width, breakpoints): SidebarViewportFlags",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "containsNavigationId",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "containsNavigationId(item, id): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "deriveSidebarState",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "deriveSidebarState(input): SidebarDerivedState",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findNavigationItemById",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "findNavigationItemById(items, id): NavigationItem | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "findTopLevelContainerById",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "findTopLevelContainerById(items, id): NavigationItem | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "flagsToViewport",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "flagsToViewport(flags): SidebarViewport",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseStoredBoolean",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "parseStoredBoolean(raw): boolean | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseStoredString",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "parseStoredString(raw): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseStoredStringArray",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "parseStoredStringArray(raw): string[] | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveSidebarBehavior",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "resolveSidebarBehavior(behavior, viewport): SidebarBehavior",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "shouldRenderSidebarTrigger",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/sidebar/model/sidebar.state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "shouldRenderSidebarTrigger(input): boolean",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Skeleton",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/skeleton.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Skeleton({ variant = 'rectangular', width, height, className, style, children, }): React.FC<SkeletonProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonAvatar",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/skeleton.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SkeletonAvatar({ size = '10u', className }): React.FC<{ size?: number | string; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonCard",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/skeleton.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SkeletonCard({ className }): React.FC<{ className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "SkeletonText",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/skeleton.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "SkeletonText({ lines = 3, width = '100%', className }): React.FC<{ lines?: number; width?: number | string; className?: string; }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Slider",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/slider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Slider({ min = 0, max = 100, step = 1, value, defaultValue = 50, onValueChange, className, disabled, withLabel = false, withTicks = false, showValue = false, ...props }): React....",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "StatCard",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/stat-card.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "StatCard({ label, value, icon, description, trend, className })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "StatGrid",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/stat-card.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "StatGrid({ children, columns = 4, className })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveActiveIndex",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/stepper.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveActiveIndex(steps, value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Table",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Table({ className, children, ...props }): React.FC<React.TableHTMLAttributes<HTMLTableElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableBody",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableBody({ className, ...props }): React.FC<React.HTMLAttributes<HTMLTableSectionElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableCell",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableCell({ className, ...props }): React.FC<React.TdHTMLAttributes<HTMLTableCellElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableHead",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableHead({ className, scope = 'col', ...props }): React.FC<React.ThHTMLAttributes<HTMLTableCellElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableHeader",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableHeader({ className, ...props }): React.FC<React.HTMLAttributes<HTMLTableSectionElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TableRow",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/table.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TableRow({ className, ...props }): React.FC<React.HTMLAttributes<HTMLTableRowElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getTabsTriggerSizeStyles",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tabs.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getTabsTriggerSizeStyles(size)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Tabs",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tabs.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Tabs({ id, defaultValue, value, onValueChange, children, className, size = 'md', }): React.FC<TabsProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TabsContent",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tabs.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TabsContent({ value, className, children, ...props }): React.FC<React.HTMLAttributes<HTMLDivElement> & { value: string }>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TabsList",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tabs.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TabsList({ className, children, ...props }): React.FC<React.HTMLAttributes<HTMLDivElement>>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TabsTrigger",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tabs.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TabsTrigger({ value, icon, size, className, children, onClick, type = 'button', ...props }): React.FC<TabsTriggerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "mergeIds",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/text-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "mergeIds(ids)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resizeTextarea",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/text-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resizeTextarea(field, maxHeight)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clampHours",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/time-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "clampHours(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clampMinutes",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/time-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "clampMinutes(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "formatTimeValue",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/time-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "formatTimeValue(hours, minutes, period)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parseTimeParts",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/time-picker.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parseTimeParts(value): { hours: number; minutes: number; period: 'AM' | 'PM' }",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "TimePicker",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/time-picker.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "TimePicker({ open, defaultOpen = false, onOpenChange, value, defaultValue = '12:00', onValueChange, }): React.FC<TimePickerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "emitStoreChange",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/toast.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "emitStoreChange()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Toaster",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/toast.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Toaster({ position = 'bottom-right', maxToasts = 5, className })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAutoDismiss",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/toast.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "useAutoDismiss(duration, onDismiss)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "arraysEqual",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/token-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "arraysEqual(left, right)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getTokenFieldContentPadding",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/token-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getTokenFieldContentPadding(size, variant)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "includesToken",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/token-field.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "includesToken(tokens, token)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "normalizeTokenFieldToken",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/token-field.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "normalizeTokenFieldToken(token)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "splitTokenFieldInput",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/token-field.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "splitTokenFieldInput(value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Tooltip",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/tooltip.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Tooltip({ label, subhead, children, variant = 'plain', className, triggerClassName, side = 'top', }): React.FC<TooltipProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isTypographyRole",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/typography.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isTypographyRole(variant): variant is TypographyRole",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Typography",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/components/typography.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Typography({ variant = 'bodyLarge', component, className, children, ...props }): React.FC<TypographyProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useScrollLock",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/hooks/use-scroll-lock.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useScrollLock(locked)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AppLayout",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/app-layout.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AppLayout({ topBar, bottomBar, fab, navigation, secondaryNavigation, mobileNavigation, children, className, mainRef, disableScroll = false, ...props }): React.FC<AppLayoutProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AppearanceProvider",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AppearanceProvider({ children, enabledAxes, defaults, persistence = 'none', persistenceKey = DEFAULT_PERSISTENCE_KEY, cookieMaxAge = 60 * 60 * 24 * 365, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "AppearanceScript",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "AppearanceScript({ nonce, ...config })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "applyMode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "applyMode(mode): 'light' | 'dark'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "applyPreference",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "applyPreference(axis, value)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clearPersistedPreferences",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "clearPersistedPreferences(persistence, key)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "clearStoredAppearance",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "clearStoredAppearance(persistenceKey, persistence)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getAppearanceScript",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getAppearanceScript({ enabledAxes, defaults, persistence = 'none', persistenceKey = DEFAULT_PERSISTENCE_KEY, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isValidPreference",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isValidPreference(axis, value): value is AppearancePreferences[K]",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "parsePersistedPreferences",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "parsePersistedPreferences(raw): Partial<AppearancePreferences>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readCookie",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "readCookie(name): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readDomPreferences",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "readDomPreferences(enabledAxes)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "readPersistedRaw",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "readPersistedRaw(persistence, key): string | null",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "resolveMode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "resolveMode(mode): 'light' | 'dark'",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "selectEnabledPreferences",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "selectEnabledPreferences(source, enabledAxes)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAppearance",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useAppearance()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAppearancePreference",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useAppearancePreference(axis)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useDensity",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useDensity()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useMode",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useMode()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "writePersistedPreferences",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/appearance-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "writePersistedPreferences(persistence, key, values, cookieMaxAge)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Container",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/container.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Container({ children, maxWidth = 'lg', className, ...props })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "PaneDivider",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/pane.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "PaneDivider({ className, ...props }): React.FC<PaneDividerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getWindowSizeClass",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/window-size-provider.tsx",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getWindowSizeClass(width): WindowSizeClass",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useWindowSize",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/window-size-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useWindowSize()",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "WindowSizeProvider",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/layout/window-size-provider.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "WindowSizeProvider({ children })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ActionSpinner",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ActionSpinner({ className })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "ActionStateLayer",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "ActionStateLayer({ className })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getActionAsChildAttributes",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getActionAsChildAttributes(isDisabled, loading, props, childProps)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getActionDisabledState",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getActionDisabledState(disabled, loading)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getActionStateAttributes",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-control.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getActionStateAttributes(isDisabled, loading)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getIconFrameSizeClass",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/action-size.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getIconFrameSizeClass(size): string",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getFieldAffixClasses",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/field-shell.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getFieldAffixClasses({ size = 'md', error = false, active = false, multiline = false, side, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getFieldHelperTextClasses",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/field-shell.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getFieldHelperTextClasses(size, error)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getFieldLabelClasses",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/field-shell.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getFieldLabelClasses({ size = 'md', variant = 'outlined', floating, error = false, active = false, multiline = false, labelBg, labelClassName, floatingClassName, restingTextClas...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getFieldSizeStyles",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/field-size.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getFieldSizeStyles(size): FieldSizeStyles",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getVisibleNavigationItems",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-action.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getVisibleNavigationItems(items)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationAction",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-action.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationAction({ item, active, className, children, renderLink, onActivate, ariaLabel, title, onMouseEnter, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useNavigationSelection",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-action.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useNavigationSelection({ value, defaultValue = null, onValueChange, onItemSelect, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getNavigationDrawerItemClasses",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-visuals.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getNavigationDrawerItemClasses(args)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getNavigationRailItemClasses",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-visuals.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getNavigationRailItemClasses(disabled, className)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationDrawerItemContent",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-visuals.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationDrawerItemContent({ icon, activeIcon, badge, active, children, ripple, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationIcon",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-visuals.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationIcon({ icon, active = false, size = 'sm', className, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "NavigationRailItemContent",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/navigation-visuals.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "NavigationRailItemContent({ icon, activeIcon, badge, label, showLabel = true, active, disabled, ripple, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getPortalLayerStyle",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/portal-layer.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "getPortalLayerStyle(anchor): React.CSSProperties | undefined",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useAnchoredOverlayPosition",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-anchored-overlay-position.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useAnchoredOverlayPosition({ open, anchorRef, contentRef, portal = true, minimumWidth = 320, estimatedHeight = 360, sideOffset = 8, collisionPadding = 8, }): AnchoredOverlayPosi...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useControllableState",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-controllable-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useControllableState({ value, defaultValue, onChange, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useFieldState",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-field-state.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useFieldState({ id, idPrefix, helperText, active = false, hasValue = false, forceFloating = false, })",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "acquireInert",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "acquireInert(element)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getFocusableElements",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getFocusableElements(root)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "getLayerDepth",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "getLayerDepth(layer)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "inertOutside",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "inertOutside(layer)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "inertWithinBoundary",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "inertWithinBoundary(layer, boundary)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "isTopmostLayer",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "isTopmostLayer(layer)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "registerLayer",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "registerLayer(content, root, anchor)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "releaseInert",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "releaseInert(element)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "unregisterLayer",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": false,
+      "tags": [],
+      "signatureShort": "unregisterLayer(layer)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "useOverlayBehavior",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/use-overlay-behavior.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "useOverlayBehavior({ open, contentRef, rootRef, modalBoundaryRef, triggerRef, onDismiss, modal = false, dismissOnEscape = true, dismissOnInteractOutside = false, initialFocus = ...",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "cn",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "cn(inputs)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "composeAsChildClickHandler",
+      "kind": "function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/lib/utils.ts",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "composeAsChildClickHandler(isDisabled, handlers)",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Menu",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Menu({ open = true, rounded, className, children, ...props }): React.FC<MenuProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MenuCheckboxItem",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MenuCheckboxItem({ checked = false, onCheckedChange, children, ...props }): React.FC<MenuCheckboxItemProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MenuDivider",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MenuDivider({ className, ...props }): React.FC<MenuDividerProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MenuItem",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MenuItem({ children, disabled = false, selected = false, icon, trailingIcon, className, href, asChild, ...props }): React.FC<MenuItemProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "MenuRadioItem",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/menu.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "MenuRadioItem({ checked = false, onCheckedChange, children, ...props }): React.FC<MenuRadioItemProps>",
+      "layer": "ui-layer"
+    },
+    {
+      "name": "Text",
+      "kind": "const-function",
+      "package": "@unisane/ui",
+      "owner": "ui/ui",
+      "file": "packages/ui/src/primitives/text.tsx",
+      "exported": true,
+      "tags": [
+        "public"
+      ],
+      "signatureShort": "Text({ variant, color, align, weight, className, children, as: Component = 'p', htmlFor, ...props }): React.FC<TextProps>",
+      "layer": "ui-layer"
+    }
+  ],
+  "generatedAt": "content-hash:1ba089312552"
+}
