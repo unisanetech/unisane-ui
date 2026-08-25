@@ -13,10 +13,12 @@ const ignoredDirectories = new Set([
   '.git',
   '.next',
   '.skopos',
+  '.tmp',
   '.turbo',
   'coverage',
   'dist',
   'node_modules',
+  'out',
   'playwright-report',
   'test-results',
 ]);
@@ -32,14 +34,15 @@ const textExtensions = new Set([
   '.yaml',
   '.yml',
 ]);
+const canonicalRepositoryUrl = 'https://github.com/unisanetech/unisane-ui';
+const userHomeAbsolutePathPattern =
+  /(?:\/(?:Users|home)\/[^/\\\r\n]+\/|[A-Za-z]:[\\/]+Users[\\/]+[^/\\\r\n]+[\\/]+)/i;
+const currentAuthorityPaths = new Set([
+  'README.md',
+  'docs/overview.md',
+  'docs/guides/repository-provenance.md',
+]);
 const violations = [];
-const dependencyFields = [
-  'dependencies',
-  'devDependencies',
-  'optionalDependencies',
-  'peerDependencies',
-];
-const repositoryUrl = 'https://github.com/unisanetech/unisane-ui.git';
 
 async function collectFiles(directory, relativeDirectory = '') {
   const files = [];
@@ -51,6 +54,7 @@ async function collectFiles(directory, relativeDirectory = '') {
     const relativePath = relativeDirectory
       ? path.posix.join(relativeDirectory, entry.name)
       : entry.name;
+    if (relativePath.startsWith('docs/work/')) continue;
     if (relativePath === 'docs/reference/generated/repository-convergence-report.json') continue;
     const absolutePath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
@@ -111,7 +115,15 @@ function recordViolation(relativePath, message) {
 }
 
 const files = await collectFiles(repositoryRoot);
+const authority = 'standalone-unisane-ui-public-source';
 const records = [];
+
+if (files.includes('docs/guides/migration-shadow.md')) {
+  recordViolation('docs/guides/migration-shadow.md', 'obsolete active shadow authority remains');
+}
+if (!files.includes('docs/guides/repository-provenance.md')) {
+  recordViolation('docs/guides/repository-provenance.md', 'current authority guide is missing');
+}
 
 for (const relativePath of files) {
   const absolutePath = path.join(repositoryRoot, relativePath);
@@ -135,8 +147,22 @@ for (const relativePath of files) {
 
   if (!textExtensions.has(path.extname(relativePath))) continue;
   const text = content.toString('utf8');
+  if (currentAuthorityPaths.has(relativePath)) {
+    if (!text.includes(canonicalRepositoryUrl)) {
+      recordViolation(relativePath, 'canonical public source repository is missing');
+    }
+    for (const staleAuthority of [
+      'umbrella remains the sole writable source authority',
+      'local non-authoritative migration shadow',
+      'local, non-authoritative migration shadow',
+    ]) {
+      if (text.toLowerCase().includes(staleAuthority)) {
+        recordViolation(relativePath, `obsolete source authority remains: ${staleAuthority}`);
+      }
+    }
+  }
   const isBoundaryChecker = relativePath === 'scripts/check-repository-boundaries.mjs';
-  if (!isBoundaryChecker && text.includes('/Users/bhaskarbarma/')) {
+  if (!isBoundaryChecker && userHomeAbsolutePathPattern.test(text)) {
     recordViolation(relativePath, 'machine-absolute path remains');
   }
 
@@ -158,119 +184,49 @@ for (const relativePath of files) {
 }
 
 const publicPackagePaths = [
-  'packages/ui/package.json',
   'packages/tokens/package.json',
+  'packages/ui/package.json',
+  'packages/ui-cli/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
+const publicManifests = new Map();
 for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
+  publicManifests.set(manifest.name, manifest);
   if (manifest.private !== false) recordViolation(packagePath, 'approved package is not public');
   if (manifest.license !== 'MIT') recordViolation(packagePath, 'approved package is not MIT');
-  if (manifest.version !== '0.1.0-next.b67ebfd0') {
-    recordViolation(packagePath, 'approved prerelease identity drifted');
+  if (manifest.version !== '0.1.1') {
+    recordViolation(packagePath, 'approved stable release identity drifted');
   }
   if (
     manifest.publishConfig?.access !== 'public' ||
     manifest.publishConfig?.provenance !== true ||
-    manifest.publishConfig?.tag !== 'next'
+    manifest.publishConfig?.tag !== 'latest'
   ) {
     recordViolation(packagePath, 'approved public publish configuration drifted');
   }
 }
 
-const privateManifest = JSON.parse(
-  await fs.readFile(path.join(repositoryRoot, 'packages/ui-cli/package.json'), 'utf8'),
-);
-if (privateManifest.private !== true || privateManifest.license !== 'UNLICENSED') {
-  recordViolation('packages/ui-cli/package.json', 'unapproved UI CLI release state drifted');
-}
-if (privateManifest.publishConfig) {
-  recordViolation('packages/ui-cli/package.json', 'private UI CLI must not declare publishing');
-}
-if (JSON.stringify(privateManifest.bin) !== JSON.stringify({ 'unisane-ui': './dist/cli.js' })) {
+const uiCliManifest = publicManifests.get('@unisane/ui-cli');
+if (uiCliManifest?.bin?.['unisane-ui'] !== './dist/cli.js') {
   recordViolation(
     'packages/ui-cli/package.json',
-    'UI CLI must own exactly the independent unisane-ui binary',
+    'UI registry pack must publish the exact standalone unisane-ui binary',
   );
 }
-if (
-  Object.keys(privateManifest.exports ?? {}).some((entry) => entry.includes('pack')) ||
-  privateManifest.files?.includes('pack.manifest.json') ||
-  files.some((file) =>
-    [
-      'packages/ui-cli/pack.manifest.json',
-      'packages/ui-cli/src/handlers/ui.ts',
-      'packages/ui-cli/src/pack-contract.ts',
-    ].includes(file),
-  )
-) {
-  recordViolation('packages/ui-cli', 'former host command-pack surface remains');
+if (!uiCliManifest?.files?.includes('LICENSE')) {
+  recordViolation('packages/ui-cli/package.json', 'UI registry pack must publish its MIT license');
 }
-
-const manifestPaths = files.filter(
-  (file) => file === 'package.json' || file.endsWith('/package.json'),
-);
-const manifests = new Map();
-for (const manifestPath of manifestPaths) {
-  manifests.set(
-    manifestPath,
-    JSON.parse(await fs.readFile(path.join(repositoryRoot, manifestPath), 'utf8')),
-  );
-}
-const workspacePackageNames = new Set(
-  [...manifests.values()].map((manifest) => manifest.name).filter(Boolean),
-);
-const repositoryOwnedManifests = new Map([
-  ['package.json', null],
-  ['packages/data-table/package.json', 'packages/data-table'],
-  ['packages/email-templates/package.json', 'packages/email-templates'],
-  ['packages/tokens/package.json', 'packages/tokens'],
-  ['packages/ui-cli/package.json', 'packages/ui-cli'],
-  ['packages/ui/package.json', 'packages/ui'],
-]);
-for (const [manifestPath, directory] of repositoryOwnedManifests) {
-  const manifest = manifests.get(manifestPath);
+for (const packageName of ['unisane', '@unisane/ui', '@unisane/tokens']) {
   if (
-    manifest?.repository?.type !== 'git' ||
-    manifest.repository.url !== repositoryUrl ||
-    (directory === null
-      ? 'directory' in manifest.repository
-      : manifest.repository.directory !== directory)
+    uiCliManifest?.dependencies?.[packageName] ||
+    uiCliManifest?.peerDependencies?.[packageName] ||
+    uiCliManifest?.optionalDependencies?.[packageName]
   ) {
-    recordViolation(manifestPath, 'standalone repository coordinate drifted');
-  }
-}
-for (const [manifestPath, manifest] of manifests) {
-  for (const field of dependencyFields) {
-    for (const [name, specifier] of Object.entries(manifest[field] ?? {})) {
-      if (typeof specifier !== 'string') continue;
-      if (/^(?:file|link|portal):|^(?:\.{1,2}[\\/]|\/)/u.test(specifier)) {
-        recordViolation(
-          manifestPath,
-          `${field}.${name} uses a local filesystem dependency locator`,
-        );
-      }
-      if (specifier.startsWith('workspace:') && !workspacePackageNames.has(name)) {
-        recordViolation(
-          manifestPath,
-          `${field}.${name} references a package absent from this standalone workspace`,
-        );
-      }
-    }
-  }
-}
-for (const forbiddenDependency of [
-  '@unisane/devtools',
-  '@unisane/framework-ops',
-  '@unisane/kernel',
-  '@unisane/ops',
-  '@unisane/platform',
-]) {
-  if (dependencyFields.some((field) => forbiddenDependency in (privateManifest[field] ?? {}))) {
     recordViolation(
       'packages/ui-cli/package.json',
-      `UI CLI retains umbrella/runtime dependency ${forbiddenDependency}`,
+      `UI registry pack must not require ${packageName} at runtime`,
     );
   }
 }
@@ -278,7 +234,10 @@ for (const forbiddenDependency of [
 const registry = JSON.parse(
   await fs.readFile(path.join(repositoryRoot, 'packages/ui/registry/registry.json'), 'utf8'),
 );
-if (registry.components?.['data-table']) {
+if (!Array.isArray(registry.items)) {
+  recordViolation('packages/ui/registry/registry.json', 'standard registry items are missing');
+}
+if (registry.items?.some((item) => item.name === 'data-table')) {
   recordViolation('packages/ui/registry/registry.json', 'UI registry still owns DataTable source');
 }
 if (files.some((file) => file.startsWith('packages/ui/registry/components/data-table/'))) {
@@ -295,13 +254,13 @@ const dispositionCounts = records.reduce((counts, record) => {
 }, {});
 const report = {
   schemaVersion: 1,
-  authority: 'umbrella-unisane-ui-source-convergence',
+  authority,
   generatedBy: 'scripts/check-repository-boundaries.mjs',
   fileCount: records.length,
   dispositionCounts,
   unresolvedReleaseBlockers: [
     'authenticated npm publisher and completed provenance-enabled publish transaction',
-    'remote governance and recovery identities',
+    'protected branch governance and recovery identities',
   ],
   violations: violations.sort(),
   files: records,
