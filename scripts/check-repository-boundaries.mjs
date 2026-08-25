@@ -190,7 +190,12 @@ const publicPackagePaths = [
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
-const candidatePackageNames = new Set(['@unisane/tokens', '@unisane/ui', '@unisane/data-table']);
+const candidatePackageNames = new Set([
+  '@unisane/tokens',
+  '@unisane/ui',
+  '@unisane/data-table',
+  '@unisane/email-templates',
+]);
 const candidateVersion = '0.1.2-next.97f61b1d';
 const publicManifests = new Map();
 for (const packagePath of publicPackagePaths) {
