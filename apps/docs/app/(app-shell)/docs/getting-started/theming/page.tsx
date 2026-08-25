@@ -38,13 +38,13 @@ export default function ThemingPage() {
           <CodeBlock
             title="Choose or change a project theme"
             code={`# New setup
-unisane ui init --theme blue
+unisane-ui init --theme blue
 
 # Change it later
-unisane ui theme green
+unisane-ui theme green
 
 # Preview the change without writing
-unisane ui theme purple --dry-run`}
+unisane-ui theme purple --dry-run`}
           />
 
           <InfoCard icon="verified_user" variant="info">
@@ -80,7 +80,7 @@ unisane ui theme purple --dry-run`}
 
           <CodeBlock
             title="Enable only the preferences your product exposes"
-            code={`unisane ui appearance enable \\
+            code={`unisane-ui appearance enable \\
   --axes mode,density,contrast \\
   --persistence localStorage`}
           />

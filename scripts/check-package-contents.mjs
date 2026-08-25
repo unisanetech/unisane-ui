@@ -12,7 +12,7 @@ const packageCases = [
   },
   {
     directory: 'packages/ui-cli',
-    allowedRoots: ['dist', 'pack.manifest.json', 'package.json', 'README.md', 'unisane.meta.json'],
+    allowedRoots: ['dist', 'package.json', 'README.md', 'unisane.meta.json'],
   },
   {
     directory: 'packages/tokens',
@@ -72,6 +72,14 @@ for (const packageCase of packageCases) {
   for (const field of ['main', 'module', 'types']) {
     if (typeof manifest[field] === 'string') {
       requiredTargets.push(manifest[field].replace(/^\.\//, ''));
+    }
+  }
+
+  if (typeof manifest.bin === 'string') {
+    requiredTargets.push(manifest.bin.replace(/^\.\//, ''));
+  } else if (manifest.bin && typeof manifest.bin === 'object') {
+    for (const target of Object.values(manifest.bin)) {
+      if (typeof target === 'string') requiredTargets.push(target.replace(/^\.\//, ''));
     }
   }
 

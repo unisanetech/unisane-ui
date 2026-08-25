@@ -47,7 +47,7 @@ export async function uiAdd(options: UiAddOptions = {}): Promise<number> {
     const invalid = options.components.filter((name) => !registry.components[name]);
     if (invalid.length > 0) {
       log.error(`Unknown components: ${invalid.join(', ')}`);
-      log.dim('Run: unisane ui add (to see available components)');
+      log.dim('Run: unisane-ui add (to see available components)');
       return 1;
     }
     selectedComponents = options.components;

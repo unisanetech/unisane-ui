@@ -8,3 +8,4 @@ export {
   uiInit,
   uiTheme,
 } from './commands/index.js';
+export { createUiCli } from './program.js';

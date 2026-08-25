@@ -26,13 +26,12 @@ interface UiCommandEnvironment {
   cwd: string;
 }
 
-export function registerUiCommands(
+export function registerUiCliCommands(
   program: Command,
   environment: UiCommandEnvironment = { cwd: process.cwd() },
 ): void {
-  const ui = program.command('ui').description('UI component management (shadcn-style)');
-
-  ui.command('init')
+  program
+    .command('init')
     .description('Initialize Unisane UI in your project')
     .option('-f, --force', 'Overwrite existing files')
     .option('--theme <name>', 'Initial generated color theme', 'blue')
@@ -48,7 +47,8 @@ export function registerUiCommands(
       process.exitCode = code;
     });
 
-  ui.command('add [components...]')
+  program
+    .command('add [components...]')
     .description('Add UI components to your project')
     .option('-y, --yes', 'Skip confirmation prompts')
     .option('-o, --overwrite', 'Overwrite existing files')
@@ -67,7 +67,8 @@ export function registerUiCommands(
       process.exitCode = code;
     });
 
-  ui.command('diff [component]')
+  program
+    .command('diff [component]')
     .description('Check for component updates')
     .action(async (component: string | undefined) => {
       log.banner('Unisane');
@@ -75,14 +76,16 @@ export function registerUiCommands(
       process.exitCode = code;
     });
 
-  ui.command('doctor')
+  program
+    .command('doctor')
     .description('Check UI installation health')
     .action(async () => {
       const code = await uiDoctor({ cwd: environment.cwd });
       process.exitCode = code;
     });
 
-  ui.command('theme <name>')
+  program
+    .command('theme <name>')
     .description('Replace the generated semantic color theme in globals.css')
     .option('--dry-run', 'Preview changes without writing files')
     .action(async (name: string, options: UiCliOptions) => {
@@ -95,7 +98,7 @@ export function registerUiCommands(
       process.exitCode = code;
     });
 
-  const appearance = ui
+  const appearance = program
     .command('appearance')
     .description('Manage opt-in runtime appearance preferences');
 

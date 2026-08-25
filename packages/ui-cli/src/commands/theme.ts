@@ -72,7 +72,7 @@ export async function uiTheme(options: UiThemeOptions): Promise<number> {
   const srcDir = existsSync(path.join(cwd, 'src')) ? path.join(cwd, 'src') : cwd;
   const globalsCssPath = path.join(srcDir, 'app', 'globals.css');
   if (!existsSync(globalsCssPath)) {
-    log.error('globals.css not found; run "unisane ui init" first');
+    log.error('globals.css not found; run "unisane-ui init" first');
     return 1;
   }
 
@@ -82,7 +82,7 @@ export async function uiTheme(options: UiThemeOptions): Promise<number> {
     next = replaceManagedThemeRegion(current, themeCss);
   } catch (error) {
     log.error(error instanceof Error ? error.message : String(error));
-    log.dim('Run "unisane ui init --force" to restore the managed baseline');
+    log.dim('Run "unisane-ui init --force" to restore the managed baseline');
     return 1;
   }
 

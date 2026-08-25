@@ -59,7 +59,7 @@ export default function InstallationPage() {
               stylesheet and add the local utility used by components. Choose a project color theme
               now or replace it later.
             </Typography>
-            <CliCommand command="unisane ui init --theme blue" />
+            <CliCommand command="unisane-ui init --theme blue" />
           </div>
 
           {/* Step 2: Add Components */}
@@ -69,7 +69,7 @@ export default function InstallationPage() {
               Add the components you need to your project. You can add them one at a time or all at
               once.
             </Typography>
-            <CliCommand command="unisane ui add button card" />
+            <CliCommand command="unisane-ui add button card" />
           </div>
 
           {/* Step 3: Import and Use */}

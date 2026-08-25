@@ -1,21 +1,23 @@
 {
   "name": "@unisane/ui-cli",
   "version": "0.1.0",
-  "description": "UI-owned adopter tooling pack for the canonical Unisane CLI",
+  "description": "Independent Unisane UI adopter-tooling CLI",
   "private": true,
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/unisane/unisane-ui.git",
+    "url": "https://github.com/unisanetech/unisane-ui.git",
     "directory": "packages/ui-cli"
   },
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "unisane-ui": "./dist/cli.js"
+  },
   "files": [
     "dist",
-    "pack.manifest.json",
     "unisane.meta.json",
     "README.md"
   ],
@@ -28,12 +30,6 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./handlers/ui": {
-      "types": "./dist/handlers/ui.d.ts",
-      "import": "./dist/handlers/ui.js",
-      "default": "./dist/handlers/ui.js"
-    },
-    "./pack-manifest": "./pack.manifest.json",
     "./meta": "./unisane.meta.json"
   },
   "scripts": {
@@ -42,6 +38,7 @@
     "dev": "tsc -p tsconfig.json --watch",
     "lint": "eslint src --max-warnings 0",
     "test": "vitest run",
+    "test:cli": "vitest run tests/cli.test.ts",
     "check-types": "tsc --noEmit",
     "pack:check": "pnpm build && pnpm pack --pack-destination ../../../../.tmp/packs",
     "prepublishOnly": "pnpm build && pnpm check-types && pnpm test"

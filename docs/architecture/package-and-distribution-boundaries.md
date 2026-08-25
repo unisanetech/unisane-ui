@@ -23,7 +23,7 @@ new package.
 | -------------------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | `@unisane/tokens`          | Semantic token inputs, validation, generated CSS, and Tailwind theme exposure                | CSS package; linked with UI when a change alters their shared contract                  |
 | `@unisane/ui`              | React components, runtime styles, public subpath exports, and source-installable UI registry | Runtime package plus UI-owned registry artifacts                                        |
-| `@unisane/ui-cli`          | UI-owned adopter commands and a bundled snapshot of UI registry assets                       | Command pack loaded by the canonical `unisane` executable; never a second binary        |
+| `@unisane/ui-cli`          | UI-owned adopter commands and a bundled snapshot of UI registry assets                       | Independent `unisane-ui` executable; never loaded by Framework or Ops                   |
 | `@unisane/data-table`      | DataTable behavior, public types, runtime styles, and substantial table-only dependencies    | Independent package; consumes only public `@unisane/ui/*` exports                       |
 | `@unisane/email-templates` | Provider-neutral HTML and text presentation                                                  | Independent package; does not own delivery, queues, providers, or application workflows |
 | `@unisane/ui-docs`         | Public documentation, examples, registry catalog, workbench, and browser/visual proof        | Private deployable application; never a runtime dependency                              |
@@ -44,7 +44,7 @@ The allowed first-party direction is:
 
 @unisane/email-templates ───────────────────────> @unisane/ui-docs
 
-@unisane/ui registry ──> @unisane/ui-cli ──> canonical unisane executable
+@unisane/ui registry ──> @unisane/ui-cli ──> unisane-ui executable
 ```
 
 An arrow means “may be consumed by.” Reverse imports are forbidden. In particular:
@@ -52,9 +52,9 @@ An arrow means “may be consumed by.” Reverse imports are forbidden. In parti
 - tokens never import UI or application source
 - UI never reads or copies DataTable source
 - UI CLI may bundle UI-owned generated registry artifacts at build time, but runtime UI
-  packages never depend on the command pack
-- UI CLI contributes the `unisane ui` command family through its pack manifest and never
-  owns another executable or a second command framework
+  packages never depend on the CLI
+- UI CLI owns the `unisane-ui` executable and its command framework directly. It exposes
+  no pack manifest, host handler, alias, proxy, or forwarding path to Framework or Ops.
 - DataTable uses declared `@unisane/ui/*` exports, never UI `src/**` or registry files
 - email templates do not depend on Framework notification or provider implementations
 - runtime packages never import from `apps/docs/**`
@@ -82,7 +82,7 @@ the authoring source or release owner for any package.
 ## Release and compatibility
 
 - Each publishable package owns its manifest, exports, build, tests, package contents,
-  and change record. UI CLI additionally owns its pack manifest and bundled registry
+  and change record. UI CLI additionally owns its executable and bundled registry
   snapshot.
 - Changesets coordinate versions; they do not authorize publication.
 - `@unisane/tokens` and `@unisane/ui` are linked where their shared CSS/runtime contract
