@@ -14,6 +14,7 @@ view: current
 Unisane UI is the design-system product for semantic tokens, React components,
 DataTable, provider-neutral email templates, source-installable UI registry artifacts,
 and the public documentation application.
+Its canonical public source repository is https://github.com/unisanetech/unisane-ui.
 
 The repository is intentionally a focused multi-package workspace. Packages can have
 independent public contracts and releases while sharing one design-system change,

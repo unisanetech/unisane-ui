@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "authority": "umbrella-unisane-ui-source-convergence",
+  "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 980,
+  "fileCount": 1047,
   "dispositionCounts": {
-    "retain": 864,
+    "retain": 931,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
     "authenticated npm publisher and completed provenance-enabled publish transaction",
-    "remote governance and recovery identities"
+    "protected branch governance and recovery identities"
   ],
   "violations": [],
   "files": [
@@ -32,10 +32,22 @@
       "sha256": "08ea102aef35aa5eac172303892935642eb4707897b830876e40106c01724982"
     },
     {
+      "path": ".github/workflows/ci.yml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "5a183d07239848d9de099e8a845ee00c76f5d8ed049d437f5b30a5f4b62dd9b5"
+    },
+    {
+      "path": ".github/workflows/publish-release.yml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "3172347294d1a8654fbad8f5f0f75683ed6a71c74716ccd59226e06e17e22d81"
+    },
+    {
       "path": ".gitignore",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "84e65d61ec69200dde3d516bc8c91a2c9b0d894bb40ddcc126e2b780ca2f6ae6"
+      "sha256": "c96dcc6423597d9999e0e261c1febb6ee373476ebd279ea644a51a42a9dcf44a"
     },
     {
       "path": ".node-version",
@@ -48,6 +60,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "109e5fe6a56657f32eded3c0b75a4eeee921b752772853a4a09f899b02ae7fa4"
+    },
+    {
+      "path": "AGENTS.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "9af1bde85ce1927a2b146de207959271d69a3f620b88e32c477a50627b552a69"
     },
     {
       "path": "apps/docs/.gitignore",
@@ -1313,43 +1331,49 @@
       "path": "apps/docs/features/home/components/component-grid-section.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "1b701da24511b7c675f2797871fc6590f0b9421d3c52af83301be95ca8f36150"
+      "sha256": "f975ac4e7c31c2318f58ea706b624e48c303d48e4d236b0ce117d88a7213843c"
     },
     {
       "path": "apps/docs/features/home/components/cta-section.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "3cd855f70cff03dd6507ea88a2a9fd5603e51f6ffba9067425295f94e4c9a862"
+      "sha256": "181ba89da98d82f82d3ec7d7a7f1762dbb34fd60dfde003a77714c48756d3fd0"
     },
     {
       "path": "apps/docs/features/home/components/features-section.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "89daa0f1c7ac80c2573c8c2cba45bd2225b2107710d6d09127a5e77ca200db54"
+      "sha256": "4a37d0fa5ee4dc8fb3f2b8d9bfbe509dc21fc2ca22430641c51c3004d797a4fb"
     },
     {
       "path": "apps/docs/features/home/components/hero-section.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "bdb2a0133e5734c7820008ebeac4c7c44fbe4eda456f8d384489edc7bf9a71ce"
+      "sha256": "0208cd534cdbbfe49f33ab0a16e0e9e304108492e46218a3f436504c8bae1a48"
     },
     {
       "path": "apps/docs/features/home/components/hero-showcase.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "d510972bb06c9f8c3f9e4ae381701f88a1b906c50a7bbf18a6a1abe091a2d97b"
+      "sha256": "098a963e9ef4dee19bdc4b94dd8fb1d462faa93e6be1f69774d41882bbfcefb4"
     },
     {
       "path": "apps/docs/features/home/components/home-page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "de42e1a3d53944429d5b216cdbc6e43968adaeb83db39c6f4be3b4ee1dc8e518"
+      "sha256": "8d1783c976b41e40d0ba02675d98f661f8c33218c3ec2e412fa68cf024dbb81f"
+    },
+    {
+      "path": "apps/docs/features/home/components/install-command.tsx",
+      "disposition": "retain",
+      "owner": "@unisane/ui-docs",
+      "sha256": "9be29c175b7a73cabfb8537e8d5ef53bbad1fd0f314bf412e513fc4938461f94"
     },
     {
       "path": "apps/docs/features/home/components/section-layout.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "181ff6f5d903c5c6fa692892f7e3aae2aecc169e6c2391928a566a6df020d3ed"
+      "sha256": "1817a59552ccdd22f62ea5d563ba340443e4e39432a6a0f995d2b71472a18ca6"
     },
     {
       "path": "apps/docs/features/home/components/showcase/ai-chat-card.tsx",
@@ -1382,6 +1406,12 @@
       "sha256": "033f129adfe97c735003f5cb78d02d2c55948675082325442110f61e41a1b998"
     },
     {
+      "path": "apps/docs/features/home/components/system-anatomy-section.tsx",
+      "disposition": "retain",
+      "owner": "@unisane/ui-docs",
+      "sha256": "158ef81993b19d4f6fbabc661272b490ab011bcaeb8cf6b22026ef6743c0dcbe"
+    },
+    {
       "path": "apps/docs/features/home/index.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
@@ -1403,7 +1433,7 @@
       "path": "apps/docs/features/shell/components/app-header.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "2e78e20e0bcfc173f0f4064a160e9d564b4c36c3831f89dc5a09c720ef93b612"
+      "sha256": "bb5f74a69cf801f8b06eadcabb22d5d8dc505111225663c9db1eec7530d48427"
     },
     {
       "path": "apps/docs/features/shell/components/appearance-settings.tsx",
@@ -1415,13 +1445,13 @@
       "path": "apps/docs/features/shell/components/docs-shell.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "3b218316138fda6ef85e11d481c6bc6ce2fbdf16f0399aa5b4257ab8029f9025"
+      "sha256": "d81051b02aed8e4c904f1becb597acdf020d6cc739975f2f59d23e9e8743d7cd"
     },
     {
       "path": "apps/docs/features/shell/components/shell-route-layout.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "e1ef7da57db8e218e612cc0e73b100c8632a808c5a08b57cc8c3b7c1045bd4fe"
+      "sha256": "33e1d98ff0df1d6f918c70cbd3a48097b9977b0e71d5c1c0161206cd4bfd71c0"
     },
     {
       "path": "apps/docs/features/shell/components/table-of-contents.tsx",
@@ -2144,6 +2174,24 @@
       "sha256": "ffde104baf7e1c1d65fdb44e8c82bc0b17bc639b0222204c5588b5372bde3c07"
     },
     {
+      "path": "docs/architecture/08-ui-application-architecture.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "63ac3d3f62e9a3fb753695c2fc1f885e348834141191b74bf714506c8ce45b9e"
+    },
+    {
+      "path": "docs/architecture/09-ui-page-blueprints.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "e16c82ce75e7b39f0e72b94e4db19fa03f559563e7423ed9b33eb0de2426f92f"
+    },
+    {
+      "path": "docs/architecture/10-ui-visual-doctrine-and-token-governance.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "9223b7d132f2382ebd00d4aa11b668031619ff1f44156d41147db0911d84ea14"
+    },
+    {
       "path": "docs/architecture/design-system.md",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2162,22 +2210,250 @@
       "sha256": "f8ad8deafa0786985bf9b80d27eb57d53164161523d18d9618838d26a4c78c73"
     },
     {
+      "path": "docs/decisions/D-20260409-ui-application-architecture-contract.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "cd38ee80015b7c5d7d6b6d0dfa76ec2bbdefafd3870d08032fced816519c5603"
+    },
+    {
+      "path": "docs/decisions/D-20260714-ui-dual-distribution-and-theme-contract.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "2b55697673a339d581bc5acc36044d043994557bec759a4ac5c1e34615f504d1"
+    },
+    {
+      "path": "docs/decisions/D-20260807-unisane-ui-standalone-repository-structure-cleanup-and-production-readiness-contract.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "4c9ba0ec485ad7a5887d7ce4e9177dbf4d2bf7a5fb9b1d0656d8f268f6127f88"
+    },
+    {
       "path": "docs/findings/blocks-catalog-product-contract-gap.md",
       "disposition": "retain",
       "owner": "repository documentation",
       "sha256": "28dd1478f0987ace2de31eded745df8aa45513f5e891302315be35df75698f2b"
     },
     {
+      "path": "docs/findings/F-20260409-ui-application-architecture-convergence-gap.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "1a955ca17988a93513fea91d79082de246f6b0b8cd42d1d51208386fab1e1dae"
+    },
+    {
+      "path": "docs/findings/F-20260419-data-table-scroll-architecture-and-render-perf-gap.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d556001caca746a4502929110a43c7a80bee04af1f0f66fed2c5f2e8020af8f5"
+    },
+    {
+      "path": "docs/findings/F-20260528-communication-mail-template-runtime-drift.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "4451add21b2d4df198a780a9a35c8427e7bd7563f48f1010799518f4cbcae31d"
+    },
+    {
+      "path": "docs/findings/README.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "cde986f80f11ee42bc306ee4d343a1e55f20a9940d28e9d6553784e24bbe6b67"
+    },
+    {
+      "path": "docs/guides/add-ui-screen.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d8d27fcc60780555c64f4d7f0386a62d9cd14826587eb3aabf5cb908aa228065"
+    },
+    {
+      "path": "docs/guides/add-ui-theme-and-app-tokens.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "be37eb4ed84003150537086da29ef6016b52f032d06d1f4ef32d7dc309b85722"
+    },
+    {
+      "path": "docs/guides/licensing-prerequisites.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "aebefd6639fd4fa9530eaaa1f13b7be8fe0705cb40a9f9a21c9e21252c733598"
+    },
+    {
+      "path": "docs/guides/repository-provenance.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "bf545600857e7f76a6fc384d934edfd4f59ac713509d8c55b7fcbb7b5f877124"
+    },
+    {
       "path": "docs/overview.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "9b56d65a4e97f8cc35cf3022afb416f22ec02bff7f363255705a4f57767a6ea4"
+      "sha256": "a7071ad96e76b7325043716df81424a0aee1992181fcb79597a0e26dd63bf1f5"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-confirmation-dialog-lifecycle-and-accessible-name.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "0ba5396ce1e28548ee53c61f03db869250ab79c05580c73cb4908d1d9b82aee2"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-date-picker-visual-composition-without-behavior-contract.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d43ba5cf093e730c963a319a4cc470eb8cd46800ea59598a2ef7698356b7f6e3"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-duplicated-toast-host-global-registration.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "10707cdc51e915b022d12f9be8d522634145a4162ac6ce5135037ee75289f674"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-field-visual-validation-and-dual-value-api.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "364fca27387dba0f239e13218ae1f210ad9dfc2fa0149e734727f2be3dfc42f8"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-independent-overlay-behavior.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "2f585da734a32f5e1865cba9d21024353675c2ae7d9b4f699ba007ca372d217c"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-leaf-component-dual-api-and-source-path.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "e7c589f4241f2bb3db87c579e4c4e5a2d26d3a13abbca58843ab7e3828675ccf"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-monolithic-select-field-recipe.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "150a233714a6097d47e52dcfd0d767fd8b60aa2c6c5f1cc7020b38437f04743a"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-project-design-as-default-provider-state.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "1fd0d91993095055c712ee9c64c3453987026905747e94ec865b2a65fe739623"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-registry-drift-check-without-install-closure.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "71b1ccd6674bf2bd8e0c6528049ff56fe08f8e21f2957550228b80f26feef50b"
+    },
+    {
+      "path": "docs/patterns/FP-20260714-ui-theme-as-runtime-preset-layer.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "9b5abd996eab4190558a32dbaa9db9b00b08fa9d9446eb50d6b3d55d659320b1"
+    },
+    {
+      "path": "docs/patterns/FP-20260715-ui-navigation-presentation-specific-contracts.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "7cd66ec3a2baea57d2a3b5567e8428ad1defae9d4e8fb2a74e38de2dbced037c"
+    },
+    {
+      "path": "docs/patterns/FP-20260715-ui-sidebar-compound-contract-and-theme-duplication.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "80aa44862eafd725692ca64dc1f95a2955f827c3b44d18240b40257cf035b5f4"
+    },
+    {
+      "path": "docs/patterns/FP-20260716-ui-communication-contract-and-unevidenced-maturity.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "12895d0c241205586d19a62544b35e15b7d95fac68ef5cead5cc114831a0ea2a"
+    },
+    {
+      "path": "docs/patterns/FP-20260716-ui-data-display-semantic-and-authoring-drift.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "fcc4e52998307005e9169c71f959e3f78743c5e3419d3fcf0b5ad2faccaf27e7"
+    },
+    {
+      "path": "docs/patterns/FP-20260716-ui-selection-control-dual-api-and-semantic-drift.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "f6aa202ea948e13890f3b02a8f2bd53674b032d8c01c05324096a7b661ebd839"
+    },
+    {
+      "path": "docs/patterns/FP-20260718-ui-carousel-visual-capability-without-behavior-contract.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "91fc9a5f38baff5b830fcd59d4a2019cdacfc1b777b823d6e29c897c68a42b0d"
+    },
+    {
+      "path": "docs/patterns/FP-20260718-ui-pagination-link-action-and-range-drift.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "cd0ed0d0dd550164873b78b600392d7c17416c80763d65d8b43ddfdfe64ec2bf"
+    },
+    {
+      "path": "docs/patterns/FP-20260718-ui-scroll-wrapper-and-viewport-ownership-drift.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "9d94488164f030b8e80e67651f3a7019377a832d90e8cadcaa7fb16050d5a2e1"
+    },
+    {
+      "path": "docs/patterns/FP-20260718-ui-stepper-dual-authoring-and-visual-only-progress.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "8581aabe5db900e1c850b350fa9d502ad58b99fd9837d0ee2c962992fcddd8e4"
+    },
+    {
+      "path": "docs/patterns/FP-20260721-ui-partial-family-closure-and-consumer-import-residue.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "5ce04c66163568b9eb2e69df1d5f4be6c2878ffced9c4950b844e6db52672d4f"
+    },
+    {
+      "path": "docs/reference/assets/communication-mail-email-template-system.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "a0bff2b6c2046067ef4da78e7fb099a4541901b57762d7087f596f58ddcafa2b"
+    },
+    {
+      "path": "docs/reference/generated/repository-foundation-receipt.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "954187aa2416dc91bd8dca4afa222b697e338e654e8f3dafab03b077f36ae27e"
+    },
+    {
+      "path": "docs/reference/generated/symbols/packages/@unisane__data-table.symbols.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "6507ebdbd61053732e3b268679e727388954fcd04b85b87676aeb3cb3fdd166a"
+    },
+    {
+      "path": "docs/reference/generated/symbols/packages/@unisane__email-templates.symbols.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "07622a1045da4d64e86d511b851b672ffd042127df6448ec44870cf7de9ff36e"
+    },
+    {
+      "path": "docs/reference/generated/symbols/packages/@unisane__ui-cli.symbols.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "dce4fbd25876082cae7947a890704815d0284285889210bf7c7b4b47114c7f42"
+    },
+    {
+      "path": "docs/reference/generated/symbols/packages/@unisane__ui.symbols.json",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d380ac3709b4ca60cc2635a32c93382ec8e0b4b0edd1b8f5895a286211b65370"
     },
     {
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
       "sha256": "880ef76c32dc3d347f1be5f29dc2d5b4cfc81005bb725e6c821d588529ebc7ec"
+    },
+    {
+      "path": "docs/standards/10-ui-application-architecture-baseline.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "1c0813a7f092a99898fb8335af73b7c7372249e92859275d57607f3b5b99c4d6"
     },
     {
       "path": "docs/standards/component-authoring.md",
@@ -2219,7 +2495,7 @@
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "626d5fa879ac6ac56ad655fc9f2e038c2680fec35acdb450e3f41ff2a294d475"
+      "sha256": "344fe81c451cb896206d4ec87424b46d31d38ba5247ae8ea5ff4d47e3dbd32bd"
     },
     {
       "path": "packages/data-table/LICENSE",
@@ -2231,7 +2507,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "08b0b177fada17f0d65813d484a38cbb809e0596e9c226d463459ff6f7dac6fc"
+      "sha256": "348321264183adaf7f823098ff0acad41c8c6ec4516ec4bf0d561f6a8b3abc63"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3539,7 +3815,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "0b4b2c5f54a93a060618e1eb60a508a904c34aa43958272389be553ae449301f"
+      "sha256": "efc84519298fddb22fc662fb47261fb986cbcdc02aa1c6ca36bd041b6c892f82"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -3689,7 +3965,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "47748db66be66ff8275835504030e930da36f54529256964d13dccef22a0b85e"
+      "sha256": "51778416589714173d7141c0e410ae6da5636c59413763bdd0a4519af3b2c591"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4049,7 +4325,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "5479a52302d10f5e6e8e6003511b6a94ec882bc8546e1f55c69a078a34d400e0"
+      "sha256": "e85a5109f41c658061073a4ef5ae7da7e6c0b68d92cfe2619662840220ed525a"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -5795,7 +6071,7 @@
       "path": "README.md",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "d4d5dbe4d387db09105306952e43e7ef48b8be5447fb2f5365e353a5f4610dfb"
+      "sha256": "8ba5fbe08752b744ceadb80d5f4a495e4493ef9511c05672d2b42308911f5693"
     },
     {
       "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
@@ -5808,6 +6084,18 @@
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
       "sha256": "6fb833ca4657d64c4b96aff0526bbde8242c0e5f60b74e8fc5e267be6e3d3b29"
+    },
+    {
+      "path": "scripts/_lib/docs-paths.mjs",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "6b3ab36365ce18bdb56e55daf2e7c0d3d164c023128aa246c223ab009c1a3be3"
+    },
+    {
+      "path": "scripts/_lib/reference-envelope.mjs",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "eb071967ce53f537e24dfb76c443b3021a85bb93b3c53be441b79c781d32789e"
     },
     {
       "path": "scripts/check-package-contents.mjs",
@@ -5825,7 +6113,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "e57728a0d0e25271d120b88693efa4452484e334be8986a0049659ef9096f1bc"
+      "sha256": "d2220fd040ee76cd27648786e8e27d6ee34501ddd9a3b69ef6cfa3fbe722facc"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -5840,6 +6128,12 @@
       "sha256": "7474007f4c90c221f4f26955cd31b5541cf954a33eb96e7470e0590bbeffe4e7"
     },
     {
+      "path": "scripts/commands/references/generate-symbol-reference.mjs",
+      "disposition": "retain",
+      "owner": "repository tooling",
+      "sha256": "6ec5b9a3c494a535ba9e93f41bc261e1d29b4a3cbbe589b648741446d477d81a"
+    },
+    {
       "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
@@ -5852,16 +6146,118 @@
       "sha256": "32412442c7221ec56efa6637ec1d6a71c4f5148c422864ff5e43d4c8cdaee6eb"
     },
     {
+      "path": "SECURITY.md",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "44676ce066c2763e8d20fe472aba05cbea49a25c9c590ac99d9fb7fba81975a1"
+    },
+    {
+      "path": "skopos.config.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "7873d999cb37a6cbd5a980f81f80baffaa267a1702f54fdd51238f7b3c93b579"
+    },
+    {
       "path": "THIRD_PARTY_NOTICES.md",
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "86db3203969ec5547624a461881d9af24c00d11762898e4186945611c26db42a"
     },
     {
+      "path": "tools/skopos/actions/quality-build.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "78c9377fb2d717a89e43992398be18e57f058e0b1878a63d6a3f5447add9c12b"
+    },
+    {
+      "path": "tools/skopos/actions/quality-lint.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "26a4caf43541668ccc5bb85a10ea28265e4c7fd0bd13279b1981f2b8bb7c1c75"
+    },
+    {
+      "path": "tools/skopos/actions/quality-run-proof-phase.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "ac37c2efc30c98b660fe3c69380a43c19261fdef93c6f74c9fe45cc1b32dfb73"
+    },
+    {
+      "path": "tools/skopos/actions/quality-test.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "ba88edbc531d3b88b04b06002d6353bd702e08ca6c5a56926a073882e72f953a"
+    },
+    {
+      "path": "tools/skopos/actions/quality-typecheck.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "757f8f0d38174d2cf15952868cff168c213538045b33f2376713711a3522e96f"
+    },
+    {
+      "path": "tools/skopos/actions/ui-capture-responsive-proof.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "e3fe5300c2800c2528a1d372ca6736f46aa8c84f8e79e922c950031494ac5b73"
+    },
+    {
+      "path": "tools/skopos/guards/quality-build.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "7e14c8feb56a6ccfec6a7d355b5c6d1660a0e5df103042ce61260208e6d39508"
+    },
+    {
+      "path": "tools/skopos/guards/quality-lint.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "a16224126fe9fd15be9af433da6eb598e25cc311614cc8a073bf358f024d188c"
+    },
+    {
+      "path": "tools/skopos/guards/quality-test.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "dded5e26cf369320d8daf58992ae2149c39f367c183746dee6d20f2ef3432fed"
+    },
+    {
+      "path": "tools/skopos/guards/quality-typecheck.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "805d1f45536964d369b43b0f6fe636732df1040923604aba0d8a4a719a8a50ad"
+    },
+    {
+      "path": "tools/skopos/guards/ui-accessibility-proof.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "c740bcad90cd2702a03ab7cb42e1e29e9ddbe5d628f6f3026a990ec882401bad"
+    },
+    {
+      "path": "tools/skopos/policies.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "73d739f6870265e28aa2d46c25015c3e7d7af5c3c10a60d86305d27fbb0f64f8"
+    },
+    {
+      "path": "tools/skopos/scopes.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "38ab91e529ab208048da5422ea48d088e8000b54ea5b571a5269cb8727e1fd5f"
+    },
+    {
+      "path": "tools/skopos/skills/unisane-ui-product-interface-design.json",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "53f3a4e252b2fae36ab387b96c41b835c05d9c095883bb98ce08ff177ce05e10"
+    },
+    {
       "path": "tsconfig.base.json",
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "28e9cd7e3478d371c8f90853b10ceffe70d58659af61620f8dd40502eb7305fb"
+    },
+    {
+      "path": "tsconfig.json",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "41e577f706f8710c62f7510eb0192e788d741b06c129e5be98e72253fce27a63"
     },
     {
       "path": "tsconfig.nextjs.json",
@@ -5886,6 +6282,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "e989695b1c2416387ba2ed898d8b9654da0ea9e03d78dd886ac0608003508447"
+    },
+    {
+      "path": "vitest.config.mjs",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "9261e391f5ab9d56def583d66e8eec5b25b52122f46f2c6056c72b8abf61d448"
     },
     {
       "path": "vitest.config.ts",

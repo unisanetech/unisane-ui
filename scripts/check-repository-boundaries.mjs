@@ -43,6 +43,13 @@ const currentAuthorityPaths = new Set([
   'docs/guides/repository-provenance.md',
 ]);
 const violations = [];
+const dependencyFields = [
+  'dependencies',
+  'devDependencies',
+  'optionalDependencies',
+  'peerDependencies',
+];
+const repositoryUrl = 'https://github.com/unisanetech/unisane-ui.git';
 
 async function collectFiles(directory, relativeDirectory = '') {
   const files = [];
@@ -186,7 +193,6 @@ for (const relativePath of files) {
 const publicPackagePaths = [
   'packages/tokens/package.json',
   'packages/ui/package.json',
-  'packages/ui-cli/package.json',
   'packages/data-table/package.json',
   'packages/email-templates/package.json',
 ];
@@ -197,10 +203,8 @@ const candidatePackageNames = new Set([
   '@unisane/email-templates',
 ]);
 const candidateVersion = '0.1.2-next.97f61b1d';
-const publicManifests = new Map();
 for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
-  publicManifests.set(manifest.name, manifest);
   const isCandidate = candidatePackageNames.has(manifest.name);
   const expectedVersion = isCandidate ? candidateVersion : '0.1.1';
   const expectedTag = isCandidate ? 'next' : 'latest';
@@ -218,25 +222,98 @@ for (const packagePath of publicPackagePaths) {
   }
 }
 
-const uiCliManifest = publicManifests.get('@unisane/ui-cli');
-if (uiCliManifest?.bin?.['unisane-ui'] !== './dist/cli.js') {
+const privateManifest = JSON.parse(
+  await fs.readFile(path.join(repositoryRoot, 'packages/ui-cli/package.json'), 'utf8'),
+);
+if (privateManifest.private !== true || privateManifest.license !== 'UNLICENSED') {
+  recordViolation('packages/ui-cli/package.json', 'unapproved UI CLI release state drifted');
+}
+if (privateManifest.publishConfig) {
+  recordViolation('packages/ui-cli/package.json', 'private UI CLI must not declare publishing');
+}
+if (JSON.stringify(privateManifest.bin) !== JSON.stringify({ 'unisane-ui': './dist/cli.js' })) {
   recordViolation(
     'packages/ui-cli/package.json',
-    'UI registry pack must publish the exact standalone unisane-ui binary',
+    'UI CLI must own exactly the independent unisane-ui binary',
   );
 }
-if (!uiCliManifest?.files?.includes('LICENSE')) {
-  recordViolation('packages/ui-cli/package.json', 'UI registry pack must publish its MIT license');
+if (
+  Object.keys(privateManifest.exports ?? {}).some((entry) => entry.includes('pack')) ||
+  privateManifest.files?.includes('pack.manifest.json') ||
+  files.some((file) =>
+    [
+      'packages/ui-cli/pack.manifest.json',
+      'packages/ui-cli/src/handlers/ui.ts',
+      'packages/ui-cli/src/pack-contract.ts',
+    ].includes(file),
+  )
+) {
+  recordViolation('packages/ui-cli', 'former host command-pack surface remains');
 }
-for (const packageName of ['unisane', '@unisane/ui', '@unisane/tokens']) {
+
+const manifestPaths = files.filter(
+  (file) => file === 'package.json' || file.endsWith('/package.json'),
+);
+const manifests = new Map();
+for (const manifestPath of manifestPaths) {
+  manifests.set(
+    manifestPath,
+    JSON.parse(await fs.readFile(path.join(repositoryRoot, manifestPath), 'utf8')),
+  );
+}
+const workspacePackageNames = new Set(
+  [...manifests.values()].map((manifest) => manifest.name).filter(Boolean),
+);
+const repositoryOwnedManifests = new Map([
+  ['package.json', null],
+  ['packages/data-table/package.json', 'packages/data-table'],
+  ['packages/email-templates/package.json', 'packages/email-templates'],
+  ['packages/tokens/package.json', 'packages/tokens'],
+  ['packages/ui-cli/package.json', 'packages/ui-cli'],
+  ['packages/ui/package.json', 'packages/ui'],
+]);
+for (const [manifestPath, directory] of repositoryOwnedManifests) {
+  const manifest = manifests.get(manifestPath);
   if (
-    uiCliManifest?.dependencies?.[packageName] ||
-    uiCliManifest?.peerDependencies?.[packageName] ||
-    uiCliManifest?.optionalDependencies?.[packageName]
+    manifest?.repository?.type !== 'git' ||
+    manifest.repository.url !== repositoryUrl ||
+    (directory === null
+      ? 'directory' in manifest.repository
+      : manifest.repository.directory !== directory)
   ) {
+    recordViolation(manifestPath, 'standalone repository coordinate drifted');
+  }
+}
+for (const [manifestPath, manifest] of manifests) {
+  for (const field of dependencyFields) {
+    for (const [name, specifier] of Object.entries(manifest[field] ?? {})) {
+      if (typeof specifier !== 'string') continue;
+      if (/^(?:file|link|portal):|^(?:\.{1,2}[\\/]|\/)/u.test(specifier)) {
+        recordViolation(
+          manifestPath,
+          `${field}.${name} uses a local filesystem dependency locator`,
+        );
+      }
+      if (specifier.startsWith('workspace:') && !workspacePackageNames.has(name)) {
+        recordViolation(
+          manifestPath,
+          `${field}.${name} references a package absent from this standalone workspace`,
+        );
+      }
+    }
+  }
+}
+for (const forbiddenDependency of [
+  '@unisane/devtools',
+  '@unisane/framework-ops',
+  '@unisane/kernel',
+  '@unisane/ops',
+  '@unisane/platform',
+]) {
+  if (dependencyFields.some((field) => forbiddenDependency in (privateManifest[field] ?? {}))) {
     recordViolation(
       'packages/ui-cli/package.json',
-      `UI registry pack must not require ${packageName} at runtime`,
+      `UI CLI retains umbrella/runtime dependency ${forbiddenDependency}`,
     );
   }
 }
@@ -244,10 +321,7 @@ for (const packageName of ['unisane', '@unisane/ui', '@unisane/tokens']) {
 const registry = JSON.parse(
   await fs.readFile(path.join(repositoryRoot, 'packages/ui/registry/registry.json'), 'utf8'),
 );
-if (!Array.isArray(registry.items)) {
-  recordViolation('packages/ui/registry/registry.json', 'standard registry items are missing');
-}
-if (registry.items?.some((item) => item.name === 'data-table')) {
+if (registry.components?.['data-table']) {
   recordViolation('packages/ui/registry/registry.json', 'UI registry still owns DataTable source');
 }
 if (files.some((file) => file.startsWith('packages/ui/registry/components/data-table/'))) {

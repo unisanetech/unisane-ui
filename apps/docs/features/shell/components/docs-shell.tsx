@@ -13,9 +13,11 @@ import {
   SidebarDrawer,
   SidebarInset,
 } from '@unisane/ui/sidebar';
+import type { SidebarViewport } from '@unisane/ui/sidebar';
 import { cn } from '@unisane/ui/utils';
 import { DOCS_NAVIGATION, getActiveNavigationId } from '@/lib/docs/runtime/navigation';
 import { UnisaneLogo, UnisaneWordmark } from '@/features/branding';
+import { DOCS_SIDEBAR_EXPANDED_COOKIE } from '../lib/sidebar-persistence';
 import { AppHeader } from './app-header';
 import { AppearanceSettings } from './appearance-settings';
 
@@ -24,6 +26,8 @@ interface DocsShellProps {
   showHeader?: boolean;
   contentWidth?: 'constrained' | 'fluid';
   contentInset?: 'normal' | 'none';
+  initialViewport?: SidebarViewport;
+  initialExpanded?: boolean;
 }
 
 function DocsShellContent({
@@ -137,6 +141,8 @@ export function DocsShell({
   showHeader = true,
   contentWidth = 'constrained',
   contentInset = 'normal',
+  initialViewport,
+  initialExpanded = false,
 }: DocsShellProps) {
   const pathname = usePathname();
   const activeNavigationId = getActiveNavigationId(pathname);
@@ -145,11 +151,14 @@ export function DocsShell({
     <SidebarProvider
       items={DOCS_NAVIGATION}
       value={activeNavigationId}
-      initialViewport="desktop"
+      defaultExpanded={initialExpanded}
+      initialViewport={initialViewport}
       railWidth={96}
       drawerWidth={220}
-      persist
-      storageKey="unisane-docs-sidebar"
+      persist={false}
+      onExpandedChange={(expanded) => {
+        document.cookie = `${DOCS_SIDEBAR_EXPANDED_COOKIE}=${expanded ? 'true' : 'false'}; path=/; max-age=31536000; samesite=lax`;
+      }}
       renderLink={(_item, props) => <Link {...props} />}
     >
       <DocsShellContent

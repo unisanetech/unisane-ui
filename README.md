@@ -2,6 +2,8 @@
 
 Unisane UI is the focused workspace for Unisane design tokens, React components,
 DataTable, provider-neutral email templates, and the public documentation application.
+The canonical public source repository is
+https://github.com/unisanetech/unisane-ui.
 
 ## Workspace
 

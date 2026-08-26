@@ -39,6 +39,7 @@ temp/
 *~
 
 # AI Tools
+.skopos/
 .claude/
 .cursor/
 .copilot/
