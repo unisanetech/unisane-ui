@@ -62,7 +62,12 @@ async function collectFiles(directory, relativeDirectory = '') {
       ? path.posix.join(relativeDirectory, entry.name)
       : entry.name;
     if (relativePath.startsWith('docs/work/')) continue;
-    if (relativePath === 'docs/reference/generated/repository-convergence-report.json') continue;
+    if (
+      relativePath === 'docs/reference/generated/repository-convergence-report.json' ||
+      relativePath === 'docs/reference/generated/fleet-provenance.json'
+    ) {
+      continue;
+    }
     const absolutePath = path.join(directory, entry.name);
     if (entry.isDirectory()) {
       files.push(...(await collectFiles(absolutePath, relativePath)));

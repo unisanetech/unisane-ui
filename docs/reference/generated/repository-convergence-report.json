@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1047,
+  "fileCount": 1048,
   "dispositionCounts": {
-    "retain": 931,
+    "retain": 932,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -2412,6 +2412,12 @@
       "disposition": "retain",
       "owner": "repository documentation",
       "sha256": "a0bff2b6c2046067ef4da78e7fb099a4541901b57762d7087f596f58ddcafa2b"
+    },
+    {
+      "path": "docs/reference/generated/fleet-commit-map.txt",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d60bb3e19aa389f75b5099ddf0fd3077cbfae9ac27cba8c428bf924b64431710"
     },
     {
       "path": "docs/reference/generated/repository-foundation-receipt.json",
@@ -6113,7 +6119,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "d2220fd040ee76cd27648786e8e27d6ee34501ddd9a3b69ef6cfa3fbe722facc"
+      "sha256": "84f54126a44ae3fc00cc6a720bc5a9767f2270f7b49ee55bcef3e38ef34cdf71"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
