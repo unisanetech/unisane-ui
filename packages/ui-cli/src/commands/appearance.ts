@@ -2,10 +2,10 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { log } from '../cli-support.js';
 import { uiAdd } from './add.js';
+import type { PackageInstallRunner, PackageManager } from './add-types.js';
 import {
   APPEARANCE_AXES,
   APPEARANCE_PERSISTENCE,
-  createDefaultUiConfig,
   readUiConfig,
   UI_CONFIG_FILENAME,
   type UiAppearanceAxis,
@@ -23,7 +23,7 @@ function isPersistence(value: string): value is UiAppearancePersistence {
 
 function loadConfigSafely(cwd: string) {
   try {
-    return readUiConfig(cwd) ?? createDefaultUiConfig();
+    return readUiConfig(cwd);
   } catch (error) {
     log.error(error instanceof Error ? error.message : String(error));
     return null;
@@ -35,6 +35,9 @@ export interface UiAppearanceEnableOptions {
   axes: string[];
   persistence?: string;
   dryRun?: boolean;
+  install?: boolean;
+  packageManager?: PackageManager;
+  installRunner?: PackageInstallRunner;
 }
 
 export async function uiAppearanceEnable(options: UiAppearanceEnableOptions): Promise<number> {
@@ -52,14 +55,20 @@ export async function uiAppearanceEnable(options: UiAppearanceEnableOptions): Pr
     return 1;
   }
   const config = loadConfigSafely(cwd);
-  if (!config) return 1;
+  if (!config) {
+    log.error(`${UI_CONFIG_FILENAME} not found; run "unisane-ui init" first`);
+    return 1;
+  }
 
   const enabledAxes = Array.from(
-    new Set([...config.appearance.enabledAxes, ...options.axes]),
+    new Set([...config.unisane.appearance.enabledAxes, ...options.axes]),
   ) as UiAppearanceAxis[];
   const next = {
     ...config,
-    appearance: { enabledAxes, persistence },
+    unisane: {
+      ...config.unisane,
+      appearance: { enabledAxes, persistence },
+    },
   };
 
   if (options.dryRun) {
@@ -71,6 +80,9 @@ export async function uiAppearanceEnable(options: UiAppearanceEnableOptions): Pr
     cwd,
     components: ['appearance-provider'],
     yes: true,
+    install: options.install,
+    packageManager: options.packageManager,
+    installRunner: options.installRunner,
   });
   if (installCode !== 0) return installCode;
 
@@ -94,15 +106,21 @@ export async function uiAppearanceDisable(options: UiAppearanceDisableOptions): 
     return 1;
   }
   const config = loadConfigSafely(cwd);
-  if (!config) return 1;
-  const enabledAxes = config.appearance.enabledAxes.filter((axis) => axis !== options.axis);
+  if (!config) {
+    log.error(`${UI_CONFIG_FILENAME} not found; run "unisane-ui init" first`);
+    return 1;
+  }
+  const enabledAxes = config.unisane.appearance.enabledAxes.filter((axis) => axis !== options.axis);
   if (options.dryRun) {
     log.info(`Would disable appearance axis: ${options.axis}`);
     return 0;
   }
   writeUiConfig(cwd, {
     ...config,
-    appearance: { ...config.appearance, enabledAxes },
+    unisane: {
+      ...config.unisane,
+      appearance: { ...config.unisane.appearance, enabledAxes },
+    },
   });
   log.success(`Disabled appearance axis: ${options.axis}`);
   return 0;
@@ -115,11 +133,19 @@ export interface UiAppearanceListOptions {
 export async function uiAppearanceList(options: UiAppearanceListOptions = {}): Promise<number> {
   const cwd = options.cwd ?? process.cwd();
   const config = loadConfigSafely(cwd);
-  if (!config) return 1;
-  log.info(`Enabled axes: ${config.appearance.enabledAxes.join(', ') || 'none'}`);
-  log.info(`Persistence: ${config.appearance.persistence}`);
-  const srcDir = existsSync(path.join(cwd, 'src')) ? 'src' : '.';
-  const providerPath = path.join(cwd, srcDir, 'components', 'ui', 'appearance-provider.tsx');
+  if (!config) {
+    log.error(`${UI_CONFIG_FILENAME} not found; run "unisane-ui init" first`);
+    return 1;
+  }
+  log.info(`Enabled axes: ${config.unisane.appearance.enabledAxes.join(', ') || 'none'}`);
+  log.info(`Persistence: ${config.unisane.appearance.persistence}`);
+  const providerPath = path.join(
+    cwd,
+    existsSync(path.join(cwd, 'src')) ? 'src' : '.',
+    'components',
+    'ui',
+    'appearance-provider.tsx',
+  );
   log.info(`Local provider: ${existsSync(providerPath) ? 'installed' : 'not installed'}`);
   return 0;
 }

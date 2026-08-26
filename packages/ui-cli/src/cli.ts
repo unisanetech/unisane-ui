@@ -2,4 +2,4 @@
 
 import { createUiCli } from './program.js';
 
-await createUiCli().parseAsync(process.argv);
+await createUiCli().showHelpAfterError().parseAsync(process.argv);

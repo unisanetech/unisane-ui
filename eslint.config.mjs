@@ -17,6 +17,7 @@ export default [
       '**/coverage/**',
       '**/dist/**',
       '**/node_modules/**',
+      '**/out/**',
       '**/playwright-report/**',
       '**/test-results/**',
       'packages/ui/registry/**',

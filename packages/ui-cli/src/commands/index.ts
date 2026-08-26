@@ -16,3 +16,4 @@ export { uiDiff } from './diff.js';
 export { uiDoctor } from './doctor.js';
 export { uiTheme } from './theme.js';
 export { uiAppearanceEnable, uiAppearanceDisable, uiAppearanceList } from './appearance.js';
+export { uiList, uiSearch, uiView } from './catalog.js';

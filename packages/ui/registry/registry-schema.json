@@ -1,30 +1,37 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ui.unisane.com/schema/registry.json",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string"
     },
-    "version": {
+    "name": {
       "type": "string"
     },
-    "components": {
-      "type": "object",
-      "additionalProperties": {
+    "homepage": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
         "type": "object",
+        "additionalProperties": false,
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "title": {
             "type": "string"
           },
           "type": {
             "type": "string",
             "enum": [
-              "components:ui",
-              "primitives:ui",
-              "layout:ui",
-              "hooks:ui",
-              "lib:util",
-              "types:ui"
+              "registry:ui",
+              "registry:lib",
+              "registry:hook",
+              "registry:file"
             ]
           },
           "description": {
@@ -33,7 +40,30 @@
           "files": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "path": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "registry:ui",
+                    "registry:lib",
+                    "registry:hook",
+                    "registry:file"
+                  ]
+                },
+                "target": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "path",
+                "type",
+                "target"
+              ]
             }
           },
           "dependencies": {
@@ -48,44 +78,29 @@
               "type": "string"
             }
           },
-          "variants": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          "accessibility": {
-            "type": "object",
-            "properties": {
-              "keyboard": {
-                "type": "boolean"
-              },
-              "screenReader": {
-                "type": "boolean"
-              },
-              "contrast": {
-                "type": "string",
-                "enum": [
-                  "AA",
-                  "AAA"
-                ]
-              }
+          "devDependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
             }
           }
         },
         "required": [
           "name",
+          "title",
           "type",
           "description",
-          "files"
+          "files",
+          "dependencies",
+          "registryDependencies"
         ]
       }
     }
   },
   "required": [
-    "components"
+    "$schema",
+    "name",
+    "homepage",
+    "items"
   ]
 }

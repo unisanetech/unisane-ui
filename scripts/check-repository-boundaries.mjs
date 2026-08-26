@@ -127,7 +127,7 @@ function recordViolation(relativePath, message) {
 }
 
 const files = await collectFiles(repositoryRoot);
-const authority = 'standalone-unisane-ui-public-source';
+const authority = 'prepared-standalone-candidate-pre-cutover';
 const records = [];
 
 if (files.includes('docs/guides/migration-shadow.md')) {
@@ -161,15 +161,23 @@ for (const relativePath of files) {
   const text = content.toString('utf8');
   if (currentAuthorityPaths.has(relativePath)) {
     if (!text.includes(canonicalRepositoryUrl)) {
-      recordViolation(relativePath, 'canonical public source repository is missing');
+      recordViolation(relativePath, 'prepared standalone candidate repository is missing');
     }
-    for (const staleAuthority of [
-      'umbrella remains the sole writable source authority',
-      'local non-authoritative migration shadow',
-      'local, non-authoritative migration shadow',
+    if (!text.toLowerCase().includes('prepared standalone candidate')) {
+      recordViolation(relativePath, 'pre-cutover candidate status is missing');
+    }
+    if (!/coordinator-authorized\s+source\s+cutover/u.test(text.toLowerCase())) {
+      recordViolation(relativePath, 'coordinator-owned authority gate is missing');
+    }
+    for (const prematureAuthority of [
+      'standalone public source authority for unisane ui is',
+      'canonical public source repository is',
     ]) {
-      if (text.toLowerCase().includes(staleAuthority)) {
-        recordViolation(relativePath, `obsolete source authority remains: ${staleAuthority}`);
+      if (text.toLowerCase().includes(prematureAuthority)) {
+        recordViolation(
+          relativePath,
+          `premature source authority remains: ${prematureAuthority}`,
+        );
       }
     }
   }
@@ -326,7 +334,10 @@ for (const forbiddenDependency of [
 const registry = JSON.parse(
   await fs.readFile(path.join(repositoryRoot, 'packages/ui/registry/registry.json'), 'utf8'),
 );
-if (registry.components?.['data-table']) {
+if (!Array.isArray(registry.items)) {
+  recordViolation('packages/ui/registry/registry.json', 'standard registry items are missing');
+}
+if (registry.items?.some((item) => item.name === 'data-table')) {
   recordViolation('packages/ui/registry/registry.json', 'UI registry still owns DataTable source');
 }
 if (files.some((file) => file.startsWith('packages/ui/registry/components/data-table/'))) {
@@ -350,6 +361,8 @@ const report = {
   unresolvedReleaseBlockers: [
     'authenticated npm publisher and completed provenance-enabled publish transaction',
     'protected branch governance and recovery identities',
+    'approved CODEOWNERS and private vulnerability reporting channel',
+    'coordinator-authorized source cutover',
   ],
   violations: violations.sort(),
   files: records,

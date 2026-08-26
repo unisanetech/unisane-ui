@@ -6,6 +6,8 @@ export {
   uiDiff,
   uiDoctor,
   uiInit,
+  uiList,
+  uiSearch,
   uiTheme,
+  uiView,
 } from './commands/index.js';
-export { createUiCli } from './program.js';

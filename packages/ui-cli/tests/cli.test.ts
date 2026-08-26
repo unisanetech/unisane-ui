@@ -40,7 +40,17 @@ describe('independent unisane-ui CLI', () => {
     const appearance = program.commands.find((command) => command.name() === 'appearance');
 
     expect(program.name()).toBe('unisane-ui');
-    expect(commands).toEqual(['init', 'add', 'diff', 'doctor', 'theme', 'appearance']);
+    expect(commands).toEqual([
+      'init',
+      'add',
+      'list',
+      'search',
+      'view',
+      'diff',
+      'doctor',
+      'theme',
+      'appearance',
+    ]);
     expect(commands).not.toContain('ui');
     expect(appearance?.commands.map((command) => command.name())).toEqual([
       'enable',

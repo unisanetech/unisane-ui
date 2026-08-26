@@ -2,8 +2,9 @@
 
 Unisane UI is the focused workspace for Unisane design tokens, React components,
 DataTable, provider-neutral email templates, and the public documentation application.
-The canonical public source repository is
-https://github.com/unisanetech/unisane-ui.
+The prepared standalone candidate is
+https://github.com/unisanetech/unisane-ui. Until a coordinator-authorized source
+cutover, the umbrella remains the writable source authority.
 
 ## Workspace
 
@@ -34,5 +35,5 @@ pnpm build
 
 Run the docs application with `pnpm --filter @unisane/ui-docs dev`.
 
-The repository is still under pre-extraction convergence. Public licensing, remote
-authority, package publication, and production deployment remain separately gated.
+The repository is under pre-cutover reconciliation. Hosted readiness, package
+publication, production deployment, and source authority remain separately gated.

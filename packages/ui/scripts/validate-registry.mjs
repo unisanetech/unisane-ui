@@ -228,39 +228,37 @@ async function validateRegistryJson() {
     const content = await fs.readFile(registryJsonPath, 'utf-8');
     const registry = JSON.parse(content);
 
-    if (!registry.components) {
-      error("registry.json missing 'components' field");
+    if (!Array.isArray(registry.items)) {
+      error("registry.json missing 'items' field");
+      return;
+    }
+
+    const names = registry.items.map((item) => item.name);
+    if (new Set(names).size !== names.length) {
+      error('registry.json contains duplicate item names');
       return;
     }
 
     // Check that all files referenced in registry.json exist
     let missingFiles = 0;
-    for (const [key, component] of Object.entries(registry.components)) {
-      for (const file of component.files || []) {
-        const filePath = path.join(registryDir, file);
+    for (const item of registry.items) {
+      for (const file of item.files || []) {
+        const filePath = path.join(registryDir, file.path);
         try {
           await fs.access(filePath);
         } catch {
           missingFiles++;
-          error(`registry.json references missing file: ${file} (component: ${key})`);
+          error(`registry.json references missing file: ${file.path} (item: ${item.name})`);
         }
       }
     }
 
     if (missingFiles === 0) {
-      info(`✅ registry.json valid with ${Object.keys(registry.components).length} components`);
+      info(`✅ registry.json valid with ${registry.items.length} items`);
     }
   } catch (err) {
     error(`Could not read registry.json: ${err.message}`);
   }
-}
-
-function toInstalledRelativePath(registryFile) {
-  const [root, ...rest] = registryFile.split('/');
-  if (['components', 'primitives', 'layout'].includes(root)) {
-    return path.posix.join('components/ui', ...rest);
-  }
-  return path.posix.join(root, ...rest);
 }
 
 function resolveInstalledPath(specifier, installedOwners) {
@@ -309,11 +307,12 @@ async function validateRegistryDependencyClosure() {
 
   try {
     const registry = JSON.parse(await fs.readFile(path.join(registryDir, 'registry.json'), 'utf8'));
+    const items = Object.fromEntries(registry.items.map((item) => [item.name, item]));
     const installedOwners = new Map();
 
-    for (const [key, component] of Object.entries(registry.components)) {
-      for (const file of component.files ?? []) {
-        const installedPath = toInstalledRelativePath(file);
+    for (const [key, item] of Object.entries(items)) {
+      for (const file of item.files ?? []) {
+        const installedPath = file.target;
         const existingOwner = installedOwners.get(installedPath);
         if (existingOwner && existingOwner !== key) {
           error(
@@ -325,20 +324,18 @@ async function validateRegistryDependencyClosure() {
       }
     }
 
-    for (const [key, component] of Object.entries(registry.components)) {
-      const registryDependencies = new Set(component.registryDependencies ?? []);
-      const dependencyPackages = new Set(
-        (component.dependencies ?? []).map(getDependencyPackageName),
-      );
+    for (const [key, item] of Object.entries(items)) {
+      const registryDependencies = new Set(item.registryDependencies ?? []);
+      const dependencyPackages = new Set((item.dependencies ?? []).map(getDependencyPackageName));
 
       for (const dependency of registryDependencies) {
-        if (!registry.components[dependency]) {
+        if (!items[dependency]) {
           error(`Registry item ${key} references unknown dependency ${dependency}`);
         }
       }
 
-      for (const file of component.files ?? []) {
-        const content = await fs.readFile(path.join(registryDir, file), 'utf8');
+      for (const file of item.files ?? []) {
+        const content = await fs.readFile(path.join(registryDir, file.path), 'utf8');
         const specifiers = Array.from(
           content.matchAll(MODULE_SPECIFIER_REGEX),
           (match) => match[2],
@@ -347,7 +344,7 @@ async function validateRegistryDependencyClosure() {
         for (const specifier of specifiers) {
           if (specifier.startsWith('@unisane/')) {
             error(
-              `Registry source must not import Unisane runtime packages: ${file} -> ${specifier}`,
+              `Registry source must not import Unisane runtime packages: ${file.path} -> ${specifier}`,
             );
             continue;
           }
@@ -355,14 +352,16 @@ async function validateRegistryDependencyClosure() {
           const installedPath = resolveInstalledPath(specifier, installedOwners);
           if (specifier.startsWith('@/')) {
             if (!installedPath) {
-              error(`Registry import does not resolve after installation: ${file} -> ${specifier}`);
+              error(
+                `Registry import does not resolve after installation: ${file.path} -> ${specifier}`,
+              );
               continue;
             }
 
             const dependencyOwner = installedOwners.get(installedPath);
             if (dependencyOwner !== key && !registryDependencies.has(dependencyOwner)) {
               error(
-                `Registry item ${key} omits local dependency ${dependencyOwner} required by ${file}`,
+                `Registry item ${key} omits local dependency ${dependencyOwner} required by ${file.path}`,
               );
             }
             continue;
@@ -372,7 +371,9 @@ async function validateRegistryDependencyClosure() {
           const packageName = getPackageName(specifier);
           if (!packageName || PEER_PACKAGES.has(packageName)) continue;
           if (!dependencyPackages.has(packageName)) {
-            error(`Registry item ${key} omits npm dependency ${packageName} required by ${file}`);
+            error(
+              `Registry item ${key} omits npm dependency ${packageName} required by ${file.path}`,
+            );
           }
         }
       }

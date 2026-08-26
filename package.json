@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "turbo run build",
+    "build:ui-site": "pnpm --filter @unisane/ui-docs build:site && node scripts/build-static-registry.mjs --output apps/docs/out",
     "check:border-semantics": "node scripts/check-semantic-border-roles.mjs",
     "check:boundaries": "node scripts/check-repository-boundaries.mjs --check",
     "check:package-content": "turbo run build --filter=@unisane/ui --filter=@unisane/ui-cli --filter=@unisane/tokens --filter=@unisane/data-table --filter=@unisane/email-templates && node scripts/check-package-contents.mjs",
@@ -17,13 +18,17 @@
     "check:packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-packed-producer-certificate.test.mjs",
     "check:email-templates-packed-producer-certificate": "pnpm check:email-templates-packed-producer-certificate:fixtures && node scripts/verify-email-templates-packed-producer-certificate.mjs",
     "check:email-templates-packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
+    "check:shadcn-registry": "node scripts/check-static-registry.mjs --shadcn",
+    "check:static-registry": "node --test scripts/__tests__/build-static-registry.test.mjs && node scripts/check-static-registry.mjs",
+    "check:ui-site": "pnpm build:ui-site && node scripts/check-static-registry.mjs --site apps/docs/out",
     "check:utility-ownership": "node scripts/check-public-utility-ownership.mjs",
     "dev": "turbo run dev",
+    "deploy:ui-site": "pnpm check:ui-site && wrangler deploy",
     "lint": "turbo run lint",
     "check-types": "turbo run check-types",
     "typecheck": "turbo run check-types",
     "test": "turbo run test",
-    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm check:boundaries && pnpm check:package-content && pnpm typecheck",
+    "check:quality": "pnpm --filter @unisane/tokens test && pnpm --filter @unisane/ui validate && pnpm check:border-semantics && pnpm check:utility-ownership && pnpm check:static-registry && pnpm check:boundaries && pnpm check:package-content && pnpm typecheck",
     "report:convergence": "node scripts/check-repository-boundaries.mjs --write",
     "references:symbols:check": "node scripts/commands/references/generate-symbol-reference.mjs --check",
     "references:symbols:generate": "node scripts/commands/references/generate-symbol-reference.mjs --write",
@@ -48,7 +53,8 @@
     "turbo": "2.7.4",
     "typescript": "5.9.2",
     "typescript-eslint": "8.53.0",
-    "vitest": "4.0.17"
+    "vitest": "4.0.17",
+    "wrangler": "4.123.0"
   },
   "packageManager": "pnpm@10.26.0",
   "engines": {
