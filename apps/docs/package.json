@@ -18,7 +18,7 @@
     "@unisane/data-table": "workspace:*",
     "@unisane/tokens": "workspace:*",
     "@unisane/ui": "workspace:*",
-    "next": "16.0.10",
+    "next": "16.2.11",
     "react": "^19.2.0",
     "react-dom": "^19.1.0"
   },
