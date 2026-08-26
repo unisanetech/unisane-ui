@@ -40,7 +40,7 @@
     "test": "vitest run",
     "test:cli": "vitest run tests/cli.test.ts",
     "check-types": "tsc --noEmit",
-    "pack:check": "pnpm build && pnpm pack --pack-destination ../../../../.tmp/packs",
+    "pack:check": "pnpm build && pnpm pack --pack-destination ../../.tmp/packs",
     "prepublishOnly": "pnpm build && pnpm check-types && pnpm test"
   },
   "dependencies": {
