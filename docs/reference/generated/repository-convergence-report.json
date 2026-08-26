@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "standalone-unisane-ui-public-source",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1048,
+  "fileCount": 1047,
   "dispositionCounts": {
-    "retain": 932,
+    "retain": 931,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -35,13 +35,7 @@
       "path": ".github/workflows/ci.yml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "5a183d07239848d9de099e8a845ee00c76f5d8ed049d437f5b30a5f4b62dd9b5"
-    },
-    {
-      "path": ".github/workflows/publish-release.yml",
-      "disposition": "retain",
-      "owner": "repository foundation",
-      "sha256": "3172347294d1a8654fbad8f5f0f75683ed6a71c74716ccd59226e06e17e22d81"
+      "sha256": "dae182dbb6617896fa5e2c62cd80275a428630df78c827834665c32a2efbd5fc"
     },
     {
       "path": ".gitignore",
@@ -4181,7 +4175,7 @@
       "path": "packages/ui-cli/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui-cli",
-      "sha256": "37aecdad95ee1937d460458d5b5cfd1ab942079773dc1310cf394a99cbd9a95d"
+      "sha256": "11913d3f10658d2d5dbc07ebed84ae4e0895b29f47d1ee48d3338089b27005cc"
     },
     {
       "path": "packages/ui-cli/README.md",
