@@ -1,0 +1,53 @@
+{
+  "snapshotId": "S-d6a5a1e78a40",
+  "taskId": "T-18880218",
+  "sessionId": "ui-publish-prep-20260827",
+  "actorId": "codex",
+  "baseRevision": "e6442d36d57e3fe38e9da131e13b4c3a75f24fba",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-packages.yml",
+      "digest": "7d4ef86716b7f07c61feee2414980b93c6d9afb936af46b31108c1013f93d11a",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/findings/README.md",
+      "digest": "887c080372cbb210473719f7058210ca5e4f82fdd04e65e812c8a9c0d6cf0b13",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/work/archive/tasks/T-23066e43-polish-the-documentation-site-layout-and-homepage.md",
+      "digest": "7f46a9235cf8e6bbcfacaab524647a10a42e9f0d39c7eb126ae22be33af612af",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/work/tasks/T-23066e43-polish-the-documentation-site-layout-and-homepage.md",
+      "digest": "c741529fff138771ffe43897f86e2e2b8d499014fabec9dec3d459ae8419bb24",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "b97ab204da78d9922a24144555d6b5c8f2b3b40916fcf9d2f0de8abdf468604f",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "5d3a6c9ff4b2f44363c54467a26985d3cc2f0af576034f817add78e9c141e6b6",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "393de5cd7fb56e84732931b2e4235919cdc4597aac14c2e4014cef1d8c0bea56",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "61d1073d025b881c1cdc01e382f8293ab7c30b9e4501c82c64f386b46ec44199",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    }
+  ],
+  "digest": "d6a5a1e78a40c9238b753ce17cce2ccbe873c463b490cbfaaa4624189c42be8f",
+  "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs",
+  "createdAt": "2026-08-27T18:18:27.248Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-18880218-S-d6a5a1e78a40.json"
+}

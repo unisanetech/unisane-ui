@@ -3,7 +3,7 @@ id: 'DOC-debd876c74d7'
 owner: 'unisane-ui'
 repository: unisane-ui
 scope: workspace
-role: reference
+role: router
 lifecycle: durable
 authority: supporting
 provenance: accepted

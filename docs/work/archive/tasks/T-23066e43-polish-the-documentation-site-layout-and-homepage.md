@@ -1,25 +1,25 @@
 ---
 title: "Task: Polish the documentation site layout and homepage"
-status: active
-owner: "codex"
+status: superseded
+owner: "project"
 id: T-23066e43
 scope: "workspace"
 role: task
-lifecycle: active
+lifecycle: historical
 authority: canonical
 provenance: accepted
-view: current
+view: exception
 risk: standard
 proofSubject: task-closure
 proofBaseline: baseline-dad569d4d08d3dfa
-lastUpdated: 2026-08-21
+lastUpdated: 2026-08-26
 ---
 
 # Task: Polish the documentation site layout and homepage
 
 ## Changelog
 
-- `2026-08-21`: Synchronized Task state `active` from Skopos.
+- `2026-08-26`: Synchronized Task state `superseded` from Skopos.
 
 ## Goal
 
@@ -122,10 +122,10 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-08-15T13:00:28.561Z",
-  "updatedAt": "2026-08-21T11:02:21.361Z",
+  "updatedAt": "2026-08-26T23:16:51.799Z",
   "planIds": [],
   "childTasks": [],
-  "state": "active",
+  "state": "superseded",
   "detail": "standard",
   "title": "Polish the documentation site layout and homepage",
   "goal": "Polish the documentation site layout and homepage",
@@ -627,6 +627,16 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       ]
     }
   ],
+  "disposition": {
+    "kind": "supersede",
+    "reason": "Superseded by approved repository-cutover and UI package release preparation; preserve completed documentation work as repository history.",
+    "actorId": "codex",
+    "recordedAt": "2026-08-26T23:16:51.799Z",
+    "priorState": "active",
+    "nextState": "superseded",
+    "successorTaskId": "T-18880218"
+  },
+  "supersededByTaskId": "T-18880218",
   "declaredOwnedPaths": [
     "apps/docs/features/home/components/component-grid-section.tsx",
     "apps/docs/features/home/components/cta-section.tsx",

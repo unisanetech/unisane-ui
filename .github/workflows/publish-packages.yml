@@ -1,0 +1,109 @@
+name: Publish UI packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type publish-next to publish the exact package versions on main
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-ui-packages-next
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'publish-next'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.26.0
+          run_install: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify repository-owned source and package contents
+        run: pnpm verify
+
+      - name: Validate the immutable publication set
+        shell: bash
+        run: |
+          set -euo pipefail
+          packages=(
+            @unisane/tokens
+            @unisane/ui
+            @unisane/data-table
+            @unisane/email-templates
+          )
+          expected_version=""
+          for package in "${packages[@]}"; do
+            package_dir="packages/${package#@unisane/}"
+            name="$(node -p "require('./${package_dir}/package.json').name")"
+            version="$(node -p "require('./${package_dir}/package.json').version")"
+            access="$(node -p "require('./${package_dir}/package.json').publishConfig?.access ?? ''")"
+            tag="$(node -p "require('./${package_dir}/package.json').publishConfig?.tag ?? ''")"
+            provenance="$(node -p "String(require('./${package_dir}/package.json').publishConfig?.provenance ?? '')")"
+            private="$(node -p "String(require('./${package_dir}/package.json').private ?? false)")"
+
+            test "$name" = "$package"
+            test "$version" != "0.0.0"
+            test "$access" = "public"
+            test "$tag" = "next"
+            test "$provenance" = "true"
+            test "$private" = "false"
+
+            if test -z "$expected_version"; then
+              expected_version="$version"
+            else
+              test "$version" = "$expected_version"
+            fi
+
+            error_file="$(mktemp)"
+            if npm view "${package}@${version}" version --json 2>"$error_file"; then
+              echo "${package}@${version} already exists; refusing a partial or duplicate release." >&2
+              exit 1
+            fi
+            if ! grep -q 'E404' "$error_file"; then
+              cat "$error_file" >&2
+              echo "Could not prove ${package}@${version} is absent from npm." >&2
+              exit 1
+            fi
+            rm "$error_file"
+          done
+
+      - name: Publish public packages in dependency order
+        shell: bash
+        run: |
+          set -euo pipefail
+          for package in \
+            @unisane/tokens \
+            @unisane/ui \
+            @unisane/data-table \
+            @unisane/email-templates
+          do
+            pnpm --filter "$package" publish \
+              --access public \
+              --tag next \
+              --provenance \
+              --no-git-checks
+          done
