@@ -1,0 +1,51 @@
+{
+  "id": "ui.stacked-fields.generate",
+  "title": "Regenerate stacked field registry",
+  "description": "Run the project-owned build proof.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm --filter @unisane/ui build:registry",
+  "cwd": ".",
+  "timeoutMs": 900000,
+  "inputs": [
+    "packages/ui/src",
+    "packages/ui/scripts"
+  ],
+  "outputs": [
+    "packages/ui/registry"
+  ],
+  "affects": [
+    "packages/ui/registry"
+  ],
+  "capabilities": {
+    "process": "required",
+    "network": "none",
+    "browser": "none",
+    "tools": [],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "declared",
+    "artifacts": "isolated",
+    "external": "none"
+  },
+  "concurrency": "exclusive",
+  "workspaceMode": "overlay-safe",
+  "safety": "mutating",
+  "requiresApproval": true,
+  "whenToUse": "Use when a matching Guard selects quality.build for Task impact.",
+  "phases": [
+    "stabilization",
+    "closure"
+  ],
+  "risks": [
+    "light",
+    "standard",
+    "high-impact"
+  ],
+  "recommendedAfter": [],
+  "owner": "project"
+}

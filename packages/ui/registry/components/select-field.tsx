@@ -8,6 +8,8 @@ import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import {
   getFieldHelperTextClasses,
   getFieldLabelClasses,
+  getStackedFieldLabelClasses,
+  type FieldLabelPlacement,
   type FieldShellVariant,
 } from '@/lib/field-shell';
 import { useControllableState } from '@/lib/use-controllable-state';
@@ -50,6 +52,7 @@ type SelectFieldCommonProps = {
   portal?: boolean;
   size?: FieldSize;
   variant?: FieldShellVariant;
+  labelPlacement?: FieldLabelPlacement;
   className?: string;
   triggerClassName?: string;
   contentClassName?: string;
@@ -86,6 +89,7 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
       triggerClassName,
       value,
       variant = 'outlined',
+      labelPlacement = 'floating',
     },
     ref,
   ) => {
@@ -109,10 +113,23 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
       onChange: onOpenChange,
     });
     const isOpen = openState ?? false;
-    const isFloating = hideLabel || isOpen || Boolean(selectedValue);
+    const isFloating =
+      labelPlacement === 'stacked' || hideLabel || isOpen || Boolean(selectedValue);
 
     return (
       <Field className={className} invalid={resolvedInvalid}>
+        {label && labelPlacement === 'stacked' ? (
+          <FieldLabel
+            id={labelId}
+            htmlFor={fieldId}
+            required={required}
+            className={
+              hideLabel ? 'sr-only' : getStackedFieldLabelClasses(size, resolvedInvalid, disabled)
+            }
+          >
+            {label}
+          </FieldLabel>
+        ) : null}
         <Select
           value={selectedValue}
           onValueChange={setSelectedValue}
@@ -139,7 +156,7 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
                   'pointer-events-none flex h-full min-w-0 items-center',
                   fieldSize.horizontalPadding,
                   fieldSize.valueText,
-                  variant === 'filled' && label
+                  variant === 'filled' && labelPlacement === 'floating' && label
                     ? cn('items-end', fieldSize.filledDisplayPadding)
                     : '',
                 )}
@@ -147,7 +164,7 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
                 <SelectValue placeholder={isFloating || !label ? placeholder : undefined} />
               </span>
             </SelectTrigger>
-            {label ? (
+            {label && labelPlacement === 'floating' ? (
               <FieldLabel
                 id={labelId}
                 htmlFor={fieldId}
@@ -162,7 +179,9 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
                         error: resolvedInvalid,
                         active: isOpen,
                         floatingClassName:
-                          variant === 'filled' ? fieldSize.filledDisplayFloatingLabel : undefined,
+                          variant === 'filled' && labelPlacement === 'floating'
+                            ? fieldSize.filledDisplayFloatingLabel
+                            : undefined,
                       })
                 }
               >
@@ -189,11 +208,17 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
           </SelectContent>
         </Select>
         {errorMessage ? (
-          <FieldError id={errorId} className={getFieldHelperTextClasses(size, true)}>
+          <FieldError
+            id={errorId}
+            className={getFieldHelperTextClasses(size, true, labelPlacement)}
+          >
             {errorMessage}
           </FieldError>
         ) : description ? (
-          <FieldDescription id={descriptionId} className={getFieldHelperTextClasses(size)}>
+          <FieldDescription
+            id={descriptionId}
+            className={getFieldHelperTextClasses(size, false, labelPlacement)}
+          >
             {description}
           </FieldDescription>
         ) : null}

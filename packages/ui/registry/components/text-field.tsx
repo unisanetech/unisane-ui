@@ -9,6 +9,8 @@ import {
   getFieldAffixClasses,
   getFieldHelperTextClasses,
   getFieldLabelClasses,
+  getStackedFieldLabelClasses,
+  type FieldLabelPlacement,
   type FieldShellVariant,
 } from '@/lib/field-shell';
 
@@ -30,6 +32,7 @@ type TextFieldCommonProps = {
   trailingIcon?: React.ReactNode;
   value?: string | number;
   variant?: FieldShellVariant;
+  labelPlacement?: FieldLabelPlacement;
 };
 
 type ReplacedNativeProps =
@@ -80,6 +83,7 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
       trailingIcon,
       value,
       variant = 'outlined',
+      labelPlacement = 'floating',
       ...nativeControlProps
     } = props;
     const inputProps = nativeControlProps as TextFieldInputAttributes & TextFieldEvents;
@@ -102,7 +106,8 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
     const [uncontrolledValue, setUncontrolledValue] = React.useState(String(defaultValue));
     const currentValue = value === undefined ? uncontrolledValue : String(value);
     const hasValue = currentValue.length > 0;
-    const isFloating = hideLabel || Boolean(placeholder) || isFocused || hasValue;
+    const isFloating =
+      labelPlacement === 'stacked' || hideLabel || Boolean(placeholder) || isFocused || hasValue;
 
     const setControlRef = React.useCallback(
       (node: TextFieldControl | null) => {
@@ -133,11 +138,21 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
       'placeholder:text-on-surface-variant',
       fieldSize.horizontalPadding,
       fieldSize.valueText,
-      variant === 'filled' ? fieldSize.filledInputPadding : '',
+      labelPlacement === 'stacked' && 'tracking-normal',
+      variant === 'filled' && labelPlacement === 'floating' ? fieldSize.filledInputPadding : '',
     );
 
     return (
       <Field className={className} invalid={resolvedInvalid}>
+        {labelPlacement === 'stacked' && !hideLabel ? (
+          <FieldLabel
+            htmlFor={fieldId}
+            required={required}
+            className={getStackedFieldLabelClasses(size, resolvedInvalid, disabled)}
+          >
+            {label}
+          </FieldLabel>
+        ) : null}
         <div
           className={cn(
             fieldContainerVariants({ variant, error: resolvedInvalid, disabled }),
@@ -173,7 +188,9 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
                   controlClasses,
                   'min-h-24 resize-none',
                   fieldSize.multilinePaddingY,
-                  variant === 'filled' ? fieldSize.filledTextareaPadding : '',
+                  variant === 'filled' && labelPlacement === 'floating'
+                    ? fieldSize.filledTextareaPadding
+                    : '',
                 )}
                 onBlur={(event) => {
                   setIsFocused(false);
@@ -209,24 +226,26 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
                 }}
               />
             )}
-            <FieldLabel
-              htmlFor={fieldId}
-              required={required}
-              className={
-                hideLabel
-                  ? 'sr-only'
-                  : getFieldLabelClasses({
-                      size,
-                      variant,
-                      floating: isFloating,
-                      error: resolvedInvalid,
-                      active: isFocused,
-                      multiline,
-                    })
-              }
-            >
-              {label}
-            </FieldLabel>
+            {labelPlacement === 'floating' || hideLabel ? (
+              <FieldLabel
+                htmlFor={fieldId}
+                required={required}
+                className={
+                  hideLabel || labelPlacement === 'stacked'
+                    ? 'sr-only'
+                    : getFieldLabelClasses({
+                        size,
+                        variant,
+                        floating: isFloating,
+                        error: resolvedInvalid,
+                        active: isFocused,
+                        multiline,
+                      })
+                }
+              >
+                {label}
+              </FieldLabel>
+            ) : null}
           </div>
           {trailingIcon ? (
             <span
@@ -244,11 +263,17 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
           ) : null}
         </div>
         {errorMessage ? (
-          <FieldError id={errorId} className={getFieldHelperTextClasses(size, true)}>
+          <FieldError
+            id={errorId}
+            className={getFieldHelperTextClasses(size, true, labelPlacement)}
+          >
             {errorMessage}
           </FieldError>
         ) : description ? (
-          <FieldDescription id={descriptionId} className={getFieldHelperTextClasses(size)}>
+          <FieldDescription
+            id={descriptionId}
+            className={getFieldHelperTextClasses(size, false, labelPlacement)}
+          >
             {description}
           </FieldDescription>
         ) : null}

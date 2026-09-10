@@ -17,6 +17,8 @@ import {
   getFieldAffixClasses,
   getFieldHelperTextClasses,
   getFieldLabelClasses,
+  getStackedFieldLabelClasses,
+  type FieldLabelPlacement,
   type FieldShellVariant,
 } from '../lib/field-shell';
 import { useFieldState } from '../lib/use-field-state';
@@ -32,6 +34,7 @@ export type TokenFieldProps = TokenFieldInputProps & {
   onValueChange?: (value: string[]) => void;
   label: string;
   variant?: FieldShellVariant;
+  labelPlacement?: FieldLabelPlacement;
   size?: FieldSize;
   error?: boolean;
   helperText?: string;
@@ -57,6 +60,7 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
       onValueChange,
       label,
       variant = 'outlined',
+      labelPlacement = 'floating',
       size = 'md',
       error,
       helperText,
@@ -277,6 +281,17 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
         className={cn('relative inline-flex w-full flex-col', className)}
         onBlur={handleRootBlur}
       >
+        {labelPlacement === 'stacked' ? (
+          <label
+            htmlFor={fieldId}
+            className={cn(
+              getStackedFieldLabelClasses(size, effectiveError, disabled),
+              labelClassName,
+            )}
+          >
+            {label}
+          </label>
+        ) : null}
         <div
           className={cn(
             fieldContainerVariants({ variant, error: effectiveError, disabled }),
@@ -306,7 +321,10 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
               className={cn(
                 'flex min-h-full w-full flex-wrap items-center gap-1.5',
                 fieldSize.horizontalPadding,
-                getTokenFieldContentPadding(size, variant),
+                getTokenFieldContentPadding(
+                  size,
+                  labelPlacement === 'stacked' ? 'outlined' : variant,
+                ),
               )}
             >
               {tokens.length ? (
@@ -362,21 +380,23 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
                 {...props}
               />
             </div>
-            <label
-              htmlFor={fieldId}
-              className={getFieldLabelClasses({
-                size,
-                variant,
-                floating: isFloating,
-                error: effectiveError,
-                active: isFocused,
-                multiline: true,
-                labelBg,
-                labelClassName,
-              })}
-            >
-              {label}
-            </label>
+            {labelPlacement === 'floating' ? (
+              <label
+                htmlFor={fieldId}
+                className={getFieldLabelClasses({
+                  size,
+                  variant,
+                  floating: isFloating,
+                  error: effectiveError,
+                  active: isFocused,
+                  multiline: true,
+                  labelBg,
+                  labelClassName,
+                })}
+              >
+                {label}
+              </label>
+            ) : null}
           </div>
           {trailingIcon && (
             <span
@@ -394,7 +414,10 @@ export const TokenField = React.forwardRef<HTMLDivElement, TokenFieldProps>(
           )}
         </div>
         {effectiveHelperText && (
-          <span id={helperId} className={getFieldHelperTextClasses(size, effectiveError)}>
+          <span
+            id={helperId}
+            className={getFieldHelperTextClasses(size, effectiveError, labelPlacement)}
+          >
             {effectiveHelperText}
           </span>
         )}

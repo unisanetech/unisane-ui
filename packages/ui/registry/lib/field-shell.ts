@@ -5,6 +5,16 @@ import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 
 export type FieldShellVariant = 'outlined' | 'filled';
+export type FieldLabelPlacement = 'floating' | 'stacked';
+
+export function getStackedFieldLabelClasses(size: FieldSize, error = false, disabled = false) {
+  return cn(
+    'mb-2 block font-semibold tracking-normal',
+    getFieldSizeStyles(size).externalLabelText,
+    error ? 'text-error' : 'text-on-surface',
+    disabled && 'opacity-38',
+  );
+}
 
 export const fieldContainerVariants = cva(
   'relative flex w-full transition-all duration-snappy ease-emphasized group cursor-text',
@@ -103,13 +113,19 @@ export function getFieldAffixClasses({
   );
 }
 
-export function getFieldHelperTextClasses(size: FieldSize = 'md', error = false) {
+export function getFieldHelperTextClasses(
+  size: FieldSize = 'md',
+  error = false,
+  labelPlacement: FieldLabelPlacement = 'floating',
+) {
   const fieldSize = getFieldSizeStyles(size);
 
   return cn(
-    'text-label-small font-medium',
+    labelPlacement === 'stacked'
+      ? 'text-body-small font-normal tracking-normal'
+      : 'text-label-small font-medium',
     fieldSize.helperMarginTop,
-    fieldSize.helperPaddingX,
+    labelPlacement === 'floating' && fieldSize.helperPaddingX,
     error ? 'text-error' : 'text-on-surface-variant',
   );
 }

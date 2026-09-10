@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { type FieldSize } from '@/lib/field-size';
-import { type FieldShellVariant } from '@/lib/field-shell';
+import { type FieldLabelPlacement, type FieldShellVariant } from '@/lib/field-shell';
 import { getPortalLayerStyle } from '@/lib/portal-layer';
 import { useAnchoredOverlayPosition } from '@/lib/use-anchored-overlay-position';
 import { useControllableState } from '@/lib/use-controllable-state';
@@ -31,6 +31,7 @@ const MONTHS = [
 
 export type MonthPickerProps = {
   variant?: FieldShellVariant;
+  labelPlacement?: FieldLabelPlacement;
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -60,6 +61,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   helperText,
   className,
   variant = 'outlined',
+  labelPlacement = 'floating',
   min,
   max,
   size = 'md',
@@ -208,6 +210,7 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         {...(error ? { errorMessage: helperText } : { description: helperText })}
         invalid={error}
         label={label}
+        labelPlacement={labelPlacement}
         size={size}
         trailingIcon={pickerButton}
         value={inputValue}
@@ -287,11 +290,11 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
                         aria-label={`${month} ${viewYear}`}
                         className={cn(
                           'text-label-large relative min-h-10 overflow-hidden rounded-sm px-2 transition-colors',
-                          'focus-visible:ring-focus-ring focus-visible:ring-2 focus-visible:outline-none',
+                          'focus-visible:ring-focus-ring focus-visible:outline-none focus-visible:ring-2',
                           selected
                             ? 'bg-primary text-on-primary'
                             : 'text-on-surface hover:bg-state-hover',
-                          disabledMonth && 'pointer-events-none cursor-not-allowed opacity-38',
+                          disabledMonth && 'opacity-38 pointer-events-none cursor-not-allowed',
                         )}
                         onClick={() => selectMonth(monthIndex)}
                       >
