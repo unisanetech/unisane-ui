@@ -57,6 +57,7 @@ async function collectFiles(directory, relativeDirectory = '') {
   entries.sort((left, right) => left.name.localeCompare(right.name));
 
   for (const entry of entries) {
+    if (entry.name === '.DS_Store') continue;
     if (ignoredDirectories.has(entry.name)) continue;
     const relativePath = relativeDirectory
       ? path.posix.join(relativeDirectory, entry.name)

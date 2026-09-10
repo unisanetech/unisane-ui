@@ -94,3 +94,15 @@ the authoring source or release owner for any package.
   sibling workspaces, file links, or copied source.
 - Public packages require provenance and the `next` tag. Registry authentication and
   the actual publish transaction remain independently verified external effects.
+
+`pnpm check:packed-producer-certificate` reads the approved release set from
+`docs/release-approval.json`, packs those packages, and verifies an isolated consumer
+without reading sibling repositories or historical umbrella revisions. It checks
+manifest identity, licenses, exports, exact internal dependencies, TypeScript imports,
+React server rendering, email exports, and stylesheets. The resulting archives and
+integrity certificate live in ignored `.tmp/release/`. This is artifact verification,
+not evidence of successful registry publication.
+
+The publishing workflow verifies each archive's integrity immediately before uploading
+that same archive. Its `NPM_TOKEN` secret is exposed only to the publish step; the
+temporary bootstrap credential is removed after the approved release operation.

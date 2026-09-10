@@ -16,8 +16,6 @@
     "check:package-content": "turbo run build --filter=@unisane/ui --filter=@unisane/ui-cli --filter=@unisane/tokens --filter=@unisane/data-table --filter=@unisane/email-templates && node scripts/check-package-contents.mjs",
     "check:packed-producer-certificate": "pnpm check:packed-producer-certificate:fixtures && node scripts/verify-packed-producer-certificate.mjs",
     "check:packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-packed-producer-certificate.test.mjs",
-    "check:email-templates-packed-producer-certificate": "pnpm check:email-templates-packed-producer-certificate:fixtures && node scripts/verify-email-templates-packed-producer-certificate.mjs",
-    "check:email-templates-packed-producer-certificate:fixtures": "node --test scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
     "check:shadcn-registry": "node scripts/check-static-registry.mjs --shadcn",
     "check:static-registry": "node --test scripts/__tests__/build-static-registry.test.mjs && node scripts/check-static-registry.mjs",
     "check:ui-site": "pnpm build:ui-site && node scripts/check-static-registry.mjs --site apps/docs/out",

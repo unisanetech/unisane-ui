@@ -45,6 +45,9 @@ jobs:
       - name: Verify repository-owned source and package contents
         run: pnpm verify
 
+      - name: Verify release archives in an isolated consumer
+        run: pnpm check:packed-producer-certificate
+
       - name: Validate the immutable publication set
         shell: bash
         run: |
@@ -92,6 +95,8 @@ jobs:
           done
 
       - name: Publish public packages in dependency order
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -101,9 +106,19 @@ jobs:
             @unisane/data-table \
             @unisane/email-templates
           do
-            pnpm --filter "$package" publish \
+            archive="$(node --input-type=module -e '
+              import fs from "node:fs";
+              import crypto from "node:crypto";
+              const certificate = JSON.parse(fs.readFileSync(".tmp/release/certificate.json", "utf8"));
+              const artifact = certificate.artifacts.find(item => item.name === process.argv[1]);
+              if (!artifact) throw new Error("Missing verified artifact");
+              const file = `.tmp/release/${artifact.filename}`;
+              const integrity = `sha512-${crypto.createHash("sha512").update(fs.readFileSync(file)).digest("base64")}`;
+              if (integrity !== artifact.integrity) throw new Error("Verified artifact changed");
+              console.log(file);
+            ' "$package")"
+            npm publish "$archive" \
               --access public \
               --tag next \
-              --provenance \
-              --no-git-checks
+              --provenance
           done

@@ -1,0 +1,63 @@
+{
+  "snapshotId": "S-f08bf8797915",
+  "taskId": "T-40726b29",
+  "sessionId": "3a24ea29-4033-4926-9fe8-9b4bae60e20f",
+  "actorId": "codex-ui-release",
+  "baseRevision": "5e83ff4999d0ba3bcb6bbc5c09ebc3fbc54f7229",
+  "paths": [
+    {
+      "path": ".github/workflows/publish-packages.yml",
+      "digest": "ad16c5f3ed5acdd874e22c9d20da41f653dcc8a2efbdb1f24f0702bfc3555b8b",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/architecture/package-and-distribution-boundaries.md",
+      "digest": "61c678460d9a8618de016921a5560a682d768fe3f8c5fd8d5198bac3a51d68b9",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "1e490a3c5db1b3a2364122f204c099ab35ab21dfc9a52662e2d36190adbdd2cb",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "23fb3e263806d6439e2624c393796ecd4ebef1cf1002dfa2fe08c7a06bc7ea4e",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "package.json",
+      "digest": "d309cc7812e7412562d8d7bc8b26d94eb19a088453f18c69eaf899f5ae12c1fd",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/__tests__/verify-email-templates-packed-producer-certificate.test.mjs",
+      "digest": "c741529fff138771ffe43897f86e2e2b8d499014fabec9dec3d459ae8419bb24",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
+      "digest": "585d6fd049d20bda2449798fe09fa9ef33766beee9e8501585553babfaa5cd91",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/check-repository-boundaries.mjs",
+      "digest": "c2abcf6f7eb5d69ef5b5559e6986665165acde2d9a7021bd9b5a9d02ee1b4e9a",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/verify-email-templates-packed-producer-certificate.mjs",
+      "digest": "c741529fff138771ffe43897f86e2e2b8d499014fabec9dec3d459ae8419bb24",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/verify-packed-producer-certificate.mjs",
+      "digest": "7be6405cf9e1dc2e9d2fc35578d20187f784ab81d848425390c21a371e9cb1a9",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    }
+  ],
+  "digest": "f08bf8797915e272361aa80e60b2681b8a566701efb258dcde557553d3c77263",
+  "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs",
+  "createdAt": "2026-09-10T14:37:52.719Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-40726b29-S-f08bf8797915.json"
+}
