@@ -332,8 +332,8 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
           <div
             className={cn(
-              'flex h-full min-w-0 items-center',
-              fieldSize.horizontalPadding,
+              'flex h-full min-w-0 flex-1 items-center',
+              fieldSize.leadingPadding,
               size === 'lg' ? 'gap-3' : 'gap-2',
             )}
           >
@@ -405,7 +405,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             >
               <Icon
                 symbol="arrow_drop_down"
-                size="sm"
+                size={size === 'lg' ? 'md' : 'sm'}
                 className={cn(
                   'duration-short ease-standard transition-transform',
                   isOpen && 'rotate-180',
@@ -423,7 +423,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                 ref={dropdownRef}
                 className={cn(
                   'bg-surface border-outline-soft shadow-2 z-[var(--z-popover,2000)] overflow-y-auto rounded-sm border',
-                  portal ? 'fixed' : 'absolute top-[calc(100%+var(--unit))] right-0 left-0',
+                  portal ? 'fixed' : 'absolute left-0 right-0 top-[calc(100%+var(--unit))]',
                 )}
                 style={
                   portal
@@ -458,7 +458,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                           activeIndex === index &&
                             (!highlightSelected || selectedValue !== option.value) &&
                             'bg-state-hover',
-                          option.disabled && 'cursor-not-allowed opacity-38',
+                          option.disabled && 'opacity-38 cursor-not-allowed',
                         )}
                         onClick={() => handleSelect(option)}
                         role="option"
