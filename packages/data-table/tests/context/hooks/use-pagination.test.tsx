@@ -16,6 +16,7 @@ function createWrapper(
   props: {
     initialPageSize?: number;
     onPaginationChange?: (page: number, pageSize: number) => void;
+    paginationState?: { page: number; pageSize: number };
   } = {},
 ) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ function createWrapper(
         columns={testColumns}
         initialPageSize={props.initialPageSize ?? 10}
         onPaginationChange={props.onPaginationChange}
+        paginationState={props.paginationState}
       >
         {children}
       </DataTableProvider>
@@ -74,6 +76,26 @@ describe('usePagination', () => {
       });
 
       expect(mockOnPaginationChange).toHaveBeenCalledWith(2, 10);
+    });
+
+    it('should read controlled pagination and notify without mutating it internally', () => {
+      const mockOnPaginationChange = vi.fn();
+      const { result } = renderHook(() => usePagination(), {
+        wrapper: createWrapper({
+          paginationState: { page: 4, pageSize: 25 },
+          onPaginationChange: mockOnPaginationChange,
+        }),
+      });
+
+      expect(result.current.page).toBe(4);
+      expect(result.current.pageSize).toBe(25);
+
+      act(() => {
+        result.current.setPage(5);
+      });
+
+      expect(mockOnPaginationChange).toHaveBeenCalledWith(5, 25);
+      expect(result.current.page).toBe(4);
     });
   });
 

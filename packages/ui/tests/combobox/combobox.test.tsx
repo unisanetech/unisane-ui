@@ -153,4 +153,103 @@ describe('Combobox', () => {
 
     await cleanup(rendered.root, rendered.container);
   });
+
+  it('keeps server matches and pagination inside the open popup', async () => {
+    const load = vi.fn();
+    const rendered = await render(
+      <Combobox label="Item" options={OPTIONS} filterOptions={false} hasMore onLoadMore={load} />,
+    );
+    expect(document.body.textContent).not.toContain('Load more results');
+    const input = rendered.container.querySelector('input')!;
+    await act(async () => {
+      input.focus();
+    });
+    await act(async () => {
+      Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set?.call(
+        input,
+        'barcode-123',
+      );
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+    expect(document.querySelectorAll('[role="option"]')).toHaveLength(3);
+    const more = Array.from(document.querySelectorAll('button')).find(
+      (button) => button.textContent === 'Load more results',
+    )!;
+    expect(more.closest('[role="listbox"]')).toBeNull();
+    await act(async () => {
+      input.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }),
+      );
+    });
+    expect(document.activeElement).toBe(more);
+    await act(async () => {
+      more.click();
+    });
+    expect(load).toHaveBeenCalledTimes(1);
+    expect(input.getAttribute('aria-expanded')).toBe('true');
+    await act(async () => {
+      more.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key: 'Tab',
+          shiftKey: true,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+    });
+    expect(document.activeElement).toBe(input);
+    expect(input.value).toBe('barcode-123');
+    await act(async () => {
+      more.focus();
+      more.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true }));
+    });
+    expect(input.getAttribute('aria-expanded')).toBe('false');
+    // Synthetic events do not perform native Tab navigation. The browser
+    // continues from the trigger to the next form field.
+    expect(document.activeElement).toBe(input);
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('distinguishes loading and failure from an empty result and supports retry', async () => {
+    const retry = vi.fn();
+    const rendered = await render(<Combobox label="Item" options={[]} defaultOpen loading />);
+    expect(document.querySelector('[role="listbox"]')?.getAttribute('aria-busy')).toBe('true');
+    expect(document.body.textContent).toContain('Loading results');
+    expect(document.body.textContent).not.toContain('No results found');
+    await rendered.rerender(
+      <Combobox
+        label="Item"
+        options={[]}
+        defaultOpen
+        error="Could not load items"
+        onRetry={retry}
+      />,
+    );
+    expect(document.querySelector('[role="alert"]')?.textContent).toBe('Could not load items');
+    const button = Array.from(document.querySelectorAll('button')).find(
+      (button) => button.textContent === 'Try again',
+    )!;
+    await act(async () => {
+      button.click();
+    });
+    expect(retry).toHaveBeenCalledTimes(1);
+    await rendered.rerender(
+      <Combobox label="Item" options={[]} defaultOpen emptyText="No matching items" />,
+    );
+    expect(document.body.textContent).toContain('No matching items');
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('returns focus to the input when the final page removes its paging button', async () => {
+    const rendered = await render(
+      <Combobox label="Item" options={OPTIONS} defaultOpen hasMore onLoadMore={() => {}} />,
+    );
+    const more = Array.from(document.querySelectorAll('button')).find(
+      (button) => button.textContent === 'Load more results',
+    )!;
+    await act(async () => more.focus());
+    await rendered.rerender(<Combobox label="Item" options={OPTIONS} defaultOpen />);
+    expect(document.activeElement).toBe(rendered.container.querySelector('input'));
+    await cleanup(rendered.root, rendered.container);
+  });
 });

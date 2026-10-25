@@ -10,7 +10,10 @@
   "cwd": ".",
   "timeoutMs": 900000,
   "inputs": [
-    "apps/docs",
+    "apps/docs/app", "apps/docs/features", "apps/docs/lib", "apps/docs/e2e",
+    "apps/docs/scripts", "apps/docs/public", "apps/docs/mdx-components.tsx",
+    "apps/docs/package.json", "apps/docs/next.config.ts", "apps/docs/playwright.config.ts",
+    "apps/docs/postcss.config.js", "apps/docs/tsconfig.json", "pnpm-lock.yaml", "pnpm-workspace.yaml",
     "packages/ui",
     "packages/tokens",
     "packages/data-table"

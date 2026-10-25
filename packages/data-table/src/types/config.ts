@@ -3,7 +3,14 @@
 // These make the API more discoverable and reduce prop sprawl.
 
 import type { ReactNode } from 'react';
-import type { CursorPagination, Density, FilterState, MultiSortState, PinPosition } from './core';
+import type {
+  CursorPagination,
+  Density,
+  FilterState,
+  MultiSortState,
+  PaginationState,
+  PinPosition,
+} from './core';
 import type { Column } from './column';
 import type { ActionTone, BulkAction, EditActivationMode } from './features';
 
@@ -236,6 +243,14 @@ export interface PaginationConfig {
    */
   mode?: 'offset' | 'cursor' | 'none';
 
+  /**
+   * Treat the supplied rows as one server-owned page.
+   * Disables client-side filtering, sorting, and offset slicing while retaining
+   * numbered offset pagination. Cursor mode is always remote.
+   * @default false
+   */
+  remote?: boolean;
+
   /** Cursor controls. Required when mode is "cursor". */
   cursor?: CursorPagination;
 
@@ -262,6 +277,12 @@ export interface PaginationConfig {
    * @default true
    */
   showPageInfo?: boolean;
+
+  /**
+   * Number of page siblings shown on each side of the current page on wider surfaces.
+   * @default 1
+   */
+  siblingCount?: number;
 }
 
 // ─── EDITING CONFIG ───────────────────────────────────────────────────────────
@@ -480,6 +501,9 @@ export interface CallbacksConfig<T> {
   /** Called when search text changes */
   onSearchChange?: (value: string) => void;
 
+  /** Called when the page or page size changes */
+  onPaginationChange?: (page: number, pageSize: number) => void;
+
   /** Called when column pin state changes */
   onColumnPinChange?: (columnKey: string, position: PinPosition) => void;
 
@@ -565,6 +589,9 @@ export interface ControlledStateConfig {
 
   /** Controlled hidden column keys */
   hiddenColumnKeys?: string[];
+
+  /** Controlled one-indexed page and page size */
+  pagination?: PaginationState;
 }
 
 // ─── PRESETS ──────────────────────────────────────────────────────────────────
@@ -599,6 +626,7 @@ export function getPresetConfig(preset: DataTablePreset): {
           columnResize: false,
           columnPinning: false,
           columnReorder: false,
+          columnVisibility: false,
           keyboard: true,
         },
         styling: {
@@ -721,6 +749,8 @@ export function getPresetConfig(preset: DataTablePreset): {
           search: false,
           columnResize: false,
           columnPinning: false,
+          columnReorder: false,
+          columnVisibility: false,
           keyboard: true,
         },
         styling: {

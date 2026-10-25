@@ -1,0 +1,28 @@
+id: ui.data-table.behavior
+title: Verify DataTable behavior
+description: Run the DataTable package's focused behavioral suite.
+category: quality-check
+scope: [workspace]
+command: pnpm --filter @unisane/data-table test
+cwd: .
+timeoutMs: 180000
+inputs: [packages/data-table, packages/ui, packages/tokens]
+outputs: []
+affects: []
+capabilities:
+  process: required
+  network: none
+  browser: none
+  tools: []
+  secrets: []
+  services: []
+effects: {workspace: none, artifacts: none, external: none}
+concurrency: shared
+workspaceMode: overlay-safe
+safety: read-only
+requiresApproval: false
+whenToUse: Verify changes to the shared DataTable without testing unrelated packages.
+phases: [stabilization, closure]
+risks: [light, standard, high-impact]
+recommendedAfter: []
+owner: ui-maintainers

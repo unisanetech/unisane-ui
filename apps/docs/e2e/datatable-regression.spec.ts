@@ -61,11 +61,18 @@ test.describe('datatable regression fixtures', () => {
     }
 
     await tableScrollContainer.hover();
+    const wheelFinished = pageScrollOwner.evaluate(
+      (node: HTMLDivElement) =>
+        new Promise<void>((resolve) => {
+          node.addEventListener('scrollend', () => resolve(), { once: true });
+        }),
+    );
     await page.mouse.wheel(0, 420);
 
     await expect
       .poll(async () => pageScrollOwner.evaluate((node: HTMLDivElement) => node.scrollTop))
       .toBeGreaterThan(300);
+    await wheelFinished;
     expect(await tableScrollContainer.evaluate((node: HTMLDivElement) => node.scrollTop)).toBe(0);
 
     await pageScrollOwner.evaluate((node: HTMLDivElement) => {

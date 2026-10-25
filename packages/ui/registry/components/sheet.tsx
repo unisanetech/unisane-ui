@@ -99,7 +99,9 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
 
     useScrollLock(isOpen);
     useOverlayBehavior({
-      open: isOpen,
+      // A controlled open first schedules the deferred panel mount. Register
+      // only once its refs exist, including on subsequent closed-to-open cycles.
+      open: isOpen && shouldRender,
       contentRef: panelRef,
       rootRef: overlayRootRef,
       onDismiss: () => setIsOpen(false),

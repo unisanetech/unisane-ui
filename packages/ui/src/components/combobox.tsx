@@ -10,6 +10,7 @@ import { useControllableState } from '../lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '../lib/field-shell';
 import { getPortalLayerStyle } from '../lib/portal-layer';
 import { Ripple } from './ripple';
+import { Button } from './button';
 import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 
 export type ComboboxOption = {
@@ -28,6 +29,14 @@ export type ComboboxProps = {
   onSearchChange?: (query: string) => void;
   highlightSelected?: boolean;
   options: ComboboxOption[];
+  /** Disable local label filtering for server-filtered results. */
+  filterOptions?: boolean;
+  loading?: boolean;
+  error?: string;
+  onRetry?: () => void;
+  hasMore?: boolean;
+  onLoadMore?: () => void;
+  emptyText?: string;
   placeholder?: string;
   label?: string;
   size?: FieldSize;
@@ -49,6 +58,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       onSearchChange,
       highlightSelected = true,
       options,
+      filterOptions = true,
+      loading = false,
+      error,
+      onRetry,
+      hasMore = false,
+      onLoadMore,
+      emptyText = 'No results found',
       placeholder = 'Search or select...',
       label,
       size = 'md',
@@ -65,6 +81,16 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     const comboboxRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
+    const footerActionRef = useRef<HTMLButtonElement | null>(null);
+    const setFooterActionRef = useCallback((node: HTMLButtonElement | null) => {
+      // The last result page removes the paging action. Keep keyboard users
+      // in the picker rather than leaving focus on document.body.
+      if (!node && footerActionRef.current === document.activeElement) {
+        (inputRef.current ??
+          comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]'))?.focus();
+      }
+      footerActionRef.current = node;
+    }, []);
     const blurTimeoutRef = useRef<number | null>(null);
     const fieldSize = getFieldSizeStyles(size);
     const listboxId = useId();
@@ -123,9 +149,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
 
     const selectedOption = options.find((option) => option.value === selectedValue);
 
-    const filteredOptions = options.filter((option) =>
-      option.label.toLowerCase().includes(searchValue.toLowerCase()),
-    );
+    const filteredOptions = filterOptions
+      ? options.filter((option) => option.label.toLowerCase().includes(searchValue.toLowerCase()))
+      : options;
 
     const updateDropdownPosition = useCallback(() => {
       if (!comboboxRef.current || typeof window === 'undefined') return;
@@ -228,7 +254,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         clearTimeout(blurTimeoutRef.current);
       }
       blurTimeoutRef.current = window.setTimeout(() => {
-        if (!comboboxRef.current?.contains(document.activeElement)) {
+        if (
+          !comboboxRef.current?.contains(document.activeElement) &&
+          !dropdownRef.current?.contains(document.activeElement)
+        ) {
           setOpenState(false);
           setIsSearching(false);
           setSearchValue('');
@@ -242,6 +271,17 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         if (disabled) return;
 
         switch (event.key) {
+          case 'Tab': {
+            const action =
+              dropdownRef.current?.querySelector<HTMLButtonElement>('button:not(:disabled)');
+            if (isOpen && !event.shiftKey && action) {
+              event.preventDefault();
+              action.focus();
+            } else {
+              setOpenState(false);
+            }
+            break;
+          }
           case 'ArrowDown':
             event.preventDefault();
             if (!isOpen) {
@@ -346,7 +386,8 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
                   onChange={(event) => handleInputChange(event.target.value)}
                   onKeyDown={handleKeyDown}
-                  onFocus={() => {
+                  onFocus={(event) => {
+                    if (dropdownRef.current?.contains(event.relatedTarget as Node | null)) return;
                     if (!disabled) {
                       setOpenState(true);
                       setIsSearching(true);
@@ -437,11 +478,15 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                       }
                     : undefined
                 }
-                role="listbox"
-                id={listboxId}
-                aria-label={label || 'Options'}
+                onBlur={handleBlur}
               >
-                <div className="py-1">
+                <div
+                  className="py-1"
+                  role="listbox"
+                  id={listboxId}
+                  aria-label={label || 'Options'}
+                  aria-busy={loading}
+                >
                   {filteredOptions.length > 0 ? (
                     filteredOptions.map((option, index) => (
                       <div
@@ -474,7 +519,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         )}
                       </div>
                     ))
-                  ) : (
+                  ) : !loading && !error ? (
                     <div
                       className={cn(
                         'text-on-surface-variant font-medium',
@@ -483,10 +528,52 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         fieldSize.optionPaddingX,
                       )}
                     >
-                      No results found
+                      {emptyText}
                     </div>
-                  )}
+                  ) : null}
                 </div>
+                {(loading || error || (hasMore && onLoadMore)) && (
+                  <div
+                    className={cn('border-outline-soft border-t py-2', fieldSize.optionPaddingX)}
+                  >
+                    {loading && (
+                      <p role="status" className="text-on-surface-variant text-label-medium">
+                        Loading results…
+                      </p>
+                    )}
+                    {error && (
+                      <p role="alert" className="text-error text-label-medium">
+                        {error}
+                      </p>
+                    )}
+                    {((error && onRetry) || (!error && hasMore && onLoadMore)) && (
+                      <Button
+                        ref={setFooterActionRef}
+                        type="button"
+                        variant="text"
+                        size={size}
+                        aria-disabled={loading || undefined}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Tab') {
+                            if (event.shiftKey) event.preventDefault();
+                            (
+                              inputRef.current ??
+                              comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]')
+                            )?.focus();
+                            // Resume the form's tab order from the trigger, not
+                            // the portal at the end of document.body.
+                            if (!event.shiftKey) setOpenState(false);
+                          }
+                        }}
+                        onClick={() => {
+                          if (!loading) (error ? onRetry : onLoadMore)?.();
+                        }}
+                      >
+                        {error ? 'Try again' : 'Load more results'}
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             );
 

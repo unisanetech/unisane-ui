@@ -26,6 +26,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
     {
       children,
       className,
+      style,
       'aria-label': ariaLabel,
       'aria-rowcount': rowCount,
       'aria-colcount': colCount,
@@ -41,6 +42,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
       aria-colcount={colCount}
       className={cn('w-full table-fixed border-separate border-spacing-0', className)}
       {...props}
+      style={{ borderSpacing: 0, ...style }}
     >
       {children}
     </table>

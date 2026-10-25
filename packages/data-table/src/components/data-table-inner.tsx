@@ -128,6 +128,14 @@ export interface DataTableInnerProps<T extends { id: string }> {
   onRowReorder?: (fromIndex: number, toIndex: number, newOrder: string[]) => void;
   /** Cursor pagination controls for remote data */
   cursorPagination?: CursorPagination;
+  /** Available offset/cursor page size options */
+  pageSizeOptions?: number[];
+  /** Show the page-size selector on wider surfaces */
+  showPageSizeSelector?: boolean;
+  /** Show the exact result range and total on wider surfaces */
+  showPageInfo?: boolean;
+  /** Number of page siblings rendered around the current page */
+  paginationSiblingCount?: number;
 }
 
 // ─── INNER COMPONENT ───────────────────────────────────────────────────────
@@ -171,6 +179,10 @@ export function DataTableInner<T extends { id: string }>({
   reorderableRows = false,
   onRowReorder,
   cursorPagination,
+  pageSizeOptions,
+  showPageSizeSelector = true,
+  showPageInfo = true,
+  paginationSiblingCount = 1,
 }: DataTableInnerProps<T>) {
   // Context hooks
   const {
@@ -343,27 +355,33 @@ export function DataTableInner<T extends { id: string }>({
     setPageSize,
   ]);
 
-  // Sync page state when filtering reduces data below current page
+  // Sync page state when filtering or a changed remote total invalidates the current page.
   // Use a ref to track if we're already adjusting to avoid dependency on `page`
   const isAdjustingPageRef = useRef(false);
   useEffect(() => {
-    if (
-      config.paginationMode === 'none' ||
-      config.paginationMode === 'cursor' ||
-      config.mode === 'remote'
-    ) {
-      return; // Skip for no-pagination/cursor/remote modes
+    if (config.paginationMode === 'none' || config.paginationMode === 'cursor') {
+      return;
     }
     if (isAdjustingPageRef.current) {
       isAdjustingPageRef.current = false;
       return;
     }
-    const totalPages = getTotalPages(processedData.length, pageSize);
+    const itemCount =
+      config.mode === 'remote' ? (totalItems ?? processedData.length) : processedData.length;
+    const totalPages = getTotalPages(itemCount, pageSize);
     if (totalPages > 0 && page > totalPages) {
       isAdjustingPageRef.current = true;
       setPage(totalPages);
     }
-  }, [processedData.length, pageSize, page, setPage, config.paginationMode, config.mode]);
+  }, [
+    processedData.length,
+    pageSize,
+    page,
+    setPage,
+    config.paginationMode,
+    config.mode,
+    totalItems,
+  ]);
 
   // ─── ROW DRAG-TO-REORDER ─────────────────────────────────────────────────────
 
@@ -647,16 +665,34 @@ export function DataTableInner<T extends { id: string }>({
     if (isLoading) return t('loading');
     if (paginatedData.length === 0) return t('noResults');
     const selectedCount = selectedRows.size;
-    const rangeInfo = t('rangeOfTotal', {
-      start: formatNumber(1),
-      end: formatNumber(paginatedData.length),
-      total: formatNumber(processedData.length),
-    });
+    const cursorPage = cursorPagination?.pageIndex ?? 1;
+    const cursorLimit = cursorPagination?.limit ?? paginatedData.length;
+    const cursorStart = (cursorPage - 1) * cursorLimit + 1;
+    // With pagination owned by the caller, this table knows only its displayed
+    // rows. Do not announce them as the total matching remote dataset.
+    const rangeInfo = config.paginationMode === 'none'
+      ? t('itemCount', { count: formatNumber(paginatedData.length) })
+      : cursorPagination
+      ? `${formatNumber(cursorStart)}–${formatNumber(cursorStart + paginatedData.length - 1)}`
+      : t('rangeOfTotal', {
+          start: formatNumber(1),
+          end: formatNumber(paginatedData.length),
+          total: formatNumber(processedData.length),
+        });
     if (selectedCount > 0) {
       return `${t('selectedCount', { count: selectedCount })}. ${rangeInfo}`;
     }
     return rangeInfo;
-  }, [isLoading, paginatedData.length, processedData.length, selectedRows.size, t, formatNumber]);
+  }, [
+    config.paginationMode,
+    cursorPagination,
+    isLoading,
+    paginatedData.length,
+    processedData.length,
+    selectedRows.size,
+    t,
+    formatNumber,
+  ]);
 
   // ─── RENDER ───────────────────────────────────────────────────────────────
 
@@ -1095,9 +1131,15 @@ export function DataTableInner<T extends { id: string }>({
         {/* Pagination controls - only render when pagination is enabled */}
         {config.paginationMode !== 'none' && (
           <DataTablePagination
-            totalItems={totalItems}
+            totalItems={
+              config.paginationMode === 'cursor' ? totalItems : (totalItems ?? processedData.length)
+            }
             currentCount={paginatedData.length}
             mode={config.paginationMode}
+            pageSizeOptions={pageSizeOptions}
+            showPageSizeSelector={showPageSizeSelector}
+            showPageInfo={showPageInfo}
+            siblingCount={paginationSiblingCount}
             cursor={
               cursorPagination
                 ? {

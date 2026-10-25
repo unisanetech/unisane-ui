@@ -41,6 +41,80 @@ describe('TextField', () => {
 
   afterEach(() => {
     document.body.innerHTML = '';
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it('remeasures automatic multiline height when fonts settle and cleans up the observer', async () => {
+    let settleFonts!: () => void;
+    const fonts = Object.assign(new EventTarget(), {
+      ready: new Promise<void>((resolve) => {
+        settleFonts = resolve;
+      }),
+    });
+    const priorFonts = Object.getOwnPropertyDescriptor(document, 'fonts');
+    Object.defineProperty(document, 'fonts', { configurable: true, value: fonts });
+    const disconnect = vi.spyOn(ResizeObserver.prototype, 'disconnect');
+    const rendered = await render(
+      <TextField autoResize label="Notes" multiline defaultValue="A saved note" />,
+    );
+    const field = rendered.container.querySelector('textarea')!;
+    Object.defineProperty(field, 'clientWidth', { configurable: true, value: 295 });
+    let height = 136;
+    Object.defineProperty(field, 'scrollHeight', { configurable: true, get: () => height });
+    try {
+      await act(async () => {
+        settleFonts();
+        await fonts.ready;
+      });
+      expect(field.style.height).toBe('136px');
+      height = 160;
+      fonts.dispatchEvent(new Event('loadingdone'));
+      expect(field.style.height).toBe('160px');
+      await cleanup(rendered.root, rendered.container);
+      expect(disconnect).toHaveBeenCalled();
+      height = 200;
+      fonts.dispatchEvent(new Event('loadingdone'));
+      expect(field.style.height).toBe('160px');
+    } finally {
+      if (priorFonts) Object.defineProperty(document, 'fonts', priorFonts);
+      else Reflect.deleteProperty(document, 'fonts');
+    }
+  });
+
+  it('remeasures a hidden automatic field when it returns at the same visible width', async () => {
+    let observeResize: (() => void) | undefined;
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          observeResize = callback;
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    const rendered = await render(
+      <TextField autoResize label="Notes" multiline defaultValue="A saved note" />,
+    );
+    const field = rendered.container.querySelector('textarea')!;
+    let width = 295,
+      height = 136;
+    Object.defineProperty(field, 'clientWidth', { configurable: true, get: () => width });
+    Object.defineProperty(field, 'scrollHeight', { configurable: true, get: () => height });
+    try {
+      observeResize?.();
+      expect(field.style.height).toBe('136px');
+      width = 0;
+      observeResize?.();
+      expect(field.style.height).toBe('136px');
+      height = 160;
+      width = 295;
+      observeResize?.();
+      expect(field.style.height).toBe('160px');
+    } finally {
+      await cleanup(rendered.root, rendered.container);
+    }
   });
 
   it('associates the label and floats it for focus and value state', async () => {

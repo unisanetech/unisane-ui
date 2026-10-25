@@ -123,7 +123,33 @@ export const TextField = React.forwardRef<TextFieldControl, TextFieldProps>(
 
     React.useLayoutEffect(() => {
       if (!multiline || !autoResize) return;
-      resizeTextarea(internalRef.current, autoResizeMaxHeight);
+      const field = internalRef.current;
+      if (!(field instanceof HTMLTextAreaElement)) return;
+      resizeTextarea(field, autoResizeMaxHeight);
+      let active = true;
+      let width = field.clientWidth;
+      const resizeVisible = () => {
+        if (active && field.clientWidth > 0) resizeTextarea(field, autoResizeMaxHeight);
+      };
+      const observer =
+        typeof ResizeObserver === 'undefined'
+          ? undefined
+          : new ResizeObserver(() => {
+              if (field.clientWidth !== width) {
+                width = field.clientWidth;
+                resizeVisible();
+              }
+            });
+      observer?.observe(field);
+      // Initial hydration can precede web-font metrics; a hidden panel can also
+      // become visible at a different width without changing its text value.
+      void document.fonts?.ready.then(resizeVisible);
+      document.fonts?.addEventListener('loadingdone', resizeVisible);
+      return () => {
+        active = false;
+        observer?.disconnect();
+        document.fonts?.removeEventListener('loadingdone', resizeVisible);
+      };
     }, [autoResize, autoResizeMaxHeight, currentValue, multiline]);
 
     function handleValueChange(nextValue: string) {

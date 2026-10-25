@@ -30,6 +30,7 @@ import {
   DENSITY_ICON_TEXT_STYLES,
   DENSITY_STYLES,
   DENSITY_UTILITY_COLUMN_WIDTHS,
+  ROW_HEIGHT_BASE,
   type Density,
   createCellId,
 } from '../constants/index';
@@ -250,7 +251,9 @@ function DataTableRowInner<T extends { id: string }>({
           // Drop target highlight
           isDropTarget && 'bg-state-selected',
         )}
-        style={style}
+        // A table-row height is a minimum: wrapped content can still grow. Keep
+        // non-virtual rows on the same density baseline as headers/virtual rows.
+        style={{ height: ROW_HEIGHT_BASE[density], ...style }}
         data-index={dataIndex}
         aria-selected={isSelected || isFocused}
         aria-rowindex={rowIndex + 2}

@@ -26,7 +26,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm exec next build && pnpm exec next start --hostname 127.0.0.1 --port 3101',
+    command: 'pnpm exec next build && node scripts/serve-static-fixtures.mjs',
     url: 'http://127.0.0.1:3101/test-fixtures/visual-regression',
     env: {
       ...process.env,
