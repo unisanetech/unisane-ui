@@ -43,7 +43,7 @@
       "path": ".github/workflows/publish-packages.yml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "1276068a17f186497f1887f1ed6f6c8ad6e12df4c7c0be41b1d26901039c3ef5"
+      "sha256": "ccca34c3d5d3c7980e49ad7a913be03dff71920ef2b628f3ad8e10dc48e18ed1"
     },
     {
       "path": ".gitignore",
