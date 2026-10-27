@@ -95,8 +95,18 @@ jobs:
 
       - name: Publish public packages in dependency order
         shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
+          if test -z "${NODE_AUTH_TOKEN:-}"; then
+            echo "NPM_TOKEN is required for the approved token publishing route." >&2
+            exit 1
+          fi
+          export NPM_CONFIG_USERCONFIG="$RUNNER_TEMP/npm-publish.npmrc"
+          printf '%s\n' '//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}' > "$NPM_CONFIG_USERCONFIG"
+          chmod 600 "$NPM_CONFIG_USERCONFIG"
+          trap 'rm -f "$NPM_CONFIG_USERCONFIG"' EXIT
           for package in \
             @unisane/tokens \
             @unisane/ui \
