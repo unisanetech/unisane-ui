@@ -1,10 +1,10 @@
-name: Publish UI packages
+name: Stage UI packages for approval
 
 on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: Type publish-next to publish the exact package versions on main
+        description: Type stage-next to stage the exact package versions on main for npm owner approval
         required: true
         type: string
 
@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'publish-next'
+    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'stage-next'
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -40,6 +40,9 @@ jobs:
 
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Install staging-capable npm CLI
+        run: npm install --global npm@11.15.0 --registry=https://registry.npmjs.org/ --ignore-scripts
 
       - name: Verify repository-owned source and package contents
         run: pnpm verify
@@ -93,7 +96,7 @@ jobs:
             rm "$error_file"
           done
 
-      - name: Publish public packages in dependency order
+      - name: Stage verified packages in dependency order
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -124,9 +127,18 @@ jobs:
               if (integrity !== artifact.integrity) throw new Error("Verified artifact changed");
               console.log(file);
             ' "$package")"
-            npm publish "$archive" \
+            npm stage publish "$archive" \
               --registry=https://registry.npmjs.org/ \
               --access public \
               --tag next \
-              --provenance
+              --provenance | tee ".tmp/release/${package#@unisane/}-stage.txt"
           done
+          printf '%s\n' '### npm approval required' 'Verified packages are staged, not published. Approve tokens, UI, data-table, then email-templates in the npm Staged Packages page using your own 2FA.' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Preserve verified archives and staging receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-staged-release
+          path: .tmp/release
+          retention-days: 30
