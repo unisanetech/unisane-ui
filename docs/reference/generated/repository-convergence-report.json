@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1060,
+  "fileCount": 1080,
   "dispositionCounts": {
-    "retain": 944,
+    "retain": 964,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -406,6 +406,12 @@
       "sha256": "767d574b02d9e6558fde7ace75f15e3ee0f0365d1191826e7d6761cb01d6cb3c"
     },
     {
+      "path": "apps/docs/app/(test)/test-fixtures/modal-pickers/page.tsx",
+      "disposition": "retain",
+      "owner": "@unisane/ui-docs",
+      "sha256": "d1f7b031763ab58c9ec93eb3e624242155ec07e51b760cb020909d23c8ba36b1"
+    },
+    {
       "path": "apps/docs/app/(test)/test-fixtures/outline-colors/page.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
@@ -439,7 +445,7 @@
       "path": "apps/docs/e2e/datatable-regression.spec.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "400ef088a7170e3578d803e40b491ca2cf7cf98bca52e427b2cf260e9e06c9f5"
+      "sha256": "05bd666c3c53b3a728b7c90ea83633951360beea37adb5ad59014c91cf1d866f"
     },
     {
       "path": "apps/docs/e2e/layout-regression.spec.ts",
@@ -448,10 +454,16 @@
       "sha256": "00b99d90ee66a2cf2a9966549f27e5a39d3841c19c1c18c16906397a7766e63f"
     },
     {
+      "path": "apps/docs/e2e/modal-pickers.spec.ts",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "d15741cfbb75e901761b2f1ef02dce0ff1a6c9e62ad01cdd9e55dbd820a20c3a"
+    },
+    {
       "path": "apps/docs/e2e/visual-regression.spec.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "6b5d3fc6ff516f622dce1d11161bc847f07b384a304d28c7ae70350fcf58c2d6"
+      "sha256": "8729befdc96dc3aeb93b8e968c4d4ace3042033b7b768af19aec09823b8ec33b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-border-semantics-chromium-darwin.png",
@@ -547,13 +559,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "15463a57d6c12813badf955f17f110e5ae1b83fe88f2e83e7c6a43416665e522"
+      "sha256": "12db92b6fd6b2feda105b7c36993eba162e5aa634024468edb258af1f5f25fbd"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "0f6dd68914f232358d7f4885f4a996eb85de691e84043d2e9a043b3c87e227fc"
+      "sha256": "c0f118546e3818a20c98eedd94133a23f49eb50715bb5fd15e36844321feb75a"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-leaf-icon-typography-chromium-darwin.png",
@@ -649,13 +661,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e06c47363a300d7fe9d59f3890eb1f595e1afaf0e3b45fecf56d0115e17eca54"
+      "sha256": "e669df20ac2d0e5201579987f5d6b3632cb11814dea0eff7a08691667ffede35"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "b13cc91d59aa0faa0fe24039f59f3e7b4746e5787c7212e3770afadfc052e3f4"
+      "sha256": "832ea9753aafced91f5a2e4300e77504793ae60570dab34cc399c9d27787711c"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-toast-feedback-chromium-darwin.png",
@@ -763,13 +775,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "1c84c100d4d3fcf5bcc5b68025079b7709ea1d3baaa30882e4301828a5b43869"
+      "sha256": "6ff5796f1feafae72596aec8af5841181cb700ddddd52a9461f6d2b710dbaccb"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "3868beb66626c0759ac8b0dbcdfc54ac54dbfa1794cf51cdf861e0a6cfad2219"
+      "sha256": "825662609b06a0a3ea108d01aa032abd93cbc491c27cd7210d12779ab333eb66"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-leaf-icon-typography-chromium-darwin.png",
@@ -793,7 +805,7 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-navigation-presentations-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "62e8d683c0baa49f3151037441c418841d5f8fbbfd41c0043fd5c0f6864c518e"
+      "sha256": "2c7dbf99899b2c334b9b7c5b1d4cd611cb2d475c5359f5a28881b2ab0cf019bf"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-navigation-presentations-mobile-chrome-darwin.png",
@@ -865,13 +877,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f276b7db08924a9026c2b970997681f4d510b6cad3e04de81369ebca83dad666"
+      "sha256": "3692b19cbae1cf2b66ee302305f1d5a67445c99f457aa12cc2b6155513a547bb"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "fc8c2481cfd1b35cf32080514c6aea99089876015893fe5f6728ffff75d3d612"
+      "sha256": "872975fa8b3a018a748f2b0ea5953383e245088e0d564faad5c7e4271a514b09"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-toast-feedback-chromium-darwin.png",
@@ -979,13 +991,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "62dbe79c6826e617e090f844b82baa09c240a2a5542e48e51f465900f90a0eb4"
+      "sha256": "18ceb8a0d18afa7425880cdc875d47291ea63a96b175b9e8be2f590e1e32b1f6"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "76bbbb497b62909f47f1fa5ccfdacde94054f522794d8711fbe3f3bdf5b77ddf"
+      "sha256": "2fd4087dae40367d9f04db6feb3ec1707de9d4b54b5d2a7105066205ef4b0146"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-leaf-icon-typography-chromium-darwin.png",
@@ -1081,13 +1093,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "08bcc407a73c0529f6d8b005173b351a34b2791b9d894c24b353a1eb47506379"
+      "sha256": "c128b19fb424e4ccca7f3a2be49c3390380b0679dcb63b87dc5f91b5166f140b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e521daccbb2cf544fdd6bef3c85b702c41076f060579d1142648ae71303fbb14"
+      "sha256": "546673f194edd36cd57f21e69703c0d6308536d424b7a2faab617c564d140b35"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-toast-feedback-chromium-darwin.png",
@@ -2083,7 +2095,7 @@
       "path": "apps/docs/playwright.config.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "178702651f7e08444c817ff9da45e9b67636c64dc3c91c88c0c4dd5bff592edb"
+      "sha256": "a8c3e8be31191e851d62660c7d0647c1e1fff84c2ecd83ee612404f85527bfe8"
     },
     {
       "path": "apps/docs/postcss.config.js",
@@ -2168,6 +2180,12 @@
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
       "sha256": "e5fb708c7d89ee3d39f5a0bac726e4f16005c253bc99a0a2af5af624335cc46c"
+    },
+    {
+      "path": "apps/docs/scripts/serve-static-fixtures.mjs",
+      "disposition": "retain",
+      "owner": "@unisane/ui-docs",
+      "sha256": "ff02ce1e6469e58310e504041a805d45381dee819244861454375e512ab43f3f"
     },
     {
       "path": "apps/docs/tsconfig.json",
@@ -2467,7 +2485,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "46bb8edb17883736e9fe4224eab446cb304ed8d4be96c627413bab2b2e053aaa"
+      "sha256": "2ecca7f88d1fef3522a62e0974f1e1dc8d3277a2d591f76e2a5286a538eb939c"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2479,13 +2497,13 @@
       "path": "docs/standards/component-authoring.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "952f8150418f075544948f3f31bd616ea642a0e3cdd61ea616178bc55b944930"
+      "sha256": "afb12b77c737a3ca161d46a90e6623495da8a27a417549a1ec9a90e0c0a3efe5"
     },
     {
       "path": "docs/standards/testing-and-generated-artifacts.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "7178484b30c0b9bd5427524f69111871feef207da54ac6ae0d4fc4eb6d6ae158"
+      "sha256": "b4066c4cb3bb30adb5763fa1d1b60c8e6d43a0a9760ed8074fc1042d77b340e8"
     },
     {
       "path": "eslint.config.mjs",
@@ -2512,6 +2530,12 @@
       "sha256": "15da3e35c689dd3f0cb12749328475dbe65f0eb200ccf9561c1aa85970d7b683"
     },
     {
+      "path": "opencode.json",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "5a2847c19bd11fa60435232d4ac87e48051e801d967886edf85f304d35c81ca7"
+    },
+    {
       "path": "package.json",
       "disposition": "retain",
       "owner": "repository foundation",
@@ -2527,7 +2551,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "348321264183adaf7f823098ff0acad41c8c6ec4516ec4bf0d561f6a8b3abc63"
+      "sha256": "7c20c6965096ed24aa6432d28d0855613641aa69327630a7bb2041821664a9da"
     },
     {
       "path": "packages/data-table/README.md",
@@ -2575,13 +2599,13 @@
       "path": "packages/data-table/src/components/data-table-inner.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "4af828a434b7b6e6132e550535e67a77097c0832f2b47d22d037f117f34444b8"
+      "sha256": "62b9c45e8615b103ae3b5e4a3b08229322e5338f70774887f1c7323a0d1686d7"
     },
     {
       "path": "packages/data-table/src/components/data-table.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "fed81495e91d61cb98efa58bf4944ebefe89f13d5abd751a8b3862f7219cb7ea"
+      "sha256": "2ca5b1bb8a54bc26114d8d7a94c4372387e5700289b7f53a07d2777776ce99cb"
     },
     {
       "path": "packages/data-table/src/components/drag-handle.tsx",
@@ -2647,7 +2671,7 @@
       "path": "packages/data-table/src/components/header/page-sticky-header-overlay.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "7b2d008dd927dc74d6fdb75c5cdff4f69ad2d49b5de0ec77bc2b82b9e3ccc321"
+      "sha256": "dc1964fdc43d924ff44b10dfb810c3316e1fa4e3761d895cf4f26a7c2fb7cde3"
     },
     {
       "path": "packages/data-table/src/components/header/resize-handle.tsx",
@@ -2689,7 +2713,7 @@
       "path": "packages/data-table/src/components/pagination.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "57e84b677a00796f08df0b2522e6540a1cb04e41a6ef931817ce6975a2199f18"
+      "sha256": "b15ebbf4cff4a4f1d0f65daaf76d38ebe63d9c0670572f0991aa678c34f8189e"
     },
     {
       "path": "packages/data-table/src/components/row-context-menu.tsx",
@@ -2707,7 +2731,7 @@
       "path": "packages/data-table/src/components/row.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "72aa66ce159d0ec344041ec208cc138dbdfe769e96178f7fe2326f7846b6fe47"
+      "sha256": "50657b35f4062ec8d7a3b0f8f2a2be76ee11c53246fce0840eeeb25e1ac970c1"
     },
     {
       "path": "packages/data-table/src/components/skeleton-loading-state.tsx",
@@ -2731,7 +2755,7 @@
       "path": "packages/data-table/src/components/table.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "74cd630d567033b47ed582022c97bf0af9afe4ad119da457c79226997a32c925"
+      "sha256": "9b935d2cae94f16af0a8680f0cf8eae4b3ffbae3cb04bc95c2ae3addab79d8b2"
     },
     {
       "path": "packages/data-table/src/components/toolbar/buttons.tsx",
@@ -2863,7 +2887,7 @@
       "path": "packages/data-table/src/context/hooks/use-pagination.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "b9ccb75242a551374f34ce8ea12bb064fa5119d289dba1b7086eaf014e0fa522"
+      "sha256": "c9c929105a39d906635ff33534d9430d34d7a931419e5427a146df66eee161f2"
     },
     {
       "path": "packages/data-table/src/context/hooks/use-selection.ts",
@@ -2893,7 +2917,7 @@
       "path": "packages/data-table/src/context/provider.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "3c3030d669a4659d0890854fd73254c15dd04963e14f29b76f7cc48c95d7bc13"
+      "sha256": "a41b1bba70872f072459e8bd25d4fe79f8f55d3d3ece1a91c198212d5dc6915e"
     },
     {
       "path": "packages/data-table/src/context/reducer.ts",
@@ -2947,7 +2971,7 @@
       "path": "packages/data-table/src/context/types.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "29a17a20033dec794a951445eb2689765860e61d936133103a17c3d577f9c1e6"
+      "sha256": "3894cbd237ad7a13e2d8dd6a6152f893727b9d49cb95b8ca0bc98bd3bb2ee8be"
     },
     {
       "path": "packages/data-table/src/errors/aggregate-error.ts",
@@ -3265,7 +3289,7 @@
       "path": "packages/data-table/src/hooks/ui/use-keyboard-navigation.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "4f65e14eb92c18d664ca14486cc14f8f5b98fb8c4fbc0e6201234c4a637c18cc"
+      "sha256": "22d8ac29b23c3edd431ac0e0ace31c0c6bbd66e86119bd0a286a1ed4ffe188de"
     },
     {
       "path": "packages/data-table/src/hooks/ui/use-page-sticky-header.ts",
@@ -3385,7 +3409,7 @@
       "path": "packages/data-table/src/types/config.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "384fafedbfff255eb63ec67116a4bb0b0ca28626dbb51a40daf79409c2dcde8a"
+      "sha256": "58d9dee2c1daf72625e2baf4710113a5d0bde4fc50e2c87c0e44d215f775c266"
     },
     {
       "path": "packages/data-table/src/types/core.ts",
@@ -3547,7 +3571,7 @@
       "path": "packages/data-table/src/utils/type-guards.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "98a07971d37e6f512c9b8c35167463553cf8eb34b389b2de49e424f6971c193a"
+      "sha256": "0a0584495bee75e1db9e28b98955bf67d3e6d893efa1a6fc856f5c3489bfddc0"
     },
     {
       "path": "packages/data-table/src/utils/validation.ts",
@@ -3586,6 +3610,24 @@
       "sha256": "8811d34d54f216eae91b1428c30e88df7ff21afb31f14a60c59a33ce3e9fe925"
     },
     {
+      "path": "packages/data-table/tests/components/pagination.test.tsx",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "fd40eb8a011e68c6b33bf43b325fc5313191a39a4a0c7cfaf0b6c4ef51ac5745"
+    },
+    {
+      "path": "packages/data-table/tests/components/row-density.test.tsx",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "3aab04e423cb71b921a4873be7fbeef6cf78b3376d6cc3ad9e4e7c7d1932d18b"
+    },
+    {
+      "path": "packages/data-table/tests/components/status-announcement.test.tsx",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "bb3d34f9d6d38ec292ecbbc8262bda28cb35c459058af5d7f1f94e2728e4ab0a"
+    },
+    {
       "path": "packages/data-table/tests/components/virtualized-body.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
@@ -3595,7 +3637,7 @@
       "path": "packages/data-table/tests/context/hooks/use-pagination.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "b58393c3bb20c5eb2253badc8eebe5d20c2d226730d481d3eabadcf42ee0cf8b"
+      "sha256": "4172fcc154a2b0373894aadea64467fc1455d62d5daa7670a5cab144c955ec5f"
     },
     {
       "path": "packages/data-table/tests/context/provider-fanout.test.tsx",
@@ -3694,6 +3736,12 @@
       "sha256": "f87ef64d1b881e67268c819b2a31729b226b505a58293c2f47c7ef162f7bb2c1"
     },
     {
+      "path": "packages/data-table/tests/hooks/ui/use-keyboard-navigation.test.tsx",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "eb3c07b4e65205e4db71bfc1273be49d6f27b009d4ef56d24180494f08b6fca3"
+    },
+    {
       "path": "packages/data-table/tests/hooks/ui/use-row-drag.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
@@ -3787,7 +3835,7 @@
       "path": "packages/data-table/tests/utils/type-guards.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "5c5b6bf821cc61f355c99241f4d7032ab61afabd55fc82ea38278ea9c6545ec8"
+      "sha256": "a659f852113305c53e602da33ffa6b8f1d036a70585d3fc6d5b886117a6314d5"
     },
     {
       "path": "packages/data-table/tests/utils/validation.test.ts",
@@ -3835,7 +3883,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "efc84519298fddb22fc662fb47261fb986cbcdc02aa1c6ca36bd041b6c892f82"
+      "sha256": "d377b1c21bfcedf1e32bc4547c751b20ac66386b4a054d5bebc967c26ebac6e7"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -3985,7 +4033,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "51778416589714173d7141c0e410ae6da5636c59413763bdd0a4519af3b2c591"
+      "sha256": "8d4542669c31badca8db5b8cf5d9dc3146ff0c813f027ec217be794151ccb41b"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4381,7 +4429,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "e85a5109f41c658061073a4ef5ae7da7e6c0b68d92cfe2619662840220ed525a"
+      "sha256": "04cf8b009b208603c3496762b0f6e982724db416c32014fdb370bdb1f2684a04"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -4483,7 +4531,7 @@
       "path": "packages/ui/registry/components/combobox.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "3cbf6c2add8e28bdc30cc9cc09202775f1044328319c9482d4f6eeccbdd6bb4e"
+      "sha256": "287ff12fa3a19b6fd9cfa4dc6fa7605cdb16397269d7ec0a741eb22934ae3150"
     },
     {
       "path": "packages/ui/registry/components/command.tsx",
@@ -4519,7 +4567,7 @@
       "path": "packages/ui/registry/components/dialog.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "3b27aba178e7ac9ed08324addc74a4c1a78be544dc2f6bcacb348f9030b1c4d5"
+      "sha256": "f3a44eac7ca5a10a1243ddadefa89eea8949014ffdd46ba96d797af94ecf2d4a"
     },
     {
       "path": "packages/ui/registry/components/divider.tsx",
@@ -4537,7 +4585,7 @@
       "path": "packages/ui/registry/components/dropdown-menu.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "c51384cac34c5c3d4bfd67d7a24c8c8742a5fa18a4cabaeedd05957abe21ddf8"
+      "sha256": "deb3bb7e58e14d4f3a2d340d2ff7e17161d30c57411c87460675bca25c8341a4"
     },
     {
       "path": "packages/ui/registry/components/fab-menu.tsx",
@@ -4621,7 +4669,7 @@
       "path": "packages/ui/registry/components/popover.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "9f474e4ef6d5175fbe4e6f201822fdb11023ed7a3651c5a478a725234bffd694"
+      "sha256": "1e9387fa2bcb05238f779d9186cd0b906d8cdc2c45b04da99041a3540513957c"
     },
     {
       "path": "packages/ui/registry/components/progress.tsx",
@@ -4675,13 +4723,13 @@
       "path": "packages/ui/registry/components/select.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "f81f91df2448483086258cc450cd123467f92561fdc4b7c94d6e13b15f263905"
+      "sha256": "89b9cffdf5a8d3b0f414770849fca93e1e76a07da7bdc38b2430a6b5c2e55cdd"
     },
     {
       "path": "packages/ui/registry/components/sheet.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "9ca7f1e74fa400aff816cd2ab4b29dd2fe0864a121b12626d14423bd2a9e50c7"
+      "sha256": "226505115747b290c5e50374dfba9d5941ca48dee904dede1766dce702be197f"
     },
     {
       "path": "packages/ui/registry/components/sidebar/components/sidebar-drawer.tsx",
@@ -4783,7 +4831,7 @@
       "path": "packages/ui/registry/components/text-field.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "8e41429ed6e7bc4afdbd69ba630a44a2e2f67a825e3ea3430d04bf5ed92d3355"
+      "sha256": "c5fa1341fd28228741db989ca0fc17ccca931ac8dbac38ba09b65d04426c3dd9"
     },
     {
       "path": "packages/ui/registry/components/time-picker.tsx",
@@ -4921,7 +4969,7 @@
       "path": "packages/ui/registry/lib/portal-layer.ts",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "2b865386946d0a85ef6bcbf05e6973975e7ea63edc83a058856a73f6ad506b97"
+      "sha256": "2460aa6169bf66ba2f4cf65564443dd016ca577f4396f58832e3eb25d72f3498"
     },
     {
       "path": "packages/ui/registry/lib/selection-control-size.ts",
@@ -4957,7 +5005,7 @@
       "path": "packages/ui/registry/lib/use-overlay-behavior.ts",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "db13546f1f3cd3cfd300669f02907357de5b1cf16ebbc807adacce85edf8a03b"
+      "sha256": "780df6a85771c1a59785b839d70bdb4a52cc87ae0765f2f0c6c9ae8806637648"
     },
     {
       "path": "packages/ui/registry/lib/utils.ts",
@@ -5011,7 +5059,7 @@
       "path": "packages/ui/registry/registry.json",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "39aa2e6f62e4d4fcb0e9e4f6bb7ee0baab33bf4d323125544d147864bbb4d498"
+      "sha256": "b5b6bb62d4e813a2afbd923b8d320f21478e75e5dc4e5d6bf2daabc0088eb5fe"
     },
     {
       "path": "packages/ui/registry/styles/globals.css",
@@ -5233,7 +5281,7 @@
       "path": "packages/ui/src/components/combobox.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "8817ec9a5f92c8831e2e8a44e27c3912f7099b58a70568baa46b4ece803e6734"
+      "sha256": "708f813ca3120d1524b6037605ee8c854115811d6fb86d652a40ad0160acc2dd"
     },
     {
       "path": "packages/ui/src/components/command.tsx",
@@ -5269,7 +5317,7 @@
       "path": "packages/ui/src/components/dialog.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "957890d4fdf34b89544c2886b55b46133714320e218f02b756dffc91d14f0b1b"
+      "sha256": "de6c2eb05162ea70e9c3e497165a10e6c603d926ac0456f0fa3bdae901e9cba9"
     },
     {
       "path": "packages/ui/src/components/divider.tsx",
@@ -5287,7 +5335,7 @@
       "path": "packages/ui/src/components/dropdown-menu.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "fa543da0b98fef3aea19952d16ef143058dbd9653675f5411140d55e6b18894d"
+      "sha256": "e0690d3987e50db62948f19af93839aa2bdc3c709afceb9f4bcccdaf1f72dac2"
     },
     {
       "path": "packages/ui/src/components/fab-menu.tsx",
@@ -5371,7 +5419,7 @@
       "path": "packages/ui/src/components/popover.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "197ba81648955d5771c6f62d5468a2b4748e69c511969f1a6debc60270e5d4dc"
+      "sha256": "e49fbeb1b4d47cd596ce4388cdd26ed21c127ab59d9ee7c0f0e2dfa7b656fbfc"
     },
     {
       "path": "packages/ui/src/components/progress.tsx",
@@ -5425,13 +5473,13 @@
       "path": "packages/ui/src/components/select.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "a76dbcfd9de27f0eaf44b84339a250ec01f8d57e67cf205051a2d7ece3d6c1ff"
+      "sha256": "e690be9060bac3e9d8689480e3c6eb5ae1e227e77d02cc15d9d6dee3dd337f03"
     },
     {
       "path": "packages/ui/src/components/sheet.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "e3fbeb919843e7c99d1e6e20752e4392e87ab6f1aee503fce068e4dc2654c170"
+      "sha256": "f3cf00840fc6ed429ae43c633dd5a05f0856dae25e4386a95f17e1283331fe12"
     },
     {
       "path": "packages/ui/src/components/sidebar/components/sidebar-drawer.tsx",
@@ -5533,7 +5581,7 @@
       "path": "packages/ui/src/components/text-field.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "4769a02cb7495b0ca4e62477966aa415a0c959a5afd9ef38aeb36be9e8066f44"
+      "sha256": "ad3b4791f2aca13ad68d1a56d2ec041cbd1054dc8effad7924b9f2aea5a3b7b8"
     },
     {
       "path": "packages/ui/src/components/time-picker.tsx",
@@ -5677,7 +5725,7 @@
       "path": "packages/ui/src/lib/portal-layer.ts",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "2b865386946d0a85ef6bcbf05e6973975e7ea63edc83a058856a73f6ad506b97"
+      "sha256": "2460aa6169bf66ba2f4cf65564443dd016ca577f4396f58832e3eb25d72f3498"
     },
     {
       "path": "packages/ui/src/lib/selection-control-size.ts",
@@ -5713,7 +5761,7 @@
       "path": "packages/ui/src/lib/use-overlay-behavior.ts",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "db13546f1f3cd3cfd300669f02907357de5b1cf16ebbc807adacce85edf8a03b"
+      "sha256": "780df6a85771c1a59785b839d70bdb4a52cc87ae0765f2f0c6c9ae8806637648"
     },
     {
       "path": "packages/ui/src/lib/utils.ts",
@@ -5827,13 +5875,13 @@
       "path": "packages/ui/tests/combobox/combobox.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "57092b2e9a4c4c28ec5162c15f1870ac63b140ee838eaa0e8fe677e4fff56cbb"
+      "sha256": "4e3cb5a92f544f075cb750d2684cd4aff2a49ccfd52415170a42fe04d458c119"
     },
     {
       "path": "packages/ui/tests/confirm-dialog/confirm-dialog.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "2b70066c32f9d617b12f6957ea288e604484fcb44b021f0639d118b3b4227cf3"
+      "sha256": "e5e73ffa4049adf1538aac6273e206fcd2da612e116b4dda1b2344437528a7a5"
     },
     {
       "path": "packages/ui/tests/date-input/date-input.test.tsx",
@@ -5857,7 +5905,7 @@
       "path": "packages/ui/tests/dialog/dialog.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "70f71bc0cee66101bed8015f76e8176a9f8b9bfbc4ab602044348a3302db2a34"
+      "sha256": "570fadb3cf58c2563c1273caf407d51a6d83927bf85d85faf27a3255b121ae0b"
     },
     {
       "path": "packages/ui/tests/divider/divider.test.tsx",
@@ -5875,7 +5923,7 @@
       "path": "packages/ui/tests/dropdown-menu/dropdown-menu.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "55838c5deecadb9b9da4b2656d4b612a84f79561be7fb59577e84e6209203ddf"
+      "sha256": "2936dba9c0f03ff3e09384f16eca4c8ad3369a229b1fdcc8c2af27e0ef5c84eb"
     },
     {
       "path": "packages/ui/tests/fab/fab.test.tsx",
@@ -5947,7 +5995,7 @@
       "path": "packages/ui/tests/popover/popover.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "afaaf324c285368aa9472bf15d6731bbe7ae313bb7b15401091ff0db1b1e6dd5"
+      "sha256": "f3fbdb076389fbf08af265974bb9fd58b6da3507ab1c64a9d52e1ff6a41518ad"
     },
     {
       "path": "packages/ui/tests/public-surface/public-surface.test.tsx",
@@ -5989,13 +6037,13 @@
       "path": "packages/ui/tests/select/select.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "fee883881aae2253a10a0c2e5304ece9869ee1b5c51406772cca9507d6382789"
+      "sha256": "5b05fee422ea61538bcc86bb6df4b4d0d835a7b3905fc4aaea7e3830f2616137"
     },
     {
       "path": "packages/ui/tests/sheet/sheet.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "98c1b53402f6d3f720aa393188dff3f753200773ee8b019c08cf0a7fe84eac76"
+      "sha256": "db035aa83e4c9749ac8f43df0b4bb9a1b2c44edd374c82f26922cbafb8ba0b43"
     },
     {
       "path": "packages/ui/tests/sidebar/sidebar-navigation.test.tsx",
@@ -6043,7 +6091,7 @@
       "path": "packages/ui/tests/text-field/text-field.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "cac94b333eeb6093d7b7a28b8a4caf148c129d468012d864a374a4c88a50b0d0"
+      "sha256": "904af01279995184ed3dca74df866438cd5c7487567dfd80e13795e207b0c9bc"
     },
     {
       "path": "packages/ui/tests/time-picker/time-picker.test.tsx",
@@ -6181,7 +6229,7 @@
       "path": "scripts/check-repository-boundaries.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "67429e7281c153f65ab6f19e420ba0dc0c2ff48bd2d3923dad4712c1f27738b0"
+      "sha256": "1ac069962d1955e97f43ac24a6692ffd88fec1716acea8a6923d7993a8d2c15e"
     },
     {
       "path": "scripts/check-semantic-border-roles.mjs",
@@ -6223,7 +6271,7 @@
       "path": "skopos.config.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "7873d999cb37a6cbd5a980f81f80baffaa267a1702f54fdd51238f7b3c93b579"
+      "sha256": "03cd19f333601b3ec0adff8fefa20a4378ba00468e224448bc09f80ec544741a"
     },
     {
       "path": "THIRD_PARTY_NOTICES.md",
@@ -6235,13 +6283,13 @@
       "path": "tools/skopos/actions/quality-build.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "78c9377fb2d717a89e43992398be18e57f058e0b1878a63d6a3f5447add9c12b"
+      "sha256": "04add02c1d7316c5a151b1347a82a031111d71e08693a4c5f21532cc8f00d49e"
     },
     {
       "path": "tools/skopos/actions/quality-lint.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "26a4caf43541668ccc5bb85a10ea28265e4c7fd0bd13279b1981f2b8bb7c1c75"
+      "sha256": "079e2880134ae408895bb228f08dacbf12462ac0b92ce53a14760b35d7a3998a"
     },
     {
       "path": "tools/skopos/actions/quality-run-proof-phase.yaml",
@@ -6253,13 +6301,13 @@
       "path": "tools/skopos/actions/quality-test.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "ba88edbc531d3b88b04b06002d6353bd702e08ca6c5a56926a073882e72f953a"
+      "sha256": "71f83612a37e5a2d3f008a96d6d9c37c910cf79e2ae1b276a37179de12686ea2"
     },
     {
       "path": "tools/skopos/actions/quality-typecheck.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "757f8f0d38174d2cf15952868cff168c213538045b33f2376713711a3522e96f"
+      "sha256": "0ed9e41d035f2395487c2b4142df772252c215b357ae0f191e955a6643ef1e79"
     },
     {
       "path": "tools/skopos/actions/stacked-fields-generate.yaml",
@@ -6271,7 +6319,55 @@
       "path": "tools/skopos/actions/ui-capture-responsive-proof.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "e3fe5300c2800c2528a1d372ca6736f46aa8c84f8e79e922c950031494ac5b73"
+      "sha256": "c08cec68107dbdd182ab384604b199382af79c0c42d7b41e37b4eee1b61c7ec5"
+    },
+    {
+      "path": "tools/skopos/actions/ui-data-table-behavior.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "1845681d43a372c40dae9b768e4a71f062d18787ec62270f0282a8bd2cf58ffc"
+    },
+    {
+      "path": "tools/skopos/actions/ui-dependencies-restore.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "ac3a7fbac01b7fc31f72161efb2f36f10d125b422c4c4a4031a18b859656b73d"
+    },
+    {
+      "path": "tools/skopos/actions/ui-hosted-release.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "96a23fa9b5f82fadd86cf3aeb7f84c379b68acbbf99ec027c9eed29736a5ea73"
+    },
+    {
+      "path": "tools/skopos/actions/ui-modal-overlays.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "418d82d86af0566e609a6d905068d141f723381b3afeac9b5982a0d7e5c220b2"
+    },
+    {
+      "path": "tools/skopos/actions/ui-modal-picker-browser.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "2625444cdd1799b0d58401e2bdd44995a1ec48c9a54ad75ef692329f4b3aaa88"
+    },
+    {
+      "path": "tools/skopos/actions/ui-release-convergence.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "1a2795e0330f3760b3182cdb8a0d59a7fde4801a39e41f8e49d3fe2d03321453"
+    },
+    {
+      "path": "tools/skopos/actions/ui-reviewed-visual-baselines.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "0f466283b3f47d1ed31c59640100da844378b99500614c7e51b2c6a9263efb48"
+    },
+    {
+      "path": "tools/skopos/actions/ui-sheet-build.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "dd6118d1d4b03fd2335b63844f302bec1932a6865cdc2cbf44c72f6ca057e2a0"
     },
     {
       "path": "tools/skopos/guards/quality-build.yaml",
@@ -6302,6 +6398,30 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "c740bcad90cd2702a03ab7cb42e1e29e9ddbe5d628f6f3026a990ec882401bad"
+    },
+    {
+      "path": "tools/skopos/guards/ui-dependencies.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "b90e3e3ffdf70dc98f3792b452e531c548e933a35ec4b94e2b1bce7c5d2e1627"
+    },
+    {
+      "path": "tools/skopos/guards/ui-hosted-release.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "4631940643a3c6b7c3b40943641a4136ea0bab23fb9812e8e4a3460604351315"
+    },
+    {
+      "path": "tools/skopos/guards/ui-reviewed-visual-baselines.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "e5276e959b98faa46835add815973d103e1edfb746b65779bf763d7f44e5e371"
+    },
+    {
+      "path": "tools/skopos/guards/ui-sheet.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "334a6977b9226056e1944c69a4c7d35ee65587ab75849a6a8d9e7020cba54aba"
     },
     {
       "path": "tools/skopos/policies.yaml",

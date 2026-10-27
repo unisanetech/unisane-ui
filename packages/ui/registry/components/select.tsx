@@ -5,7 +5,11 @@ import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { fieldContainerVariants, type FieldShellVariant } from '@/lib/field-shell';
-import { getPortalLayerStyle } from '@/lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '@/lib/portal-layer';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 import { Icon } from '@/components/ui/icon';
@@ -509,14 +513,16 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
       };
       update();
       const frame = window.requestAnimationFrame(update);
+      const stopMotion = observePortalAnchorMotion(context.triggerRef.current, update);
       window.addEventListener('scroll', update, true);
       window.addEventListener('resize', update);
       return () => {
         window.cancelAnimationFrame(frame);
+        stopMotion();
         window.removeEventListener('scroll', update, true);
         window.removeEventListener('resize', update);
       };
-    }, [context.open, portal, updatePosition]);
+    }, [context.open, context.triggerRef, portal, updatePosition]);
 
     useOverlayBehavior({
       open: context.open,
@@ -574,7 +580,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
     );
 
     return portal && context.open && typeof document !== 'undefined'
-      ? createPortal(content, document.body)
+      ? createPortal(content, getPortalContainer(context.triggerRef.current))
       : content;
   },
 );

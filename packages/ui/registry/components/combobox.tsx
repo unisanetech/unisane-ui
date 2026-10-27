@@ -8,7 +8,11 @@ import { Icon } from '@/components/ui/icon';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '@/lib/field-shell';
-import { getPortalLayerStyle } from '@/lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '@/lib/portal-layer';
 import { Ripple } from '@/components/ui/ripple';
 import { Button } from '@/components/ui/button';
 import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
@@ -86,8 +90,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       // The last result page removes the paging action. Keep keyboard users
       // in the picker rather than leaving focus on document.body.
       if (!node && footerActionRef.current === document.activeElement) {
-        (inputRef.current ??
-          comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]'))?.focus();
+        (
+          inputRef.current ?? comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]')
+        )?.focus();
       }
       footerActionRef.current = node;
     }, []);
@@ -206,11 +211,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       setIsPositioned(false);
       updatePosition();
       const raf = window.requestAnimationFrame(updatePosition);
+      const stopMotion = observePortalAnchorMotion(comboboxRef.current, updatePosition);
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
 
       return () => {
         window.cancelAnimationFrame(raf);
+        stopMotion();
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
       };
@@ -386,6 +393,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
                   onChange={(event) => handleInputChange(event.target.value)}
                   onKeyDown={handleKeyDown}
+                  onClick={() => {
+                    // Selection leaves focus on the input. A second click must
+                    // reopen its choices without requiring a blur/focus cycle.
+                    if (!disabled && !isOpen) setOpenState(true);
+                  }}
                   onFocus={(event) => {
                     if (dropdownRef.current?.contains(event.relatedTarget as Node | null)) return;
                     if (!disabled) {
@@ -578,7 +590,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             );
 
             if (portal && typeof document !== 'undefined') {
-              return createPortal(dropdown, document.body);
+              return createPortal(dropdown, getPortalContainer(comboboxRef.current));
             }
 
             return dropdown;

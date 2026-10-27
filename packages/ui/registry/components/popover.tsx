@@ -2,7 +2,11 @@
 
 import React, { useRef, useId, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { getPortalLayerStyle } from '@/lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '@/lib/portal-layer';
 import { cn, focusRing, Slot } from '@/lib/utils';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
@@ -127,10 +131,13 @@ export const Popover: React.FC<PopoverProps> = ({
 
     if (!portal) return;
 
+    const stopMotion = observePortalAnchorMotion(triggerRef.current, updatePosition);
+
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
 
     return () => {
+      stopMotion();
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
@@ -284,7 +291,7 @@ function renderPopoverContent({
   );
 
   if (portal && typeof document !== 'undefined') {
-    return createPortal(popover, document.body);
+    return createPortal(popover, getPortalContainer(trigger));
   }
 
   return popover;

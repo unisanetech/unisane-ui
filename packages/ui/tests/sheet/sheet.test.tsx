@@ -79,13 +79,14 @@ describe('Sheet', () => {
   });
 
   it('uses square edges for the default right sheet', async () => {
+    const panelRef = React.createRef<HTMLDivElement>();
     const rendered = await render(
-      <Sheet defaultOpen title="Edit profile">
+      <Sheet ref={panelRef} defaultOpen title="Edit profile">
         Body
       </Sheet>,
     );
 
-    const sheet = getSheet();
+    const sheet = panelRef.current;
 
     expect(sheet).not.toBeNull();
     expect(sheet?.className).toContain('rounded-none');
@@ -95,13 +96,14 @@ describe('Sheet', () => {
   });
 
   it('keeps top radius for bottom sheets', async () => {
+    const panelRef = React.createRef<HTMLDivElement>();
     const rendered = await render(
-      <Sheet defaultOpen placement="bottom" title="Filters">
+      <Sheet ref={panelRef} defaultOpen placement="bottom" title="Filters">
         Body
       </Sheet>,
     );
 
-    const sheet = getSheet();
+    const sheet = panelRef.current;
 
     expect(sheet).not.toBeNull();
     expect(sheet?.className).toContain('rounded-t-lg');

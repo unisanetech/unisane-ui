@@ -175,7 +175,11 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
               ? 'items-stretch justify-start p-0'
               : 'items-stretch justify-end p-0',
         )}
-        role="presentation"
+        role="dialog"
+        data-unisane-modal-root=""
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={describedBy}
       >
         <div
           className={cn(
@@ -204,7 +208,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
           className={cn(
             'bg-surface shadow-5 border-outline-soft relative flex max-h-full w-full transform-gpu flex-col overflow-hidden border',
             isBottom
-              ? 'rounded-t-lg rounded-b-none border-b-0'
+              ? 'rounded-b-none rounded-t-lg border-b-0'
               : isLeft
                 ? 'h-full rounded-none border-l-0'
                 : 'h-full rounded-none border-r-0',
@@ -228,10 +232,6 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
               ? 'cubic-bezier(0.2, 0.8, 0.2, 1)'
               : 'cubic-bezier(0.4, 0, 1, 1)',
           }}
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={title ? titleId : undefined}
-          aria-describedby={describedBy}
           tabIndex={-1}
         >
           {hasHeader ? (
@@ -256,7 +256,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="titleLarge"
                     id={titleId}
-                    className="text-on-surface leading-tight wrap-break-word"
+                    className="text-on-surface wrap-break-word leading-tight"
                   >
                     {title}
                   </Text>
@@ -266,7 +266,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="bodySmall"
                     id={descriptionId}
-                    className="text-on-surface-variant leading-relaxed wrap-break-word"
+                    className="text-on-surface-variant wrap-break-word leading-relaxed"
                   >
                     {description}
                   </Text>

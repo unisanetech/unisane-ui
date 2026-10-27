@@ -83,6 +83,9 @@ describe('Popover', () => {
       '[role="dialog"]:not([aria-modal])',
     ) as HTMLElement;
     expect(nestedPopover.hasAttribute('inert')).toBe(false);
+    expect(nestedPopover.closest('[aria-modal="true"]')).toBe(
+      document.querySelector('[aria-modal="true"]'),
+    );
 
     await act(async () => {
       document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));

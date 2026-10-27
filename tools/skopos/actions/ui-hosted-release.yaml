@@ -1,0 +1,20 @@
+id: ui.hosted-release.packed
+title: Verify the exact hosted UI release archives
+description: Exercise the existing packed producer certificate and its fixtures for the canonical approved public next cohort.
+category: quality-check
+scope: [workspace]
+command: pnpm check:packed-producer-certificate
+cwd: .
+timeoutMs: 300000
+inputs: [packages, scripts/verify-packed-producer-certificate.mjs, scripts/__tests__/verify-packed-producer-certificate.test.mjs, docs/release-approval.json, pnpm-lock.yaml]
+outputs: [.tmp/release]
+affects: [.tmp/release]
+capabilities: {process: required, network: required, browser: none, tools: [pnpm, npm], secrets: [], services: []}
+effects: {workspace: declared, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: artifact-producing
+requiresApproval: false
+phases: [iteration, stabilization, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers
