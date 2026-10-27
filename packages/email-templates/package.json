@@ -57,7 +57,7 @@
     "eslint": "^9.39.1",
     "tsc-alias": "^1.8.10",
     "typescript": "5.9.2",
-    "vitest": "4.0.17"
+    "vitest": "4.1.11"
   },
   "unisane": {
     "kind": "ui",
