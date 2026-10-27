@@ -12,6 +12,7 @@ commands:
   typecheck: "pnpm typecheck"
 workspace:
   ignore:
+    - apps/docs/out
     - .skopos
     - node_modules
     - dist

@@ -1,0 +1,13 @@
+id: ui.sheet
+title: Verify controlled Sheet distribution
+description: Materialize and validate the owner package before its localhost consumer snapshot.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths: [packages/ui/src/components/sheet.tsx, packages/ui/tests/sheet/**, tools/skopos/actions/ui-sheet-build.yaml]
+  phases: [iteration, stabilization, closure]
+  risks: [standard, high-impact]
+requires:
+  actionIds: [ui.sheet.build, quality.run-proof-phase]
+  evidence: source-bound-action

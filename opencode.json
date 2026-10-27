@@ -1,0 +1,4 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["docs/00-start-here.md", ".skopos/cache/tooling/manual-hosts/README.md"]
+}

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { DEFAULT_KEYBOARD_PAGE_SIZE } from '../../constants';
+import { isInteractiveElement } from '../../utils/type-guards';
 
 export interface UseKeyboardNavigationOptions {
   /** Total number of rows */
@@ -142,7 +143,10 @@ export function useKeyboardNavigation({
   // Handle keyboard events
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      if (!enabled || rowCount === 0) return;
+      if (!enabled || rowCount === 0 || e.defaultPrevented) return;
+      // Descendant controls own activation, editing and composite-widget keys.
+      // Only unhandled events from the table surface belong to row navigation.
+      if (e.target !== e.currentTarget && isInteractiveElement(e.target)) return;
 
       switch (e.key) {
         case 'ArrowDown':

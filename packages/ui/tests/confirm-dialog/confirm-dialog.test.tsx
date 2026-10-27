@@ -212,7 +212,9 @@ describe('ConfirmDialog', () => {
       />,
     );
 
-    expect(ref.current).toBe(getAlertDialog());
+    expect(ref.current).not.toBeNull();
+    expect(ref.current?.parentElement).toBe(getAlertDialog());
+    expect(ref.current?.className).toContain('bg-surface');
     expect(getButton('Delete')?.className).toContain('bg-error');
     expect(document.querySelector('.text-error')).not.toBeNull();
 

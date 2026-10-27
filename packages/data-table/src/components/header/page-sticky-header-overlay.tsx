@@ -56,7 +56,7 @@ export const PageStickyHeaderOverlay = forwardRef<HTMLDivElement, PageStickyHead
           <table
             role="grid"
             className="w-full table-fixed border-separate border-spacing-0"
-            style={tableStyle}
+            style={{ borderSpacing: 0, ...tableStyle }}
           >
             {children}
           </table>

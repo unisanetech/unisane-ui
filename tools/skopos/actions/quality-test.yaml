@@ -10,7 +10,12 @@
   "cwd": ".",
   "timeoutMs": 900000,
   "inputs": [
-    "."
+    "packages", "scripts", "apps/docs/app", "apps/docs/features", "apps/docs/lib",
+    "apps/docs/e2e", "apps/docs/scripts", "apps/docs/public", "apps/docs/mdx-components.tsx",
+    "apps/docs/package.json", "apps/docs/next-env.d.ts", "apps/docs/next.config.ts",
+    "apps/docs/playwright.config.ts", "apps/docs/postcss.config.js", "apps/docs/tsconfig.json",
+    "package.json", "pnpm-lock.yaml", "pnpm-workspace.yaml", "turbo.json",
+    "eslint.config.mjs", "prettier.config.mjs"
   ],
   "outputs": [],
   "affects": [],

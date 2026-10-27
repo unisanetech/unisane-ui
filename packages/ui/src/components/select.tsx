@@ -5,7 +5,11 @@ import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import { fieldContainerVariants, type FieldShellVariant } from '../lib/field-shell';
-import { getPortalLayerStyle } from '../lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '../lib/portal-layer';
 import { useControllableState } from '../lib/use-controllable-state';
 import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 import { Icon } from './icon';
@@ -250,7 +254,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         <div
           {...props}
           ref={rootRef}
-          className={cn('relative inline-flex w-full min-w-40 flex-col', className)}
+          className={cn('relative inline-flex w-full min-w-0 flex-col', className)}
           data-disabled={disabled || undefined}
           data-state={isOpen ? 'open' : 'closed'}
         >
@@ -355,7 +359,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
         data-state={context.open ? 'open' : 'closed'}
         disabled={resolvedDisabled}
         className={cn(
-          'group relative flex w-full cursor-pointer items-center transition-colors select-none',
+          'group relative flex w-full cursor-pointer select-none items-center transition-colors',
           fieldSize.containerHeight,
           fieldContainerVariants({ variant, error: invalid, disabled: resolvedDisabled }),
           'focus-within:ring-0',
@@ -375,18 +379,23 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
         {variant === 'filled' ? (
           <span
             className={cn(
-              'duration-snappy absolute right-0 bottom-[calc(var(--unit)*-0.25)] left-0 h-0.5 origin-center scale-x-0 transition-transform ease-out',
+              'duration-snappy absolute bottom-[calc(var(--unit)*-0.25)] left-0 right-0 h-0.5 origin-center scale-x-0 transition-transform ease-out',
               invalid ? 'bg-error scale-x-100' : 'bg-primary',
               context.open && 'scale-x-100',
             )}
           />
         ) : null}
         <span className="min-w-0 flex-1 text-left">{children}</span>
-        <span className={cn('text-on-surface-variant shrink-0', fieldSize.chevronOffset)}>
+        <span
+          className={cn(
+            'text-on-surface-variant flex shrink-0 items-center',
+            fieldSize.trailingPadding,
+          )}
+        >
           {trailingIcon ?? (
             <Icon
               symbol="arrow_drop_down"
-              size={size === 'sm' ? 'sm' : 'md'}
+              size={size === 'lg' ? 'md' : 'sm'}
               className={cn(
                 'duration-short ease-standard transition-transform',
                 context.open && 'rotate-180',
@@ -504,14 +513,16 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
       };
       update();
       const frame = window.requestAnimationFrame(update);
+      const stopMotion = observePortalAnchorMotion(context.triggerRef.current, update);
       window.addEventListener('scroll', update, true);
       window.addEventListener('resize', update);
       return () => {
         window.cancelAnimationFrame(frame);
+        stopMotion();
         window.removeEventListener('scroll', update, true);
         window.removeEventListener('resize', update);
       };
-    }, [context.open, portal, updatePosition]);
+    }, [context.open, context.triggerRef, portal, updatePosition]);
 
     useOverlayBehavior({
       open: context.open,
@@ -543,7 +554,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
           portal
             ? 'fixed'
             : cn(
-                'absolute right-0 left-0',
+                'absolute left-0 right-0',
                 position.direction === 'up'
                   ? 'bottom-[calc(100%+var(--unit))]'
                   : 'top-[calc(100%+var(--unit))]',
@@ -569,7 +580,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
     );
 
     return portal && context.open && typeof document !== 'undefined'
-      ? createPortal(content, document.body)
+      ? createPortal(content, getPortalContainer(context.triggerRef.current))
       : content;
   },
 );
@@ -629,10 +640,10 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         data-highlighted={highlighted || undefined}
         data-state={selected ? 'checked' : 'unchecked'}
         className={cn(
-          'text-label-medium relative flex min-h-[calc(var(--unit)*10)] cursor-pointer items-center rounded-xs py-2 pr-[calc(var(--unit)*10)] pl-3 font-medium transition-colors outline-none',
+          'text-label-medium rounded-xs relative flex min-h-[calc(var(--unit)*10)] cursor-pointer items-center py-2 pl-3 pr-[calc(var(--unit)*10)] font-medium outline-none transition-colors',
           'hover:bg-state-hover data-[highlighted=true]:bg-state-hover',
           selected && 'bg-state-selected text-on-surface',
-          resolvedDisabled && 'cursor-not-allowed opacity-38',
+          resolvedDisabled && 'opacity-38 cursor-not-allowed',
           className,
         )}
         onClick={(event) => {

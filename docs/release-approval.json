@@ -2,19 +2,27 @@
   "schemaVersion": 1,
   "status": "approved",
   "approvedBy": "founder",
-  "approvedAt": "2026-09-10",
+  "approvedAt": "2026-10-27",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
-  "packages": ["@unisane/tokens", "@unisane/ui", "@unisane/data-table", "@unisane/email-templates"],
+  "packages": [
+    "@unisane/tokens",
+    "@unisane/ui",
+    "@unisane/data-table",
+    "@unisane/email-templates"
+  ],
   "release": {
-    "version": "0.1.2-next.97f61b1d",
+    "version": "0.1.2-next.20261027.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
     "provenanceRequired": true
   },
-  "excludedPackages": ["@unisane/ui-cli", "@unisane/ui-docs"],
+  "excludedPackages": [
+    "@unisane/ui-cli",
+    "@unisane/ui-docs"
+  ],
   "constraints": [
     "Third-party code and assets retain their original licenses and notices.",
     "Publishing requires an authenticated @unisane npm publisher and a successful provenance-enabled transaction.",

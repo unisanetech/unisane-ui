@@ -1,0 +1,19 @@
+id: ui.reviewed-visual-baselines
+title: Reviewed baselines still pass the unmodified comparison
+description: Baseline regeneration is not verification; rerun the canonical visual suite with no update flag and unchanged thresholds.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths:
+    [
+      tools/skopos/actions/ui-reviewed-visual-baselines.yaml,
+      apps/docs/e2e/visual-regression.spec.ts-snapshots/**,
+    ]
+  phases: [closure]
+  risks: [standard, high-impact]
+requires:
+  {
+    actionIds: [ui.refresh-reviewed-visual-baselines, ui.capture-responsive-proof],
+    evidence: source-bound-action,
+  }

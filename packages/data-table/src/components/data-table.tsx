@@ -428,6 +428,7 @@ export function DataTable<T extends { id: string }>({
   const showToolbar = !!(
     title ||
     features.search ||
+    features.columnVisibility ||
     (effectiveRowSelectionEnabled && bulkActions.length > 0) ||
     onRefresh
   );
@@ -444,7 +445,8 @@ export function DataTable<T extends { id: string }>({
   const effectiveDensity = internalDensity;
 
   const effectivePaginationMode = paginationConfig.mode ?? 'offset';
-  const effectiveMode = effectivePaginationMode === 'cursor' ? 'remote' : 'local';
+  const effectiveMode =
+    effectivePaginationMode === 'cursor' || paginationConfig.remote ? 'remote' : 'local';
 
   // Build the table content
   const content = (
@@ -483,6 +485,8 @@ export function DataTable<T extends { id: string }>({
       getContextMenuActions={callbacks?.getContextMenuActions}
       selectedIds={controlled?.selectedIds}
       onSelectionChange={callbacks?.onSelectionChange}
+      paginationState={controlled?.pagination}
+      onPaginationChange={callbacks?.onPaginationChange}
     >
       <EditingWrapper data={data} editing={editing}>
         {(inlineEditing) => (
@@ -534,6 +538,10 @@ export function DataTable<T extends { id: string }>({
             onCellSelectionChange={callbacks?.onCellSelectionChange}
             onCellPaste={callbacks?.onCellPaste}
             cursorPagination={paginationConfig.cursor}
+            pageSizeOptions={paginationConfig.pageSizeOptions}
+            showPageSizeSelector={paginationConfig.showPageSizeSelector}
+            showPageInfo={paginationConfig.showPageInfo}
+            paginationSiblingCount={paginationConfig.siblingCount}
             disableLocalProcessing={effectiveMode === 'remote'}
           />
         )}

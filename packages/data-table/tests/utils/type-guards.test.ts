@@ -162,6 +162,22 @@ describe('DOM Element Type Guards', () => {
   });
 
   describe('isInteractiveElement', () => {
+    it.each(['combobox', 'listbox', 'option', 'radio', 'searchbox', 'slider', 'spinbutton', 'switch', 'tab', 'textbox', 'menuitemcheckbox', 'menuitemradio'])('recognizes nested %s widget content', role => {
+      const widget = document.createElement('div'), child = document.createElement('span');
+      widget.setAttribute('role', role);
+      widget.append(child);
+      expect(isInteractiveElement(child)).toBe(true);
+    });
+
+    it('recognizes editable descendants without classifying a normal cell as interactive', () => {
+      const editor = document.createElement('div'), child = document.createElement('span');
+      editor.setAttribute('contenteditable', 'plaintext-only');
+      editor.append(child);
+      expect(isInteractiveElement(child)).toBe(true);
+      editor.setAttribute('contenteditable', 'false');
+      expect(isInteractiveElement(child)).toBe(false);
+    });
+
     it('should return true for button', () => {
       const button = document.createElement('button');
       expect(isInteractiveElement(button)).toBe(true);

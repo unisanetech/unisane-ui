@@ -218,6 +218,7 @@ export interface DataTableControlledState {
   columnOrder: string[] | undefined;
   hiddenColumnKeys: string[] | undefined;
   selectedIds: string[] | undefined;
+  pagination: PaginationState | undefined;
   groupBy: string | string[] | null | undefined;
   sparseSelection: SparseSelectionController | undefined;
 }
@@ -279,6 +280,8 @@ export interface DataTableProviderProps<T> {
   hiddenColumnKeys?: string[];
   selectedIds?: string[];
   onSelectionChange?: (ids: string[]) => void;
+  /** Controlled one-indexed page and page size */
+  paginationState?: PaginationState;
   /** Controlled groupBy column key(s) - single string or array for multi-level */
   groupBy?: string | string[] | null;
   onGroupByChange?: (key: string | string[] | null) => void;

@@ -127,7 +127,12 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
           'fixed inset-0 z-[var(--z-modal,3000)] flex items-center justify-center',
           isFullscreenMobile ? 'medium:p-10 p-0' : 'medium:p-10 p-6',
         )}
-        role="presentation"
+        role={role}
+        data-unisane-modal-root=""
+        aria-modal="true"
+        aria-label={ariaLabel}
+        aria-labelledby={title ? titleId : undefined}
+        aria-describedby={describedBy}
       >
         <div
           className="bg-scrim animate-fade-enter absolute inset-0"
@@ -137,11 +142,6 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
 
         <Surface
           ref={setRefs}
-          role={role}
-          aria-modal="true"
-          aria-label={ariaLabel}
-          aria-labelledby={title ? titleId : undefined}
-          aria-describedby={describedBy}
           tabIndex={-1}
           tone="surface"
           elevation={5}
@@ -177,7 +177,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="titleLarge"
                     as="div"
                     id={titleId}
-                    className="text-on-surface leading-tight wrap-break-word"
+                    className="text-on-surface wrap-break-word leading-tight"
                   >
                     {title}
                   </Text>
@@ -187,7 +187,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="bodySmall"
                     as="div"
                     id={descriptionId}
-                    className="text-on-surface-variant leading-relaxed wrap-break-word"
+                    className="text-on-surface-variant wrap-break-word leading-relaxed"
                   >
                     {description}
                   </Text>

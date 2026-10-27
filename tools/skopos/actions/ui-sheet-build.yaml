@@ -1,0 +1,20 @@
+id: ui.sheet.build
+title: Generate and build the shared Sheet package
+description: Regenerate the UI-owned registry and build its runtime without rebuilding unrelated applications.
+category: quality-check
+scope: [workspace]
+command: pnpm --filter @unisane/ui build:registry && pnpm --filter @unisane/ui build
+cwd: .
+timeoutMs: 180000
+inputs: [packages/ui/src, packages/ui/scripts, packages/ui/package.json, packages/tokens]
+outputs: [packages/ui/registry, packages/ui/dist]
+affects: [packages/ui/registry, packages/ui/dist]
+capabilities: {process: required, network: none, browser: none, tools: [pnpm], secrets: [], services: []}
+effects: {workspace: declared, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: artifact-producing
+requiresApproval: false
+phases: [iteration, stabilization, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

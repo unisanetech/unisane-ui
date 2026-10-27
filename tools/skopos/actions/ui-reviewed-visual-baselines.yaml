@@ -1,0 +1,28 @@
+id: ui.refresh-reviewed-visual-baselines
+title: Refresh reviewed docs visual baselines
+description: Regenerate existing Playwright baselines after reviewing the stale pre-87adacf Select chevrons and isolated 1–8 pixel glyph-edge differences in the current locked browser. No changed comparison thresholds or runtime styles.
+category: maintenance
+scope: [workspace]
+command: pnpm --filter @unisane/ui-docs exec playwright test --config playwright.config.ts e2e/visual-regression.spec.ts --update-snapshots
+cwd: .
+timeoutMs: 900000
+inputs: [apps/docs/app, apps/docs/features, apps/docs/lib, apps/docs/e2e/visual-regression.spec.ts, apps/docs/scripts, apps/docs/public, apps/docs/mdx-components.tsx, apps/docs/package.json, apps/docs/next.config.ts, apps/docs/playwright.config.ts, apps/docs/postcss.config.js, apps/docs/tsconfig.json, pnpm-lock.yaml, pnpm-workspace.yaml, packages/ui, packages/tokens, packages/data-table]
+outputs: [apps/docs/e2e/visual-regression.spec.ts-snapshots, apps/docs/test-results]
+affects: [apps/docs/e2e/visual-regression.spec.ts-snapshots, apps/docs/test-results]
+capabilities:
+  {
+    process: required,
+    network: none,
+    browser: required,
+    tools: [playwright],
+    secrets: [],
+    services: [],
+  }
+effects: { workspace: declared, artifacts: isolated, external: none }
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: mutating
+requiresApproval: true
+phases: [iteration, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

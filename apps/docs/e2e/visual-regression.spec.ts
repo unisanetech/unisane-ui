@@ -78,7 +78,7 @@ test.describe('visual regression fixtures', () => {
         await expect(section).toBeVisible();
         const snapshotName =
           index === 0 ? `${axisTestId}.png` : `${axisTestId}-${sectionTestId}.png`;
-        await expect(section).toHaveScreenshot(snapshotName);
+        await expect.soft(section).toHaveScreenshot(snapshotName);
       }
     });
   }

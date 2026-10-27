@@ -216,7 +216,10 @@ const candidatePackageNames = new Set([
   '@unisane/data-table',
   '@unisane/email-templates',
 ]);
-const candidateVersion = '0.1.2-next.97f61b1d';
+const releaseApproval = JSON.parse(
+  await fs.readFile(path.join(repositoryRoot, 'docs/release-approval.json'), 'utf8'),
+);
+const candidateVersion = releaseApproval.release.version;
 for (const packagePath of publicPackagePaths) {
   const manifest = JSON.parse(await fs.readFile(path.join(repositoryRoot, packagePath), 'utf8'));
   const isCandidate = candidatePackageNames.has(manifest.name);

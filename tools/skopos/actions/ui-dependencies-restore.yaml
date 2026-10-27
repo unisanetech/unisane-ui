@@ -1,0 +1,20 @@
+id: ui.dependencies.restore
+title: Restore the complete locked UI workspace dependencies
+description: Relink every workspace importer from the existing lockfile, preferring cached packages and downloading missing locked artifacts without changing versions or publishing packages.
+category: maintenance
+scope: [workspace]
+command: CI=1 pnpm install --prefer-offline --frozen-lockfile
+cwd: .
+timeoutMs: 180000
+inputs: [package.json, pnpm-lock.yaml, pnpm-workspace.yaml, apps/docs/package.json, packages/ui/package.json, packages/tokens/package.json, packages/data-table/package.json, packages/ui-cli/package.json, packages/email-templates/package.json]
+outputs: [node_modules, apps/docs/node_modules, packages/ui/node_modules, packages/tokens/node_modules, packages/data-table/node_modules, packages/ui-cli/node_modules, packages/email-templates/node_modules]
+affects: [node_modules, apps/docs/node_modules, packages/ui/node_modules, packages/tokens/node_modules, packages/data-table/node_modules, packages/ui-cli/node_modules, packages/email-templates/node_modules]
+capabilities: {process: required, network: required, browser: none, tools: [pnpm], secrets: [], services: []}
+effects: {workspace: declared, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: mutating
+requiresApproval: false
+phases: [iteration, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

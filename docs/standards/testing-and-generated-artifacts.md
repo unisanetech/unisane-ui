@@ -39,6 +39,24 @@ tests cover semantics, names and relationships, keyboard operation, focus moveme
 restoration, disabled behavior, and supported responsive states. Browser proof covers
 interactions that DOM-level tests cannot establish reliably.
 
+The docs visual suite builds with test fixtures enabled and serves the production
+static export through its test-only loopback launcher. `next start` cannot serve
+`output: 'export'`. Do not change production export settings or use a development
+rendering path to work around a fixture-launch failure. Public export preparation
+continues to remove test fixtures before deployment.
+
+Visual comparisons collect every section mismatch with soft assertions; any mismatch
+still fails the suite. A baseline refresh must identify and inspect each changed
+section, preserve thresholds and then pass a separate comparison run without an
+update flag. The 22 October launcher repair exposed six field images predating the
+committed Select sizing fix `87adacf` (correct trailing padding/icon size), and seven
+images with only 1–8 changed glyph-edge pixels. Their current locked-browser captures
+were reviewed before regeneration; this does not authorize unrelated UI restyling.
+Repeated comparison also exposed initial multiline auto-resize before font readiness.
+Automatic fields remeasure when fonts settle or visible width changes, and remove
+observers/listeners on teardown. Keep this actual component behavior in browser proof;
+do not hide the race with looser image dimensions or a manually fixed fixture height.
+
 ## Generated-artifact declaration
 
 Every committed generated artifact has five facts:
@@ -67,7 +85,24 @@ results remains ignored unless an accepted distribution or deterministic-review 
 explicitly says otherwise. Generated source does not live under `src/**` unless that path
 is itself the accepted distributable authoring contract.
 
+Keep `apps/docs/out` excluded from project scanning as well as the app's Git ignore
+rules. Action directory fingerprints do not apply nested Git/scan exclusions, so quality
+and visual Actions explicitly list the complete authored package/docs source and configs
+instead of `.` or the whole docs app. The disposable export is not a source input.
+Tracking generated chunks makes unrelated evidence stale after every build. Authored
+fixtures and reviewed comparison baselines remain tracked; baseline generation excludes
+its own expected-image output, and the independent comparison includes it. Commands,
+coverage, screenshot thresholds and build behavior remain unchanged.
+
 ## Proportional proof
+
+Before treating unresolved framework imports as application type errors, verify the
+installed package targets. A package-only producer preparation may leave other
+workspace importers uninstalled. Restore the complete workspace with
+`pnpm install --frozen-lockfile --prefer-offline` before repository-wide docs checks;
+the lockfile remains authoritative. Missing Next/MDX installations must not be hidden
+with casts, lint suppressions, aliases or weaker unsafe-type rules. Offline-only
+installation is appropriate only when every locked artifact is already cached.
 
 Run the narrowest owner command first:
 

@@ -196,6 +196,12 @@ Buttons and icon buttons should align to the same height rhythm unless the compo
 - structural APIs may use compound parts
 - visibility state uses `open`, `defaultOpen`, `onOpenChange`
 - trigger composition uses `asChild` only when justified
+- Dialog and Sheet semantics enclose both the visual panel and its floating controls.
+  Their untransformed overlay root owns the modal accessibility boundary; the panel
+  retains animation, clipping and public refs. Nested Combobox, Select, Popover and
+  menu portals stay within that boundary, outside the clipped panel, with viewport
+  positioning and the existing topmost-layer dismissal/focus rules. Do not hide this
+  relationship with higher z-index alone or disable modal background isolation.
 
 ### Navigation And Layout
 

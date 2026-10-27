@@ -407,6 +407,7 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "button",
         "field-shell",
         "field-size",
         "icon",

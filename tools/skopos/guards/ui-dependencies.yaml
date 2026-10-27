@@ -1,0 +1,13 @@
+id: ui.dependencies
+title: Verify locked docs dependencies without weakening type rules
+description: Restore missing workspace installations and prove lint, types and build against the unchanged lockfile.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths: [tools/skopos/actions/ui-dependencies-restore.yaml, tools/skopos/guards/ui-dependencies.yaml]
+  phases: [iteration, closure]
+  risks: [standard, high-impact]
+requires:
+  actionIds: [ui.dependencies.restore, quality.lint, quality.typecheck, quality.build]
+  evidence: source-bound-action

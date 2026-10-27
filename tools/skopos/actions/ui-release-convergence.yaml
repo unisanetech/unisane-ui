@@ -1,0 +1,20 @@
+id: ui.hosted-release.convergence
+title: Regenerate canonical release convergence evidence
+description: Verify and retain canonical source and packed-consumer evidence for the authorized UI prerelease.
+category: quality-check
+scope: [workspace]
+command: pnpm report:convergence && pnpm check:boundaries
+cwd: .
+timeoutMs: 90000
+inputs: [packages, apps/docs, scripts/check-repository-boundaries.mjs, docs/release-approval.json, docs/standards, tools/skopos]
+outputs: [docs/reference/generated/repository-convergence-report.json]
+affects: [docs/reference/generated/repository-convergence-report.json]
+capabilities: {process: required, network: none, browser: none, tools: [pnpm], secrets: [], services: []}
+effects: {workspace: declared, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: artifact-producing
+requiresApproval: false
+phases: [iteration, stabilization, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

@@ -4,7 +4,11 @@ import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } f
 import { createPortal } from 'react-dom';
 import { cn, Slot } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
-import { getPortalLayerStyle } from '../lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '../lib/portal-layer';
 import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 import { Icon } from './icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '../primitives/menu';
@@ -407,10 +411,12 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     updatePosition();
 
     if (portal) {
+      const stopMotion = observePortalAnchorMotion(triggerRef.current, updatePosition);
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
 
       return () => {
+        stopMotion();
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
       };
@@ -559,7 +565,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   );
 
   if (portal && typeof document !== 'undefined') {
-    return createPortal(content, document.body);
+    return createPortal(content, getPortalContainer(triggerRef.current));
   }
 
   return content;
@@ -823,10 +829,12 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     setIsPositioned(false);
     updatePosition();
 
+    const stopMotion = observePortalAnchorMotion(triggerRef.current, updatePosition);
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
 
     return () => {
+      stopMotion();
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
@@ -872,7 +880,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   );
 
   if (typeof document !== 'undefined') {
-    return createPortal(content, document.body);
+    return createPortal(content, getPortalContainer(triggerRef.current));
   }
 
   return content;

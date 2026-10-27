@@ -231,7 +231,10 @@ export function useOverlayBehavior({
       : undefined;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!isTopmostLayer(layer)) {
+      // A nested widget may already have handled Escape/Tab and synchronously
+      // unmounted its layer before this document listener runs. Do not consume
+      // that same key again in the newly exposed parent modal.
+      if (event.defaultPrevented || !isTopmostLayer(layer)) {
         return;
       }
 
@@ -245,7 +248,9 @@ export function useOverlayBehavior({
         return;
       }
 
-      const focusableElements = getFocusableElements(content);
+      // Modal-owned floating controls portal beside the visual panel, inside
+      // the semantic root. Include them in the same keyboard boundary.
+      const focusableElements = getFocusableElements(modal ? layer.root : content);
       if (focusableElements.length === 0) {
         event.preventDefault();
         content.focus();
