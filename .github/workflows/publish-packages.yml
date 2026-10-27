@@ -37,7 +37,6 @@ jobs:
         with:
           node-version-file: .node-version
           cache: pnpm
-          registry-url: https://registry.npmjs.org
 
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
@@ -95,8 +94,6 @@ jobs:
           done
 
       - name: Publish public packages in dependency order
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -118,6 +115,7 @@ jobs:
               console.log(file);
             ' "$package")"
             npm publish "$archive" \
+              --registry=https://registry.npmjs.org/ \
               --access public \
               --tag next \
               --provenance
