@@ -106,3 +106,13 @@ not evidence of successful registry publication.
 The publishing workflow verifies each archive's integrity immediately before uploading
 that same archive. Its `NPM_TOKEN` secret is exposed only to the publish step; the
 temporary bootstrap credential is removed after the approved release operation.
+
+## DataTable export dependency provenance
+
+DataTable retains the existing Excel/PDF export APIs. SheetJS CE is pinned to its
+maintainer's official versioned 0.20.3 CDN archive because npm's `xlsx` package stops
+at the affected 0.18.5 release. The frozen lockfile records archive integrity; no
+tarball, fork, local alias or vendored source is committed. Release/consumer evidence
+must retain that same integrity. jsPDF and AutoTable use mutually supported exact
+patched versions. This does not authorize import of untrusted workbooks or a new
+export product surface.
