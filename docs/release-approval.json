@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "prepared",
+  "status": "approved",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -32,5 +32,8 @@
     "approvedAt": "2026-10-27"
   },
   "preparedAt": "2026-11-02",
-  "preparedBy": "trade-security"
+  "preparedBy": "trade-security",
+  "approvedBy": "founder",
+  "approvedAt": "2026-11-02",
+  "approvalSource": "Explicit user approval in the coordinated Trade security release chat"
 }
