@@ -1,0 +1,63 @@
+{
+  "id": "ui.security.prepared-certificate",
+  "title": "Prepare the patched public UI cohort without publication authority",
+  "description": "Build the repository-required public package family and exercise the existing isolated consumer certificate in explicit prepared mode. The default publishing workflow still rejects unapproved source.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm exec turbo run build --filter=@unisane/tokens --filter=@unisane/ui --filter=@unisane/data-table --filter=@unisane/email-templates --output-logs=errors-only && node --test scripts/__tests__/verify-packed-producer-certificate.test.mjs && node scripts/verify-packed-producer-certificate.mjs --prepared",
+  "cwd": ".",
+  "timeoutMs": 300000,
+  "inputs": [
+    "packages",
+    "scripts/verify-packed-producer-certificate.mjs",
+    "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
+    "docs/release-approval.json",
+    "pnpm-lock.yaml",
+    "tools/skopos/actions/ui-security-prepared-certificate.yaml"
+  ],
+  "outputs": [
+    "packages/tokens/dist",
+    "packages/ui/dist",
+    "packages/data-table/dist",
+    "packages/email-templates/dist",
+    ".tmp/release"
+  ],
+  "affects": [
+    "packages/tokens/dist",
+    "packages/ui/dist",
+    "packages/data-table/dist",
+    "packages/email-templates/dist",
+    ".tmp/release"
+  ],
+  "capabilities": {
+    "process": "required",
+    "network": "required",
+    "browser": "none",
+    "tools": [
+      "node",
+      "pnpm",
+      "npm"
+    ],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "declared",
+    "artifacts": "isolated",
+    "external": "none"
+  },
+  "concurrency": "exclusive",
+  "workspaceMode": "overlay-safe",
+  "safety": "artifact-producing",
+  "requiresApproval": false,
+  "phases": [
+    "iteration",
+    "closure"
+  ],
+  "risks": [
+    "high-impact"
+  ],
+  "owner": "ui-maintainers"
+}

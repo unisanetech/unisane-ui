@@ -1,8 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "approved",
-  "approvedBy": "founder",
-  "approvedAt": "2026-10-27",
+  "status": "prepared",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -13,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261027.1",
+    "version": "0.1.2-next.20261102.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -27,5 +25,12 @@
     "Third-party code and assets retain their original licenses and notices.",
     "Publishing requires an authenticated @unisane npm publisher and a successful provenance-enabled transaction.",
     "This approval does not create a Git remote or authorize repository authority cutover."
-  ]
+  ],
+  "previousApproval": {
+    "version": "0.1.2-next.20261027.1",
+    "approvedBy": "founder",
+    "approvedAt": "2026-10-27"
+  },
+  "preparedAt": "2026-11-02",
+  "preparedBy": "trade-security"
 }

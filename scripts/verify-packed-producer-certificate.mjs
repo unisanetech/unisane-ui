@@ -88,10 +88,34 @@ function run(command, args, cwd = root, env = process.env) {
   return result.stdout;
 }
 
+export function validateReleaseApproval(approval, { prepared = false } = {}) {
+  assert.equal(approval.status, prepared ? 'prepared' : 'approved');
+  assert.equal(approval.publicDistribution, true);
+  assert.equal(approval.license, 'MIT');
+  assert.equal(approval.release.registry, 'https://registry.npmjs.org/');
+  assert.equal(approval.release.access, 'public');
+  assert.equal(approval.release.tag, 'next');
+  assert.equal(approval.release.provenanceRequired, true);
+  const admitted = new Set([
+    '@unisane/tokens',
+    '@unisane/ui',
+    '@unisane/data-table',
+    '@unisane/email-templates',
+  ]);
+  assert(Array.isArray(approval.packages) && approval.packages.length > 0);
+  assert.equal(new Set(approval.packages).size, approval.packages.length);
+  assert(
+    approval.packages.every((name) => admitted.has(name)),
+    'Package is outside public distribution admission',
+  );
+}
+
 export function main() {
   const approval = readJson(path.join(root, 'docs/release-approval.json'));
-  assert.equal(approval.status, 'approved');
-  assert.equal(approval.publicDistribution, true);
+  const prepared = process.argv.includes('--prepared');
+  // Local archive preparation grants no publication authority. The publication
+  // workflow invokes the default mode and still requires approved source.
+  validateReleaseApproval(approval, { prepared });
   const output = path.join(root, '.tmp/release');
   mkdirSync(output, { recursive: true });
   const work = mkdtempSync(path.join(tmpdir(), 'unisane-ui-consumer-'));
@@ -193,6 +217,8 @@ export function main() {
             'stylesheets',
           ],
           registryPublicationVerified: false,
+          preparationOnly: prepared,
+          approvalStatus: approval.status,
         },
         null,
         2,
