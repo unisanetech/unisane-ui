@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1080,
+  "fileCount": 1083,
   "dispositionCounts": {
-    "retain": 964,
+    "retain": 967,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -2233,7 +2233,7 @@
       "path": "docs/architecture/package-and-distribution-boundaries.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "54be158a707eea7cc1a9ddd5a76e24264df15b7f2cf867196d613ad042305bce"
+      "sha256": "58657967690594af7051348c62aa30a8fb134230f6773a88759769be35a895f0"
     },
     {
       "path": "docs/asset-provenance.json",
@@ -2485,7 +2485,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "2ecca7f88d1fef3522a62e0974f1e1dc8d3277a2d591f76e2a5286a538eb939c"
+      "sha256": "1d9374ec7f3f1fb40e0f5655e9dd82fa0987c636a8c1a675e89046359bcdc793"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2551,7 +2551,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "7c20c6965096ed24aa6432d28d0855613641aa69327630a7bb2041821664a9da"
+      "sha256": "dd1d2d6fa19e4c900f8f01b0e41be428b3066c23a56ee6876436f8d1b7b348c0"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3772,6 +3772,12 @@
       "sha256": "de8defc9a404512b020e7dc40dfba5d2fd6891224ab96382a9fb158305847c03"
     },
     {
+      "path": "packages/data-table/tests/utils/export/binary-export.test.ts",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "f8c59b4324a5b0f1802eee24e4ec5f7cf1a41bce40fc0046997f470113f77327"
+    },
+    {
       "path": "packages/data-table/tests/utils/export/csv.test.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
@@ -3883,7 +3889,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "d377b1c21bfcedf1e32bc4547c751b20ac66386b4a054d5bebc967c26ebac6e7"
+      "sha256": "e1d5ec55289b57e666ec0ffc76b7bb70cc088fa717d038582d4f34ddd2c80718"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -4033,7 +4039,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "8d4542669c31badca8db5b8cf5d9dc3146ff0c813f027ec217be794151ccb41b"
+      "sha256": "32bced0b27f7ba8d4336544f8973c4a088b05dc4527d95b74467cce29cc09fc6"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4429,7 +4435,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "04cf8b009b208603c3496762b0f6e982724db416c32014fdb370bdb1f2684a04"
+      "sha256": "06fa7672948c510e857ee44cbb2fa83325fc3d699ed548a5ca97c819ca482455"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -6163,7 +6169,7 @@
       "path": "pnpm-lock.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "ca1cdac9b93d65c2986c817c746bfc79b72149a70db980bd18603febdebae756"
+      "sha256": "c8f4bf51d7609ed7d69393f7ec0185787b4d770869df661fff45c8e96fe7aa49"
     },
     {
       "path": "pnpm-workspace.yaml",
@@ -6193,7 +6199,7 @@
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "cb981c1061c80d181392521d0304a45cbc75572a4946de50d3b89a71fea4ccb6"
+      "sha256": "48e0f1ab9aad3941949e507869acbfac23b4fe92c0d95761efe78c5e8ca169e2"
     },
     {
       "path": "scripts/_lib/docs-paths.mjs",
@@ -6259,7 +6265,7 @@
       "path": "scripts/verify-packed-producer-certificate.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "0ab06d031e5c879d3bcd31dcfa8a76524164dcd71c6116463892bf7bf2fee444"
+      "sha256": "9b46d32e7842bba234e03d048a8170c5d984a48058234fb0a6fa2f2e57d42822"
     },
     {
       "path": "SECURITY.md",
@@ -6278,6 +6284,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "86db3203969ec5547624a461881d9af24c00d11762898e4186945611c26db42a"
+    },
+    {
+      "path": "tools/skopos/actions/data-table-export-security.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "4c464e174e56da1360fab8cb7b4c990bb3928532c0a1612820f350361b33c49b"
     },
     {
       "path": "tools/skopos/actions/quality-build.yaml",
@@ -6362,6 +6374,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "0f466283b3f47d1ed31c59640100da844378b99500614c7e51b2c6a9263efb48"
+    },
+    {
+      "path": "tools/skopos/actions/ui-security-prepared-certificate.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "5cd4628147bde9a5675f142037ece39e7d4c076a4d2ec859a6f94ec4bd3eef08"
     },
     {
       "path": "tools/skopos/actions/ui-sheet-build.yaml",
