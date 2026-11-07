@@ -39,6 +39,8 @@ interface VirtualizedBodyProps<T extends { id: string }> {
   showColumnBorders: boolean;
   zebra: boolean;
   enableExpansion: boolean;
+  /** Human-readable record context for selection and expansion controls. */
+  getRowLabel?: (row: T) => string;
   getRowCanExpand?: (row: T) => boolean;
   renderExpandedRow?: (row: T) => ReactNode;
   expandedRow?: ExpandedRowConfig;
@@ -150,6 +152,7 @@ export function VirtualizedBody<T extends { id: string }>({
   showColumnBorders,
   zebra,
   enableExpansion,
+  getRowLabel,
   getRowCanExpand,
   renderExpandedRow,
   expandedRow,
@@ -215,6 +218,7 @@ export function VirtualizedBody<T extends { id: string }>({
           <DataTableRow
             key={vRow.key}
             row={vRow.data.row}
+            rowLabel={getRowLabel?.(vRow.data.row)}
             rowIndex={vRow.data.rowIndex}
             columns={columns}
             columnMeta={columnMeta}

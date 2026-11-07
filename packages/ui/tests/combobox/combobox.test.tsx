@@ -41,6 +41,17 @@ async function cleanup(root: Root, container: HTMLElement) {
 }
 
 describe('Combobox', () => {
+  it('names a label-free currency search input and its listbox', async () => {
+    const rendered = await render(
+      <Combobox aria-label="Currency" options={[{ value: 'INR', label: 'INR — Indian Rupee' }]} />,
+    );
+    const input = rendered.container.querySelector('input')!;
+    expect(input.getAttribute('aria-label')).toBe('Currency');
+    await act(async () => input.focus());
+    expect(document.querySelector('[role="listbox"]')?.getAttribute('aria-label')).toBe('Currency');
+    await cleanup(rendered.root, rendered.container);
+  });
+
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });
@@ -78,8 +89,8 @@ describe('Combobox', () => {
       );
       expect(selected).toHaveBeenCalledWith('apple');
       expect(dismissed).not.toHaveBeenCalled();
-    await act(async () => input.click());
-    expect(input.getAttribute('aria-expanded')).toBe('true');
+      await act(async () => input.click());
+      expect(input.getAttribute('aria-expanded')).toBe('true');
       await act(async () =>
         input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
       );

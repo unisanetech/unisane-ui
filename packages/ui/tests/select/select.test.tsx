@@ -34,7 +34,14 @@ async function cleanup(root: Root, container: HTMLElement) {
 function FruitSelect(
   props: Pick<
     React.ComponentProps<typeof Select>,
-    'value' | 'defaultValue' | 'onValueChange' | 'open' | 'defaultOpen' | 'onOpenChange' | 'name'
+    | 'value'
+    | 'defaultValue'
+    | 'onValueChange'
+    | 'open'
+    | 'defaultOpen'
+    | 'onOpenChange'
+    | 'name'
+    | 'size'
   > = {},
 ) {
   return (
@@ -60,6 +67,20 @@ function getTrigger(container: HTMLElement) {
 }
 
 describe('Select', () => {
+  it.each(['sm', 'md', 'lg'] as const)(
+    'shares the %s value and option type role, including after size changes',
+    async (size) => {
+      const rendered = await render(<FruitSelect size={size} defaultOpen />);
+      const role = size === 'sm' ? 'text-body-medium' : 'text-body-large';
+      expect(getTrigger(rendered.container).classList.contains(role)).toBe(true);
+      expect(document.querySelector('[role="option"]')?.classList.contains(role)).toBe(true);
+      await rendered.rerender(<FruitSelect size={size === 'sm' ? 'md' : 'sm'} open />);
+      const changedRole = size === 'sm' ? 'text-body-large' : 'text-body-medium';
+      expect(document.querySelector('[role="option"]')?.classList.contains(changedRole)).toBe(true);
+      await cleanup(rendered.root, rendered.container);
+    },
+  );
+
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });

@@ -246,3 +246,21 @@ A component change is only complete when:
 - the runtime implementation matches the docs
 - the docs app examples use the real API
 - package lint, package typecheck, and workspace architecture/type checks pass
+
+### Field and menu sizing
+
+`Select` owns `size`; `SelectTrigger` and all options inherit it. `SelectField`
+forwards its size to that root. Compact field values/options use `bodyMedium`;
+medium and large use `bodyLarge`. `DropdownMenuContent` and `Menu` own minimum row
+geometry through `size`, independently of their `bodyMedium` labels; submenus inherit.
+Do not recreate these contracts with descendant selectors in consuming apps.
+
+Field frames consume `--size-field-sm/md/lg` with 32/40/48px defaults. Menu and option
+rows consume the corresponding action-size minimum and may grow for content. A product
+can increase phone targets through these tokens while preserving typography. Keep
+editable phone values legible at the product's accessibility scale.
+
+Stacked field labels consume `--type-field-label-weight` (default 600). Helpers use
+the body-small role. Text and overlay titles use their role's weight/line height
+unless an explicit supported override is supplied; do not force normal weight on
+every Text instance or hard-code title leading.

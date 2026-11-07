@@ -43,6 +43,7 @@ export type ComboboxProps = {
   emptyText?: string;
   placeholder?: string;
   label?: string;
+  'aria-label'?: string;
   size?: FieldSize;
   disabled?: boolean;
   searchable?: boolean;
@@ -71,6 +72,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       emptyText = 'No results found',
       placeholder = 'Search or select...',
       label,
+      'aria-label': ariaLabel,
       size = 'md',
       disabled = false,
       searchable = true,
@@ -344,7 +346,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             htmlFor={inputId}
             variant={size === 'lg' ? 'labelLarge' : 'labelMedium'}
             className={cn(
-              'text-on-surface-variant mb-2 block font-medium',
+              'text-on-surface mb-2 block font-[var(--type-field-label-weight,600)]',
               fieldSize.externalLabelText,
             )}
           >
@@ -367,6 +369,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           }}
           onKeyDown={!searchable ? handleKeyDown : undefined}
           role={!searchable ? 'combobox' : undefined}
+          aria-label={!searchable ? (ariaLabel ?? label) : undefined}
           aria-expanded={!searchable ? isOpen : undefined}
           aria-haspopup={!searchable ? 'listbox' : undefined}
           aria-controls={!searchable ? listboxId : undefined}
@@ -415,6 +418,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     fieldSize.valueText,
                   )}
                   role="combobox"
+                  aria-label={ariaLabel}
                   aria-expanded={isOpen}
                   aria-haspopup="listbox"
                   aria-controls={listboxId}
@@ -496,7 +500,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   className="py-1"
                   role="listbox"
                   id={listboxId}
-                  aria-label={label || 'Options'}
+                  aria-label={ariaLabel || label || 'Options'}
                   aria-busy={loading}
                 >
                   {filteredOptions.length > 0 ? (
@@ -507,6 +511,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         className={cn(
                           'relative flex cursor-pointer items-center gap-3 transition-colors',
                           fieldSize.optionHeight,
+                          fieldSize.optionText,
                           fieldSize.optionPaddingX,
                           'hover:bg-state-hover',
                           highlightSelected &&
@@ -523,7 +528,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         aria-disabled={option.disabled}
                       >
                         <Ripple disabled={option.disabled} />
-                        <span className="relative z-10 flex-1 truncate font-medium">
+                        <span className="relative z-10 min-w-0 flex-1 break-words">
                           {option.label}
                         </span>
                         {highlightSelected && selectedValue === option.value && (
@@ -534,7 +539,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   ) : !loading && !error ? (
                     <div
                       className={cn(
-                        'text-on-surface-variant font-medium',
+                        'text-on-surface-variant',
                         size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
                         size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
                         fieldSize.optionPaddingX,

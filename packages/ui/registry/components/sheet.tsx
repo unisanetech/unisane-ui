@@ -256,7 +256,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="titleLarge"
                     id={titleId}
-                    className="text-on-surface wrap-break-word leading-tight"
+                    className="text-on-surface wrap-break-word"
                   >
                     {title}
                   </Text>
@@ -266,7 +266,7 @@ export const Sheet = forwardRef<HTMLDivElement, SheetProps>(
                     as="div"
                     variant="bodySmall"
                     id={descriptionId}
-                    className="text-on-surface-variant wrap-break-word leading-relaxed"
+                    className="text-on-surface-variant wrap-break-word"
                   >
                     {description}
                   </Text>

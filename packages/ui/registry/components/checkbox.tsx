@@ -59,8 +59,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
       <label
         htmlFor={id}
         className={cn(
-          'group relative inline-flex cursor-pointer items-center gap-3 select-none',
-          disabled && 'cursor-not-allowed opacity-38',
+          'group relative inline-flex cursor-pointer select-none items-center gap-3',
+          disabled && 'opacity-38 cursor-not-allowed',
           className,
         )}
       >
@@ -70,7 +70,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             aria-hidden="true"
             className={cn(
-              'absolute inset-0 z-0 overflow-hidden rounded-xs transition-colors',
+              'rounded-xs absolute inset-0 z-0 overflow-hidden transition-colors',
               'group-hover:bg-state-hover',
               resolvedInvalid && 'group-hover:bg-state-error',
             )}
@@ -96,7 +96,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           <span
             aria-hidden="true"
             className={cn(
-              'bg-surface relative z-10 flex items-center justify-center overflow-hidden rounded-xs border-2',
+              'bg-surface rounded-xs relative z-10 flex items-center justify-center overflow-hidden border-2',
               sizeClasses.control,
               'duration-snappy ease-emphasized pointer-events-none transition-all',
               resolvedInvalid
@@ -129,7 +129,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               'duration-snappy ease-emphasized pointer-events-none absolute z-20 transition-all',
               sizeClasses.icon,
               resolvedInvalid ? 'text-on-error' : 'text-on-primary',
-              indeterminate ? 'scale-100 rotate-0 opacity-100' : 'scale-50 rotate-90 opacity-0',
+              indeterminate ? 'rotate-0 scale-100 opacity-100' : 'rotate-90 scale-50 opacity-0',
             )}
             viewBox="0 0 24 24"
             fill="none"
@@ -144,7 +144,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         </span>
 
         {label !== undefined && label !== null ? (
-          <span className="text-body-medium text-on-surface leading-none font-medium">{label}</span>
+          <span className="text-body-medium text-on-surface">{label}</span>
         ) : null}
       </label>
     );

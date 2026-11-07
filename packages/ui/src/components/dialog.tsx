@@ -177,7 +177,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="titleLarge"
                     as="div"
                     id={titleId}
-                    className="text-on-surface wrap-break-word leading-tight"
+                    className="text-on-surface wrap-break-word"
                   >
                     {title}
                   </Text>
@@ -187,7 +187,7 @@ export const Dialog = forwardRef<HTMLDivElement, DialogProps>(
                     variant="bodySmall"
                     as="div"
                     id={descriptionId}
-                    className="text-on-surface-variant wrap-break-word leading-relaxed"
+                    className="text-on-surface-variant wrap-break-word"
                   >
                     {description}
                   </Text>

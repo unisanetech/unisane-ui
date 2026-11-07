@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import type { FieldSize } from '../lib/field-size';
 import { cn, Slot } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
 import {
@@ -155,6 +156,7 @@ export type Side = 'top' | 'bottom' | 'left' | 'right';
 export type Align = 'start' | 'center' | 'end';
 
 export interface DropdownMenuContentProps {
+  size?: FieldSize;
   children: React.ReactNode;
 
   align?: Align;
@@ -323,6 +325,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
   className,
+  size,
   portal = true,
   closeOnSelect = false,
 }) => {
@@ -552,6 +555,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       }
     >
       <Menu
+        size={size}
         open={true}
         onClick={handleContentClick}
         className={cn(

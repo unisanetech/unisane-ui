@@ -70,7 +70,6 @@ const textVariants = cva('font-sans text-on-surface', {
     variant: 'bodyMedium',
     color: 'onSurface',
     align: 'left',
-    weight: 'normal',
   },
 });
 

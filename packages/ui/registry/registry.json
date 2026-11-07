@@ -622,6 +622,7 @@
       ],
       "dependencies": [],
       "registryDependencies": [
+        "field-size",
         "icon",
         "menu",
         "portal-layer",
@@ -839,6 +840,7 @@
         "class-variance-authority@^0.7.1"
       ],
       "registryDependencies": [
+        "field-size",
         "ripple",
         "utils"
       ]

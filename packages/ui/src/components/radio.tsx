@@ -40,8 +40,8 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
       <label
         htmlFor={id}
         className={cn(
-          'group relative inline-flex cursor-pointer items-center gap-3 select-none',
-          disabled && 'cursor-not-allowed opacity-38',
+          'group relative inline-flex cursor-pointer select-none items-center gap-3',
+          disabled && 'opacity-38 cursor-not-allowed',
           className,
         )}
       >
@@ -93,7 +93,7 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         </span>
 
         {label !== undefined && label !== null ? (
-          <span className="text-body-medium text-on-surface leading-none font-medium">{label}</span>
+          <span className="text-body-medium text-on-surface">{label}</span>
         ) : null}
       </label>
     );

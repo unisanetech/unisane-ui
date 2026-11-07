@@ -53,7 +53,7 @@ describe('Input', () => {
 
     expect(input).not.toBeNull();
     expect(input?.disabled).toBe(true);
-    expect(input?.className).toContain('h-12');
+    expect(input?.className).toContain('h-[var(--size-field-lg,48px)]');
     expect(input?.className).toContain('disabled:opacity-38');
 
     await cleanup(rendered.root, rendered.container);

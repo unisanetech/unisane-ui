@@ -384,6 +384,7 @@ export const dropdownMenuDoc: ComponentDoc = {
       name: 'DropdownMenuContent',
       description: 'Container for menu items.',
       props: [
+        { name: 'size', type: '"sm" | "md" | "lg"', default: '"md"', description: 'Minimum row geometry. Nested menus inherit it. Label typography remains the body-medium role.' },
         { name: 'children', type: 'ReactNode', required: true, description: 'Menu items.' },
         {
           name: 'align',
