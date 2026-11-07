@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "approved",
+  "status": "prepared",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261102.1",
+    "version": "0.1.2-next.20261108.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -27,13 +27,26 @@
     "This approval does not create a Git remote or authorize repository authority cutover."
   ],
   "previousApproval": {
-    "version": "0.1.2-next.20261027.1",
     "approvedBy": "founder",
-    "approvedAt": "2026-10-27"
+    "approvedAt": "2026-11-02",
+    "approvalSource": "Explicit user approval in the coordinated Trade security release chat",
+    "version": "0.1.2-next.20261102.1"
   },
-  "preparedAt": "2026-11-02",
-  "preparedBy": "trade-security",
-  "approvedBy": "founder",
-  "approvedAt": "2026-11-02",
-  "approvalSource": "Explicit user approval in the coordinated Trade security release chat"
+  "preparedAt": "2026-11-08",
+  "preparedBy": "trade-ui-consistency",
+  "scope": "Typography role fidelity; shared field/menu sizing; accessible DataTable record labels; Trade consumer adoption.",
+  "sourceChanges": [
+    "@unisane/ui",
+    "@unisane/data-table"
+  ],
+  "unchangedSourcePackages": [
+    "@unisane/tokens",
+    "@unisane/email-templates"
+  ],
+  "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
+  "exclusions": [
+    "Deployment",
+    "Business-data writes",
+    "Unrelated tooltip size work"
+  ]
 }
