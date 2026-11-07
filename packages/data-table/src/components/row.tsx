@@ -43,6 +43,7 @@ import { getRowBackgroundClass } from './row-state';
 // ─── ROW PROPS ──────────────────────────────────────────────────────────────
 
 interface DataTableRowProps<T> {
+  rowLabel?: string;
   row: T;
   rowIndex: number;
   columns: Column<T>[];
@@ -120,6 +121,7 @@ interface DataTableRowProps<T> {
 
 function DataTableRowInner<T extends { id: string }>({
   row,
+  rowLabel,
   rowIndex,
   columns,
   columnMeta,
@@ -238,7 +240,7 @@ function DataTableRowInner<T extends { id: string }>({
         onMouseEnter={onRowHover ? () => onRowHover(row) : undefined}
         onMouseLeave={onRowHover ? () => onRowHover(null) : undefined}
         className={cn(
-          'group/row group duration-snappy transition-colors',
+          'group/row duration-snappy group transition-colors',
           bgClass,
           onRowClick && 'cursor-pointer',
           !isSelected && !isActive && 'hover:bg-surface-container-low',
@@ -289,7 +291,7 @@ function DataTableRowInner<T extends { id: string }>({
                 aria-hidden="true"
               >
                 {/* Circle indicator at the start */}
-                <div className="bg-primary border-surface absolute top-1/2 left-0 h-2 w-2 -translate-y-1/2 rounded-full border-2" />
+                <div className="bg-primary border-surface absolute left-0 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full border-2" />
               </div>
             )}
             <div className="flex h-full items-center justify-center">
@@ -303,7 +305,7 @@ function DataTableRowInner<T extends { id: string }>({
           <td
             className={cn(
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
-              'left-0 isolate z-[15] @md:sticky',
+              '@md:sticky left-0 isolate z-[15]',
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
@@ -320,7 +322,7 @@ function DataTableRowInner<T extends { id: string }>({
               <Checkbox
                 checked={isSelected}
                 onChange={() => onSelect(row.id, !isSelected)}
-                aria-label={t('selectRowLabel', { id: row.id })}
+                aria-label={t('selectRowLabel', { id: rowLabel?.trim() || row.id })}
                 size="sm"
               />
             </div>
@@ -332,7 +334,7 @@ function DataTableRowInner<T extends { id: string }>({
           <td
             className={cn(
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
-              'isolate z-[15] text-center @md:sticky',
+              '@md:sticky isolate z-[15] text-center',
               stickyBgClass,
               !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
@@ -354,7 +356,7 @@ function DataTableRowInner<T extends { id: string }>({
                 size="sm"
                 selected={isExpanded}
                 aria-expanded={isExpanded}
-                aria-label={isExpanded ? t('collapseRow') : t('expandRow')}
+                aria-label={`${isExpanded ? t('collapseRow') : t('expandRow')}${rowLabel?.trim() ? `: ${rowLabel.trim()}` : ''}`}
                 icon={
                   <Icon
                     symbol={isExpanded ? 'expand_less' : 'expand_more'}
@@ -428,7 +430,7 @@ function DataTableRowInner<T extends { id: string }>({
                   <div
                     id={inlineEditing.getErrorMessageId()}
                     role="alert"
-                    className="text-label-small text-error bg-error-container absolute top-full left-0 z-[5] mt-1 rounded px-2 py-0.5 whitespace-nowrap"
+                    className="text-label-small text-error bg-error-container absolute left-0 top-full z-[5] mt-1 whitespace-nowrap rounded px-2 py-0.5"
                   >
                     {inlineEditing.validationError}
                   </div>
@@ -528,8 +530,8 @@ function DataTableRowInner<T extends { id: string }>({
                 // Pinned columns: sticky with z-10 (below header z-20) (shadow applied via inline style)
                 // Only enable sticky on tablet+ (≥768px container width) - mobile scrolls everything together
                 // Actions columns skip 'isolate' to allow dropdown to escape stacking context
-                pinPosition && !isActionsColumn && 'isolate z-10 @md:sticky',
-                pinPosition && isActionsColumn && 'z-10 @md:sticky',
+                pinPosition && !isActionsColumn && '@md:sticky isolate z-10',
+                pinPosition && isActionsColumn && '@md:sticky z-10',
                 // Column borders: show on non-pinned columns (except last), and on last pinned-left column
                 showColumnBorders &&
                   !isLastColumn &&
@@ -590,7 +592,7 @@ function DataTableRowInner<T extends { id: string }>({
               {showNotEditableTooltip && (
                 <div
                   role="tooltip"
-                  className="text-label-small text-on-surface-variant bg-surface-container-high shadow-1 animate-in fade-in slide-in-from-top-1 absolute top-full left-1/2 z-50 mt-1 -translate-x-1/2 rounded px-2 py-1 whitespace-nowrap duration-150"
+                  className="text-label-small text-on-surface-variant bg-surface-container-high shadow-1 animate-in fade-in slide-in-from-top-1 absolute left-1/2 top-full z-50 mt-1 -translate-x-1/2 whitespace-nowrap rounded px-2 py-1 duration-150"
                 >
                   {t('cellNotEditable')}
                 </div>
@@ -659,7 +661,7 @@ function DataTableExpandedRowInner<T extends { id: string }>({
       {selectable && (
         <td
           className={cn(
-            'bg-surface-container-lowest left-0 isolate z-10 @md:sticky',
+            'bg-surface-container-lowest @md:sticky left-0 isolate z-10',
             !isLastRow && 'border-outline-weak border-b',
             showColumnBorders && 'border-outline-weak border-r',
           )}
@@ -673,7 +675,7 @@ function DataTableExpandedRowInner<T extends { id: string }>({
       {enableExpansion && (
         <td
           className={cn(
-            'bg-surface-container-lowest isolate z-10 @md:sticky',
+            'bg-surface-container-lowest @md:sticky isolate z-10',
             !isLastRow && 'border-outline-weak border-b',
             showColumnBorders && 'border-outline-weak border-r',
           )}
@@ -765,6 +767,7 @@ export const DataTableRow = memo(DataTableRowInner, (prev, next) => {
 
   // Structural changes (reference equality is intentional - parent should memoize)
   if (
+    prev.rowLabel !== next.rowLabel ||
     prev.columns !== next.columns ||
     prev.columnMeta !== next.columnMeta ||
     prev.style !== next.style

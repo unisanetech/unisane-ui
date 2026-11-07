@@ -175,6 +175,7 @@ export const comboboxDoc: ComponentDoc = {
 
   // ─── PROPS ──────────────────────────────────────────────────────────────────
   props: [
+    { name: 'aria-label', type: 'string', description: 'Accessible name for a control without a visible label; also names its option list.' },
     {
       name: 'options',
       type: 'ComboboxOption[]',

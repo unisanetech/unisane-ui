@@ -81,6 +81,8 @@ export interface DataTableInnerProps<T extends { id: string }> {
   bulkActions?: BulkAction[];
   renderExpandedRow?: (row: T) => ReactNode;
   expandedRow?: ExpandedRowConfig;
+  /** Human-readable record context for selection and expansion controls. */
+  getRowLabel?: (row: T) => string;
   getRowCanExpand?: (row: T) => boolean;
   className?: string;
   style?: CSSProperties;
@@ -149,6 +151,7 @@ export function DataTableInner<T extends { id: string }>({
   bulkActions = [],
   renderExpandedRow,
   expandedRow,
+  getRowLabel,
   getRowCanExpand,
   className = '',
   style,
@@ -670,15 +673,16 @@ export function DataTableInner<T extends { id: string }>({
     const cursorStart = (cursorPage - 1) * cursorLimit + 1;
     // With pagination owned by the caller, this table knows only its displayed
     // rows. Do not announce them as the total matching remote dataset.
-    const rangeInfo = config.paginationMode === 'none'
-      ? t('itemCount', { count: formatNumber(paginatedData.length) })
-      : cursorPagination
-      ? `${formatNumber(cursorStart)}–${formatNumber(cursorStart + paginatedData.length - 1)}`
-      : t('rangeOfTotal', {
-          start: formatNumber(1),
-          end: formatNumber(paginatedData.length),
-          total: formatNumber(processedData.length),
-        });
+    const rangeInfo =
+      config.paginationMode === 'none'
+        ? t('itemCount', { count: formatNumber(paginatedData.length) })
+        : cursorPagination
+          ? `${formatNumber(cursorStart)}–${formatNumber(cursorStart + paginatedData.length - 1)}`
+          : t('rangeOfTotal', {
+              start: formatNumber(1),
+              end: formatNumber(paginatedData.length),
+              total: formatNumber(processedData.length),
+            });
     if (selectedCount > 0) {
       return `${t('selectedCount', { count: selectedCount })}. ${rangeInfo}`;
     }
@@ -1014,6 +1018,7 @@ export function DataTableInner<T extends { id: string }>({
                 showColumnBorders={effectiveColumnBorders}
                 zebra={effectiveZebra}
                 enableExpansion={enableExpansion}
+                getRowLabel={getRowLabel}
                 getRowCanExpand={getRowCanExpand}
                 renderExpandedRow={renderExpandedRow}
                 expandedRow={expandedRow}
@@ -1060,6 +1065,7 @@ export function DataTableInner<T extends { id: string }>({
                   onRowHover={onRowHover}
                   renderExpandedRow={renderExpandedRow}
                   expandedRow={expandedRow}
+                  getRowLabel={getRowLabel}
                   getRowCanExpand={getRowCanExpand}
                   activeRowId={activeRowId}
                   emptyMessage={emptyMessage}

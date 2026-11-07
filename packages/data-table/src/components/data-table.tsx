@@ -151,6 +151,8 @@ export interface DataTableProps<T extends { id: string }> {
   /** Presentation of content disclosed beneath a row. */
   expandedRow?: ExpandedRowConfig;
 
+  /** Human-readable record context for selection and expansion controls. */
+  getRowLabel?: (row: T) => string;
   /** Determine if row can expand */
   getRowCanExpand?: (row: T) => boolean;
 
@@ -333,6 +335,7 @@ export function DataTable<T extends { id: string }>({
   // Row expansion
   renderExpandedRow,
   expandedRow,
+  getRowLabel,
   getRowCanExpand,
 
   // Row styling
@@ -514,6 +517,7 @@ export function DataTable<T extends { id: string }>({
             bulkActions={bulkActions}
             renderExpandedRow={enableExpansion ? renderExpandedRow : undefined}
             expandedRow={expandedRow}
+            getRowLabel={getRowLabel}
             getRowCanExpand={getRowCanExpand}
             className={className}
             style={style}

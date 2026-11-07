@@ -9,7 +9,7 @@ export type FieldLabelPlacement = 'floating' | 'stacked';
 
 export function getStackedFieldLabelClasses(size: FieldSize, error = false, disabled = false) {
   return cn(
-    'mb-2 block font-semibold tracking-normal',
+    'mb-2 block font-[var(--type-field-label-weight,600)] tracking-normal',
     getFieldSizeStyles(size).externalLabelText,
     error ? 'text-error' : 'text-on-surface',
     disabled && 'opacity-38',
@@ -76,7 +76,7 @@ export function getFieldLabelClasses({
       multiline ? fieldSize.multilineLabelTop : 'top-1/2 -translate-y-1/2',
     ],
     floating && [
-      'text-label-small font-medium',
+      'text-label-small',
       variant === 'outlined' && [
         'top-0 -translate-y-1/2 px-1 -ml-1',
         labelBg || 'bg-surface',
@@ -121,9 +121,7 @@ export function getFieldHelperTextClasses(
   const fieldSize = getFieldSizeStyles(size);
 
   return cn(
-    labelPlacement === 'stacked'
-      ? 'text-body-small font-normal tracking-normal'
-      : 'text-label-small font-medium',
+    labelPlacement === 'stacked' ? 'text-body-small tracking-normal' : 'text-label-small',
     fieldSize.helperMarginTop,
     labelPlacement === 'floating' && fieldSize.helperPaddingX,
     error ? 'text-error' : 'text-on-surface-variant',

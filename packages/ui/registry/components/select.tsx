@@ -5,7 +5,11 @@ import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { fieldContainerVariants, type FieldShellVariant } from '@/lib/field-shell';
-import { getPortalLayerStyle } from '@/lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '@/lib/portal-layer';
 import { useControllableState } from '@/lib/use-controllable-state';
 import { useOverlayBehavior } from '@/lib/use-overlay-behavior';
 import { Icon } from '@/components/ui/icon';
@@ -20,6 +24,7 @@ type SelectItemRecord = {
 };
 
 type SelectContextValue = {
+  size: FieldSize;
   disabled: boolean;
   required: boolean;
   open: boolean;
@@ -55,6 +60,8 @@ export interface SelectProps extends Omit<
   disabled?: boolean;
   required?: boolean;
   name?: string;
+  /** Shared trigger and option size, including portalled content. */
+  size?: FieldSize;
 }
 
 export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
@@ -70,6 +77,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
       onValueChange,
       open,
       required = false,
+      size = 'md',
       value,
       ...props
     },
@@ -208,6 +216,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
 
     const contextValue = React.useMemo<SelectContextValue>(
       () => ({
+        size,
         disabled,
         required,
         open: isOpen,
@@ -228,6 +237,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         searchByText,
       }),
       [
+        size,
         disabled,
         contentId,
         highlightedItem,
@@ -273,7 +283,6 @@ Select.displayName = 'Select';
 
 export interface SelectTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   invalid?: boolean;
-  size?: FieldSize;
   trailingIcon?: React.ReactNode;
   variant?: FieldShellVariant;
 }
@@ -287,7 +296,6 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
       invalid = false,
       onClick,
       onKeyDown,
-      size = 'md',
       trailingIcon,
       variant = 'outlined',
       ...props
@@ -295,6 +303,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
     forwardedRef,
   ) => {
     const context = useSelectContext('SelectTrigger');
+    const { size } = context;
     const fieldSize = getFieldSizeStyles(size);
     const resolvedDisabled = context.disabled || disabled;
 
@@ -355,6 +364,7 @@ export const SelectTrigger = React.forwardRef<HTMLButtonElement, SelectTriggerPr
         data-state={context.open ? 'open' : 'closed'}
         disabled={resolvedDisabled}
         className={cn(
+          fieldSize.valueText,
           'group relative flex w-full cursor-pointer select-none items-center transition-colors',
           fieldSize.containerHeight,
           fieldContainerVariants({ variant, error: invalid, disabled: resolvedDisabled }),
@@ -509,14 +519,16 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
       };
       update();
       const frame = window.requestAnimationFrame(update);
+      const stopMotion = observePortalAnchorMotion(context.triggerRef.current, update);
       window.addEventListener('scroll', update, true);
       window.addEventListener('resize', update);
       return () => {
         window.cancelAnimationFrame(frame);
+        stopMotion();
         window.removeEventListener('scroll', update, true);
         window.removeEventListener('resize', update);
       };
-    }, [context.open, portal, updatePosition]);
+    }, [context.open, context.triggerRef, portal, updatePosition]);
 
     useOverlayBehavior({
       open: context.open,
@@ -574,7 +586,7 @@ export const SelectContent = React.forwardRef<HTMLDivElement, SelectContentProps
     );
 
     return portal && context.open && typeof document !== 'undefined'
-      ? createPortal(content, document.body)
+      ? createPortal(content, getPortalContainer(context.triggerRef.current))
       : content;
   },
 );
@@ -602,6 +614,12 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
     ref,
   ) => {
     const context = useSelectContext('SelectItem');
+    const fieldSize = getFieldSizeStyles(context.size);
+    const optionHeight = {
+      sm: 'min-h-[var(--size-field-sm,32px)]',
+      md: 'min-h-[var(--size-field-md,40px)]',
+      lg: 'min-h-[var(--size-field-lg,48px)]',
+    }[context.size];
     const { registerItem } = context;
     const generatedId = React.useId();
     const id = `select-item-${generatedId}`;
@@ -634,7 +652,11 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         data-highlighted={highlighted || undefined}
         data-state={selected ? 'checked' : 'unchecked'}
         className={cn(
-          'text-label-medium rounded-xs relative flex min-h-[calc(var(--unit)*10)] cursor-pointer items-center py-2 pl-3 pr-[calc(var(--unit)*10)] font-medium outline-none transition-colors',
+          'rounded-xs relative flex cursor-pointer items-center py-1 outline-none transition-colors',
+          fieldSize.optionText,
+          fieldSize.optionPaddingX,
+          optionHeight,
+          'pr-10',
           'hover:bg-state-hover data-[highlighted=true]:bg-state-hover',
           selected && 'bg-state-selected text-on-surface',
           resolvedDisabled && 'opacity-38 cursor-not-allowed',

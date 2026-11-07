@@ -57,6 +57,8 @@ interface DataTableBodyProps<T> {
   onRowHover?: (row: T | null) => void;
   renderExpandedRow?: (row: T) => ReactNode;
   expandedRow?: ExpandedRowConfig;
+  /** Human-readable record context for selection and expansion controls. */
+  getRowLabel?: (row: T) => string;
   getRowCanExpand?: (row: T) => boolean;
   activeRowId?: string;
   emptyMessage?: string;
@@ -208,6 +210,7 @@ function DataTableBodyInner<T extends { id: string }>({
   onRowHover,
   renderExpandedRow,
   expandedRow,
+  getRowLabel,
   getRowCanExpand,
   activeRowId,
   emptyMessage,
@@ -312,6 +315,7 @@ function DataTableBodyInner<T extends { id: string }>({
               <DataTableRow
                 key={row.id}
                 row={row}
+                rowLabel={getRowLabel?.(row)}
                 rowIndex={currentRowIndex}
                 columns={columns}
                 columnMeta={columnMeta}
@@ -384,6 +388,7 @@ function DataTableBodyInner<T extends { id: string }>({
           <DataTableRow
             key={row.id}
             row={row}
+            rowLabel={getRowLabel?.(row)}
             rowIndex={index}
             columns={columns}
             columnMeta={columnMeta}

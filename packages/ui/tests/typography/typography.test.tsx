@@ -3,6 +3,7 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { Text } from '../../src/primitives/text';
 import { Typography } from '../../src/components/typography';
 
 async function render(ui: React.ReactNode) {
@@ -25,6 +26,24 @@ async function cleanup(root: Root, container: HTMLElement) {
 }
 
 describe('Typography', () => {
+  it('leaves role weight to the theme unless the consumer explicitly overrides it', async () => {
+    const rendered = await render(
+      <>
+        <Text as="h2" variant="titleLarge">
+          Themed title
+        </Text>
+        <Text weight="normal" variant="titleLarge">
+          Normal title
+        </Text>
+      </>,
+    );
+    const [themed, explicit] = Array.from(rendered.container.children);
+    expect(themed?.className).toContain('text-title-large');
+    expect(themed?.className).not.toMatch(/font-(normal|medium|semibold|bold)/);
+    expect(explicit?.className).toContain('font-normal');
+    await cleanup(rendered.root, rendered.container);
+  });
+
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });

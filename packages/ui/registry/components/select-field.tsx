@@ -131,6 +131,7 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
           </FieldLabel>
         ) : null}
         <Select
+          size={size}
           value={selectedValue}
           onValueChange={setSelectedValue}
           open={isOpen}
@@ -144,7 +145,6 @@ export const SelectField = React.forwardRef<HTMLButtonElement, SelectFieldProps>
               ref={ref}
               id={fieldId}
               variant={variant}
-              size={size}
               invalid={resolvedInvalid}
               aria-label={ariaLabel}
               aria-labelledby={labelId}

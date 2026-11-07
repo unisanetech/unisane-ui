@@ -8,7 +8,11 @@ import { Icon } from './icon';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import { useControllableState } from '../lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '../lib/field-shell';
-import { getPortalLayerStyle } from '../lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '../lib/portal-layer';
 import { Ripple } from './ripple';
 import { Button } from './button';
 import { useOverlayBehavior } from '../lib/use-overlay-behavior';
@@ -39,6 +43,7 @@ export type ComboboxProps = {
   emptyText?: string;
   placeholder?: string;
   label?: string;
+  'aria-label'?: string;
   size?: FieldSize;
   disabled?: boolean;
   searchable?: boolean;
@@ -67,6 +72,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       emptyText = 'No results found',
       placeholder = 'Search or select...',
       label,
+      'aria-label': ariaLabel,
       size = 'md',
       disabled = false,
       searchable = true,
@@ -86,8 +92,9 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       // The last result page removes the paging action. Keep keyboard users
       // in the picker rather than leaving focus on document.body.
       if (!node && footerActionRef.current === document.activeElement) {
-        (inputRef.current ??
-          comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]'))?.focus();
+        (
+          inputRef.current ?? comboboxRef.current?.querySelector<HTMLElement>('[role="combobox"]')
+        )?.focus();
       }
       footerActionRef.current = node;
     }, []);
@@ -206,11 +213,13 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       setIsPositioned(false);
       updatePosition();
       const raf = window.requestAnimationFrame(updatePosition);
+      const stopMotion = observePortalAnchorMotion(comboboxRef.current, updatePosition);
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
 
       return () => {
         window.cancelAnimationFrame(raf);
+        stopMotion();
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
       };
@@ -337,7 +346,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             htmlFor={inputId}
             variant={size === 'lg' ? 'labelLarge' : 'labelMedium'}
             className={cn(
-              'text-on-surface-variant mb-2 block font-medium',
+              'text-on-surface mb-2 block font-[var(--type-field-label-weight,600)]',
               fieldSize.externalLabelText,
             )}
           >
@@ -360,6 +369,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
           }}
           onKeyDown={!searchable ? handleKeyDown : undefined}
           role={!searchable ? 'combobox' : undefined}
+          aria-label={!searchable ? (ariaLabel ?? label) : undefined}
           aria-expanded={!searchable ? isOpen : undefined}
           aria-haspopup={!searchable ? 'listbox' : undefined}
           aria-controls={!searchable ? listboxId : undefined}
@@ -386,6 +396,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   value={isSearching ? searchValue : selectedOption ? selectedOption.label : ''}
                   onChange={(event) => handleInputChange(event.target.value)}
                   onKeyDown={handleKeyDown}
+                  onClick={() => {
+                    // Selection leaves focus on the input. A second click must
+                    // reopen its choices without requiring a blur/focus cycle.
+                    if (!disabled && !isOpen) setOpenState(true);
+                  }}
                   onFocus={(event) => {
                     if (dropdownRef.current?.contains(event.relatedTarget as Node | null)) return;
                     if (!disabled) {
@@ -403,6 +418,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                     fieldSize.valueText,
                   )}
                   role="combobox"
+                  aria-label={ariaLabel}
                   aria-expanded={isOpen}
                   aria-haspopup="listbox"
                   aria-controls={listboxId}
@@ -484,7 +500,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   className="py-1"
                   role="listbox"
                   id={listboxId}
-                  aria-label={label || 'Options'}
+                  aria-label={ariaLabel || label || 'Options'}
                   aria-busy={loading}
                 >
                   {filteredOptions.length > 0 ? (
@@ -495,6 +511,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         className={cn(
                           'relative flex cursor-pointer items-center gap-3 transition-colors',
                           fieldSize.optionHeight,
+                          fieldSize.optionText,
                           fieldSize.optionPaddingX,
                           'hover:bg-state-hover',
                           highlightSelected &&
@@ -511,7 +528,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         aria-disabled={option.disabled}
                       >
                         <Ripple disabled={option.disabled} />
-                        <span className="relative z-10 flex-1 truncate font-medium">
+                        <span className="relative z-10 min-w-0 flex-1 break-words">
                           {option.label}
                         </span>
                         {highlightSelected && selectedValue === option.value && (
@@ -522,7 +539,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                   ) : !loading && !error ? (
                     <div
                       className={cn(
-                        'text-on-surface-variant font-medium',
+                        'text-on-surface-variant',
                         size === 'sm' ? 'text-label-small py-2' : 'text-label-medium',
                         size === 'lg' ? 'py-3.5' : size === 'md' ? 'py-3' : '',
                         fieldSize.optionPaddingX,
@@ -578,7 +595,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
             );
 
             if (portal && typeof document !== 'undefined') {
-              return createPortal(dropdown, document.body);
+              return createPortal(dropdown, getPortalContainer(comboboxRef.current));
             }
 
             return dropdown;

@@ -3,6 +3,7 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Dialog } from '../../src/components/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -66,6 +67,40 @@ describe('DropdownMenu', () => {
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
     document.body.innerHTML = '';
+  });
+
+  it('keeps menus and submenus inside their modal accessibility boundary', async () => {
+    const rendered = await render(
+      <Dialog defaultOpen title="Item actions">
+        <DropdownMenu>
+          <DropdownMenuTrigger>Actions</DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>More</DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Edit</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Dialog>,
+    );
+    const modal = document.querySelector<HTMLElement>('[aria-modal="true"]')!;
+    await act(async () => getTrigger(modal).click());
+    const submenuTrigger = modal.querySelector<HTMLElement>(
+      '[role="menuitem"][aria-haspopup="menu"]',
+    )!;
+    await act(async () =>
+      submenuTrigger.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }),
+      ),
+    );
+    expect(getMenus()).toHaveLength(2);
+    for (const menu of getMenus()) {
+      expect(menu.closest('[aria-modal="true"]')).toBe(modal);
+      expect(menu.closest('[inert], [aria-hidden="true"]')).toBeNull();
+    }
+    await cleanup(rendered.root, rendered.container);
   });
 
   it('opens from keyboard with the expected trigger ARIA wiring and closes on outside click', async () => {

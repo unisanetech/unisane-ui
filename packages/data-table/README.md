@@ -114,3 +114,12 @@ pnpm --filter @unisane/data-table build
 
 This package is available under the MIT License. See `LICENSE` and the repository
 `THIRD_PARTY_NOTICES.md` for applicable notices.
+
+## Accessible record controls
+
+Supply `getRowLabel={(row) => `${row.name} · ${row.reference}`}` when row IDs are
+opaque. Selection and expansion controls then announce meaningful record context.
+Include a human-readable reference when names repeat. `row.id` still owns selection,
+expansion and reconciliation; the label does not change identity. This applies to
+regular, grouped and virtualized rows. Omit the callback only when IDs are already
+meaningful to the user.

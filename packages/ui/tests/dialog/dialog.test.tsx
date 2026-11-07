@@ -126,6 +126,21 @@ describe('Dialog', () => {
     await cleanup(rendered.root, rendered.container);
   });
 
+  it('does not dismiss when a nested widget already consumed Escape', async () => {
+    const dismissed = vi.fn();
+    const rendered = await render(
+      <Dialog defaultOpen title="Edit" onOpenChange={dismissed}>
+        Body
+      </Dialog>,
+    );
+    const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+    event.preventDefault();
+    await act(async () => document.dispatchEvent(event));
+    expect(dismissed).not.toHaveBeenCalled();
+    expect(getDialog()).not.toBeNull();
+    await cleanup(rendered.root, rendered.container);
+  });
+
   it('closes through Escape via onOpenChange', async () => {
     const onOpenChange = vi.fn();
     const rendered = await render(

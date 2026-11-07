@@ -61,6 +61,10 @@ export const selectDoc: ComponentDoc = {
   docsLayout: { hideChoosing: true },
   props: [
     {
+      name: 'size', type: '"sm" | "md" | "lg"', default: '"md"',
+      description: 'Set on Select (or SelectField) so the trigger and every option share the same context. Small is compact; medium and large use the form value role.',
+    },
+    {
       name: 'value',
       type: 'string',
       description: 'Controlled selected value.',

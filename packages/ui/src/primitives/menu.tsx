@@ -1,7 +1,15 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import type { FieldSize } from '../lib/field-size';
 import { cn, Slot } from '../lib/utils';
 import { Ripple } from '../components/ripple';
+
+const MenuSizeContext = React.createContext<FieldSize>('md');
+const menuRowSizes = {
+  sm: 'min-h-[var(--size-action-sm)] py-1',
+  md: 'min-h-[var(--size-action-md)] py-2',
+  lg: 'min-h-[var(--size-action-lg)] py-3',
+} as const;
 
 const menuVariants = cva(
   'min-w-50 bg-surface shadow-2 border border-outline-soft overflow-hidden',
@@ -26,23 +34,28 @@ const menuIconSlotClasses =
 
 export interface MenuProps
   extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof menuVariants> {
+  size?: FieldSize;
   open?: boolean;
   children: React.ReactNode;
 }
 
 export const Menu: React.FC<MenuProps> = ({
   open = true,
+  size,
   rounded,
   className,
   children,
   ...props
 }) => {
+  const inheritedSize = React.useContext(MenuSizeContext);
   if (!open) return null;
 
   return (
-    <div className={cn(menuVariants({ rounded }), 'py-2', className)} role="menu" {...props}>
-      {children}
-    </div>
+    <MenuSizeContext.Provider value={size ?? inheritedSize}>
+      <div className={cn(menuVariants({ rounded }), 'py-2', className)} role="menu" {...props}>
+        {children}
+      </div>
+    </MenuSizeContext.Provider>
   );
 };
 
@@ -67,15 +80,17 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   asChild,
   ...props
 }) => {
+  const size = React.useContext(MenuSizeContext);
   const label =
     asChild && isValidElement<{ children?: React.ReactNode }>(children)
       ? children.props.children
       : children;
 
   const itemClasses = cn(
-    'text-label-large relative flex min-h-[var(--size-action-md)] w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[calc(var(--unit)*3)] py-[calc(var(--unit)*2)] text-left select-none',
+    'text-body-medium relative flex w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[calc(var(--unit)*3)] text-left select-none',
     'text-on-surface transition-colors duration-short ease-standard',
     'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]',
+    menuRowSizes[size],
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
     selected && 'bg-state-selected text-on-surface',
     className,

@@ -4,6 +4,8 @@ import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { Combobox } from '../../src/components/combobox';
+import { Dialog } from '../../src/components/dialog';
+import { Sheet } from '../../src/components/sheet';
 
 const OPTIONS = [
   { value: 'apple', label: 'Apple' },
@@ -39,6 +41,17 @@ async function cleanup(root: Root, container: HTMLElement) {
 }
 
 describe('Combobox', () => {
+  it('names a label-free currency search input and its listbox', async () => {
+    const rendered = await render(
+      <Combobox aria-label="Currency" options={[{ value: 'INR', label: 'INR — Indian Rupee' }]} />,
+    );
+    const input = rendered.container.querySelector('input')!;
+    expect(input.getAttribute('aria-label')).toBe('Currency');
+    await act(async () => input.focus());
+    expect(document.querySelector('[role="listbox"]')?.getAttribute('aria-label')).toBe('Currency');
+    await cleanup(rendered.root, rendered.container);
+  });
+
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
   });
@@ -46,6 +59,48 @@ describe('Combobox', () => {
   afterEach(() => {
     document.body.innerHTML = '';
   });
+
+  it.each([Dialog, Sheet])(
+    'keeps choices inside the modal without moving them into its clipped panel (%s)',
+    async (Modal) => {
+      const selected = vi.fn();
+      const dismissed = vi.fn();
+      const rendered = await render(
+        <Modal defaultOpen title="Choose item" onOpenChange={dismissed}>
+          <Combobox label="Fruit" options={OPTIONS} onValueChange={selected} />
+        </Modal>,
+      );
+      const modal = document.querySelector('[aria-modal="true"]')!;
+      const input = modal.querySelector<HTMLInputElement>('[role="combobox"]')!;
+      await act(async () => input.focus());
+      const list = document.getElementById(input.getAttribute('aria-controls')!)!;
+      expect(list.closest('[aria-modal="true"]')).toBe(modal);
+      expect(list.closest('[inert], [aria-hidden="true"]')).toBeNull();
+      expect(modal.querySelector('.overflow-y-auto')?.contains(list)).toBe(false);
+      expect(modal.classList.contains('transform-gpu')).toBe(false);
+      await act(async () =>
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true })),
+      );
+      expect(
+        modal.contains(document.getElementById(input.getAttribute('aria-activedescendant')!)),
+      ).toBe(true);
+      await act(async () =>
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })),
+      );
+      expect(selected).toHaveBeenCalledWith('apple');
+      expect(dismissed).not.toHaveBeenCalled();
+      await act(async () => input.click());
+      expect(input.getAttribute('aria-expanded')).toBe('true');
+      await act(async () =>
+        input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })),
+      );
+      expect(input.getAttribute('aria-expanded')).toBe('false');
+      expect(dismissed).not.toHaveBeenCalled();
+      expect(rendered.container.hasAttribute('inert')).toBe(true);
+      await cleanup(rendered.root, rendered.container);
+      expect(rendered.container.hasAttribute('inert')).toBe(false);
+    },
+  );
 
   it('opens from focus in searchable mode and filters options from typed input', async () => {
     const onSearchChange = vi.fn();

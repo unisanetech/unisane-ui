@@ -2,9 +2,14 @@
 
 import React, { useState, useRef, useEffect, useLayoutEffect, useId, useMemo } from 'react';
 import { createPortal } from 'react-dom';
+import type { FieldSize } from '../lib/field-size';
 import { cn, Slot } from '../lib/utils';
 import { useControllableState } from '../lib/use-controllable-state';
-import { getPortalLayerStyle } from '../lib/portal-layer';
+import {
+  getPortalContainer,
+  getPortalLayerStyle,
+  observePortalAnchorMotion,
+} from '../lib/portal-layer';
 import { useOverlayBehavior } from '../lib/use-overlay-behavior';
 import { Icon } from './icon';
 import { Menu, MenuItem, MenuDivider, MenuCheckboxItem, MenuRadioItem } from '../primitives/menu';
@@ -151,6 +156,7 @@ export type Side = 'top' | 'bottom' | 'left' | 'right';
 export type Align = 'start' | 'center' | 'end';
 
 export interface DropdownMenuContentProps {
+  size?: FieldSize;
   children: React.ReactNode;
 
   align?: Align;
@@ -319,6 +325,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   avoidCollisions = true,
   collisionPadding = 8,
   className,
+  size,
   portal = true,
   closeOnSelect = false,
 }) => {
@@ -407,10 +414,12 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
     updatePosition();
 
     if (portal) {
+      const stopMotion = observePortalAnchorMotion(triggerRef.current, updatePosition);
       window.addEventListener('scroll', updatePosition, true);
       window.addEventListener('resize', updatePosition);
 
       return () => {
+        stopMotion();
         window.removeEventListener('scroll', updatePosition, true);
         window.removeEventListener('resize', updatePosition);
       };
@@ -546,6 +555,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
       }
     >
       <Menu
+        size={size}
         open={true}
         onClick={handleContentClick}
         className={cn(
@@ -559,7 +569,7 @@ export const DropdownMenuContent: React.FC<DropdownMenuContentProps> = ({
   );
 
   if (portal && typeof document !== 'undefined') {
-    return createPortal(content, document.body);
+    return createPortal(content, getPortalContainer(triggerRef.current));
   }
 
   return content;
@@ -823,10 +833,12 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
     setIsPositioned(false);
     updatePosition();
 
+    const stopMotion = observePortalAnchorMotion(triggerRef.current, updatePosition);
     window.addEventListener('scroll', updatePosition, true);
     window.addEventListener('resize', updatePosition);
 
     return () => {
+      stopMotion();
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
@@ -872,7 +884,7 @@ export const DropdownMenuSubContent: React.FC<DropdownMenuSubContentProps> = ({
   );
 
   if (typeof document !== 'undefined') {
-    return createPortal(content, document.body);
+    return createPortal(content, getPortalContainer(triggerRef.current));
   }
 
   return content;
