@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "prepared",
+  "status": "approved",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -48,5 +48,8 @@
     "Deployment",
     "Business-data writes",
     "Unrelated tooltip size work"
-  ]
+  ],
+  "approvedBy": "founder",
+  "approvedAt": "2026-11-08",
+  "approvalSource": "Explicit user approval of candidate 7d7064c in Trade UI consistency chat; push, PR, merge after CI, stage/publish exact four-package 0.1.2-next.20261108.1 cohort and local Trade adoption."
 }

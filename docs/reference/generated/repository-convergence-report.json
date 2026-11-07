@@ -2491,7 +2491,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "41f777381c747b152e69b73f1c60fda7b3e4c8df72b5051da48a4ecaf212f253"
+      "sha256": "f96a539332acdf7fcb7fe1f5b3322840f4fce675c746fe59168fb7eb03628d2c"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
