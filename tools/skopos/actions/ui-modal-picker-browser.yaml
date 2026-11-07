@@ -1,0 +1,20 @@
+id: ui.modal-picker-browser
+title: Verify modal pickers in real desktop and mobile browsers
+description: Run the docs-owned modal fixture test in both themes and canonical viewports, stopping at the first failure.
+category: quality-check
+scope: [workspace]
+command: pnpm --filter @unisane/ui-docs exec playwright test --config playwright.config.ts e2e/modal-pickers.spec.ts --max-failures=1
+cwd: .
+timeoutMs: 300000
+inputs: [apps/docs/app, apps/docs/features, apps/docs/lib, apps/docs/e2e/modal-pickers.spec.ts, apps/docs/scripts, apps/docs/public, apps/docs/package.json, apps/docs/next.config.ts, apps/docs/playwright.config.ts, apps/docs/postcss.config.js, apps/docs/tsconfig.json, pnpm-lock.yaml, pnpm-workspace.yaml, packages/ui, packages/tokens]
+outputs: [apps/docs/test-results]
+affects: []
+capabilities: {process: required, network: none, browser: required, tools: [pnpm, playwright], secrets: [], services: []}
+effects: {workspace: none, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: artifact-producing
+requiresApproval: false
+phases: [iteration, stabilization, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

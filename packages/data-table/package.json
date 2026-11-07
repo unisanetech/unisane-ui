@@ -158,9 +158,9 @@
   "dependencies": {
     "@tanstack/react-virtual": "3.13.18",
     "dequal": "^2.0.3",
-    "jspdf": "^3.0.4",
-    "jspdf-autotable": "^5.0.2",
-    "xlsx": "^0.18.5"
+    "jspdf": "4.2.1",
+    "jspdf-autotable": "5.0.9",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "unisane": {
     "kind": "ui",

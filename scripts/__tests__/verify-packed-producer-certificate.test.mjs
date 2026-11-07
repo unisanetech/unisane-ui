@@ -1,6 +1,41 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { validatePackedManifest } from '../verify-packed-producer-certificate.mjs';
+import {
+  validatePackedManifest,
+  validateReleaseApproval,
+} from '../verify-packed-producer-certificate.mjs';
+
+const preparedApproval = {
+  status: 'prepared',
+  publicDistribution: true,
+  license: 'MIT',
+  packages: ['@unisane/tokens', '@unisane/ui', '@unisane/data-table', '@unisane/email-templates'],
+  release: {
+    registry: 'https://registry.npmjs.org/',
+    access: 'public',
+    tag: 'next',
+    provenanceRequired: true,
+  },
+};
+test('a prepared certificate cannot satisfy the approved publication mode', () => {
+  assert.throws(() => validateReleaseApproval(preparedApproval));
+  validateReleaseApproval(preparedApproval, { prepared: true });
+  validateReleaseApproval({ ...preparedApproval, status: 'approved' });
+});
+test('local preparation cannot expand public distribution admission or disable provenance', () => {
+  assert.throws(() =>
+    validateReleaseApproval(
+      { ...preparedApproval, packages: ['@unisane/ui-cli'] },
+      { prepared: true },
+    ),
+  );
+  assert.throws(() =>
+    validateReleaseApproval(
+      { ...preparedApproval, release: { ...preparedApproval.release, provenanceRequired: false } },
+      { prepared: true },
+    ),
+  );
+});
 
 const approval = {
   packages: ['@unisane/ui', '@unisane/tokens'],

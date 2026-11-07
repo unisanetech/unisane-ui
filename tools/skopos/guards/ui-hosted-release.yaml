@@ -1,0 +1,13 @@
+id: ui.hosted-release
+title: Hosted UI prereleases require locked dependencies and packed consumer proof
+description: Verify and retain canonical source and packed-consumer evidence for the authorized UI prerelease.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths: [docs/release-approval.json, tools/skopos/actions/ui-hosted-release.yaml, tools/skopos/guards/ui-hosted-release.yaml]
+  phases: [iteration, stabilization, closure]
+  risks: [standard, high-impact]
+requires:
+  actionIds: [ui.dependencies.restore, ui.hosted-release.convergence, ui.hosted-release.packed]
+  evidence: source-bound-action

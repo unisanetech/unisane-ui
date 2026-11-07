@@ -1,0 +1,57 @@
+{
+  "id": "data_table.export.security",
+  "title": "Verify supported DataTable exports with patched dependencies",
+  "description": "Build the actual public package and dependency closure, then run the affected export suites once, including real workbook/PDF output. No browser screenshots, publication or hosted writes.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm exec turbo run build --filter=@unisane/data-table --output-logs=errors-only && pnpm --filter @unisane/data-table exec vitest run tests/utils/export --maxWorkers=1",
+  "cwd": ".",
+  "timeoutMs": 300000,
+  "inputs": [
+    "packages/data-table",
+    "packages/ui",
+    "packages/tokens",
+    "pnpm-lock.yaml",
+    "tools/skopos/actions/data-table-export-security.yaml"
+  ],
+  "outputs": [
+    "packages/data-table/dist",
+    "packages/ui/dist",
+    "packages/tokens/dist"
+  ],
+  "affects": [
+    "packages/data-table/dist",
+    "packages/ui/dist",
+    "packages/tokens/dist"
+  ],
+  "capabilities": {
+    "process": "required",
+    "network": "none",
+    "browser": "none",
+    "tools": [
+      "node",
+      "pnpm"
+    ],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "declared",
+    "artifacts": "isolated",
+    "external": "none"
+  },
+  "concurrency": "exclusive",
+  "workspaceMode": "overlay-safe",
+  "safety": "artifact-producing",
+  "requiresApproval": false,
+  "phases": [
+    "iteration",
+    "closure"
+  ],
+  "risks": [
+    "high-impact"
+  ],
+  "owner": "ui-maintainers"
+}
