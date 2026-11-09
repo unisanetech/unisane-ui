@@ -514,11 +514,11 @@ function DataTableRowInner<T extends { id: string }>({
               className={cn(
                 'text-on-surface whitespace-nowrap',
                 cellTextClass,
-                // Actions columns need overflow-visible for dropdown, others use overflow-hidden
-                // Use group-hover/row to allow overflow on hover for tooltips
+                // Only overlay-owning cells may escape their column. Row hover must
+                // not let truncated values paint over neighbouring cells.
                 isActionsColumn
                   ? 'overflow-visible'
-                  : 'overflow-hidden text-ellipsis group-hover/row:overflow-visible',
+                  : 'overflow-hidden text-ellipsis',
                 // Pinned cells use stickyBgClass for drop target state, others use bgClass
                 pinPosition ? stickyBgClass : bgClass,
                 !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
@@ -557,6 +557,12 @@ function DataTableRowInner<T extends { id: string }>({
                 cellSelectionCtx?.isActive &&
                   'bg-primary-container text-on-primary-container ring-focus-ring ring-1 ring-inset',
               )}
+              title={
+                !isActionsColumn && !isEditing &&
+                (typeof rawValue === 'string' || typeof rawValue === 'number')
+                  ? String(rawValue)
+                  : undefined
+              }
               style={{
                 left: pinPosition === 'left' ? meta?.left : undefined,
                 right: pinPosition === 'right' ? meta?.right : undefined,
