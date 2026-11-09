@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261108.1",
+    "version": "0.1.2-next.20261110.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -28,19 +28,19 @@
   ],
   "previousApproval": {
     "approvedBy": "founder",
-    "approvedAt": "2026-11-02",
-    "approvalSource": "Explicit user approval in the coordinated Trade security release chat",
-    "version": "0.1.2-next.20261102.1"
+    "approvedAt": "2026-11-08",
+    "approvalSource": "Explicit user approval of candidate 7d7064c in Trade UI consistency chat; push, PR, merge after CI, stage/publish exact four-package 0.1.2-next.20261108.1 cohort and local Trade adoption.",
+    "version": "0.1.2-next.20261108.1"
   },
-  "preparedAt": "2026-11-08",
-  "preparedBy": "trade-ui-consistency",
-  "scope": "Typography role fidelity; shared field/menu sizing; accessible DataTable record labels; Trade consumer adoption.",
+  "preparedAt": "2026-11-10",
+  "preparedBy": "datatable-hover-fix",
+  "scope": "Contain ordinary DataTable cell content during row hover; retain full-value native tooltips and action/editor overlay exceptions.",
   "sourceChanges": [
-    "@unisane/ui",
     "@unisane/data-table"
   ],
   "unchangedSourcePackages": [
     "@unisane/tokens",
+    "@unisane/ui",
     "@unisane/email-templates"
   ],
   "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
@@ -50,6 +50,6 @@
     "Unrelated tooltip size work"
   ],
   "approvedBy": "founder",
-  "approvedAt": "2026-11-08",
-  "approvalSource": "Explicit user approval of candidate 7d7064c in Trade UI consistency chat; push, PR, merge after CI, stage/publish exact four-package 0.1.2-next.20261108.1 cohort and local Trade adoption."
+  "approvedAt": "2026-11-10",
+  "approvalSource": "Explicit user approval of DataTable fix 904d601: PR, merge after CI, stage aligned four packages at 0.1.2-next.20261110.1, and adopt exact versions in local Trade. No deployment or business-data changes."
 }
