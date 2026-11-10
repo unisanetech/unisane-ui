@@ -298,3 +298,6 @@ export { cn } from './lib/utils';
 
 // Hooks
 export { useScrollLock } from './hooks/use-scroll-lock';
+
+export { PopupDensityProvider } from './layout/popup-density-provider';
+export type { PopupDensity } from './layout/popup-density-provider';

@@ -315,3 +315,13 @@ Use the `<Ripple />` component inside interactive elements for M3-compliant touc
 - Token and utility choices belong here in the design-system contract.
 - Component API naming, composition rules, and authoring constraints belong in
   `docs/standards/component-authoring.md`.
+
+### Popup row sizing
+
+`PopupDensityProvider` is an optional application-level appearance owner for popup
+rows. It does not add a user-preference axis or change `data-density`; row geometry
+still consumes the existing globally scaled action/type tokens. It separates list
+rows from field size, so a medium input can open compact options. Menu, Select and
+Combobox share its row recipe, including coarse-pointer minimum targets. Nested
+providers follow React portals; an unconfigured provider restores legacy sizing.
+Fields and individual menu items must not acquire local density props.

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "approved",
+  "status": "prepared",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261110.2",
+    "version": "0.1.2-next.20261111.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -29,12 +29,12 @@
   "previousApproval": {
     "approvedBy": "founder",
     "approvedAt": "2026-11-10",
-    "approvalSource": "Explicit user approval of DataTable fix 904d601: PR, merge after CI, stage aligned four packages at 0.1.2-next.20261110.1, and adopt exact versions in local Trade. No deployment or business-data changes.",
-    "version": "0.1.2-next.20261110.1"
+    "approvalSource": "Explicit user approval of candidate 9667d12: push, PR, build/CI, merge only after checks pass, stage/publish aligned four-package 0.1.2-next.20261110.2 cohort and adopt exact immutable versions locally in Trade. No deployment or business-data changes.",
+    "version": "0.1.2-next.20261110.2"
   },
-  "preparedAt": "2026-11-10",
-  "preparedBy": "menu-selection-indicator",
-  "scope": "Separate decorative menu selection indicators from content-icon slots; retain themed label alignment using public inset and indicator-gap tokens.",
+  "preparedAt": "2026-11-11",
+  "preparedBy": "popup-density",
+  "scope": "Optional popup density provider separates menu/select/combobox rows from field sizing; includes the already committed compact Tooltip size support.",
   "sourceChanges": [
     "@unisane/ui"
   ],
@@ -48,8 +48,5 @@
     "Deployment",
     "Business-data writes",
     "Unrelated UI source changes"
-  ],
-  "approvalSource": "Explicit user approval of candidate 9667d12: push, PR, build/CI, merge only after checks pass, stage/publish aligned four-package 0.1.2-next.20261110.2 cohort and adopt exact immutable versions locally in Trade. No deployment or business-data changes.",
-  "approvedBy": "founder",
-  "approvedAt": "2026-11-10"
+  ]
 }

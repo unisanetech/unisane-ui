@@ -1,5 +1,6 @@
 import React, { isValidElement, cloneElement } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { usePopupRowStyles } from '@/lib/popup-row';
 import type { FieldSize } from '@/lib/field-size';
 import { cn, Slot } from '@/lib/utils';
 import { Ripple } from '@/components/ui/ripple';
@@ -86,6 +87,10 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   ...props
 }) => {
   const size = React.useContext(MenuSizeContext);
+  const row = usePopupRowStyles({
+    className: `text-body-medium ${menuRowSizes[size]}`,
+    minHeightPx: { sm: 32, md: 40, lg: 48 }[size],
+  });
   const label =
     asChild && isValidElement<{ children?: React.ReactNode }>(children)
       ? children.props.children
@@ -98,7 +103,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     // A selection mark occupies the inset rather than a content-icon column.
     // The public inset token aligns mixed plain, selectable and icon rows.
     selectionIndicator != null && 'px-[var(--menu-item-content-inset,calc(var(--unit)*8))]',
-    menuRowSizes[size],
+    row.className,
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
     selected && 'bg-state-selected text-on-surface',
     className,

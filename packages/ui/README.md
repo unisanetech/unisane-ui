@@ -43,3 +43,24 @@ parity.
 ## License
 
 MIT
+
+### Popup row density
+
+Use `PopupDensityProvider` from `@unisane/ui/popup-density-provider` to configure
+popup rows independently from the input or trigger size:
+
+```tsx
+<PopupDensityProvider density="compact">
+  <Application />
+</PopupDensityProvider>
+```
+
+The setting follows React portals and applies to dropdown/submenu items, select
+options and combobox results. Compact rows use body-medium text and the small
+32px action frame; comfortable rows use the medium 40px frame. Coarse-pointer
+rows have a 44px minimum. These are minimum heights: wrapped text may grow.
+Input/search text, trigger dimensions, selection semantics and keyboard behavior
+remain owned by their original controls. Icons retain the shared small icon slot.
+Omit the provider (or nest one without a density) to retain existing size-dependent
+behavior. Combobox positioning uses the configured row estimate and then the
+actual popup measurements; changes to results or density reposition the popup.

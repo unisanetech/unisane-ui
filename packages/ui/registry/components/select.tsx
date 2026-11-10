@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
+import { usePopupRowStyles } from '@/lib/popup-row';
 import { getFieldSizeStyles, type FieldSize } from '@/lib/field-size';
 import { fieldContainerVariants, type FieldShellVariant } from '@/lib/field-shell';
 import {
@@ -620,6 +621,10 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
       md: 'min-h-[var(--size-field-md,40px)]',
       lg: 'min-h-[var(--size-field-lg,48px)]',
     }[context.size];
+    const row = usePopupRowStyles({
+      className: `${fieldSize.optionText} ${optionHeight} py-1`,
+      minHeightPx: fieldSize.optionHeightPx,
+    });
     const { registerItem } = context;
     const generatedId = React.useId();
     const id = `select-item-${generatedId}`;
@@ -653,9 +658,8 @@ export const SelectItem = React.forwardRef<HTMLDivElement, SelectItemProps>(
         data-state={selected ? 'checked' : 'unchecked'}
         className={cn(
           'rounded-xs relative flex cursor-pointer items-center py-1 outline-none transition-colors',
-          fieldSize.optionText,
+          row.className,
           fieldSize.optionPaddingX,
-          optionHeight,
           'pr-10',
           'hover:bg-state-hover data-[highlighted=true]:bg-state-hover',
           selected && 'bg-state-selected text-on-surface',

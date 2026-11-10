@@ -80,10 +80,12 @@ test('registry records complete representative local and npm dependency closure'
     'utils',
   ]);
   assert.deepEqual(components.field.registryDependencies, ['label', 'utils']);
+  assert.deepEqual(components['popup-density-provider'].registryDependencies, ['popup-row']);
   assert.deepEqual(components.select.registryDependencies, [
     'field-shell',
     'field-size',
     'icon',
+    'popup-row',
     'portal-layer',
     'use-controllable-state',
     'use-overlay-behavior',

@@ -63,7 +63,11 @@ function addViolation(filePath, line, message) {
 
 function checkBannedPropPatterns(filePath, content) {
   const relativePath = path.relative(rootDir, filePath);
-  const isAppearanceOwner = relativePath === 'src/layout/appearance-provider.tsx';
+  // Density is owned by application-level appearance providers, never fields.
+  const isAppearanceOwner = [
+    'src/layout/appearance-provider.tsx',
+    'src/layout/popup-density-provider.tsx',
+  ].includes(relativePath);
 
   const patterns = [
     {

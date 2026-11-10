@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { cn } from '../lib/utils';
 import { Text } from '../primitives/text';
 import { Icon } from './icon';
+import { usePopupRowStyles } from '../lib/popup-row';
 import { getFieldSizeStyles, type FieldSize } from '../lib/field-size';
 import { useControllableState } from '../lib/use-controllable-state';
 import { fieldContainerVariants, getFieldAffixClasses } from '../lib/field-shell';
@@ -100,6 +101,10 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
     }, []);
     const blurTimeoutRef = useRef<number | null>(null);
     const fieldSize = getFieldSizeStyles(size);
+    const row = usePopupRowStyles({
+      className: `${fieldSize.optionHeight} ${fieldSize.optionText}`,
+      minHeightPx: fieldSize.optionHeightPx,
+    });
     const listboxId = useId();
     const inputId = useId();
     const [dropdownPosition, setDropdownPosition] = React.useState({
@@ -169,7 +174,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
       const edgePadding = 8;
       const gap = 4;
       const estimatedHeight = Math.min(
-        Math.max(1, filteredOptions.length) * fieldSize.optionHeightPx + 8,
+        Math.max(1, filteredOptions.length) *
+          (row.density && window.matchMedia('(pointer: coarse)').matches
+            ? Math.max(44, row.minHeightPx)
+            : row.minHeightPx) +
+          8,
         240,
       );
       const measuredHeight = dropdownRef.current?.offsetHeight ?? estimatedHeight;
@@ -192,7 +201,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
         width,
         maxHeight,
       });
-    }, [fieldSize.optionHeightPx, filteredOptions.length]);
+    }, [row.density, row.minHeightPx, filteredOptions.length]);
 
     React.useLayoutEffect(() => {
       if (!portal) {
@@ -510,8 +519,7 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                         id={`${listboxId}-option-${index}`}
                         className={cn(
                           'relative flex cursor-pointer items-center gap-3 transition-colors',
-                          fieldSize.optionHeight,
-                          fieldSize.optionText,
+                          row.className,
                           fieldSize.optionPaddingX,
                           'hover:bg-state-hover',
                           highlightSelected &&

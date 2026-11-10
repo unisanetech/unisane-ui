@@ -94,6 +94,9 @@ Rule:
 - Consume semantic tokens instead of local theme objects.
 - Use the shared control-size contract for field-like controls.
 - Do not add component-local theme axes such as local `density` props.
+  Application-level appearance providers own those choices. `PopupDensityProvider`
+  may set popup-row density independently of field size, using the shared row recipe
+  and existing globally scaled tokens; fields/items themselves expose no density prop.
 - Root app/page canvas uses `bg-surface`.
 - Nested surfaces use the `surface-container-*` ladder.
 - Use semantic border tokens for component and page chrome:
