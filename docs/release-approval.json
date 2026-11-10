@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "prepared",
+  "status": "approved",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -49,5 +49,7 @@
     "Business-data writes",
     "Unrelated UI source changes"
   ],
-  "approvalSource": "Pending explicit approval of this exact menu-indicator cohort, PR/merge after CI, registry staging/publication and local Trade adoption."
+  "approvalSource": "Explicit user approval of candidate 9667d12: push, PR, build/CI, merge only after checks pass, stage/publish aligned four-package 0.1.2-next.20261110.2 cohort and adopt exact immutable versions locally in Trade. No deployment or business-data changes.",
+  "approvedBy": "founder",
+  "approvedAt": "2026-11-10"
 }
