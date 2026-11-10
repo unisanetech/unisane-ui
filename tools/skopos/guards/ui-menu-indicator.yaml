@@ -1,0 +1,13 @@
+id: ui.menu-indicator
+title: Menu indicators preserve content alignment
+description: Verify separate decorative selection slots and preserve normal menu behavior.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths: [packages/ui/src/primitives/menu.tsx, packages/ui/tests/dropdown-menu]
+  phases: [iteration, closure]
+  risks: [standard, high-impact]
+requires:
+  evidence: source-bound-action
+  actionIds: [ui.menu-indicator, ui.sheet.build]

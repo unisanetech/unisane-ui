@@ -64,6 +64,10 @@ export interface MenuItemProps extends React.ButtonHTMLAttributes<HTMLButtonElem
   disabled?: boolean;
   selected?: boolean;
   icon?: React.ReactNode;
+  /** Decorative selection mark in the leading gutter, independent of content icons.
+   * Pass an aria-hidden mark (including an invisible mark on unselected rows).
+   * The row's role and checked state remain the caller's responsibility. */
+  selectionIndicator?: React.ReactNode;
   trailingIcon?: React.ReactNode;
   href?: string;
   asChild?: boolean;
@@ -74,6 +78,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   disabled = false,
   selected = false,
   icon,
+  selectionIndicator,
   trailingIcon,
   className,
   href,
@@ -87,9 +92,12 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       : children;
 
   const itemClasses = cn(
-    'text-body-medium relative flex w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[calc(var(--unit)*3)] text-left select-none',
+    'text-body-medium relative flex w-full cursor-pointer items-center gap-[calc(var(--unit)*3)] overflow-hidden px-[var(--menu-item-content-inset,calc(var(--unit)*3))] text-left select-none',
     'text-on-surface transition-colors duration-short ease-standard',
     'hover:bg-state-hover focus-visible:bg-state-focus focus-visible:outline-focus-ring focus-visible:outline-2 focus-visible:outline-offset-[-2px]',
+    // A selection mark occupies the inset rather than a content-icon column.
+    // The public inset token aligns mixed plain, selectable and icon rows.
+    selectionIndicator != null && 'px-[var(--menu-item-content-inset,calc(var(--unit)*8))]',
     menuRowSizes[size],
     disabled && 'opacity-38 cursor-not-allowed hover:bg-transparent',
     selected && 'bg-state-selected text-on-surface',
@@ -99,6 +107,19 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   const innerContent = (
     <>
       <Ripple disabled={disabled} />
+      {selectionIndicator != null && (
+        <span
+          data-slot="menu-item-selection-indicator"
+          aria-hidden="true"
+          className="size-icon-sm [&>svg]:size-icon-sm pointer-events-none absolute top-1/2 z-10 flex -translate-y-1/2 items-center justify-center"
+          style={{
+            insetInlineStart:
+              'max(0px, calc(var(--menu-item-content-inset, calc(var(--unit) * 8)) - var(--size-icon-sm) - var(--menu-item-indicator-gap, var(--spacing-1))))',
+          }}
+        >
+          {selectionIndicator}
+        </span>
+      )}
       {icon && <div className={menuIconSlotClasses}>{icon}</div>}
       <span className="relative z-10 flex min-w-0 flex-1 translate-y-px items-center truncate">
         {label}

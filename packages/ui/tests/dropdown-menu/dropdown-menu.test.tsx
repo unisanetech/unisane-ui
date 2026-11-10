@@ -58,6 +58,51 @@ function getMenus() {
 }
 
 describe('DropdownMenu', () => {
+  it('keeps selection marks separate from content icons and accessible labels', async () => {
+    const { root, container } = await render(
+      <div style={{ '--menu-item-content-inset': '24px' } as React.CSSProperties}>
+        <DropdownMenuItem>Plain action</DropdownMenuItem>
+        <DropdownMenuItem icon={<svg data-testid="content-icon" />}>Icon action</DropdownMenuItem>
+        <DropdownMenuItem
+          role="menuitemradio"
+          aria-checked="true"
+          selectionIndicator={<svg data-testid="check" />}
+        >
+          Today
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          role="menuitemradio"
+          aria-checked="false"
+          selectionIndicator={<svg style={{ visibility: 'hidden' }} />}
+        >
+          Yesterday
+        </DropdownMenuItem>
+      </div>,
+    );
+    const rows = Array.from(container.querySelectorAll('button'));
+    expect(rows.map((row) => row.textContent)).toEqual([
+      'Plain action',
+      'Icon action',
+      'Today',
+      'Yesterday',
+    ]);
+    expect(rows[0]?.querySelector('[data-slot]')).toBeNull();
+    expect(rows[1]?.querySelector('[data-slot]')).toBeNull();
+    expect(
+      rows[1]?.querySelector('[data-testid="content-icon"]')?.parentElement?.className,
+    ).not.toContain('absolute');
+    for (const row of rows.slice(2)) {
+      const indicator = row.querySelector('[data-slot="menu-item-selection-indicator"]');
+      expect(indicator?.getAttribute('aria-hidden')).toBe('true');
+      expect(indicator?.parentElement).toBe(row);
+      expect(row.querySelector('span.truncate')?.textContent).toBe(row.textContent);
+      expect(row.hasAttribute('selectionIndicator')).toBe(false);
+    }
+    expect(rows[2]?.getAttribute('aria-checked')).toBe('true');
+    expect(rows[3]?.getAttribute('aria-checked')).toBe('false');
+    await cleanup(root, container);
+  });
+
   beforeEach(() => {
     globalThis.IS_REACT_ACT_ENVIRONMENT = true;
     vi.useFakeTimers();

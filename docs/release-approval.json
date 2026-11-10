@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261110.1",
+    "version": "0.1.2-next.20261110.2",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -28,28 +28,28 @@
   ],
   "previousApproval": {
     "approvedBy": "founder",
-    "approvedAt": "2026-11-08",
-    "approvalSource": "Explicit user approval of candidate 7d7064c in Trade UI consistency chat; push, PR, merge after CI, stage/publish exact four-package 0.1.2-next.20261108.1 cohort and local Trade adoption.",
-    "version": "0.1.2-next.20261108.1"
+    "approvedAt": "2026-11-10",
+    "approvalSource": "Explicit user approval of DataTable fix 904d601: PR, merge after CI, stage aligned four packages at 0.1.2-next.20261110.1, and adopt exact versions in local Trade. No deployment or business-data changes.",
+    "version": "0.1.2-next.20261110.1"
   },
   "preparedAt": "2026-11-10",
-  "preparedBy": "datatable-hover-fix",
-  "scope": "Contain ordinary DataTable cell content during row hover; retain full-value native tooltips and action/editor overlay exceptions.",
+  "preparedBy": "menu-selection-indicator",
+  "scope": "Separate decorative menu selection indicators from content-icon slots; retain themed label alignment using public inset and indicator-gap tokens.",
   "sourceChanges": [
-    "@unisane/data-table"
+    "@unisane/ui"
   ],
   "unchangedSourcePackages": [
     "@unisane/tokens",
-    "@unisane/ui",
+    "@unisane/data-table",
     "@unisane/email-templates"
   ],
   "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
   "exclusions": [
     "Deployment",
     "Business-data writes",
-    "Unrelated tooltip size work"
+    "Unrelated UI source changes"
   ],
+  "approvalSource": "Explicit user approval of candidate 9667d12: push, PR, build/CI, merge only after checks pass, stage/publish aligned four-package 0.1.2-next.20261110.2 cohort and adopt exact immutable versions locally in Trade. No deployment or business-data changes.",
   "approvedBy": "founder",
-  "approvedAt": "2026-11-10",
-  "approvalSource": "Explicit user approval of DataTable fix 904d601: PR, merge after CI, stage aligned four packages at 0.1.2-next.20261110.1, and adopt exact versions in local Trade. No deployment or business-data changes."
+  "approvedAt": "2026-11-10"
 }
