@@ -6247,7 +6247,7 @@
       "path": "scripts/__tests__/build-static-registry.test.mjs",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "dcd9a8bd2aaf5a8e22d48f7c78a4425a899bb89a7bd768576415c54256139d90"
+      "sha256": "c2dbad17c75a4f3a214d6d3abafaa413819c5a8beefd3a129f8d33257f24f37b"
     },
     {
       "path": "scripts/__tests__/verify-packed-producer-certificate.test.mjs",
@@ -6271,7 +6271,7 @@
       "path": "scripts/build-static-registry.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "e7bf5b07d4ab14fd678068434561f779c23602622c951d06b267c3c693456d63"
+      "sha256": "31250d5885eb88cacdbbdd80ee373bff91f6bbcbf82cea4bdbe537ad957d403f"
     },
     {
       "path": "scripts/check-package-contents.mjs",

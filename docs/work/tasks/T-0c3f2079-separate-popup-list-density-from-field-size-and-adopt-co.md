@@ -97,7 +97,7 @@ Separate popup list density from field size and adopt compact Trade menus
 
 ## Memory Obligations
 
-- [open] architecture: The declared Task scope owns canonical architecture Memory at docs/architecture/design-system.md; review and synchronize it if project truth changes. (target: `docs/architecture/design-system.md`)
+- [complete] architecture: The declared Task scope owns canonical architecture Memory at docs/architecture/design-system.md; review and synchronize it if project truth changes. (target: `docs/architecture/design-system.md`); resolution: memory-updated
 
 ## Portable Task State
 
@@ -111,7 +111,7 @@ This machine-readable block is the durable source used to rebuild local Skopos s
   "type": "task",
   "status": "active",
   "generatedAt": "2026-11-10T20:24:28.863Z",
-  "updatedAt": "2026-11-10T20:24:28.863Z",
+  "updatedAt": "2026-11-10T20:55:53.419Z",
   "planIds": [],
   "childTasks": [],
   "state": "active",
@@ -457,8 +457,12 @@ This machine-readable block is the durable source used to rebuild local Skopos s
       "id": "memory-architecture-d58f039fa4",
       "role": "architecture",
       "reason": "The declared Task scope owns canonical architecture Memory at docs/architecture/design-system.md; review and synchronize it if project truth changes.",
-      "status": "open",
-      "targetPath": "docs/architecture/design-system.md"
+      "status": "complete",
+      "targetPath": "docs/architecture/design-system.md",
+      "resolution": "memory-updated",
+      "resolutionReason": "Documented app-level popup density ownership and unchanged field sizing in design-system architecture.",
+      "resolvedAt": "2026-11-10T20:55:53.419Z",
+      "resolvedByActorId": "codex-popup-density-20261111"
     }
   ],
   "questions": [],
