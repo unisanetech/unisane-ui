@@ -8,6 +8,22 @@ This repository contains migrated history but follows clean-refactor policy: rem
 
 Never commit credentials or secret values. External repository, registry, DNS, cloud, visibility, release, or authority mutations require explicit human approval.
 
+
+## Main-based working policy
+
+The owner requires the canonical repository folders to stay on `main` (11 November 2026).
+
+- Work from the canonical folder on current `main`. Do not create another branch,
+  checkout, worktree or detached application server unless the owner explicitly asks.
+- Inspect existing changes before editing. Preserve unknown work in a clearly labelled
+  local recovery checkpoint; never overwrite it or bulk-stage credentials/local state.
+- Finish each coherent batch with source commits on `main`. Keep release, registry,
+  migration and hosted-change approval boundaries unchanged.
+- Consumer apps use reviewed immutable package versions. Record the app commit, package
+  versions and deployment receipt together; a local producer edit is not a deployed fix.
+- Reuse source-bound verification and run affected checks once after implementation.
+  Do not rebuild unchanged packages or rerun unrelated journeys for bookkeeping.
+
 <!-- skopos-operating-contract:start -->
 ## Default Skopos Operating Contract
 When Skopos is installed, agents should treat it as the default operating memory layer for project Memory, planning, coordination, Evidence, and Readiness.

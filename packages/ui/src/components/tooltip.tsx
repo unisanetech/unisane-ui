@@ -19,6 +19,7 @@ export interface TooltipProps {
   subhead?: string;
   children: React.ReactNode;
   variant?: 'plain' | 'rich';
+  size?: 'sm' | 'md';
   className?: string;
   triggerClassName?: string;
   side?: 'top' | 'bottom' | 'left' | 'right';
@@ -33,6 +34,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   subhead,
   children,
   variant = 'plain',
+  size = 'md',
   className,
   triggerClassName,
   side = 'top',
@@ -114,8 +116,14 @@ export const Tooltip: React.FC<TooltipProps> = ({
         'duration-snappy ease-emphasized pointer-events-none fixed z-[var(--z-popover,2000)] max-w-[min(22rem,calc(100vw-1rem))] scale-95 opacity-0 transition-all',
         open && 'scale-100 opacity-100',
         variant === 'plain'
-          ? 'bg-inverse-surface text-inverse-on-surface text-label-medium shadow-2 rounded-sm px-2 py-1.5 font-medium whitespace-normal'
-          : 'bg-surface-container text-on-surface shadow-2 border-outline-soft flex min-w-50 flex-col gap-1 rounded-sm border p-4 whitespace-normal',
+          ? cn(
+              'bg-inverse-surface text-inverse-on-surface shadow-2 rounded-sm font-medium whitespace-normal',
+              size === 'sm' ? 'text-label-small px-2 py-1' : 'text-label-medium px-2 py-1.5',
+            )
+          : cn(
+              'bg-surface-container text-on-surface shadow-2 border-outline-soft flex flex-col gap-1 rounded-sm border whitespace-normal',
+              size === 'sm' ? 'min-w-40 p-3' : 'min-w-50 p-4',
+            ),
         className,
       )}
       style={{

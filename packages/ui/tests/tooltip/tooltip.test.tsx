@@ -79,6 +79,35 @@ describe('Tooltip', () => {
     await cleanup(rendered.root, rendered.container);
   });
 
+  it('keeps default sizing equivalent to explicit medium sizing', async () => {
+    const rendered = await render(<>
+      <Tooltip label="Default"><button type="button">Default</button></Tooltip>
+      <Tooltip label="Medium" size="md"><button type="button">Medium</button></Tooltip>
+    </>);
+    const tooltips = document.body.querySelectorAll('[role="tooltip"]');
+    expect(tooltips[0]?.className).toBe(tooltips[1]?.className);
+    expect(tooltips[0]?.className).toContain('py-1.5');
+    await cleanup(rendered.root, rendered.container);
+  });
+
+  it('supports compact plain and rich hints without changing trigger semantics', async () => {
+    const rendered = await render(<>
+      <Tooltip label="Unpin" size="sm"><button type="button" aria-label="Unpin invoice">Unpin</button></Tooltip>
+      <Tooltip label="Saved filters" subhead="Personal" variant="rich" size="sm"><button type="button">View</button></Tooltip>
+    </>);
+    const tooltips = document.body.querySelectorAll('[role="tooltip"]');
+    expect(tooltips[0]?.className).toContain('text-label-small');
+    expect(tooltips[0]?.className).toContain('py-1');
+    expect(tooltips[0]?.className).not.toContain('py-1.5');
+    expect(tooltips[1]?.className).toContain('min-w-40');
+    expect(tooltips[1]?.className).toContain('p-3');
+    expect(tooltips[1]?.textContent).toBe('PersonalSaved filters');
+    const trigger = rendered.container.querySelector('button');
+    expect(trigger?.getAttribute('aria-label')).toBe('Unpin invoice');
+    expect(trigger?.getAttribute('aria-describedby')).toBe(tooltips[0]?.id);
+    await cleanup(rendered.root, rendered.container);
+  });
+
   it('renders rich variant metadata and side classes', async () => {
     const rendered = await render(
       <Tooltip label="Permanent action" subhead="Warning" variant="rich" side="right">

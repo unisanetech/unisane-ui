@@ -259,6 +259,12 @@ export const tooltipDoc: ComponentDoc = {
       description: 'Visual style of the tooltip.',
     },
     {
+      name: 'size',
+      type: '"sm" | "md"',
+      default: '"md"',
+      description: 'Use sm for compact toolbar hints; md retains the default spacing.',
+    },
+    {
       name: 'subhead',
       type: 'string',
       description: 'Subheading for rich tooltips.',
