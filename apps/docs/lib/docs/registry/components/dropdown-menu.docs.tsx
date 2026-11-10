@@ -27,7 +27,7 @@ const DropdownMenuHeroVisual = () => (
           JD
         </div>
         {/* Simulated profile menu */}
-        <div className="bg-surface shadow-4 border-outline-variant absolute top-[calc(100%+4px)] right-0 min-w-56 rounded-sm border py-2">
+        <div className="bg-surface shadow-4 border-outline-variant absolute right-0 top-[calc(100%+4px)] min-w-56 rounded-sm border py-2">
           {/* Profile header */}
           <div className="border-outline-variant mb-1 flex items-center gap-3 border-b px-4 py-3">
             <div className="bg-secondary-container text-on-secondary-container text-title-medium flex h-10 w-10 items-center justify-center rounded-full">
@@ -384,7 +384,13 @@ export const dropdownMenuDoc: ComponentDoc = {
       name: 'DropdownMenuContent',
       description: 'Container for menu items.',
       props: [
-        { name: 'size', type: '"sm" | "md" | "lg"', default: '"md"', description: 'Minimum row geometry. Nested menus inherit it. Label typography remains the body-medium role.' },
+        {
+          name: 'size',
+          type: '"sm" | "md" | "lg"',
+          default: '"md"',
+          description:
+            'Minimum row geometry. Nested menus inherit it. Label typography remains the body-medium role.',
+        },
         { name: 'children', type: 'ReactNode', required: true, description: 'Menu items.' },
         {
           name: 'align',
@@ -420,9 +426,22 @@ export const dropdownMenuDoc: ComponentDoc = {
     },
     {
       name: 'DropdownMenuItem',
-      description: 'A clickable menu item.',
+      description:
+        'A clickable menu item. Set --menu-item-content-inset on the menu to share a content column across plain, icon and selection rows. Selection marks use that inset minus their size and --menu-item-indicator-gap (spacing-1 by default); they do not consume a content-icon column.',
       props: [
         { name: 'children', type: 'ReactNode', required: true, description: 'Item content.' },
+        {
+          name: 'selectionIndicator',
+          type: 'ReactNode',
+          description:
+            'Decorative leading selection mark in its own gutter. Use an aria-hidden check, invisible on unselected rows. Defaults to a 32px content inset unless the menu provides --menu-item-content-inset. Preserve menuitemradio/aria-checked semantics on selectable rows. Content icons continue to use icon.',
+        },
+        {
+          name: 'icon',
+          type: 'ReactNode',
+          description:
+            'Content icon inside the normal menu inset; independent of the selection indicator.',
+        },
         { name: 'onClick', type: '() => void', description: 'Click handler.' },
         { name: 'disabled', type: 'boolean', description: 'Disable the item.' },
         { name: 'className', type: 'string', description: 'Custom classes for padding, styling.' },
