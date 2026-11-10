@@ -30,7 +30,7 @@ test('builds one deterministic content-bearing file for every canonical registry
   const secondResult = await buildStaticRegistry({ outputDirectory: second });
   const verified = await verifyStaticRegistry(first, firstResult.manifest.baseUrl);
 
-  assert.equal(verified.itemCount, 94);
+  assert.equal(verified.itemCount, 96);
   assert.deepEqual(firstResult.manifest, secondResult.manifest);
   const button = JSON.parse(await fs.readFile(path.join(first, 'r/button.json'), 'utf8'));
   assert.equal(button.$schema, 'https://ui.shadcn.com/schema/registry-item.json');

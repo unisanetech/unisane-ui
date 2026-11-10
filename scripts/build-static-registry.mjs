@@ -234,8 +234,8 @@ export async function verifyStaticRegistry(
 
   if (manifest.baseUrl !== assertBaseUrl(expectedBaseUrl))
     throw new Error('Static registry base URL drifted');
-  if (manifest.itemCount !== catalog.items.length || catalog.items.length !== 94) {
-    throw new Error(`Static registry must contain exactly 94 items; found ${catalog.items.length}`);
+  if (manifest.itemCount !== catalog.items.length || catalog.items.length !== 96) {
+    throw new Error(`Static registry must contain exactly 96 items; found ${catalog.items.length}`);
   }
   if (manifest.catalogSha256 !== sha256(catalogSource))
     throw new Error('Static catalog digest is stale');
