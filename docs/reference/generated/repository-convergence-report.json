@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1086,
+  "fileCount": 1088,
   "dispositionCounts": {
-    "retain": 970,
+    "retain": 972,
     "regenerate": 116
   },
   "unresolvedReleaseBlockers": [
@@ -1801,7 +1801,7 @@
       "path": "apps/docs/lib/docs/registry/components/dropdown-menu.docs.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "4755bd27ac4fc58027ee8ed02cdde29cd61fc055b33ae684ba36d033487fd601"
+      "sha256": "7e5a55487d0c1f92468ce4362665c6f48597cd979843d98b0e3932528780c3ab"
     },
     {
       "path": "apps/docs/lib/docs/registry/components/fab-menu.docs.tsx",
@@ -2491,7 +2491,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "a2b75c05630ec8dcdc78bf0bbe192cd40f8907eb96fa38eb0ed94e9718edb46f"
+      "sha256": "85394a698458138cbd1809e30b2dd30caf78d5af54b9a9ff8ccdb907f49a4b04"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2557,7 +2557,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "ddd6de63067c7de9deadb3f8f38d8e6de5ca66e176cab6b5c7135adfbe7cd275"
+      "sha256": "d1ab0f2b2d0502ec0d38ed4079d6cb5432f449d52e02fd57f9c31528c4cee09b"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3907,7 +3907,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "a640facaa15ec264e391256346b3d0d9cb86f347e7ef9b415efafbc3ac0aa34d"
+      "sha256": "883f9c83721238e97458e72a2f51b1dd4a70a0f1d5e12ba296abba1ea8fca566"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -4057,7 +4057,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "38004223914a4a7b7ca3091ce5a5d39bb3a37b0349f2ef573686c47d5e9ee84b"
+      "sha256": "e136e5879e9a34a97a6fbbf75bacaa2b26e8dbba37f4acddb9491ef6eb5dc4e5"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4453,7 +4453,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "f378847fc3783704a4adf6baac63273652a3bf287296184385db7ed9ca861df8"
+      "sha256": "6092889dfcd82e4b22f80499ac475daba4b92f1a0182a577e1bff02abb6b14f6"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -5053,7 +5053,7 @@
       "path": "packages/ui/registry/primitives/menu.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "d6c99101ad63be39bf0276f05de0ed94fcbc2a3ce0adc04225e0d799a7b08f2b"
+      "sha256": "c5e9b55d9698f57d7f76231a213f0f61fb42f7362378dd834f5becf7f63b4432"
     },
     {
       "path": "packages/ui/registry/primitives/surface.tsx",
@@ -5809,7 +5809,7 @@
       "path": "packages/ui/src/primitives/menu.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "df978823217cf9acbd816d67aba221b6c4829035ebdd9e18a72bd033fc971c06"
+      "sha256": "a53c5cc0fb4068b6d4e23ed54b174640ea05ac290167cd93fec8e16a1f70d50c"
     },
     {
       "path": "packages/ui/src/primitives/surface.tsx",
@@ -5947,7 +5947,7 @@
       "path": "packages/ui/tests/dropdown-menu/dropdown-menu.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "2936dba9c0f03ff3e09384f16eca4c8ad3369a229b1fdcc8c2af27e0ef5c84eb"
+      "sha256": "8a0384b69120e6d51de5daf631711ffc87a30b47daa8f91620cf3491959dff52"
     },
     {
       "path": "packages/ui/tests/fab/fab.test.tsx",
@@ -6370,6 +6370,12 @@
       "sha256": "96a23fa9b5f82fadd86cf3aeb7f84c379b68acbbf99ec027c9eed29736a5ea73"
     },
     {
+      "path": "tools/skopos/actions/ui-menu-indicator.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "894748c41e67a163f6d22a25974337d9d99d38e06f02855854c8fa9244a910fb"
+    },
+    {
       "path": "tools/skopos/actions/ui-modal-overlays.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
@@ -6446,6 +6452,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "4631940643a3c6b7c3b40943641a4136ea0bab23fb9812e8e4a3460604351315"
+    },
+    {
+      "path": "tools/skopos/guards/ui-menu-indicator.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "9514fdccc8be36ab694319011f2812476cbd6c9517dae1f726f58eaaa6f7b6d2"
     },
     {
       "path": "tools/skopos/guards/ui-reviewed-visual-baselines.yaml",
