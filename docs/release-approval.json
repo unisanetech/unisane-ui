@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "prepared",
+  "status": "approved",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -48,5 +48,8 @@
     "Deployment",
     "Business-data writes",
     "Unrelated UI source changes"
-  ]
+  ],
+  "approvedBy": "founder",
+  "approvedAt": "2026-11-11",
+  "approvalSource": "Explicit user approval of source dba108a and the reviewed four-package 0.1.2-next.20261111.1 UI cohort: push, successful CI, existing npm staging/publication, registry verification and local Trade adoption. No deployment, migrations, business-data writes or new permissions."
 }

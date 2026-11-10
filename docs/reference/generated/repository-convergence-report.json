@@ -2089,7 +2089,7 @@
       "path": "apps/docs/next-env.d.ts",
       "disposition": "retain",
       "owner": "@unisane/ui-docs",
-      "sha256": "7ad303e40d4fddf44f156129e397511953a71481c5cfd86b1862649aaaf240cc"
+      "sha256": "7b550dda9686c16f36a17bf9051d5dbf31e98555b30d114ac49fc49a1e712651"
     },
     {
       "path": "apps/docs/next.config.ts",
@@ -2497,7 +2497,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "ffbba16355c4aa78108dc668d60c856cb4e7a73965719bd5d180542167a7859c"
+      "sha256": "ed775a931eb207d7766e111659fbf7b424bf46c38b1bacb783291760b4ec4a49"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
