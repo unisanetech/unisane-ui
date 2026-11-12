@@ -1,0 +1,28 @@
+{
+  "snapshotId": "S-6c117b87f7d6",
+  "taskId": "T-a72a2191",
+  "sessionId": "ui-row-hover-release-20261112",
+  "actorId": "codex-row-hover",
+  "baseRevision": "3251f847932d31c5ee98f473a46f3c67557a8f1b",
+  "paths": [
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "46b9b7e00e729b522741172bbb7215abbedff586cd0d830d43c313fc13b1a180",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "c706cc2d382c1a753516eb9dfd2c5fc917d517cd00ed67b149e8aff9471997d8",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "tools/skopos/actions/ui-release-convergence.yaml",
+      "digest": "215d92256a8a79557bba4c8676843667583678b8dd7c5a7b9e654f03a2ca41f2",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    }
+  ],
+  "digest": "6c117b87f7d612f33635f6653e6655d14799ac9c9f4d5bf29a04661b8ce6b4a8",
+  "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs",
+  "createdAt": "2026-11-12T10:48:14.887Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-a72a2191-S-6c117b87f7d6.json"
+}

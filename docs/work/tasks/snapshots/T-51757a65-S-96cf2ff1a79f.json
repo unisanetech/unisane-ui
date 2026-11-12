@@ -1,0 +1,68 @@
+{
+  "snapshotId": "S-96cf2ff1a79f",
+  "taskId": "T-51757a65",
+  "sessionId": "ui-row-hover-release-20261112",
+  "actorId": "codex-row-hover",
+  "baseRevision": "3251f847932d31c5ee98f473a46f3c67557a8f1b",
+  "paths": [
+    {
+      "path": "docs/reference/2026-11-12-table-row-hover.md",
+      "digest": "95e67844e0cf76ed288f2f1e3cc5492f728a8d7652bfc3950b3e89893622754f",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "6b6cc7d1d79187d131a9a579206be055d7ad4d1eac263bce0c2a7547b763b63e",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "0808297f9d6d2b6ed00ade9c2fcb71b2e9e9f974a5a6ab819a46f71a769ac0a7",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "72bc35a10e4add83c9aa3fd4a8eed9ca9c7c779ff6e5a473b21d47a74b433233",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/data-table/src/components/row-state.ts",
+      "digest": "e3cae518ffe122b4e0e70160010c61f7f9ddc7ab17279b984d65c606a3aa2f3f",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "1f3abdf55ae73f7652af6003020ea4c5c8851796399548b587bdc3b54cc23732",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "703ba8a8b4df738798c0c5affda74faf836e5ab740e90d3309be1e28bff0d18d",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "c0501e5361a214a7b7ca53d881af32342a3f9ad982df7602761569a20a9b7900",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "scripts/check-package-contents.mjs",
+      "digest": "9cdb56dcd319a50e651968bf6625b808db9570e8044a41c030bd81ee83e96f1a",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "tools/skopos/actions/ui-package-content.yaml",
+      "digest": "b0157842f435006510f82b3751a062636f45249df16c12f30f248de722fed862",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "tools/skopos/guards/ui-package-content.yaml",
+      "digest": "71a567b478e2bf9a77b99d7ac2812ab6915d83e1d2ed075a40c6fdff5f67d3dd",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    }
+  ],
+  "digest": "96cf2ff1a79f9220daa04923e9d24319643f0d392e1f35270a286fe553e6e6d2",
+  "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs",
+  "createdAt": "2026-11-12T11:07:33.654Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-51757a65-S-96cf2ff1a79f.json"
+}
