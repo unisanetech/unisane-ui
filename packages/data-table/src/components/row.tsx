@@ -240,10 +240,9 @@ function DataTableRowInner<T extends { id: string }>({
         onMouseEnter={onRowHover ? () => onRowHover(row) : undefined}
         onMouseLeave={onRowHover ? () => onRowHover(null) : undefined}
         className={cn(
-          'group/row duration-snappy group transition-colors',
+          'duration-snappy transition-colors',
           bgClass,
           onRowClick && 'cursor-pointer',
-          !isSelected && !isActive && 'hover:bg-surface-container-low',
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header
           'hover:z-[5]',
@@ -268,7 +267,6 @@ function DataTableRowInner<T extends { id: string }>({
             className={cn(
               'relative',
               bgClass,
-              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
               !isLastRow && 'border-outline-weak border-b',
               showColumnBorders && 'border-outline-weak border-r',
@@ -307,7 +305,6 @@ function DataTableRowInner<T extends { id: string }>({
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
               '@md:sticky left-0 isolate z-[15]',
               stickyBgClass,
-              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
               !isLastRow && 'border-outline-weak border-b',
               showColumnBorders && 'border-outline-weak border-r',
@@ -336,7 +333,6 @@ function DataTableRowInner<T extends { id: string }>({
               // z-[15] to stay above pinned data columns (z-10) but below sticky header (z-20)
               '@md:sticky isolate z-[15] text-center',
               stickyBgClass,
-              !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
               'transition-colors',
               !isLastRow && 'border-outline-weak border-b',
               showColumnBorders && 'border-outline-weak border-r',
@@ -521,7 +517,6 @@ function DataTableRowInner<T extends { id: string }>({
                   : 'overflow-hidden text-ellipsis',
                 // Pinned cells use stickyBgClass for drop target state, others use bgClass
                 pinPosition ? stickyBgClass : bgClass,
-                !isSelected && !isActive && !isDropTarget && 'group-hover:bg-surface-container-low',
                 'transition-colors',
                 !isLastRow && 'border-outline-weak border-b',
                 col.align === 'center' && 'text-center',

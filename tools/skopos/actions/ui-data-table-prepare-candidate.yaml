@@ -1,0 +1,56 @@
+{
+  "id": "ui.data-table.prepare-candidate",
+  "title": "Prepare the local DataTable candidate archive",
+  "description": "Pack the built DataTable using native pnpm workspace dependency normalization; no registry access or publication authority.",
+  "category": "quality-check",
+  "scope": [
+    "workspace"
+  ],
+  "command": "pnpm --filter @unisane/data-table pack --pack-destination .tmp/data-table-candidate",
+  "cwd": ".",
+  "timeoutMs": 60000,
+  "inputs": [
+    "packages/data-table",
+    "packages/ui/package.json",
+    "packages/tokens/package.json",
+    "pnpm-lock.yaml",
+    "tools/skopos/actions/ui-data-table-prepare-candidate.yaml"
+  ],
+  "outputs": [
+    ".tmp/data-table-candidate"
+  ],
+  "affects": [
+    ".tmp/data-table-candidate"
+  ],
+  "capabilities": {
+    "process": "required",
+    "network": "none",
+    "browser": "none",
+    "tools": [
+      "pnpm"
+    ],
+    "secrets": [],
+    "services": []
+  },
+  "effects": {
+    "workspace": "declared",
+    "artifacts": "isolated",
+    "external": "none"
+  },
+  "concurrency": "exclusive",
+  "workspaceMode": "overlay-safe",
+  "safety": "artifact-producing",
+  "requiresApproval": false,
+  "phases": [
+    "stabilization",
+    "closure"
+  ],
+  "risks": [
+    "standard",
+    "high-impact"
+  ],
+  "recommendedAfter": [
+    "quality.build"
+  ],
+  "owner": "ui-maintainers"
+}

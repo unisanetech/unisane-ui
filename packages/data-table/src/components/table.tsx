@@ -142,10 +142,9 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
       aria-selected={selected}
       aria-rowindex={rowIndex}
       className={cn(
-        'group duration-snappy transition-colors',
+        'duration-snappy transition-colors',
         getRowInteractionBackgroundClass({ isSelected: selected, isActive: active }),
         clickable && 'cursor-pointer',
-        !selected && !active && 'hover:bg-surface-container-low',
         className,
       )}
       {...props}
@@ -245,7 +244,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
       className={cn(
         'text-body-medium text-on-surface overflow-hidden text-ellipsis whitespace-nowrap',
         'bg-surface border-outline-weak border-b',
-        'group-hover:bg-surface-container-low transition-colors',
+        'transition-colors',
         align === 'start' && 'text-left',
         align === 'center' && 'text-center',
         align === 'end' && 'text-right',

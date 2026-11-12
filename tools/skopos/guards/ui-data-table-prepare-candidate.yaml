@@ -1,0 +1,31 @@
+{
+  "id": "ui.data-table.prepare-candidate",
+  "title": "Prepare the changed DataTable as its real distributable",
+  "description": "Bind a candidate archive to DataTable changes; the existing release policy still owns consumer certification and external approval.",
+  "owner": "ui-maintainers",
+  "scope": [
+    "workspace"
+  ],
+  "strength": "required",
+  "appliesTo": {
+    "paths": [
+      "packages/data-table/package.json",
+      "tools/skopos/actions/ui-data-table-prepare-candidate.yaml",
+      "tools/skopos/guards/ui-data-table-prepare-candidate.yaml"
+    ],
+    "phases": [
+      "stabilization",
+      "closure"
+    ],
+    "risks": [
+      "standard",
+      "high-impact"
+    ]
+  },
+  "requires": {
+    "actionIds": [
+      "ui.data-table.prepare-candidate"
+    ],
+    "evidence": "source-bound-action"
+  }
+}
