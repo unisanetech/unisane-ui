@@ -19,8 +19,12 @@ The Customer dues screenshot showed both Expand and Collect highlighted when the
 pointer was elsewhere in their row. DataTable body rows supplied a generic `group`
 ancestor, which activated Unisane Button's descendant `group-hover` action layers.
 
-Body rows and primitive TableRow no longer create hover groups or broadcast hover
-backgrounds to cells. Selection, active state, drop-target state, keyboard focus,
+Body rows and primitive TableRow no longer create hover groups. Following the
+owner's clarification, they retain a subtle `surface-container-low` hover
+background, applied to the row and its direct cells only. This covers pinned
+cells without affecting nested action layers or nested tables. Tailwind's hover
+variant limits this behavior to hover-capable devices. Selected, active, focused
+and drop-target rows keep their existing background owner. Keyboard focus,
 expansion and control-local feedback remain. Header sorting behavior is unchanged.
 Three regression cases cover the ancestor boundary and independent nested actions,
 selection and expansion.
@@ -49,6 +53,23 @@ passed; the mobile pinned-column case is skipped by the existing suite.
 No baselines, thresholds or tests were changed to turn these failures green.
 Visual readiness remains blocked and needs investigation before release.
 
+After restoring the row-only background, final run
+`run-20261112T102253Z-ui-capture-responsive-proof-b401c10d` reports **26 passed,
+6 failed, 4 skipped**. The new desktop browser regression passes: normal and
+pinned cells highlight together; Expand's action layer remains at zero opacity
+while another cell is hovered, responds to its own hover, and returns to zero
+when the pointer moves away; keyboard selection retains its background on hover.
+The added pointer test is intentionally skipped on mobile. The same six visual
+axis comparisons remain failing. Tests wait for actual CSS transitions before
+sampling colors. The fixture consumes built package exports, so producer build
+must precede browser proof when those exports change; mismatched old JavaScript
+and newly scanned CSS are not valid evidence.
+
+Final build, tests, lint and types pass; unchanged UI-contract evidence was
+reused. Parallel Action attempts passed their commands but detected changes to
+the generated Task projection from concurrent runner finalization. Sequential
+reruns passed with clean effects; the invalid parallel receipts are not proof.
+
 ## Local candidate and adoption boundary
 
 The selected `ui.data-table.prepare-candidate` Action prepared:
@@ -58,12 +79,14 @@ The selected `ui.data-table.prepare-candidate` Action prepared:
 Archive: `.tmp/data-table-candidate/unisane-data-table-0.1.2-next.20261112.1.tgz`
 
 SHA-512 integrity:
-`sha512-2SqunbOMmXaxeFXmzxsrStQyrSvuBvFajTOksomNWe1taAPnsL1kUEo8A+V8+9dtSjR/Vol4rukITGuCLBnkJw==`
+`sha512-1uRu61Nn75bOyee0/gX9PAFTRT9vQ7Ul6xDKRAYZSoMoQYdM8In6Qt2KSjhoADeodj72lgknPLpnsLnb7gbGfw==`
 
-Archive inspection found 681 entries, the public UI peer coordinate
-`0.1.2-next.20261111.1`, no row hover group in emitted row/table modules and no
-private source, tests, credentials or dependency directories. This inspection is
-not clean external-consumer certification.
+The initial archive inspection found 681 entries and no private source, tests,
+credentials or dependency directories. The replacement local candidate retains
+the public UI peer coordinate `0.1.2-next.20261111.1`; inspection confirms the
+direct-cell hover selector in emitted row-state and no row hover group in the
+emitted row module. It supersedes the initial local archive; neither has been
+published. This inspection is not clean external-consumer certification.
 
 Trade still consumes `0.1.2-next.20261111.1`; its live behavior is unchanged.
 The existing approved release manifest authorizes the older cohort only. The new

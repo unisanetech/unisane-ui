@@ -38,7 +38,7 @@ import { useI18n } from '../i18n';
 import { DragHandle } from './drag-handle';
 import { HighlightedText } from './highlighted-text';
 import { getExpandedRowPresentationClasses } from './expanded-row-presentation';
-import { getRowBackgroundClass } from './row-state';
+import { getRowBackgroundClass, getRowHoverBackgroundClass } from './row-state';
 
 // ─── ROW PROPS ──────────────────────────────────────────────────────────────
 
@@ -242,6 +242,7 @@ function DataTableRowInner<T extends { id: string }>({
         className={cn(
           'duration-snappy transition-colors',
           bgClass,
+          getRowHoverBackgroundClass({ isSelected, isActive, isFocused, isDropTarget }),
           onRowClick && 'cursor-pointer',
           // Elevate row slightly on hover so tooltips appear above other rows
           // z-[5] is lower than sticky header (z-20) so row won't overlap header

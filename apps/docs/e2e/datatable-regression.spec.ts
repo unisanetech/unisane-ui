@@ -16,6 +16,43 @@ async function getScrollContainer(page: Page, testId = 'datatable-regression-fix
 }
 
 test.describe('datatable regression fixtures', () => {
+  test('highlights the row without highlighting its nested actions', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Pointer hover is a desktop interaction.');
+    await page.goto(REGRESSION_ROUTE);
+    const fixture = await getFixture(page, 'datatable-regression-expanded-fixture');
+    const row = fixture.locator('tbody tr[aria-rowindex]').first();
+    const cells = row.locator(':scope > td');
+    const expander = row.getByRole('button', { name: /Expand/ });
+    const layer = expander.locator(':scope > span.pointer-events-none');
+    await page.mouse.move(0, 0);
+    const normalBackground = await cells.first().evaluate((cell) => getComputedStyle(cell).backgroundColor);
+    await cells.last().hover();
+    await expect.poll(() => cells.first().evaluate((cell) => getComputedStyle(cell).backgroundColor))
+      .not.toBe(normalBackground);
+    await row.evaluate(async (node) => {
+      await Promise.all(node.getAnimations({ subtree: true }).map((animation) => animation.finished));
+    });
+    const hoverBackground = await cells.first().evaluate((cell) => getComputedStyle(cell).backgroundColor);
+    await expect(cells.last()).toHaveCSS('background-color', hoverBackground);
+    await expect(layer).toHaveCSS('opacity', '0');
+    await expander.hover();
+    await expect.poll(() => layer.evaluate((node) => Number(getComputedStyle(node).opacity))).toBeGreaterThan(0);
+    // The public checkbox uses a visually hidden native input; operate its
+    // keyboard interface rather than clicking that hidden input's tiny bounds.
+    await row.getByRole('checkbox').focus();
+    await row.getByRole('checkbox').press('Space');
+    await expect(row.getByRole('checkbox')).toBeChecked();
+    await expect.poll(() => cells.first().evaluate((cell) => getComputedStyle(cell).backgroundColor))
+      .not.toBe(hoverBackground);
+    await row.evaluate(async (node) => {
+      await Promise.all(node.getAnimations({ subtree: true }).map((animation) => animation.finished));
+    });
+    const selectedBackground = await cells.first().evaluate((cell) => getComputedStyle(cell).backgroundColor);
+    await cells.last().hover();
+    await expect(cells.first()).toHaveCSS('background-color', selectedBackground);
+    await expect(layer).toHaveCSS('opacity', '0');
+  });
+
   test('lets a nested page own vertical scrolling and stacks the toolbar and header', async ({
     page,
     isMobile,

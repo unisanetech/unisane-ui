@@ -3,7 +3,7 @@
 import React, { forwardRef } from 'react';
 import { cn } from '@unisane/ui/utils';
 import type { VerticalScrollOwner } from '../types';
-import { getRowInteractionBackgroundClass } from './row-state';
+import { getRowInteractionBackgroundClass, getRowHoverBackgroundClass } from './row-state';
 
 // ─── TABLE ──────────────────────────────────────────────────────────────────
 
@@ -144,6 +144,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(
       className={cn(
         'duration-snappy transition-colors',
         getRowInteractionBackgroundClass({ isSelected: selected, isActive: active }),
+        getRowHoverBackgroundClass({ isSelected: selected, isActive: active }),
         clickable && 'cursor-pointer',
         className,
       )}
