@@ -85,6 +85,17 @@ for (const packageCase of packageCases) {
 
   const missingTargets = [...new Set(requiredTargets)].filter((path) => !packedFiles.has(path));
 
+  if (manifest.name === '@unisane/data-table') {
+    const styles = readFileSync(resolve(packageRoot, 'dist/index.css'), 'utf8');
+    if (
+      !styles.includes('hover\\:\\[\\&\\>td\\]\\:bg-inherit') ||
+      !styles.includes('background-color: inherit') ||
+      !styles.includes('background-color: var(--color-surface-container-low)')
+    ) {
+      throw new Error('DataTable row hover must ship in its stylesheet without consumer source scanning.');
+    }
+  }
+
   if (unexpected.length > 0 || forbidden.length > 0 || missingTargets.length > 0) {
     throw new Error(
       [

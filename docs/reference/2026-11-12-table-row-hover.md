@@ -72,6 +72,33 @@ reruns passed with clean effects; the invalid parallel receipts are not proof.
 
 ## Release follow-through requested by the owner
 
+### Installed-consumer stylesheet correction
+
+The owner approved the staged `.1` cohort and all four packages were published.
+Trade's registry install matched the hosted archive integrities and provenance;
+its 866 component tests and application types passed. Live DOM inspection
+confirmed the new ungrouped row markup. It also exposed a distribution defect:
+DataTable compiles utilities without a Tailwind theme, so the named semantic
+color classes were omitted from its shipped stylesheet. The docs compiler had
+the UI theme and source scanning, masking that omission in browser proof.
+
+Correction `.2` uses the same public semantic color variable through Tailwind's
+arbitrary-variable utility and gives immediate hovered cells `background-color:
+inherit`. Both selectors are emitted by DataTable's own theme-free build;
+consumers do not scan producer source or add private CSS patches. Persistent
+row-state precedence and independent control feedback are unchanged.
+
+The canonical package-content check now rejects archives whose stylesheet lacks
+the direct-cell hover selector, inherited cell background or token-variable row
+background. Its selected Action passed after building the `.2` packages. This
+is distribution proof in addition to, not replaced by, the docs browser check.
+The existing aligned staging route and npm owner approval are retained.
+The `.2` build, lint, types, unit tests, UI contract validation, canonical packed
+consumer certificate and package-content check pass. The unchanged independent
+browser suite passes 32 tests with four intentional skips. Final Trade adoption
+must still compare the actual published archive integrities and inspect the live
+consumer's emitted stylesheet and hover state; producer docs alone are insufficient.
+
 The owner subsequently requested "ok so make it live", authorizing the existing
 public package release and local Trade adoption route. The canonical workflow
 requires the four public package versions to align, so tokens, UI and email

@@ -1,0 +1,20 @@
+id: ui.package-content
+title: Verify canonical package contents and distributed table hover CSS
+description: Build and inspect the actual publishable package contents through the repository's existing package-content command, including emitted row-hover selectors.
+category: quality-check
+scope: [workspace]
+command: pnpm check:package-content
+cwd: .
+timeoutMs: 180000
+inputs: [packages, scripts/check-package-contents.mjs, package.json, pnpm-lock.yaml, tools/skopos/actions/ui-package-content.yaml]
+outputs: [packages/tokens/dist, packages/ui/dist, packages/ui-cli/dist, packages/data-table/dist, packages/email-templates/dist]
+affects: [packages/tokens/dist, packages/ui/dist, packages/ui-cli/dist, packages/data-table/dist, packages/email-templates/dist]
+capabilities: {process: required, network: none, browser: none, tools: [pnpm], secrets: [], services: []}
+effects: {workspace: declared, artifacts: isolated, external: none}
+concurrency: exclusive
+workspaceMode: overlay-safe
+safety: artifact-producing
+requiresApproval: false
+phases: [iteration, stabilization, closure]
+risks: [standard, high-impact]
+owner: ui-maintainers

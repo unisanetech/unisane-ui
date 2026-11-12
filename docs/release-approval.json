@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261112.1",
+    "version": "0.1.2-next.20261112.2",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -28,13 +28,13 @@
   ],
   "previousApproval": {
     "approvedBy": "founder",
-    "approvedAt": "2026-11-11",
-    "approvalSource": "Explicit user approval of source dba108a and the reviewed four-package 0.1.2-next.20261111.1 UI cohort: push, successful CI, existing npm staging/publication, registry verification and local Trade adoption. No deployment, migrations, business-data writes or new permissions.",
-    "version": "0.1.2-next.20261111.1"
+    "approvedAt": "2026-11-12",
+    "approvalSource": "User explicitly requested \"ok so make it live\" after being told the corrected DataTable source requires package release and Trade adoption. Authorizes the existing aligned public next package release route and local Trade adoption. No hosted Trade deployment, migrations, business-data writes or credential/permission changes.",
+    "version": "0.1.2-next.20261112.1"
   },
   "preparedAt": "2026-11-12",
   "preparedBy": "codex-row-hover",
-  "scope": "Restore subtle row-only hover backgrounds while isolating nested control hover feedback.",
+  "scope": "Correct distributed DataTable row-hover CSS; preserve control isolation and persistent row states.",
   "sourceChanges": [
     "@unisane/data-table"
   ],
@@ -51,5 +51,5 @@
   ],
   "approvedBy": "founder",
   "approvedAt": "2026-11-12",
-  "approvalSource": "User explicitly requested \"ok so make it live\" after being told the corrected DataTable source requires package release and Trade adoption. Authorizes the existing aligned public next package release route and local Trade adoption. No hosted Trade deployment, migrations, business-data writes or credential/permission changes."
+  "approvalSource": "Follow-through on the owner request \"ok so make it live\" for the row-hover correction. Installed-consumer verification exposed a missing generated stylesheet selector in .1; .2 corrects that same authorized behavior, adds canonical distribution proof, and uses the existing staged public release route with owner 2FA approval before publication. No hosted Trade deployment, migrations, business-data writes or access changes."
 }

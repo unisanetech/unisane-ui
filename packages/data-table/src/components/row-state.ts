@@ -18,7 +18,9 @@ export function getRowHoverBackgroundClass({
   isDropTarget = false,
 }: RowInteractionState & { isDropTarget?: boolean }): string | null {
   if (isSelected || isActive || isFocused || isDropTarget) return null;
-  return 'hover:bg-surface-container-low hover:[&>td]:bg-surface-container-low';
+  // DataTable builds utilities without a Tailwind theme. Reference the public
+  // semantic CSS variable directly so this rule ships in our own stylesheet.
+  return 'hover:bg-[var(--color-surface-container-low)] hover:[&>td]:bg-inherit';
 }
 
 export function getRowInteractionBackgroundClass({

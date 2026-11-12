@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1098,
+  "fileCount": 1100,
   "dispositionCounts": {
-    "retain": 980,
+    "retain": 982,
     "regenerate": 118
   },
   "unresolvedReleaseBlockers": [
@@ -2455,7 +2455,7 @@
       "path": "docs/reference/2026-11-12-table-row-hover.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "2b8539d88a60e7ede970d4c958e490f731393afbe136a5c841944c0556d599f5"
+      "sha256": "3d0e02ecfca3732e5bd33b46471b166b2e6294e81d42c880ca58cb6829687295"
     },
     {
       "path": "docs/reference/assets/communication-mail-email-template-system.md",
@@ -2503,7 +2503,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "e3335b73c3b34a0c6b2f55080fbb8768c3981da248fa738004fc85d86716da17"
+      "sha256": "8e3d002baf2faa178a9f4625b42608c5b868185698b3905f391a0c1fef94ac25"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2569,7 +2569,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "a89f69eef06c439bad0bde4b0bef7d9c2b9c75709b8348605fdbec9564a9c79f"
+      "sha256": "3e87514776069c99fb6fa894b8f2ea4de4a9c1e202cffc38bbbef4b291ef4276"
     },
     {
       "path": "packages/data-table/README.md",
@@ -2743,7 +2743,7 @@
       "path": "packages/data-table/src/components/row-state.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "62f628fe0ff8fc904c4e79303a8b95e0ca3151561a173dddd8139d5999718161"
+      "sha256": "f1359af354dce037784c26d04b05d40de38b119f4cddfef1e74bafe58b794be6"
     },
     {
       "path": "packages/data-table/src/components/row.tsx",
@@ -3925,7 +3925,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "8fb977b1bdb65748069e60d9880103baa99d59e79fc4dab0b66b1283bbb38e28"
+      "sha256": "396bc266ea011783ddf2d08293ed7794527d0e88d4e4264dd4b6e288e329e7f6"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -4075,7 +4075,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "f3cbff8d5139f9406dec8df991cf52a81e8c01e516c6339bc212804da206fb64"
+      "sha256": "7ee44734c94a53e6eadd566e2dcce3d3b2639fa1632d8cd620580411c0f34b02"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4471,7 +4471,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "ac118f5115e0987380615daeeb60bb24656d125b4059b750c0d5dda5c6e5469b"
+      "sha256": "88e96a6691a19a0155a43b2878d39e476af0f641cf836675b9784721aef4c20b"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -6289,7 +6289,7 @@
       "path": "scripts/check-package-contents.mjs",
       "disposition": "retain",
       "owner": "repository tooling",
-      "sha256": "ec575b07cc5a097cd132183c1b468377371942be4c98ca5852fd9ca58bfb8063"
+      "sha256": "91efa062d700f88ccd1ecc4a3b452353db1b459032bfa7aa2b1fb10ee6660746"
     },
     {
       "path": "scripts/check-public-utility-ownership.mjs",
@@ -6442,6 +6442,12 @@
       "sha256": "2625444cdd1799b0d58401e2bdd44995a1ec48c9a54ad75ef692329f4b3aaa88"
     },
     {
+      "path": "tools/skopos/actions/ui-package-content.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "8b0f4feeb90ecec47a72c9009efef3847685a491bf87cd3ebf13a05dd9b769b5"
+    },
+    {
       "path": "tools/skopos/actions/ui-release-convergence.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
@@ -6518,6 +6524,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "9514fdccc8be36ab694319011f2812476cbd6c9517dae1f726f58eaaa6f7b6d2"
+    },
+    {
+      "path": "tools/skopos/guards/ui-package-content.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "4637a9e44ea1b0dafcb28e41979e7c0b8553d5a05eda590e95ed7e33a936be19"
     },
     {
       "path": "tools/skopos/guards/ui-reviewed-visual-baselines.yaml",

@@ -1,0 +1,11 @@
+id: ui.package-content
+title: Check shipped stylesheet behavior
+description: Require distribution-level checks when the shared row hover helper or canonical package-content validation changes.
+owner: ui-maintainers
+scope: [workspace]
+strength: required
+appliesTo:
+  paths: [packages/data-table/src/components/row-state.ts, scripts/check-package-contents.mjs, tools/skopos/actions/ui-package-content.yaml, tools/skopos/guards/ui-package-content.yaml]
+  phases: [iteration, stabilization, closure]
+  risks: [standard, high-impact]
+requires: {actionIds: [ui.package-content], evidence: source-bound-action}
