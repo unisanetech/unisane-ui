@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261111.1",
+    "version": "0.1.2-next.20261112.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -28,19 +28,19 @@
   ],
   "previousApproval": {
     "approvedBy": "founder",
-    "approvedAt": "2026-11-10",
-    "approvalSource": "Explicit user approval of candidate 9667d12: push, PR, build/CI, merge only after checks pass, stage/publish aligned four-package 0.1.2-next.20261110.2 cohort and adopt exact immutable versions locally in Trade. No deployment or business-data changes.",
-    "version": "0.1.2-next.20261110.2"
+    "approvedAt": "2026-11-11",
+    "approvalSource": "Explicit user approval of source dba108a and the reviewed four-package 0.1.2-next.20261111.1 UI cohort: push, successful CI, existing npm staging/publication, registry verification and local Trade adoption. No deployment, migrations, business-data writes or new permissions.",
+    "version": "0.1.2-next.20261111.1"
   },
-  "preparedAt": "2026-11-11",
-  "preparedBy": "popup-density",
-  "scope": "Optional popup density provider separates menu/select/combobox rows from field sizing; includes the already committed compact Tooltip size support.",
+  "preparedAt": "2026-11-12",
+  "preparedBy": "codex-row-hover",
+  "scope": "Restore subtle row-only hover backgrounds while isolating nested control hover feedback.",
   "sourceChanges": [
-    "@unisane/ui"
+    "@unisane/data-table"
   ],
   "unchangedSourcePackages": [
     "@unisane/tokens",
-    "@unisane/data-table",
+    "@unisane/ui",
     "@unisane/email-templates"
   ],
   "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
@@ -50,6 +50,6 @@
     "Unrelated UI source changes"
   ],
   "approvedBy": "founder",
-  "approvedAt": "2026-11-11",
-  "approvalSource": "Explicit user approval of source dba108a and the reviewed four-package 0.1.2-next.20261111.1 UI cohort: push, successful CI, existing npm staging/publication, registry verification and local Trade adoption. No deployment, migrations, business-data writes or new permissions."
+  "approvedAt": "2026-11-12",
+  "approvalSource": "User explicitly requested \"ok so make it live\" after being told the corrected DataTable source requires package release and Trade adoption. Authorizes the existing aligned public next package release route and local Trade adoption. No hosted Trade deployment, migrations, business-data writes or credential/permission changes."
 }

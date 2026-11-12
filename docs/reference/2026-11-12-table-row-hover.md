@@ -70,7 +70,30 @@ reused. Parallel Action attempts passed their commands but detected changes to
 the generated Task projection from concurrent runner finalization. Sequential
 reruns passed with clean effects; the invalid parallel receipts are not proof.
 
-## Local candidate and adoption boundary
+## Release follow-through requested by the owner
+
+The owner subsequently requested "ok so make it live", authorizing the existing
+public package release and local Trade adoption route. The canonical workflow
+requires the four public package versions to align, so tokens, UI and email
+templates receive version-only changes to `0.1.2-next.20261112.1`; DataTable is
+the only changed runtime source. `docs/release-approval.json` records that scope.
+
+Review of all 36 comparison diff images found differences confined to text in
+six sections at three appearance axes and two viewports. The baseline images
+predate committed typography correction `23c0232`: it removed forced normal
+weight in the Text primitive, corrected checkbox/radio labels and field text
+roles. This explains the affected label glyphs; the earlier tentative Select
+inset diagnosis above was not an established cause. No new field or typography
+runtime changes were made for this release. Reviewed baselines were regenerated
+through their existing Action, with unchanged tests and thresholds.
+
+Independent comparison run
+`run-20261112T103128Z-ui-capture-responsive-proof-66c9392e` passed: **32 tests
+passed, 4 intentionally skipped**. The row-only hover browser case passes.
+Release archives still require their canonical clean-consumer certificate and
+successful staged publication before Trade can adopt the registry coordinates.
+
+### Earlier local candidate
 
 The selected `ui.data-table.prepare-candidate` Action prepared:
 

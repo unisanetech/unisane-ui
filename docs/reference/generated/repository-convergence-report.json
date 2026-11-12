@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1094,
+  "fileCount": 1098,
   "dispositionCounts": {
-    "retain": 976,
+    "retain": 980,
     "regenerate": 118
   },
   "unresolvedReleaseBlockers": [
@@ -457,7 +457,7 @@
       "path": "apps/docs/e2e/datatable-regression.spec.ts",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "05bd666c3c53b3a728b7c90ea83633951360beea37adb5ad59014c91cf1d866f"
+      "sha256": "9d7e9b19793701f04d3f852c3e98f0d1c4aa0c9beb157ad951dca935aa49f538"
     },
     {
       "path": "apps/docs/e2e/layout-regression.spec.ts",
@@ -523,13 +523,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-completed-public-fleet-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f4e7572ba1ede533be5296ef7b26344c28eea45ca6aa131d505b9d9861359351"
+      "sha256": "fe70262b41cb868666e7857e8c8bc1f667f0f69cba57c35e91345dcb7daa94e7"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-completed-public-fleet-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "c3e1d70af26cd189e1a69646cda9a0ab5cf3f50de41771549680e69caf95037d"
+      "sha256": "98e6cb924b27cc2eb68e04716e6d6d9f2d92617edb059161c6b22c08b8601e92"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-data-display-chromium-darwin.png",
@@ -547,13 +547,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-date-family-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "da9a70fd042e8c6e780e937e81f7b6e82997ebdfb13289e12fde9f2bd4821dde"
+      "sha256": "4d84e0160e86c5af1c4587ebdf9007867de545c64e597da2ee74c67e663714a3"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-date-family-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "5827c12fcebca5e21a45afd90d362e865722a92b895d9403709a579ea86d6f9e"
+      "sha256": "fe338f076d2f021dad4e22d8b2095813f7074a55d7131d503248862cbeccb953"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-dialog-decisions-chromium-darwin.png",
@@ -571,13 +571,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "12db92b6fd6b2feda105b7c36993eba162e5aa634024468edb258af1f5f25fbd"
+      "sha256": "442709f3aa90dabbe524dd2c92baba7516b3195ff11a12cc933c31e6245c0b30"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "c0f118546e3818a20c98eedd94133a23f49eb50715bb5fd15e36844321feb75a"
+      "sha256": "ea36e2070bc3239ab00f76fbc9c8f6c5aa83db53e8d551e4c204681a7ed2cbbf"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-leaf-icon-typography-chromium-darwin.png",
@@ -625,13 +625,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-persistent-communication-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "d83aea7b4d4c735531dc024ab361ade5c6658b9bc78748b71da39e3765b00076"
+      "sha256": "8a67c434f9ded0d90c83cd7e3bac986488b4357aadc23aab4ebc3ccddb138d6c"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-persistent-communication-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "40c0adbdebece5ebf83c7f67ac3524c1d6ffbfb0f940b40ea1c1981573e969df"
+      "sha256": "0824823328d0e7eaab98067d7d3f216a34d96e0dcda7e7608797fb9ec5fb230b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-scroll-area-boundary-chromium-darwin.png",
@@ -649,13 +649,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-selection-controls-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "0c5aa245fe2ce35909ce270c32398779fcf37e8191cffa7a969abacf225e1a0a"
+      "sha256": "0c1042fff17448da135b7c833f18a09d9e6a7720a743506aad48a992546f449d"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-selection-controls-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "b38abb163a58e0cb3bc35fb06ab515d9497b5c5cc303d51d7e3111d7b8bce539"
+      "sha256": "484ee2e289fd99e0a721832728df9fd14c95f2241bc6c5db931818277e6c3365"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-sidebar-recipe-chromium-darwin.png",
@@ -673,13 +673,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e669df20ac2d0e5201579987f5d6b3632cb11814dea0eff7a08691667ffede35"
+      "sha256": "ea68917c37a5ef7c917f66969af3b629b34ec26c5359c41cb5b07c54d3a0f094"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "832ea9753aafced91f5a2e4300e77504793ae60570dab34cc399c9d27787711c"
+      "sha256": "bfcbcc7c99acc415589427371ce128a6d3ebd7a80eb186eb90a03d42848dd033"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-compact-flat-toast-feedback-chromium-darwin.png",
@@ -739,13 +739,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-completed-public-fleet-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "32c80bbae0b64ddba38b5d4637526357925aa09a98974ed90b409336508ad942"
+      "sha256": "0f6a5db946dc834ce075439453843dd14686558d68bef80eada896ddf76678e2"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-completed-public-fleet-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "da7c836a86c373116c003b8b7b844d87c2b38f81c70075378d8e597714c2ff43"
+      "sha256": "7aba0fff0ec5b141337899833ba3049d697951a3fabbed14a799e371d80b54f1"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-data-display-chromium-darwin.png",
@@ -763,13 +763,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-date-family-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "ddf82a988db76beefe121a5cf085ce726a6cf41ab9124dce8f834dc0fb116420"
+      "sha256": "e57ba2ebedee0974c95a8043d1e04df31223933131acfbe1bc00a3aa6581ae5a"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-date-family-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e4391268716c09174f697e26ef87fbcbc776838477a16f00467171180f26d72a"
+      "sha256": "a88b47d572db3c78918c05596647c5ccc23c013bfa9173bcca53e7d5007b9bb9"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-dialog-decisions-chromium-darwin.png",
@@ -787,13 +787,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "6ff5796f1feafae72596aec8af5841181cb700ddddd52a9461f6d2b710dbaccb"
+      "sha256": "f648709ba078b116769cf9ca83179e543831d34625796460e52eda465ced6370"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "825662609b06a0a3ea108d01aa032abd93cbc491c27cd7210d12779ab333eb66"
+      "sha256": "16260c0e5e06948a100d3cb871b6dbfa687d055dace12b8ce8f8e2c593ed818b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-leaf-icon-typography-chromium-darwin.png",
@@ -841,13 +841,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-persistent-communication-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f42818cbd53bc4df1841eb6a6c02218da03bde947507a1e22656e00abfc6ea6b"
+      "sha256": "852feae640edd61b8609823c774368b8f1afbe7e6d6e740ed22587e103d2014e"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-persistent-communication-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f185631d73b9e23178bce02725b8383b65518bf9e2ddca0f0ea4ac61408df40b"
+      "sha256": "ed35a839024446c9f5d63300e3c251a6e5e4e37e42239bd8385a647005ba09be"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-scroll-area-boundary-chromium-darwin.png",
@@ -865,13 +865,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-selection-controls-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e9123c068303fc480184497343dc25b022ae5c90ad4e4f0483edd9de07cbb5b7"
+      "sha256": "fb583559a7b797c19da91c5942b41e6c080e99e6bcb549a3943b76ac7ce05887"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-selection-controls-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "387402939df922cd8a1d0b859dc7d91943a3c6dd3779c96feeccc2ea1e8d8551"
+      "sha256": "a291882de018e126c57bfabbc3ce09c1c26e6b95d6a6763846618ba5432d4de3"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-sidebar-recipe-chromium-darwin.png",
@@ -889,13 +889,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "3692b19cbae1cf2b66ee302305f1d5a67445c99f457aa12cc2b6155513a547bb"
+      "sha256": "189dae3b5396bd1360d2f862a3327da05df5faa8e4ee93e19fbe3e804aca65ad"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "872975fa8b3a018a748f2b0ea5953383e245088e0d564faad5c7e4271a514b09"
+      "sha256": "e6bf0535a846706cdaeef98527811d201c10f7f68345df4dcde43925b51380e7"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-high-contrast-comfortable-toast-feedback-chromium-darwin.png",
@@ -955,13 +955,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-completed-public-fleet-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "41354e9724012e897f3bf079199d17e5db48c839f4e7e7611e890cce76ce3c15"
+      "sha256": "58e99770eeefc4e841042fdda94f47bf995335db07bc03b468df8e7594a435c5"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-completed-public-fleet-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "3bf094f422cba57455c9d6ed1c53ef89ffa04c68843f9c9cd150434fd24df342"
+      "sha256": "08c8de9e2bf7c6c7900923ab34a78deca71ce7b91b9b5f19dc308b0d72e1aa12"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-data-display-chromium-darwin.png",
@@ -979,13 +979,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-date-family-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "3b05c574f2b9048ad4ba52e452dc5f956a97a9b095897c1701d92352a951ff1a"
+      "sha256": "4b3ebeb3deb518ba5e97e4e84568b0d0b262f886197571602e4b053ecaf3eaff"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-date-family-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "2166c76f0efa427f960f444821fce4a85b39b0f21b0ce6fe1ae3d43e39983dbf"
+      "sha256": "25f0af65e53bffb8ca832a9f8a4998adade15d920a254399f68c31444d3edec0"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-dialog-decisions-chromium-darwin.png",
@@ -1003,13 +1003,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-field-variants-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "18ceb8a0d18afa7425880cdc875d47291ea63a96b175b9e8be2f590e1e32b1f6"
+      "sha256": "fb54f5e2573cb8cecdacd5c30594e402ffddc044d3670ac22143c55745aafb4b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-field-variants-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "2fd4087dae40367d9f04db6feb3ec1707de9d4b54b5d2a7105066205ef4b0146"
+      "sha256": "3f87dd02073740e69f36c0d8f6e2971e381546748ed10b4355523cb5fb23ad33"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-leaf-icon-typography-chromium-darwin.png",
@@ -1057,13 +1057,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-persistent-communication-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "7d8639cef83e05b74520e8d84074d87088940ad4af9d4a61623c05dd24744b04"
+      "sha256": "6446e961b007001b1c4010122a305dd5ff1af7c298d8abc984d4b62800d6467e"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-persistent-communication-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "e85985d9861bc2a864c061543547ce34a4e46a94a882ae415802255c92182540"
+      "sha256": "8fbd15ba79d032c529584767a5ace4baf8d724b97c4143487edbaf90741b144b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-scroll-area-boundary-chromium-darwin.png",
@@ -1081,13 +1081,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-selection-controls-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "dc6620f39d3813347d9e2a84a7c5b581d0a2701b3cb1db792c295eb175ce46ce"
+      "sha256": "b4047132658918f538295573c871691583a46a84f088dab00e15c3c1a63c78fe"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-selection-controls-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "5d1d1c60214bb89b2903852189e72a8e914b1487f00982053bed13ec9b6f6fd3"
+      "sha256": "35b2aa2f3d5f02977d4cd0cff8bc5469babac7ad8a533da1f520d5e707f4cd82"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-sidebar-recipe-chromium-darwin.png",
@@ -1105,13 +1105,13 @@
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-stepper-boundary-chromium-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "c128b19fb424e4ccca7f3a2be49c3390380b0679dcb63b87dc5f91b5166f140b"
+      "sha256": "ca6e8d5bd92cbd473ce0a98ef5711f054080ccd235190f01a717dbb43f63022b"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-stepper-boundary-mobile-chrome-darwin.png",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "546673f194edd36cd57f21e69703c0d6308536d424b7a2faab617c564d140b35"
+      "sha256": "1660aed2d8c4816d8d4fa3696d4d05ed094ffcfbb3ed2dc66b36fb38a47c59bb"
     },
     {
       "path": "apps/docs/e2e/visual-regression.spec.ts-snapshots/axis-standard-toast-feedback-chromium-darwin.png",
@@ -2452,6 +2452,12 @@
       "sha256": "5ce04c66163568b9eb2e69df1d5f4be6c2878ffced9c4950b844e6db52672d4f"
     },
     {
+      "path": "docs/reference/2026-11-12-table-row-hover.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "d768a1a99db53f372fd6564dc696358c06632958ddd15ead0d5c229dfb5464a9"
+    },
+    {
       "path": "docs/reference/assets/communication-mail-email-template-system.md",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2497,7 +2503,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "ed775a931eb207d7766e111659fbf7b424bf46c38b1bacb783291760b4ec4a49"
+      "sha256": "e3335b73c3b34a0c6b2f55080fbb8768c3981da248fa738004fc85d86716da17"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2563,7 +2569,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "6d539b4a097407c9d4221b6611ca9091db72b72b657f02cd12d183f2622e0af2"
+      "sha256": "a89f69eef06c439bad0bde4b0bef7d9c2b9c75709b8348605fdbec9564a9c79f"
     },
     {
       "path": "packages/data-table/README.md",
@@ -2737,13 +2743,13 @@
       "path": "packages/data-table/src/components/row-state.ts",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "38ab45e4fc6a985f923e1e23d9e043649bae1b8c6eff0b2f2d161bce2c1898d5"
+      "sha256": "62f628fe0ff8fc904c4e79303a8b95e0ca3151561a173dddd8139d5999718161"
     },
     {
       "path": "packages/data-table/src/components/row.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "ecacc8e5565cf2f70586b85eef1d95542e1cf06d2201bf136acb18a5a3e2c78a"
+      "sha256": "0b4acaf76beae727fbd1c483a4f417f362a59e6834902957502002d651bede7b"
     },
     {
       "path": "packages/data-table/src/components/skeleton-loading-state.tsx",
@@ -2767,7 +2773,7 @@
       "path": "packages/data-table/src/components/table.tsx",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "9b935d2cae94f16af0a8680f0cf8eae4b3ffbae3cb04bc95c2ae3addab79d8b2"
+      "sha256": "e096a420411cacabe9d3b1b31c9d81b153fdf7e00012c985aea6229ff257f45b"
     },
     {
       "path": "packages/data-table/src/components/toolbar/buttons.tsx",
@@ -3634,6 +3640,12 @@
       "sha256": "3aab04e423cb71b921a4873be7fbeef6cf78b3376d6cc3ad9e4e7c7d1932d18b"
     },
     {
+      "path": "packages/data-table/tests/components/row-hover-boundary.test.tsx",
+      "disposition": "retain",
+      "owner": "nearest package or application test boundary",
+      "sha256": "fa622bd265ffa2044e191f9d47cf8e4346c827c2a2d474bed39746e27c245e49"
+    },
+    {
       "path": "packages/data-table/tests/components/row-labels.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
@@ -3913,7 +3925,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "f98a37f31ba96b986d0311a7763f6ec7d3b3cac77d49ac3b985441c7b947123c"
+      "sha256": "8fb977b1bdb65748069e60d9880103baa99d59e79fc4dab0b66b1283bbb38e28"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -4063,7 +4075,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "0c8b346c93479bbb867981c12f373e78d18ed8c2facb693db9d9a0fea5131d36"
+      "sha256": "f3cbff8d5139f9406dec8df991cf52a81e8c01e516c6339bc212804da206fb64"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4459,7 +4471,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "caec6f3425379c06400a92f9a163b6518c9d5c6e54db0b0e474684b78cb0ccd8"
+      "sha256": "ac118f5115e0987380615daeeb60bb24656d125b4059b750c0d5dda5c6e5469b"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -6394,6 +6406,12 @@
       "sha256": "1845681d43a372c40dae9b768e4a71f062d18787ec62270f0282a8bd2cf58ffc"
     },
     {
+      "path": "tools/skopos/actions/ui-data-table-prepare-candidate.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "0e59b5e08f9ef0a2d9db4e8c4da54d08a4289032fa0ef600f763634491eb0d0d"
+    },
+    {
       "path": "tools/skopos/actions/ui-dependencies-restore.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
@@ -6476,6 +6494,12 @@
       "disposition": "retain",
       "owner": "repository foundation",
       "sha256": "c740bcad90cd2702a03ab7cb42e1e29e9ddbe5d628f6f3026a990ec882401bad"
+    },
+    {
+      "path": "tools/skopos/guards/ui-data-table-prepare-candidate.yaml",
+      "disposition": "retain",
+      "owner": "repository foundation",
+      "sha256": "a49c999ace339587136d8f963313e37732a19a9dd7fdb30b43adc5c2319f35fc"
     },
     {
       "path": "tools/skopos/guards/ui-dependencies.yaml",
