@@ -2455,7 +2455,7 @@
       "path": "docs/reference/2026-11-12-table-row-hover.md",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "d768a1a99db53f372fd6564dc696358c06632958ddd15ead0d5c229dfb5464a9"
+      "sha256": "2b8539d88a60e7ede970d4c958e490f731393afbe136a5c841944c0556d599f5"
     },
     {
       "path": "docs/reference/assets/communication-mail-email-template-system.md",
@@ -6445,7 +6445,7 @@
       "path": "tools/skopos/actions/ui-release-convergence.yaml",
       "disposition": "retain",
       "owner": "repository foundation",
-      "sha256": "1a2795e0330f3760b3182cdb8a0d59a7fde4801a39e41f8e49d3fe2d03321453"
+      "sha256": "4e61b800aa3b22cf23c52a37ac6dc28f93855797ff71b39158b7ec068202cc72"
     },
     {
       "path": "tools/skopos/actions/ui-reviewed-visual-baselines.yaml",

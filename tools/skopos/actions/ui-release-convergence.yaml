@@ -6,7 +6,8 @@ scope: [workspace]
 command: pnpm report:convergence && pnpm check:boundaries
 cwd: .
 timeoutMs: 90000
-inputs: [packages, apps/docs, scripts/check-repository-boundaries.mjs, docs/release-approval.json, docs/standards, tools/skopos]
+inputs: [packages, apps/docs, scripts/check-repository-boundaries.mjs, docs, tools/skopos]
+sourceExcludes: [docs/work/**, docs/reference/generated/repository-convergence-report.json, docs/reference/generated/fleet-provenance.json]
 outputs: [docs/reference/generated/repository-convergence-report.json]
 affects: [docs/reference/generated/repository-convergence-report.json]
 capabilities: {process: required, network: none, browser: none, tools: [pnpm], secrets: [], services: []}
