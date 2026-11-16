@@ -530,6 +530,11 @@ export const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(
                             'bg-state-hover',
                           option.disabled && 'opacity-38 cursor-not-allowed',
                         )}
+                        onMouseDown={(event) => {
+                          // Combobox focus stays on its input. Otherwise a held
+                          // press blurs it and dismisses options before click.
+                          if (event.button === 0) event.preventDefault();
+                        }}
                         onClick={() => handleSelect(option)}
                         role="option"
                         aria-selected={selectedValue === option.value}

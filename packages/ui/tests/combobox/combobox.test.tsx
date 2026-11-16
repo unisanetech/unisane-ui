@@ -135,6 +135,35 @@ describe('Combobox', () => {
     await cleanup(rendered.root, rendered.container);
   });
 
+  it.each([true, false])('retains input focus through a held option press (portal=%s)', async (portal) => {
+    vi.useFakeTimers();
+    const selected = vi.fn();
+    const rendered = await render(<Combobox label="Fruit" portal={portal} options={OPTIONS} onValueChange={selected} />);
+    try {
+      const input = rendered.container.querySelector<HTMLInputElement>('input[role="combobox"]')!;
+      await act(async () => input.focus());
+      const option = Array.from(document.querySelectorAll<HTMLElement>('[role="option"]')).find(value => value.textContent?.includes('Banana'))!;
+      const press = new MouseEvent('mousedown', {button:0,bubbles:true,cancelable:true});
+      await act(async () => {
+        // Model the browser's default focus loss only when not cancelled.
+        if (option.dispatchEvent(press)) input.blur();
+        await vi.advanceTimersByTimeAsync(220);
+      });
+      expect(document.activeElement).toBe(input);
+      expect(option.isConnected).toBe(true);
+      expect(selected).not.toHaveBeenCalled();
+      await act(async () => {
+        option.dispatchEvent(new MouseEvent('mouseup', {button:0,bubbles:true}));
+        option.click();
+      });
+      expect(selected).toHaveBeenCalledExactlyOnceWith('banana');
+      expect(input.getAttribute('aria-expanded')).toBe('false');
+    } finally {
+      await cleanup(rendered.root, rendered.container);
+      vi.useRealTimers();
+    }
+  });
+
   it('selects highlighted options from keyboard and closes on Escape', async () => {
     const onValueChange = vi.fn();
     const onOpenChange = vi.fn();

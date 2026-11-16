@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "approved",
+  "status": "prepared",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -11,7 +11,7 @@
     "@unisane/email-templates"
   ],
   "release": {
-    "version": "0.1.2-next.20261112.2",
+    "version": "0.1.2-next.20261117.1",
     "registry": "https://registry.npmjs.org/",
     "tag": "next",
     "access": "public",
@@ -27,29 +27,76 @@
     "This approval does not create a Git remote or authorize repository authority cutover."
   ],
   "previousApproval": {
+    "schemaVersion": 1,
+    "status": "approved",
+    "copyrightHolder": "Unisane contributors",
+    "license": "MIT",
+    "publicDistribution": true,
+    "packages": [
+      "@unisane/tokens",
+      "@unisane/ui",
+      "@unisane/data-table",
+      "@unisane/email-templates"
+    ],
+    "release": {
+      "version": "0.1.2-next.20261112.2",
+      "registry": "https://registry.npmjs.org/",
+      "tag": "next",
+      "access": "public",
+      "provenanceRequired": true
+    },
+    "excludedPackages": [
+      "@unisane/ui-cli",
+      "@unisane/ui-docs"
+    ],
+    "constraints": [
+      "Third-party code and assets retain their original licenses and notices.",
+      "Publishing requires an authenticated @unisane npm publisher and a successful provenance-enabled transaction.",
+      "This approval does not create a Git remote or authorize repository authority cutover."
+    ],
+    "previousApproval": {
+      "approvedBy": "founder",
+      "approvedAt": "2026-11-12",
+      "approvalSource": "User explicitly requested \"ok so make it live\" after being told the corrected DataTable source requires package release and Trade adoption. Authorizes the existing aligned public next package release route and local Trade adoption. No hosted Trade deployment, migrations, business-data writes or credential/permission changes.",
+      "version": "0.1.2-next.20261112.1"
+    },
+    "preparedAt": "2026-11-12",
+    "preparedBy": "codex-row-hover",
+    "scope": "Correct distributed DataTable row-hover CSS; preserve control isolation and persistent row states.",
+    "sourceChanges": [
+      "@unisane/data-table"
+    ],
+    "unchangedSourcePackages": [
+      "@unisane/tokens",
+      "@unisane/ui",
+      "@unisane/email-templates"
+    ],
+    "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
+    "exclusions": [
+      "Deployment",
+      "Business-data writes",
+      "Unrelated UI source changes"
+    ],
     "approvedBy": "founder",
     "approvedAt": "2026-11-12",
-    "approvalSource": "User explicitly requested \"ok so make it live\" after being told the corrected DataTable source requires package release and Trade adoption. Authorizes the existing aligned public next package release route and local Trade adoption. No hosted Trade deployment, migrations, business-data writes or credential/permission changes.",
-    "version": "0.1.2-next.20261112.1"
+    "approvalSource": "Follow-through on the owner request \"ok so make it live\" for the row-hover correction. Installed-consumer verification exposed a missing generated stylesheet selector in .1; .2 corrects that same authorized behavior, adds canonical distribution proof, and uses the existing staged public release route with owner 2FA approval before publication. No hosted Trade deployment, migrations, business-data writes or access changes."
   },
-  "preparedAt": "2026-11-12",
-  "preparedBy": "codex-row-hover",
-  "scope": "Correct distributed DataTable row-hover CSS; preserve control isolation and persistent row states.",
+  "preparedAt": "2026-11-17",
+  "preparedBy": "codex-item-selection",
+  "scope": "Keep native combobox input focus during a held primary option press so blur dismissal cannot drop the click. No API, visual token, financial or permission changes.",
   "sourceChanges": [
-    "@unisane/data-table"
+    "@unisane/ui"
   ],
   "unchangedSourcePackages": [
     "@unisane/tokens",
-    "@unisane/ui",
+    "@unisane/data-table",
     "@unisane/email-templates"
   ],
-  "reasonForAlignedFamily": "Existing guarded workflow stages the version-aligned four-package family.",
+  "reasonForAlignedFamily": "The existing guarded staging workflow requires all four public package versions to match. Three packages receive version-only changes.",
   "exclusions": [
-    "Deployment",
-    "Business-data writes",
-    "Unrelated UI source changes"
+    "No registry publication before exact human approval",
+    "No hosted deployment before immutable package adoption and UI acceptance",
+    "No business-data or credential/permission changes"
   ],
-  "approvedBy": "founder",
-  "approvedAt": "2026-11-12",
-  "approvalSource": "Follow-through on the owner request \"ok so make it live\" for the row-hover correction. Installed-consumer verification exposed a missing generated stylesheet selector in .1; .2 corrects that same authorized behavior, adds canonical distribution proof, and uses the existing staged public release route with owner 2FA approval before publication. No hosted Trade deployment, migrations, business-data writes or access changes."
+  "approvalSource": "Pending exact owner approval of the new public combobox-fix cohort; prior row-hover release approval is preserved as historical evidence only."
 }
