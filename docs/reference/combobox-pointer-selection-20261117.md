@@ -26,7 +26,7 @@ Held220ms component regressions cover both portal and inline modes: input focus 
 
 - Original Trade new invoice in QA UX Batches14Nov: quick Notebook adds1piece/100; held220ms Cross Screen option closes without adding or error; quick click on that same item adds a second line. Both unsaved reproduction lines were then removed, restoring the originally empty editor. No save, issue, stock, money or tax-profile mutations. Cedar untouched; original₹21 correction pending actual openings.
 - Corrected native production fixture at `/test-fixtures/modal-pickers`, built and served through the existing test-only static-export launcher: desktop220ms held click selects invoice-3 in1click/440ms; phone390×844300ms held click selects invoice-4 in1click/517ms. Input focus remains on the combobox. Open→ArrowDown→Enter selects invoice-1. Times are automation interaction-to-state observations, not human performance benchmarks.
-- Evidence directory: `/Users/bhaskarbarma/.codex/visualizations/2026/11/12/01a1d1a1-726a-7b53-85fa-b0864d79916c/item-selection-20261117`. Captures01 show the Trade failure;02/03 show corrected native desktop/phone selection; timings.json records conditions. Viewport reset; temporary fixture server stopped.
+- Evidence directory: the session-local `item-selection-20261117` evidence bundle (screenshots and timings, retained outside the public repository). Captures01 show the Trade failure;02/03 show corrected native desktop/phone selection; timings.json records conditions. Viewport reset; temporary fixture server stopped.
 
 Native source lint, types, tests, build, focused UI validation and responsive comparison passed before version-only preparation. Responsive run `run-20261116T234135Z-ui-capture-responsive-proof-9f22f84a`:32passed/4intentional skips. Initial build failed only because sandbox blocked the CSS worker’s local port; unchanged command succeeds with process permission. Playwright1.62.1 and cached Chromium verified before declaring browser availability.
 
@@ -60,3 +60,8 @@ Prepared archive integrities:
 - `@unisane/email-templates@0.1.2-next.20261117.1`: `sha512-ywldMkvdpc1//sjBKVmTOZxp5ulUUKEn+SUlkLY64/LKzDzrFsdomsYW2iKSrbSlbrxmVAXGKM8RA5yUwTwfjw==`.
 
 These archives are locally prepared and verified, not staged or published. Approved-source release gates and Trade installed-consumer checks remain pending exact human authorization and registry availability. No publication authority is inferred from passing tests.
+
+
+## Owner approval — 17 November
+
+The owner explicitly answered **Approve package release and Trade rollout** to publication of the exact four-package0.1.2-next.20261117.1 public npm next cohort, installation in Trade, item-selection UI retest and Trade publication. Release metadata is now approved. Prior preparation-only statements above are historical checkpoints; registry staging/publication and live consumer acceptance will be recorded when observed. Cedar21 remains deferred actual openings.

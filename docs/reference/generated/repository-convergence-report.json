@@ -2,9 +2,9 @@
   "schemaVersion": 1,
   "authority": "prepared-standalone-candidate-pre-cutover",
   "generatedBy": "scripts/check-repository-boundaries.mjs",
-  "fileCount": 1100,
+  "fileCount": 1101,
   "dispositionCounts": {
-    "retain": 982,
+    "retain": 983,
     "regenerate": 118
   },
   "unresolvedReleaseBlockers": [
@@ -2464,6 +2464,12 @@
       "sha256": "a0bff2b6c2046067ef4da78e7fb099a4541901b57762d7087f596f58ddcafa2b"
     },
     {
+      "path": "docs/reference/combobox-pointer-selection-20261117.md",
+      "disposition": "retain",
+      "owner": "repository documentation",
+      "sha256": "dcc9f10f3c1e60acca855c049b421bbd1a350edeeb01a848901d138d59e7c6ab"
+    },
+    {
       "path": "docs/reference/generated/fleet-commit-map.txt",
       "disposition": "retain",
       "owner": "repository documentation",
@@ -2503,7 +2509,7 @@
       "path": "docs/release-approval.json",
       "disposition": "retain",
       "owner": "repository documentation",
-      "sha256": "8e3d002baf2faa178a9f4625b42608c5b868185698b3905f391a0c1fef94ac25"
+      "sha256": "a794c2bfe35a52620b9d4a73040a275039cf070bf856550a080f7554461d7095"
     },
     {
       "path": "docs/standards/10-ui-application-architecture-baseline.md",
@@ -2569,7 +2575,7 @@
       "path": "packages/data-table/package.json",
       "disposition": "retain",
       "owner": "@unisane/data-table",
-      "sha256": "3e87514776069c99fb6fa894b8f2ea4de4a9c1e202cffc38bbbef4b291ef4276"
+      "sha256": "c4f946b616a2f451adf57797a35aa3c1a1191765d92a2e4bf92d1fe5f7e0ae7f"
     },
     {
       "path": "packages/data-table/README.md",
@@ -3925,7 +3931,7 @@
       "path": "packages/email-templates/package.json",
       "disposition": "retain",
       "owner": "@unisane/email-templates",
-      "sha256": "396bc266ea011783ddf2d08293ed7794527d0e88d4e4264dd4b6e288e329e7f6"
+      "sha256": "416379304cb7d76825f7963ac6a2d98921366e8dec1000834e0f35874fe70367"
     },
     {
       "path": "packages/email-templates/README.md",
@@ -4075,7 +4081,7 @@
       "path": "packages/tokens/package.json",
       "disposition": "retain",
       "owner": "@unisane/tokens",
-      "sha256": "7ee44734c94a53e6eadd566e2dcce3d3b2639fa1632d8cd620580411c0f34b02"
+      "sha256": "2f48e4813931fec1aaad419cdf16f0aca9ea11b00e9dd2660391ee10916a8725"
     },
     {
       "path": "packages/tokens/README.md",
@@ -4471,7 +4477,7 @@
       "path": "packages/ui/package.json",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "88e96a6691a19a0155a43b2878d39e476af0f641cf836675b9784721aef4c20b"
+      "sha256": "5805eebb4f24053dbc1518c03044438da40e05239892912a2034decc3a0012ad"
     },
     {
       "path": "packages/ui/public-surface.json",
@@ -4573,7 +4579,7 @@
       "path": "packages/ui/registry/components/combobox.tsx",
       "disposition": "regenerate",
       "owner": "@unisane/ui registry generator",
-      "sha256": "0ad09bdbdee03e64bd624707f44d9ace72f505437e35809de57776ce2722f813"
+      "sha256": "b3edef0e65fd5d20a40ea0d559e37fbc64327317cb7c932a587b44ea256d35b0"
     },
     {
       "path": "packages/ui/registry/components/command.tsx",
@@ -5335,7 +5341,7 @@
       "path": "packages/ui/src/components/combobox.tsx",
       "disposition": "retain",
       "owner": "@unisane/ui",
-      "sha256": "27f9837a66741cbc1169df6d20d66ac3eebc1ce98509b1675ac2954728396fbe"
+      "sha256": "c218cd10d37ea11ee376ffae08ed2ac2adce8f9f02deb41f63fba10010b5d469"
     },
     {
       "path": "packages/ui/src/components/command.tsx",
@@ -5941,7 +5947,7 @@
       "path": "packages/ui/tests/combobox/combobox.test.tsx",
       "disposition": "retain",
       "owner": "nearest package or application test boundary",
-      "sha256": "f72be1e1e3b539af1a59808c754c53c6111b9ad94da5135acc21c557c55f9659"
+      "sha256": "162fa7c71f0681cff06344653c4df394f20889b36b8dd3c96119f571f53f29b2"
     },
     {
       "path": "packages/ui/tests/confirm-dialog/confirm-dialog.test.tsx",

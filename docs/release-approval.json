@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "prepared",
+  "status": "approved",
   "copyrightHolder": "Unisane contributors",
   "license": "MIT",
   "publicDistribution": true,
@@ -98,5 +98,7 @@
     "No hosted deployment before immutable package adoption and UI acceptance",
     "No business-data or credential/permission changes"
   ],
-  "approvalSource": "Pending exact owner approval of the new public combobox-fix cohort; prior row-hover release approval is preserved as historical evidence only."
+  "approvalSource": "Owner explicitly answered \u201cApprove package release and Trade rollout\u201d to the exact four-package0.1.2-next.20261117.1 public npm next release, Trade installation, UI retest and Trade publication request in this chat on17November2026. Only UI has a runtime code change; other versions align. No credential/permission changes, business transactions or Cedar correction authorized by this release.",
+  "approvedAt": "2026-11-17",
+  "approvedBy": "owner"
 }
