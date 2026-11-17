@@ -1,0 +1,63 @@
+{
+  "snapshotId": "S-255f56584977",
+  "taskId": "T-296b9633",
+  "sessionId": "ui-pointer-close-20261117",
+  "actorId": "codex-item-selection",
+  "baseRevision": "f2a4721ac71d365ca6e9450c44d5a5f60c744c37",
+  "paths": [
+    {
+      "path": "docs/reference/combobox-pointer-selection-20261117.md",
+      "digest": "a30d55cd53a498e01c98a3294cc0d8360de352e9ca2c63d063ee8d971bd0eb16",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/reference/generated/repository-convergence-report.json",
+      "digest": "6a037fe70a430b10fe0b676223e6aa49658cdc25cdf6b4057e52fd04c29d7f83",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "docs/release-approval.json",
+      "digest": "d06d4b372da4fb8454afe92b07a63d58c0cb70a952c06a721ded4e2b9ef6a668",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/data-table/package.json",
+      "digest": "b5fedff04c73793e110dbdde67f252a8b995f94a350629059d3c73f5a0c17767",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/email-templates/package.json",
+      "digest": "4fc9712d6502ac73540213e9449003cfa71a9d153dae89e545d00251bdd9cb6e",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/tokens/package.json",
+      "digest": "48555ee3c71de0619113e9fb079ea6c06e9e359d7f975a57a1494180eba07327",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/package.json",
+      "digest": "aa477a59be98232203c357022e4804b5e5acc8ccb60dad7e5079641f4b480eef",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/registry/components/combobox.tsx",
+      "digest": "a02bf3447751d5495e5cf4348bba4dbc12c431331d41b6ea5f3189f04e8d1819",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/src/components/combobox.tsx",
+      "digest": "29fbb9ca19c045b5f01d669b391a3ecec0f11e5d9dfde3ebb9bb69d3043b1c6a",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    },
+    {
+      "path": "packages/ui/tests/combobox/combobox.test.tsx",
+      "digest": "fb2fb937dde44dbe62bae676468cfa373ed8e3ed57c6cd98caf68a48afd21000",
+      "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs"
+    }
+  ],
+  "digest": "255f56584977ce219cc13555731f30c8b53f33217ad60fd3971d6bd9a7bec9ef",
+  "digestAlgorithm": "skopos-path-v2-code-unit-segment-dfs",
+  "createdAt": "2026-11-17T09:04:17.102Z",
+  "artifactPath": "docs/work/tasks/snapshots/T-296b9633-S-255f56584977.json"
+}

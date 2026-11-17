@@ -65,3 +65,26 @@ These archives are locally prepared and verified, not staged or published. Appro
 ## Owner approval — 17 November
 
 The owner explicitly answered **Approve package release and Trade rollout** to publication of the exact four-package0.1.2-next.20261117.1 public npm next cohort, installation in Trade, item-selection UI retest and Trade publication. Release metadata is now approved. Prior preparation-only statements above are historical checkpoints; registry staging/publication and live consumer acceptance will be recorded when observed. Cedar21 remains deferred actual openings.
+
+
+## Hosted staging — 17 November
+
+Owner completed GitHub sign-in in Chrome. The existing release workflow was dispatched once from main at exact source **f2a4721ac71d365ca6e9450c44d5a5f60c744c37**. [Run44048506903](https://github.com/unisanetech/unisane-ui/actions/runs/44048506903), job133920108255, passed every step: full repository verification, isolated consumer, immutable publication-set checks and provenance-enabled staging of all four packages. Artifact14313180574 (`ui-staged-release`) has ZIP SHA-256 `138a605b27104d5e2222615d5102293ead67cad5ab5ae57b0a38bdb827754ace`.
+
+Downloaded artifact verified against GitHub’s ZIP digest. All four hosted archives have **byte-identical uncompressed tar streams** to the locally tested archives; package entries, types, links, headers and every file payload match. Compressed integrity differs because the platform-specific gzip wrapper differs; registry acceptance must compare against the hosted certificate below. npm’s staged SHA-1 values also match these exact hosted archives. This verifies the approved source content rather than assuming compressed bytes match across hosts.
+
+Hosted certificate integrities:
+
+- `@unisane/tokens@0.1.2-next.20261117.1`: `sha512-Ca4XrZjNpSpUIQj+YDd8O3yUCsmm+fpdFFPTtiN6G9+R8ntXy8anvudtdK9LE8pqMr1bpUbcQmj9bMhUzNeICQ==`.
+- `@unisane/ui@0.1.2-next.20261117.1`: `sha512-Yfx6AA6UCVOdnnll8QyNI2+RJYd5iEme/Ya+DhGrvz3lZNK8iKr4nZtxpJM03gK75907m7fwUids1Giir+O7MQ==`.
+- `@unisane/data-table@0.1.2-next.20261117.1`: `sha512-BD5n4qYwCZ33bUt9c4bDc3kAEow/RcmHhGTljoDNtVpNdYyxh1ugsd8Tmxu6VKY8NAc38Lc8dY6ksAQkuX1Pyg==`.
+- `@unisane/email-templates@0.1.2-next.20261117.1`: `sha512-OqZAyWhQTU9k8lAtPa8NAywAfBGOLJvmYSJueJGxU9TDCBAh5eHMmYzU5tnqFXXwI4cRfO5eNkwX0efgxfaseQ==`.
+
+All four npm staged entries completed automated validation and exposed Approve. Started tokens approval in dependency order; npm requires the owner’s security key/passkey in Chrome. Publication/remaining approvals and Trade adoption are pending that physical authentication. No security setting, credential or token was changed.
+
+
+## Publication verified
+
+The owner completed npm security-key authentication in Chrome. All four exact0.1.2-next.20261117.1 versions are now publicly available from the registry, with each `dist.integrity` equal to the hosted certificate above. The npm page reports UI publication success and, after refresh, no versions remain waiting for review. Evidence06 records the completed stage queue. No further package staging or publication is needed.
+
+This completes the native combobox release. The separate Trade Task owns immutable dependency installation, installed-consumer checks, fresh merchant UI acceptance and app deployment; this producer report does not certify that app rollout in advance. No business/financial records or Cedar opening balances changed.
