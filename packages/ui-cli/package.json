@@ -55,7 +55,7 @@
     "@types/prompts": "^2.4.9",
     "eslint": "^9.39.1",
     "typescript": "5.9.2",
-    "vitest": "4.0.17"
+    "vitest": "4.1.11"
   },
   "unisane": {
     "kind": "ui",
